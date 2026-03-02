@@ -21,6 +21,20 @@
       border-bottom:3px solid #ff1493;
     }
 
+    .arrow-btn{
+      position:fixed;
+      top:15px;
+      right:15px;
+      z-index:1000;
+      background:#ff1493;
+      border:none;
+      color:white;
+      padding:10px 14px;
+      border-radius:8px;
+      font-size:18px;
+      cursor:pointer;
+    }
+
     .tabs{
       text-align:center;
       margin:20px 0;
@@ -30,9 +44,9 @@
       background:#141414;
       border:1px solid #ff1493;
       color:white;
-      padding:10px 14px;
-      margin:5px;
-      border-radius:8px;
+      padding:8px 12px;
+      margin:4px;
+      border-radius:6px;
       cursor:pointer;
       font-weight:bold;
     }
@@ -44,7 +58,7 @@
     .container{
       max-width:900px;
       margin:auto;
-      padding:30px;
+      padding:20px;
     }
 
     .mode{ display:none; }
@@ -52,29 +66,29 @@
 
     .player{
       background:#141414;
-      margin:15px 0;
-      padding:18px;
-      border-radius:12px;
+      margin:12px 0;
+      padding:16px;
+      border-radius:10px;
       border:1px solid #ff1493;
       cursor:pointer;
       transition:0.3s ease;
     }
 
     .player:hover{
-      transform:translateY(-4px);
-      box-shadow:0 8px 20px rgba(255,20,147,0.4);
+      transform:translateY(-3px);
+      box-shadow:0 6px 18px rgba(255,20,147,0.4);
     }
 
-    .gold-glow{ border:2px solid gold; box-shadow:0 0 18px gold; }
-    .silver-glow{ border:2px solid silver; box-shadow:0 0 16px silver; }
-    .bronze-glow{ border:2px solid #cd7f32; box-shadow:0 0 14px #cd7f32; }
+    .gold-glow{ border:2px solid gold; box-shadow:0 0 16px gold; }
+    .silver-glow{ border:2px solid silver; box-shadow:0 0 14px silver; }
+    .bronze-glow{ border:2px solid #cd7f32; box-shadow:0 0 12px #cd7f32; }
 
     .number{
       display:inline-block;
-      padding:5px 12px;
-      border-radius:20px;
+      padding:4px 10px;
+      border-radius:15px;
       font-weight:bold;
-      margin-right:8px;
+      margin-right:6px;
     }
 
     .gold{ background:gold; color:black; }
@@ -82,25 +96,25 @@
     .bronze{ background:#cd7f32; color:white; }
 
     .crown{
-      margin-left:6px;
-      text-shadow:0 0 10px gold;
+      margin-left:5px;
+      text-shadow:0 0 8px gold;
     }
 
     .details{
       max-height:0;
       overflow:hidden;
       margin-top:0;
-      padding:0 15px;
+      padding:0 12px;
       background:#0f0f0f;
       border-left:3px solid #ff69b4;
-      border-radius:8px;
-      transition:0.35s ease;
+      border-radius:6px;
+      transition:0.3s ease;
     }
 
     .details.open{
       max-height:200px;
-      margin-top:12px;
-      padding:15px;
+      margin-top:10px;
+      padding:12px;
     }
 
   </style>
@@ -109,6 +123,8 @@
 <body>
 
 <header>Quipalite MC</header>
+
+<button id="sortArrow" class="arrow-btn" onclick="toggleSort()">⬆</button>
 
 <div class="tabs">
   <button class="tab active" onclick="showMode('overall', this)">Overall</button>
@@ -121,83 +137,52 @@
 
 <div class="container">
 
-<!-- OVERALL -->
-<div id="overall" class="mode active">
-  <div class="player gold-glow" onclick="toggle('o1')">
-    <span class="number gold">#1</span><span class="crown">👑</span><b>Player 1</b>
-    <div class="details" id="o1">Top Rank</div>
-  </div>
+<!-- FUNCTION TO GENERATE A MODE -->
+<script>
+function createMode(prefix){
+  let html = "";
+  for(let i=1;i<=5;i++){
+    let glow = "";
+    let numberClass = "";
 
-  <div class="player silver-glow" onclick="toggle('o2')">
-    <span class="number silver">#2</span><b>Player 2</b>
-    <div class="details" id="o2">Second Rank</div>
-  </div>
+    if(i===1){ glow="gold-glow"; numberClass="gold"; }
+    if(i===2){ glow="silver-glow"; numberClass="silver"; }
+    if(i===3){ glow="bronze-glow"; numberClass="bronze"; }
 
-  <div class="player bronze-glow" onclick="toggle('o3')">
-    <span class="number bronze">#3</span><b>Player 3</b>
-    <div class="details" id="o3">Third Rank</div>
-  </div>
+    html += `
+    <div class="player ${glow}" data-number="${i}" onclick="toggle('${prefix}${i}')">
+      <span class="number ${numberClass}">#${i}</span>
+      ${i===1 ? '<span class="crown">👑</span>' : ''}
+      <b>Player ${i}</b>
+      <div class="details" id="${prefix}${i}"></div>
+    </div>`;
+  }
+  return html;
+}
+</script>
 
-  <div class="player" onclick="toggle('o4')">
-    <span class="number">#4</span><b>Player 4</b>
-    <div class="details" id="o4"></div>
-  </div>
-
-  <div class="player" onclick="toggle('o5')">
-    <span class="number">#5</span><b>Player 5</b>
-    <div class="details" id="o5"></div>
-  </div>
-</div>
-
-<!-- SWORD -->
-<div id="sword" class="mode">
-  <!-- Same 5-player structure -->
-  <div class="player gold-glow" onclick="toggle('s1')"><span class="number gold">#1</span><span class="crown">👑</span><b>Player 1</b><div class="details" id="s1"></div></div>
-  <div class="player silver-glow" onclick="toggle('s2')"><span class="number silver">#2</span><b>Player 2</b><div class="details" id="s2"></div></div>
-  <div class="player bronze-glow" onclick="toggle('s3')"><span class="number bronze">#3</span><b>Player 3</b><div class="details" id="s3"></div></div>
-  <div class="player" onclick="toggle('s4')"><span class="number">#4</span><b>Player 4</b><div class="details" id="s4"></div></div>
-  <div class="player" onclick="toggle('s5')"><span class="number">#5</span><b>Player 5</b><div class="details" id="s5"></div></div>
-</div>
-
-<!-- AXE -->
-<div id="axe" class="mode">
-  <div class="player gold-glow" onclick="toggle('a1')"><span class="number gold">#1</span><span class="crown">👑</span><b>Player 1</b><div class="details" id="a1"></div></div>
-  <div class="player silver-glow" onclick="toggle('a2')"><span class="number silver">#2</span><b>Player 2</b><div class="details" id="a2"></div></div>
-  <div class="player bronze-glow" onclick="toggle('a3')"><span class="number bronze">#3</span><b>Player 3</b><div class="details" id="a3"></div></div>
-  <div class="player" onclick="toggle('a4')"><span class="number">#4</span><b>Player 4</b><div class="details" id="a4"></div></div>
-  <div class="player" onclick="toggle('a5')"><span class="number">#5</span><b>Player 5</b><div class="details" id="a5"></div></div>
-</div>
-
-<!-- UHC -->
-<div id="uhc" class="mode">
-  <div class="player gold-glow" onclick="toggle('u1')"><span class="number gold">#1</span><span class="crown">👑</span><b>Player 1</b><div class="details" id="u1"></div></div>
-  <div class="player silver-glow" onclick="toggle('u2')"><span class="number silver">#2</span><b>Player 2</b><div class="details" id="u2"></div></div>
-  <div class="player bronze-glow" onclick="toggle('u3')"><span class="number bronze">#3</span><b>Player 3</b><div class="details" id="u3"></div></div>
-  <div class="player" onclick="toggle('u4')"><span class="number">#4</span><b>Player 4</b><div class="details" id="u4"></div></div>
-  <div class="player" onclick="toggle('u5')"><span class="number">#5</span><b>Player 5</b><div class="details" id="u5"></div></div>
-</div>
-
-<!-- MACE -->
-<div id="mace" class="mode">
-  <div class="player gold-glow" onclick="toggle('m1')"><span class="number gold">#1</span><span class="crown">👑</span><b>Player 1</b><div class="details" id="m1"></div></div>
-  <div class="player silver-glow" onclick="toggle('m2')"><span class="number silver">#2</span><b>Player 2</b><div class="details" id="m2"></div></div>
-  <div class="player bronze-glow" onclick="toggle('m3')"><span class="number bronze">#3</span><b>Player 3</b><div class="details" id="m3"></div></div>
-  <div class="player" onclick="toggle('m4')"><span class="number">#4</span><b>Player 4</b><div class="details" id="m4"></div></div>
-  <div class="player" onclick="toggle('m5')"><span class="number">#5</span><b>Player 5</b><div class="details" id="m5"></div></div>
-</div>
-
-<!-- SPEAR -->
-<div id="spear" class="mode">
-  <div class="player gold-glow" onclick="toggle('sp1')"><span class="number gold">#1</span><span class="crown">👑</span><b>Player 1</b><div class="details" id="sp1"></div></div>
-  <div class="player silver-glow" onclick="toggle('sp2')"><span class="number silver">#2</span><b>Player 2</b><div class="details" id="sp2"></div></div>
-  <div class="player bronze-glow" onclick="toggle('sp3')"><span class="number bronze">#3</span><b>Player 3</b><div class="details" id="sp3"></div></div>
-  <div class="player" onclick="toggle('sp4')"><span class="number">#4</span><b>Player 4</b><div class="details" id="sp4"></div></div>
-  <div class="player" onclick="toggle('sp5')"><span class="number">#5</span><b>Player 5</b><div class="details" id="sp5"></div></div>
-</div>
+<div id="overall" class="mode active"></div>
+<div id="sword" class="mode"></div>
+<div id="axe" class="mode"></div>
+<div id="uhc" class="mode"></div>
+<div id="mace" class="mode"></div>
+<div id="spear" class="mode"></div>
 
 </div>
 
 <script>
+
+let sortLowToHigh = true;
+
+function init(){
+  document.getElementById("overall").innerHTML = createMode("o");
+  document.getElementById("sword").innerHTML = createMode("s");
+  document.getElementById("axe").innerHTML = createMode("a");
+  document.getElementById("uhc").innerHTML = createMode("u");
+  document.getElementById("mace").innerHTML = createMode("m");
+  document.getElementById("spear").innerHTML = createMode("sp");
+}
+init();
 
 function toggle(id){
   document.getElementById(id).classList.toggle("open");
@@ -209,6 +194,27 @@ function showMode(mode, btn){
 
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   btn.classList.add("active");
+
+  sortActive();
+}
+
+function toggleSort(){
+  sortLowToHigh = !sortLowToHigh;
+  document.getElementById("sortArrow").textContent = sortLowToHigh ? "⬆" : "⬇";
+  sortActive();
+}
+
+function sortActive(){
+  const active = document.querySelector(".mode.active");
+  const players = Array.from(active.querySelectorAll(".player"));
+
+  players.sort((a,b)=>{
+    const numA = Number(a.dataset.number);
+    const numB = Number(b.dataset.number);
+    return sortLowToHigh ? numA - numB : numB - numA;
+  });
+
+  players.forEach(p=>active.appendChild(p));
 }
 
 </script>
