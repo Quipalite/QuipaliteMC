@@ -102,21 +102,26 @@
       max-height:0;
       overflow:hidden;
       margin-top:0;
-      padding:0 12px;
-      background:#0f0f0f;
+      padding:0 14px;
+      background:#111;
       border-left:3px solid #ff69b4;
-      border-radius:6px;
+      border-radius:8px;
       transition:0.3s ease;
     }
 
     .details.open{
       max-height:250px;
-      margin-top:10px;
-      padding:12px;
+      margin-top:12px;
+      padding:14px;
     }
 
+    /* 🔥 Improved Stats Style */
     .stat{
-      margin:4px 0;
+      margin:6px 0;
+      font-size:15px;
+      font-weight:700;
+      color:#ffffff;
+      letter-spacing:0.3px;
     }
 
   </style>
@@ -139,12 +144,7 @@
 
 <div class="container">
 
-<!-- OVERALL -->
-<div id="overall" class="mode active">
-  <!-- Players 1–5 (same structure) -->
-  <!-- Copy this block for each mode below -->
-</div>
-
+<div id="overall" class="mode active"></div>
 <div id="sword" class="mode"></div>
 <div id="axe" class="mode"></div>
 <div id="uhc" class="mode"></div>
@@ -174,6 +174,7 @@ function createPlayers(prefix, containerId){
         <span class="number ${numberClass}">#${i}</span>
         ${i===1?'<span class="crown">👑</span>':''}
         <b>Player ${i}</b>
+
         <div class="details" id="${prefix}${i}">
           <div class="stat">Rank: #${i}</div>
           <div class="stat">Wins: 10</div>
