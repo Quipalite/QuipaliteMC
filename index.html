@@ -112,8 +112,10 @@
     }
 
     .no-results{
-      text-align:center;margin:15px;
-      font-weight:bold;color:#ff69b4;
+      text-align:center;
+      margin:15px;
+      font-weight:bold;
+      color:#ff69b4;
       display:none;
     }
   </style>
@@ -134,6 +136,7 @@
 
 <div style="text-align:center;margin-bottom:15px;">
   <input type="text" id="searchInput" placeholder="Search player..." onkeyup="searchPlayers()">
+  <div id="noResults" class="no-results">No results found</div>
 </div>
 
 <div class="container">
@@ -162,6 +165,10 @@ const playerStats={
   sword:{
     RealO75:{wins:1,kills:3,deaths:2},
     Killedbycrab:{wins:0,kills:2,deaths:3}
+  },
+  axe:{
+    Killedbycrab:{wins:1,kills:3,deaths:0},
+    "Yearly-scuff81":{wins:0,kills:0,deaths:3}
   }
 };
 
@@ -190,6 +197,11 @@ function createPlayers(containerId){
       if(i===2) playerName="Killedbycrab";
     }
 
+    if(containerId==="axe"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+    }
+
     container.innerHTML+=`
       <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
         <span class="number ${numberClass}">#${i}</span>
@@ -204,17 +216,15 @@ function openProfile(name,tier){
 
   let stats={wins:"N/A",kills:"N/A",deaths:"N/A"};
 
-  if(playerStats.overall[name]){
+  const activeMode=document.querySelector(".tab.active").textContent.toLowerCase();
+
+  if(playerStats[activeMode] && playerStats[activeMode][name]){
+    stats=playerStats[activeMode][name];
+  } 
+  else if(playerStats.overall[name]){
     stats=playerStats.overall[name];
   }
 
-  if(document.querySelector(".tab.active").textContent==="Sword"){
-    if(playerStats.sword[name]){
-      stats=playerStats.sword[name];
-    }
-  }
-
-  // K/D calculation
   let kd="N/A";
   if(stats.kills!=="N/A"){
     if(stats.deaths===0){
@@ -259,11 +269,19 @@ function searchPlayers(){
   const value=document.getElementById("searchInput").value.toLowerCase();
   const active=document.querySelector(".mode.active");
   const players=active.querySelectorAll(".player");
+  let found=false;
 
   players.forEach(p=>{
     const name=p.querySelector("b").textContent.toLowerCase();
-    p.style.display=name.includes(value)?"block":"none";
+    if(name.includes(value)){
+      p.style.display="block";
+      found=true;
+    } else {
+      p.style.display="none";
+    }
   });
+
+  document.getElementById("noResults").style.display = found ? "none" : "block";
 }
 
 function showMode(mode,btn){
