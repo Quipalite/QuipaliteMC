@@ -28,32 +28,47 @@
       padding: 30px;
     }
 
+    h2 {
+      color: #ffb6c1;
+      margin-bottom: 20px;
+    }
+
     .player {
       background: #1a1a1a;
       margin: 15px 0;
-      padding: 15px;
+      padding: 18px;
       border-radius: 10px;
       border-left: 5px solid #ff69b4;
       cursor: pointer;
-      transition: 0.2s;
+      transition: 0.2s ease;
+      font-weight: 600;
     }
 
     .player:hover {
       background: #222;
+      transform: translateX(4px);
     }
 
     .details {
       display: none;
-      margin-top: 10px;
-      padding: 10px;
+      margin-top: 12px;
+      padding: 12px;
       background: #141414;
       border-radius: 8px;
     }
 
     .rank {
-      margin: 5px 0;
-      color: #ffb6c1;
+      margin: 6px 0;
+      font-weight: bold;
     }
+
+    /* Rank Colors */
+    .coal { color: #808080; }
+    .copper { color: #b87333; }
+    .iron { color: #dcdcdc; }
+    .gold { color: #ffd700; }
+    .emerald { color: #50c878; }
+    .diamond { color: #4fc3f7; }
 
     footer {
       text-align: center;
@@ -74,27 +89,25 @@
 
   <h2>Players</h2>
 
-  <!-- Player 1 -->
   <div class="player" onclick="toggleDetails('p1')">
-    PlayerOne
+    1. PlayerOne
     <div class="details" id="p1">
-      <div class="rank">Sword: Diamond</div>
-      <div class="rank">Axe: Gold</div>
-      <div class="rank">UHC: Emerald</div>
-      <div class="rank">Mace: Iron</div>
-      <div class="rank">Spear: Coal</div>
+      <div class="rank diamond">Sword: Diamond</div>
+      <div class="rank gold">Axe: Gold</div>
+      <div class="rank emerald">UHC: Emerald</div>
+      <div class="rank iron">Mace: Iron</div>
+      <div class="rank coal">Spear: Coal</div>
     </div>
   </div>
 
-  <!-- Player 2 -->
   <div class="player" onclick="toggleDetails('p2')">
-    PlayerTwo
+    2. PlayerTwo
     <div class="details" id="p2">
-      <div class="rank">Sword: Gold</div>
-      <div class="rank">Axe: Diamond</div>
-      <div class="rank">UHC: Iron</div>
-      <div class="rank">Mace: Emerald</div>
-      <div class="rank">Spear: Copper</div>
+      <div class="rank gold">Sword: Gold</div>
+      <div class="rank diamond">Axe: Diamond</div>
+      <div class="rank iron">UHC: Iron</div>
+      <div class="rank emerald">Mace: Emerald</div>
+      <div class="rank copper">Spear: Copper</div>
     </div>
   </div>
 
@@ -107,11 +120,8 @@
 <script>
 function toggleDetails(id) {
   var element = document.getElementById(id);
-  if (element.style.display === "block") {
-    element.style.display = "none";
-  } else {
-    element.style.display = "block";
-  }
+  element.style.display =
+    (element.style.display === "block") ? "none" : "block";
 }
 </script>
 
