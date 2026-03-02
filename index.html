@@ -3,6 +3,7 @@
 <head>
   <title>Quipalite MC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -12,38 +13,46 @@
     }
 
     header {
-      background: linear-gradient(90deg, #ff69b4, #ffb6c1);
-      padding: 25px;
+      background: linear-gradient(90deg, #ff69b4, #ffffff);
+      color: black;
       text-align: center;
-      font-size: 30px;
-      font-weight: 700;
+      padding: 30px;
+      font-size: 32px;
+      font-weight: bold;
       letter-spacing: 1px;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 30px;
     }
 
-    h2 {
-      color: #ffb6c1;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    .tier {
+    .player {
       background: #1a1a1a;
-      margin: 12px 0;
-      padding: 14px 18px;
-      border-radius: 8px;
-      border-left: 4px solid #ff69b4;
-      transition: 0.2s ease;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 5px solid #ff69b4;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .tier:hover {
+    .player:hover {
       background: #222;
-      transform: translateX(4px);
+    }
+
+    .details {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background: #141414;
+      border-radius: 8px;
+    }
+
+    .rank {
+      margin: 5px 0;
+      color: #ffb6c1;
     }
 
     footer {
@@ -62,21 +71,49 @@
 </header>
 
 <div class="container">
-  <h2>Sword Tiers</h2>
 
-  <div class="tier">Coal</div>
-  <div class="tier">Copper</div>
-  <div class="tier">Iron</div>
-  <div class="tier">Gold</div>
-  <div class="tier">Emerald</div>
-  <div class="tier">Diamond</div>
-  <div class="tier">Emerald</div>
+  <h2>Players</h2>
+
+  <!-- Player 1 -->
+  <div class="player" onclick="toggleDetails('p1')">
+    PlayerOne
+    <div class="details" id="p1">
+      <div class="rank">Sword: Diamond</div>
+      <div class="rank">Axe: Gold</div>
+      <div class="rank">UHC: Emerald</div>
+      <div class="rank">Mace: Iron</div>
+      <div class="rank">Spear: Coal</div>
+    </div>
+  </div>
+
+  <!-- Player 2 -->
+  <div class="player" onclick="toggleDetails('p2')">
+    PlayerTwo
+    <div class="details" id="p2">
+      <div class="rank">Sword: Gold</div>
+      <div class="rank">Axe: Diamond</div>
+      <div class="rank">UHC: Iron</div>
+      <div class="rank">Mace: Emerald</div>
+      <div class="rank">Spear: Copper</div>
+    </div>
+  </div>
 
 </div>
 
 <footer>
   © 2026 Quipalite MC
 </footer>
+
+<script>
+function toggleDetails(id) {
+  var element = document.getElementById(id);
+  if (element.style.display === "block") {
+    element.style.display = "none";
+  } else {
+    element.style.display = "block";
+  }
+}
+</script>
 
 </body>
 </html>
