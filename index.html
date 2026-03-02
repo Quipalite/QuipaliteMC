@@ -1,42 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pink Tier Platform</title>
+  <title>Quipalite MC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f0f0f;
       color: white;
-      text-align: center;
     }
 
     header {
-      background: pink;
-      padding: 20px;
-      font-size: 26px;
-      font-weight: bold;
+      background: linear-gradient(90deg, #ff69b4, #ffb6c1);
+      padding: 25px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
     .container {
-      padding: 30px;
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h2 {
+      color: #ffb6c1;
+      margin-bottom: 20px;
+      font-weight: 600;
     }
 
     .tier {
+      background: #1a1a1a;
+      margin: 12px 0;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border-left: 4px solid #ff69b4;
+      transition: 0.2s ease;
+    }
+
+    .tier:hover {
       background: #222;
-      margin: 15px auto;
-      padding: 15px;
-      width: 80%;
-      border-left: 6px solid pink;
-      text-align: left;
+      transform: translateX(4px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 14px;
     }
   </style>
 </head>
+
 <body>
 
 <header>
-  Pink & White Tier Platform
+  Quipalite MC
 </header>
 
 <div class="container">
@@ -49,7 +71,12 @@
   <div class="tier">Emerald</div>
   <div class="tier">Diamond</div>
   <div class="tier">Emerald</div>
+
 </div>
+
+<footer>
+  © 2026 Quipalite MC
+</footer>
 
 </body>
 </html>
