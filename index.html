@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 <head>
   <title>Quipalite MC</title>
@@ -8,17 +8,46 @@
     body{
       margin:0;
       font-family:Segoe UI, Arial, sans-serif;
-      background:#0a0a0a;
+      background:#000000; /* pure black */
       color:white;
+      overflow-x:hidden;
     }
 
+    /* 🎀 Animated Pink Banner */
     header{
-      background:linear-gradient(90deg,#ff1493,#000);
       text-align:center;
-      padding:30px;
-      font-size:32px;
-      font-weight:bold;
-      border-bottom:3px solid #ff1493;
+      padding:45px 20px;
+      font-size:44px;
+      font-weight:900;
+      letter-spacing:3px;
+
+      background: linear-gradient(
+        90deg,
+        #ff2db2,
+        #ff66cc,
+        #ff1493,
+        #ff2db2
+      );
+
+      background-size:300% 300%;
+      animation: bannerMove 5s ease infinite;
+
+      color:white;
+
+      border-bottom:3px solid #ff66cc;
+
+      transition:0.3s ease;
+    }
+
+    @keyframes bannerMove{
+      0%{ background-position:0% 50%; }
+      50%{ background-position:100% 50%; }
+      100%{ background-position:0% 50%; }
+    }
+
+    header:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 25px rgba(255,45,178,0.8);
     }
 
     .arrow-btn{
@@ -33,22 +62,28 @@
       border-radius:8px;
       font-size:18px;
       cursor:pointer;
+      box-shadow:0 0 10px #ff1493;
     }
 
     .tabs{
       text-align:center;
-      margin:20px 0;
+      margin:25px 0;
     }
 
     .tab{
-      background:#141414;
+      background:#111;
       border:1px solid #ff1493;
       color:white;
-      padding:8px 12px;
-      margin:4px;
+      padding:8px 14px;
+      margin:5px;
       border-radius:6px;
       cursor:pointer;
       font-weight:bold;
+      transition:0.2s;
+    }
+
+    .tab:hover{
+      box-shadow:0 0 10px #ff1493;
     }
 
     .tab.active{ background:#ff1493; }
@@ -63,18 +98,18 @@
     .mode.active{ display:block; }
 
     .player{
-      background:#141414;
+      background:#111;
       margin:12px 0;
-      padding:16px;
-      border-radius:10px;
+      padding:18px;
+      border-radius:12px;
       border:1px solid #ff1493;
       cursor:pointer;
       transition:0.3s ease;
     }
 
     .player:hover{
-      transform:translateY(-3px);
-      box-shadow:0 6px 18px rgba(255,20,147,0.4);
+      transform:translateY(-4px);
+      box-shadow:0 8px 25px rgba(255,20,147,0.4);
     }
 
     .gold-glow{ border:2px solid gold; box-shadow:0 0 16px gold; }
@@ -83,10 +118,10 @@
 
     .number{
       display:inline-block;
-      padding:4px 10px;
-      border-radius:15px;
+      padding:5px 11px;
+      border-radius:20px;
       font-weight:bold;
-      margin-right:6px;
+      margin-right:8px;
     }
 
     .gold{ background:gold; color:black; }
@@ -94,8 +129,8 @@
     .bronze{ background:#cd7f32; color:white; }
 
     .crown{
-      margin-left:5px;
-      text-shadow:0 0 8px gold;
+      margin-left:6px;
+      text-shadow:0 0 10px gold;
     }
 
     .details{
@@ -103,7 +138,7 @@
       overflow:hidden;
       margin-top:0;
       padding:0 14px;
-      background:#111;
+      background:#0a0a0a;
       border-left:3px solid #ff69b4;
       border-radius:8px;
       transition:0.3s ease;
@@ -120,7 +155,24 @@
       font-size:15px;
       font-weight:700;
       color:#ffffff;
-      letter-spacing:0.3px;
+    }
+
+    /* 🎉 Confetti */
+    .confetti{
+      position:fixed;
+      width:10px;
+      height:10px;
+      top:-10px;
+      z-index:9999;
+      pointer-events:none;
+      animation:fall 3s linear forwards;
+    }
+
+    @keyframes fall{
+      to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+      }
     }
 
   </style>
@@ -128,7 +180,7 @@
 
 <body>
 
-<header>Quipalite MC</header>
+<header>QUIPALITE MC</header>
 
 <button id="sortArrow" class="arrow-btn" onclick="toggleSort()">⬆</button>
 
@@ -142,14 +194,12 @@
 </div>
 
 <div class="container">
-
-<div id="overall" class="mode active"></div>
-<div id="sword" class="mode"></div>
-<div id="axe" class="mode"></div>
-<div id="uhc" class="mode"></div>
-<div id="mace" class="mode"></div>
-<div id="spear" class="mode"></div>
-
+  <div id="overall" class="mode active"></div>
+  <div id="sword" class="mode"></div>
+  <div id="axe" class="mode"></div>
+  <div id="uhc" class="mode"></div>
+  <div id="mace" class="mode"></div>
+  <div id="spear" class="mode"></div>
 </div>
 
 <script>
@@ -159,7 +209,7 @@ let sortLowToHigh = true;
 function createPlayers(prefix, containerId){
   const container = document.getElementById(containerId);
 
-  for(let i=1;i<=15;i++){   // ✅ NOW 15 PLAYERS
+  for(let i=1;i<=15;i++){
 
     let glow="";
     let numberClass="";
@@ -169,7 +219,7 @@ function createPlayers(prefix, containerId){
     if(i===3){ glow="bronze-glow"; numberClass="bronze"; }
 
     container.innerHTML += `
-      <div class="player ${glow}" data-number="${i}" onclick="toggle('${prefix}${i}')">
+      <div class="player ${glow}" data-number="${i}" onclick="handleClick(${i}, '${prefix}${i}')">
         <span class="number ${numberClass}">#${i}</span>
         ${i===1?'<span class="crown">👑</span>':''}
         <b>Player ${i}</b>
@@ -185,6 +235,28 @@ function createPlayers(prefix, containerId){
   }
 }
 
+function handleClick(number, id){
+  const element = document.getElementById(id);
+  const isOpening = !element.classList.contains("open");
+  element.classList.toggle("open");
+
+  if(number === 1 && isOpening){
+    launchConfetti();
+  }
+}
+
+function launchConfetti(){
+  for(let i=0;i<90;i++){
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random()*100 + "vw";
+    confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+    confetti.style.animationDuration = (2+Math.random()*2)+"s";
+    document.body.appendChild(confetti);
+    setTimeout(()=>confetti.remove(),4000);
+  }
+}
+
 function init(){
   createPlayers("o","overall");
   createPlayers("s","sword");
@@ -196,17 +268,11 @@ function init(){
 
 init();
 
-function toggle(id){
-  document.getElementById(id).classList.toggle("open");
-}
-
 function showMode(mode, btn){
   document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
   document.getElementById(mode).classList.add("active");
-
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
-
   sortActive();
 }
 
@@ -219,13 +285,11 @@ function toggleSort(){
 function sortActive(){
   const active = document.querySelector(".mode.active");
   const players = Array.from(active.querySelectorAll(".player"));
-
   players.sort((a,b)=>{
     const numA = Number(a.dataset.number);
     const numB = Number(b.dataset.number);
     return sortLowToHigh ? numA - numB : numB - numA;
   });
-
   players.forEach(p=>active.appendChild(p));
 }
 
