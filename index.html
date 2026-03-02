@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 <head>
   <title>Quipalite MC</title>
@@ -38,9 +38,7 @@
       cursor:pointer;font-weight:bold;
       transition:0.2s ease;
     }
-    .tab:hover{
-      transform:scale(1.05);
-    }
+    .tab:hover{transform:scale(1.05);}
     .tab.active{background:#ff1493;}
 
     #searchInput{
@@ -51,24 +49,17 @@
 
     .container{max-width:900px;margin:auto;padding:20px;}
 
-    .mode{
-      display:none;
-      opacity:0;
-      transition:0.3s ease;
-    }
-    .mode.active{
-      display:block;
-      opacity:1;
-    }
+    .mode{display:none;opacity:0;transition:0.3s ease;}
+    .mode.active{display:block;opacity:1;}
 
     .player{
       background:#111;margin:12px 0;padding:18px;
       border-radius:12px;border:1px solid #ff1493;
       cursor:pointer;
       transition:0.2s ease;
+      animation:fadeIn 0.4s ease forwards;
       opacity:0;
       transform:translateY(10px);
-      animation:fadeIn 0.4s ease forwards;
     }
 
     .player:hover{
@@ -77,10 +68,7 @@
     }
 
     @keyframes fadeIn{
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
+      to{opacity:1;transform:translateY(0);}
     }
 
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;}
@@ -124,13 +112,10 @@
     }
 
     .no-results{
-      text-align:center;
-      margin:15px;
-      font-weight:bold;
-      color:#ff69b4;
+      text-align:center;margin:15px;
+      font-weight:bold;color:#ff69b4;
       display:none;
     }
-
   </style>
 </head>
 
@@ -152,12 +137,12 @@
 </div>
 
 <div class="container">
-  <div id="overall" class="mode active"><div class="no-results">No results found</div></div>
-  <div id="sword" class="mode"><div class="no-results">No results found</div></div>
-  <div id="axe" class="mode"><div class="no-results">No results found</div></div>
-  <div id="uhc" class="mode"><div class="no-results">No results found</div></div>
-  <div id="mace" class="mode"><div class="no-results">No results found</div></div>
-  <div id="spear" class="mode"><div class="no-results">No results found</div></div>
+  <div id="overall" class="mode active"></div>
+  <div id="sword" class="mode"></div>
+  <div id="axe" class="mode"></div>
+  <div id="uhc" class="mode"></div>
+  <div id="mace" class="mode"></div>
+  <div id="spear" class="mode"></div>
 </div>
 
 <div id="profilePage">
@@ -166,6 +151,19 @@
 </div>
 
 <script>
+
+const playerStats={
+  overall:{
+    Killedbycrab:{wins:7,kills:22,deaths:6},
+    Aftlow:{wins:1,kills:3,deaths:3},
+    "Yearly-scuff81":{wins:0,kills:4,deaths:18},
+    RealO75:{wins:1,kills:3,deaths:2}
+  },
+  sword:{
+    RealO75:{wins:1,kills:3,deaths:2},
+    Killedbycrab:{wins:0,kills:2,deaths:3}
+  }
+};
 
 function createPlayers(containerId){
   const container=document.getElementById(containerId);
@@ -192,22 +190,6 @@ function createPlayers(containerId){
       if(i===2) playerName="Killedbycrab";
     }
 
-    if(containerId==="uhc"){
-      if(i===1) playerName="Killedbycrab";
-      if(i===2) playerName="Yearly-scuff81";
-    }
-
-    if(containerId==="mace"){
-      if(i===1) playerName="Killedbycrab";
-      if(i===2) playerName="Yearly-scuff81";
-      if(i===3) playerName="Aftlow";
-    }
-
-    if(containerId==="spear"){
-      if(i===1) playerName="Aftlow";
-      if(i===2) playerName="Yearly-scuff81";
-    }
-
     container.innerHTML+=`
       <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
         <span class="number ${numberClass}">#${i}</span>
@@ -220,13 +202,36 @@ function createPlayers(containerId){
 
 function openProfile(name,tier){
 
+  let stats={wins:"N/A",kills:"N/A",deaths:"N/A"};
+
+  if(playerStats.overall[name]){
+    stats=playerStats.overall[name];
+  }
+
+  if(document.querySelector(".tab.active").textContent==="Sword"){
+    if(playerStats.sword[name]){
+      stats=playerStats.sword[name];
+    }
+  }
+
+  // K/D calculation
+  let kd="N/A";
+  if(stats.kills!=="N/A"){
+    if(stats.deaths===0){
+      kd="∞";
+    } else {
+      kd=(stats.kills/stats.deaths).toFixed(2);
+    }
+  }
+
   document.getElementById("profileContent").innerHTML=`
     <h2 style="margin-top:0;color:#ff69b4;">${name}</h2>
     <h3 style="color:gold;margin-top:-10px;">${tier}</h3>
     <hr style="border:0;border-top:1px solid #ff1493;">
-    <p><b>Wins:</b> N/A</p>
-    <p><b>Kills:</b> N/A</p>
-    <p><b>Deaths:</b> N/A</p>
+    <p><b>Wins:</b> ${stats.wins}</p>
+    <p><b>Kills:</b> ${stats.kills}</p>
+    <p><b>Deaths:</b> ${stats.deaths}</p>
+    <p><b>K/D:</b> ${kd}</p>
   `;
 
   document.querySelector(".tabs").style.display="none";
@@ -239,7 +244,6 @@ function openProfile(name,tier){
 }
 
 function goBack(){
-
   const profile=document.getElementById("profilePage");
   profile.classList.remove("show");
 
@@ -255,23 +259,11 @@ function searchPlayers(){
   const value=document.getElementById("searchInput").value.toLowerCase();
   const active=document.querySelector(".mode.active");
   const players=active.querySelectorAll(".player");
-  const noResults=active.querySelector(".no-results");
-
-  let found=false;
 
   players.forEach(p=>{
     const name=p.querySelector("b").textContent.toLowerCase();
-    if(name.includes(value)){
-      p.style.display="block";
-      found=true;
-    }else{
-      p.style.display="none";
-    }
+    p.style.display=name.includes(value)?"block":"none";
   });
-
-  if(noResults){
-    noResults.style.display=(value!=="" && !found)?"block":"none";
-  }
 }
 
 function showMode(mode,btn){
