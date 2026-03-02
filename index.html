@@ -92,12 +92,6 @@
       border-radius:12px;
       border:1px solid #ff1493;
       cursor:pointer;
-      transition:0.3s ease;
-    }
-
-    .player:hover{
-      transform:translateY(-4px);
-      box-shadow:0 8px 25px rgba(255,20,147,0.4);
     }
 
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;}
@@ -142,26 +136,6 @@
       margin:6px 0;
       font-weight:700;
     }
-
-    .confetti{
-      position:fixed;
-      top:0;
-      z-index:9999;
-      pointer-events:none;
-      border-radius:2px;
-      animation:fall forwards;
-    }
-
-    @keyframes fall{
-      to{
-        transform:
-          translateY(110vh)
-          translateX(var(--drift))
-          rotate(var(--rotate));
-        opacity:0;
-      }
-    }
-
   </style>
 </head>
 
@@ -197,7 +171,6 @@
 
 let sortLowToHigh = true;
 
-/* Create Players */
 function createPlayers(prefix, containerId){
   const container = document.getElementById(containerId);
 
@@ -210,11 +183,46 @@ function createPlayers(prefix, containerId){
     if(i===2){glow="silver-glow";numberClass="silver";}
     if(i===3){glow="bronze-glow";numberClass="bronze";}
 
+    let playerName = "Player " + i;
+
+    // OVERALL TOP 4
+    if(containerId === "overall"){
+      if(i===1) playerName = "Killedbycrab";
+      if(i===2) playerName = "Aftlow";
+      if(i===3) playerName = "RealO75";
+      if(i===4) playerName = "Yearly-scuff81";
+    }
+
+    // MACE TOP 3
+    if(containerId === "mace"){
+      if(i===1) playerName = "Killedbycrab";
+      if(i===2) playerName = "Aftlow";
+      if(i===3) playerName = "Yearly-scuff81";
+    }
+
+    // SWORD TOP 2
+    if(containerId === "sword"){
+      if(i===1) playerName = "RealO75";
+      if(i===2) playerName = "Killedbycrab";
+    }
+
+    // UHC TOP 2
+    if(containerId === "uhc"){
+      if(i===1) playerName = "Killedbycrab";
+      if(i===2) playerName = "Yearly-scuff81";
+    }
+
+    // SPEAR TOP 2
+    if(containerId === "spear"){
+      if(i===1) playerName = "Aftlow";
+      if(i===2) playerName = "Yearly-scuff81";
+    }
+
     container.innerHTML += `
       <div class="player ${glow}" data-number="${i}" onclick="handleClick(${i}, '${prefix}${i}')">
         <span class="number ${numberClass}">#${i}</span>
         ${i===1?'<span class="crown">👑</span>':''}
-        <b>Player ${i}</b>
+        <b>${playerName}</b>
 
         <div class="details" id="${prefix}${i}">
           <div class="stat">Rank:</div>
@@ -227,41 +235,10 @@ function createPlayers(prefix, containerId){
   }
 }
 
-/* Toggle Details */
 function handleClick(number,id){
-  const el=document.getElementById(id);
-  const opening=!el.classList.contains("open");
-  el.classList.toggle("open");
-
-  if(number===1 && opening){
-    launchConfetti();
-  }
+  document.getElementById(id).classList.toggle("open");
 }
 
-/* Confetti */
-function launchConfetti(){
-  const colors=["#ff1493","#ff66cc","#ffd700","#ffffff","#00ffff","#ff4d4d"];
-
-  for(let i=0;i<180;i++){
-    const piece=document.createElement("div");
-    piece.classList.add("confetti");
-
-    const size=Math.random()*14+6;
-    piece.style.width=size+"px";
-    piece.style.height=size*0.6+"px";
-    piece.style.left=Math.random()*100+"vw";
-    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
-    piece.style.animationDuration=(Math.random()*3+2)+"s";
-
-    piece.style.setProperty("--drift",(Math.random()*400-200)+"px");
-    piece.style.setProperty("--rotate",(Math.random()>0.5?1:-1)*(720+Math.random()*720)+"deg");
-
-    document.body.appendChild(piece);
-    setTimeout(()=>piece.remove(),6000);
-  }
-}
-
-/* Search */
 function searchPlayers(){
   const value=document.getElementById("searchInput").value.toLowerCase();
   const active=document.querySelector(".mode.active");
@@ -272,7 +249,6 @@ function searchPlayers(){
   });
 }
 
-/* Sort */
 function toggleSort(){
   sortLowToHigh=!sortLowToHigh;
   document.getElementById("sortBtn").textContent=sortLowToHigh?"⬆":"⬇";
@@ -292,7 +268,6 @@ function sortActive(){
   players.forEach(p=>active.appendChild(p));
 }
 
-/* Tabs */
 function showMode(mode,btn){
   document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
   document.getElementById(mode).classList.add("active");
@@ -301,7 +276,6 @@ function showMode(mode,btn){
   btn.classList.add("active");
 }
 
-/* Init */
 createPlayers("o","overall");
 createPlayers("s","sword");
 createPlayers("a","axe");
