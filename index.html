@@ -143,18 +143,22 @@
       font-weight:700;
     }
 
-    /* Confetti */
+    /* 🔥 CONFETTI (IMPROVED) */
     .confetti{
       position:fixed;
-      top:-10px;
+      top:0;
       z-index:9999;
       pointer-events:none;
-      animation:fall 3s cubic-bezier(.2,.8,.2,1) forwards;
+      border-radius:2px;
+      animation:fall forwards;
     }
 
     @keyframes fall{
       to{
-        transform:translateY(110vh) rotate(var(--rotate));
+        transform:
+          translateY(110vh)
+          translateX(var(--drift))
+          rotate(var(--rotate));
         opacity:0;
       }
     }
@@ -229,20 +233,44 @@ function handleClick(number,id){
   const el=document.getElementById(id);
   const opening=!el.classList.contains("open");
   el.classList.toggle("open");
-  if(number===1 && opening) launchConfetti();
+
+  if(number===1 && opening){
+    launchConfetti();
+  }
 }
 
-/* Confetti */
+/* 🔥 IMPROVED CONFETTI FUNCTION */
 function launchConfetti(){
-  for(let i=0;i<120;i++){
-    const c=document.createElement("div");
-    c.classList.add("confetti");
-    c.style.left=Math.random()*100+"vw";
-    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    const rotate=(Math.random()>0.5?1:-1)*(720+Math.random()*360);
-    c.style.setProperty("--rotate",rotate+"deg");
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
+
+  const colors=["#ff1493","#ff66cc","#ffd700","#ffffff","#00ffff","#ff4d4d"];
+
+  for(let i=0;i<180;i++){
+
+    const piece=document.createElement("div");
+    piece.classList.add("confetti");
+
+    const size=Math.random()*14+6;
+    piece.style.width=size+"px";
+    piece.style.height=size*0.6+"px";
+
+    piece.style.left=Math.random()*100+"vw";
+
+    piece.style.background=
+      colors[Math.floor(Math.random()*colors.length)];
+
+    const duration=Math.random()*3+2;
+    piece.style.animationDuration=duration+"s";
+
+    const drift=(Math.random()*400-200)+"px";
+    piece.style.setProperty("--drift",drift);
+
+    const rotate=(Math.random()>0.5?1:-1)*
+                 (720+Math.random()*720);
+    piece.style.setProperty("--rotate",rotate+"deg");
+
+    document.body.appendChild(piece);
+
+    setTimeout(()=>piece.remove(),6000);
   }
 }
 
