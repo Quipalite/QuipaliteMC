@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Quipalite MC</title>
@@ -8,66 +8,48 @@
     body{
       margin:0;
       font-family:Segoe UI, Arial, sans-serif;
-      background:#000000; /* pure black */
+      background:#000;
       color:white;
       overflow-x:hidden;
     }
 
-    /* 🎀 Animated Pink Banner */
     header{
       text-align:center;
       padding:45px 20px;
       font-size:44px;
       font-weight:900;
       letter-spacing:3px;
-
-      background: linear-gradient(
-        90deg,
-        #ff2db2,
-        #ff66cc,
-        #ff1493,
-        #ff2db2
-      );
-
+      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493,#ff2db2);
       background-size:300% 300%;
-      animation: bannerMove 5s ease infinite;
-
-      color:white;
-
+      animation:bannerMove 5s ease infinite;
       border-bottom:3px solid #ff66cc;
-
-      transition:0.3s ease;
     }
 
     @keyframes bannerMove{
-      0%{ background-position:0% 50%; }
-      50%{ background-position:100% 50%; }
-      100%{ background-position:0% 50%; }
-    }
-
-    header:hover{
-      transform:scale(1.05);
-      box-shadow:0 0 25px rgba(255,45,178,0.8);
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
     }
 
     .arrow-btn{
       position:fixed;
-      top:15px;
-      right:15px;
-      z-index:1000;
+      top:20px;
+      right:20px;
+      z-index:9999;
       background:#ff1493;
       border:none;
       color:white;
-      padding:10px 14px;
-      border-radius:8px;
+      padding:12px 16px;
+      border-radius:10px;
       font-size:18px;
+      font-weight:bold;
       cursor:pointer;
-      box-shadow:0 0 10px #ff1493;
+      box-shadow:0 0 12px #ff1493;
     }
 
     .tabs{
       text-align:center;
-      margin:25px 0;
+      margin:20px 0;
     }
 
     .tab{
@@ -79,14 +61,20 @@
       border-radius:6px;
       cursor:pointer;
       font-weight:bold;
-      transition:0.2s;
     }
 
-    .tab:hover{
-      box-shadow:0 0 10px #ff1493;
-    }
+    .tab.active{background:#ff1493;}
 
-    .tab.active{ background:#ff1493; }
+    #searchInput{
+      width:250px;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #ff1493;
+      background:#111;
+      color:white;
+      font-weight:bold;
+      outline:none;
+    }
 
     .container{
       max-width:900px;
@@ -94,8 +82,8 @@
       padding:20px;
     }
 
-    .mode{ display:none; }
-    .mode.active{ display:block; }
+    .mode{display:none;}
+    .mode.active{display:block;}
 
     .player{
       background:#111;
@@ -112,9 +100,9 @@
       box-shadow:0 8px 25px rgba(255,20,147,0.4);
     }
 
-    .gold-glow{ border:2px solid gold; box-shadow:0 0 16px gold; }
-    .silver-glow{ border:2px solid silver; box-shadow:0 0 14px silver; }
-    .bronze-glow{ border:2px solid #cd7f32; box-shadow:0 0 12px #cd7f32; }
+    .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;}
+    .silver-glow{border:2px solid silver;box-shadow:0 0 14px silver;}
+    .bronze-glow{border:2px solid #cd7f32;box-shadow:0 0 12px #cd7f32;}
 
     .number{
       display:inline-block;
@@ -124,9 +112,9 @@
       margin-right:8px;
     }
 
-    .gold{ background:gold; color:black; }
-    .silver{ background:silver; color:black; }
-    .bronze{ background:#cd7f32; color:white; }
+    .gold{background:gold;color:black;}
+    .silver{background:silver;color:black;}
+    .bronze{background:#cd7f32;color:white;}
 
     .crown{
       margin-left:6px;
@@ -152,25 +140,21 @@
 
     .stat{
       margin:6px 0;
-      font-size:15px;
       font-weight:700;
-      color:#ffffff;
     }
 
-    /* 🎉 Confetti */
+    /* Confetti */
     .confetti{
       position:fixed;
-      width:10px;
-      height:10px;
       top:-10px;
       z-index:9999;
       pointer-events:none;
-      animation:fall 3s linear forwards;
+      animation:fall 3s cubic-bezier(.2,.8,.2,1) forwards;
     }
 
     @keyframes fall{
       to{
-        transform:translateY(110vh) rotate(720deg);
+        transform:translateY(110vh) rotate(var(--rotate));
         opacity:0;
       }
     }
@@ -182,7 +166,7 @@
 
 <header>QUIPALITE MC</header>
 
-<button id="sortArrow" class="arrow-btn" onclick="toggleSort()">⬆</button>
+<button class="arrow-btn" onclick="toggleSort()" id="sortBtn">⬆</button>
 
 <div class="tabs">
   <button class="tab active" onclick="showMode('overall', this)">Overall</button>
@@ -191,6 +175,10 @@
   <button class="tab" onclick="showMode('uhc', this)">UHC</button>
   <button class="tab" onclick="showMode('mace', this)">Mace</button>
   <button class="tab" onclick="showMode('spear', this)">Spear</button>
+</div>
+
+<div style="text-align:center;margin-bottom:15px;">
+  <input type="text" id="searchInput" placeholder="Search player..." onkeyup="searchPlayers()">
 </div>
 
 <div class="container">
@@ -206,6 +194,7 @@
 
 let sortLowToHigh = true;
 
+/* Create Players */
 function createPlayers(prefix, containerId){
   const container = document.getElementById(containerId);
 
@@ -214,9 +203,9 @@ function createPlayers(prefix, containerId){
     let glow="";
     let numberClass="";
 
-    if(i===1){ glow="gold-glow"; numberClass="gold"; }
-    if(i===2){ glow="silver-glow"; numberClass="silver"; }
-    if(i===3){ glow="bronze-glow"; numberClass="bronze"; }
+    if(i===1){glow="gold-glow";numberClass="gold";}
+    if(i===2){glow="silver-glow";numberClass="silver";}
+    if(i===3){glow="bronze-glow";numberClass="bronze";}
 
     container.innerHTML += `
       <div class="player ${glow}" data-number="${i}" onclick="handleClick(${i}, '${prefix}${i}')">
@@ -235,63 +224,71 @@ function createPlayers(prefix, containerId){
   }
 }
 
-function handleClick(number, id){
-  const element = document.getElementById(id);
-  const isOpening = !element.classList.contains("open");
-  element.classList.toggle("open");
-
-  if(number === 1 && isOpening){
-    launchConfetti();
-  }
+/* Toggle Details + Confetti */
+function handleClick(number,id){
+  const el=document.getElementById(id);
+  const opening=!el.classList.contains("open");
+  el.classList.toggle("open");
+  if(number===1 && opening) launchConfetti();
 }
 
+/* Confetti */
 function launchConfetti(){
-  for(let i=0;i<90;i++){
-    const confetti = document.createElement("div");
-    confetti.classList.add("confetti");
-    confetti.style.left = Math.random()*100 + "vw";
-    confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
-    confetti.style.animationDuration = (2+Math.random()*2)+"s";
-    document.body.appendChild(confetti);
-    setTimeout(()=>confetti.remove(),4000);
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.classList.add("confetti");
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    const rotate=(Math.random()>0.5?1:-1)*(720+Math.random()*360);
+    c.style.setProperty("--rotate",rotate+"deg");
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
   }
 }
 
-function init(){
-  createPlayers("o","overall");
-  createPlayers("s","sword");
-  createPlayers("a","axe");
-  createPlayers("u","uhc");
-  createPlayers("m","mace");
-  createPlayers("sp","spear");
+/* Search */
+function searchPlayers(){
+  const value=document.getElementById("searchInput").value.toLowerCase();
+  const active=document.querySelector(".mode.active");
+  active.querySelectorAll(".player").forEach(p=>{
+    const name=p.querySelector("b").textContent.toLowerCase();
+    p.style.display=name.includes(value)?"block":"none";
+  });
 }
 
-init();
-
-function showMode(mode, btn){
-  document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
-  document.getElementById(mode).classList.add("active");
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  btn.classList.add("active");
-  sortActive();
-}
-
+/* Sort */
 function toggleSort(){
-  sortLowToHigh = !sortLowToHigh;
-  document.getElementById("sortArrow").textContent = sortLowToHigh ? "⬆" : "⬇";
+  sortLowToHigh=!sortLowToHigh;
+  document.getElementById("sortBtn").textContent=sortLowToHigh?"⬆":"⬇";
   sortActive();
 }
 
 function sortActive(){
-  const active = document.querySelector(".mode.active");
-  const players = Array.from(active.querySelectorAll(".player"));
+  const active=document.querySelector(".mode.active");
+  const players=Array.from(active.querySelectorAll(".player"));
   players.sort((a,b)=>{
-    const numA = Number(a.dataset.number);
-    const numB = Number(b.dataset.number);
-    return sortLowToHigh ? numA - numB : numB - numA;
+    return sortLowToHigh
+      ? a.dataset.number-b.dataset.number
+      : b.dataset.number-a.dataset.number;
   });
   players.forEach(p=>active.appendChild(p));
 }
+
+/* Tabs */
+function showMode(mode,btn){
+  document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
+  document.getElementById(mode).classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+/* Init */
+createPlayers("o","overall");
+createPlayers("s","sword");
+createPlayers("a","axe");
+createPlayers("u","uhc");
+createPlayers("m","mace");
+createPlayers("sp","spear");
 
 </script>
 
