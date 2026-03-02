@@ -31,50 +31,27 @@
       100%{background-position:0% 50%;}
     }
 
-    .tabs{
-      text-align:center;
-      margin:20px 0;
-    }
-
+    .tabs{text-align:center;margin:20px 0;}
     .tab{
-      background:#111;
-      border:1px solid #ff1493;
-      color:white;
-      padding:8px 14px;
-      margin:5px;
-      border-radius:6px;
-      cursor:pointer;
-      font-weight:bold;
+      background:#111;border:1px solid #ff1493;color:white;
+      padding:8px 14px;margin:5px;border-radius:6px;
+      cursor:pointer;font-weight:bold;
     }
-
     .tab.active{background:#ff1493;}
 
     #searchInput{
-      width:250px;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #ff1493;
-      background:#111;
-      color:white;
-      font-weight:bold;
-      outline:none;
+      width:250px;padding:10px;border-radius:8px;
+      border:1px solid #ff1493;background:#111;
+      color:white;font-weight:bold;outline:none;
     }
 
-    .container{
-      max-width:900px;
-      margin:auto;
-      padding:20px;
-    }
-
+    .container{max-width:900px;margin:auto;padding:20px;}
     .mode{display:none;}
     .mode.active{display:block;}
 
     .player{
-      background:#111;
-      margin:12px 0;
-      padding:18px;
-      border-radius:12px;
-      border:1px solid #ff1493;
+      background:#111;margin:12px 0;padding:18px;
+      border-radius:12px;border:1px solid #ff1493;
       cursor:pointer;
     }
 
@@ -83,57 +60,34 @@
     .bronze-glow{border:2px solid #cd7f32;box-shadow:0 0 12px #cd7f32;}
 
     .number{
-      display:inline-block;
-      padding:5px 11px;
-      border-radius:20px;
-      font-weight:bold;
-      margin-right:8px;
+      display:inline-block;padding:5px 11px;
+      border-radius:20px;font-weight:bold;margin-right:8px;
     }
-
     .gold{background:gold;color:black;}
     .silver{background:silver;color:black;}
     .bronze{background:#cd7f32;color:white;}
 
-    .crown{
-      margin-left:6px;
-      text-shadow:0 0 10px gold;
+    .crown{margin-left:6px;text-shadow:0 0 10px gold;}
+
+    #profilePage{
+      display:none;max-width:700px;margin:auto;padding:20px;
     }
 
-    .details{
-      max-height:0;
-      overflow:hidden;
-      margin-top:0;
-      padding:0 14px;
-      background:#0a0a0a;
-      border-left:3px solid #ff69b4;
-      border-radius:8px;
-      transition:0.3s ease;
+    #profileContent{
+      background:#111;padding:20px;border-radius:12px;
+      border:1px solid #ff1493;
     }
 
-    .details.open{
-      max-height:250px;
-      margin-top:12px;
-      padding:14px;
-    }
-
-    .stat{
-      margin:6px 0;
-      font-weight:700;
+    .backBtn{
+      background:#ff1493;border:none;padding:10px 16px;
+      color:white;font-weight:bold;border-radius:8px;
+      cursor:pointer;margin-bottom:20px;
     }
 
     .no-results{
-      text-align:center;
-      margin:15px;
-      font-weight:bold;
-      color:#ff69b4;
-      opacity:0;
-      transform:scale(0.9);
-      transition:0.25s ease;
-    }
-
-    .no-results.show{
-      opacity:1;
-      transform:scale(1);
+      text-align:center;margin:15px;
+      font-weight:bold;color:#ff69b4;
+      display:none;
     }
   </style>
 </head>
@@ -164,69 +118,92 @@
   <div id="spear" class="mode"><div class="no-results">No results found</div></div>
 </div>
 
+<div id="profilePage">
+  <button class="backBtn" onclick="goBack()">⬅ Back</button>
+  <div id="profileContent"></div>
+</div>
+
 <script>
 
-function createPlayers(prefix, containerId){
-  const container = document.getElementById(containerId);
+function createPlayers(containerId){
+  const container=document.getElementById(containerId);
 
   for(let i=1;i<=15;i++){
 
-    let glow="";
-    let numberClass="";
+    let glow="", numberClass="", tier="Tier IV";
 
-    if(i===1){glow="gold-glow";numberClass="gold";}
-    if(i===2){glow="silver-glow";numberClass="silver";}
-    if(i===3){glow="bronze-glow";numberClass="bronze";}
+    if(i===1){glow="gold-glow";numberClass="gold";tier="Tier I";}
+    if(i===2){glow="silver-glow";numberClass="silver";tier="Tier II";}
+    if(i===3){glow="bronze-glow";numberClass="bronze";tier="Tier III";}
 
-    let playerName = "Player " + i;
+    let playerName="Player "+i;
 
-    if(containerId === "overall"){
+    // OVERALL
+    if(containerId==="overall"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Aftlow";
       if(i===3) playerName="RealO75";
       if(i===4) playerName="Yearly-scuff81";
     }
 
-    if(containerId === "mace"){
-      if(i===1) playerName="Killedbycrab";
-      if(i===2) playerName="Yearly-scuff81"; // ✅ Swapped
-      if(i===3) playerName="Aftlow";         // ✅ Swapped
-    }
-
-    if(containerId === "sword"){
+    // SWORD (Aftlow REMOVED)
+    if(containerId==="sword"){
       if(i===1) playerName="RealO75";
       if(i===2) playerName="Killedbycrab";
     }
 
-    if(containerId === "uhc"){
+    // AXE (no custom yet)
+
+    // UHC (RealO75 NOT included)
+    if(containerId==="uhc"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Yearly-scuff81";
     }
 
-    if(containerId === "spear"){
+    // MACE
+    if(containerId==="mace"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+      if(i===3) playerName="Aftlow";
+    }
+
+    // SPEAR (RealO75 removed)
+    if(containerId==="spear"){
       if(i===1) playerName="Aftlow";
       if(i===2) playerName="Yearly-scuff81";
     }
 
-    container.innerHTML += `
-      <div class="player ${glow}" onclick="handleClick('${prefix}${i}')">
+    container.innerHTML+=`
+      <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
         <span class="number ${numberClass}">#${i}</span>
         ${i===1?'<span class="crown">👑</span>':''}
         <b>${playerName}</b>
-
-        <div class="details" id="${prefix}${i}">
-          <div class="stat">Rank:</div>
-          <div class="stat">Wins: N/A</div>
-          <div class="stat">Kills: N/A</div>
-          <div class="stat">Deaths: N/A</div>
-        </div>
       </div>
     `;
   }
 }
 
-function handleClick(id){
-  document.getElementById(id).classList.toggle("open");
+function openProfile(name,tier){
+  document.getElementById("profileContent").innerHTML=`
+    <h2 style="margin-top:0;color:#ff69b4;">${name}</h2>
+    <h3 style="color:gold;margin-top:-10px;">${tier}</h3>
+    <hr style="border:0;border-top:1px solid #ff1493;">
+    <p><b>Wins:</b> N/A</p>
+    <p><b>Kills:</b> N/A</p>
+    <p><b>Deaths:</b> N/A</p>
+  `;
+
+  document.querySelector(".tabs").style.display="none";
+  document.querySelector(".container").style.display="none";
+  document.getElementById("searchInput").style.display="none";
+  document.getElementById("profilePage").style.display="block";
+}
+
+function goBack(){
+  document.querySelector(".tabs").style.display="block";
+  document.querySelector(".container").style.display="block";
+  document.getElementById("searchInput").style.display="inline-block";
+  document.getElementById("profilePage").style.display="none";
 }
 
 function searchPlayers(){
@@ -247,10 +224,8 @@ function searchPlayers(){
     }
   });
 
-  if(value!=="" && !found){
-    noResults.classList.add("show");
-  }else{
-    noResults.classList.remove("show");
+  if(noResults){
+    noResults.style.display=(value!=="" && !found)?"block":"none";
   }
 }
 
@@ -264,12 +239,12 @@ function showMode(mode,btn){
   searchPlayers();
 }
 
-createPlayers("o","overall");
-createPlayers("s","sword");
-createPlayers("a","axe");
-createPlayers("u","uhc");
-createPlayers("m","mace");
-createPlayers("sp","spear");
+createPlayers("overall");
+createPlayers("sword");
+createPlayers("axe");
+createPlayers("uhc");
+createPlayers("mace");
+createPlayers("spear");
 
 </script>
 
