@@ -143,7 +143,6 @@
       font-weight:700;
     }
 
-    /* 🔥 CONFETTI (IMPROVED) */
     .confetti{
       position:fixed;
       top:0;
@@ -218,17 +217,17 @@ function createPlayers(prefix, containerId){
         <b>Player ${i}</b>
 
         <div class="details" id="${prefix}${i}">
-          <div class="stat">Rank: #${i}</div>
-          <div class="stat">Wins: 10</div>
-          <div class="stat">Kills: 50</div>
-          <div class="stat">Deaths: 20</div>
+          <div class="stat">Rank:</div>
+          <div class="stat">Wins: N/A</div>
+          <div class="stat">Kills: N/A</div>
+          <div class="stat">Deaths: N/A</div>
         </div>
       </div>
     `;
   }
 }
 
-/* Toggle Details + Confetti */
+/* Toggle Details */
 function handleClick(number,id){
   const el=document.getElementById(id);
   const opening=!el.classList.contains("open");
@@ -239,37 +238,25 @@ function handleClick(number,id){
   }
 }
 
-/* 🔥 IMPROVED CONFETTI FUNCTION */
+/* Confetti */
 function launchConfetti(){
-
   const colors=["#ff1493","#ff66cc","#ffd700","#ffffff","#00ffff","#ff4d4d"];
 
   for(let i=0;i<180;i++){
-
     const piece=document.createElement("div");
     piece.classList.add("confetti");
 
     const size=Math.random()*14+6;
     piece.style.width=size+"px";
     piece.style.height=size*0.6+"px";
-
     piece.style.left=Math.random()*100+"vw";
+    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDuration=(Math.random()*3+2)+"s";
 
-    piece.style.background=
-      colors[Math.floor(Math.random()*colors.length)];
-
-    const duration=Math.random()*3+2;
-    piece.style.animationDuration=duration+"s";
-
-    const drift=(Math.random()*400-200)+"px";
-    piece.style.setProperty("--drift",drift);
-
-    const rotate=(Math.random()>0.5?1:-1)*
-                 (720+Math.random()*720);
-    piece.style.setProperty("--rotate",rotate+"deg");
+    piece.style.setProperty("--drift",(Math.random()*400-200)+"px");
+    piece.style.setProperty("--rotate",(Math.random()>0.5?1:-1)*(720+Math.random()*720)+"deg");
 
     document.body.appendChild(piece);
-
     setTimeout(()=>piece.remove(),6000);
   }
 }
@@ -278,6 +265,7 @@ function launchConfetti(){
 function searchPlayers(){
   const value=document.getElementById("searchInput").value.toLowerCase();
   const active=document.querySelector(".mode.active");
+
   active.querySelectorAll(".player").forEach(p=>{
     const name=p.querySelector("b").textContent.toLowerCase();
     p.style.display=name.includes(value)?"block":"none";
@@ -294,11 +282,13 @@ function toggleSort(){
 function sortActive(){
   const active=document.querySelector(".mode.active");
   const players=Array.from(active.querySelectorAll(".player"));
+
   players.sort((a,b)=>{
     return sortLowToHigh
       ? a.dataset.number-b.dataset.number
       : b.dataset.number-a.dataset.number;
   });
+
   players.forEach(p=>active.appendChild(p));
 }
 
@@ -306,6 +296,7 @@ function sortActive(){
 function showMode(mode,btn){
   document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
   document.getElementById(mode).classList.add("active");
+
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
 }
