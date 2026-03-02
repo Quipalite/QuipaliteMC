@@ -36,6 +36,10 @@
       background:#111;border:1px solid #ff1493;color:white;
       padding:8px 14px;margin:5px;border-radius:6px;
       cursor:pointer;font-weight:bold;
+      transition:0.2s ease;
+    }
+    .tab:hover{
+      transform:scale(1.05);
     }
     .tab.active{background:#ff1493;}
 
@@ -46,13 +50,37 @@
     }
 
     .container{max-width:900px;margin:auto;padding:20px;}
-    .mode{display:none;}
-    .mode.active{display:block;}
+
+    .mode{
+      display:none;
+      opacity:0;
+      transition:0.3s ease;
+    }
+    .mode.active{
+      display:block;
+      opacity:1;
+    }
 
     .player{
       background:#111;margin:12px 0;padding:18px;
       border-radius:12px;border:1px solid #ff1493;
       cursor:pointer;
+      transition:0.2s ease;
+      opacity:0;
+      transform:translateY(10px);
+      animation:fadeIn 0.4s ease forwards;
+    }
+
+    .player:hover{
+      transform:scale(1.02);
+      box-shadow:0 0 12px #ff1493;
+    }
+
+    @keyframes fadeIn{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
     }
 
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;}
@@ -70,7 +98,18 @@
     .crown{margin-left:6px;text-shadow:0 0 10px gold;}
 
     #profilePage{
-      display:none;max-width:700px;margin:auto;padding:20px;
+      display:none;
+      max-width:700px;
+      margin:auto;
+      padding:20px;
+      opacity:0;
+      transform:translateY(20px);
+      transition:0.3s ease;
+    }
+
+    #profilePage.show{
+      opacity:1;
+      transform:translateY(0);
     }
 
     #profileContent{
@@ -85,10 +124,13 @@
     }
 
     .no-results{
-      text-align:center;margin:15px;
-      font-weight:bold;color:#ff69b4;
+      text-align:center;
+      margin:15px;
+      font-weight:bold;
+      color:#ff69b4;
       display:none;
     }
+
   </style>
 </head>
 
@@ -138,7 +180,6 @@ function createPlayers(containerId){
 
     let playerName="Player "+i;
 
-    // OVERALL
     if(containerId==="overall"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Aftlow";
@@ -146,28 +187,22 @@ function createPlayers(containerId){
       if(i===4) playerName="Yearly-scuff81";
     }
 
-    // SWORD (Aftlow REMOVED)
     if(containerId==="sword"){
       if(i===1) playerName="RealO75";
       if(i===2) playerName="Killedbycrab";
     }
 
-    // AXE (no custom yet)
-
-    // UHC (RealO75 NOT included)
     if(containerId==="uhc"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Yearly-scuff81";
     }
 
-    // MACE
     if(containerId==="mace"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Yearly-scuff81";
       if(i===3) playerName="Aftlow";
     }
 
-    // SPEAR (RealO75 removed)
     if(containerId==="spear"){
       if(i===1) playerName="Aftlow";
       if(i===2) playerName="Yearly-scuff81";
@@ -184,6 +219,7 @@ function createPlayers(containerId){
 }
 
 function openProfile(name,tier){
+
   document.getElementById("profileContent").innerHTML=`
     <h2 style="margin-top:0;color:#ff69b4;">${name}</h2>
     <h3 style="color:gold;margin-top:-10px;">${tier}</h3>
@@ -196,14 +232,23 @@ function openProfile(name,tier){
   document.querySelector(".tabs").style.display="none";
   document.querySelector(".container").style.display="none";
   document.getElementById("searchInput").style.display="none";
-  document.getElementById("profilePage").style.display="block";
+
+  const profile=document.getElementById("profilePage");
+  profile.style.display="block";
+  setTimeout(()=>profile.classList.add("show"),10);
 }
 
 function goBack(){
-  document.querySelector(".tabs").style.display="block";
-  document.querySelector(".container").style.display="block";
-  document.getElementById("searchInput").style.display="inline-block";
-  document.getElementById("profilePage").style.display="none";
+
+  const profile=document.getElementById("profilePage");
+  profile.classList.remove("show");
+
+  setTimeout(()=>{
+    profile.style.display="none";
+    document.querySelector(".tabs").style.display="block";
+    document.querySelector(".container").style.display="block";
+    document.getElementById("searchInput").style.display="inline-block";
+  },300);
 }
 
 function searchPlayers(){
