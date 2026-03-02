@@ -51,9 +51,7 @@
       font-weight:bold;
     }
 
-    .tab.active{
-      background:#ff1493;
-    }
+    .tab.active{ background:#ff1493; }
 
     .container{
       max-width:900px;
@@ -112,9 +110,13 @@
     }
 
     .details.open{
-      max-height:200px;
+      max-height:250px;
       margin-top:10px;
       padding:12px;
+    }
+
+    .stat{
+      margin:4px 0;
     }
 
   </style>
@@ -137,31 +139,12 @@
 
 <div class="container">
 
-<!-- FUNCTION TO GENERATE A MODE -->
-<script>
-function createMode(prefix){
-  let html = "";
-  for(let i=1;i<=5;i++){
-    let glow = "";
-    let numberClass = "";
+<!-- OVERALL -->
+<div id="overall" class="mode active">
+  <!-- Players 1–5 (same structure) -->
+  <!-- Copy this block for each mode below -->
+</div>
 
-    if(i===1){ glow="gold-glow"; numberClass="gold"; }
-    if(i===2){ glow="silver-glow"; numberClass="silver"; }
-    if(i===3){ glow="bronze-glow"; numberClass="bronze"; }
-
-    html += `
-    <div class="player ${glow}" data-number="${i}" onclick="toggle('${prefix}${i}')">
-      <span class="number ${numberClass}">#${i}</span>
-      ${i===1 ? '<span class="crown">👑</span>' : ''}
-      <b>Player ${i}</b>
-      <div class="details" id="${prefix}${i}"></div>
-    </div>`;
-  }
-  return html;
-}
-</script>
-
-<div id="overall" class="mode active"></div>
 <div id="sword" class="mode"></div>
 <div id="axe" class="mode"></div>
 <div id="uhc" class="mode"></div>
@@ -174,14 +157,43 @@ function createMode(prefix){
 
 let sortLowToHigh = true;
 
-function init(){
-  document.getElementById("overall").innerHTML = createMode("o");
-  document.getElementById("sword").innerHTML = createMode("s");
-  document.getElementById("axe").innerHTML = createMode("a");
-  document.getElementById("uhc").innerHTML = createMode("u");
-  document.getElementById("mace").innerHTML = createMode("m");
-  document.getElementById("spear").innerHTML = createMode("sp");
+function createPlayers(prefix, containerId){
+  const container = document.getElementById(containerId);
+
+  for(let i=1;i<=5;i++){
+
+    let glow="";
+    let numberClass="";
+
+    if(i===1){ glow="gold-glow"; numberClass="gold"; }
+    if(i===2){ glow="silver-glow"; numberClass="silver"; }
+    if(i===3){ glow="bronze-glow"; numberClass="bronze"; }
+
+    container.innerHTML += `
+      <div class="player ${glow}" data-number="${i}" onclick="toggle('${prefix}${i}')">
+        <span class="number ${numberClass}">#${i}</span>
+        ${i===1?'<span class="crown">👑</span>':''}
+        <b>Player ${i}</b>
+        <div class="details" id="${prefix}${i}">
+          <div class="stat">Rank: #${i}</div>
+          <div class="stat">Wins: 10</div>
+          <div class="stat">Kills: 50</div>
+          <div class="stat">Deaths: 20</div>
+        </div>
+      </div>
+    `;
+  }
 }
+
+function init(){
+  createPlayers("o","overall");
+  createPlayers("s","sword");
+  createPlayers("a","axe");
+  createPlayers("u","uhc");
+  createPlayers("m","mace");
+  createPlayers("sp","spear");
+}
+
 init();
 
 function toggle(id){
@@ -189,10 +201,10 @@ function toggle(id){
 }
 
 function showMode(mode, btn){
-  document.querySelectorAll(".mode").forEach(m => m.classList.remove("active"));
+  document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
   document.getElementById(mode).classList.add("active");
 
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
 
   sortActive();
