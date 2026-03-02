@@ -8,122 +8,186 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #0f0f0f;
+      background: #0a0a0a;
       color: white;
+      animation: pageFade 0.6s ease-in;
+    }
+
+    @keyframes pageFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     header {
-      background: linear-gradient(90deg, #ff69b4, #ffffff);
-      color: black;
+      background: linear-gradient(90deg, #ff1493, #000000);
       text-align: center;
-      padding: 30px;
-      font-size: 32px;
+      padding: 35px;
+      font-size: 34px;
       font-weight: bold;
-      letter-spacing: 1px;
+      border-bottom: 3px solid #ff1493;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
-      padding: 30px;
+      padding: 35px;
     }
 
-    h2 {
-      color: #ffb6c1;
-      margin-bottom: 20px;
-    }
+    h2 { color: #ff69b4; }
 
-    .player {
-      background: #1a1a1a;
-      margin: 15px 0;
-      padding: 18px;
-      border-radius: 10px;
-      border-left: 5px solid #ff69b4;
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-weight: 600;
-    }
+    .sort-buttons { margin: 15px 0 25px 0; }
 
-    .player:hover {
-      background: #222;
-      transform: translateX(4px);
-    }
-
-    .details {
-      display: none;
-      margin-top: 12px;
-      padding: 12px;
-      background: #141414;
+    button {
+      background: #ff1493;
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      margin-right: 10px;
       border-radius: 8px;
-    }
-
-    .rank {
-      margin: 6px 0;
+      cursor: pointer;
       font-weight: bold;
     }
 
-    /* Rank Colors */
-    .coal { color: #808080; }
-    .copper { color: #b87333; }
-    .iron { color: #dcdcdc; }
-    .gold { color: #ffd700; }
-    .emerald { color: #50c878; }
-    .diamond { color: #4fc3f7; }
+    button:hover { background: #ff69b4; }
 
-    footer {
-      text-align: center;
+    .player {
+      background: #141414;
+      margin: 18px 0;
       padding: 20px;
-      color: #888;
+      border-radius: 12px;
+      border: 1px solid #ff1493;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .player:hover {
+      background: #1c1c1c;
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+    }
+
+    .first-place {
+      border: 2px solid gold;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+
+    .second-place {
+      border: 2px solid silver;
+      box-shadow: 0 0 15px rgba(192,192,192,0.3);
+    }
+
+    .player-number {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-weight: bold;
+      margin-right: 10px;
       font-size: 14px;
     }
+
+    .gold-rank { background: gold; color: black; }
+    .silver-rank { background: silver; color: black; }
+    .bronze-rank { background: #cd7f32; color: white; }
+
+    .crown {
+      margin-left: 6px;
+      font-size: 18px;
+      animation: crownGlow 1.8s infinite alternate;
+    }
+
+    @keyframes crownGlow {
+      from { text-shadow: 0 0 5px gold; }
+      to { text-shadow: 0 0 15px gold; }
+    }
+
+    .details {
+      max-height: 0;
+      overflow: hidden;
+      margin-top: 0;
+      padding: 0 15px;
+      background: #0f0f0f;
+      border-radius: 10px;
+      border-left: 3px solid #ff69b4;
+      transition: max-height 0.4s ease, padding 0.4s ease, margin-top 0.4s ease;
+    }
+
+    .details.open {
+      margin-top: 15px;
+      padding: 15px;
+      max-height: 500px;
+    }
+
+    .stat-label {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .rank { margin: 6px 0; font-weight: bold; }
+
+    .coal { color: #888; }
+    .copper { color: #d18b32; }
+    .iron { color: #e0e0e0; }
+    .gold { color: #ffd700; }
+    .emerald { color: #2ecc71; }
+    .diamond { color: #00bfff; }
+
   </style>
 </head>
 
 <body>
 
-<header>
-  Quipalite MC
-</header>
+<header>Quipalite MC</header>
 
 <div class="container">
 
-  <h2>Players</h2>
+<h2>Players</h2>
 
-  <div class="player" onclick="toggleDetails('p1')">
-    1. PlayerOne
+<div class="sort-buttons">
+  <button onclick="sortPlayers(true)">⬆ Highest → Lowest</button>
+  <button onclick="sortPlayers(false)">⬇ Lowest → Highest</button>
+</div>
+
+<div id="players">
+
+  <div class="player first-place" data-number="1" onclick="toggleDetails('p1')">
+    <span class="player-number gold-rank">#1</span>
+    <span class="crown">👑</span>
+    <b>PlayerOne</b>
+
     <div class="details" id="p1">
-      <div class="rank diamond">Sword: Diamond</div>
-      <div class="rank gold">Axe: Gold</div>
-      <div class="rank emerald">UHC: Emerald</div>
-      <div class="rank iron">Mace: Iron</div>
-      <div class="rank coal">Spear: Coal</div>
+      <div class="rank"><span class="stat-label">Sword:</span> <span class="diamond">Diamond</span></div>
+      <div class="rank"><span class="stat-label">Axe:</span> <span class="gold">Gold</span></div>
+      <div class="rank"><span class="stat-label">UHC:</span> <span class="emerald">Emerald</span></div>
+      <div class="rank"><span class="stat-label">Mace:</span> <span class="iron">Iron</span></div>
+      <div class="rank"><span class="stat-label">Spear:</span> <span class="coal">Coal</span></div>
     </div>
   </div>
 
-  <div class="player" onclick="toggleDetails('p2')">
-    2. PlayerTwo
+  <div class="player second-place" data-number="2" onclick="toggleDetails('p2')">
+    <span class="player-number silver-rank">#2</span>
+    <b>PlayerTwo</b>
+
     <div class="details" id="p2">
-      <div class="rank gold">Sword: Gold</div>
-      <div class="rank diamond">Axe: Diamond</div>
-      <div class="rank iron">UHC: Iron</div>
-      <div class="rank emerald">Mace: Emerald</div>
-      <div class="rank copper">Spear: Copper</div>
+      <div class="rank"><span class="stat-label">Sword:</span> <span class="gold">Gold</span></div>
+      <div class="rank"><span class="stat-label">Axe:</span> <span class="diamond">Diamond</span></div>
+      <div class="rank"><span class="stat-label">UHC:</span> <span class="iron">Iron</span></div>
+      <div class="rank"><span class="stat-label">Mace:</span> <span class="emerald">Emerald</span></div>
+      <div class="rank"><span class="stat-label">Spear:</span> <span class="copper">Copper</span></div>
+    </div>
+  </div>
+
+  <div class="player" data-number="3" onclick="toggleDetails('p3')">
+    <span class="player-number bronze-rank">#3</span>
+    <b>PlayerThree</b>
+
+    <div class="details" id="p3">
+      <div class="rank"><span class="stat-label">Sword:</span> <span class="emerald">Emerald</span></div>
+      <div class="rank"><span class="stat-label">Axe:</span> <span class="iron">Iron</span></div>
+      <div class="rank"><span class="stat-label">UHC:</span> <span class="gold">Gold</span></div>
+      <div class="rank"><span class="stat-label">Mace:</span> <span class="copper">Copper</span></div>
+      <div class="rank"><span class="stat-label">Spear:</span> <span class="coal">Coal</span></div>
     </div>
   </div>
 
 </div>
-
-<footer>
-  © 2026 Quipalite MC
-</footer>
-
-<script>
-function toggleDetails(id) {
-  var element = document.getElementById(id);
-  element.style.display =
-    (element.style.display === "block") ? "none" : "block";
-}
-</script>
-
-</body>
-</html>
