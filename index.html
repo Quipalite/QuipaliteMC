@@ -132,9 +132,21 @@
       padding:14px;
     }
 
-    .stat{
-      margin:6px 0;
-      font-weight:700;
+    .stat{margin:6px 0;font-weight:700;}
+
+    .no-results{
+      text-align:center;
+      margin:15px;
+      font-weight:bold;
+      color:#ff69b4;
+      opacity:0;
+      transform:scale(0.9);
+      transition:0.25s ease;
+    }
+
+    .no-results.show{
+      opacity:1;
+      transform:scale(1);
     }
   </style>
 </head>
@@ -159,12 +171,12 @@
 </div>
 
 <div class="container">
-  <div id="overall" class="mode active"></div>
-  <div id="sword" class="mode"></div>
-  <div id="axe" class="mode"></div>
-  <div id="uhc" class="mode"></div>
-  <div id="mace" class="mode"></div>
-  <div id="spear" class="mode"></div>
+  <div id="overall" class="mode active"><div class="no-results">No results found</div></div>
+  <div id="sword" class="mode"><div class="no-results">No results found</div></div>
+  <div id="axe" class="mode"><div class="no-results">No results found</div></div>
+  <div id="uhc" class="mode"><div class="no-results">No results found</div></div>
+  <div id="mace" class="mode"><div class="no-results">No results found</div></div>
+  <div id="spear" class="mode"><div class="no-results">No results found</div></div>
 </div>
 
 <script>
@@ -185,41 +197,36 @@ function createPlayers(prefix, containerId){
 
     let playerName = "Player " + i;
 
-    // OVERALL TOP 4
     if(containerId === "overall"){
-      if(i===1) playerName = "Killedbycrab";
-      if(i===2) playerName = "Aftlow";
-      if(i===3) playerName = "RealO75";
-      if(i===4) playerName = "Yearly-scuff81";
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Aftlow";
+      if(i===3) playerName="RealO75";
+      if(i===4) playerName="Yearly-scuff81";
     }
 
-    // MACE TOP 3
     if(containerId === "mace"){
-      if(i===1) playerName = "Killedbycrab";
-      if(i===2) playerName = "Aftlow";
-      if(i===3) playerName = "Yearly-scuff81";
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Aftlow";
+      if(i===3) playerName="Yearly-scuff81";
     }
 
-    // SWORD TOP 2
     if(containerId === "sword"){
-      if(i===1) playerName = "RealO75";
-      if(i===2) playerName = "Killedbycrab";
+      if(i===1) playerName="RealO75";
+      if(i===2) playerName="Killedbycrab";
     }
 
-    // UHC TOP 2
     if(containerId === "uhc"){
-      if(i===1) playerName = "Killedbycrab";
-      if(i===2) playerName = "Yearly-scuff81";
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
     }
 
-    // SPEAR TOP 2
     if(containerId === "spear"){
-      if(i===1) playerName = "Aftlow";
-      if(i===2) playerName = "Yearly-scuff81";
+      if(i===1) playerName="Aftlow";
+      if(i===2) playerName="Yearly-scuff81";
     }
 
     container.innerHTML += `
-      <div class="player ${glow}" data-number="${i}" onclick="handleClick(${i}, '${prefix}${i}')">
+      <div class="player ${glow}" data-number="${i}" onclick="handleClick('${prefix}${i}')">
         <span class="number ${numberClass}">#${i}</span>
         ${i===1?'<span class="crown">👑</span>':''}
         <b>${playerName}</b>
@@ -235,37 +242,38 @@ function createPlayers(prefix, containerId){
   }
 }
 
-function handleClick(number,id){
+function handleClick(id){
   document.getElementById(id).classList.toggle("open");
 }
 
 function searchPlayers(){
   const value=document.getElementById("searchInput").value.toLowerCase();
   const active=document.querySelector(".mode.active");
+  const players=active.querySelectorAll(".player");
+  const noResults=active.querySelector(".no-results");
 
-  active.querySelectorAll(".player").forEach(p=>{
+  let found=false;
+
+  players.forEach(p=>{
     const name=p.querySelector("b").textContent.toLowerCase();
-    p.style.display=name.includes(value)?"block":"none";
+    if(name.includes(value)){
+      p.style.display="block";
+      found=true;
+    }else{
+      p.style.display="none";
+    }
   });
+
+  if(value!=="" && !found){
+    noResults.classList.add("show");
+  }else{
+    noResults.classList.remove("show");
+  }
 }
 
 function toggleSort(){
   sortLowToHigh=!sortLowToHigh;
   document.getElementById("sortBtn").textContent=sortLowToHigh?"⬆":"⬇";
-  sortActive();
-}
-
-function sortActive(){
-  const active=document.querySelector(".mode.active");
-  const players=Array.from(active.querySelectorAll(".player"));
-
-  players.sort((a,b)=>{
-    return sortLowToHigh
-      ? a.dataset.number-b.dataset.number
-      : b.dataset.number-a.dataset.number;
-  });
-
-  players.forEach(p=>active.appendChild(p));
 }
 
 function showMode(mode,btn){
@@ -274,6 +282,8 @@ function showMode(mode,btn){
 
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
+
+  searchPlayers();
 }
 
 createPlayers("o","overall");
