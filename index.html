@@ -154,6 +154,7 @@
 </div>
 
 <script>
+
 // Base stats for each mode
 const playerStats={
   sword:{RealO75:{wins:1,kills:3,deaths:2}, Killedbycrab:{wins:0,kills:2,deaths:3}},
@@ -164,47 +165,82 @@ const playerStats={
 };
 
 // Compute overall dynamically
-function computeOverall(){
-  const overall={};
+function updateOverall(){
+  const overall = {};
   for(const mode in playerStats){
+    if(mode === 'overall') continue;
     for(const player in playerStats[mode]){
-      if(!overall[player]) overall[player]={wins:0,kills:0,deaths:0};
+      if(!overall[player]) overall[player] = {wins:0,kills:0,deaths:0};
       overall[player].wins += playerStats[mode][player].wins;
       overall[player].kills += playerStats[mode][player].kills;
       overall[player].deaths += playerStats[mode][player].deaths;
     }
   }
-  return overall;
+  playerStats.overall = overall;
 }
 
-// Get stats for a player, mode-aware
-function getPlayerStats(mode, player){
-  if(mode==='overall') return computeOverall()[player] || {wins:0,kills:0,deaths:0};
-  return (playerStats[mode] && playerStats[mode][player]) ? playerStats[mode][player] : {wins:0,kills:0,deaths:0};
+// Sort players for overall leaderboard
+function getOverallOrder(){
+  const arr = Object.entries(playerStats.overall);
+  arr.sort((a,b)=>{
+    // Sort by wins descending
+    if(b[1].wins !== a[1].wins) return b[1].wins - a[1].wins;
+    // Then by kills descending
+    if(b[1].kills !== a[1].kills) return b[1].kills - a[1].kills;
+    // Then by deaths ascending
+    return a[1].deaths - b[1].deaths;
+  });
+  return arr.map(e=>e[0]);
 }
 
-// Function to create players
 function createPlayers(containerId){
   const container=document.getElementById(containerId);
+
+  // Update overall if needed
+  if(containerId === 'overall') updateOverall();
+  const order = containerId === 'overall' ? getOverallOrder() : null;
+
+  container.innerHTML = '';
   for(let i=1;i<=15;i++){
+
     let glow="", numberClass="", tier="Tier IV";
+
     if(i===1){glow="gold-glow";numberClass="gold";tier="Tier I";}
     if(i===2){glow="silver-glow";numberClass="silver";tier="Tier II";}
     if(i===3){glow="bronze-glow";numberClass="bronze";tier="Tier III";}
 
     let playerName="Player "+i;
 
-    if(containerId==="overall"){
+    if(containerId === 'overall' && order){
+      if(i <= order.length) playerName = order[i-1];
+    }
+
+    if(containerId==="sword"){
+      if(i===1) playerName="RealO75";
+      if(i===2) playerName="Killedbycrab";
+    }
+
+    if(containerId==="axe"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+    }
+
+    if(containerId==="uhc"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+    }
+
+    if(containerId==="mace"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+      if(i===3) playerName="Aftlow";
+    }
+
+    if(containerId==="spear"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Aftlow";
-      if(i===3) playerName="RealO75";
-      if(i===4) playerName="Yearly-scuff81";
+      if(i===3) playerName="Yearly-scuff81";
     }
-    if(containerId==="sword"){if(i===1) playerName="RealO75"; if(i===2) playerName="Killedbycrab";}
-    if(containerId==="axe"){if(i===1) playerName="Killedbycrab"; if(i===2) playerName="Yearly-scuff81";}
-    if(containerId==="uhc"){if(i===1) playerName="Killedbycrab"; if(i===2) playerName="Yearly-scuff81";}
-    if(containerId==="mace"){if(i===1) playerName="Killedbycrab"; if(i===2) playerName="Yearly-scuff81"; if(i===3) playerName="Aftlow";}
-    if(containerId==="spear"){if(i===1) playerName="Killedbycrab"; if(i===2) playerName="Aftlow"; if(i===3) playerName="Yearly-scuff81";}
 
     container.innerHTML+=`
       <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
@@ -216,11 +252,26 @@ function createPlayers(containerId){
   }
 }
 
-// Open profile page
+// Remaining functions unchanged
 function openProfile(name,tier){
+  let stats={wins:"N/A",kills:"N/A",deaths:"N/A"};
   const activeMode=document.querySelector(".tab.active").textContent.toLowerCase();
-  const stats=getPlayerStats(activeMode,name);
-  let kd = (stats.deaths===0 && stats.kills!==0) ? '∞' : (stats.kills/stats.deaths).toFixed(2);
+
+  if(playerStats[activeMode] && playerStats[activeMode][name]){
+    stats=playerStats[activeMode][name];
+  } 
+  else if(playerStats.overall[name]){
+    stats=playerStats.overall[name];
+  }
+
+  let kd="N/A";
+  if(stats.kills!=="N/A"){
+    if(stats.deaths===0){
+      kd="∞";
+    } else {
+      kd=(stats.kills/stats.deaths).toFixed(2);
+    }
+  }
 
   document.getElementById("profileContent").innerHTML=`
     <h2 style="margin-top:0;color:#ff69b4;">${name}</h2>
@@ -241,10 +292,10 @@ function openProfile(name,tier){
   setTimeout(()=>profile.classList.add("show"),10);
 }
 
-// Go back from profile
 function goBack(){
   const profile=document.getElementById("profilePage");
   profile.classList.remove("show");
+
   setTimeout(()=>{
     profile.style.display="none";
     document.querySelector(".tabs").style.display="block";
@@ -253,30 +304,36 @@ function goBack(){
   },300);
 }
 
-// Search players
 function searchPlayers(){
   const value=document.getElementById("searchInput").value.toLowerCase();
   const active=document.querySelector(".mode.active");
   const players=active.querySelectorAll(".player");
   let found=false;
+
   players.forEach(p=>{
     const name=p.querySelector("b").textContent.toLowerCase();
-    if(name.includes(value)){p.style.display="block"; found=true;} 
-    else{p.style.display="none";}
+    if(name.includes(value)){
+      p.style.display="block";
+      found=true;
+    } else {
+      p.style.display="none";
+    }
   });
+
   document.getElementById("noResults").style.display = found ? "none" : "block";
 }
 
-// Switch modes
 function showMode(mode,btn){
   document.querySelectorAll(".mode").forEach(m=>m.classList.remove("active"));
   document.getElementById(mode).classList.add("active");
+
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
+
   searchPlayers();
 }
 
-// Initialize players
+// Create all leaderboards
 createPlayers("overall");
 createPlayers("sword");
 createPlayers("axe");
