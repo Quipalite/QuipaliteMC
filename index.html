@@ -195,90 +195,63 @@ const playerStats={
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0}, Aftlow:{wins:1,kills:3,deaths:1}, "Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
 
-function updateOverall(){
+// Update overall stats by summing all modes
+function updateOverall() {
   const overall = {};
-  for(const mode in playerStats){
-    if(mode==='overall') continue;
-    for(const player in playerStats[mode]){
-      if(!overall[player]) overall[player]={wins:0,kills:0,deaths:0};
-      overall[player].wins+=playerStats[mode][player].wins;
-      overall[player].kills+=playerStats[mode][player].kills;
-      overall[player].deaths+=playerStats[mode][player].deaths;
+  for (const mode in playerStats) {
+    if (mode === 'overall') continue;
+    for (const player in playerStats[mode]) {
+      if (!overall[player]) overall[player] = { wins: 0, kills: 0, deaths: 0 };
+      overall[player].wins += playerStats[mode][player].wins;
+      overall[player].kills += playerStats[mode][player].kills;
+      overall[player].deaths += playerStats[mode][player].deaths;
     }
   }
-  playerStats.overall=overall;
+  playerStats.overall = overall;
 }
 
-function getOverallOrder(){
-  const arr=Object.entries(playerStats.overall);
-  arr.sort((a,b)=>{
-    if(b[1].wins!==a[1].wins) return b[1].wins-a[1].wins;
-    if(b[1].kills!==a[1].kills) return b[1].kills-a[1].kills;
-    return a[1].deaths-b[1].deaths;
+// Get ordered list of players for overall mode
+function getOverallOrder() {
+  const arr = Object.entries(playerStats.overall);
+  arr.sort((a, b) => {
+    if (b[1].wins !== a[1].wins) return b[1].wins - a[1].wins;
+    if (b[1].kills !== a[1].kills) return b[1].kills - a[1].kills;
+    return a[1].deaths - b[1].deaths;
   });
-  return arr.map(e=>e[0]);
+  return arr.map(e => e[0]);
 }
 
-function createPlayers(containerId){
-  const container=document.getElementById(containerId);
-  if(containerId==='overall') updateOverall();
-  const order=containerId==='overall'?getOverallOrder():null;
-  container.innerHTML='';
-  for(let i=1;i<=15;i++){
-    let glow='',numberClass='',tier='Tier IV';
-    if(i===1){glow='gold-glow';numberClass='gold';tier='Tier I';}
-    if(i===2){glow='silver-glow';numberClass='silver';tier='Tier II';}
-    if(i===3){glow='bronze-glow';numberClass='bronze';tier='Tier III';}
-    let playerName='Player '+i;
-    if(containerId==='overall' && order && i<=order.length) playerName=order[i-1];
+// Create player cards dynamically
+function createPlayers(containerId) {
+  const container = document.getElementById(containerId);
+  if (containerId === 'overall') updateOverall();
+  const players = containerId === 'overall' ? getOverallOrder() : Object.keys(playerStats[containerId]);
+  
+  container.innerHTML = '';
+  for (let i = 0; i < Math.min(players.length, 15); i++) {
+    const playerName = players[i];
+    let glow = '', numberClass = '', tier = 'Tier IV';
+    if (i === 0) { glow = 'gold-glow'; numberClass = 'gold'; tier = 'Tier I'; }
+    if (i === 1) { glow = 'silver-glow'; numberClass = 'silver'; tier = 'Tier II'; }
+    if (i === 2) { glow = 'bronze-glow'; numberClass = 'bronze'; tier = 'Tier III'; }
 
-    if(containerId==='sword'){
-      if(i===1) playerName='Jai_B37';
-      if(i===2) playerName='skull_shredder30';
-      if(i===3) playerName='RealO75';
-      if(i===4) playerName='Killedbycrab';
-      if(i===5) playerName='Knoxy5316';
-    }
-    if(containerId==='axe'){
-      if(i===1) playerName='Killedbycrab';
-      if(i===2) playerName='Jai_B37';
-      if(i===3) playerName='skull_shredder30';
-      if(i===4) playerName='Yearly-scuff81';
-      if(i===5) playerName='Knoxy5316';
-    }
-    if(containerId==='uhc'){
-      if(i===1) playerName='Killedbycrab';
-      if(i===2) playerName='Yearly-scuff81';
-    }
-    if(containerId==='mace'){
-      if(i===1) playerName='Killedbycrab';
-      if(i===2) playerName='Yearly-scuff81';
-      if(i===3) playerName='Knoxy5316';
-      if(i===4) playerName='Aftlow';
-    }
-    if(containerId==='spear'){
-      if(i===1) playerName='Killedbycrab';
-      if(i===2) playerName='Aftlow';
-      if(i===3) playerName='Yearly-scuff81';
-    }
-
-    container.innerHTML+=`
-      <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
-        <span class="number ${numberClass}">#${i}</span>
-        ${i===1?'<span class="crown">👑</span>':''}
+    container.innerHTML += `
+      <div class="player ${glow}" onclick="openProfile('${playerName}', '${tier}')">
+        <span class="number ${numberClass}">#${i + 1}</span>
+        ${i === 0 ? '<span class="crown">👑</span>' : ''}
         <b>${playerName}</b>
       </div>
     `;
   }
 }
 
-function openProfile(name,tier){
-  let stats={wins:'N/A',kills:'N/A',deaths:'N/A'};
-  const activeMode=document.querySelector('.tab.active').textContent.toLowerCase();
-  if(playerStats[activeMode]&&playerStats[activeMode][name]) stats=playerStats[activeMode][name];
-  else if(playerStats.overall[name]) stats=playerStats.overall[name];
-  let kd=stats.kills!=='N/A'?(stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2)):'N/A';
-  document.getElementById('profileContent').innerHTML=`
+// Open player profile
+function openProfile(name, tier) {
+  const activeMode = document.querySelector('.tab.active').textContent.toLowerCase();
+  let stats = playerStats[activeMode]?.[name] || playerStats.overall[name] || { wins: 'N/A', kills: 'N/A', deaths: 'N/A' };
+  let kd = stats.kills !== 'N/A' ? (stats.deaths === 0 ? '∞' : (stats.kills / stats.deaths).toFixed(2)) : 'N/A';
+
+  document.getElementById('profileContent').innerHTML = `
     <h2 style="margin-top:0;color:#ff69b4;">${name}</h2>
     <h3 style="color:gold;margin-top:-10px;">${tier}</h3>
     <hr style="border:0;border-top:1px solid #ff1493;">
@@ -287,54 +260,56 @@ function openProfile(name,tier){
     <p><b>Deaths:</b> ${stats.deaths}</p>
     <p><b>K/D:</b> ${kd}</p>
   `;
-  document.querySelector('.tabs').style.display='none';
-  document.querySelector('.container').style.display='none';
-  document.getElementById('searchInput').style.display='none';
-  const profile=document.getElementById('profilePage');
-  profile.style.display='block';
-  setTimeout(()=>profile.classList.add('show'),10);
+
+  document.querySelector('.tabs').style.display = 'none';
+  document.querySelector('.container').style.display = 'none';
+  document.getElementById('searchInput').style.display = 'none';
+  const profile = document.getElementById('profilePage');
+  profile.style.display = 'block';
+  setTimeout(() => profile.classList.add('show'), 10);
 }
 
-function goBack(){
-  const profile=document.getElementById('profilePage');
+// Go back to leaderboard
+function goBack() {
+  const profile = document.getElementById('profilePage');
   profile.classList.remove('show');
-  setTimeout(()=>{
-    profile.style.display='none';
-    document.querySelector('.tabs').style.display='flex';
-    document.querySelector('.container').style.display='block';
-    document.getElementById('searchInput').style.display='inline-block';
-  },300);
+  setTimeout(() => {
+    profile.style.display = 'none';
+    document.querySelector('.tabs').style.display = 'flex';
+    document.querySelector('.container').style.display = 'block';
+    document.getElementById('searchInput').style.display = 'inline-block';
+  }, 300);
 }
 
-function searchPlayers(){
-  const value=document.getElementById('searchInput').value.toLowerCase();
-  const active=document.querySelector('.mode.active');
-  const players=active.querySelectorAll('.player');
-  let found=false;
-  players.forEach(p=>{
-    const name=p.querySelector('b').textContent.toLowerCase();
-    if(name.includes(value)){p.style.display='flex';found=true;}
-    else{p.style.display='none';}
+// Search players
+function searchPlayers() {
+  const value = document.getElementById('searchInput').value.toLowerCase();
+  const active = document.querySelector('.mode.active');
+  const players = active.querySelectorAll('.player');
+  let found = false;
+  players.forEach(p => {
+    const name = p.querySelector('b').textContent.toLowerCase();
+    const match = name.includes(value);
+    p.style.display = match ? 'flex' : 'none';
+    if (match) found = true;
   });
-  document.getElementById('noResults').style.display=found?'none':'block';
+  document.getElementById('noResults').style.display = found ? 'none' : 'block';
 }
 
-function showMode(mode,btn){
-  document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+// Switch mode tabs
+function showMode(mode, btn) {
+  document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
   document.getElementById(mode).classList.add('active');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   searchPlayers();
 }
 
-// Initialize
+// Initialize all modes
+Object.keys(playerStats).forEach(mode => {
+  if (mode !== 'overall') createPlayers(mode);
+});
 createPlayers('overall');
-createPlayers('sword');
-createPlayers('axe');
-createPlayers('uhc');
-createPlayers('mace');
-createPlayers('spear');
-
 </script>
 
 </body>
