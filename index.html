@@ -154,13 +154,17 @@
 </div>
 
 <script>
-
 // Base stats for each mode
 const playerStats={
   sword:{RealO75:{wins:1,kills:3,deaths:2}, Killedbycrab:{wins:0,kills:2,deaths:3}},
   axe:{Killedbycrab:{wins:1,kills:3,deaths:0}, "Yearly-scuff81":{wins:0,kills:0,deaths:3}},
   uhc:{Killedbycrab:{wins:1,kills:3,deaths:0}, "Yearly-scuff81":{wins:0,kills:0,deaths:3}},
-  mace:{Killedbycrab:{wins:5,kills:15,deaths:3}, "Yearly-scuff81":{wins:0,kills:3,deaths:15}, Aftlow:{wins:0,kills:0,deaths:3}},
+  mace:{
+    Killedbycrab:{wins:8,kills:24,deaths:4}, // updated stats
+    "Yearly-scuff81":{wins:0,kills:3,deaths:15},
+    Aftlow:{wins:0,kills:0,deaths:3},
+    Knoxy5316:{wins:0,kills:1,deaths:9} // new player
+  },
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0}, Aftlow:{wins:1,kills:3,deaths:1}, "Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
 
@@ -183,11 +187,8 @@ function updateOverall(){
 function getOverallOrder(){
   const arr = Object.entries(playerStats.overall);
   arr.sort((a,b)=>{
-    // Sort by wins descending
     if(b[1].wins !== a[1].wins) return b[1].wins - a[1].wins;
-    // Then by kills descending
     if(b[1].kills !== a[1].kills) return b[1].kills - a[1].kills;
-    // Then by deaths ascending
     return a[1].deaths - b[1].deaths;
   });
   return arr.map(e=>e[0]);
@@ -234,6 +235,7 @@ function createPlayers(containerId){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Yearly-scuff81";
       if(i===3) playerName="Aftlow";
+      if(i===4) playerName="Knoxy5316";
     }
 
     if(containerId==="spear"){
@@ -252,7 +254,7 @@ function createPlayers(containerId){
   }
 }
 
-// Remaining functions unchanged
+// Profile and utility functions
 function openProfile(name,tier){
   let stats={wins:"N/A",kills:"N/A",deaths:"N/A"};
   const activeMode=document.querySelector(".tab.active").textContent.toLowerCase();
@@ -266,11 +268,7 @@ function openProfile(name,tier){
 
   let kd="N/A";
   if(stats.kills!=="N/A"){
-    if(stats.deaths===0){
-      kd="∞";
-    } else {
-      kd=(stats.kills/stats.deaths).toFixed(2);
-    }
+    kd = stats.deaths===0 ? '∞' : (stats.kills/stats.deaths).toFixed(2);
   }
 
   document.getElementById("profileContent").innerHTML=`
