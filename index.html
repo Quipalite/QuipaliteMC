@@ -169,6 +169,10 @@ const playerStats={
   axe:{
     Killedbycrab:{wins:1,kills:3,deaths:0},
     "Yearly-scuff81":{wins:0,kills:0,deaths:3}
+  },
+  uhc:{
+    Killedbycrab:{wins:1,kills:3,deaths:0},
+    "Yearly-scuff81":{wins:0,kills:0,deaths:3}
   }
 };
 
@@ -198,6 +202,11 @@ function createPlayers(containerId){
     }
 
     if(containerId==="axe"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+    }
+
+    if(containerId==="uhc"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Yearly-scuff81";
     }
