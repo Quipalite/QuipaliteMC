@@ -173,6 +173,16 @@ const playerStats={
   uhc:{
     Killedbycrab:{wins:1,kills:3,deaths:0},
     "Yearly-scuff81":{wins:0,kills:0,deaths:3}
+  },
+  mace:{
+    Killedbycrab:{wins:5,kills:15,deaths:3},
+    "Yearly-scuff81":{wins:0,kills:3,deaths:15},
+    Aftlow:{wins:0,kills:0,deaths:3}
+  },
+  spear:{
+    Killedbycrab:{wins:1,kills:3,deaths:0},
+    Aftlow:{wins:1,kills:3,deaths:1},
+    "Yearly-scuff81":{wins:0,kills:1,deaths:6}
   }
 };
 
@@ -209,6 +219,18 @@ function createPlayers(containerId){
     if(containerId==="uhc"){
       if(i===1) playerName="Killedbycrab";
       if(i===2) playerName="Yearly-scuff81";
+    }
+
+    if(containerId==="mace"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Yearly-scuff81";
+      if(i===3) playerName="Aftlow";
+    }
+
+    if(containerId==="spear"){
+      if(i===1) playerName="Killedbycrab";
+      if(i===2) playerName="Aftlow";
+      if(i===3) playerName="Yearly-scuff81";
     }
 
     container.innerHTML+=`
