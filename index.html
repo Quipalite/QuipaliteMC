@@ -195,7 +195,15 @@ const playerStats={
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0}, Aftlow:{wins:1,kills:3,deaths:1}, "Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
 
-// Update overall stats by summing all modes
+const customTiers = {
+  sword: { Killedbycrab: "Gold" },
+  axe: { Killedbycrab: "Emerald" },
+  uhc: { Killedbycrab: "Gold" },
+  mace: { Killedbycrab: "Diamond" },
+  spear: { Killedbycrab: "Gold" },
+  overall: { Killedbycrab: "Emerald" }
+};
+
 function updateOverall() {
   const overall = {};
   for (const mode in playerStats) {
@@ -210,22 +218,17 @@ function updateOverall() {
   playerStats.overall = overall;
 }
 
-// Get ordered list of players for a container
 function getOrderedPlayers(containerId) {
-  if(containerId === 'overall') {
-    updateOverall();
-    return Object.entries(playerStats.overall)
-      .sort((a,b)=>{
-        if(b[1].wins !== a[1].wins) return b[1].wins - a[1].wins;
-        if(b[1].kills !== a[1].kills) return b[1].kills - a[1].kills;
-        return a[1].deaths - b[1].deaths;
-      })
-      .map(e=>e[0]);
-  }
-  return Object.keys(playerStats[containerId]);
+  if(containerId === 'overall') updateOverall();
+  return Object.entries(playerStats[containerId])
+    .sort((a,b)=>{
+      if(b[1].wins !== a[1].wins) return b[1].wins - a[1].wins;
+      if(b[1].kills !== a[1].kills) return b[1].kills - a[1].kills;
+      return a[1].deaths - b[1].deaths;
+    })
+    .map(e=>e[0]);
 }
 
-// Create players with correct glow and crown
 function createPlayers(containerId){
   const container=document.getElementById(containerId);
   const players=getOrderedPlayers(containerId);
@@ -233,9 +236,15 @@ function createPlayers(containerId){
   for(let i=0;i<players.length && i<15;i++){
     const playerName=players[i];
     let glow='',numberClass='',tier='Tier IV';
+
     if(i===0){glow='gold-glow';numberClass='gold';tier='Tier I';}
     if(i===1){glow='silver-glow';numberClass='silver';tier='Tier II';}
     if(i===2){glow='bronze-glow';numberClass='bronze';tier='Tier III';}
+
+    if(customTiers[containerId] && customTiers[containerId][playerName]){
+      tier = customTiers[containerId][playerName];
+    }
+
     container.innerHTML+=`
       <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
         <span class="number ${numberClass}">#${i+1}</span>
@@ -246,7 +255,6 @@ function createPlayers(containerId){
   }
 }
 
-// Open profile
 function openProfile(name,tier){
   const activeMode=document.querySelector('.tab.active').textContent.toLowerCase();
   let stats=playerStats[activeMode]?.[name] || playerStats.overall[name] || {wins:'N/A',kills:'N/A',deaths:'N/A'};
@@ -268,7 +276,6 @@ function openProfile(name,tier){
   setTimeout(()=>profile.classList.add('show'),10);
 }
 
-// Go back
 function goBack(){
   const profile=document.getElementById('profilePage');
   profile.classList.remove('show');
@@ -280,7 +287,6 @@ function goBack(){
   },300);
 }
 
-// Search players
 function searchPlayers(){
   const value=document.getElementById('searchInput').value.toLowerCase();
   const active=document.querySelector('.mode.active');
@@ -294,7 +300,6 @@ function searchPlayers(){
   document.getElementById('noResults').style.display=found?'none':'block';
 }
 
-// Switch tabs
 function showMode(mode,btn){
   document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
   document.getElementById(mode).classList.add('active');
@@ -303,7 +308,6 @@ function showMode(mode,btn){
   searchPlayers();
 }
 
-// Initialize all modes
 ['sword','axe','uhc','mace','spear'].forEach(createPlayers);
 createPlayers('overall');
 </script>
