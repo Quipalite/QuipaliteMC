@@ -254,6 +254,18 @@
       background:rgba(255,255,255,0.1);
     }
 
+    /* Mono mode hover and glow for top ranks */
+    body.mono .player:hover{
+      transform:translateY(0) scale(1.03);
+      box-shadow:0 0 14px #fff;
+    }
+    body.mono .gold-glow,
+    body.mono .silver-glow,
+    body.mono .bronze-glow{
+      border:2px solid #fff;
+      box-shadow:0 0 14px #fff;
+    }
+
     /* Improved No Players Card */
     .no-players {
       margin-top: 20px;
@@ -330,40 +342,14 @@ function toggleTheme(){
 }
 
 const playerStats={
-  sword:{
-    RealO75:{wins:3,kills:9,deaths:4},
-    Jai_B37:{wins:1,kills:3,deaths:1},
-    skull_shredder30:{wins:1,kills:3,deaths:1},
-    Killedbycrab:{wins:0,kills:3,deaths:6},
-    Knoxy5316:{wins:0,kills:1,deaths:4},
-    EggyCactus78246:{wins:1,kills:3,deaths:0}
-  },
-  axe:{
-    Killedbycrab:{wins:2,kills:6,deaths:1},
-    Jai_B37:{wins:1,kills:3,deaths:0},
-    skull_shredder30:{wins:0,kills:1,deaths:3},
-    "Yearly-scuff81":{wins:0,kills:0,deaths:3},
-    Knoxy5316:{wins:0,kills:0,deaths:3}
-  },
+  sword:{RealO75:{wins:3,kills:9,deaths:4},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:0,kills:3,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:4},EggyCactus78246:{wins:1,kills:3,deaths:0}},
+  axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},
   uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
-  mace:{
-    Killedbycrab:{wins:8,kills:24,deaths:4},
-    "Yearly-scuff81":{wins:0,kills:3,deaths:15},
-    Aftlow:{wins:0,kills:0,deaths:3},
-    Knoxy5316:{wins:0,kills:1,deaths:10},
-    EggyCactus78246:{wins:1,kills:3,deaths:0}
-  },
+  mace:{Killedbycrab:{wins:8,kills:24,deaths:4},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:1,deaths:10},EggyCactus78246:{wins:1,kills:3,deaths:0}},
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
 
-const customTiers={
-  sword:{Killedbycrab:"Gold"},
-  axe:{Killedbycrab:"Emerald"},
-  uhc:{Killedbycrab:"Gold"},
-  mace:{Killedbycrab:"Diamond"},
-  spear:{Killedbycrab:"Gold"},
-  overall:{Killedbycrab:"Emerald"}
-};
+const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
 
 function updateOverall(){
   const overall={};
@@ -406,15 +392,10 @@ function createPlayers(mode){
     card.style.animationDelay=`${i*0.07}s`;
     card.onclick=()=>openProfile(name,mode);
 
-    card.innerHTML=`
-      <span class="number ${numberClass}">#${i+1}</span>
-      <b>${name}</b>
-    `;
-
+    card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span><b>${name}</b>`;
     container.appendChild(card);
   });
 
-  // No players found
   if(players.length===0){
     const div=document.createElement('div');
     div.className='no-players';
@@ -433,20 +414,14 @@ function openProfile(name,mode){
   document.getElementById('profileContent').innerHTML=`
     <h2 style="margin-top:0;">${name}</h2>
     <h3 style="margin-top:-8px;">${tier}</h3>
-
-    <div style="display:flex;justify-content:space-between;
-    margin:15px 0 20px 0;padding:12px 16px;
-    border-radius:10px;border:1px solid ${monoMode?'#fff':'#ff66cc'};font-weight:bold;">
+    <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode?'#fff':'#ff66cc'};font-weight:bold;">
       <div>K/D: <span>${kd}</span></div>
       <div>Rank: <span>#${rank}</span></div>
     </div>
-
     <p><b>Wins:</b> ${stats.wins}</p>
     <div class="stat-bar"><div class="stat-fill" id="winsBar"></div></div>
-
     <p><b>Kills:</b> ${stats.kills}</p>
     <div class="stat-bar"><div class="stat-fill" id="killsBar"></div></div>
-
     <p><b>Deaths:</b> ${stats.deaths}</p>
     <div class="stat-bar"><div class="stat-fill" id="deathsBar"></div></div>
   `;
@@ -490,7 +465,6 @@ function searchPlayers(){
     p.style.display=name.includes(value)?'flex':'none';
   });
 
-  // Check if no players visible
   const playersVisible=[...active.querySelectorAll('.player')].filter(p=>p.style.display!=='none');
   active.querySelectorAll('.no-players').forEach(np=>np.remove());
   if(playersVisible.length===0){
