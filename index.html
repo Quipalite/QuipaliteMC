@@ -64,25 +64,33 @@
     .mode{display:none;opacity:0;transition:0.3s ease;}
     .mode.active{display:block;opacity:1;}
 
+    /* 🔥 UPDATED PLAYER ANIMATION */
     .player{
-      background:#111;margin:12px 0;padding:18px;
-      border-radius:12px;border:1px solid #ff1493;
+      background:#111;
+      margin:12px 0;
+      padding:18px;
+      border-radius:12px;
+      border:1px solid #ff1493;
       cursor:pointer;
-      transition:0.2s ease;
-      animation:fadeIn 0.4s ease forwards;
-      opacity:0;
-      transform:translateY(10px);
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
       display:flex;
       align-items:center;
+
+      opacity:0;
+      transform:translateY(20px) scale(0.97);
+      animation:fadeSlide 0.5s ease forwards;
     }
 
     .player:hover{
-      transform:scale(1.02);
-      box-shadow:0 0 12px #ff1493;
+      transform:translateY(0) scale(1.03);
+      box-shadow:0 0 14px #ff1493;
     }
 
-    @keyframes fadeIn{
-      to{opacity:1;transform:translateY(0);}
+    @keyframes fadeSlide{
+      to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
     }
 
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;}
@@ -231,10 +239,12 @@ function getOrderedPlayers(containerId) {
     .map(e=>e[0]);
 }
 
+/* 🔥 UPDATED CREATE PLAYERS WITH STAGGER */
 function createPlayers(containerId){
   const container=document.getElementById(containerId);
   const players=getOrderedPlayers(containerId);
   container.innerHTML='';
+
   for(let i=0;i<players.length && i<15;i++){
     const playerName=players[i];
     let glow='',numberClass='',tier='Tier IV';
@@ -247,13 +257,18 @@ function createPlayers(containerId){
       tier = customTiers[containerId][playerName];
     }
 
-    container.innerHTML+=`
-      <div class="player ${glow}" onclick="openProfile('${playerName}','${tier}')">
-        <span class="number ${numberClass}">#${i+1}</span>
-        ${i===0?'<span class="crown">👑</span>':''}
-        <b>${playerName}</b>
-      </div>
+    const card = document.createElement('div');
+    card.className = `player ${glow}`;
+    card.style.animationDelay = `${i * 0.07}s`;
+    card.onclick = () => openProfile(playerName, tier);
+
+    card.innerHTML = `
+      <span class="number ${numberClass}">#${i+1}</span>
+      ${i===0?'<span class="crown">👑</span>':''}
+      <b>${playerName}</b>
     `;
+
+    container.appendChild(card);
   }
 }
 
@@ -307,6 +322,8 @@ function showMode(mode,btn){
   document.getElementById(mode).classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
+
+  createPlayers(mode); // 🔥 replay animation
   searchPlayers();
 }
 
