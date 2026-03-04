@@ -250,6 +250,36 @@
     }
     body.mono .no-players{
       color:#fff;
+      border-color:#fff;
+      background:rgba(255,255,255,0.1);
+    }
+
+    /* Improved No Players Card */
+    .no-players {
+      margin-top: 20px;
+      font-size: 20px;
+      text-align: center;
+      padding: 20px;
+      border: 2px dashed #ff1493;
+      border-radius: 12px;
+      color: #ff66cc;
+      font-weight: bold;
+      background: rgba(255, 20, 147, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      animation: pulse 1.5s infinite;
+    }
+
+    .no-players::before {
+      content: "⚠️";
+      font-size: 24px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 8px #ff1493; }
+      50% { box-shadow: 0 0 16px #ff66cc; }
     }
   </style>
 </head>
@@ -388,8 +418,6 @@ function createPlayers(mode){
   if(players.length===0){
     const div=document.createElement('div');
     div.className='no-players';
-    div.style.marginTop='20px';
-    div.style.fontSize='20px';
     div.textContent='No players found';
     container.appendChild(div);
   }
@@ -468,8 +496,6 @@ function searchPlayers(){
   if(playersVisible.length===0){
     const div=document.createElement('div');
     div.className='no-players';
-    div.style.marginTop='20px';
-    div.style.fontSize='20px';
     div.textContent='No players found';
     active.appendChild(div);
   }
