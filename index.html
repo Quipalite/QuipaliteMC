@@ -11,7 +11,7 @@
       background:#000;
       color:white;
       overflow-x:hidden;
-      transition:background 0.3s,color 0.3s;
+      transition:all 0.3s ease;
     }
 
     header{
@@ -33,31 +33,26 @@
       100%{background-position:0% 50%;}
     }
 
-    /* Toggle Switch */
-    .switch{
+    .theme-toggle{
       position:absolute;
-      top:18px;
-      right:20px;
+      top:15px;
+      right:15px;
       width:50px;
-      height:26px;
+      height:24px;
+      border-radius:12px;
       background:#fff;
-      border-radius:13px;
       cursor:pointer;
+      display:flex;
+      align-items:center;
+      padding:2px;
+      box-sizing:border-box;
     }
-    .switch:before{
-      content:"";
-      position:absolute;
-      top:2px;
-      left:2px;
-      width:22px;
-      height:22px;
-      background:#ff1493;
-      border-radius:50%;
-      transition:0.3s;
-    }
-    .switch.active:before{
-      left:26px;
+    .theme-toggle .toggle-thumb{
+      width:20px;
+      height:20px;
       background:#000;
+      border-radius:50%;
+      transition:transform 0.3s ease, background 0.3s ease;
     }
 
     .tabs{
@@ -79,8 +74,9 @@
       font-weight:bold;
       transition:0.2s ease;
     }
+
     .tab:hover{transform:scale(1.05);}
-    .tab.active{background:#ff1493;color:white;}
+    .tab.active{background:#ff1493;}
 
     #searchInput{
       width:250px;
@@ -91,14 +87,14 @@
       color:white;
       font-weight:bold;
       outline:none;
-      transition:0.3s;
+      transition:all 0.3s ease;
     }
 
     .container{
       max-width:900px;
       margin:auto;
       padding:20px;
-      min-height:60vh;
+      min-height:200px;
     }
 
     .mode{display:none;}
@@ -169,7 +165,7 @@
       padding:20px;
       border-radius:12px;
       border:1px solid #ff1493;
-      transition:0.3s;
+      color:white;
     }
 
     .backBtn{
@@ -181,6 +177,11 @@
       border-radius:8px;
       cursor:pointer;
       margin-bottom:20px;
+      transition:all 0.3s ease;
+    }
+
+    .backBtn:hover{
+      background:#ff66cc;
     }
 
     .stat-bar{
@@ -194,30 +195,11 @@
     .stat-fill{
       height:100%;
       width:0%;
-      background:linear-gradient(90deg,#ff2db2,#ff66cc);
+      background:linear-gradient(90deg,#ff1493,#ff66cc);
       transition:width 1s ease;
     }
 
-    .statBox{
-      display:flex;
-      justify-content:space-between;
-      margin:15px 0 20px 0;
-      background:#0d0d0d;
-      padding:12px 16px;
-      border-radius:10px;
-      border:1px solid #ff1493;
-      font-weight:bold;
-      transition:0.3s;
-    }
-
-    .noPlayers{
-      text-align:center;
-      font-size:24px;
-      color:#ff1493;
-      margin-top:40px;
-    }
-
-    /* MONO MODE */
+    /* Mono mode styles */
     body.mono{
       background:#000;
       color:#fff;
@@ -225,8 +207,8 @@
     body.mono header{
       background:#000;
       border-bottom:3px solid #fff;
-      background-image:none;
       color:#fff;
+      animation:none;
     }
     body.mono .tab{
       background:#000;
@@ -239,8 +221,8 @@
     }
     body.mono #searchInput{
       background:#000;
-      color:#fff;
       border:1px solid #fff;
+      color:#fff;
     }
     body.mono .player{
       background:#000;
@@ -252,26 +234,32 @@
       border:1px solid #fff;
       color:#fff;
     }
-    body.mono .statBox{
+    body.mono .backBtn{
       background:#000;
-      border:1px solid #fff;
       color:#fff;
+      border:1px solid #fff;
+    }
+    body.mono .backBtn:hover{
+      background:#222;
+    }
+    body.mono .stat-bar{
+      background:#222;
     }
     body.mono .stat-fill{
       background:#fff;
     }
-    body.mono .noPlayers{
+    body.mono .no-players{
       color:#fff;
     }
-
   </style>
 </head>
 
 <body>
 
-<header>
-  QUIPALITE MC
-  <div class="switch" onclick="toggleMode()"></div>
+<header>QUIPALITE MC
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <div class="toggle-thumb"></div>
+  </div>
 </header>
 
 <div class="tabs">
@@ -302,14 +290,50 @@
 </div>
 
 <script>
+let monoMode=false;
+const toggleThumb=document.querySelector('.toggle-thumb');
+
+function toggleTheme(){
+  monoMode=!monoMode;
+  document.body.classList.toggle('mono',monoMode);
+  toggleThumb.style.transform=monoMode?'translateX(26px)':'translateX(0)';
+}
+
 const playerStats={
-  sword:{RealO75:{wins:3,kills:9,deaths:4},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:0,kills:3,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:4},EggyCactus78246:{wins:1,kills:3,deaths:0}},
-  axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},
+  sword:{
+    RealO75:{wins:3,kills:9,deaths:4},
+    Jai_B37:{wins:1,kills:3,deaths:1},
+    skull_shredder30:{wins:1,kills:3,deaths:1},
+    Killedbycrab:{wins:0,kills:3,deaths:6},
+    Knoxy5316:{wins:0,kills:1,deaths:4},
+    EggyCactus78246:{wins:1,kills:3,deaths:0}
+  },
+  axe:{
+    Killedbycrab:{wins:2,kills:6,deaths:1},
+    Jai_B37:{wins:1,kills:3,deaths:0},
+    skull_shredder30:{wins:0,kills:1,deaths:3},
+    "Yearly-scuff81":{wins:0,kills:0,deaths:3},
+    Knoxy5316:{wins:0,kills:0,deaths:3}
+  },
   uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
-  mace:{Killedbycrab:{wins:8,kills:24,deaths:4},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:1,deaths:10},EggyCactus78246:{wins:1,kills:3,deaths:0}},
+  mace:{
+    Killedbycrab:{wins:8,kills:24,deaths:4},
+    "Yearly-scuff81":{wins:0,kills:3,deaths:15},
+    Aftlow:{wins:0,kills:0,deaths:3},
+    Knoxy5316:{wins:0,kills:1,deaths:10},
+    EggyCactus78246:{wins:1,kills:3,deaths:0}
+  },
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
-const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
+
+const customTiers={
+  sword:{Killedbycrab:"Gold"},
+  axe:{Killedbycrab:"Emerald"},
+  uhc:{Killedbycrab:"Gold"},
+  mace:{Killedbycrab:"Diamond"},
+  spear:{Killedbycrab:"Gold"},
+  overall:{Killedbycrab:"Emerald"}
+};
 
 function updateOverall(){
   const overall={};
@@ -340,13 +364,7 @@ function createPlayers(mode){
   const container=document.getElementById(mode);
   const players=getOrderedPlayers(mode);
   container.innerHTML='';
-  if(players.length===0){
-    const np=document.createElement('div');
-    np.className='noPlayers';
-    np.textContent='No players found';
-    container.appendChild(np);
-    return;
-  }
+
   players.forEach((name,i)=>{
     let glow='',numberClass='';
     if(i===0){glow='gold-glow';numberClass='gold';}
@@ -358,9 +376,23 @@ function createPlayers(mode){
     card.style.animationDelay=`${i*0.07}s`;
     card.onclick=()=>openProfile(name,mode);
 
-    card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span><b>${name}</b>`;
+    card.innerHTML=`
+      <span class="number ${numberClass}">#${i+1}</span>
+      <b>${name}</b>
+    `;
+
     container.appendChild(card);
   });
+
+  // No players found
+  if(players.length===0){
+    const div=document.createElement('div');
+    div.className='no-players';
+    div.style.marginTop='20px';
+    div.style.fontSize='20px';
+    div.textContent='No players found';
+    container.appendChild(div);
+  }
 }
 
 function openProfile(name,mode){
@@ -373,14 +405,20 @@ function openProfile(name,mode){
   document.getElementById('profileContent').innerHTML=`
     <h2 style="margin-top:0;">${name}</h2>
     <h3 style="margin-top:-8px;">${tier}</h3>
-    <div class="statBox">
+
+    <div style="display:flex;justify-content:space-between;
+    margin:15px 0 20px 0;padding:12px 16px;
+    border-radius:10px;border:1px solid ${monoMode?'#fff':'#ff66cc'};font-weight:bold;">
       <div>K/D: <span>${kd}</span></div>
       <div>Rank: <span>#${rank}</span></div>
     </div>
+
     <p><b>Wins:</b> ${stats.wins}</p>
     <div class="stat-bar"><div class="stat-fill" id="winsBar"></div></div>
+
     <p><b>Kills:</b> ${stats.kills}</p>
     <div class="stat-bar"><div class="stat-fill" id="killsBar"></div></div>
+
     <p><b>Deaths:</b> ${stats.deaths}</p>
     <div class="stat-bar"><div class="stat-fill" id="deathsBar"></div></div>
   `;
@@ -391,7 +429,11 @@ function openProfile(name,mode){
 
   const profile=document.getElementById('profilePage');
   profile.style.display='block';
-  setTimeout(()=>{ profile.classList.add('show'); animateBars(stats); },10);
+
+  setTimeout(()=>{
+    profile.classList.add('show');
+    animateBars(stats);
+  },10);
 }
 
 function animateBars(stats){
@@ -415,24 +457,21 @@ function goBack(){
 function searchPlayers(){
   const value=document.getElementById('searchInput').value.toLowerCase();
   const active=document.querySelector('.mode.active');
-  const players=active.querySelectorAll('.player');
-  let found=false;
-  players.forEach(p=>{
+  active.querySelectorAll('.player').forEach(p=>{
     const name=p.querySelector('b').textContent.toLowerCase();
-    const visible=name.includes(value);
-    p.style.display=visible?'flex':'none';
-    if(visible) found=true;
+    p.style.display=name.includes(value)?'flex':'none';
   });
-  if(!found){
-    if(!active.querySelector('.noPlayers')){
-      const np=document.createElement('div');
-      np.className='noPlayers';
-      np.textContent='No players found';
-      active.appendChild(np);
-    }
-  } else {
-    const np=active.querySelector('.noPlayers');
-    if(np) np.remove();
+
+  // Check if no players visible
+  const playersVisible=[...active.querySelectorAll('.player')].filter(p=>p.style.display!=='none');
+  active.querySelectorAll('.no-players').forEach(np=>np.remove());
+  if(playersVisible.length===0){
+    const div=document.createElement('div');
+    div.className='no-players';
+    div.style.marginTop='20px';
+    div.style.fontSize='20px';
+    div.textContent='No players found';
+    active.appendChild(div);
   }
 }
 
@@ -447,13 +486,6 @@ function showMode(mode,btn){
 
 ['sword','axe','uhc','mace','spear'].forEach(createPlayers);
 createPlayers('overall');
-
-function toggleMode(){
-  const body=document.body;
-  const sw=document.querySelector('.switch');
-  body.classList.toggle('mono');
-  sw.classList.toggle('active');
-}
 </script>
 
 </body>
