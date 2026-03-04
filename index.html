@@ -67,8 +67,10 @@
 
     .container{
       max-width:900px;
+      min-height:500px;
       margin:auto;
       padding:20px;
+      position:relative;
     }
 
     .mode{display:none;}
@@ -167,6 +169,35 @@
       transition:width 1s ease;
     }
 
+    /* No players found text */
+    .no-results{
+      position:absolute;
+      top:20px;
+      left:50%;
+      transform:translateX(-50%) translateY(-20px);
+      text-align:center;
+      font-weight:bold;
+      font-size:28px;
+      color:transparent;
+      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493,#ff2db2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      display:none;
+      opacity:0;
+      animation:slideFadeIn 0.8s ease forwards;
+    }
+
+    @keyframes slideFadeIn{
+      0%{
+        opacity:0;
+        transform:translateX(-50%) translateY(-20px);
+      }
+      100%{
+        opacity:1;
+        transform:translateX(-50%) translateY(0);
+      }
+    }
+
   </style>
 </head>
 
@@ -194,6 +225,7 @@
   <div id="uhc" class="mode"></div>
   <div id="mace" class="mode"></div>
   <div id="spear" class="mode"></div>
+  <div class="no-results">No players found</div>
 </div>
 
 <div id="profilePage">
@@ -202,7 +234,6 @@
 </div>
 
 <script>
-
 const playerStats={
   sword:{
     RealO75:{wins:3,kills:9,deaths:4},
@@ -268,25 +299,20 @@ function createPlayers(mode){
   const container=document.getElementById(mode);
   const players=getOrderedPlayers(mode);
   container.innerHTML='';
-
   players.forEach((name,i)=>{
     let glow='',numberClass='';
     if(i===0){glow='gold-glow';numberClass='gold';}
     if(i===1){glow='silver-glow';numberClass='silver';}
     if(i===2){glow='bronze-glow';numberClass='bronze';}
-
     const card=document.createElement('div');
     card.className=`player ${glow}`;
     card.style.animationDelay=`${i*0.07}s`;
     card.onclick=()=>openProfile(name,mode);
-
-    card.innerHTML=`
-      <span class="number ${numberClass}">#${i+1}</span>
-      <b>${name}</b>
-    `;
-
+    card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span><b>${name}</b>`;
     container.appendChild(card);
   });
+  // reset no results text when switching tabs
+  document.querySelector('.no-results').style.display='none';
 }
 
 function openProfile(name,mode){
@@ -295,39 +321,28 @@ function openProfile(name,mode){
   const rank=ranking.indexOf(name)+1;
   const kd=stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2);
   const tier=customTiers[mode]?.[name]||"Tier IV";
-
   document.getElementById('profileContent').innerHTML=`
     <h2 style="color:#ff69b4;margin-top:0;">${name}</h2>
     <h3 style="color:gold;margin-top:-8px;">${tier}</h3>
-
     <div style="display:flex;justify-content:space-between;
     margin:15px 0 20px 0;background:#0d0d0d;padding:12px 16px;
     border-radius:10px;border:1px solid #ff1493;font-weight:bold;">
       <div>K/D: <span style="color:#ff66cc">${kd}</span></div>
       <div>Rank: <span style="color:#ff66cc">#${rank}</span></div>
     </div>
-
     <p><b>Wins:</b> ${stats.wins}</p>
     <div class="stat-bar"><div class="stat-fill" id="winsBar"></div></div>
-
     <p><b>Kills:</b> ${stats.kills}</p>
     <div class="stat-bar"><div class="stat-fill" id="killsBar"></div></div>
-
     <p><b>Deaths:</b> ${stats.deaths}</p>
     <div class="stat-bar"><div class="stat-fill" id="deathsBar"></div></div>
   `;
-
   document.querySelector('.tabs').style.display='none';
   document.querySelector('.container').style.display='none';
   document.getElementById('searchInput').style.display='none';
-
   const profile=document.getElementById('profilePage');
   profile.style.display='block';
-
-  setTimeout(()=>{
-    profile.classList.add('show');
-    animateBars(stats);
-  },10);
+  setTimeout(()=>{profile.classList.add('show');animateBars(stats);},10);
 }
 
 function animateBars(stats){
@@ -351,10 +366,23 @@ function goBack(){
 function searchPlayers(){
   const value=document.getElementById('searchInput').value.toLowerCase();
   const active=document.querySelector('.mode.active');
+  let found=false;
   active.querySelectorAll('.player').forEach(p=>{
     const name=p.querySelector('b').textContent.toLowerCase();
-    p.style.display=name.includes(value)?'flex':'none';
+    if(name.includes(value)){
+      p.style.display='flex';
+      found=true;
+    } else {
+      p.style.display='none';
+    }
   });
+  const noResults=document.querySelector('.no-results');
+  if(!found && value.length>0){
+    noResults.style.display='block';
+    noResults.style.animation='slideFadeIn 0.8s ease forwards';
+  } else {
+    noResults.style.display='none';
+  }
 }
 
 function showMode(mode,btn){
@@ -367,7 +395,6 @@ function showMode(mode,btn){
 
 ['sword','axe','uhc','mace','spear'].forEach(createPlayers);
 createPlayers('overall');
-
 </script>
 
 </body>
