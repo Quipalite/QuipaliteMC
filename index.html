@@ -10,7 +10,9 @@
       font-family:Segoe UI, Arial, sans-serif;
       background:#000;
       color:white;
+      min-height:100vh;
       overflow-x:hidden;
+      /* Remove flex to prevent vertical centering */
     }
 
     header{
@@ -63,14 +65,17 @@
       color:white;
       font-weight:bold;
       outline:none;
+      margin-bottom:15px;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
     }
 
     .container{
       max-width:900px;
-      min-height:500px;
       margin:auto;
       padding:20px;
-      position:relative;
+      /* remove flex so content starts from top */
     }
 
     .mode{display:none;}
@@ -169,35 +174,14 @@
       transition:width 1s ease;
     }
 
-    /* No players found text */
     .no-results{
-      position:absolute;
-      top:20px;
-      left:50%;
-      transform:translateX(-50%) translateY(-20px);
       text-align:center;
       font-weight:bold;
-      font-size:28px;
-      color:transparent;
-      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493,#ff2db2);
-      -webkit-background-clip: text;
-      background-clip: text;
+      color:#ff1493;
+      margin-top:20px;
       display:none;
-      opacity:0;
-      animation:slideFadeIn 0.8s ease forwards;
+      font-size:18px;
     }
-
-    @keyframes slideFadeIn{
-      0%{
-        opacity:0;
-        transform:translateX(-50%) translateY(-20px);
-      }
-      100%{
-        opacity:1;
-        transform:translateX(-50%) translateY(0);
-      }
-    }
-
   </style>
 </head>
 
@@ -214,9 +198,7 @@
   <button class="tab" onclick="showMode('spear', this)">Spear</button>
 </div>
 
-<div style="text-align:center;margin-bottom:15px;">
-  <input type="text" id="searchInput" placeholder="Search player..." onkeyup="searchPlayers()">
-</div>
+<input type="text" id="searchInput" placeholder="Search player..." onkeyup="searchPlayers()">
 
 <div class="container">
   <div id="overall" class="mode active"></div>
@@ -235,40 +217,14 @@
 
 <script>
 const playerStats={
-  sword:{
-    RealO75:{wins:3,kills:9,deaths:4},
-    Jai_B37:{wins:1,kills:3,deaths:1},
-    skull_shredder30:{wins:1,kills:3,deaths:1},
-    Killedbycrab:{wins:0,kills:3,deaths:6},
-    Knoxy5316:{wins:0,kills:1,deaths:4},
-    EggyCactus78246:{wins:1,kills:3,deaths:0}
-  },
-  axe:{
-    Killedbycrab:{wins:2,kills:6,deaths:1},
-    Jai_B37:{wins:1,kills:3,deaths:0},
-    skull_shredder30:{wins:0,kills:1,deaths:3},
-    "Yearly-scuff81":{wins:0,kills:0,deaths:3},
-    Knoxy5316:{wins:0,kills:0,deaths:3}
-  },
+  sword:{RealO75:{wins:3,kills:9,deaths:4},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:0,kills:3,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:4},EggyCactus78246:{wins:1,kills:3,deaths:0}},
+  axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},
   uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
-  mace:{
-    Killedbycrab:{wins:8,kills:24,deaths:4},
-    "Yearly-scuff81":{wins:0,kills:3,deaths:15},
-    Aftlow:{wins:0,kills:0,deaths:3},
-    Knoxy5316:{wins:0,kills:1,deaths:10},
-    EggyCactus78246:{wins:1,kills:3,deaths:0}
-  },
+  mace:{Killedbycrab:{wins:8,kills:24,deaths:4},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:1,deaths:10},EggyCactus78246:{wins:1,kills:3,deaths:0}},
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
 
-const customTiers={
-  sword:{Killedbycrab:"Gold"},
-  axe:{Killedbycrab:"Emerald"},
-  uhc:{Killedbycrab:"Gold"},
-  mace:{Killedbycrab:"Diamond"},
-  spear:{Killedbycrab:"Gold"},
-  overall:{Killedbycrab:"Emerald"}
-};
+const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
 
 function updateOverall(){
   const overall={};
@@ -299,20 +255,21 @@ function createPlayers(mode){
   const container=document.getElementById(mode);
   const players=getOrderedPlayers(mode);
   container.innerHTML='';
+
   players.forEach((name,i)=>{
     let glow='',numberClass='';
     if(i===0){glow='gold-glow';numberClass='gold';}
     if(i===1){glow='silver-glow';numberClass='silver';}
     if(i===2){glow='bronze-glow';numberClass='bronze';}
+
     const card=document.createElement('div');
     card.className=`player ${glow}`;
     card.style.animationDelay=`${i*0.07}s`;
     card.onclick=()=>openProfile(name,mode);
+
     card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span><b>${name}</b>`;
     container.appendChild(card);
   });
-  // reset no results text when switching tabs
-  document.querySelector('.no-results').style.display='none';
 }
 
 function openProfile(name,mode){
@@ -321,12 +278,11 @@ function openProfile(name,mode){
   const rank=ranking.indexOf(name)+1;
   const kd=stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2);
   const tier=customTiers[mode]?.[name]||"Tier IV";
+
   document.getElementById('profileContent').innerHTML=`
     <h2 style="color:#ff69b4;margin-top:0;">${name}</h2>
     <h3 style="color:gold;margin-top:-8px;">${tier}</h3>
-    <div style="display:flex;justify-content:space-between;
-    margin:15px 0 20px 0;background:#0d0d0d;padding:12px 16px;
-    border-radius:10px;border:1px solid #ff1493;font-weight:bold;">
+    <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;background:#0d0d0d;padding:12px 16px;border-radius:10px;border:1px solid #ff1493;font-weight:bold;">
       <div>K/D: <span style="color:#ff66cc">${kd}</span></div>
       <div>Rank: <span style="color:#ff66cc">#${rank}</span></div>
     </div>
@@ -337,12 +293,14 @@ function openProfile(name,mode){
     <p><b>Deaths:</b> ${stats.deaths}</p>
     <div class="stat-bar"><div class="stat-fill" id="deathsBar"></div></div>
   `;
+
   document.querySelector('.tabs').style.display='none';
   document.querySelector('.container').style.display='none';
   document.getElementById('searchInput').style.display='none';
+
   const profile=document.getElementById('profilePage');
   profile.style.display='block';
-  setTimeout(()=>{profile.classList.add('show');animateBars(stats);},10);
+  setTimeout(()=>{profile.classList.add('show'); animateBars(stats);},10);
 }
 
 function animateBars(stats){
@@ -359,7 +317,7 @@ function goBack(){
     profile.style.display='none';
     document.querySelector('.tabs').style.display='flex';
     document.querySelector('.container').style.display='block';
-    document.getElementById('searchInput').style.display='inline-block';
+    document.getElementById('searchInput').style.display='block';
   },300);
 }
 
@@ -369,20 +327,11 @@ function searchPlayers(){
   let found=false;
   active.querySelectorAll('.player').forEach(p=>{
     const name=p.querySelector('b').textContent.toLowerCase();
-    if(name.includes(value)){
-      p.style.display='flex';
-      found=true;
-    } else {
-      p.style.display='none';
-    }
+    const show=name.includes(value);
+    p.style.display=show?'flex':'none';
+    if(show) found=true;
   });
-  const noResults=document.querySelector('.no-results');
-  if(!found && value.length>0){
-    noResults.style.display='block';
-    noResults.style.animation='slideFadeIn 0.8s ease forwards';
-  } else {
-    noResults.style.display='none';
-  }
+  document.querySelector('.no-results').style.display=found || value==='' ? 'none' : 'block';
 }
 
 function showMode(mode,btn){
@@ -391,6 +340,10 @@ function showMode(mode,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   createPlayers(mode);
+
+  const searchInput = document.getElementById('searchInput');
+  searchInput.value = '';
+  document.querySelector('.no-results').style.display = 'none';
 }
 
 ['sword','axe','uhc','mace','spear'].forEach(createPlayers);
