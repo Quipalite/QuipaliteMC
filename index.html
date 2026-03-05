@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 <head>
   <title>Quipalite MC</title>
@@ -108,7 +108,22 @@ let monoMode=false;
 const toggleThumb=document.querySelector('.toggle-thumb');
 function toggleTheme(){monoMode=!monoMode;document.body.classList.toggle('mono',monoMode);toggleThumb.style.transform=monoMode?'translateX(26px)':'translateX(0)';}
 
-const playerStats={sword:{RealO75:{wins:4,kills:12,deaths:6},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:0,kills:3,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:4},EggyCactus78246:{wins:1,kills:3,deaths:0},Aftlow:{wins:0,kills:2,deaths:3}},axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},mace:{Killedbycrab:{wins:8,kills:24,deaths:4},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:1,deaths:10},EggyCactus78246:{wins:1,kills:3,deaths:0}},spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}};
+const playerStats={
+  sword:{
+    RealO75:{wins:6,kills:18,deaths:6},
+    Jai_B37:{wins:1,kills:3,deaths:1},
+    skull_shredder30:{wins:1,kills:3,deaths:1},
+    Killedbycrab:{wins:0,kills:3,deaths:6},
+    Knoxy5316:{wins:0,kills:1,deaths:4},
+    EggyCactus78246:{wins:1,kills:3,deaths:0},
+    Aftlow:{wins:0,kills:2,deaths:9} // updated deaths to 9
+  },
+  axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},
+  uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
+  mace:{Killedbycrab:{wins:8,kills:24,deaths:4},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:1,deaths:10},EggyCactus78246:{wins:1,kills:3,deaths:0}},
+  spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
+};
+
 const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
 
 function updateOverall(){const overall={};for(const mode in playerStats){if(mode==='overall') continue;for(const player in playerStats[mode]){if(!overall[player]) overall[player]={wins:0,kills:0,deaths:0};overall[player].wins+=playerStats[mode][player].wins;overall[player].kills+=playerStats[mode][player].kills;overall[player].deaths+=playerStats[mode][player].deaths;}}playerStats.overall=overall;}
@@ -120,7 +135,6 @@ window.goBack=function(){const profile=document.getElementById('profilePage');pr
 window.searchPlayers=function(){const value=document.getElementById('searchInput').value.toLowerCase();const active=document.querySelector('.mode.active');active.querySelectorAll('.player').forEach(p=>{const name=p.querySelector('b').textContent.toLowerCase();p.style.display=name.includes(value)?'flex':'none';});const playersVisible=[...active.querySelectorAll('.player')].filter(p=>p.style.display!=='none');active.querySelectorAll('.no-players').forEach(np=>np.remove());if(playersVisible.length===0){const div=document.createElement('div');div.className='no-players';div.textContent='No players found';active.appendChild(div);}}
 window.showMode=function(mode,btn){document.getElementById('searchInput').value='';document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));document.getElementById(mode).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');createPlayers(mode);}
 
-// ✅ Minimal fix: run after DOM ready
 window.addEventListener('DOMContentLoaded', ()=>{
   ['sword','axe','uhc','mace','spear','overall'].forEach(createPlayers);
 });
