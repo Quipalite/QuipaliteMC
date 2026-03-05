@@ -18,17 +18,14 @@
     .mode{display:none;opacity:0;transition:opacity 0.4s ease;}
     .mode.active{display:block;opacity:1;}
     
-    /* player card */
     .player{background:#111;margin:12px 0;padding:18px;border-radius:12px;border:1px solid #ff1493;cursor:pointer;display:flex;align-items:center;position:relative;overflow:hidden;transition:transform 0.3s ease, box-shadow 0.3s ease;}
     .player:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 0 16px #ff1493;}
     
-    /* top 3 glow */
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;animation:pulseTop 1.2s infinite alternate;}
     .silver-glow{border:2px solid silver;box-shadow:0 0 14px silver;}
     .bronze-glow{border:2px solid #cd7f32;box-shadow:0 0 12px #cd7f32;}
     @keyframes pulseTop{0%{box-shadow:0 0 12px gold;}100%{box-shadow:0 0 22px gold;}}
     
-    /* number */
     .number{display:inline-block;padding:6px 12px;border-radius:50%;font-weight:bold;margin-right:12px;min-width:30px;text-align:center;position:relative;z-index:2;color:white;}
     .gold{background:gold;color:black;}
     .silver{background:silver;color:black;}
@@ -47,7 +44,6 @@
     .stat-bar{background:#1a1a1a;height:8px;border-radius:6px;margin-bottom:15px;overflow:hidden;}
     .stat-fill{height:100%;width:0%;transition:width 1s ease;}
     
-    /* Mono mode white glow */
     body.mono{background:#000;color:#fff;}
     body.mono header{background:#000;border-bottom:3px solid #fff;color:#fff;animation:none;}
     body.mono .tab{background:#000;border:1px solid #fff;color:#fff;}
@@ -60,7 +56,6 @@
     body.mono .stat-bar{background:#222;}
     body.mono .stat-fill{background:#fff;}
     
-    /* Mono glow fixes */
     body.mono .player:hover{box-shadow:0 0 14px #fff;}
     body.mono .gold-glow{border:2px solid #fff;box-shadow:0 0 16px #fff;animation:pulseWhite 1.2s infinite alternate;}
     @keyframes pulseWhite{0%{box-shadow:0 0 12px #fff;}100%{box-shadow:0 0 22px #fff;}}
@@ -115,12 +110,13 @@ const toggleThumb=document.querySelector('.toggle-thumb');
 function toggleTheme(){monoMode=!monoMode;document.body.classList.toggle('mono',monoMode);toggleThumb.style.transform=monoMode?'translateX(26px)':'translateX(0)';}
 
 const playerStats={
-  sword:{RealO75:{wins:3,kills:9,deaths:4},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:0,kills:3,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:4},EggyCactus78246:{wins:1,kills:3,deaths:0}},
+  sword:{RealO75:{wins:4,kills:12,deaths:6},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:0,kills:3,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:4},EggyCactus78246:{wins:1,kills:3,deaths:0},Aftlow:{wins:0,kills:2,deaths:3}},
   axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},
   uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
   mace:{Killedbycrab:{wins:8,kills:24,deaths:4},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:1,deaths:10},EggyCactus78246:{wins:1,kills:3,deaths:0}},
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
 };
+
 const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
 
 function updateOverall(){const overall={};for(const mode in playerStats){if(mode==='overall') continue;for(const player in playerStats[mode]){if(!overall[player]) overall[player]={wins:0,kills:0,deaths:0};overall[player].wins+=playerStats[mode][player].wins;overall[player].kills+=playerStats[mode][player].kills;overall[player].deaths+=playerStats[mode][player].deaths;}}playerStats.overall=overall;}
