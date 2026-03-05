@@ -3,299 +3,57 @@
 <head>
   <title>Quipalite MC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
-    body{
-      margin:0;
-      font-family:Segoe UI, Arial, sans-serif;
-      background:#000;
-      color:white;
-      overflow-x:hidden;
-      transition:all 0.3s ease;
-    }
-
-    header{
-      text-align:center;
-      padding:45px 20px;
-      font-size:44px;
-      font-weight:900;
-      letter-spacing:3px;
-      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493,#ff2db2);
-      background-size:300% 300%;
-      animation:bannerMove 5s ease infinite;
-      border-bottom:3px solid #ff66cc;
-      position:relative;
-    }
-
-    @keyframes bannerMove{
-      0%{background-position:0% 50%;}
-      50%{background-position:100% 50%;}
-      100%{background-position:0% 50%;}
-    }
-
-    .theme-toggle{
-      position:absolute;
-      top:15px;
-      right:15px;
-      width:50px;
-      height:24px;
-      border-radius:12px;
-      background:#fff;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      padding:2px;
-      box-sizing:border-box;
-    }
-    .theme-toggle .toggle-thumb{
-      width:20px;
-      height:20px;
-      background:#000;
-      border-radius:50%;
-      transition:transform 0.3s ease, background 0.3s ease;
-    }
-
-    .tabs{
-      text-align:center;
-      margin:20px 0;
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .tab{
-      background:#111;
-      border:1px solid #ff1493;
-      color:white;
-      padding:6px 12px;
-      border-radius:6px;
-      cursor:pointer;
-      font-weight:bold;
-      transition:0.2s ease;
-    }
-
+    body{margin:0;font-family:Segoe UI, Arial, sans-serif;background:#000;color:white;overflow-x:hidden;transition:all 0.3s ease;}
+    header{text-align:center;padding:45px 20px;font-size:44px;font-weight:900;letter-spacing:3px;background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493,#ff2db2);background-size:300% 300%;animation:bannerMove 5s ease infinite;border-bottom:3px solid #ff66cc;position:relative;}
+    @keyframes bannerMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+    .theme-toggle{position:absolute;top:15px;right:15px;width:50px;height:24px;border-radius:12px;background:#fff;cursor:pointer;display:flex;align-items:center;padding:2px;box-sizing:border-box;}
+    .theme-toggle .toggle-thumb{width:20px;height:20px;background:#000;border-radius:50%;transition:transform 0.3s ease, background 0.3s ease;}
+    .tabs{text-align:center;margin:20px 0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+    .tab{background:#111;border:1px solid #ff1493;color:white;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:bold;transition:0.2s ease;}
     .tab:hover{transform:scale(1.05);}
     .tab.active{background:#ff1493;}
-
-    #searchInput{
-      width:250px;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #ff1493;
-      background:#111;
-      color:white;
-      font-weight:bold;
-      outline:none;
-      transition:all 0.3s ease;
-    }
-
-    .container{
-      max-width:900px;
-      margin:auto;
-      padding:20px;
-      min-height:200px;
-    }
-
+    #searchInput{width:250px;padding:10px;border-radius:8px;border:1px solid #ff1493;background:#111;color:white;font-weight:bold;outline:none;transition:all 0.3s ease;}
+    .container{max-width:900px;margin:auto;padding:20px;min-height:200px;}
     .mode{display:none;}
     .mode.active{display:block;}
-
-    .player{
-      background:#111;
-      margin:12px 0;
-      padding:18px;
-      border-radius:12px;
-      border:1px solid #ff1493;
-      cursor:pointer;
-      transition:transform 0.2s ease, box-shadow 0.2s ease;
-      display:flex;
-      align-items:center;
-      opacity:0;
-      transform:translateY(20px) scale(0.97);
-      animation:fadeSlide 0.5s ease forwards;
-    }
-
-    .player:hover{
-      transform:translateY(0) scale(1.03);
-      box-shadow:0 0 14px #ff1493;
-    }
-
-    @keyframes fadeSlide{
-      to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-      }
-    }
-
+    .player{background:#111;margin:12px 0;padding:18px;border-radius:12px;border:1px solid #ff1493;cursor:pointer;transition:transform 0.2s ease, box-shadow 0.2s ease;display:flex;align-items:center;opacity:0;transform:translateY(20px) scale(0.97);animation:fadeSlide 0.5s ease forwards;}
+    .player:hover{transform:translateY(0) scale(1.03);box-shadow:0 0 14px #ff1493;}
+    @keyframes fadeSlide{to{opacity:1;transform:translateY(0) scale(1);}}
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;}
     .silver-glow{border:2px solid silver;box-shadow:0 0 14px silver;}
     .bronze-glow{border:2px solid #cd7f32;box-shadow:0 0 12px #cd7f32;}
-
-    .number{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:50%;
-      font-weight:bold;
-      margin-right:12px;
-      min-width:30px;
-      text-align:center;
-    }
-
+    .number{display:inline-block;padding:6px 12px;border-radius:50%;font-weight:bold;margin-right:12px;min-width:30px;text-align:center;}
     .gold{background:gold;color:black;}
     .silver{background:silver;color:black;}
     .bronze{background:#cd7f32;color:white;}
-
-    #profilePage{
-      display:none;
-      max-width:700px;
-      margin:auto;
-      padding:20px;
-      opacity:0;
-      transform:translateY(20px);
-      transition:0.3s ease;
-    }
-
-    #profilePage.show{
-      opacity:1;
-      transform:translateY(0);
-    }
-
-    #profileContent{
-      background:#111;
-      padding:20px;
-      border-radius:12px;
-      border:1px solid #ff1493;
-      color:white;
-    }
-
-    .backBtn{
-      background:#ff1493;
-      border:none;
-      padding:10px 16px;
-      color:white;
-      font-weight:bold;
-      border-radius:8px;
-      cursor:pointer;
-      margin-bottom:20px;
-      transition:all 0.3s ease;
-    }
-
-    .backBtn:hover{
-      background:#ff66cc;
-    }
-
-    .stat-bar{
-      background:#1a1a1a;
-      height:8px;
-      border-radius:6px;
-      margin-bottom:15px;
-      overflow:hidden;
-    }
-
-    .stat-fill{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,#ff1493,#ff66cc);
-      transition:width 1s ease;
-    }
-
+    #profilePage{display:none;max-width:700px;margin:auto;padding:20px;opacity:0;transform:translateY(20px);transition:0.3s ease;}
+    #profilePage.show{opacity:1;transform:translateY(0);}
+    #profileContent{background:#111;padding:20px;border-radius:12px;border:1px solid #ff1493;color:white;}
+    .backBtn{background:#ff1493;border:none;padding:10px 16px;color:white;font-weight:bold;border-radius:8px;cursor:pointer;margin-bottom:20px;transition:all 0.3s ease;}
+    .backBtn:hover{background:#ff66cc;}
+    .stat-bar{background:#1a1a1a;height:8px;border-radius:6px;margin-bottom:15px;overflow:hidden;}
+    .stat-fill{height:100%;width:0%;background:linear-gradient(90deg,#ff1493,#ff66cc);transition:width 1s ease;}
     /* Mono mode styles */
-    body.mono{
-      background:#000;
-      color:#fff;
-    }
-    body.mono header{
-      background:#000;
-      border-bottom:3px solid #fff;
-      color:#fff;
-      animation:none;
-    }
-    body.mono .tab{
-      background:#000;
-      border:1px solid #fff;
-      color:#fff;
-    }
-    body.mono .tab.active{
-      background:#fff;
-      color:#000;
-    }
-    body.mono #searchInput{
-      background:#000;
-      border:1px solid #fff;
-      color:#fff;
-    }
-    body.mono .player{
-      background:#000;
-      border:1px solid #fff;
-      color:#fff;
-    }
-    body.mono #profileContent{
-      background:#000;
-      border:1px solid #fff;
-      color:#fff;
-    }
-    body.mono .backBtn{
-      background:#000;
-      color:#fff;
-      border:1px solid #fff;
-    }
-    body.mono .backBtn:hover{
-      background:#222;
-    }
-    body.mono .stat-bar{
-      background:#222;
-    }
-    body.mono .stat-fill{
-      background:#fff;
-    }
-    body.mono .no-players{
-      color:#fff;
-      border-color:#fff;
-      background:rgba(255,255,255,0.1);
-    }
-
-    /* Mono mode hover and glow for top ranks */
-    body.mono .player:hover{
-      transform:translateY(0) scale(1.03);
-      box-shadow:0 0 14px #fff;
-    }
-    body.mono .gold-glow,
-    body.mono .silver-glow,
-    body.mono .bronze-glow{
-      border:2px solid #fff;
-      box-shadow:0 0 14px #fff;
-    }
-
-    /* Improved No Players Card */
-    .no-players {
-      margin-top: 20px;
-      font-size: 20px;
-      text-align: center;
-      padding: 20px;
-      border: 2px dashed #ff1493;
-      border-radius: 12px;
-      color: #ff66cc;
-      font-weight: bold;
-      background: rgba(255, 20, 147, 0.1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      animation: pulse 1.5s infinite;
-    }
-
-    .no-players::before {
-      content: "⚠️";
-      font-size: 24px;
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 8px #ff1493; }
-      50% { box-shadow: 0 0 16px #ff66cc; }
-    }
+    body.mono{background:#000;color:#fff;}
+    body.mono header{background:#000;border-bottom:3px solid #fff;color:#fff;animation:none;}
+    body.mono .tab{background:#000;border:1px solid #fff;color:#fff;}
+    body.mono .tab.active{background:#fff;color:#000;}
+    body.mono #searchInput{background:#000;border:1px solid #fff;color:#fff;}
+    body.mono .player{background:#000;border:1px solid #fff;color:#fff;}
+    body.mono #profileContent{background:#000;border:1px solid #fff;color:#fff;}
+    body.mono .backBtn{background:#000;color:#fff;border:1px solid #fff;}
+    body.mono .backBtn:hover{background:#222;}
+    body.mono .stat-bar{background:#222;}
+    body.mono .stat-fill{background:#fff;}
+    body.mono .no-players{color:#fff;border-color:#fff;background:rgba(255,255,255,0.1);}
+    body.mono .player:hover{transform:translateY(0) scale(1.03);box-shadow:0 0 14px #fff;}
+    body.mono .gold-glow,body.mono .silver-glow,body.mono .bronze-glow{border:2px solid #fff;box-shadow:0 0 14px #fff;}
+    .no-players{margin-top:20px;font-size:20px;text-align:center;padding:20px;border:2px dashed #ff1493;border-radius:12px;color:#ff66cc;font-weight:bold;background: rgba(255,20,147,0.1);display:flex;justify-content:center;align-items:center;gap:10px;animation:pulse 1.5s infinite;}
+    .no-players::before{content:"⚠️";font-size:24px;}
+    @keyframes pulse{0%,100%{box-shadow:0 0 8px #ff1493;}50%{box-shadow:0 0 16px #ff66cc;}}
   </style>
 </head>
-
 <body>
 
 <header>QUIPALITE MC
@@ -380,22 +138,18 @@ function createPlayers(mode){
   const container=document.getElementById(mode);
   const players=getOrderedPlayers(mode);
   container.innerHTML='';
-
   players.forEach((name,i)=>{
     let glow='',numberClass='';
     if(i===0){glow='gold-glow';numberClass='gold';}
     if(i===1){glow='silver-glow';numberClass='silver';}
     if(i===2){glow='bronze-glow';numberClass='bronze';}
-
     const card=document.createElement('div');
     card.className=`player ${glow}`;
     card.style.animationDelay=`${i*0.07}s`;
     card.onclick=()=>openProfile(name,mode);
-
     card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span><b>${name}</b>`;
     container.appendChild(card);
   });
-
   if(players.length===0){
     const div=document.createElement('div');
     div.className='no-players';
@@ -408,22 +162,30 @@ function openProfile(name,mode){
   const stats=playerStats[mode][name];
   const ranking=getOrderedPlayers(mode);
   const rank=ranking.indexOf(name)+1;
-  const kd=stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2);
+  const kd=stats.deaths===0?Infinity:(stats.kills/stats.deaths).toFixed(2);
+
+  let kdColor='white';
+  if(kd===Infinity||kd>=2) kdColor='limegreen';
+  else if(kd>=1) kdColor='yellow';
+  else kdColor='red';
+
   const tier=customTiers[mode]?.[name]||"Tier IV";
+  const tierColors={Gold:'#FFD700',Silver:'#C0C0C0',Bronze:'#CD7F32',Emerald:'#50C878',Diamond:'#00BFFF','Tier IV':'#888'};
+  const tierColor=tierColors[tier]||'#888';
 
   document.getElementById('profileContent').innerHTML=`
     <h2 style="margin-top:0;">${name}</h2>
-    <h3 style="margin-top:-8px;">${tier}</h3>
+    <h3 style="margin-top:-8px; color:${tierColor};">${tier}</h3>
     <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode?'#fff':'#ff66cc'};font-weight:bold;">
-      <div>K/D: <span>${kd}</span></div>
+      <div>K/D: <span style="color:${kdColor}">${kd===Infinity?'∞':kd}</span></div>
       <div>Rank: <span>#${rank}</span></div>
     </div>
     <p><b>Wins:</b> ${stats.wins}</p>
-    <div class="stat-bar"><div class="stat-fill" id="winsBar"></div></div>
+    <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
     <p><b>Kills:</b> ${stats.kills}</p>
-    <div class="stat-bar"><div class="stat-fill" id="killsBar"></div></div>
+    <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
     <p><b>Deaths:</b> ${stats.deaths}</p>
-    <div class="stat-bar"><div class="stat-fill" id="deathsBar"></div></div>
+    <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
   `;
 
   document.querySelector('.tabs').style.display='none';
@@ -432,18 +194,18 @@ function openProfile(name,mode){
 
   const profile=document.getElementById('profilePage');
   profile.style.display='block';
-
-  setTimeout(()=>{
-    profile.classList.add('show');
-    animateBars(stats);
-  },10);
+  setTimeout(()=>{profile.classList.add('show'); animateBars(stats,tierColor);},10);
 }
 
-function animateBars(stats){
+function animateBars(stats,color){
   const max=Math.max(stats.wins,stats.kills,stats.deaths,1);
   document.getElementById('winsBar').style.width=(stats.wins/max*100)+"%";
   document.getElementById('killsBar').style.width=(stats.kills/max*100)+"%";
   document.getElementById('deathsBar').style.width=(stats.deaths/max*100)+"%";
+
+  document.getElementById('winsBar').style.background=color;
+  document.getElementById('killsBar').style.background=color;
+  document.getElementById('deathsBar').style.background=color;
 }
 
 function goBack(){
@@ -464,7 +226,6 @@ function searchPlayers(){
     const name=p.querySelector('b').textContent.toLowerCase();
     p.style.display=name.includes(value)?'flex':'none';
   });
-
   const playersVisible=[...active.querySelectorAll('.player')].filter(p=>p.style.display!=='none');
   active.querySelectorAll('.no-players').forEach(np=>np.remove());
   if(playersVisible.length===0){
@@ -487,6 +248,5 @@ function showMode(mode,btn){
 ['sword','axe','uhc','mace','spear'].forEach(createPlayers);
 createPlayers('overall');
 </script>
-
 </body>
 </html>
