@@ -135,7 +135,9 @@ function searchPlayers(){const value=document.getElementById('searchInput').valu
 
 function showMode(mode,btn){document.getElementById('searchInput').value='';document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));document.getElementById(mode).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');createPlayers(mode);}
 
-['sword','axe','uhc','mace','spear'].forEach(createPlayers);createPlayers('overall');
+['sword','axe','uhc','mace','spear'].forEach(createPlayers);
+createPlayers('overall');
 </script>
+
 </body>
 </html>
