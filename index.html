@@ -17,33 +17,34 @@
     .container{max-width:900px;margin:auto;padding:20px;min-height:200px;}
     .mode{display:none;opacity:0;transition:opacity 0.4s ease;}
     .mode.active{display:block;opacity:1;}
-    
+
     .player{background:#111;margin:12px 0;padding:18px;border-radius:12px;border:1px solid #ff1493;cursor:pointer;display:flex;align-items:center;position:relative;overflow:hidden;transition:transform 0.3s ease, box-shadow 0.3s ease;}
     .player:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 0 16px #ff1493;}
-    
+    .player-head{width:48px;height:48px;border-radius:8px;margin-right:12px;border:2px solid #ff1493;flex-shrink:0;}
+
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;animation:pulseTop 1.2s infinite alternate;}
     .silver-glow{border:2px solid silver;box-shadow:0 0 14px silver;}
     .bronze-glow{border:2px solid #cd7f32;box-shadow:0 0 12px #cd7f32;}
     @keyframes pulseTop{0%{box-shadow:0 0 12px gold;}100%{box-shadow:0 0 22px gold;}}
-    
+
     .number{display:inline-block;padding:6px 12px;border-radius:50%;font-weight:bold;margin-right:12px;min-width:30px;text-align:center;position:relative;z-index:2;color:white;}
     .gold{background:gold;color:black;}
     .silver{background:silver;color:black;}
     .bronze{background:#cd7f32;color:white;}
-    
-    .player-content{opacity:0;transform:translateY(20px) scale(0.97);animation:fadeSlide 0.5s ease forwards;}
+
+    .player-content{opacity:0;transform:translateY(20px) scale(0.97);animation:fadeSlide 0.5s ease forwards;display:flex;align-items:center;}
     @keyframes fadeSlide{to{opacity:1;transform:translateY(0) scale(1);}}
-    
+
     #profilePage{display:none;max-width:700px;margin:auto;padding:20px;opacity:0;transform:translateY(20px);transition:0.3s ease;}
     #profilePage.show{opacity:1;transform:translateY(0);}
     #profileContent{background:#111;padding:20px;border-radius:12px;border:1px solid #ff1493;color:white;}
-    
+
     .backBtn{background:#ff1493;border:none;padding:10px 16px;color:white;font-weight:bold;border-radius:8px;cursor:pointer;margin-bottom:20px;transition:all 0.3s ease;}
     .backBtn:hover{background:#ff66cc;}
-    
+
     .stat-bar{background:#1a1a1a;height:8px;border-radius:6px;margin-bottom:15px;overflow:hidden;}
     .stat-fill{height:100%;width:0%;transition:width 1s ease;}
-    
+
     body.mono{background:#000;color:#fff;}
     body.mono header{background:#000;border-bottom:3px solid #fff;color:#fff;animation:none;}
     body.mono .tab{background:#000;border:1px solid #fff;color:#fff;}
@@ -54,15 +55,10 @@
     body.mono .backBtn{background:#000;color:#fff;border:1px solid #fff;}
     body.mono .backBtn:hover{background:#222;}
     body.mono .stat-bar{background:#222;}
-    
     body.mono .player:hover{box-shadow:0 0 14px #fff;}
     body.mono .gold-glow{border:2px solid #fff;box-shadow:0 0 16px #fff;animation:pulseWhite 1.2s infinite alternate;}
     @keyframes pulseWhite{0%{box-shadow:0 0 12px #fff;}100%{box-shadow:0 0 22px #fff;}}
-    body.mono .silver-glow,
-    body.mono .bronze-glow{border:2px solid #fff;box-shadow:0 0 14px #fff;}
-    body.mono .no-players{border-color:#fff;color:#fff;background:rgba(255,255,255,0.1);animation:pulseMono 1.5s infinite;}
-    @keyframes pulseMono{0%,100%{box-shadow:0 0 8px #fff;}50%{box-shadow:0 0 16px #fff;}}
-    
+    body.mono .silver-glow,body.mono .bronze-glow{border:2px solid #fff;box-shadow:0 0 14px #fff;}
     .no-players{margin-top:20px;font-size:20px;text-align:center;padding:20px;border:2px dashed #ff1493;border-radius:12px;color:#ff66cc;font-weight:bold;background: rgba(255,20,147,0.1);display:flex;justify-content:center;align-items:center;gap:10px;animation:pulse 1.5s infinite;}
     .no-players::before{content:"⚠️";font-size:24px;}
     @keyframes pulse{0%,100%{box-shadow:0 0 8px #ff1493;}50%{box-shadow:0 0 16px #ff66cc;}}
@@ -105,20 +101,14 @@
 
 <script>
 let monoMode=false;
-const toggleThumb=document.querySelector('.toggle-thumb');
-function toggleTheme(){monoMode=!monoMode;document.body.classList.toggle('mono',monoMode);toggleThumb.style.transform=monoMode?'translateX(26px)':'translateX(0)';}
+function toggleTheme(){monoMode=!monoMode;document.body.classList.toggle('mono',monoMode);document.querySelector('.toggle-thumb').style.transform=monoMode?'translateX(26px)':'translateX(0)';}
 
+function getAvatar(username){return `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=48&type=head`;}
+
+// Add Ushindo
 const playerStats={
-  sword:{
-    RealO75:{wins:9,kills:27,deaths:6},
-    Jai_B37:{wins:1,kills:3,deaths:1},
-    skull_shredder30:{wins:1,kills:3,deaths:1},
-    Killedbycrab:{wins:1,kills:6,deaths:6},
-    Knoxy5316:{wins:0,kills:1,deaths:16},
-    EggyCactus78246:{wins:1,kills:3,deaths:0},
-    Aftlow:{wins:0,kills:2,deaths:9}
-  },
-  axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3}},
+  sword:{RealO75:{wins:9,kills:27,deaths:6},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:1,kills:6,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:16},EggyCactus78246:{wins:1,kills:3,deaths:0},Aftlow:{wins:0,kills:2,deaths:9},Ushindo:{wins:0,kills:1,deaths:3}},
+  axe:{Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3},Ushindo:{wins:0,kills:1,deaths:3}},
   uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
   mace:{Killedbycrab:{wins:9,kills:27,deaths:5},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:2,deaths:13},EggyCactus78246:{wins:1,kills:3,deaths:0}},
   spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
@@ -126,14 +116,120 @@ const playerStats={
 
 const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
 
-function updateOverall(){const overall={};for(const mode in playerStats){if(mode==='overall') continue;for(const player in playerStats[mode]){if(!overall[player]) overall[player]={wins:0,kills:0,deaths:0};overall[player].wins+=playerStats[mode][player].wins;overall[player].kills+=playerStats[mode][player].kills;overall[player].deaths+=playerStats[mode][player].deaths;}}playerStats.overall=overall;}
-function getOrderedPlayers(mode){if(mode==='overall') updateOverall();return Object.entries(playerStats[mode]).sort((a,b)=>{if(b[1].wins!==a[1].wins) return b[1].wins-a[1].wins;if(b[1].kills!==a[1].kills) return b[1].kills-a[1].kills;return a[1].deaths-b[1].deaths;}).map(e=>e[0]);}
-function createPlayers(mode){if(mode==='overall') updateOverall();const container=document.getElementById(mode);const players=getOrderedPlayers(mode);container.innerHTML='';players.forEach((name,i)=>{let glow='',numberClass='';if(i===0){glow='gold-glow';numberClass='gold';}else if(i===1){glow='silver-glow';numberClass='silver';}else if(i===2){glow='bronze-glow';numberClass='bronze';}const card=document.createElement('div');card.className=`player ${glow}`;card.style.animationDelay=`${i*0.07}s`;card.onclick=()=>openProfile(name,mode);card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span><div class="player-content"><b>${name}</b></div>`;container.appendChild(card);});if(players.length===0){const div=document.createElement('div');div.className='no-players';div.textContent='No players found';container.appendChild(div);}}
-window.openProfile=function(name,mode){const stats=playerStats[mode][name];const ranking=getOrderedPlayers(mode);const rank=ranking.indexOf(name)+1;const kd=stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2);const tier=customTiers[mode]?.[name]||"Tier IV";const tierColors={Gold:'#FFD700',Silver:'#C0C0C0',Bronze:'#CD7F32',Emerald:'#50C878',Diamond:'#00BFFF','Tier IV':'#888'};const tierColor=tierColors[tier]||'#888';let kdColor='white';if(kd==='∞'||kd>=2) kdColor='limegreen';else if(kd>=1) kdColor='yellow';else kdColor='red';document.getElementById('profileContent').innerHTML=`<h2 style="margin-top:0;">${name}</h2><h3 style="margin-top:-8px;color:${tierColor}">${tier}</h3><div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode?'#fff':'#ff66cc'};font-weight:bold;"><div>K/D: <span style="color:${kdColor}">${kd}</span></div><div>Rank: <span>#${rank}</span></div></div><p><b>Wins:</b> ${stats.wins}</p><div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div><p><b>Kills:</b> ${stats.kills}</p><div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div><p><b>Deaths:</b> ${stats.deaths}</p><div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>`;document.querySelector('.tabs').style.display='none';document.querySelector('.container').style.display='none';document.getElementById('searchInput').style.display='none';const profile=document.getElementById('profilePage');profile.style.display='block';setTimeout(()=>{profile.classList.add('show');animateBars(stats,tierColor);},10);}
-function animateBars(stats,color){const max=Math.max(stats.wins,stats.kills,stats.deaths,1);['winsBar','killsBar','deathsBar'].forEach((id,i)=>{const bar=document.getElementById(id);bar.style.width='0%';bar.style.background=color;setTimeout(()=>{bar.style.width=(stats[Object.keys(stats)[i]]/max*100)+'%'}, i*200);});}
-window.goBack=function(){const profile=document.getElementById('profilePage');profile.classList.remove('show');setTimeout(()=>{profile.style.display='none';document.querySelector('.tabs').style.display='flex';document.querySelector('.container').style.display='block';document.getElementById('searchInput').style.display='inline-block';},300);}
-window.searchPlayers=function(){const value=document.getElementById('searchInput').value.toLowerCase();const active=document.querySelector('.mode.active');active.querySelectorAll('.player').forEach(p=>{const name=p.querySelector('b').textContent.toLowerCase();p.style.display=name.includes(value)?'flex':'none';});const playersVisible=[...active.querySelectorAll('.player')].filter(p=>p.style.display!=='none');active.querySelectorAll('.no-players').forEach(np=>np.remove());if(playersVisible.length===0){const div=document.createElement('div');div.className='no-players';div.textContent='No players found';active.appendChild(div);} }
-window.showMode=function(mode,btn){document.getElementById('searchInput').value='';document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));document.getElementById(mode).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');createPlayers(mode);}
+function updateOverall(){const overall={};for(const mode in playerStats){if(mode==='overall') continue;for(const p in playerStats[mode]){if(!overall[p]) overall[p]={wins:0,kills:0,deaths:0};overall[p].wins+=playerStats[mode][p].wins;overall[p].kills+=playerStats[mode][p].kills;overall[p].deaths+=playerStats[mode][p].deaths;}}playerStats.overall=overall;}
+
+function getOrderedPlayers(mode){if(mode==='overall') updateOverall();return Object.entries(playerStats[mode]).sort((a,b)=>b[1].wins!==a[1].wins?b[1].wins-a[1].wins:b[1].kills!==a[1].kills?b[1].kills-a[1].kills:a[1].deaths-b[1].deaths).map(e=>e[0]);}
+
+function createPlayers(mode){
+  if(mode==='overall') updateOverall();
+  const container=document.getElementById(mode);
+  const players=getOrderedPlayers(mode);
+  container.innerHTML='';
+  players.forEach((name,i)=>{
+    let glow='',numberClass='';
+    if(i===0){glow='gold-glow';numberClass='gold';}
+    else if(i===1){glow='silver-glow';numberClass='silver';}
+    else if(i===2){glow='bronze-glow';numberClass='bronze';}
+    const card=document.createElement('div');
+    card.className=`player ${glow}`;
+    card.style.animationDelay=`${i*0.07}s`;
+    card.onclick=()=>openProfile(name,mode);
+    card.innerHTML=`<span class="number ${numberClass}">#${i+1}</span>
+                      <div class="player-content">
+                        <img src="${getAvatar(name)}" class="player-head">
+                        <b>${name}</b>
+                      </div>`;
+    container.appendChild(card);
+  });
+  if(players.length===0){
+    const div=document.createElement('div');
+    div.className='no-players';
+    div.textContent='No players found';
+    container.appendChild(div);
+  }
+}
+
+// Profile page & bars
+function openProfile(name,mode){
+  const stats=playerStats[mode][name];
+  const ranking=getOrderedPlayers(mode);
+  const rank=ranking.indexOf(name)+1;
+  const kd=stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2);
+  const tier=customTiers[mode]?.[name]||"Tier IV";
+  const tierColors={Gold:'#FFD700',Silver:'#C0C0C0',Bronze:'#CD7F32',Emerald:'#50C878',Diamond:'#00BFFF','Tier IV':'#888'};
+  const tierColor=tierColors[tier]||'#888';
+  let kdColor='white';
+  if(kd==='∞'||kd>=2) kdColor='limegreen';
+  else if(kd>=1) kdColor='yellow';
+  else kdColor='red';
+  document.getElementById('profileContent').innerHTML=`
+    <h2 style="margin-top:0;"><img src="${getAvatar(name,64)}" class="player-head">${name}</h2>
+    <h3 style="margin-top:-8px;color:${tierColor}">${tier}</h3>
+    <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode?'#fff':'#ff66cc'};font-weight:bold;">
+      <div>K/D: <span style="color:${kdColor}">${kd}</span></div>
+      <div>Rank: <span>#${rank}</span></div>
+    </div>
+    <p><b>Wins:</b> ${stats.wins}</p>
+    <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
+    <p><b>Kills:</b> ${stats.kills}</p>
+    <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
+    <p><b>Deaths:</b> ${stats.deaths}</p>
+    <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
+  `;
+  document.querySelector('.tabs').style.display='none';
+  document.querySelector('.container').style.display='none';
+  document.getElementById('searchInput').style.display='none';
+  const profile=document.getElementById('profilePage');
+  profile.style.display='block';
+  setTimeout(()=>{profile.classList.add('show');animateBars(stats,tierColor);},10);
+}
+function animateBars(stats,color){
+  const max=Math.max(stats.wins,stats.kills,stats.deaths,1);
+  ['winsBar','killsBar','deathsBar'].forEach((id,i)=>{
+    const bar=document.getElementById(id);
+    bar.style.width='0%';
+    bar.style.background=color;
+    setTimeout(()=>{bar.style.width=(stats[Object.keys(stats)[i]]/max*100)+'%'}, i*200);
+  });
+}
+
+function goBack(){
+  const profile=document.getElementById('profilePage');
+  profile.classList.remove('show');
+  setTimeout(()=>{
+    profile.style.display='none';
+    document.querySelector('.tabs').style.display='flex';
+    document.querySelector('.container').style.display='block';
+    document.getElementById('searchInput').style.display='inline-block';
+  },300);
+}
+
+function searchPlayers(){
+  const value=document.getElementById('searchInput').value.toLowerCase();
+  const active=document.querySelector('.mode.active');
+  active.querySelectorAll('.player').forEach(p=>{
+    const name=p.querySelector('b').textContent.toLowerCase();
+    p.style.display=name.includes(value)?'flex':'none';
+  });
+  const visible=[...active.querySelectorAll('.player')].filter(p=>p.style.display!=='none');
+  active.querySelectorAll('.no-players').forEach(np=>np.remove());
+  if(visible.length===0){
+    const div=document.createElement('div');
+    div.className='no-players';
+    div.textContent='No players found';
+    active.appendChild(div);
+  }
+}
+
+function showMode(mode,btn){
+  document.getElementById('searchInput').value='';
+  document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+  document.getElementById(mode).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  createPlayers(mode);
+}
+
 window.addEventListener('DOMContentLoaded', ()=>{
   ['sword','axe','uhc','mace','spear','overall'].forEach(createPlayers);
 });
