@@ -214,8 +214,8 @@ function openProfile(name, mode){
   const ranking = getOrderedPlayers(mode);
   const rank = ranking.indexOf(name) + 1;
   const kd = stats.deaths === 0 ? '∞' : (stats.kills / stats.deaths).toFixed(2);
-  const tier = customTiers[mode]?.[name] || "Tier IV";
-  const tierColors = {Gold:'#FFD700',Silver:'#C0C0C0',Bronze:'#CD7F32',Emerald:'#50C878',Diamond:'#00BFFF','Tier IV':'#888'};
+  const tier = customTiers[mode]?.[name] || "Unranked";
+  const tierColors = {Gold:'#FFD700',Silver:'#C0C0C0',Bronze:'#CD7F32',Emerald:'#50C878',Diamond:'#00BFFF','Unranked':'#888'};
   const tierColor = tierColors[tier] || '#888';
   let kdColor = 'white';
   if(kd === '∞' || kd >= 2) kdColor = 'limegreen';
