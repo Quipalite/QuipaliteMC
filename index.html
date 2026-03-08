@@ -17,34 +17,26 @@
     .container{max-width:900px;margin:auto;padding:20px;min-height:200px;}
     .mode{display:none;opacity:0;transition:opacity 0.4s ease;}
     .mode.active{display:block;opacity:1;}
-
     .player{background:#111;margin:12px 0;padding:18px;border-radius:12px;border:1px solid #ff1493;cursor:pointer;display:flex;align-items:center;position:relative;overflow:hidden;transition:transform 0.3s ease, box-shadow 0.3s ease;}
     .player:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 0 16px #ff1493;}
     .player-head{width:48px;height:48px;border-radius:8px;margin-right:12px;border:2px solid #ff1493;flex-shrink:0;}
-
     .gold-glow{border:2px solid gold;box-shadow:0 0 16px gold;animation:pulseTop 1.2s infinite alternate;}
     .silver-glow{border:2px solid silver;box-shadow:0 0 14px silver;}
     .bronze-glow{border:2px solid #cd7f32;box-shadow:0 0 12px #cd7f32;}
     @keyframes pulseTop{0%{box-shadow:0 0 12px gold;}100%{box-shadow:0 0 22px gold;}}
-
     .number{display:inline-block;padding:6px 12px;border-radius:50%;font-weight:bold;margin-right:12px;min-width:30px;text-align:center;position:relative;z-index:2;color:white;}
     .gold{background:gold;color:black;}
     .silver{background:silver;color:black;}
     .bronze{background:#cd7f32;color:white;}
-
     .player-content{opacity:0;transform:translateY(20px) scale(0.97);animation:fadeSlide 0.5s ease forwards;display:flex;align-items:center;}
     @keyframes fadeSlide{to{opacity:1;transform:translateY(0) scale(1);}}
-
     #profilePage{display:none;max-width:700px;margin:auto;padding:20px;opacity:0;transform:translateY(20px);transition:0.3s ease;}
     #profilePage.show{opacity:1;transform:translateY(0);}
     #profileContent{background:#111;padding:20px;border-radius:12px;border:1px solid #ff1493;color:white;}
-
     .backBtn{background:#ff1493;border:none;padding:10px 16px;color:white;font-weight:bold;border-radius:8px;cursor:pointer;margin-bottom:20px;transition:all 0.3s ease;}
     .backBtn:hover{background:#ff66cc;}
-
     .stat-bar{background:#1a1a1a;height:8px;border-radius:6px;margin-bottom:15px;overflow:hidden;}
     .stat-fill{height:100%;width:0%;transition:width 1s ease;}
-
     body.mono{background:#000;color:#fff;}
     body.mono header{background:#000;border-bottom:3px solid #fff;color:#fff;animation:none;}
     body.mono .tab{background:#000;border:1px solid #fff;color:#fff;}
@@ -103,12 +95,10 @@
 let monoMode=false;
 function toggleTheme(){monoMode=!monoMode;document.body.classList.toggle('mono',monoMode);document.querySelector('.toggle-thumb').style.transform=monoMode?'translateX(26px)':'translateX(0)';}
 
-// Avatar helper now supports optional size
 function getAvatar(username, size = 48) {
   return `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=${size}&type=head`;
 }
 
-// Player stats (RealO75 was added/updated per your request)
 const playerStats = {
   sword: {
     RealO75:{wins:10,kills:30,deaths:7},
@@ -208,7 +198,6 @@ function createPlayers(mode){
   }
 }
 
-// Profile page & bars
 function openProfile(name, mode){
   const stats = playerStats[mode][name];
   const ranking = getOrderedPlayers(mode);
@@ -242,6 +231,7 @@ function openProfile(name, mode){
   profile.style.display = 'block';
   setTimeout(()=>{ profile.classList.add('show'); animateBars(stats, tierColor); }, 10);
 }
+
 function animateBars(stats, color){
   const max = Math.max(stats.wins, stats.kills, stats.deaths, 1);
   ['winsBar','killsBar','deathsBar'].forEach((id,i)=>{
@@ -289,17 +279,14 @@ function showMode(mode, btn){
   createPlayers(mode);
 }
 
-// Optional helper to programmatically add stats (useful later)
 function addStats(username, mode, wins=0, kills=0, deaths=0){
   if(!playerStats[mode]) playerStats[mode] = {};
   if(!playerStats[mode][username]) playerStats[mode][username] = {wins:0,kills:0,deaths:0};
   playerStats[mode][username].wins += wins;
   playerStats[mode][username].kills += kills;
   playerStats[mode][username].deaths += deaths;
-  // If currently viewing this mode, re-create the list so it updates immediately
   const activeMode = document.querySelector('.mode.active').id;
   if(activeMode === mode) createPlayers(mode);
-  // If overall is active, update that too
   if(activeMode === 'overall') createPlayers('overall');
 }
 
@@ -307,6 +294,10 @@ function addStats(username, mode, wins=0, kills=0, deaths=0){
 addStats("Aftlow", "axe", 1, 3, 0);
 addStats("Aftlow", "sword", 2, 6, 1);
 addStats("SadInFusIOns", "sword", 1, 4, 5);
+
+// ✅ New additions
+addStats("LiamTheLemur", "sword", 0, 0, 3);
+addStats("Aftlow", "mace", 1, 3, 0);
 
 window.addEventListener('DOMContentLoaded', ()=>{
   ['sword','axe','uhc','mace','spear','overall'].forEach(createPlayers);
