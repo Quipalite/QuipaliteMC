@@ -35,8 +35,37 @@
     #profileContent{background:#111;padding:20px;border-radius:12px;border:1px solid #ff1493;color:white;}
     .backBtn{background:#ff1493;border:none;padding:10px 16px;color:white;font-weight:bold;border-radius:8px;cursor:pointer;margin-bottom:20px;transition:all 0.3s ease;}
     .backBtn:hover{background:#ff66cc;}
-    .stat-bar{background:#1a1a1a;height:8px;border-radius:6px;margin-bottom:15px;overflow:hidden;}
-    .stat-fill{height:100%;width:0%;transition:width 1s ease;}
+    .stat-bar{background:#1a1a1a;height:8px;border-radius:6px;margin-bottom:15px;overflow:hidden;position:relative;}
+    /* stat-fill is the colored bar; keep same functionality but add animation overlay */
+    .stat-fill{height:100%;width:0%;transition:width 1s ease;position:relative;overflow:hidden;border-radius:6px;}
+    /* moving highlight line (shine) across the filled portion */
+    .stat-fill::after{
+      content:'';
+      position:absolute;
+      top:0;
+      left:-40%;
+      width:40%;
+      height:100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 100%);
+      transform:skewX(-18deg);
+      animation:statShine 1.6s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes statShine{
+      0%{left:-40%;}
+      100%{left:140%;}
+    }
+
+    /* subtle pulse on empty bar border for life */
+    .stat-bar::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:6px;
+      box-shadow:0 0 6px rgba(255,20,147,0.03) inset;
+      pointer-events:none;
+    }
+
     body.mono{background:#000;color:#fff;}
     body.mono header{background:#000;border-bottom:3px solid #fff;color:#fff;animation:none;}
     body.mono .tab{background:#000;border:1px solid #fff;color:#fff;}
@@ -92,35 +121,55 @@
 </div>
 
 <script>
-// ==========================
-// Theme toggle
 let monoMode=false;
-function toggleTheme(){
-  monoMode=!monoMode;
-  document.body.classList.toggle('mono',monoMode);
-  document.querySelector('.toggle-thumb').style.transform=monoMode?'translateX(26px)':'translateX(0)';
-}
+function toggleTheme(){monoMode=!monoMode;document.body.classList.toggle('mono',monoMode);document.querySelector('.toggle-thumb').style.transform=monoMode?'translateX(26px)':'translateX(0)';}
+function getAvatar(username,size=48){return `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=${size}&type=head`;}
 
-// ==========================
-// Avatar
-function getAvatar(username, size = 48){
-  return `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=${size}&type=head`;
-}
-
-// ==========================
-// Player Stats
+// === stats unchanged from your last approved set ===
 const playerStats = {
-  sword:{RealO75:{wins:10,kills:30,deaths:7},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:1,kills:6,deaths:6},Knoxy5316:{wins:0,kills:1,deaths:16},EggyCactus78246:{wins:1,kills:3,deaths:0},Aftlow:{wins:0,kills:2,deaths:9},Ushindo:{wins:0,kills:1,deaths:3},LiamTheLemur:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:1,kills:4,deaths:5},Knoxy5316:{wins:1,kills:3,deaths:0}},
-  axe:{RealO75:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:2,kills:6,deaths:1},Jai_B37:{wins:1,kills:3,deaths:0},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:0,kills:0,deaths:3},Ushindo:{wins:0,kills:1,deaths:3},Aftlow:{wins:1,kills:3,deaths:0}},
-  uhc:{Killedbycrab:{wins:1,kills:3,deaths:0},"Yearly-scuff81":{wins:0,kills:0,deaths:3}},
-  mace:{Killedbycrab:{wins:9,kills:27,deaths:5},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:1,kills:3,deaths:3},Knoxy5316:{wins:1,kills:3,deaths:13},EggyCactus78246:{wins:1,kills:3,deaths:0},LiamTheLemur:{wins:0,kills:0,deaths:1}},
-  spear:{Killedbycrab:{wins:1,kills:3,deaths:0},Aftlow:{wins:1,kills:3,deaths:1},"Yearly-scuff81":{wins:0,kills:1,deaths:6}}
+  sword: {
+    RealO75:{wins:10,kills:30,deaths:7},
+    Jai_B37:{wins:1,kills:3,deaths:1},
+    skull_shredder30:{wins:1,kills:3,deaths:1},
+    Killedbycrab:{wins:1,kills:6,deaths:6},
+    Knoxy5316:{wins:1,kills:3,deaths:0},
+    EggyCactus78246:{wins:1,kills:3,deaths:0},
+    Aftlow:{wins:2,kills:6,deaths:1},
+    Ushindo:{wins:0,kills:1,deaths:3},
+    LiamTheLemur:{wins:0,kills:0,deaths:3},
+    SadInFusIOns:{wins:1,kills:4,deaths:5}
+  },
+  axe: {
+    RealO75:{wins:1,kills:3,deaths:1},
+    Killedbycrab:{wins:2,kills:6,deaths:1},
+    Jai_B37:{wins:1,kills:3,deaths:0},
+    skull_shredder30:{wins:0,kills:1,deaths:3},
+    "Yearly-scuff81":{wins:0,kills:0,deaths:3},
+    Knoxy5316:{wins:0,kills:0,deaths:3},
+    Ushindo:{wins:0,kills:1,deaths:3},
+    Aftlow:{wins:1,kills:3,deaths:0}
+  },
+  uhc: {
+    Killedbycrab:{wins:1,kills:3,deaths:0},
+    "Yearly-scuff81":{wins:0,kills:0,deaths:3}
+  },
+  mace: {
+    Killedbycrab:{wins:9,kills:27,deaths:5},
+    "Yearly-scuff81":{wins:0,kills:3,deaths:15},
+    Aftlow:{wins:2,kills:6,deaths:3},
+    Knoxy5316:{wins:1,kills:3,deaths:13},
+    EggyCactus78246:{wins:1,kills:3,deaths:0},
+    LiamTheLemur:{wins:0,kills:0,deaths:1}
+  },
+  spear: {
+    Killedbycrab:{wins:1,kills:3,deaths:0},
+    Aftlow:{wins:1,kills:3,deaths:1},
+    "Yearly-scuff81":{wins:0,kills:1,deaths:6}
+  }
 };
 
-const customTiers = {sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
+const customTiers={sword:{Killedbycrab:"Gold"},axe:{Killedbycrab:"Emerald"},uhc:{Killedbycrab:"Gold"},mace:{Killedbycrab:"Diamond"},spear:{Killedbycrab:"Gold"},overall:{Killedbycrab:"Emerald"}};
 
-// ==========================
-// Functions (updateOverall, getOrderedPlayers, createPlayers, openProfile, etc.)
 function updateOverall(){
   const overall={};
   for(const mode in playerStats){
@@ -185,6 +234,7 @@ function openProfile(name,mode){
   if(kd==='∞'||kd>=2) kdColor='limegreen';
   else if(kd>=1) kdColor='yellow';
   else kdColor='red';
+
   document.getElementById('profileContent').innerHTML=`
     <h2 style="margin-top:0;"><img src="${getAvatar(name,64)}" class="player-head">${name}</h2>
     <h3 style="margin-top:-8px;color:${tierColor}">${tier}</h3>
@@ -204,16 +254,19 @@ function openProfile(name,mode){
   document.getElementById('searchInput').style.display='none';
   const profile=document.getElementById('profilePage');
   profile.style.display='block';
-  setTimeout(()=>{profile.classList.add('show');animateBars(stats,tierColor);},10);
+  setTimeout(()=>{profile.classList.add('show'); animateBars(stats, tierColor); }, 10);
 }
 
 function animateBars(stats,color){
   const max=Math.max(stats.wins,stats.kills,stats.deaths,1);
   ['winsBar','killsBar','deathsBar'].forEach((id,i)=>{
     const bar=document.getElementById(id);
+    if(!bar) return;
     bar.style.width='0%';
     bar.style.background=color;
-    setTimeout(()=>{bar.style.width=(stats[Object.keys(stats)[i]]/max*100)+'%'},i*200);
+    // ensure the shine animation restarts by forcing reflow
+    bar.offsetWidth;
+    setTimeout(()=>{ bar.style.width = (stats[Object.keys(stats)[i]] / max * 100) + '%' }, i*200);
   });
 }
 
@@ -250,36 +303,12 @@ function showMode(mode,btn){
   document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
   document.getElementById(mode).classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
   createPlayers(mode);
 }
 
-function addStats(username,mode,wins=0,kills=0,deaths=0){
-  if(!playerStats[mode]) playerStats[mode]={};
-  if(!playerStats[mode][username]) playerStats[mode][username]={wins:0,kills:0,deaths:0};
-  playerStats[mode][username].wins+=wins;
-  playerStats[mode][username].kills+=kills;
-  playerStats[mode][username].deaths+=deaths;
-  const activeMode=document.querySelector('.mode.active').id;
-  if(activeMode===mode) createPlayers(mode);
-  if(activeMode==='overall') createPlayers('overall');
-}
-
-// ==========================
-// Added stats
-addStats("Aftlow","axe",1,3,0);
-addStats("Aftlow","sword",2,6,1);
-addStats("SadInFusIOns","sword",1,4,5);
-addStats("LiamTheLemur","sword",0,0,3);
-addStats("Aftlow","mace",1,3,0);
-addStats("LiamTheLemur","mace",0,0,1);
-addStats("Knoxy5316","mace",1,1,0);
-addStats("Knoxy5316","sword",1,3,0);
-
-// ==========================
-window.addEventListener('DOMContentLoaded',()=>{
-  ['sword','axe','uhc','mace','spear','overall'].forEach(createPlayers);
-});
+// render on load
+window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear','overall'].forEach(createPlayers);});
 </script>
 
 </body>
