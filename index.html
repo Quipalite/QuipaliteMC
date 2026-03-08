@@ -303,6 +303,11 @@ function addStats(username, mode, wins=0, kills=0, deaths=0){
   if(activeMode === 'overall') createPlayers('overall');
 }
 
+// Added stats as requested
+addStats("Aftlow", "axe", 1, 3, 0);
+addStats("Aftlow", "sword", 2, 6, 1);
+addStats("SadInFusIOns", "sword", 1, 4, 5);
+
 window.addEventListener('DOMContentLoaded', ()=>{
   ['sword','axe','uhc','mace','spear','overall'].forEach(createPlayers);
 });
