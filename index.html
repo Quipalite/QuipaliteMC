@@ -125,6 +125,7 @@
     .gold-glow{ border-color:gold !important; box-shadow:0 0 16px gold; animation:pulseTop 1.2s infinite alternate; }
     .silver-glow{ border-color:silver !important; box-shadow:0 0 14px silver; }
     .bronze-glow{ border-color:#cd7f32 !important; box-shadow:0 0 12px #cd7f32; }
+    .copper-glow{ border-color:#B87333 !important; box-shadow:0 0 12px #B87333; }
     @keyframes pulseTop{0%{box-shadow:0 0 12px gold;}100%{box-shadow:0 0 22px gold;}}
 
     .number{
@@ -142,6 +143,7 @@
     .gold{ background:gold; color:black; }
     .silver{ background:silver; color:black; }
     .bronze{ background:#cd7f32; color:white; }
+    .copper{ background:#B87333; color:white; }
 
     .player-content{ opacity:0; transform:translateY(20px) scale(0.97); animation:fadeSlide 0.45s ease forwards; display:flex; align-items:center; gap:10px; }
     @keyframes fadeSlide{ to{opacity:1; transform:translateY(0) scale(1);} }
@@ -209,7 +211,7 @@
     body.mono .backBtn:hover{ background:#222; }
     body.mono .stat-bar{ background:#222; }
     body.mono .player-head{ border:2px solid #fff !important; }
-    body.mono .gold-glow, body.mono .silver-glow, body.mono .bronze-glow{
+    body.mono .gold-glow, body.mono .silver-glow, body.mono .bronze-glow, body.mono .copper-glow{
       border-color:#fff !important; box-shadow:0 0 16px #fff !important; animation:none;
     }
     body.mono .no-players{
@@ -218,6 +220,7 @@
     body.mono .no-players::before{ color:#fff; }
     @keyframes pulseMono{ 0%,100%{box-shadow:0 0 8px #fff;} 50%{box-shadow:0 0 14px #fff;} }
 
+    /* small responsive adjustments */
     @media (max-width:520px){
       header{ font-size:32px; padding:32px 12px; }
       #searchInput{ width:180px; }
@@ -325,44 +328,20 @@
         Cocotime15:{wins:0,kills:0,deaths:3},
         RealO75:{wins:1,kills:4,deaths:3},
         gfunkdfunk82:{wins:0,kills:2,deaths:3},
-        Ushindo:{wins:0,kills:0,deaths:3}
+        Ushindo:{wins:0,kills:0,deaths:3},
+        Knoxy5316:{wins:1,kills:3,deaths:2} /* <-- added Knoxy5316 spear stats */
       }
     };
 
     const customTiers = {
-      sword: {
-        Killedbycrab: "Gold",
-        RealO75: "Diamond",
-        Aftlow: "Emerald"
-      },
-      axe: {
-        Killedbycrab: "Emerald",
-        RealO75: "Gold",
-        Aftlow: "Emerald"
-      },
-      uhc: {
-        Killedbycrab: "Gold",
-        RealO75: "Gold",
-        Aftlow: "Gold"
-      },
-      mace: {
-        Killedbycrab: "Diamond",
-        RealO75: "Iron",
-        Aftlow: "Gold"
-      },
-      spear: {
-        Killedbycrab: "Gold",
-        RealO75: "Iron",
-        Aftlow: "Diamond"
-      },
-      overall: {
-        Killedbycrab: "Emerald",
-        RealO75: "Gold",
-        Aftlow: "Emerald"
-      }
+      sword: { Killedbycrab: "Gold", RealO75: "Diamond", Aftlow: "Emerald", Knoxy5316:"Copper" },
+      axe:   { Killedbycrab: "Emerald", RealO75: "Gold", Aftlow: "Emerald", Knoxy5316:"Copper" },
+      uhc:   { Killedbycrab: "Gold", RealO75: "Gold", Aftlow: "Gold", Knoxy5316:"Iron" },
+      mace:  { Killedbycrab: "Diamond", RealO75: "Iron", Aftlow: "Gold", Knoxy5316:"Copper" },
+      spear: { Killedbycrab: "Gold", RealO75: "Iron", Aftlow: "Diamond", Knoxy5316:"Copper" },
+      overall:{ Killedbycrab: "Emerald", RealO75: "Gold", Aftlow: "Emerald", Knoxy5316:"Copper" }
     };
 
-    // tier color map used for badges & profile header color
     const tierColors = {
       Gold:'#FFD700',
       Silver:'#C0C0C0',
@@ -370,6 +349,7 @@
       Emerald:'#50C878',
       Diamond:'#00BFFF',
       Iron:'#8b8b8b',
+      Copper:'#B87333',
       'Unranked':'#888'
     };
 
@@ -388,12 +368,12 @@
       playerStats.overall = overall;
     }
 
-    // NEW: tier-priority-based ordering with fallback to stats for unranked
+    // tier-priority-based ordering with fallback to stats for unranked
     function getOrderedPlayers(mode){
       if(mode === 'overall') updateOverall();
       const entries = Object.entries(playerStats[mode] || {});
 
-      const tierPriority = { 'Diamond':6, 'Emerald':5, 'Gold':4, 'Silver':3, 'Bronze':2, 'Iron':1, 'Unranked':0 };
+      const tierPriority = { 'Diamond':6, 'Emerald':5, 'Gold':4, 'Silver':3, 'Bronze':2, 'Iron':1, 'Copper':1, 'Unranked':0 };
 
       const computed = entries.map(([name, stats]) => {
         const tier = customTiers[mode]?.[name] || "Unranked";
@@ -431,10 +411,20 @@
       const players = getOrderedPlayers(mode);
       container.innerHTML = '';
       players.forEach((name, i) => {
+        // default top-3 glow/number
         let glow = '', numberClass = '';
         if(i===0){ glow='gold-glow'; numberClass='gold'; }
         else if(i===1){ glow='silver-glow'; numberClass='silver'; }
         else if(i===2){ glow='bronze-glow'; numberClass='bronze'; }
+
+        // Determine tier for this player in this mode (shows badge if not Unranked)
+        const tier = customTiers[mode]?.[name] || "Unranked";
+
+        // If player's tier is Copper (or other non-top) give them copper styles
+        if(tier === 'Copper'){
+          glow = 'copper-glow';
+          numberClass = 'copper';
+        }
 
         const card = document.createElement('div');
         card.className = `player ${glow}`;
@@ -443,19 +433,15 @@
 
         const numberSpan = `<span class="number ${numberClass}">#${i+1}</span>`;
 
-        // Determine tier for this player in this mode (shows badge if not Unranked)
-        const tier = customTiers[mode]?.[name] || "Unranked";
         let badgeHtml = '';
         if(tier && tier !== 'Unranked'){
           const color = tierColors[tier] || '#888';
           const textColor = (tier === 'Gold' || tier === 'Silver') ? '#000' : '#fff';
-          // include title for accessibility
           badgeHtml = `<span class="tier-badge" title="${tier} tier" style="background:${color}; color:${textColor};">${tier}</span>`;
         }
 
         const playerContent = document.createElement('div');
         playerContent.className = 'player-content';
-        // insert avatar, name and optional badge
         playerContent.innerHTML = `<img src="${getAvatar(name)}" alt="${name} avatar" class="player-head"><b>${name}</b>${badgeHtml}`;
 
         card.innerHTML = numberSpan;
@@ -480,6 +466,7 @@
         Emerald:'#50C878',
         Diamond:'#00BFFF',
         Iron:'#8b8b8b',
+        Copper:'#B87333',
         'Unranked':'#888'
       };
 
