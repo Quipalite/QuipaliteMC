@@ -303,7 +303,7 @@
       },
       spear: {
         Killedbycrab:{wins:1,kills:3,deaths:0},
-        Aftlow:{wins:2,kills:6,deaths:2}, // <-- updated
+        Aftlow:{wins:2,kills:6,deaths:2},
         "Yearly-scuff81":{wins:0,kills:1,deaths:6},
         Cocotime15:{wins:0,kills:0,deaths:3},
         RealO75:{wins:0,kills:1,deaths:3}
@@ -311,12 +311,36 @@
     };
 
     const customTiers = {
-      sword:{Killedbycrab:"Gold"},
-      axe:{Killedbycrab:"Emerald"},
-      uhc:{Killedbycrab:"Gold"},
-      mace:{Killedbycrab:"Diamond"},
-      spear:{Killedbycrab:"Gold"},
-      overall:{Killedbycrab:"Emerald"}
+      sword: {
+        Killedbycrab: "Gold",
+        RealO75: "Diamond",
+        Aftlow: "Emerald"
+      },
+      axe: {
+        Killedbycrab: "Emerald",
+        RealO75: "Gold",
+        Aftlow: "Emerald"
+      },
+      uhc: {
+        Killedbycrab: "Gold",
+        RealO75: "Gold",
+        Aftlow: "Gold"
+      },
+      mace: {
+        Killedbycrab: "Diamond",
+        RealO75: "Iron",
+        Aftlow: "Gold"
+      },
+      spear: {
+        Killedbycrab: "Gold",
+        RealO75: "Iron",
+        Aftlow: "Diamond"
+      },
+      overall: {
+        Killedbycrab: "Emerald",
+        RealO75: "Gold",
+        Aftlow: "Emerald"
+      }
     };
 
     function updateOverall(){
@@ -334,20 +358,39 @@
       playerStats.overall = overall;
     }
 
+    // NEW: tier-priority-based ordering with fallback to stats for unranked
     function getOrderedPlayers(mode){
       if(mode === 'overall') updateOverall();
       const entries = Object.entries(playerStats[mode] || {});
+
+      const tierPriority = { 'Diamond':6, 'Emerald':5, 'Gold':4, 'Silver':3, 'Bronze':2, 'Iron':1, 'Unranked':0 };
+
       const computed = entries.map(([name, stats]) => {
+        const tier = customTiers[mode]?.[name] || "Unranked";
         const kd = (stats.deaths === 0) ? stats.kills : (stats.kills / stats.deaths);
         const score = (stats.wins * 10) + stats.kills + (kd * 5);
-        return {name, stats, score};
+        return { name, stats, tier, score };
       });
+
       computed.sort((a,b) => {
+        const tierDiff = (tierPriority[b.tier] || 0) - (tierPriority[a.tier] || 0);
+        if(tierDiff !== 0) return tierDiff;
+
+        // if both unranked, sort purely by stats
+        if(a.tier === 'Unranked' && b.tier === 'Unranked'){
+          if(b.score !== a.score) return b.score - a.score;
+          if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
+          if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
+          return a.stats.deaths - b.stats.deaths;
+        }
+
+        // otherwise, break ties by score then wins, kills, deaths
         if(b.score !== a.score) return b.score - a.score;
         if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
         if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
         return a.stats.deaths - b.stats.deaths;
       });
+
       return computed.map(c => c.name);
     }
 
@@ -388,7 +431,15 @@
 
     function openProfile(name, mode){
       const stats = (playerStats[mode] || {})[name];
-      const tierColors = {Gold:'#FFD700', Silver:'#C0C0C0', Bronze:'#CD7F32', Emerald:'#50C878', Diamond:'#00BFFF', 'Unranked':'#888'};
+      const tierColors = {
+        Gold:'#FFD700',
+        Silver:'#C0C0C0',
+        Bronze:'#CD7F32',
+        Emerald:'#50C878',
+        Diamond:'#00BFFF',
+        Iron:'#8b8b8b',
+        'Unranked':'#888'
+      };
 
       if(!stats){
         const color = monoMode ? '#fff' : '#ff99cc';
