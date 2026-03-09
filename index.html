@@ -122,7 +122,6 @@
       background:#222;
     }
 
-    /* rank glows (default colored) */
     .gold-glow{ border-color:gold !important; box-shadow:0 0 16px gold; animation:pulseTop 1.2s infinite alternate; }
     .silver-glow{ border-color:silver !important; box-shadow:0 0 14px silver; }
     .bronze-glow{ border-color:#cd7f32 !important; box-shadow:0 0 12px #cd7f32; }
@@ -195,20 +194,16 @@
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; }
     body.mono .backBtn:hover{ background:#222; }
     body.mono .stat-bar{ background:#222; }
-    /* make all head borders white in mono */
     body.mono .player-head{ border:2px solid #fff !important; }
-    /* force glows to white so they remain visible but mono */
     body.mono .gold-glow, body.mono .silver-glow, body.mono .bronze-glow{
       border-color:#fff !important; box-shadow:0 0 16px #fff !important; animation:none;
     }
-    /* no-players mono */
     body.mono .no-players{
       border:2px dashed #fff; color:#fff; background: rgba(255,255,255,0.04); box-shadow:none; animation:pulseMono 1.6s infinite;
     }
     body.mono .no-players::before{ color:#fff; }
     @keyframes pulseMono{ 0%,100%{box-shadow:0 0 8px #fff;} 50%{box-shadow:0 0 14px #fff;} }
 
-    /* small responsive adjustments */
     @media (max-width:520px){
       header{ font-size:32px; padding:32px 12px; }
       #searchInput{ width:180px; }
@@ -253,24 +248,19 @@
   </div>
 
   <script>
-    /* ---------- Theme toggle ---------- */
     let monoMode = false;
     const thumb = document.getElementById('toggleThumb');
     function toggleTheme(){
       monoMode = !monoMode;
       document.body.classList.toggle('mono', monoMode);
       thumb.style.transform = monoMode ? 'translateX(26px)' : 'translateX(0)';
-      // invert thumb color so it looks natural on white track
       thumb.style.background = monoMode ? '#fff' : '#000';
     }
 
-    /* ---------- Avatar helper ---------- */
     function getAvatar(username, size = 48){
-      // uses tabavatars.net as before (suitable for MC heads)
       return `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=${size}&type=head`;
     }
 
-    /* ---------- Data ---------- */
     const playerStats = {
       sword: {
         RealO75:{wins:11,kills:33,deaths:7},
@@ -297,7 +287,9 @@
       },
       uhc: {
         Killedbycrab:{wins:1,kills:3,deaths:0},
-        "Yearly-scuff81":{wins:0,kills:0,deaths:3}
+        "Yearly-scuff81":{wins:0,kills:0,deaths:3},
+        Aftlow:{wins:1,kills:3,deaths:2},
+        RealO75:{wins:0,kills:2,deaths:3}
       },
       mace: {
         Killedbycrab:{wins:9,kills:27,deaths:5},
@@ -311,9 +303,10 @@
       },
       spear: {
         Killedbycrab:{wins:1,kills:3,deaths:0},
-        Aftlow:{wins:2,kills:6,deaths:1},
+        Aftlow:{wins:2,kills:6,deaths:2}, // <-- updated
         "Yearly-scuff81":{wins:0,kills:1,deaths:6},
-        Cocotime15:{wins:0,kills:0,deaths:3}
+        Cocotime15:{wins:0,kills:0,deaths:3},
+        RealO75:{wins:0,kills:1,deaths:3}
       }
     };
 
@@ -326,7 +319,6 @@
       overall:{Killedbycrab:"Emerald"}
     };
 
-    /* ---------- Overall aggregator ---------- */
     function updateOverall(){
       const overall = {};
       for(const mode in playerStats){
@@ -342,8 +334,6 @@
       playerStats.overall = overall;
     }
 
-    /* ---------- Ranking algorithm ---------- */
-    // score = wins*10 + kills + kd*5
     function getOrderedPlayers(mode){
       if(mode === 'overall') updateOverall();
       const entries = Object.entries(playerStats[mode] || {});
@@ -361,7 +351,6 @@
       return computed.map(c => c.name);
     }
 
-    /* ---------- Rendering players list ---------- */
     function createPlayers(mode){
       if(mode === 'overall') updateOverall();
       const container = document.getElementById(mode);
@@ -379,7 +368,6 @@
         card.style.animationDelay = `${i * 0.07}s`;
         card.onclick = () => openProfile(name, mode);
 
-        // build inner content
         const numberSpan = `<span class="number ${numberClass}">#${i+1}</span>`;
         const playerContent = document.createElement('div');
         playerContent.className = 'player-content';
@@ -398,7 +386,6 @@
       }
     }
 
-    /* ---------- Profile view ---------- */
     function openProfile(name, mode){
       const stats = (playerStats[mode] || {})[name];
       const tierColors = {Gold:'#FFD700', Silver:'#C0C0C0', Bronze:'#CD7F32', Emerald:'#50C878', Diamond:'#00BFFF', 'Unranked':'#888'};
@@ -434,11 +421,9 @@
           <p><b>Deaths:</b> ${stats.deaths}</p>
           <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
         `;
-        // animate bars using stats for this player
         setTimeout(()=> animateBars(stats, tierColor), 20);
       }
 
-      // hide main UI, show profile
       document.querySelector('.tabs').style.display = 'none';
       document.querySelector('.container').style.display = 'none';
       document.getElementById('searchInput').style.display = 'none';
@@ -447,9 +432,7 @@
       setTimeout(()=> { profile.classList.add('show'); profile.setAttribute('aria-hidden','false'); }, 10);
     }
 
-    /* ---------- Animate stat bars ---------- */
     function animateBars(stats, color){
-      // stats: {wins,kills,deaths}
       const max = Math.max(stats.wins || 0, stats.kills || 0, stats.deaths || 0, 1);
       const mapping = [
         {id: 'winsBar', key: 'wins'},
@@ -461,7 +444,6 @@
         if(!bar) return;
         bar.style.width = '0%';
         bar.style.background = color;
-        // force reflow to restart pseudo-element animation
         void bar.offsetWidth;
         setTimeout(() => {
           const value = stats[m.key] || 0;
@@ -470,7 +452,6 @@
       });
     }
 
-    /* ---------- Go back from profile ---------- */
     function goBack(){
       const profile = document.getElementById('profilePage');
       profile.classList.remove('show');
@@ -483,12 +464,10 @@
       }, 260);
     }
 
-    /* ---------- Search ---------- */
     function searchPlayers(){
       const value = document.getElementById('searchInput').value.trim().toLowerCase();
       const active = document.querySelector('.mode.active');
       if(!active) return;
-      // remove existing no-players placeholders in that mode so we can re-evaluate
       active.querySelectorAll('.no-players').forEach(np => np.remove());
 
       const players = Array.from(active.querySelectorAll('.player'));
@@ -507,7 +486,6 @@
       }
     }
 
-    /* ---------- Mode switching ---------- */
     function showMode(mode, btn){
       document.getElementById('searchInput').value = '';
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
@@ -517,24 +495,17 @@
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       if(btn) btn.classList.add('active');
 
-      // render the mode list
       createPlayers(mode);
     }
 
-    /* ---------- Boot ---------- */
     window.addEventListener('DOMContentLoaded', () => {
-      // create all modes so they have content immediately
       ['sword','axe','uhc','mace','spear','overall'].forEach(mode => createPlayers(mode));
-
-      // ensure overall tab & content active
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       const overallTab = document.querySelector('.tabs button');
       if(overallTab) overallTab.classList.add('active');
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
       const overallDiv = document.getElementById('overall');
       if(overallDiv) overallDiv.classList.add('active');
-
-      // ensure toggle thumb color matches initial state
       thumb.style.background = monoMode ? '#fff' : '#000';
     });
   </script>
