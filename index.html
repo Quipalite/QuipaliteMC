@@ -4,235 +4,214 @@
   <meta charset="utf-8" />
   <title>Quipalite MC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Modern font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* ---------- Base ---------- */
     :root{
       --accent-pink:#ff1493;
-      --accent-pink-2:#ff66cc;
-      --bg-dark:#000;
-      --card-dark:#111;
-      --muted:#1a1a1a;
+      --accent-muted:#ff66cc;
+      --bg-dark:#070707;
+      --card-dark:#0f0f12;
+      --muted:#141416;
+      /* subtle translucent podium tints for normal mode */
+      --podium-gold-tint: linear-gradient(180deg, rgba(255,246,214,0.06), rgba(255,230,128,0.03));
+      --podium-silver-tint: linear-gradient(180deg, rgba(242,247,251,0.05), rgba(219,233,247,0.02));
+      --podium-bronze-tint: linear-gradient(180deg, rgba(250,239,224,0.05), rgba(242,217,182,0.02));
     }
 
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: "Segoe UI", Arial, sans-serif;
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
       background:var(--bg-dark);
-      color:white;
-      overflow-x:hidden;
-      transition:all 0.28s ease;
+      color:#eaeaea;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
+    /* Header */
     header{
       text-align:center;
-      padding:45px 20px;
-      font-size:44px;
-      font-weight:900;
-      letter-spacing:3px;
-      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493,#ff2db2);
+      padding:36px 20px;
+      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493);
       background-size:300% 300%;
-      animation:bannerMove 5s ease infinite;
-      border-bottom:3px solid var(--accent-pink-2);
+      animation:bannerMove 6s ease infinite;
+      border-bottom:1px solid rgba(255,20,147,0.08);
       position:relative;
-    }
-    @keyframes bannerMove{
-      0%{background-position:0% 50%;}
-      50%{background-position:100% 50%;}
-      100%{background-position:0% 50%;}
-    }
-
-    .theme-toggle{
-      position:absolute;
-      top:15px;
-      right:15px;
-      width:50px;
-      height:24px;
-      border-radius:12px;
-      background:#fff;
-      cursor:pointer;
       display:flex;
+      flex-direction:column;
       align-items:center;
-      padding:2px;
-      box-sizing:border-box;
+      gap:6px;
     }
-    .theme-toggle .toggle-thumb{
-      width:20px;height:20px;border-radius:50%;
-      transition:transform 0.25s ease, background 0.25s ease;
-      background:#000;
-      transform:translateX(0);
-    }
+    @keyframes bannerMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+    .logo{ font-size:34px; font-weight:800; letter-spacing:2px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.45); }
+    .subtitle{ font-size:13px; opacity:0.9; color:rgba(255,255,255,0.92); font-weight:600; letter-spacing:1px; }
 
-    .tabs{
-      text-align:center;
-      margin:20px 0;
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
+    /* Toggle */
+    .theme-toggle{
+      position:absolute; top:14px; right:14px; width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer;
+      display:flex; align-items:center; padding:3px; box-sizing:border-box; box-shadow:0 6px 18px rgba(0,0,0,0.25);
     }
+    .theme-toggle .toggle-thumb{ width:20px;height:20px;border-radius:50%; transition:transform .25s, background .25s; background:#000; transform:translateX(0); }
+
+    /* Tabs + search */
+    .tabs{ text-align:center; margin:16px 0; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; padding:0 12px; }
     .tab{
-      background:var(--card-dark);
-      border:1px solid var(--accent-pink);
-      color:white;
-      padding:6px 12px;
-      border-radius:6px;
-      cursor:pointer;
-      font-weight:bold;
-      transition:0.15s ease;
+      background:transparent; border:none; border-bottom:2px solid transparent; padding:8px 14px; border-radius:6px; cursor:pointer;
+      font-weight:700; color:rgba(255,255,255,0.65); transition:all .18s;
     }
-    .tab:hover{ transform:scale(1.05); }
-    .tab.active{ background:var(--accent-pink); color:#000; }
+    .tab[aria-disabled="true"]{ opacity:0.6; cursor:default; transform:none; }
+    .tab:hover{ color:white; transform:translateY(-2px); }
+    .tab.active{ border-bottom:2px solid var(--accent-pink); color:white; }
 
     #searchInput{
-      width:250px;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid var(--accent-pink);
-      background:var(--card-dark);
-      color:white;
-      font-weight:bold;
-      outline:none;
-      transition:all 0.2s ease;
+      width:320px; max-width:92%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:white; font-weight:600; outline:none;
+      box-shadow:0 8px 30px rgba(0,0,0,0.55) inset;
     }
+    #searchInput::placeholder{ color:rgba(255,255,255,0.35); font-weight:500; }
 
-    .container{ max-width:900px; margin:auto; padding:20px; min-height:200px; }
+    .container{ max-width:980px; margin:auto; padding:20px; min-height:220px; animation:fadeIn .36s ease; }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
-    .mode{ display:none; opacity:0; transition:opacity 0.28s ease; }
+    .mode{ display:none; opacity:0; transition:opacity .28s ease; }
     .mode.active{ display:block; opacity:1; }
 
+    /* Player card */
     .player{
-      background:var(--card-dark);
-      margin:12px 0;
-      padding:18px;
-      border-radius:12px;
-      border:1px solid var(--accent-pink);
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      position:relative;
-      overflow:hidden;
-      transition:transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+      margin:12px 0; padding:16px; border-radius:12px; border:1px solid rgba(255,20,147,0.06);
+      cursor:pointer; display:flex; align-items:center; position:relative; overflow:hidden; transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+      gap:12px;
     }
-    .player:hover{ transform:translateY(-4px) scale(1.02); box-shadow:0 0 16px var(--accent-pink); }
+    .player:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 18px 48px rgba(0,0,0,0.65), 0 0 16px rgba(255,20,147,0.18); }
 
-    .player-head{
-      width:48px;height:48px;border-radius:8px;margin-right:12px;border:2px solid var(--accent-pink);flex-shrink:0;
-      display:block;
-      object-fit:cover;
-      background:#222;
+    .player-head{ width:48px;height:48px;border-radius:10px;border:2px solid rgba(255,255,255,0.04); object-fit:cover; background:#111; flex-shrink:0; transition:transform .22s ease, box-shadow .22s ease; }
+    .player:hover .player-head{ transform:scale(1.08); box-shadow:0 8px 22px rgba(0,0,0,0.6); }
+
+    /* Top 3 glow + subtle podium tint in normal mode.
+       In mono mode we override to simple white glow. */
+    .gold-glow{
+      border:2px solid rgba(255,215,0,0.9) !important;
+      box-shadow:
+        0 0 10px rgba(255,215,0,0.25),
+        0 0 22px rgba(255,215,0,0.18),
+        0 0 36px rgba(255,215,0,0.12);
+      animation:goldPulse 1.6s infinite alternate;
+      background: var(--podium-gold-tint);
+    }
+    .silver-glow{
+      border:2px solid rgba(192,192,192,0.95) !important;
+      box-shadow:
+        0 0 8px rgba(192,192,192,0.18),
+        0 0 20px rgba(192,192,192,0.12);
+      background: var(--podium-silver-tint);
+    }
+    .bronze-glow{
+      border:2px solid rgba(205,127,50,0.95) !important;
+      box-shadow:
+        0 0 8px rgba(205,127,50,0.18),
+        0 0 20px rgba(205,127,50,0.12);
+      background: var(--podium-bronze-tint);
+    }
+    @keyframes goldPulse{
+      from{ box-shadow:0 0 10px rgba(255,215,0,0.22), 0 0 20px rgba(255,215,0,0.16); }
+      to{ box-shadow:0 0 18px rgba(255,215,0,0.30), 0 0 40px rgba(255,215,0,0.20); }
     }
 
-    .gold-glow{ border-color:gold !important; box-shadow:0 0 16px gold; animation:pulseTop 1.2s infinite alternate; }
-    .silver-glow{ border-color:silver !important; box-shadow:0 0 14px silver; }
-    .bronze-glow{ border-color:#cd7f32 !important; box-shadow:0 0 12px #cd7f32; }
-    .copper-glow{ border-color:#B87333 !important; box-shadow:0 0 12px #B87333; }
-    @keyframes pulseTop{0%{box-shadow:0 0 12px gold;}100%{box-shadow:0 0 22px gold;}}
+    /* small podium styling tweaks */
+    .player.top1{ transform:translateY(-6px) scale(1.03); }
+    .player.top1 .number{ font-size:18px; font-weight:900; }
+    .player.top2{ transform:translateY(-3px) scale(1.015); }
+    .player.top3{ transform:translateY(-2px) scale(1.01); }
 
-    .number{
+    .number{ display:inline-block; padding:6px 12px; border-radius:50%; font-weight:800; margin-right:10px; min-width:36px; text-align:center; z-index:2; color:white; background:transparent; border:1px solid rgba(255,255,255,0.04); font-size:13px; }
+
+    .player-content{ opacity:0; transform:translateY(6px); animation:fadeSlide .42s ease forwards; display:flex; align-items:center; gap:12px; width:100%; justify-content:space-between; }
+    @keyframes fadeSlide{ to{opacity:1; transform:translateY(0);} }
+
+    .left{ display:flex; align-items:center; gap:12px; min-width:0; flex:1 1 auto; }
+    .info{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+    .mini-stats{ font-size:12px; opacity:.85; color:rgba(255,255,255,0.9); }
+    .right{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
+
+    .tier-badge{ display:inline-block; margin-left:8px; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:700; line-height:1; box-shadow:0 2px 6px rgba(0,0,0,0.35); }
+
+    /* crown for #1 (cards and profile) */
+    .crown{
+      width:18px;
+      height:18px;
       display:inline-block;
-      padding:6px 12px;
-      border-radius:50%;
-      font-weight:bold;
-      margin-right:12px;
-      min-width:30px;
-      text-align:center;
-      position:relative;
-      z-index:2;
-      color:white;
-    }
-    .gold{ background:gold; color:black; }
-    .silver{ background:silver; color:black; }
-    .bronze{ background:#cd7f32; color:white; }
-    .copper{ background:#B87333; color:white; }
-
-    .player-content{ opacity:0; transform:translateY(20px) scale(0.97); animation:fadeSlide 0.45s ease forwards; display:flex; align-items:center; gap:10px; }
-    @keyframes fadeSlide{ to{opacity:1; transform:translateY(0) scale(1);} }
-
-    /* tier badge (small pill next to player name) */
-    .tier-badge{
-      display:inline-block;
-      margin-left:8px;
-      padding:4px 8px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      line-height:1;
       vertical-align:middle;
-      box-shadow:0 2px 6px rgba(0,0,0,0.35);
-      text-transform:none;
+      margin-left:6px;
+      transform-origin:center;
+      animation: crownFloat 2s ease-in-out infinite;
     }
+    @keyframes crownFloat{ 0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)} }
 
-    #profilePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(20px); transition:0.28s ease; }
+    /* profile */
+    #profilePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(20px); transition:.28s ease; }
     #profilePage.show{ opacity:1; transform:translateY(0); }
-    #profileContent{ background:var(--card-dark); padding:20px; border-radius:12px; border:1px solid var(--accent-pink); color:white; }
+    #profileContent{ background:var(--card-dark); padding:20px; border-radius:12px; border:1px solid rgba(255,20,147,0.06); color:white; }
 
-    .backBtn{
-      background:var(--accent-pink);
-      border:none;
-      padding:10px 16px;
-      color:white;
-      font-weight:bold;
-      border-radius:8px;
-      cursor:pointer;
-      margin-bottom:20px;
-      transition:all 0.2s ease;
-    }
-    .backBtn:hover{ background:var(--accent-pink-2); }
+    .backBtn{ background:var(--accent-pink); border:none; padding:10px 16px; color:white; font-weight:800; border-radius:8px; cursor:pointer; margin-bottom:20px; transition:all .2s; box-shadow:0 8px 20px rgba(255,20,147,0.12); }
+    .backBtn:hover{ background:var(--accent-muted); }
 
     .stat-bar{ background:var(--muted); height:8px; border-radius:6px; margin-bottom:15px; overflow:hidden; position:relative; }
     .stat-fill{ height:100%; width:0%; transition:width 1s ease; position:relative; overflow:hidden; border-radius:6px; }
-    .stat-fill::after{
-      content:''; position:absolute; top:0; left:-40%; width:40%; height:100%;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 100%);
-      transform:skewX(-18deg); animation:statShine 1.6s linear infinite; pointer-events:none;
-    }
+    .stat-fill::after{ content:''; position:absolute; top:0; left:-40%; width:40%; height:100%; background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 100%); transform:skewX(-18deg); animation:statShine 1.6s linear infinite; pointer-events:none; }
     @keyframes statShine{ 0%{left:-40%;} 100%{left:140%;} }
-    .stat-bar::before{ content:''; position:absolute; inset:0; border-radius:6px; box-shadow:0 0 6px rgba(255,20,147,0.03) inset; pointer-events:none; }
 
-    .no-players{
-      margin-top:20px; font-size:20px; text-align:center; padding:20px;
-      border:2px dashed var(--accent-pink); border-radius:12px;
-      color:var(--accent-pink-2); font-weight:bold; background: rgba(255,20,147,0.07);
-      display:flex; justify-content:center; align-items:center; gap:10px; animation:pulse 1.5s infinite;
-    }
-    .no-players::before{ content:"⚠️"; font-size:24px; }
-    @keyframes pulse{ 0%,100%{box-shadow:0 0 8px var(--accent-pink);} 50%{box-shadow:0 0 16px var(--accent-pink-2);} }
+    .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background: rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
 
-    /* ---------- MONO MODE OVERRIDES ---------- */
+    /* MONO MODE OVERRIDES (fix glow + no-players) */
     body.mono{ background:#000; color:#fff; }
-    body.mono header{ background:#000; border-bottom:3px solid #fff; color:#fff; animation:none; }
-    body.mono .tab{ background:#000; border:1px solid #fff; color:#fff; }
-    body.mono .tab.active{ background:#fff; color:#000; }
-    body.mono #searchInput{ background:#000; border:1px solid #fff; color:#fff; }
-    body.mono .player{ background:#000; border:1px solid #fff; color:#fff; }
-    body.mono .player:hover{ box-shadow:0 0 14px #fff; }
-    body.mono #profileContent{ background:#000; border:1px solid #fff; color:#fff; }
-    body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; }
-    body.mono .backBtn:hover{ background:#222; }
-    body.mono .stat-bar{ background:#222; }
-    body.mono .player-head{ border:2px solid #fff !important; }
-    body.mono .gold-glow, body.mono .silver-glow, body.mono .bronze-glow, body.mono .copper-glow{
-      border-color:#fff !important; box-shadow:0 0 16px #fff !important; animation:none;
+    body.mono header{ background:#000; border-bottom:1px solid #111; animation:none; }
+    /* in mono, make glows white and stronger (clear and readable) */
+    body.mono .gold-glow{
+      border-color:#fff !important;
+      box-shadow:0 0 14px #fff, 0 0 32px rgba(255,255,255,0.18) !important;
+      background:transparent !important;
     }
-    body.mono .no-players{
-      border:2px dashed #fff; color:#fff; background: rgba(255,255,255,0.04); box-shadow:none; animation:pulseMono 1.6s infinite;
+    body.mono .silver-glow{
+      border-color:#fff !important;
+      box-shadow:0 0 10px #fff, 0 0 24px rgba(255,255,255,0.14) !important;
+      background:transparent !important;
     }
-    body.mono .no-players::before{ color:#fff; }
-    @keyframes pulseMono{ 0%,100%{box-shadow:0 0 8px #fff;} 50%{box-shadow:0 0 14px #fff;} }
+    body.mono .bronze-glow{
+      border-color:#fff !important;
+      box-shadow:0 0 10px #fff, 0 0 20px rgba(255,255,255,0.12) !important;
+      background:transparent !important;
+    }
 
-    /* small responsive adjustments */
-    @media (max-width:520px){
-      header{ font-size:32px; padding:32px 12px; }
-      #searchInput{ width:180px; }
-      .player{ padding:12px; }
-      .tier-badge{ padding:3px 6px; font-size:11px; }
+    /* make the 'no players' message readable in mono */
+    body.mono .no-players{
+      border:2px dashed rgba(255,255,255,0.18);
+      color:#fff;
+      background: rgba(255,255,255,0.03);
     }
+
+    body.mono .tab{ color:#ddd; } body.mono .tab.active{ color:#fff; border-bottom-color:#fff; }
+    body.mono #searchInput{ background:#000; border:1px solid #222; color:#fff; }
+    body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
+    body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
+
+    /* responsive */
+    @media (max-width:720px){
+      header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
+    }
+    @media (max-width:520px){
+      .tabs{ gap:8px; } .subtitle{ font-size:12px; } .number{ display:none; } .right{ display:none; }
+    }
+
+    footer{ text-align:center; margin-top:26px; padding:20px; font-size:13px; opacity:0.7; color:rgba(255,255,255,0.75); }
   </style>
 </head>
 <body>
 
   <header>
-    QUIPALITE MC
+    <div class="logo">QUIPALITE MC</div>
+    <div class="subtitle">Competitive PvP Rankings</div>
     <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
       <div class="toggle-thumb" id="toggleThumb"></div>
     </div>
@@ -247,8 +226,8 @@
     <button class="tab" onclick="showMode('spear', this)" role="tab">Spear</button>
   </div>
 
-  <div style="text-align:center;margin-bottom:15px;">
-    <input type="text" id="searchInput" placeholder="Search player..." onkeyup="searchPlayers()" aria-label="Search players">
+  <div style="text-align:center;margin-bottom:12px;">
+    <input type="text" id="searchInput" placeholder="🔍 Search player..." onkeyup="searchPlayers()" aria-label="Search players">
   </div>
 
   <div class="container">
@@ -265,9 +244,12 @@
     <div id="profileContent"></div>
   </div>
 
+  <footer>© QUIPALITE MC — PvP leaderboards • Built with ❤️</footer>
+
   <script>
     let monoMode = false;
     const thumb = document.getElementById('toggleThumb');
+
     function toggleTheme(){
       monoMode = !monoMode;
       document.body.classList.toggle('mono', monoMode);
@@ -276,7 +258,7 @@
     }
 
     function getAvatar(username, size = 48){
-      return `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=${size}&type=head`;
+      return 'https://tabavatars.net/avatar/?username=' + encodeURIComponent(username) + '&size=' + size + '&type=head';
     }
 
     const playerStats = {
@@ -329,7 +311,7 @@
         RealO75:{wins:1,kills:4,deaths:3},
         gfunkdfunk82:{wins:0,kills:2,deaths:3},
         Ushindo:{wins:0,kills:0,deaths:3},
-        Knoxy5316:{wins:1,kills:3,deaths:2} /* <-- added Knoxy5316 spear stats */
+        Knoxy5316:{wins:1,kills:3,deaths:2}
       }
     };
 
@@ -343,50 +325,44 @@
     };
 
     const tierColors = {
-      Gold:'#FFD700',
-      Silver:'#C0C0C0',
-      Bronze:'#CD7F32',
-      Emerald:'#50C878',
-      Diamond:'#00BFFF',
-      Iron:'#8b8b8b',
-      Copper:'#B87333',
-      'Unranked':'#888'
+      Gold:'#FFD700', Silver:'#C0C0C0', Bronze:'#CD7F32', Emerald:'#50C878', Diamond:'#00BFFF', Iron:'#8b8b8b', Copper:'#B87333', 'Unranked':'#888'
     };
 
     function updateOverall(){
       const overall = {};
       for(const mode in playerStats){
         if(mode === 'overall') continue;
-        for(const p in playerStats[mode]){
+        const list = playerStats[mode] || {};
+        for(const p in list){
           if(!overall[p]) overall[p] = {wins:0,kills:0,deaths:0};
-          const s = playerStats[mode][p];
-          overall[p].wins += s.wins;
-          overall[p].kills += s.kills;
-          overall[p].deaths += s.deaths;
+          const s = list[p];
+          overall[p].wins += (s.wins || 0);
+          overall[p].kills += (s.kills || 0);
+          overall[p].deaths += (s.deaths || 0);
         }
       }
       playerStats.overall = overall;
     }
 
-    // tier-priority-based ordering with fallback to stats for unranked
     function getOrderedPlayers(mode){
       if(mode === 'overall') updateOverall();
-      const entries = Object.entries(playerStats[mode] || {});
+      const data = playerStats[mode] || {};
+      const entries = Object.entries(data);
 
       const tierPriority = { 'Diamond':6, 'Emerald':5, 'Gold':4, 'Silver':3, 'Bronze':2, 'Iron':1, 'Copper':1, 'Unranked':0 };
 
       const computed = entries.map(([name, stats]) => {
+        const s = stats || {wins:0,kills:0,deaths:0};
         const tier = customTiers[mode]?.[name] || "Unranked";
-        const kd = (stats.deaths === 0) ? stats.kills : (stats.kills / stats.deaths);
-        const score = (stats.wins * 10) + stats.kills + (kd * 5);
-        return { name, stats, tier, score };
+        const kd = (s.deaths === 0) ? s.kills : (s.kills / s.deaths);
+        const score = (s.wins * 10) + s.kills + (kd * 5);
+        return { name, stats: s, tier, score };
       });
 
       computed.sort((a,b) => {
-        const tierDiff = (tierPriority[b.tier] || 0) - (tierPriority[a.tier] || 0);
-        if(tierDiff !== 0) return tierDiff;
+        const tDiff = (tierPriority[b.tier] || 0) - (tierPriority[a.tier] || 0);
+        if(tDiff !== 0) return tDiff;
 
-        // if both unranked, sort purely by stats
         if(a.tier === 'Unranked' && b.tier === 'Unranked'){
           if(b.score !== a.score) return b.score - a.score;
           if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
@@ -394,7 +370,6 @@
           return a.stats.deaths - b.stats.deaths;
         }
 
-        // otherwise, break ties by score then wins, kills, deaths
         if(b.score !== a.score) return b.score - a.score;
         if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
         if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
@@ -410,47 +385,54 @@
       if(!container) return;
       const players = getOrderedPlayers(mode);
       container.innerHTML = '';
+
+      // NO ranking title inserted (per request)
+
       players.forEach((name, i) => {
-        // default no glow / number style
-        let glow = '', numberClass = '';
-
-        // ONLY top-3 get special glow and number classes
-        if(i===0){
-          glow='gold-glow';
-          numberClass='gold';
-        } else if(i===1){
-          glow='silver-glow';
-          numberClass='silver';
-        } else if(i===2){
-          glow='bronze-glow';
-          numberClass='bronze';
+        let glow = '', numberClass = '', podiumClass = '', crownHtml = '';
+        if(i===0){ glow='gold-glow'; numberClass='gold'; podiumClass='top1';
+          crownHtml = `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;
         }
+        else if(i===1){ glow='silver-glow'; numberClass='silver'; podiumClass='top2'; }
+        else if(i===2){ glow='bronze-glow'; numberClass='bronze'; podiumClass='top3'; }
 
-        // Determine tier for this player in this mode (shows badge if not Unranked)
         const tier = customTiers[mode]?.[name] || "Unranked";
-
-        // NOTE: per request, do NOT give special number styling to anyone except top-3.
-        // Badges (tier pills) still appear for ranked players, but the number styling is reserved for top3 only.
+        const stats = (playerStats[mode] || {})[name] || {wins:0,kills:0,deaths:0};
 
         const card = document.createElement('div');
-        card.className = `player ${glow}`;
-        card.style.animationDelay = `${i * 0.07}s`;
+        card.className = `player ${glow} ${podiumClass}`;
+        card.style.animationDelay = (i * 0.06) + 's';
         card.onclick = () => openProfile(name, mode);
 
-        const numberSpan = `<span class="number ${numberClass}">#${i+1}</span>`;
-
-        let badgeHtml = '';
-        if(tier && tier !== 'Unranked'){
-          const color = tierColors[tier] || '#888';
-          const textColor = (tier === 'Gold' || tier === 'Silver') ? '#000' : '#fff';
-          badgeHtml = `<span class="tier-badge" title="${tier} tier" style="background:${color}; color:${textColor};">${tier}</span>`;
-        }
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'number ' + numberClass;
+        numberSpan.textContent = '#' + (i + 1);
 
         const playerContent = document.createElement('div');
         playerContent.className = 'player-content';
-        playerContent.innerHTML = `<img src="${getAvatar(name)}" alt="${name} avatar" class="player-head"><b>${name}</b>${badgeHtml}`;
 
-        card.innerHTML = numberSpan;
+        const badgeHtml = (tier && tier !== 'Unranked') ?
+          `<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'}; color:${(tier==='Gold'||tier==='Silver')?'#000':'#fff'};">${tier}</span>` : '';
+
+        // include crownHtml next to name if top1
+        playerContent.innerHTML = `
+          <div class="left">
+            <img src="${getAvatar(name)}" alt="${name} avatar" class="player-head">
+            <div class="info">
+              <div style="display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                <b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</b>
+                ${crownHtml}
+                ${badgeHtml}
+              </div>
+              <div class="mini-stats"><strong>W:</strong> ${stats.wins} &nbsp; <strong>K:</strong> ${stats.kills} &nbsp; <strong>D:</strong> ${stats.deaths}</div>
+            </div>
+          </div>
+          <div class="right">
+            <div style="font-weight:700;font-size:13px;opacity:.9;">K/D: ${stats.deaths===0? (stats.kills>0? '∞' : '0.00') : ((stats.kills/stats.deaths).toFixed(2))}</div>
+          </div>
+        `;
+
+        card.appendChild(numberSpan);
         card.appendChild(playerContent);
         container.appendChild(card);
       });
@@ -465,16 +447,7 @@
 
     function openProfile(name, mode){
       const stats = (playerStats[mode] || {})[name];
-      const tierColorsLocal = {
-        Gold:'#FFD700',
-        Silver:'#C0C0C0',
-        Bronze:'#CD7F32',
-        Emerald:'#50C878',
-        Diamond:'#00BFFF',
-        Iron:'#8b8b8b',
-        Copper:'#B87333',
-        'Unranked':'#888'
-      };
+      const tierColorsLocal = tierColors;
 
       if(!stats){
         const color = monoMode ? '#fff' : '#ff99cc';
@@ -490,21 +463,28 @@
         else if(Number(kd) >= 1) kdColor = 'yellow';
         else kdColor = 'red';
 
+        // crown html if #1
+        const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
+
         document.getElementById('profileContent').innerHTML = `
           <h2 style="margin-top:0;display:flex;align-items:center;gap:12px;">
-            <img src="${getAvatar(name,64)}" alt="${name} avatar" class="player-head" style="width:64px;height:64px;">
-            <span>${name}</span>
+            <img src="${getAvatar(name,64)}" alt="${name} avatar" class="player-head" style="width:64px;height:64px;border-radius:12px;">
+            <span style="font-size:20px;display:flex;align-items:center;gap:8px;">
+              <span style="opacity:0.85;font-weight:700;">#${rank}</span>
+              <span>${name}</span>
+              ${crownHtml}
+            </span>
           </h2>
-          <h3 style="margin-top:-6px;color:${tierColor};">${tier}</h3>
-          <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode ? '#fff' : '#ff66cc'};font-weight:bold;">
+          <h3 style="margin-top:-6px;color:${tierColor};font-weight:800;">${tier}</h3>
+          <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode ? '#fff' : 'rgba(255,102,204,0.08)'};font-weight:700;">
             <div>K/D: <span style="color:${kdColor}">${kd}</span></div>
             <div>Rank: <span>#${rank}</span></div>
           </div>
-          <p><b>Wins:</b> ${stats.wins}</p>
+          <p style="margin:6px 0;"><b>Wins:</b> <strong>${stats.wins}</strong></p>
           <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
-          <p><b>Kills:</b> ${stats.kills}</p>
+          <p style="margin:6px 0;"><b>Kills:</b> <strong>${stats.kills}</strong></p>
           <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
-          <p><b>Deaths:</b> ${stats.deaths}</p>
+          <p style="margin:6px 0;"><b>Deaths:</b> <strong>${stats.deaths}</strong></p>
           <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
         `;
         setTimeout(()=> animateBars(stats, tierColor), 20);
@@ -520,18 +500,14 @@
 
     function animateBars(stats, color){
       const max = Math.max(stats.wins || 0, stats.kills || 0, stats.deaths || 0, 1);
-      const mapping = [
-        {id: 'winsBar', key: 'wins'},
-        {id: 'killsBar', key: 'kills'},
-        {id: 'deathsBar', key: 'deaths'}
-      ];
+      const mapping = [{id:'winsBar',key:'wins'},{id:'killsBar',key:'kills'},{id:'deathsBar',key:'deaths'}];
       mapping.forEach((m, idx) => {
         const bar = document.getElementById(m.id);
         if(!bar) return;
         bar.style.width = '0%';
         bar.style.background = color;
         void bar.offsetWidth;
-        setTimeout(() => {
+        setTimeout(()=> {
           const value = stats[m.key] || 0;
           bar.style.width = Math.round((value / max) * 100) + '%';
         }, idx * 200);
@@ -573,6 +549,10 @@
     }
 
     function showMode(mode, btn){
+      // anti-spam: do nothing if clicking the current tab
+      const activeTab = document.querySelector('.tab.active');
+      if(activeTab === btn) return;
+
       document.getElementById('searchInput').value = '';
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
       const el = document.getElementById(mode);
@@ -584,14 +564,20 @@
       createPlayers(mode);
     }
 
+    // Initialize
     window.addEventListener('DOMContentLoaded', () => {
-      ['sword','axe','uhc','mace','spear','overall'].forEach(mode => createPlayers(mode));
+      const modes = ['sword','axe','uhc','mace','spear'];
+      modes.forEach(m => createPlayers(m));
+      createPlayers('overall');
+
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       const overallTab = document.querySelector('.tabs button');
       if(overallTab) overallTab.classList.add('active');
+
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
       const overallDiv = document.getElementById('overall');
       if(overallDiv) overallDiv.classList.add('active');
+
       thumb.style.background = monoMode ? '#fff' : '#000';
     });
   </script>
