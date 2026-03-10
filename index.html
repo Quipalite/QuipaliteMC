@@ -411,20 +411,26 @@
       const players = getOrderedPlayers(mode);
       container.innerHTML = '';
       players.forEach((name, i) => {
-        // default top-3 glow/number
+        // default no glow / number style
         let glow = '', numberClass = '';
-        if(i===0){ glow='gold-glow'; numberClass='gold'; }
-        else if(i===1){ glow='silver-glow'; numberClass='silver'; }
-        else if(i===2){ glow='bronze-glow'; numberClass='bronze'; }
+
+        // ONLY top-3 get special glow and number classes
+        if(i===0){
+          glow='gold-glow';
+          numberClass='gold';
+        } else if(i===1){
+          glow='silver-glow';
+          numberClass='silver';
+        } else if(i===2){
+          glow='bronze-glow';
+          numberClass='bronze';
+        }
 
         // Determine tier for this player in this mode (shows badge if not Unranked)
         const tier = customTiers[mode]?.[name] || "Unranked";
 
-        // If player's tier is Copper (or other non-top) give them copper styles
-        if(tier === 'Copper'){
-          glow = 'copper-glow';
-          numberClass = 'copper';
-        }
+        // NOTE: per request, do NOT give special number styling to anyone except top-3.
+        // Badges (tier pills) still appear for ranked players, but the number styling is reserved for top3 only.
 
         const card = document.createElement('div');
         card.className = `player ${glow}`;
