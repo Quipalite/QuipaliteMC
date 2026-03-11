@@ -297,11 +297,12 @@
         Killedbycrab:{wins:9,kills:27,deaths:5},
         "Yearly-scuff81":{wins:0,kills:3,deaths:15},
         Aftlow:{wins:1,kills:3,deaths:3},
-        Knoxy5316:{wins:1,kills:3,deaths:19},
+        Knoxy5316:{wins:1,kills:5,deaths:22},
         EggyCactus78246:{wins:1,kills:3,deaths:0},
         LiamTheLemur:{wins:0,kills:0,deaths:1},
         RealO75:{wins:1,kills:3,deaths:0},
-        Cocotime15:{wins:1,kills:3,deaths:0}
+        Cocotime15:{wins:1,kills:3,deaths:0},
+        Jai_B37:{wins:1,kills:3,deaths:2}
       },
       spear: {
         Killedbycrab:{wins:1,kills:3,deaths:0},
@@ -386,8 +387,6 @@
       const players = getOrderedPlayers(mode);
       container.innerHTML = '';
 
-      // NO ranking title inserted (per request)
-
       players.forEach((name, i) => {
         let glow = '', numberClass = '', podiumClass = '', crownHtml = '';
         if(i===0){ glow='gold-glow'; numberClass='gold'; podiumClass='top1';
@@ -414,7 +413,6 @@
         const badgeHtml = (tier && tier !== 'Unranked') ?
           `<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'}; color:${(tier==='Gold'||tier==='Silver')?'#000':'#fff'};">${tier}</span>` : '';
 
-        // include crownHtml next to name if top1
         playerContent.innerHTML = `
           <div class="left">
             <img src="${getAvatar(name)}" alt="${name} avatar" class="player-head">
@@ -463,7 +461,6 @@
         else if(Number(kd) >= 1) kdColor = 'yellow';
         else kdColor = 'red';
 
-        // crown html if #1
         const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
 
         document.getElementById('profileContent').innerHTML = `
@@ -549,7 +546,6 @@
     }
 
     function showMode(mode, btn){
-      // anti-spam: do nothing if clicking the current tab
       const activeTab = document.querySelector('.tab.active');
       if(activeTab === btn) return;
 
