@@ -13,7 +13,6 @@
       --bg-dark:#070707;
       --card-dark:#0f0f12;
       --muted:#141416;
-      /* subtle translucent podium tints for normal mode */
       --podium-gold-tint: linear-gradient(180deg, rgba(255,246,214,0.06), rgba(255,230,128,0.03));
       --podium-silver-tint: linear-gradient(180deg, rgba(242,247,251,0.05), rgba(219,233,247,0.02));
       --podium-bronze-tint: linear-gradient(180deg, rgba(250,239,224,0.05), rgba(242,217,182,0.02));
@@ -29,7 +28,6 @@
       -moz-osx-font-smoothing:grayscale;
     }
 
-    /* Header */
     header{
       text-align:center;
       padding:36px 20px;
@@ -47,14 +45,12 @@
     .logo{ font-size:34px; font-weight:800; letter-spacing:2px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.45); }
     .subtitle{ font-size:13px; opacity:0.9; color:rgba(255,255,255,0.92); font-weight:600; letter-spacing:1px; }
 
-    /* Toggle */
     .theme-toggle{
       position:absolute; top:14px; right:14px; width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer;
       display:flex; align-items:center; padding:3px; box-sizing:border-box; box-shadow:0 6px 18px rgba(0,0,0,0.25);
     }
     .theme-toggle .toggle-thumb{ width:20px;height:20px;border-radius:50%; transition:transform .25s, background .25s; background:#000; transform:translateX(0); }
 
-    /* Tabs + search */
     .tabs{ text-align:center; margin:16px 0; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; padding:0 12px; }
     .tab{
       background:transparent; border:none; border-bottom:2px solid transparent; padding:8px 14px; border-radius:6px; cursor:pointer;
@@ -77,7 +73,6 @@
     .mode{ display:none; opacity:0; transition:opacity .28s ease; }
     .mode.active{ display:block; opacity:1; }
 
-    /* Player card */
     .player{
       background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
       margin:12px 0; padding:16px; border-radius:12px; border:1px solid rgba(255,20,147,0.06);
@@ -89,29 +84,20 @@
     .player-head{ width:48px;height:48px;border-radius:10px;border:2px solid rgba(255,255,255,0.04); object-fit:cover; background:#111; flex-shrink:0; transition:transform .22s ease, box-shadow .22s ease; }
     .player:hover .player-head{ transform:scale(1.08); box-shadow:0 8px 22px rgba(0,0,0,0.6); }
 
-    /* Top 3 glow + subtle podium tint in normal mode.
-       In mono mode we override to simple white glow. */
     .gold-glow{
       border:2px solid rgba(255,215,0,0.9) !important;
-      box-shadow:
-        0 0 10px rgba(255,215,0,0.25),
-        0 0 22px rgba(255,215,0,0.18),
-        0 0 36px rgba(255,215,0,0.12);
+      box-shadow:0 0 10px rgba(255,215,0,0.25),0 0 22px rgba(255,215,0,0.18),0 0 36px rgba(255,215,0,0.12);
       animation:goldPulse 1.6s infinite alternate;
       background: var(--podium-gold-tint);
     }
     .silver-glow{
       border:2px solid rgba(192,192,192,0.95) !important;
-      box-shadow:
-        0 0 8px rgba(192,192,192,0.18),
-        0 0 20px rgba(192,192,192,0.12);
+      box-shadow:0 0 8px rgba(192,192,192,0.18),0 0 20px rgba(192,192,192,0.12);
       background: var(--podium-silver-tint);
     }
     .bronze-glow{
       border:2px solid rgba(205,127,50,0.95) !important;
-      box-shadow:
-        0 0 8px rgba(205,127,50,0.18),
-        0 0 20px rgba(205,127,50,0.12);
+      box-shadow:0 0 8px rgba(205,127,50,0.18),0 0 20px rgba(205,127,50,0.12);
       background: var(--podium-bronze-tint);
     }
     @keyframes goldPulse{
@@ -119,7 +105,6 @@
       to{ box-shadow:0 0 18px rgba(255,215,0,0.30), 0 0 40px rgba(255,215,0,0.20); }
     }
 
-    /* small podium styling tweaks */
     .player.top1{ transform:translateY(-6px) scale(1.03); }
     .player.top1 .number{ font-size:18px; font-weight:900; }
     .player.top2{ transform:translateY(-3px) scale(1.015); }
@@ -137,19 +122,12 @@
 
     .tier-badge{ display:inline-block; margin-left:8px; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:700; line-height:1; box-shadow:0 2px 6px rgba(0,0,0,0.35); }
 
-    /* crown for #1 (cards and profile) */
     .crown{
-      width:18px;
-      height:18px;
-      display:inline-block;
-      vertical-align:middle;
-      margin-left:6px;
-      transform-origin:center;
-      animation: crownFloat 2s ease-in-out infinite;
+      width:18px; height:18px; display:inline-block; vertical-align:middle; margin-left:6px;
+      transform-origin:center; animation: crownFloat 2s ease-in-out infinite;
     }
     @keyframes crownFloat{ 0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)} }
 
-    /* profile */
     #profilePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(20px); transition:.28s ease; }
     #profilePage.show{ opacity:1; transform:translateY(0); }
     #profileContent{ background:var(--card-dark); padding:20px; border-radius:12px; border:1px solid rgba(255,20,147,0.06); color:white; }
@@ -164,39 +142,17 @@
 
     .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background: rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
 
-    /* MONO MODE OVERRIDES (fix glow + no-players) */
     body.mono{ background:#000; color:#fff; }
     body.mono header{ background:#000; border-bottom:1px solid #111; animation:none; }
-    /* in mono, make glows white and stronger (clear and readable) */
-    body.mono .gold-glow{
-      border-color:#fff !important;
-      box-shadow:0 0 14px #fff, 0 0 32px rgba(255,255,255,0.18) !important;
-      background:transparent !important;
-    }
-    body.mono .silver-glow{
-      border-color:#fff !important;
-      box-shadow:0 0 10px #fff, 0 0 24px rgba(255,255,255,0.14) !important;
-      background:transparent !important;
-    }
-    body.mono .bronze-glow{
-      border-color:#fff !important;
-      box-shadow:0 0 10px #fff, 0 0 20px rgba(255,255,255,0.12) !important;
-      background:transparent !important;
-    }
-
-    /* make the 'no players' message readable in mono */
-    body.mono .no-players{
-      border:2px dashed rgba(255,255,255,0.18);
-      color:#fff;
-      background: rgba(255,255,255,0.03);
-    }
-
+    body.mono .gold-glow{ border-color:#fff !important; box-shadow:0 0 14px #fff, 0 0 32px rgba(255,255,255,0.18) !important; background:transparent !important; }
+    body.mono .silver-glow{ border-color:#fff !important; box-shadow:0 0 10px #fff, 0 0 24px rgba(255,255,255,0.14) !important; background:transparent !important; }
+    body.mono .bronze-glow{ border-color:#fff !important; box-shadow:0 0 10px #fff, 0 0 20px rgba(255,255,255,0.12) !important; background:transparent !important; }
+    body.mono .no-players{ border:2px dashed rgba(255,255,255,0.18); color:#fff; background: rgba(255,255,255,0.03); }
     body.mono .tab{ color:#ddd; } body.mono .tab.active{ color:#fff; border-bottom-color:#fff; }
     body.mono #searchInput{ background:#000; border:1px solid #222; color:#fff; }
     body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
 
-    /* responsive */
     @media (max-width:720px){
       header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
     }
@@ -279,7 +235,7 @@
       axe: {
         RealO75:{wins:3,kills:9,deaths:3},
         Killedbycrab:{wins:2,kills:6,deaths:1},
-        Jai_B37:{wins:1,kills:3,deaths:0},
+        Jai_B37:{wins:1,kills:5,deaths:3},
         skull_shredder30:{wins:0,kills:1,deaths:3},
         "Yearly-scuff81":{wins:0,kills:0,deaths:3},
         Knoxy5316:{wins:0,kills:1,deaths:6},
@@ -291,7 +247,8 @@
         "Yearly-scuff81":{wins:0,kills:0,deaths:3},
         Aftlow:{wins:2,kills:6,deaths:2},
         RealO75:{wins:0,kills:2,deaths:3},
-        Knoxy5316:{wins:0,kills:0,deaths:3}
+        Knoxy5316:{wins:0,kills:0,deaths:3},
+        Jai_B37:{wins:0,kills:1,deaths:3}
       },
       mace: {
         Killedbycrab:{wins:9,kills:27,deaths:5},
@@ -312,17 +269,18 @@
         RealO75:{wins:1,kills:4,deaths:3},
         gfunkdfunk82:{wins:0,kills:2,deaths:3},
         Ushindo:{wins:0,kills:0,deaths:3},
-        Knoxy5316:{wins:1,kills:3,deaths:2}
+        Knoxy5316:{wins:1,kills:3,deaths:2},
+        Jai_B37:{wins:0,kills:0,deaths:3}
       }
     };
 
     const customTiers = {
-      sword: { Killedbycrab: "Gold", RealO75: "Diamond", Aftlow: "Emerald", Knoxy5316:"Copper" },
-      axe:   { Killedbycrab: "Emerald", RealO75: "Gold", Aftlow: "Emerald", Knoxy5316:"Copper" },
-      uhc:   { Killedbycrab: "Gold", RealO75: "Gold", Aftlow: "Gold", Knoxy5316:"Iron" },
-      mace:  { Killedbycrab: "Diamond", RealO75: "Iron", Aftlow: "Gold", Knoxy5316:"Copper" },
-      spear: { Killedbycrab: "Gold", RealO75: "Iron", Aftlow: "Diamond", Knoxy5316:"Copper" },
-      overall:{ Killedbycrab: "Emerald", RealO75: "Gold", Aftlow: "Emerald", Knoxy5316:"Copper" }
+      sword: { Killedbycrab:"Gold", RealO75:"Diamond", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron" },
+      axe:   { Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Emerald" },
+      uhc:   { Killedbycrab:"Gold", RealO75:"Gold", Aftlow:"Gold", Knoxy5316:"Iron", Jai_B37:"Iron" },
+      mace:  { Killedbycrab:"Diamond", RealO75:"Iron", Aftlow:"Gold", Knoxy5316:"Copper", Jai_B37:"Copper" },
+      spear: { Killedbycrab:"Gold", RealO75:"Iron", Aftlow:"Diamond", Knoxy5316:"Copper", Jai_B37:"Iron" },
+      overall:{ Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper" }
     };
 
     const tierColors = {
@@ -363,14 +321,12 @@
       computed.sort((a,b) => {
         const tDiff = (tierPriority[b.tier] || 0) - (tierPriority[a.tier] || 0);
         if(tDiff !== 0) return tDiff;
-
         if(a.tier === 'Unranked' && b.tier === 'Unranked'){
           if(b.score !== a.score) return b.score - a.score;
           if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
           if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
           return a.stats.deaths - b.stats.deaths;
         }
-
         if(b.score !== a.score) return b.score - a.score;
         if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
         if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
@@ -560,7 +516,6 @@
       createPlayers(mode);
     }
 
-    // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       const modes = ['sword','axe','uhc','mace','spear'];
       modes.forEach(m => createPlayers(m));
