@@ -349,7 +349,7 @@
       uhc:   { Killedbycrab:"Gold", RealO75:"Gold", Aftlow:"Gold", Knoxy5316:"Iron", Jai_B37:"Iron", bubbler2009:"Copper" },
       mace:  { Killedbycrab:"Diamond", RealO75:"Iron", Aftlow:"Gold", Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal" },
       spear: { Killedbycrab:"Gold", RealO75:"Iron", Aftlow:"Diamond", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper" },
-      overall:{ Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron" }
+      overall:{ Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper" }
     };
 
     const tierColors = {
@@ -594,8 +594,6 @@
       document.querySelectorAll('#compareModeRow button').forEach(b => b.classList.remove('active'));
       if(btn) btn.classList.add('active');
       document.getElementById('compareResult').innerHTML = '';
-      document.getElementById('compareP1').value = '';
-      document.getElementById('compareP2').value = '';
       populateCompareSelects();
     }
 
@@ -603,10 +601,10 @@
       if(compareMode === 'overall') updateOverall();
       const players = Object.keys(playerStats[compareMode] || {});
       players.sort();
-      ['compareP1','compareP2'].forEach((id, idx) => {
+      ['compareP1','compareP2'].forEach((id) => {
         const sel = document.getElementById(id);
-        sel.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join('');
-        sel.selectedIndex = idx === 0 ? 0 : Math.min(1, players.length - 1);
+        sel.innerHTML = `<option value="" disabled selected>Select player...</option>` + players.map(p => `<option value="${p}">${p}</option>`).join('');
+        sel.selectedIndex = 0;
       });
     }
 
@@ -614,7 +612,7 @@
       if(compareMode === 'overall') updateOverall();
       const p1 = document.getElementById('compareP1').value;
       const p2 = document.getElementById('compareP2').value;
-      if(!p1 || !p2 || p1 === p2){
+      if(!p1 || !p2 || p1 === '' || p2 === '' || p1 === p2){
         document.getElementById('compareResult').innerHTML = `<div class="no-players">Pick two different players!</div>`;
         return;
       }
