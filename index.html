@@ -152,8 +152,48 @@
     body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
 
+    /* Compare page */
+    #comparePage{ display:none; max-width:860px; margin:auto; padding:20px; opacity:0; transform:translateY(20px); transition:.28s ease; }
+    #comparePage.show{ opacity:1; transform:translateY(0); }
+    .compare-selectors{ display:flex; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
+    .compare-selectors select{
+      flex:1; min-width:140px; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18);
+      background:#0f0f12; color:white; font-weight:700; font-size:14px; outline:none; cursor:pointer;
+    }
+    body.mono .compare-selectors select{ background:#000; border-color:#333; color:#fff; }
+    .compare-vs{ font-weight:900; font-size:22px; color:var(--accent-pink); align-self:center; flex-shrink:0; }
+    body.mono .compare-vs{ color:#fff; }
+    .compare-btn{
+      padding:10px 22px; border-radius:10px; border:none; background:var(--accent-pink); color:white;
+      font-weight:800; cursor:pointer; font-size:14px; transition:all .2s; box-shadow:0 8px 20px rgba(255,20,147,0.18);
+      align-self:center;
+    }
+    .compare-btn:hover{ background:var(--accent-muted); }
+    body.mono .compare-btn{ background:#fff; color:#000; box-shadow:none; }
+    .compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .compare-card{ background:var(--card-dark); border-radius:12px; padding:18px; border:1px solid rgba(255,20,147,0.08); }
+    body.mono .compare-card{ background:#000; border-color:#222; }
+    .compare-card h3{ margin:0 0 14px 0; display:flex; align-items:center; gap:10px; font-size:16px; }
+    .compare-row{ display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
+    .compare-row:last-child{ border-bottom:none; }
+    .compare-row .label{ opacity:0.6; font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:.5px; }
+    .compare-row .val{ font-weight:800; font-size:15px; }
+    .compare-winner{ color:limegreen; }
+    .compare-loser{ opacity:0.45; }
+    .compare-bar-wrap{ margin:8px 0 14px 0; }
+    .compare-bar-track{ background:var(--muted); height:6px; border-radius:6px; overflow:hidden; margin-top:4px; }
+    .compare-bar-fill{ height:100%; border-radius:6px; transition:width 1s ease; }
+    .mode-select-row{ display:flex; justify-content:center; margin-bottom:20px; gap:10px; flex-wrap:wrap; }
+    .mode-select-row button{
+      padding:6px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:transparent;
+      color:rgba(255,255,255,0.6); font-weight:700; cursor:pointer; font-size:12px; transition:all .18s;
+    }
+    .mode-select-row button.active, .mode-select-row button:hover{ background:var(--accent-pink); color:white; border-color:var(--accent-pink); }
+    body.mono .mode-select-row button.active{ background:#fff; color:#000; border-color:#fff; }
+
     @media (max-width:720px){
       header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
+      .compare-grid{ grid-template-columns:1fr; }
     }
     @media (max-width:520px){
       .tabs{ gap:8px; } .subtitle{ font-size:12px; } .number{ display:none; } .right{ display:none; }
@@ -179,6 +219,7 @@
     <button class="tab" onclick="showMode('uhc', this)" role="tab">UHC</button>
     <button class="tab" onclick="showMode('mace', this)" role="tab">Mace</button>
     <button class="tab" onclick="showMode('spear', this)" role="tab">Spear</button>
+    <button class="tab" onclick="showCompare(this)" role="tab">⚖️ Compare</button>
   </div>
 
   <div style="text-align:center;margin-bottom:12px;">
@@ -197,6 +238,24 @@
   <div id="profilePage" aria-hidden="true">
     <button class="backBtn" onclick="goBack()">⬅ Back</button>
     <div id="profileContent"></div>
+  </div>
+
+  <div id="comparePage" aria-hidden="true">
+    <div class="mode-select-row" id="compareModeRow">
+      <button class="active" onclick="setCompareMode('overall',this)">Overall</button>
+      <button onclick="setCompareMode('sword',this)">Sword</button>
+      <button onclick="setCompareMode('axe',this)">Axe</button>
+      <button onclick="setCompareMode('uhc',this)">UHC</button>
+      <button onclick="setCompareMode('mace',this)">Mace</button>
+      <button onclick="setCompareMode('spear',this)">Spear</button>
+    </div>
+    <div class="compare-selectors">
+      <select id="compareP1"></select>
+      <span class="compare-vs">VS</span>
+      <select id="compareP2"></select>
+      <button class="compare-btn" onclick="runCompare()">Compare</button>
+    </div>
+    <div id="compareResult"></div>
   </div>
 
   <footer>© QUIPALITE MC — PvP leaderboards • Built with ❤️</footer>
@@ -345,7 +404,6 @@
       const players = getOrderedPlayers(mode);
       container.innerHTML = '';
 
-      // Player count header
       const countDiv = document.createElement('div');
       countDiv.style.cssText = 'font-size:12px;font-weight:600;opacity:0.5;text-align:right;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;';
       countDiv.textContent = players.length + ' player' + (players.length !== 1 ? 's' : '');
@@ -362,7 +420,6 @@
         const tier = customTiers[mode]?.[name] || "Unranked";
         const stats = (playerStats[mode] || {})[name] || {wins:0,kills:0,deaths:0};
 
-        // Fire icon for K/D >= 2
         const kdVal = stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths;
         const fireHtml = (kdVal === Infinity || kdVal >= 2) ? `<span title="Hot streak!" style="font-size:14px;line-height:1;">🔥</span>` : '';
 
@@ -514,10 +571,145 @@
       }
     }
 
+    let compareMode = 'overall';
+
+    function showCompare(btn){
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      document.querySelector('.container').style.display = 'none';
+      document.getElementById('searchInput').style.display = 'none';
+      document.getElementById('profilePage').style.display = 'none';
+      const cp = document.getElementById('comparePage');
+      cp.style.display = 'block';
+      setTimeout(()=>{ cp.classList.add('show'); cp.setAttribute('aria-hidden','false'); }, 10);
+      populateCompareSelects();
+    }
+
+    function hideCompare(){
+      const cp = document.getElementById('comparePage');
+      cp.classList.remove('show');
+      cp.setAttribute('aria-hidden','true');
+      setTimeout(()=>{ cp.style.display = 'none'; }, 260);
+    }
+
+    function setCompareMode(mode, btn){
+      compareMode = mode;
+      document.querySelectorAll('#compareModeRow button').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      populateCompareSelects();
+      document.getElementById('compareResult').innerHTML = '';
+    }
+
+    function populateCompareSelects(){
+      if(compareMode === 'overall') updateOverall();
+      const players = Object.keys(playerStats[compareMode] || {});
+      players.sort();
+      ['compareP1','compareP2'].forEach((id, idx) => {
+        const sel = document.getElementById(id);
+        const current = sel.value;
+        sel.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join('');
+        if(current && players.includes(current)) sel.value = current;
+        else sel.selectedIndex = idx === 0 ? 0 : Math.min(1, players.length - 1);
+      });
+    }
+
+    function runCompare(){
+      if(compareMode === 'overall') updateOverall();
+      const p1 = document.getElementById('compareP1').value;
+      const p2 = document.getElementById('compareP2').value;
+      if(!p1 || !p2 || p1 === p2){
+        document.getElementById('compareResult').innerHTML = `<div class="no-players">Pick two different players!</div>`;
+        return;
+      }
+      const s1 = (playerStats[compareMode] || {})[p1] || {wins:0,kills:0,deaths:0};
+      const s2 = (playerStats[compareMode] || {})[p2] || {wins:0,kills:0,deaths:0};
+      const t1 = customTiers[compareMode]?.[p1] || 'Unranked';
+      const t2 = customTiers[compareMode]?.[p2] || 'Unranked';
+      const c1 = tierColors[t1] || '#888';
+      const c2 = tierColors[t2] || '#888';
+
+      const kd1 = s1.deaths === 0 ? (s1.kills > 0 ? Infinity : 0) : s1.kills / s1.deaths;
+      const kd2 = s2.deaths === 0 ? (s2.kills > 0 ? Infinity : 0) : s2.kills / s2.deaths;
+      const kd1str = kd1 === Infinity ? '∞' : kd1.toFixed(2);
+      const kd2str = kd2 === Infinity ? '∞' : kd2.toFixed(2);
+
+      const r1 = getOrderedPlayers(compareMode).indexOf(p1) + 1;
+      const r2 = getOrderedPlayers(compareMode).indexOf(p2) + 1;
+
+      const games1 = s1.wins + s1.deaths;
+      const games2 = s2.wins + s2.deaths;
+      const wr1 = games1 === 0 ? 0 : Math.round((s1.wins / games1) * 100);
+      const wr2 = games2 === 0 ? 0 : Math.round((s2.wins / games2) * 100);
+
+      function winClass(a, b, higherIsBetter = true){
+        if(a === b) return ['',''];
+        const aWins = higherIsBetter ? a > b : a < b;
+        return aWins ? ['compare-winner','compare-loser'] : ['compare-loser','compare-winner'];
+      }
+
+      const [wc1k, wc2k] = winClass(s1.kills, s2.kills);
+      const [wc1w, wc2w] = winClass(s1.wins, s2.wins);
+      const [wc1d, wc2d] = winClass(s1.deaths, s2.deaths, false);
+      const [wc1kd, wc2kd] = winClass(kd1, kd2);
+      const [wc1wr, wc2wr] = winClass(wr1, wr2);
+
+      const maxKills = Math.max(s1.kills, s2.kills, 1);
+      const maxWins = Math.max(s1.wins, s2.wins, 1);
+      const maxDeaths = Math.max(s1.deaths, s2.deaths, 1);
+
+      document.getElementById('compareResult').innerHTML = `
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h3>
+              <img src="${getAvatar(p1,40)}" style="width:40px;height:40px;border-radius:8px;">
+              <span style="color:${c1}">${p1}</span>
+              <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r1}</span>
+            </h3>
+            <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
+            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc1w}">${s1.wins}</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1w" style="background:${c1};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc1k}">${s1.kills}</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1k" style="background:${c1};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc1d}">${s1.deaths}</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1d" style="background:${c1};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" style="color:${kd1===Infinity||kd1>=2?'limegreen':kd1>=1?'yellow':'red'}">${kd1str}</span></div>
+            <div class="compare-row"><span class="label">Win Rate</span><span class="val ${wc1wr}">${wr1}%</span></div>
+          </div>
+          <div class="compare-card">
+            <h3>
+              <img src="${getAvatar(p2,40)}" style="width:40px;height:40px;border-radius:8px;">
+              <span style="color:${c2}">${p2}</span>
+              <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r2}</span>
+            </h3>
+            <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
+            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc2w}">${s2.wins}</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2w" style="background:${c2};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc2k}">${s2.kills}</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2k" style="background:${c2};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc2d}">${s2.deaths}</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2d" style="background:${c2};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" style="color:${kd2===Infinity||kd2>=2?'limegreen':kd2>=1?'yellow':'red'}">${kd2str}</span></div>
+            <div class="compare-row"><span class="label">Win Rate</span><span class="val ${wc2wr}">${wr2}%</span></div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(()=>{
+        document.getElementById('b1w').style.width = Math.round((s1.wins/maxWins)*100)+'%';
+        document.getElementById('b2w').style.width = Math.round((s2.wins/maxWins)*100)+'%';
+        document.getElementById('b1k').style.width = Math.round((s1.kills/maxKills)*100)+'%';
+        document.getElementById('b2k').style.width = Math.round((s2.kills/maxKills)*100)+'%';
+        document.getElementById('b1d').style.width = Math.round((s1.deaths/maxDeaths)*100)+'%';
+        document.getElementById('b2d').style.width = Math.round((s2.deaths/maxDeaths)*100)+'%';
+      }, 60);
+    }
+
     function showMode(mode, btn){
       const activeTab = document.querySelector('.tab.active');
       if(activeTab === btn) return;
 
+      hideCompare();
+      document.getElementById('searchInput').style.display = 'inline-block';
       document.getElementById('searchInput').value = '';
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
       const el = document.getElementById(mode);
@@ -526,6 +718,7 @@
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       if(btn) btn.classList.add('active');
 
+      document.querySelector('.container').style.display = 'block';
       createPlayers(mode);
     }
 
