@@ -327,7 +327,8 @@
         Jai_B37:{wins:1,kills:3,deaths:2},
         Neska5036:{wins:0,kills:2,deaths:3},
         "God flow 3":{wins:0,kills:2,deaths:2},
-        bubbler2009:{wins:0,kills:1,deaths:3}
+        bubbler2009:{wins:0,kills:1,deaths:3},
+        TerrorBoy123619:{wins:0,kills:1,deaths:3}
       },
       spear: {
         Killedbycrab:{wins:1,kills:3,deaths:0},
@@ -568,6 +569,21 @@
       }
     }
 
+    function showMode(mode, btn){
+      const activeTab = document.querySelector('.tab.active');
+      if(activeTab === btn) return;
+      hideCompare();
+      document.getElementById('searchInput').style.display = 'inline-block';
+      document.getElementById('searchInput').value = '';
+      document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
+      const el = document.getElementById(mode);
+      if(el) el.classList.add('active');
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      document.querySelector('.container').style.display = 'block';
+      createPlayers(mode);
+    }
+
     let compareMode = 'overall';
 
     function showCompare(btn){
@@ -693,21 +709,6 @@
           document.getElementById('b2d').style.width = Math.round((s2.deaths/maxDeaths)*100)+'%';
         }, 200);
       }, 30);
-    }
-
-    function showMode(mode, btn){
-      const activeTab = document.querySelector('.tab.active');
-      if(activeTab === btn) return;
-      hideCompare();
-      document.getElementById('searchInput').style.display = 'inline-block';
-      document.getElementById('searchInput').value = '';
-      document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
-      const el = document.getElementById(mode);
-      if(el) el.classList.add('active');
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      if(btn) btn.classList.add('active');
-      document.querySelector('.container').style.display = 'block';
-      createPlayers(mode);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
