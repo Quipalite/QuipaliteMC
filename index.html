@@ -153,27 +153,28 @@
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
 
     /* Compare page */
-    #comparePage{ display:none; max-width:860px; margin:auto; padding:20px; opacity:0; transform:translateY(20px); transition:.28s ease; }
-    #comparePage.show{ opacity:1; transform:translateY(0); }
-    .compare-selectors{ display:flex; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
+    #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease, transform .35s ease; }
+    #comparePage.show{ opacity:1; transform:translateY(0) scale(1); }
+    .compare-selectors{ display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; justify-content:center; align-items:center; }
     .compare-selectors select{
-      flex:1; min-width:140px; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18);
+      flex:1; min-width:140px; max-width:220px; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18);
       background:#0f0f12; color:white; font-weight:700; font-size:14px; outline:none; cursor:pointer;
     }
     body.mono .compare-selectors select{ background:#000; border-color:#333; color:#fff; }
-    .compare-vs{ font-weight:900; font-size:22px; color:var(--accent-pink); align-self:center; flex-shrink:0; }
+    .compare-vs{ font-weight:900; font-size:20px; color:var(--accent-pink); flex-shrink:0; }
     body.mono .compare-vs{ color:#fff; }
     .compare-btn{
       padding:10px 22px; border-radius:10px; border:none; background:var(--accent-pink); color:white;
       font-weight:800; cursor:pointer; font-size:14px; transition:all .2s; box-shadow:0 8px 20px rgba(255,20,147,0.18);
-      align-self:center;
+      width:100%;
     }
     .compare-btn:hover{ background:var(--accent-muted); }
     body.mono .compare-btn{ background:#fff; color:#000; box-shadow:none; }
-    .compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    .compare-card{ background:var(--card-dark); border-radius:12px; padding:18px; border:1px solid rgba(255,20,147,0.08); }
+    .compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .compare-card{ background:var(--card-dark); border-radius:12px; padding:18px; border:1px solid rgba(255,20,147,0.08); opacity:0; transform:translateY(12px); transition:opacity .4s ease, transform .4s ease; }
+    .compare-card.visible{ opacity:1; transform:translateY(0); }
     body.mono .compare-card{ background:#000; border-color:#222; }
-    .compare-card h3{ margin:0 0 14px 0; display:flex; align-items:center; gap:10px; font-size:16px; }
+    .compare-card h3{ margin:0 0 14px 0; display:flex; align-items:center; gap:10px; font-size:15px; }
     .compare-row{ display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
     .compare-row:last-child{ border-bottom:none; }
     .compare-row .label{ opacity:0.6; font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:.5px; }
@@ -183,7 +184,7 @@
     .compare-bar-wrap{ margin:8px 0 14px 0; }
     .compare-bar-track{ background:var(--muted); height:6px; border-radius:6px; overflow:hidden; margin-top:4px; }
     .compare-bar-fill{ height:100%; border-radius:6px; transition:width 1s ease; }
-    .mode-select-row{ display:flex; justify-content:center; margin-bottom:20px; gap:10px; flex-wrap:wrap; }
+    .mode-select-row{ display:flex; justify-content:center; margin-bottom:20px; gap:8px; flex-wrap:wrap; }
     .mode-select-row button{
       padding:6px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:transparent;
       color:rgba(255,255,255,0.6); font-weight:700; cursor:pointer; font-size:12px; transition:all .18s;
@@ -368,9 +369,7 @@
       if(mode === 'overall') updateOverall();
       const data = playerStats[mode] || {};
       const entries = Object.entries(data);
-
       const tierPriority = { 'Netherite':7, 'Diamond':6, 'Emerald':5, 'Gold':4, 'Iron':3, 'Copper':2, 'Coal':1, 'Unranked':0 };
-
       const computed = entries.map(([name, stats]) => {
         const s = stats || {wins:0,kills:0,deaths:0};
         const tier = customTiers[mode]?.[name] || "Unranked";
@@ -378,7 +377,6 @@
         const score = (s.wins * 10) + s.kills + (kd * 5);
         return { name, stats: s, tier, score };
       });
-
       computed.sort((a,b) => {
         const tDiff = (tierPriority[b.tier] || 0) - (tierPriority[a.tier] || 0);
         if(tDiff !== 0) return tDiff;
@@ -393,7 +391,6 @@
         if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
         return a.stats.deaths - b.stats.deaths;
       });
-
       return computed.map(c => c.name);
     }
 
@@ -419,7 +416,6 @@
 
         const tier = customTiers[mode]?.[name] || "Unranked";
         const stats = (playerStats[mode] || {})[name] || {wins:0,kills:0,deaths:0};
-
         const kdVal = stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths;
         const fireHtml = (kdVal === Infinity || kdVal >= 2) ? `<span title="Hot streak!" style="font-size:14px;line-height:1;">🔥</span>` : '';
 
@@ -444,9 +440,7 @@
             <div class="info">
               <div style="display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                 <b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</b>
-                ${fireHtml}
-                ${crownHtml}
-                ${badgeHtml}
+                ${fireHtml}${crownHtml}${badgeHtml}
               </div>
               <div class="mini-stats"><strong>W:</strong> ${stats.wins} &nbsp; <strong>K:</strong> ${stats.kills} &nbsp; <strong>D:</strong> ${stats.deaths}</div>
             </div>
@@ -455,7 +449,6 @@
             <div style="font-weight:700;font-size:13px;opacity:.9;">K/D: <span style="color:${kdVal===Infinity||kdVal>=2?'limegreen':kdVal>=1?'yellow':'red'}">${kdVal===Infinity?'∞':kdVal===0?'0.00':kdVal.toFixed(2)}</span></div>
           </div>
         `;
-
         card.appendChild(numberSpan);
         card.appendChild(playerContent);
         container.appendChild(card);
@@ -472,7 +465,6 @@
     function openProfile(name, mode){
       const stats = (playerStats[mode] || {})[name];
       const tierColorsLocal = tierColors;
-
       if(!stats){
         const color = monoMode ? '#fff' : '#ff99cc';
         document.getElementById('profileContent').innerHTML = `<p style="color:${color}; font-weight:bold;">No stats for ${name} in ${mode}.</p>`;
@@ -486,16 +478,13 @@
         if(kd === '∞' || Number(kd) >= 2) kdColor = 'limegreen';
         else if(Number(kd) >= 1) kdColor = 'yellow';
         else kdColor = 'red';
-
         const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
-
         document.getElementById('profileContent').innerHTML = `
           <h2 style="margin-top:0;display:flex;align-items:center;gap:12px;">
             <img src="${getAvatar(name,64)}" alt="${name} avatar" class="player-head" style="width:64px;height:64px;border-radius:12px;">
             <span style="font-size:20px;display:flex;align-items:center;gap:8px;">
               <span style="opacity:0.85;font-weight:700;">#${rank}</span>
-              <span>${name}</span>
-              ${crownHtml}
+              <span>${name}</span>${crownHtml}
             </span>
           </h2>
           <h3 style="margin-top:-6px;color:${tierColor};font-weight:800;">${tier}</h3>
@@ -512,7 +501,6 @@
         `;
         setTimeout(()=> animateBars(stats, tierColor), 20);
       }
-
       document.querySelector('.tabs').style.display = 'none';
       document.querySelector('.container').style.display = 'none';
       document.getElementById('searchInput').style.display = 'none';
@@ -530,10 +518,7 @@
         bar.style.width = '0%';
         bar.style.background = color;
         void bar.offsetWidth;
-        setTimeout(()=> {
-          const value = stats[m.key] || 0;
-          bar.style.width = Math.round((value / max) * 100) + '%';
-        }, idx * 200);
+        setTimeout(()=> { bar.style.width = Math.round(((stats[m.key]||0) / max) * 100) + '%'; }, idx * 200);
       });
     }
 
@@ -554,14 +539,12 @@
       const active = document.querySelector('.mode.active');
       if(!active) return;
       active.querySelectorAll('.no-players').forEach(np => np.remove());
-
       const players = Array.from(active.querySelectorAll('.player'));
       players.forEach(p => {
         const nameElem = p.querySelector('b');
         const name = nameElem ? nameElem.textContent.toLowerCase() : '';
         p.style.display = name.includes(value) ? 'flex' : 'none';
       });
-
       const visible = players.filter(p => p.style.display !== 'none');
       if(visible.length === 0){
         const div = document.createElement('div');
@@ -589,7 +572,7 @@
       const cp = document.getElementById('comparePage');
       cp.classList.remove('show');
       cp.setAttribute('aria-hidden','true');
-      setTimeout(()=>{ cp.style.display = 'none'; }, 260);
+      setTimeout(()=>{ cp.style.display = 'none'; }, 300);
     }
 
     function setCompareMode(mode, btn){
@@ -638,8 +621,6 @@
 
       const games1 = s1.wins + s1.deaths;
       const games2 = s2.wins + s2.deaths;
-      const wr1 = games1 === 0 ? 0 : Math.round((s1.wins / games1) * 100);
-      const wr2 = games2 === 0 ? 0 : Math.round((s2.wins / games2) * 100);
 
       function winClass(a, b, higherIsBetter = true){
         if(a === b) return ['',''];
@@ -651,7 +632,6 @@
       const [wc1w, wc2w] = winClass(s1.wins, s2.wins);
       const [wc1d, wc2d] = winClass(s1.deaths, s2.deaths, false);
       const [wc1kd, wc2kd] = winClass(kd1, kd2);
-      const [wc1wr, wc2wr] = winClass(wr1, wr2);
 
       const maxKills = Math.max(s1.kills, s2.kills, 1);
       const maxWins = Math.max(s1.wins, s2.wins, 1);
@@ -659,7 +639,7 @@
 
       document.getElementById('compareResult').innerHTML = `
         <div class="compare-grid">
-          <div class="compare-card">
+          <div class="compare-card" id="ccard1">
             <h3>
               <img src="${getAvatar(p1,40)}" style="width:40px;height:40px;border-radius:8px;">
               <span style="color:${c1}">${p1}</span>
@@ -673,9 +653,8 @@
             <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc1d}">${s1.deaths}</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1d" style="background:${c1};width:0%"></div></div></div>
             <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" style="color:${kd1===Infinity||kd1>=2?'limegreen':kd1>=1?'yellow':'red'}">${kd1str}</span></div>
-            <div class="compare-row"><span class="label">Win Rate</span><span class="val ${wc1wr}">${wr1}%</span></div>
           </div>
-          <div class="compare-card">
+          <div class="compare-card" id="ccard2">
             <h3>
               <img src="${getAvatar(p2,40)}" style="width:40px;height:40px;border-radius:8px;">
               <span style="color:${c2}">${p2}</span>
@@ -689,35 +668,35 @@
             <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc2d}">${s2.deaths}</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2d" style="background:${c2};width:0%"></div></div></div>
             <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" style="color:${kd2===Infinity||kd2>=2?'limegreen':kd2>=1?'yellow':'red'}">${kd2str}</span></div>
-            <div class="compare-row"><span class="label">Win Rate</span><span class="val ${wc2wr}">${wr2}%</span></div>
           </div>
         </div>
       `;
 
       setTimeout(()=>{
-        document.getElementById('b1w').style.width = Math.round((s1.wins/maxWins)*100)+'%';
-        document.getElementById('b2w').style.width = Math.round((s2.wins/maxWins)*100)+'%';
-        document.getElementById('b1k').style.width = Math.round((s1.kills/maxKills)*100)+'%';
-        document.getElementById('b2k').style.width = Math.round((s2.kills/maxKills)*100)+'%';
-        document.getElementById('b1d').style.width = Math.round((s1.deaths/maxDeaths)*100)+'%';
-        document.getElementById('b2d').style.width = Math.round((s2.deaths/maxDeaths)*100)+'%';
-      }, 60);
+        document.getElementById('ccard1').classList.add('visible');
+        setTimeout(()=> document.getElementById('ccard2').classList.add('visible'), 80);
+        setTimeout(()=>{
+          document.getElementById('b1w').style.width = Math.round((s1.wins/maxWins)*100)+'%';
+          document.getElementById('b2w').style.width = Math.round((s2.wins/maxWins)*100)+'%';
+          document.getElementById('b1k').style.width = Math.round((s1.kills/maxKills)*100)+'%';
+          document.getElementById('b2k').style.width = Math.round((s2.kills/maxKills)*100)+'%';
+          document.getElementById('b1d').style.width = Math.round((s1.deaths/maxDeaths)*100)+'%';
+          document.getElementById('b2d').style.width = Math.round((s2.deaths/maxDeaths)*100)+'%';
+        }, 200);
+      }, 30);
     }
 
     function showMode(mode, btn){
       const activeTab = document.querySelector('.tab.active');
       if(activeTab === btn) return;
-
       hideCompare();
       document.getElementById('searchInput').style.display = 'inline-block';
       document.getElementById('searchInput').value = '';
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
       const el = document.getElementById(mode);
       if(el) el.classList.add('active');
-
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       if(btn) btn.classList.add('active');
-
       document.querySelector('.container').style.display = 'block';
       createPlayers(mode);
     }
@@ -726,15 +705,12 @@
       const modes = ['sword','axe','uhc','mace','spear'];
       modes.forEach(m => createPlayers(m));
       createPlayers('overall');
-
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       const overallTab = document.querySelector('.tabs button');
       if(overallTab) overallTab.classList.add('active');
-
       document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
       const overallDiv = document.getElementById('overall');
       if(overallDiv) overallDiv.classList.add('active');
-
       thumb.style.background = monoMode ? '#fff' : '#000';
     });
   </script>
