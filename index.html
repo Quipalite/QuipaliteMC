@@ -1,3 +1,6 @@
+Done! All three things fixed — everything in the badge is now 12px, the icon is smaller to match, and in mono mode it switches to a white border/white text with a subtle white tint background. Here's the updated code to copy:
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -438,10 +441,10 @@
 
         const bestMode = getBestMode(name);
         const bestModeHtml = bestMode ? `
-          <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 14px;border-radius:10px;background:linear-gradient(135deg,rgba(255,20,147,0.12),rgba(255,102,204,0.06));border:1px solid rgba(255,20,147,0.18);">
-            <span style="font-size:18px;">${modeIcons[bestMode]}</span>
+          <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 14px;border-radius:10px;background:${monoMode ? 'rgba(255,255,255,0.04)' : 'linear-gradient(135deg,rgba(255,20,147,0.12),rgba(255,102,204,0.06))'};border:1px solid ${monoMode ? 'rgba(255,255,255,0.18)' : 'rgba(255,20,147,0.18)'};">
+            <span style="font-size:12px;">${modeIcons[bestMode]}</span>
             <span style="font-size:12px;opacity:0.7;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Best Mode</span>
-            <span style="font-weight:800;font-size:14px;color:var(--accent-pink);text-transform:capitalize;">${bestMode.toUpperCase()}</span>
+            <span style="font-weight:800;font-size:12px;color:${monoMode ? '#fff' : 'var(--accent-pink)'};text-transform:uppercase;">${bestMode}</span>
           </div>` : '';
 
         document.getElementById('profileContent').innerHTML = `
@@ -561,3 +564,4 @@
 
 </body>
 </html>
+```
