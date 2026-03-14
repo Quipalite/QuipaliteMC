@@ -401,21 +401,6 @@
       }
     }
 
-    const modeIcons = { sword:'⚔️', axe:'🪓', uhc:'💛', mace:'🔨', spear:'🔱' };
-
-    function getBestMode(name){
-      const modes = ['sword','axe','uhc','mace','spear'];
-      let best = null, bestScore = -1;
-      modes.forEach(m => {
-        const s = (playerStats[m] || {})[name];
-        if(!s) return;
-        const kd = s.deaths === 0 ? s.kills : s.kills / s.deaths;
-        const score = (s.wins * 10) + s.kills + (kd * 5);
-        if(score > bestScore){ bestScore = score; best = m; }
-      });
-      return best;
-    }
-
     function openProfile(name, mode){
       const stats = (playerStats[mode] || {})[name];
       const tierColorsLocal = tierColors;
@@ -436,14 +421,6 @@
 
         const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
 
-        const bestMode = getBestMode(name);
-        const bestModeHtml = bestMode ? `
-          <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 14px;border-radius:10px;background:${monoMode ? 'rgba(255,255,255,0.04)' : 'linear-gradient(135deg,rgba(255,20,147,0.12),rgba(255,102,204,0.06))'};border:1px solid ${monoMode ? 'rgba(255,255,255,0.18)' : 'rgba(255,20,147,0.18)'};">
-            <span style="font-size:12px;">${modeIcons[bestMode]}</span>
-            <span style="font-size:12px;opacity:0.7;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Best Mode</span>
-            <span style="font-weight:800;font-size:12px;color:${monoMode ? '#fff' : 'var(--accent-pink)'};text-transform:uppercase;">${bestMode}</span>
-          </div>` : '';
-
         document.getElementById('profileContent').innerHTML = `
           <h2 style="margin-top:0;display:flex;align-items:center;gap:12px;">
             <img src="${getAvatar(name,64)}" alt="${name} avatar" class="player-head" style="width:64px;height:64px;border-radius:12px;">
@@ -454,7 +431,6 @@
             </span>
           </h2>
           <h3 style="margin-top:-6px;color:${tierColor};font-weight:800;">${tier}</h3>
-          ${bestModeHtml}
           <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode ? '#fff' : 'rgba(255,102,204,0.08)'};font-weight:700;">
             <div>K/D: <span style="color:${kdColor}">${kd}</span></div>
             <div>Rank: <span>#${rank}</span></div>
@@ -561,4 +537,3 @@
 
 </body>
 </html>
-```
