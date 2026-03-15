@@ -289,7 +289,7 @@
         SadInFusIOns:{wins:1,kills:4,deaths:5},
         Cocotime15:{wins:1,kills:3,deaths:9},
         gfunkdfunk82:{wins:0,kills:0,deaths:3},
-        WARDY_B33:{wins:1,kills:3,deaths:0},
+        "WARDY B33":{wins:1,kills:3,deaths:3},
         Neska5036:{wins:0,kills:0,deaths:3},
         bubbler2009:{wins:0,kills:0,deaths:3},
         TerrorBoy123619:{wins:0,kills:0,deaths:3}
@@ -305,7 +305,7 @@
         Aftlow:{wins:2,kills:6,deaths:2},
         bubbler2009:{wins:0,kills:0,deaths:3},
         "God flow 3":{wins:0,kills:2,deaths:2},
-        WARDY_B33:{wins:1,kills:1,deaths:1},
+        "WARDY B33":{wins:1,kills:1,deaths:1},
         Cocotime15:{wins:0,kills:1,deaths:1}
       },
       uhc: {
@@ -316,7 +316,7 @@
         Knoxy5316:{wins:0,kills:0,deaths:3},
         Jai_B37:{wins:0,kills:1,deaths:3},
         bubbler2009:{wins:0,kills:0,deaths:6},
-        WARDY_B33:{wins:0,kills:0,deaths:2}
+        "WARDY B33":{wins:0,kills:0,deaths:2}
       },
       mace: {
         Killedbycrab:{wins:13,kills:39,deaths:11},
@@ -332,7 +332,7 @@
         "God flow 3":{wins:0,kills:2,deaths:2},
         bubbler2009:{wins:0,kills:1,deaths:3},
         TerrorBoy123619:{wins:0,kills:1,deaths:3},
-        WARDY_B33:{wins:0,kills:1,deaths:3}
+        "WARDY B33":{wins:0,kills:1,deaths:3}
       },
       spear: {
         Killedbycrab:{wins:2,kills:6,deaths:0},
@@ -345,17 +345,17 @@
         Knoxy5316:{wins:1,kills:3,deaths:2},
         Jai_B37:{wins:0,kills:0,deaths:3},
         bubbler2009:{wins:0,kills:0,deaths:3},
-        WARDY_B33:{wins:0,kills:0,deaths:3}
+        "WARDY B33":{wins:0,kills:0,deaths:3}
       }
     };
 
     const customTiers = {
-      sword: { Killedbycrab:"Gold", RealO75:"Diamond", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Gold" },
-      axe:   { Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Emerald", bubbler2009:"Iron", WARDY_B33:"Gold" },
-      uhc:   { Killedbycrab:"Gold", RealO75:"Gold", Aftlow:"Gold", Knoxy5316:"Iron", Jai_B37:"Iron", bubbler2009:"Copper", WARDY_B33:"Copper" },
-      mace:  { Killedbycrab:"Diamond", RealO75:"Iron", Aftlow:"Gold", Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal", WARDY_B33:"Copper" },
-      spear: { Killedbycrab:"Gold", RealO75:"Iron", Aftlow:"Diamond", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", WARDY_B33:"Copper" },
-      overall:{ Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", WARDY_B33:"Copper" }
+      sword: { Killedbycrab:"Gold", RealO75:"Diamond", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Gold", "WARDY B33":"Iron" },
+      axe:   { Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Emerald", bubbler2009:"Iron", "WARDY B33":"Gold" },
+      uhc:   { Killedbycrab:"Gold", RealO75:"Gold", Aftlow:"Gold", Knoxy5316:"Iron", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper" },
+      mace:  { Killedbycrab:"Diamond", RealO75:"Iron", Aftlow:"Gold", Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal", "WARDY B33":"Copper" },
+      spear: { Killedbycrab:"Gold", RealO75:"Iron", Aftlow:"Diamond", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper" },
+      overall:{ Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper" }
     };
 
     const tierColors = {
@@ -615,6 +615,8 @@
       document.querySelectorAll('#compareModeRow button').forEach(b => b.classList.remove('active'));
       if(btn) btn.classList.add('active');
       document.getElementById('compareResult').innerHTML = '';
+      document.getElementById('compareP1').value = '';
+      document.getElementById('compareP2').value = '';
       populateCompareSelects();
     }
 
@@ -633,7 +635,7 @@
       if(compareMode === 'overall') updateOverall();
       const p1 = document.getElementById('compareP1').value;
       const p2 = document.getElementById('compareP2').value;
-      if(!p1 || !p2 || p1 === '' || p2 === '' || p1 === p2){
+      if(!p1 || !p2 || p1 === p2 || p1 === '' || p2 === ''){
         document.getElementById('compareResult').innerHTML = `<div class="no-players">Pick two different players!</div>`;
         return;
       }
