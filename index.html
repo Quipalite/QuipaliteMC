@@ -162,10 +162,10 @@
     }
     .compare-search-input::placeholder{ color:rgba(255,255,255,0.35); font-weight:500; }
     .compare-dropdown{
-      display:none; position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:100;
+      display:none; position:fixed; z-index:9999;
       background:#0f0f12; border:1px solid rgba(255,20,147,0.18); border-radius:10px;
       max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.8);
-      opacity:1 !important;
+      opacity:1 !important; width:220px;
     }
     .compare-dropdown.open{ display:block; }
     .compare-dropdown-item{
@@ -693,7 +693,12 @@
 
     function buildDropdown(num, players){
       const dd = document.getElementById('compareDropdown' + num);
-      const search = document.getElementById('compareSearch' + num).value.toLowerCase();
+      const input = document.getElementById('compareSearch' + num);
+      const rect = input.getBoundingClientRect();
+      dd.style.top = (rect.bottom + 4) + 'px';
+      dd.style.left = rect.left + 'px';
+      dd.style.width = rect.width + 'px';
+      const search = input.value.toLowerCase();
       const filtered = players.filter(p => p.toLowerCase().includes(search));
       dd.innerHTML = '';
       if(filtered.length === 0){
