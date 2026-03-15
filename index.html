@@ -164,7 +164,8 @@
     .compare-dropdown{
       display:none; position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:100;
       background:#0f0f12; border:1px solid rgba(255,20,147,0.18); border-radius:10px;
-      max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.6);
+      max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.8);
+      opacity:1 !important;
     }
     .compare-dropdown.open{ display:block; }
     .compare-dropdown-item{
@@ -175,7 +176,7 @@
     .compare-dropdown-item img{ width:24px; height:24px; border-radius:6px; }
     .compare-dropdown-empty{ padding:10px 14px; font-size:13px; color:rgba(255,255,255,0.35); font-style:italic; }
     body.mono .compare-search-input{ background:#000; border-color:#333; color:#fff; }
-    body.mono .compare-dropdown{ background:#000; border-color:#333; }
+    body.mono .compare-dropdown{ background:#111; border-color:#444; }
     body.mono .compare-dropdown-item:hover, body.mono .compare-dropdown-item.selected{ background:rgba(255,255,255,0.08); }
     .compare-vs{ font-weight:900; font-size:20px; color:var(--accent-pink); flex-shrink:0; }
     body.mono .compare-vs{ color:#fff; }
