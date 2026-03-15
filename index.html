@@ -152,6 +152,13 @@
     body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
 
+    @media (max-width:720px){
+      header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
+    }
+    @media (max-width:520px){
+      .tabs{ gap:8px; } .subtitle{ font-size:12px; } .number{ display:none; } .right{ display:none; }
+    }
+
     #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease, transform .35s ease; }
     #comparePage.show{ opacity:1; transform:translateY(0) scale(1); }
     .compare-selectors{ display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; justify-content:center; align-items:center; }
@@ -210,14 +217,6 @@
     body.mono .mode-select-row button.active{ background:#fff; color:#000; border-color:#fff; }
     body.mono .mode-select-row button:hover{ background:rgba(255,255,255,0.15); color:#fff; border-color:#fff; }
 
-    @media (max-width:720px){
-      header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
-      .compare-grid{ grid-template-columns:1fr; }
-    }
-    @media (max-width:520px){
-      .tabs{ gap:8px; } .subtitle{ font-size:12px; } .number{ display:none; } .right{ display:none; }
-    }
-
     footer{ text-align:center; margin-top:26px; padding:20px; font-size:13px; opacity:0.7; color:rgba(255,255,255,0.75); }
   </style>
 </head>
@@ -231,18 +230,18 @@
       <div class="toggle-thumb" id="toggleThumb"></div>
     </div>
     <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" style="position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:6px;background:rgba(88,101,242,0.9);color:white;font-weight:700;font-size:12px;padding:6px 10px;border-radius:8px;text-decoration:none;box-shadow:0 4px 12px rgba(88,101,242,0.35);transition:background .2s;" onmouseover="this.style.background='rgba(88,101,242,1)'" onmouseout="this.style.background='rgba(88,101,242,0.9)'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      <svg width="16" height="12" viewBox="0 0 71 55" fill="white" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></g><defs><clipPath id="clip0"><rect width="71" height="55"/></clipPath></defs></svg>
       Discord
     </a>
   </header>
 
   <div class="tabs" role="tablist" aria-label="modes">
     <button class="tab active" onclick="showMode('overall', this)" role="tab">🏆 Overall</button>
-    <button class="tab" onclick="showMode('sword', this)" role="tab">⚔️ Sword</button>
-    <button class="tab" onclick="showMode('axe', this)" role="tab">🪓 Axe</button>
-    <button class="tab" onclick="showMode('uhc', this)" role="tab">💀 UHC</button>
-    <button class="tab" onclick="showMode('mace', this)" role="tab">🏏 Mace</button>
-    <button class="tab" onclick="showMode('spear', this)" role="tab">🔱 Spear</button>
+    <button class="tab" onclick="showMode('sword', this)" role="tab"><img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Sword"> Sword</button>
+    <button class="tab" onclick="showMode('axe', this)" role="tab"><img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Axe"> Axe</button>
+    <button class="tab" onclick="showMode('uhc', this)" role="tab"><img src="https://minecraft.wiki/images/Hardcore_Heart.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="UHC"> UHC</button>
+    <button class="tab" onclick="showMode('mace', this)" role="tab"><img src="https://minecraft.wiki/images/Mace_JE1.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Mace"> Mace</button>
+    <button class="tab" onclick="showMode('spear', this)" role="tab"><img src="https://minecraft.wiki/images/Trident_JE2_BE2.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Spear"> Spear</button>
     <button class="tab" onclick="showCompare(this)" role="tab">⚖️ Compare</button>
   </div>
 
@@ -268,11 +267,11 @@
   <div id="comparePage" aria-hidden="true">
     <div class="mode-select-row" id="compareModeRow">
       <button class="active" onclick="setCompareMode('overall',this)">🏆 Overall</button>
-      <button onclick="setCompareMode('sword',this)">⚔️ Sword</button>
-      <button onclick="setCompareMode('axe',this)">🪓 Axe</button>
-      <button onclick="setCompareMode('uhc',this)">💀 UHC</button>
-      <button onclick="setCompareMode('mace',this)">🏏 Mace</button>
-      <button onclick="setCompareMode('spear',this)">🔱 Spear</button>
+      <button onclick="setCompareMode('sword',this)"><img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Sword</button>
+      <button onclick="setCompareMode('axe',this)"><img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Axe</button>
+      <button onclick="setCompareMode('uhc',this)"><img src="https://minecraft.wiki/images/Hardcore_Heart.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> UHC</button>
+      <button onclick="setCompareMode('mace',this)"><img src="https://minecraft.wiki/images/Mace_JE1.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Mace</button>
+      <button onclick="setCompareMode('spear',this)"><img src="https://minecraft.wiki/images/Trident_JE2_BE2.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Spear</button>
     </div>
     <div class="compare-selectors">
       <div class="compare-search-wrap" id="csw1">
@@ -732,7 +731,7 @@
           (num === 1 && p === compareP1Selected) || (num === 2 && p === compareP2Selected) ? ' selected' : ''
         );
         const flag = playerCountry[p] ? getFlagImg(playerCountry[p], 12) : '';
-        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}"><span>${p}</span>${flag}`;
+        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}">${flag}<span>${p}</span>`;
         item.addEventListener('mousedown', (e) => {
           e.preventDefault();
           selectComparePlayer(num, p);
