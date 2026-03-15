@@ -17,185 +17,91 @@
       --podium-silver-tint: linear-gradient(180deg, rgba(242,247,251,0.05), rgba(219,233,247,0.02));
       --podium-bronze-tint: linear-gradient(180deg, rgba(250,239,224,0.05), rgba(242,217,182,0.02));
     }
-
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      background:var(--bg-dark);
-      color:#eaeaea;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    header{
-      text-align:center;
-      padding:36px 20px;
-      background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493);
-      background-size:300% 300%;
-      animation:bannerMove 6s ease infinite;
-      border-bottom:1px solid rgba(255,20,147,0.08);
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:6px;
-    }
+    body{ margin:0; font-family:"Inter","Segoe UI",Arial,sans-serif; background:var(--bg-dark); color:#eaeaea; -webkit-font-smoothing:antialiased; }
+    header{ text-align:center; padding:36px 20px; background:linear-gradient(90deg,#ff2db2,#ff66cc,#ff1493); background-size:300% 300%; animation:bannerMove 6s ease infinite; border-bottom:1px solid rgba(255,20,147,0.08); position:relative; display:flex; flex-direction:column; align-items:center; gap:6px; }
     @keyframes bannerMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
     .logo{ font-size:34px; font-weight:800; letter-spacing:2px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.45); }
     .subtitle{ font-size:13px; opacity:0.9; color:rgba(255,255,255,0.92); font-weight:600; letter-spacing:1px; }
-
-    .theme-toggle{
-      position:absolute; top:14px; right:14px; width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer;
-      display:flex; align-items:center; padding:3px; box-sizing:border-box; box-shadow:0 6px 18px rgba(0,0,0,0.25);
-    }
-    .theme-toggle .toggle-thumb{ width:20px;height:20px;border-radius:50%; transition:transform .25s, background .25s; background:#000; transform:translateX(0); }
-
+    .theme-toggle{ position:absolute; top:14px; right:14px; width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer; display:flex; align-items:center; padding:3px; box-sizing:border-box; box-shadow:0 6px 18px rgba(0,0,0,0.25); }
+    .theme-toggle .toggle-thumb{ width:20px;height:20px;border-radius:50%; transition:transform .25s,background .25s; background:#000; transform:translateX(0); }
     .tabs{ text-align:center; margin:16px 0; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; padding:0 12px; }
-    .tab{
-      background:transparent; border:none; border-bottom:2px solid transparent; padding:8px 14px; border-radius:6px; cursor:pointer;
-      font-weight:700; color:rgba(255,255,255,0.65); transition:all .18s;
-    }
+    .tab{ background:transparent; border:none; border-bottom:2px solid transparent; padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:700; color:rgba(255,255,255,0.65); transition:all .18s; }
     .tab:hover{ color:white; transform:translateY(-2px); }
     .tab.active{ border-bottom:2px solid var(--accent-pink); color:white; }
-
-    #searchInput{
-      width:320px; max-width:92%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:white; font-weight:600; outline:none;
-      box-shadow:0 8px 30px rgba(0,0,0,0.55) inset;
-    }
+    #searchInput{ width:320px; max-width:92%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01)); color:white; font-weight:600; outline:none; box-shadow:0 8px 30px rgba(0,0,0,0.55) inset; }
     #searchInput::placeholder{ color:rgba(255,255,255,0.35); font-weight:500; }
-
     .container{ max-width:980px; margin:auto; padding:20px; min-height:220px; animation:fadeIn .36s ease; }
-    @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
-
+    @keyframes fadeIn{ from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);} }
     .mode{ display:none; opacity:0; transition:opacity .28s ease; }
     .mode.active{ display:block; opacity:1; }
-
-    .player{
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
-      margin:12px 0; padding:16px; border-radius:12px; border:1px solid rgba(255,20,147,0.06);
-      cursor:pointer; display:flex; align-items:center; position:relative; overflow:hidden; transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-      gap:12px;
-    }
-    .player:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 18px 48px rgba(0,0,0,0.65), 0 0 16px rgba(255,20,147,0.18); }
-
-    .player-head{ width:48px;height:48px;border-radius:10px;border:2px solid rgba(255,255,255,0.04); object-fit:cover; background:#111; flex-shrink:0; transition:transform .22s ease, box-shadow .22s ease; }
+    .player{ background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.015)); margin:12px 0; padding:16px; border-radius:12px; border:1px solid rgba(255,20,147,0.06); cursor:pointer; display:flex; align-items:center; position:relative; overflow:hidden; transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease; gap:12px; }
+    .player:hover{ transform:translateY(-8px) scale(1.03); box-shadow:0 18px 48px rgba(0,0,0,0.65),0 0 16px rgba(255,20,147,0.18); }
+    .player-head{ width:48px;height:48px;border-radius:10px;border:2px solid rgba(255,255,255,0.04);object-fit:cover;background:#111;flex-shrink:0;transition:transform .22s ease,box-shadow .22s ease; }
     .player:hover .player-head{ transform:scale(1.08); box-shadow:0 8px 22px rgba(0,0,0,0.6); }
-
-    .gold-glow{
-      border:2px solid rgba(255,215,0,0.9) !important;
-      box-shadow:0 0 10px rgba(255,215,0,0.25),0 0 22px rgba(255,215,0,0.18),0 0 36px rgba(255,215,0,0.12);
-      animation:goldPulse 1.6s infinite alternate;
-      background: var(--podium-gold-tint);
-    }
-    .silver-glow{
-      border:2px solid rgba(192,192,192,0.95) !important;
-      box-shadow:0 0 8px rgba(192,192,192,0.18),0 0 20px rgba(192,192,192,0.12);
-      background: var(--podium-silver-tint);
-    }
-    .bronze-glow{
-      border:2px solid rgba(205,127,50,0.95) !important;
-      box-shadow:0 0 8px rgba(205,127,50,0.18),0 0 20px rgba(205,127,50,0.12);
-      background: var(--podium-bronze-tint);
-    }
-    @keyframes goldPulse{
-      from{ box-shadow:0 0 10px rgba(255,215,0,0.22), 0 0 20px rgba(255,215,0,0.16); }
-      to{ box-shadow:0 0 18px rgba(255,215,0,0.30), 0 0 40px rgba(255,215,0,0.20); }
-    }
-
+    .gold-glow{ border:2px solid rgba(255,215,0,0.9)!important; box-shadow:0 0 10px rgba(255,215,0,0.25),0 0 22px rgba(255,215,0,0.18),0 0 36px rgba(255,215,0,0.12); animation:goldPulse 1.6s infinite alternate; background:var(--podium-gold-tint); }
+    .silver-glow{ border:2px solid rgba(192,192,192,0.95)!important; box-shadow:0 0 8px rgba(192,192,192,0.18),0 0 20px rgba(192,192,192,0.12); background:var(--podium-silver-tint); }
+    .bronze-glow{ border:2px solid rgba(205,127,50,0.95)!important; box-shadow:0 0 8px rgba(205,127,50,0.18),0 0 20px rgba(205,127,50,0.12); background:var(--podium-bronze-tint); }
+    @keyframes goldPulse{ from{box-shadow:0 0 10px rgba(255,215,0,0.22),0 0 20px rgba(255,215,0,0.16);}to{box-shadow:0 0 18px rgba(255,215,0,0.30),0 0 40px rgba(255,215,0,0.20);} }
     .player.top1{ transform:translateY(-6px) scale(1.03); }
     .player.top1 .number{ font-size:18px; font-weight:900; }
     .player.top2{ transform:translateY(-3px) scale(1.015); }
     .player.top3{ transform:translateY(-2px) scale(1.01); }
-
     .number{ display:inline-block; padding:6px 12px; border-radius:50%; font-weight:800; margin-right:10px; min-width:36px; text-align:center; z-index:2; color:white; background:transparent; border:1px solid rgba(255,255,255,0.04); font-size:13px; }
-
     .player-content{ opacity:0; transform:translateY(6px); animation:fadeSlide .42s ease forwards; display:flex; align-items:center; gap:12px; width:100%; justify-content:space-between; }
-    @keyframes fadeSlide{ to{opacity:1; transform:translateY(0);} }
-
+    @keyframes fadeSlide{ to{opacity:1;transform:translateY(0);} }
     .left{ display:flex; align-items:center; gap:12px; min-width:0; flex:1 1 auto; }
     .info{ display:flex; flex-direction:column; gap:4px; min-width:0; }
     .mini-stats{ font-size:12px; opacity:.85; color:rgba(255,255,255,0.9); }
     .right{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
-
     .tier-badge{ display:inline-block; margin-left:8px; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:700; line-height:1; box-shadow:0 2px 6px rgba(0,0,0,0.35); }
-
-    .crown{
-      width:18px; height:18px; display:inline-block; vertical-align:middle; margin-left:6px;
-      transform-origin:center; animation: crownFloat 2s ease-in-out infinite;
-    }
+    .crown{ width:18px; height:18px; display:inline-block; vertical-align:middle; margin-left:6px; transform-origin:center; animation:crownFloat 2s ease-in-out infinite; }
     @keyframes crownFloat{ 0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)} }
-
     #profilePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(20px); transition:.28s ease; }
     #profilePage.show{ opacity:1; transform:translateY(0); }
     #profileContent{ background:var(--card-dark); padding:20px; border-radius:12px; border:1px solid rgba(255,20,147,0.06); color:white; }
-
     .backBtn{ background:var(--accent-pink); border:none; padding:10px 16px; color:white; font-weight:800; border-radius:8px; cursor:pointer; margin-bottom:20px; transition:all .2s; box-shadow:0 8px 20px rgba(255,20,147,0.12); }
     .backBtn:hover{ background:var(--accent-muted); }
-
     .stat-bar{ background:var(--muted); height:8px; border-radius:6px; margin-bottom:15px; overflow:hidden; position:relative; }
     .stat-fill{ height:100%; width:0%; transition:width 1s ease; position:relative; overflow:hidden; border-radius:6px; }
-    .stat-fill::after{ content:''; position:absolute; top:0; left:-40%; width:40%; height:100%; background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 100%); transform:skewX(-18deg); animation:statShine 1.6s linear infinite; pointer-events:none; }
-    @keyframes statShine{ 0%{left:-40%;} 100%{left:140%;} }
-
-    .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background: rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
-
+    .stat-fill::after{ content:''; position:absolute; top:0; left:-40%; width:40%; height:100%; background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.12) 50%,rgba(255,255,255,0) 100%); transform:skewX(-18deg); animation:statShine 1.6s linear infinite; pointer-events:none; }
+    @keyframes statShine{ 0%{left:-40%;}100%{left:140%;} }
+    .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background:rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
     body.mono{ background:#000; color:#fff; }
     body.mono header{ background:#000; border-bottom:1px solid #111; animation:none; }
-    body.mono .gold-glow{ border-color:#fff !important; box-shadow:0 0 14px #fff, 0 0 32px rgba(255,255,255,0.18) !important; background:transparent !important; }
-    body.mono .silver-glow{ border-color:#fff !important; box-shadow:0 0 10px #fff, 0 0 24px rgba(255,255,255,0.14) !important; background:transparent !important; }
-    body.mono .bronze-glow{ border-color:#fff !important; box-shadow:0 0 10px #fff, 0 0 20px rgba(255,255,255,0.12) !important; background:transparent !important; }
-    body.mono .no-players{ border:2px dashed rgba(255,255,255,0.18); color:#fff; background: rgba(255,255,255,0.03); }
+    body.mono .gold-glow{ border-color:#fff!important; box-shadow:0 0 14px #fff,0 0 32px rgba(255,255,255,0.18)!important; background:transparent!important; }
+    body.mono .silver-glow{ border-color:#fff!important; box-shadow:0 0 10px #fff,0 0 24px rgba(255,255,255,0.14)!important; background:transparent!important; }
+    body.mono .bronze-glow{ border-color:#fff!important; box-shadow:0 0 10px #fff,0 0 20px rgba(255,255,255,0.12)!important; background:transparent!important; }
+    body.mono .no-players{ border:2px dashed rgba(255,255,255,0.18); color:#fff; background:rgba(255,255,255,0.03); }
     body.mono .tab{ color:#ddd; } body.mono .tab.active{ color:#fff; border-bottom-color:#fff; }
     body.mono #searchInput{ background:#000; border:1px solid #222; color:#fff; }
     body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
-
-    @media (max-width:720px){
-      header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
-    }
-    @media (max-width:520px){
-      .tabs{ gap:8px; } .subtitle{ font-size:12px; } .number{ display:none; } .right{ display:none; }
-    }
-
-    #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease, transform .35s ease; }
+    @media(max-width:720px){ header{padding:24px 12px;} .logo{font-size:26px;} #searchInput{width:92%;} .player{padding:12px;gap:10px;} .player-head{width:44px;height:44px;} }
+    @media(max-width:520px){ .tabs{gap:8px;} .subtitle{font-size:12px;} .number{display:none;} .right{display:none;} }
+    #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease,transform .35s ease; }
     #comparePage.show{ opacity:1; transform:translateY(0) scale(1); }
     .compare-selectors{ display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; justify-content:center; align-items:center; }
     .compare-search-wrap{ flex:1; min-width:140px; max-width:220px; position:relative; }
-    .compare-search-input{
-      width:100%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18);
-      background:#0f0f12; color:white; font-weight:700; font-size:14px; outline:none; cursor:text; box-sizing:border-box;
-    }
+    .compare-search-input{ width:100%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18); background:#0f0f12; color:white; font-weight:700; font-size:14px; outline:none; cursor:text; box-sizing:border-box; }
     .compare-search-input::placeholder{ color:rgba(255,255,255,0.35); font-weight:500; }
-    .compare-dropdown{
-      display:none; position:fixed; z-index:9999;
-      background:#0f0f12; border:1px solid rgba(255,20,147,0.18); border-radius:10px;
-      max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.8);
-    }
+    .compare-dropdown{ display:none; position:fixed; z-index:9999; background:#0f0f12; border:1px solid rgba(255,20,147,0.18); border-radius:10px; max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.8); }
     .compare-dropdown.open{ display:block; }
-    .compare-dropdown-item{
-      padding:9px 14px; cursor:pointer; font-size:13px; font-weight:600; color:#eaeaea;
-      transition:background .15s; display:flex; align-items:center; gap:8px;
-    }
-    .compare-dropdown-item:hover, .compare-dropdown-item.selected{ background:rgba(255,20,147,0.12); color:white; }
+    .compare-dropdown-item{ padding:9px 14px; cursor:pointer; font-size:13px; font-weight:600; color:#eaeaea; transition:background .15s; display:flex; align-items:center; gap:8px; }
+    .compare-dropdown-item:hover,.compare-dropdown-item.selected{ background:rgba(255,20,147,0.12); color:white; }
     .compare-dropdown-item img{ width:24px; height:24px; border-radius:6px; }
     .compare-dropdown-empty{ padding:10px 14px; font-size:13px; color:rgba(255,255,255,0.35); font-style:italic; }
     body.mono .compare-search-input{ background:#000; border-color:#333; color:#fff; }
     body.mono .compare-dropdown{ background:#111; border-color:#444; }
-    body.mono .compare-dropdown-item:hover, body.mono .compare-dropdown-item.selected{ background:rgba(255,255,255,0.08); }
+    body.mono .compare-dropdown-item:hover,body.mono .compare-dropdown-item.selected{ background:rgba(255,255,255,0.08); }
     .compare-vs{ font-weight:900; font-size:20px; color:var(--accent-pink); flex-shrink:0; }
     body.mono .compare-vs{ color:#fff; }
-    .compare-btn{
-      padding:10px 22px; border-radius:10px; border:none; background:var(--accent-pink); color:white;
-      font-weight:800; cursor:pointer; font-size:14px; transition:all .2s; box-shadow:0 8px 20px rgba(255,20,147,0.18);
-      width:100%;
-    }
+    .compare-btn{ padding:10px 22px; border-radius:10px; border:none; background:var(--accent-pink); color:white; font-weight:800; cursor:pointer; font-size:14px; transition:all .2s; box-shadow:0 8px 20px rgba(255,20,147,0.18); width:100%; }
     .compare-btn:hover{ background:var(--accent-muted); }
     .compare-btn:disabled{ opacity:0.5; cursor:not-allowed; }
     body.mono .compare-btn{ background:#fff; color:#000; box-shadow:none; }
     .compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .compare-card{ background:var(--card-dark); border-radius:12px; padding:18px; border:1px solid rgba(255,20,147,0.08); opacity:0; transform:translateY(12px); transition:opacity .4s ease, transform .4s ease; }
+    .compare-card{ background:var(--card-dark); border-radius:12px; padding:18px; border:1px solid rgba(255,20,147,0.08); opacity:0; transform:translateY(12px); transition:opacity .4s ease,transform .4s ease; }
     .compare-card.visible{ opacity:1; transform:translateY(0); }
     body.mono .compare-card{ background:#000; border-color:#222; }
     .compare-card h3{ margin:0 0 14px 0; display:flex; align-items:center; gap:10px; font-size:15px; }
@@ -209,14 +115,10 @@
     .compare-bar-track{ background:var(--muted); height:6px; border-radius:6px; overflow:hidden; margin-top:4px; }
     .compare-bar-fill{ height:100%; border-radius:6px; transition:width 1s ease; }
     .mode-select-row{ display:flex; justify-content:center; margin-bottom:20px; gap:8px; flex-wrap:wrap; }
-    .mode-select-row button{
-      padding:6px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:transparent;
-      color:rgba(255,255,255,0.6); font-weight:700; cursor:pointer; font-size:12px; transition:all .18s;
-    }
-    .mode-select-row button.active, .mode-select-row button:hover{ background:var(--accent-pink); color:white; border-color:var(--accent-pink); }
+    .mode-select-row button{ padding:6px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:rgba(255,255,255,0.6); font-weight:700; cursor:pointer; font-size:12px; transition:all .18s; }
+    .mode-select-row button.active,.mode-select-row button:hover{ background:var(--accent-pink); color:white; border-color:var(--accent-pink); }
     body.mono .mode-select-row button.active{ background:#fff; color:#000; border-color:#fff; }
     body.mono .mode-select-row button:hover{ background:rgba(255,255,255,0.15); color:#fff; border-color:#fff; }
-
     footer{ text-align:center; margin-top:26px; padding:20px; font-size:13px; opacity:0.7; color:rgba(255,255,255,0.75); }
   </style>
 </head>
@@ -239,9 +141,9 @@
     <button class="tab active" onclick="showMode('overall', this)" role="tab">🏆 Overall</button>
     <button class="tab" onclick="showMode('sword', this)" role="tab"><img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Sword"> Sword</button>
     <button class="tab" onclick="showMode('axe', this)" role="tab"><img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Axe"> Axe</button>
-    <button class="tab" onclick="showMode('uhc', this)" role="tab"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/a0/Hardcore_Heart.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="UHC"> UHC</button>
-    <button class="tab" onclick="showMode('mace', this)" role="tab"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/70/Mace_JE1.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Mace"> Mace</button>
-    <button class="tab" onclick="showMode('spear', this)" role="tab"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/0d/Trident_JE2_BE2.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Spear"> Spear</button>
+    <button class="tab" onclick="showMode('uhc', this)" role="tab"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="UHC"> UHC</button>
+    <button class="tab" onclick="showMode('mace', this)" role="tab"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Mace"> Mace</button>
+    <button class="tab" onclick="showMode('spear', this)" role="tab"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/trident.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;" alt="Spear"> Spear</button>
     <button class="tab" onclick="showCompare(this)" role="tab">⚖️ Compare</button>
   </div>
 
@@ -269,9 +171,9 @@
       <button class="active" onclick="setCompareMode('overall',this)">🏆 Overall</button>
       <button onclick="setCompareMode('sword',this)"><img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Sword</button>
       <button onclick="setCompareMode('axe',this)"><img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Axe</button>
-      <button onclick="setCompareMode('uhc',this)"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/a0/Hardcore_Heart.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> UHC</button>
-      <button onclick="setCompareMode('mace',this)"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/70/Mace_JE1.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Mace</button>
-      <button onclick="setCompareMode('spear',this)"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/0d/Trident_JE2_BE2.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Spear</button>
+      <button onclick="setCompareMode('uhc',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> UHC</button>
+      <button onclick="setCompareMode('mace',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Mace</button>
+      <button onclick="setCompareMode('spear',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/trident.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Spear</button>
     </div>
     <div class="compare-selectors">
       <div class="compare-search-wrap" id="csw1">
@@ -322,97 +224,55 @@
       }
     }
 
-    function getAvatar(username, size = 48){
-      return 'https://tabavatars.net/avatar/?username=' + encodeURIComponent(username) + '&size=' + size + '&type=head';
+    function getAvatar(username, size=48){
+      return 'https://tabavatars.net/avatar/?username='+encodeURIComponent(username)+'&size='+size+'&type=head';
     }
 
     const playerStats = {
       sword: {
-        RealO75:{wins:18,kills:55,deaths:11},
-        Jai_B37:{wins:1,kills:3,deaths:1},
-        skull_shredder30:{wins:1,kills:3,deaths:1},
-        Killedbycrab:{wins:1,kills:6,deaths:6},
-        Knoxy5316:{wins:2,kills:11,deaths:33},
-        EggyCactus78246:{wins:1,kills:3,deaths:0},
-        Aftlow:{wins:2,kills:8,deaths:10},
-        Ushindo:{wins:1,kills:3,deaths:4},
-        LiamTheLemur:{wins:0,kills:0,deaths:3},
-        SadInFusIOns:{wins:1,kills:4,deaths:5},
-        Cocotime15:{wins:1,kills:3,deaths:9},
-        gfunkdfunk82:{wins:0,kills:0,deaths:3},
-        "WARDY B33":{wins:1,kills:3,deaths:3},
-        Neska5036:{wins:0,kills:0,deaths:3},
-        bubbler2009:{wins:0,kills:0,deaths:3},
-        TerrorBoy123619:{wins:0,kills:0,deaths:3}
+        RealO75:{wins:18,kills:55,deaths:11}, Jai_B37:{wins:1,kills:3,deaths:1}, skull_shredder30:{wins:1,kills:3,deaths:1},
+        Killedbycrab:{wins:1,kills:6,deaths:6}, Knoxy5316:{wins:2,kills:11,deaths:33}, EggyCactus78246:{wins:1,kills:3,deaths:0},
+        Aftlow:{wins:2,kills:8,deaths:10}, Ushindo:{wins:1,kills:3,deaths:4}, LiamTheLemur:{wins:0,kills:0,deaths:3},
+        SadInFusIOns:{wins:1,kills:4,deaths:5}, Cocotime15:{wins:1,kills:3,deaths:9}, gfunkdfunk82:{wins:0,kills:0,deaths:3},
+        "WARDY B33":{wins:1,kills:3,deaths:3}, Neska5036:{wins:0,kills:0,deaths:3}, bubbler2009:{wins:0,kills:0,deaths:3}, TerrorBoy123619:{wins:0,kills:0,deaths:3}
       },
       axe: {
-        RealO75:{wins:3,kills:9,deaths:3},
-        Killedbycrab:{wins:4,kills:11,deaths:3},
-        Jai_B37:{wins:1,kills:5,deaths:3},
-        skull_shredder30:{wins:0,kills:1,deaths:3},
-        "Yearly-scuff81":{wins:0,kills:0,deaths:3},
-        Knoxy5316:{wins:0,kills:1,deaths:6},
-        Ushindo:{wins:0,kills:1,deaths:3},
-        Aftlow:{wins:2,kills:6,deaths:2},
-        bubbler2009:{wins:0,kills:0,deaths:3},
-        "God flow 3":{wins:0,kills:2,deaths:2},
-        "WARDY B33":{wins:1,kills:1,deaths:1},
-        Cocotime15:{wins:0,kills:1,deaths:1}
+        RealO75:{wins:3,kills:9,deaths:3}, Killedbycrab:{wins:4,kills:11,deaths:3}, Jai_B37:{wins:1,kills:5,deaths:3},
+        skull_shredder30:{wins:0,kills:1,deaths:3}, "Yearly-scuff81":{wins:0,kills:0,deaths:3}, Knoxy5316:{wins:0,kills:1,deaths:6},
+        Ushindo:{wins:0,kills:1,deaths:3}, Aftlow:{wins:2,kills:6,deaths:2}, bubbler2009:{wins:0,kills:0,deaths:3},
+        "God flow 3":{wins:0,kills:2,deaths:2}, "WARDY B33":{wins:1,kills:1,deaths:1}, Cocotime15:{wins:0,kills:1,deaths:1}
       },
       uhc: {
-        Killedbycrab:{wins:2,kills:5,deaths:0},
-        "Yearly-scuff81":{wins:0,kills:0,deaths:3},
-        Aftlow:{wins:6,kills:18,deaths:4},
-        RealO75:{wins:0,kills:2,deaths:3},
-        Knoxy5316:{wins:0,kills:0,deaths:3},
-        Jai_B37:{wins:0,kills:1,deaths:3},
-        bubbler2009:{wins:0,kills:0,deaths:6},
-        "WARDY B33":{wins:0,kills:0,deaths:2},
-        Oneshot1353:{wins:1,kills:3,deaths:0},
-        Cocotime15:{wins:0,kills:1,deaths:6}
+        Killedbycrab:{wins:2,kills:5,deaths:0}, "Yearly-scuff81":{wins:0,kills:0,deaths:3}, Aftlow:{wins:6,kills:18,deaths:4},
+        RealO75:{wins:0,kills:2,deaths:3}, Knoxy5316:{wins:0,kills:0,deaths:3}, Jai_B37:{wins:0,kills:1,deaths:3},
+        bubbler2009:{wins:0,kills:0,deaths:6}, "WARDY B33":{wins:0,kills:0,deaths:2}, Oneshot1353:{wins:1,kills:3,deaths:0}, Cocotime15:{wins:0,kills:1,deaths:6}
       },
       mace: {
-        Killedbycrab:{wins:13,kills:39,deaths:11},
-        "Yearly-scuff81":{wins:0,kills:3,deaths:15},
-        Aftlow:{wins:2,kills:6,deaths:4},
-        Knoxy5316:{wins:1,kills:7,deaths:25},
-        EggyCactus78246:{wins:1,kills:3,deaths:0},
-        LiamTheLemur:{wins:0,kills:0,deaths:1},
-        RealO75:{wins:3,kills:11,deaths:6},
-        Cocotime15:{wins:1,kills:3,deaths:0},
-        Jai_B37:{wins:1,kills:3,deaths:2},
-        Neska5036:{wins:0,kills:2,deaths:3},
-        "God flow 3":{wins:0,kills:2,deaths:2},
-        bubbler2009:{wins:0,kills:1,deaths:3},
-        TerrorBoy123619:{wins:0,kills:1,deaths:3},
-        "WARDY B33":{wins:0,kills:1,deaths:3}
+        Killedbycrab:{wins:13,kills:39,deaths:11}, "Yearly-scuff81":{wins:0,kills:3,deaths:15}, Aftlow:{wins:2,kills:6,deaths:4},
+        Knoxy5316:{wins:1,kills:7,deaths:25}, EggyCactus78246:{wins:1,kills:3,deaths:0}, LiamTheLemur:{wins:0,kills:0,deaths:1},
+        RealO75:{wins:3,kills:11,deaths:6}, Cocotime15:{wins:1,kills:3,deaths:0}, Jai_B37:{wins:1,kills:3,deaths:2},
+        Neska5036:{wins:0,kills:2,deaths:3}, "God flow 3":{wins:0,kills:2,deaths:2}, bubbler2009:{wins:0,kills:1,deaths:3},
+        TerrorBoy123619:{wins:0,kills:1,deaths:3}, "WARDY B33":{wins:0,kills:1,deaths:3}
       },
       spear: {
-        Killedbycrab:{wins:2,kills:6,deaths:0},
-        Aftlow:{wins:4,kills:12,deaths:2},
-        "Yearly-scuff81":{wins:0,kills:1,deaths:6},
-        Cocotime15:{wins:0,kills:0,deaths:3},
-        RealO75:{wins:1,kills:4,deaths:3},
-        gfunkdfunk82:{wins:0,kills:2,deaths:3},
-        Ushindo:{wins:0,kills:0,deaths:3},
-        Knoxy5316:{wins:1,kills:3,deaths:2},
-        Jai_B37:{wins:0,kills:0,deaths:3},
-        bubbler2009:{wins:0,kills:0,deaths:3},
-        "WARDY B33":{wins:0,kills:0,deaths:3}
+        Killedbycrab:{wins:2,kills:6,deaths:0}, Aftlow:{wins:4,kills:12,deaths:2}, "Yearly-scuff81":{wins:0,kills:1,deaths:6},
+        Cocotime15:{wins:0,kills:0,deaths:3}, RealO75:{wins:1,kills:4,deaths:3}, gfunkdfunk82:{wins:0,kills:2,deaths:3},
+        Ushindo:{wins:0,kills:0,deaths:3}, Knoxy5316:{wins:1,kills:3,deaths:2}, Jai_B37:{wins:0,kills:0,deaths:3},
+        bubbler2009:{wins:0,kills:0,deaths:3}, "WARDY B33":{wins:0,kills:0,deaths:3}
       }
     };
 
     const customTiers = {
-      sword: { Killedbycrab:"Gold", RealO75:"Diamond", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Gold", "WARDY B33":"Iron", Cocotime15:"Iron" },
-      axe:   { Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Emerald", bubbler2009:"Iron", "WARDY B33":"Gold", Cocotime15:"Iron" },
-      uhc:   { Killedbycrab:"Gold", RealO75:"Gold", Aftlow:"Gold", Knoxy5316:"Iron", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper" },
-      mace:  { Killedbycrab:"Diamond", RealO75:"Iron", Aftlow:"Gold", Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal", "WARDY B33":"Copper", Cocotime15:"Copper" },
-      spear: { Killedbycrab:"Gold", RealO75:"Iron", Aftlow:"Diamond", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper" },
-      overall:{ Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper" }
+      sword:   { Killedbycrab:"Gold", RealO75:"Diamond", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Gold", "WARDY B33":"Iron", Cocotime15:"Iron" },
+      axe:     { Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Emerald", bubbler2009:"Iron", "WARDY B33":"Gold", Cocotime15:"Iron" },
+      uhc:     { Killedbycrab:"Gold", RealO75:"Gold", Aftlow:"Gold", Knoxy5316:"Iron", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper" },
+      mace:    { Killedbycrab:"Diamond", RealO75:"Iron", Aftlow:"Gold", Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal", "WARDY B33":"Copper", Cocotime15:"Copper" },
+      spear:   { Killedbycrab:"Gold", RealO75:"Iron", Aftlow:"Diamond", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper" },
+      overall: { Killedbycrab:"Emerald", RealO75:"Gold", Aftlow:"Emerald", Knoxy5316:"Copper", Jai_B37:"Iron", bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper" }
     };
 
     const tierColors = {
-      Netherite:'#4a4a6a', Diamond:'#00BFFF', Emerald:'#50C878', Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#2a2a2a', 'Unranked':'#888'
+      Netherite:'#4a4a6a', Diamond:'#00BFFF', Emerald:'#50C878', Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#2a2a2a', Unranked:'#888'
     };
 
     const playerCountry = {
@@ -432,158 +292,119 @@
     function updateOverall(){
       const overall = {};
       for(const mode in playerStats){
-        if(mode === 'overall') continue;
-        const list = playerStats[mode] || {};
-        for(const p in list){
-          if(!overall[p]) overall[p] = {wins:0,kills:0,deaths:0};
-          const s = list[p];
-          overall[p].wins += (s.wins || 0);
-          overall[p].kills += (s.kills || 0);
-          overall[p].deaths += (s.deaths || 0);
+        if(mode==='overall') continue;
+        for(const p in playerStats[mode]){
+          if(!overall[p]) overall[p]={wins:0,kills:0,deaths:0};
+          const s=playerStats[mode][p];
+          overall[p].wins+=(s.wins||0); overall[p].kills+=(s.kills||0); overall[p].deaths+=(s.deaths||0);
         }
       }
-      playerStats.overall = overall;
+      playerStats.overall=overall;
     }
 
     function getOrderedPlayers(mode){
-      if(mode === 'overall') updateOverall();
-      const data = playerStats[mode] || {};
-      const entries = Object.entries(data);
-      const tierPriority = { 'Netherite':7, 'Diamond':6, 'Emerald':5, 'Gold':4, 'Iron':3, 'Copper':2, 'Coal':1, 'Unranked':0 };
-      const computed = entries.map(([name, stats]) => {
-        const s = stats || {wins:0,kills:0,deaths:0};
-        const tier = customTiers[mode]?.[name] || "Unranked";
-        const kd = (s.deaths === 0) ? s.kills : (s.kills / s.deaths);
-        const score = (s.wins * 10) + s.kills + (kd * 5);
-        return { name, stats: s, tier, score };
+      if(mode==='overall') updateOverall();
+      const data=playerStats[mode]||{};
+      const tierPriority={'Netherite':7,'Diamond':6,'Emerald':5,'Gold':4,'Iron':3,'Copper':2,'Coal':1,'Unranked':0};
+      const computed=Object.entries(data).map(([name,stats])=>{
+        const s=stats||{wins:0,kills:0,deaths:0};
+        const tier=customTiers[mode]?.[name]||"Unranked";
+        const kd=(s.deaths===0)?s.kills:(s.kills/s.deaths);
+        return {name,stats:s,tier,score:(s.wins*10)+s.kills+(kd*5)};
       });
-      computed.sort((a,b) => {
-        const tDiff = (tierPriority[b.tier] || 0) - (tierPriority[a.tier] || 0);
-        if(tDiff !== 0) return tDiff;
-        if(a.tier === 'Unranked' && b.tier === 'Unranked'){
-          if(b.score !== a.score) return b.score - a.score;
-          if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
-          if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
-          return a.stats.deaths - b.stats.deaths;
-        }
-        if(b.score !== a.score) return b.score - a.score;
-        if(b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
-        if(b.stats.kills !== a.stats.kills) return b.stats.kills - a.stats.kills;
-        return a.stats.deaths - b.stats.deaths;
+      computed.sort((a,b)=>{
+        const tDiff=(tierPriority[b.tier]||0)-(tierPriority[a.tier]||0);
+        if(tDiff!==0) return tDiff;
+        if(b.score!==a.score) return b.score-a.score;
+        if(b.stats.wins!==a.stats.wins) return b.stats.wins-a.stats.wins;
+        if(b.stats.kills!==a.stats.kills) return b.stats.kills-a.stats.kills;
+        return a.stats.deaths-b.stats.deaths;
       });
-      return computed.map(c => c.name);
+      return computed.map(c=>c.name);
     }
 
     function createPlayers(mode){
-      if(mode === 'overall') updateOverall();
-      const container = document.getElementById(mode);
+      if(mode==='overall') updateOverall();
+      const container=document.getElementById(mode);
       if(!container) return;
-      const players = getOrderedPlayers(mode).filter(name => showRetired || !retired.includes(name));
-      container.innerHTML = '';
-
-      const countDiv = document.createElement('div');
-      countDiv.style.cssText = 'font-size:12px;font-weight:600;opacity:0.5;text-align:right;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;';
-      countDiv.textContent = players.length + ' player' + (players.length !== 1 ? 's' : '');
+      const players=getOrderedPlayers(mode).filter(name=>showRetired||!retired.includes(name));
+      container.innerHTML='';
+      const countDiv=document.createElement('div');
+      countDiv.style.cssText='font-size:12px;font-weight:600;opacity:0.5;text-align:right;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;';
+      countDiv.textContent=players.length+' player'+(players.length!==1?'s':'');
       container.appendChild(countDiv);
-
-      players.forEach((name, i) => {
-        let glow = '', numberClass = '', podiumClass = '', crownHtml = '';
-        if(i===0){ glow='gold-glow'; numberClass='gold'; podiumClass='top1';
-          crownHtml = `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;
-        }
-        else if(i===1){ glow='silver-glow'; numberClass='silver'; podiumClass='top2'; }
-        else if(i===2){ glow='bronze-glow'; numberClass='bronze'; podiumClass='top3'; }
-
-        const tier = customTiers[mode]?.[name] || "Unranked";
-        const stats = (playerStats[mode] || {})[name] || {wins:0,kills:0,deaths:0};
-        const kdVal = stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths;
-        const fireHtml = (kdVal === Infinity || kdVal >= 2) ? `<span title="Hot streak!" style="font-size:14px;line-height:1;">🔥</span>` : '';
-
-        const isRetired = retired.includes(name);
-        const card = document.createElement('div');
-        card.className = `player ${glow} ${podiumClass}`;
-        card.style.animationDelay = (i * 0.06) + 's';
-        if(isRetired) card.style.opacity = '0.45';
-        card.onclick = () => openProfile(name, mode);
-
-        const numberSpan = document.createElement('span');
-        numberSpan.className = 'number ' + numberClass;
-        numberSpan.textContent = '#' + (i + 1);
-
-        const playerContent = document.createElement('div');
-        playerContent.className = 'player-content';
-
-        const retiredBadge = isRetired ? `<span style="font-size:11px;font-weight:700;padding:3px 7px;border-radius:999px;background:#333;color:#aaa;margin-left:4px;">🏆 Retired</span>` : '';
-
-        const badgeHtml = (tier && tier !== 'Unranked') ?
-          `<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'}; color:${(tier==='Gold')?'#000':'#fff'};">${tier}</span>` : '';
-
-        const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 12) : '';
-
-        playerContent.innerHTML = `
+      players.forEach((name,i)=>{
+        let glow='',numberClass='',podiumClass='',crownHtml='';
+        if(i===0){glow='gold-glow';numberClass='gold';podiumClass='top1';crownHtml=`<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;}
+        else if(i===1){glow='silver-glow';numberClass='silver';podiumClass='top2';}
+        else if(i===2){glow='bronze-glow';numberClass='bronze';podiumClass='top3';}
+        const tier=customTiers[mode]?.[name]||"Unranked";
+        const stats=(playerStats[mode]||{})[name]||{wins:0,kills:0,deaths:0};
+        const kdVal=stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
+        const fireHtml=(kdVal===Infinity||kdVal>=2)?`<span title="Hot streak!" style="font-size:14px;line-height:1;">🔥</span>`:'';
+        const isRetired=retired.includes(name);
+        const card=document.createElement('div');
+        card.className=`player ${glow} ${podiumClass}`;
+        card.style.animationDelay=(i*0.06)+'s';
+        if(isRetired) card.style.opacity='0.45';
+        card.onclick=()=>openProfile(name,mode);
+        const numberSpan=document.createElement('span');
+        numberSpan.className='number '+numberClass;
+        numberSpan.textContent='#'+(i+1);
+        const playerContent=document.createElement('div');
+        playerContent.className='player-content';
+        const retiredBadge=isRetired?`<span style="font-size:11px;font-weight:700;padding:3px 7px;border-radius:999px;background:#333;color:#aaa;margin-left:4px;">🏆 Retired</span>`:'';
+        const badgeHtml=(tier&&tier!=='Unranked')?`<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'};color:${tier==='Gold'?'#000':'#fff'};">${tier}</span>`:'';
+        const flagHtml=playerCountry[name]?getFlagImg(playerCountry[name],12):'';
+        playerContent.innerHTML=`
           <div class="left">
             <img src="${getAvatar(name)}" alt="${name} avatar" class="player-head">
             <div class="info">
               <div style="display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                 <b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</b>
-                ${flagHtml}${fireHtml}
-                ${crownHtml}
-                ${badgeHtml}${retiredBadge}
+                ${flagHtml}${fireHtml}${crownHtml}${badgeHtml}${retiredBadge}
               </div>
               <div class="mini-stats"><strong>W:</strong> ${stats.wins} &nbsp; <strong>K:</strong> ${stats.kills} &nbsp; <strong>D:</strong> ${stats.deaths}</div>
             </div>
           </div>
           <div class="right">
             <div style="font-weight:700;font-size:13px;opacity:.9;">K/D: <span style="color:${kdVal===Infinity||kdVal>=2?'limegreen':kdVal>=1?'yellow':'red'}">${kdVal===Infinity?'∞':kdVal===0?'0.00':kdVal.toFixed(2)}</span></div>
-          </div>
-        `;
+          </div>`;
         card.appendChild(numberSpan);
         card.appendChild(playerContent);
         container.appendChild(card);
       });
-
-      if(players.length === 0){
-        const div = document.createElement('div');
-        div.className = 'no-players';
-        div.textContent = 'No players found';
-        container.appendChild(div);
-      }
+      if(players.length===0){const div=document.createElement('div');div.className='no-players';div.textContent='No players found';container.appendChild(div);}
     }
 
-    function openProfile(name, mode){
-      const stats = (playerStats[mode] || {})[name];
-      const tierColorsLocal = tierColors;
-
+    function openProfile(name,mode){
+      const stats=(playerStats[mode]||{})[name];
       if(!stats){
-        const color = monoMode ? '#fff' : '#ff99cc';
-        document.getElementById('profileContent').innerHTML = `<p style="color:${color}; font-weight:bold;">No stats for ${name} in ${mode}.</p>`;
+        const color=monoMode?'#fff':'#ff99cc';
+        document.getElementById('profileContent').innerHTML=`<p style="color:${color};font-weight:bold;">No stats for ${name} in ${mode}.</p>`;
       } else {
-        const ranking = getOrderedPlayers(mode);
-        const rank = ranking.indexOf(name) + 1;
-        const kd = stats.deaths === 0 ? '∞' : (stats.kills / stats.deaths).toFixed(2);
-        const tier = customTiers[mode]?.[name] || "Unranked";
-        const tierColor = tierColorsLocal[tier] || '#888';
-        let kdColor = 'white';
-        if(kd === '∞' || Number(kd) >= 2) kdColor = 'limegreen';
-        else if(Number(kd) >= 1) kdColor = 'yellow';
-        else kdColor = 'red';
-
-        const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
-        const retiredProfileBadge = retired.includes(name) ? `<span style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#333;color:#aaa;margin-left:6px;">🏆 Retired</span>` : '';
-        const profileFlag = playerCountry[name] ? getFlagImg(playerCountry[name], 16) : '';
-
-        document.getElementById('profileContent').innerHTML = `
+        const ranking=getOrderedPlayers(mode);
+        const rank=ranking.indexOf(name)+1;
+        const kd=stats.deaths===0?'∞':(stats.kills/stats.deaths).toFixed(2);
+        const tier=customTiers[mode]?.[name]||"Unranked";
+        const tierColor=tierColors[tier]||'#888';
+        let kdColor='white';
+        if(kd==='∞'||Number(kd)>=2) kdColor='limegreen';
+        else if(Number(kd)>=1) kdColor='yellow';
+        else kdColor='red';
+        const crownHtml=(rank===1)?`<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`:'';
+        const retiredProfileBadge=retired.includes(name)?`<span style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#333;color:#aaa;margin-left:6px;">🏆 Retired</span>`:'';
+        const profileFlag=playerCountry[name]?getFlagImg(playerCountry[name],16):'';
+        document.getElementById('profileContent').innerHTML=`
           <h2 style="margin-top:0;display:flex;align-items:center;gap:12px;">
             <img src="${getAvatar(name,64)}" alt="${name} avatar" class="player-head" style="width:64px;height:64px;border-radius:12px;">
             <span style="font-size:20px;display:flex;align-items:center;gap:8px;">
               <span style="opacity:0.85;font-weight:700;">#${rank}</span>
-              <span>${name}</span>
-              ${profileFlag}
-              ${crownHtml}${retiredProfileBadge}
+              <span>${name}</span>${profileFlag}${crownHtml}${retiredProfileBadge}
             </span>
           </h2>
           <h3 style="margin-top:-6px;color:${tierColor};font-weight:800;">${tier}</h3>
-          <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode ? '#fff' : 'rgba(255,102,204,0.08)'};font-weight:700;">
+          <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode?'#fff':'rgba(255,102,204,0.08)'};font-weight:700;">
             <div>K/D: <span style="color:${kdColor}">${kd}</span></div>
             <div>Rank: <span>#${rank}</span></div>
           </div>
@@ -592,247 +413,171 @@
           <p style="margin:6px 0;"><b>Kills:</b> <strong>${stats.kills}</strong></p>
           <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
           <p style="margin:6px 0;"><b>Deaths:</b> <strong>${stats.deaths}</strong></p>
-          <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
-        `;
-        setTimeout(()=> animateBars(stats, tierColor), 20);
+          <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>`;
+        setTimeout(()=>animateBars(stats,tierColor),20);
       }
-
-      document.querySelector('.tabs').style.display = 'none';
-      document.querySelector('.container').style.display = 'none';
-      document.getElementById('searchInput').style.display = 'none';
-      document.getElementById('retiredToggle').style.display = 'none';
-      const profile = document.getElementById('profilePage');
-      profile.style.display = 'block';
-      setTimeout(()=> { profile.classList.add('show'); profile.setAttribute('aria-hidden','false'); }, 10);
+      document.querySelector('.tabs').style.display='none';
+      document.querySelector('.container').style.display='none';
+      document.getElementById('searchInput').style.display='none';
+      document.getElementById('retiredToggle').style.display='none';
+      const profile=document.getElementById('profilePage');
+      profile.style.display='block';
+      setTimeout(()=>{profile.classList.add('show');profile.setAttribute('aria-hidden','false');},10);
     }
 
-    function animateBars(stats, color){
-      const max = Math.max(stats.wins || 0, stats.kills || 0, stats.deaths || 0, 1);
-      const mapping = [{id:'winsBar',key:'wins'},{id:'killsBar',key:'kills'},{id:'deathsBar',key:'deaths'}];
-      mapping.forEach((m, idx) => {
-        const bar = document.getElementById(m.id);
+    function animateBars(stats,color){
+      const max=Math.max(stats.wins||0,stats.kills||0,stats.deaths||0,1);
+      [{id:'winsBar',key:'wins'},{id:'killsBar',key:'kills'},{id:'deathsBar',key:'deaths'}].forEach((m,idx)=>{
+        const bar=document.getElementById(m.id);
         if(!bar) return;
-        bar.style.width = '0%';
-        bar.style.background = color;
-        void bar.offsetWidth;
-        setTimeout(()=> {
-          const value = stats[m.key] || 0;
-          bar.style.width = Math.round((value / max) * 100) + '%';
-        }, idx * 200);
+        bar.style.width='0%'; bar.style.background=color; void bar.offsetWidth;
+        setTimeout(()=>{bar.style.width=Math.round(((stats[m.key]||0)/max)*100)+'%';},idx*200);
       });
     }
 
     function goBack(){
-      const profile = document.getElementById('profilePage');
-      profile.classList.remove('show');
-      profile.setAttribute('aria-hidden','true');
+      const profile=document.getElementById('profilePage');
+      profile.classList.remove('show'); profile.setAttribute('aria-hidden','true');
       setTimeout(()=>{
-        profile.style.display = 'none';
-        document.querySelector('.tabs').style.display = 'flex';
-        document.querySelector('.container').style.display = 'block';
-        document.getElementById('searchInput').style.display = 'inline-block';
-        document.getElementById('retiredToggle').style.display = 'inline-block';
-      }, 260);
+        profile.style.display='none';
+        document.querySelector('.tabs').style.display='flex';
+        document.querySelector('.container').style.display='block';
+        document.getElementById('searchInput').style.display='inline-block';
+        document.getElementById('retiredToggle').style.display='inline-block';
+      },260);
     }
 
     function searchPlayers(){
-      const value = document.getElementById('searchInput').value.trim().toLowerCase();
-      const active = document.querySelector('.mode.active');
+      const value=document.getElementById('searchInput').value.trim().toLowerCase();
+      const active=document.querySelector('.mode.active');
       if(!active) return;
-      active.querySelectorAll('.no-players').forEach(np => np.remove());
-      const players = Array.from(active.querySelectorAll('.player'));
-      players.forEach(p => {
-        const nameElem = p.querySelector('b');
-        const name = nameElem ? nameElem.textContent.toLowerCase() : '';
-        p.style.display = name.includes(value) ? 'flex' : 'none';
-      });
-      const visible = players.filter(p => p.style.display !== 'none');
-      if(visible.length === 0){
-        const div = document.createElement('div');
-        div.className = 'no-players';
-        div.textContent = 'No players found';
-        active.appendChild(div);
-      }
+      active.querySelectorAll('.no-players').forEach(np=>np.remove());
+      const players=Array.from(active.querySelectorAll('.player'));
+      players.forEach(p=>{const name=p.querySelector('b')?.textContent.toLowerCase()||'';p.style.display=name.includes(value)?'flex':'none';});
+      if(!players.filter(p=>p.style.display!=='none').length){const div=document.createElement('div');div.className='no-players';div.textContent='No players found';active.appendChild(div);}
     }
 
-    function showMode(mode, btn){
-      const activeTab = document.querySelector('.tab.active');
-      if(activeTab === btn) return;
+    function showMode(mode,btn){
+      if(document.querySelector('.tab.active')===btn) return;
       hideCompare();
-      document.getElementById('searchInput').style.display = 'inline-block';
-      document.getElementById('searchInput').value = '';
-      document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
-      const el = document.getElementById(mode);
-      if(el) el.classList.add('active');
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('searchInput').style.display='inline-block';
+      document.getElementById('searchInput').value='';
+      document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+      document.getElementById(mode)?.classList.add('active');
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
       if(btn) btn.classList.add('active');
-      document.querySelector('.container').style.display = 'block';
+      document.querySelector('.container').style.display='block';
       createPlayers(mode);
     }
 
-    let compareMode = 'overall';
+    let compareMode='overall';
 
     function showCompare(btn){
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
       if(btn) btn.classList.add('active');
-      document.querySelector('.container').style.display = 'none';
-      document.getElementById('searchInput').style.display = 'none';
-      document.getElementById('profilePage').style.display = 'none';
-      const cp = document.getElementById('comparePage');
-      cp.style.display = 'block';
-      setTimeout(()=>{ cp.classList.add('show'); cp.setAttribute('aria-hidden','false'); }, 10);
+      document.querySelector('.container').style.display='none';
+      document.getElementById('searchInput').style.display='none';
+      document.getElementById('profilePage').style.display='none';
+      const cp=document.getElementById('comparePage');
+      cp.style.display='block';
+      setTimeout(()=>{cp.classList.add('show');cp.setAttribute('aria-hidden','false');},10);
       populateCompareSelects();
     }
 
     function hideCompare(){
-      const cp = document.getElementById('comparePage');
-      cp.classList.remove('show');
-      cp.setAttribute('aria-hidden','true');
-      setTimeout(()=>{ cp.style.display = 'none'; }, 260);
+      const cp=document.getElementById('comparePage');
+      cp.classList.remove('show'); cp.setAttribute('aria-hidden','true');
+      setTimeout(()=>{cp.style.display='none';},260);
     }
 
-    function setCompareMode(mode, btn){
-      compareMode = mode;
-      document.querySelectorAll('#compareModeRow button').forEach(b => b.classList.remove('active'));
+    function setCompareMode(mode,btn){
+      compareMode=mode;
+      document.querySelectorAll('#compareModeRow button').forEach(b=>b.classList.remove('active'));
       if(btn) btn.classList.add('active');
-      document.getElementById('compareResult').innerHTML = '';
+      document.getElementById('compareResult').innerHTML='';
       populateCompareSelects();
     }
 
-    let compareP1Selected = '';
-    let compareP2Selected = '';
-    let comparePlayers = [];
+    let compareP1Selected='', compareP2Selected='', comparePlayers=[];
 
     function populateCompareSelects(){
-      if(compareMode === 'overall') updateOverall();
-      comparePlayers = Object.keys(playerStats[compareMode] || {}).filter(p => showRetired || !retired.includes(p));
-      comparePlayers.sort();
-      compareP1Selected = '';
-      compareP2Selected = '';
-      document.getElementById('compareSearch1').value = '';
-      document.getElementById('compareSearch2').value = '';
-      buildDropdown(1, comparePlayers);
-      buildDropdown(2, comparePlayers);
+      if(compareMode==='overall') updateOverall();
+      comparePlayers=Object.keys(playerStats[compareMode]||{}).filter(p=>showRetired||!retired.includes(p)).sort();
+      compareP1Selected=''; compareP2Selected='';
+      document.getElementById('compareSearch1').value='';
+      document.getElementById('compareSearch2').value='';
+      buildDropdown(1,comparePlayers); buildDropdown(2,comparePlayers);
     }
 
-    function buildDropdown(num, players){
-      const dd = document.getElementById('compareDropdown' + num);
-      const input = document.getElementById('compareSearch' + num);
-      const search = input.value.toLowerCase();
-      const filtered = players.filter(p => p.toLowerCase().includes(search));
-      dd.innerHTML = '';
-      if(filtered.length === 0){
-        dd.innerHTML = `<div class="compare-dropdown-empty">No players found</div>`;
-        return;
-      }
-      filtered.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'compare-dropdown-item' + (
-          (num === 1 && p === compareP1Selected) || (num === 2 && p === compareP2Selected) ? ' selected' : ''
-        );
-        const flag = playerCountry[p] ? getFlagImg(playerCountry[p], 12) : '';
-        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}">${flag}<span>${p}</span>`;
-        item.addEventListener('mousedown', (e) => {
-          e.preventDefault();
-          selectComparePlayer(num, p);
-        });
+    function buildDropdown(num,players){
+      const dd=document.getElementById('compareDropdown'+num);
+      const search=document.getElementById('compareSearch'+num).value.toLowerCase();
+      const filtered=players.filter(p=>p.toLowerCase().includes(search));
+      dd.innerHTML='';
+      if(!filtered.length){dd.innerHTML=`<div class="compare-dropdown-empty">No players found</div>`;return;}
+      filtered.forEach(p=>{
+        const item=document.createElement('div');
+        item.className='compare-dropdown-item'+((num===1&&p===compareP1Selected)||(num===2&&p===compareP2Selected)?' selected':'');
+        const flag=playerCountry[p]?getFlagImg(playerCountry[p],12):'';
+        item.innerHTML=`<img src="${getAvatar(p,24)}" alt="${p}">${flag}<span>${p}</span>`;
+        item.addEventListener('mousedown',e=>{e.preventDefault();selectComparePlayer(num,p);});
         dd.appendChild(item);
       });
     }
 
     function positionDropdown(num){
-      const input = document.getElementById('compareSearch' + num);
-      const dd = document.getElementById('compareDropdown' + num);
-      const rect = input.getBoundingClientRect();
-      dd.style.top = (rect.bottom + 4) + 'px';
-      dd.style.left = rect.left + 'px';
-      dd.style.width = rect.width + 'px';
+      const input=document.getElementById('compareSearch'+num);
+      const dd=document.getElementById('compareDropdown'+num);
+      const rect=input.getBoundingClientRect();
+      dd.style.top=(rect.bottom+4)+'px'; dd.style.left=rect.left+'px'; dd.style.width=rect.width+'px';
     }
 
-    function selectComparePlayer(num, name){
-      if(num === 1){
-        compareP1Selected = name;
-        document.getElementById('compareSearch1').value = name;
-      } else {
-        compareP2Selected = name;
-        document.getElementById('compareSearch2').value = name;
-      }
-      document.getElementById('compareDropdown' + num).classList.remove('open');
+    function selectComparePlayer(num,name){
+      if(num===1){compareP1Selected=name;document.getElementById('compareSearch1').value=name;}
+      else{compareP2Selected=name;document.getElementById('compareSearch2').value=name;}
+      document.getElementById('compareDropdown'+num).classList.remove('open');
     }
 
     function filterCompareList(num){
-      buildDropdown(num, comparePlayers);
-      positionDropdown(num);
-      document.getElementById('compareDropdown' + num).classList.add('open');
-      if(num === 1) compareP1Selected = '';
-      else compareP2Selected = '';
+      buildDropdown(num,comparePlayers); positionDropdown(num);
+      document.getElementById('compareDropdown'+num).classList.add('open');
+      if(num===1) compareP1Selected=''; else compareP2Selected='';
     }
 
-    function showCompareDropdown(num){
-      buildDropdown(num, comparePlayers);
-      positionDropdown(num);
-      document.getElementById('compareDropdown' + num).classList.add('open');
-    }
+    function showCompareDropdown(num){buildDropdown(num,comparePlayers);positionDropdown(num);document.getElementById('compareDropdown'+num).classList.add('open');}
 
     function hideCompareDropdown(num){
-      setTimeout(() => {
-        document.getElementById('compareDropdown' + num).classList.remove('open');
-        const input = document.getElementById('compareSearch' + num);
-        const selected = num === 1 ? compareP1Selected : compareP2Selected;
-        if(!selected) input.value = '';
-      }, 150);
+      setTimeout(()=>{
+        document.getElementById('compareDropdown'+num).classList.remove('open');
+        const selected=num===1?compareP1Selected:compareP2Selected;
+        if(!selected) document.getElementById('compareSearch'+num).value='';
+      },150);
     }
 
     function runCompare(){
-      const btn = document.querySelector('.compare-btn');
+      const btn=document.querySelector('.compare-btn');
       if(btn.disabled) return;
-      btn.disabled = true;
-      setTimeout(() => { btn.disabled = false; }, 1000);
-      if(compareMode === 'overall') updateOverall();
-      const p1 = compareP1Selected;
-      const p2 = compareP2Selected;
-      if(!p1 || !p2 || p1 === p2 || p1 === '' || p2 === ''){
-        document.getElementById('compareResult').innerHTML = `<div class="no-players">Pick two different players!</div>`;
-        return;
-      }
-      const s1 = (playerStats[compareMode] || {})[p1] || {wins:0,kills:0,deaths:0};
-      const s2 = (playerStats[compareMode] || {})[p2] || {wins:0,kills:0,deaths:0};
-      const t1 = customTiers[compareMode]?.[p1] || 'Unranked';
-      const t2 = customTiers[compareMode]?.[p2] || 'Unranked';
-      const c1 = tierColors[t1] || '#888';
-      const c2 = tierColors[t2] || '#888';
-
-      const kd1 = s1.deaths === 0 ? (s1.kills > 0 ? Infinity : 0) : s1.kills / s1.deaths;
-      const kd2 = s2.deaths === 0 ? (s2.kills > 0 ? Infinity : 0) : s2.kills / s2.deaths;
-      const kd1str = kd1 === Infinity ? '∞' : kd1.toFixed(2);
-      const kd2str = kd2 === Infinity ? '∞' : kd2.toFixed(2);
-
-      const r1 = getOrderedPlayers(compareMode).indexOf(p1) + 1;
-      const r2 = getOrderedPlayers(compareMode).indexOf(p2) + 1;
-
-      function winClass(a, b, higherIsBetter = true){
-        if(a === b) return ['',''];
-        const aWins = higherIsBetter ? a > b : a < b;
-        return aWins ? ['compare-winner','compare-loser'] : ['compare-loser','compare-winner'];
-      }
-
-      const [wc1k, wc2k] = winClass(s1.kills, s2.kills);
-      const [wc1w, wc2w] = winClass(s1.wins, s2.wins);
-      const [wc1d, wc2d] = winClass(s1.deaths, s2.deaths, false);
-      const [wc1kd, wc2kd] = winClass(kd1, kd2);
-
-      const maxKills = Math.max(s1.kills, s2.kills, 1);
-      const maxWins = Math.max(s1.wins, s2.wins, 1);
-      const maxDeaths = Math.max(s1.deaths, s2.deaths, 1);
-
-      document.getElementById('compareResult').innerHTML = `
+      btn.disabled=true; setTimeout(()=>{btn.disabled=false;},1000);
+      if(compareMode==='overall') updateOverall();
+      const p1=compareP1Selected, p2=compareP2Selected;
+      if(!p1||!p2||p1===p2){document.getElementById('compareResult').innerHTML=`<div class="no-players">Pick two different players!</div>`;return;}
+      const s1=(playerStats[compareMode]||{})[p1]||{wins:0,kills:0,deaths:0};
+      const s2=(playerStats[compareMode]||{})[p2]||{wins:0,kills:0,deaths:0};
+      const t1=customTiers[compareMode]?.[p1]||'Unranked', t2=customTiers[compareMode]?.[p2]||'Unranked';
+      const c1=tierColors[t1]||'#888', c2=tierColors[t2]||'#888';
+      const kd1=s1.deaths===0?(s1.kills>0?Infinity:0):s1.kills/s1.deaths;
+      const kd2=s2.deaths===0?(s2.kills>0?Infinity:0):s2.kills/s2.deaths;
+      const r1=getOrderedPlayers(compareMode).indexOf(p1)+1, r2=getOrderedPlayers(compareMode).indexOf(p2)+1;
+      function winClass(a,b,h=true){if(a===b)return['',''];return (h?a>b:a<b)?['compare-winner','compare-loser']:['compare-loser','compare-winner'];}
+      const [wc1k,wc2k]=winClass(s1.kills,s2.kills), [wc1w,wc2w]=winClass(s1.wins,s2.wins);
+      const [wc1d,wc2d]=winClass(s1.deaths,s2.deaths,false), [wc1kd,wc2kd]=winClass(kd1,kd2);
+      const maxK=Math.max(s1.kills,s2.kills,1), maxW=Math.max(s1.wins,s2.wins,1), maxD=Math.max(s1.deaths,s2.deaths,1);
+      const kd1s=kd1===Infinity?'∞':kd1.toFixed(2), kd2s=kd2===Infinity?'∞':kd2.toFixed(2);
+      const kdCol=(kd)=>kd===Infinity||kd>=2?'limegreen':kd>=1?'yellow':'red';
+      document.getElementById('compareResult').innerHTML=`
         <div class="compare-grid">
           <div class="compare-card" id="ccard1">
-            <h3>
-              <img src="${getAvatar(p1,40)}" style="width:40px;height:40px;border-radius:8px;">
-              <span style="color:${c1}">${p1} ${playerCountry[p1] ? getFlagImg(playerCountry[p1],12) : ''}</span>
-              <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r1}</span>
-            </h3>
+            <h3><img src="${getAvatar(p1,40)}" style="width:40px;height:40px;border-radius:8px;"><span style="color:${c1}">${p1} ${playerCountry[p1]?getFlagImg(playerCountry[p1],12):''}</span><span style="font-size:12px;opacity:0.6;font-weight:600;">#${r1}</span></h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
             <div class="compare-row"><span class="label">Wins</span><span class="val ${wc1w}">${s1.wins}</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1w" style="background:${c1};width:0%"></div></div></div>
@@ -840,14 +585,10 @@
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1k" style="background:${c1};width:0%"></div></div></div>
             <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc1d}">${s1.deaths}</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1d" style="background:${c1};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" style="color:${kd1===Infinity||kd1>=2?'limegreen':kd1>=1?'yellow':'red'}">${kd1str}</span></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" style="color:${kdCol(kd1)}">${kd1s}</span></div>
           </div>
           <div class="compare-card" id="ccard2">
-            <h3>
-              <img src="${getAvatar(p2,40)}" style="width:40px;height:40px;border-radius:8px;">
-              <span style="color:${c2}">${p2} ${playerCountry[p2] ? getFlagImg(playerCountry[p2],12) : ''}</span>
-              <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r2}</span>
-            </h3>
+            <h3><img src="${getAvatar(p2,40)}" style="width:40px;height:40px;border-radius:8px;"><span style="color:${c2}">${p2} ${playerCountry[p2]?getFlagImg(playerCountry[p2],12):''}</span><span style="font-size:12px;opacity:0.6;font-weight:600;">#${r2}</span></h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
             <div class="compare-row"><span class="label">Wins</span><span class="val ${wc2w}">${s2.wins}</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2w" style="background:${c2};width:0%"></div></div></div>
@@ -855,36 +596,31 @@
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2k" style="background:${c2};width:0%"></div></div></div>
             <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc2d}">${s2.deaths}</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2d" style="background:${c2};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" style="color:${kd2===Infinity||kd2>=2?'limegreen':kd2>=1?'yellow':'red'}">${kd2str}</span></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" style="color:${kdCol(kd2)}">${kd2s}</span></div>
           </div>
-        </div>
-      `;
-
+        </div>`;
       setTimeout(()=>{
         document.getElementById('ccard1').classList.add('visible');
-        setTimeout(()=> document.getElementById('ccard2').classList.add('visible'), 80);
+        setTimeout(()=>document.getElementById('ccard2').classList.add('visible'),80);
         setTimeout(()=>{
-          document.getElementById('b1w').style.width = Math.round((s1.wins/maxWins)*100)+'%';
-          document.getElementById('b2w').style.width = Math.round((s2.wins/maxWins)*100)+'%';
-          document.getElementById('b1k').style.width = Math.round((s1.kills/maxKills)*100)+'%';
-          document.getElementById('b2k').style.width = Math.round((s2.kills/maxKills)*100)+'%';
-          document.getElementById('b1d').style.width = Math.round((s1.deaths/maxDeaths)*100)+'%';
-          document.getElementById('b2d').style.width = Math.round((s2.deaths/maxDeaths)*100)+'%';
-        }, 200);
-      }, 30);
+          document.getElementById('b1w').style.width=Math.round((s1.wins/maxW)*100)+'%';
+          document.getElementById('b2w').style.width=Math.round((s2.wins/maxW)*100)+'%';
+          document.getElementById('b1k').style.width=Math.round((s1.kills/maxK)*100)+'%';
+          document.getElementById('b2k').style.width=Math.round((s2.kills/maxK)*100)+'%';
+          document.getElementById('b1d').style.width=Math.round((s1.deaths/maxD)*100)+'%';
+          document.getElementById('b2d').style.width=Math.round((s2.deaths/maxD)*100)+'%';
+        },200);
+      },30);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const modes = ['sword','axe','uhc','mace','spear'];
-      modes.forEach(m => createPlayers(m));
+    window.addEventListener('DOMContentLoaded',()=>{
+      ['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));
       createPlayers('overall');
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      const overallTab = document.querySelector('.tabs button');
-      if(overallTab) overallTab.classList.add('active');
-      document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
-      const overallDiv = document.getElementById('overall');
-      if(overallDiv) overallDiv.classList.add('active');
-      thumb.style.background = monoMode ? '#fff' : '#000';
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      document.querySelector('.tabs button').classList.add('active');
+      document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+      document.getElementById('overall').classList.add('active');
+      thumb.style.background=monoMode?'#fff':'#000';
     });
   </script>
 
