@@ -224,6 +224,7 @@
 
   <div style="text-align:center;margin-bottom:12px;">
     <input type="text" id="searchInput" placeholder="🔍 Search player..." onkeyup="searchPlayers()" aria-label="Search players">
+    <button id="retiredToggle" onclick="toggleRetired()" style="margin-left:10px;padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.45);font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;letter-spacing:.5px;">🏆 Show Retired</button>
   </div>
 
   <div class="container">
@@ -262,7 +263,19 @@
 
   <script>
     let monoMode = false;
+    let showRetired = false;
+    const retired = ['skull_shredder30'];
     const thumb = document.getElementById('toggleThumb');
+
+    function toggleRetired(){
+      showRetired = !showRetired;
+      const btn = document.getElementById('retiredToggle');
+      btn.style.color = showRetired ? '#ff66cc' : 'rgba(255,255,255,0.45)';
+      btn.style.borderColor = showRetired ? 'rgba(255,102,204,0.4)' : 'rgba(255,255,255,0.12)';
+      btn.textContent = showRetired ? '🏆 Hide Retired' : '🏆 Show Retired';
+      const activeMode = document.querySelector('.mode.active');
+      if(activeMode) createPlayers(activeMode.id);
+    }
 
     function toggleTheme(){
       monoMode = !monoMode;
@@ -413,7 +426,7 @@
       if(mode === 'overall') updateOverall();
       const container = document.getElementById(mode);
       if(!container) return;
-      const players = getOrderedPlayers(mode);
+      const players = getOrderedPlayers(mode).filter(name => showRetired || !retired.includes(name));
       container.innerHTML = '';
 
       const countDiv = document.createElement('div');
@@ -434,9 +447,11 @@
         const kdVal = stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths;
         const fireHtml = (kdVal === Infinity || kdVal >= 2) ? `<span title="Hot streak!" style="font-size:14px;line-height:1;">🔥</span>` : '';
 
+        const isRetired = retired.includes(name);
         const card = document.createElement('div');
         card.className = `player ${glow} ${podiumClass}`;
         card.style.animationDelay = (i * 0.06) + 's';
+        if(isRetired) card.style.opacity = '0.45';
         card.onclick = () => openProfile(name, mode);
 
         const numberSpan = document.createElement('span');
@@ -445,6 +460,8 @@
 
         const playerContent = document.createElement('div');
         playerContent.className = 'player-content';
+
+        const retiredBadge = isRetired ? `<span style="font-size:11px;font-weight:700;padding:3px 7px;border-radius:999px;background:#333;color:#aaa;margin-left:4px;">🏆 Retired</span>` : '';
 
         const badgeHtml = (tier && tier !== 'Unranked') ?
           `<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'}; color:${(tier==='Gold')?'#000':'#fff'};">${tier}</span>` : '';
@@ -455,7 +472,9 @@
             <div class="info">
               <div style="display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                 <b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</b>
-                ${fireHtml}${crownHtml}${badgeHtml}
+                ${fireHtml}
+                ${crownHtml}
+                ${badgeHtml}${retiredBadge}
               </div>
               <div class="mini-stats"><strong>W:</strong> ${stats.wins} &nbsp; <strong>K:</strong> ${stats.kills} &nbsp; <strong>D:</strong> ${stats.deaths}</div>
             </div>
