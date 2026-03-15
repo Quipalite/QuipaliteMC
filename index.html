@@ -155,11 +155,28 @@
     #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease, transform .35s ease; }
     #comparePage.show{ opacity:1; transform:translateY(0) scale(1); }
     .compare-selectors{ display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; justify-content:center; align-items:center; }
-    .compare-selectors select{
-      flex:1; min-width:140px; max-width:220px; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18);
-      background:#0f0f12; color:white; font-weight:700; font-size:14px; outline:none; cursor:pointer;
+    .compare-search-wrap{ flex:1; min-width:140px; max-width:220px; position:relative; }
+    .compare-search-input{
+      width:100%; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,20,147,0.18);
+      background:#0f0f12; color:white; font-weight:700; font-size:14px; outline:none; cursor:text; box-sizing:border-box;
     }
-    body.mono .compare-selectors select{ background:#000; border-color:#333; color:#fff; }
+    .compare-search-input::placeholder{ color:rgba(255,255,255,0.35); font-weight:500; }
+    .compare-dropdown{
+      display:none; position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:100;
+      background:#0f0f12; border:1px solid rgba(255,20,147,0.18); border-radius:10px;
+      max-height:200px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+    .compare-dropdown.open{ display:block; }
+    .compare-dropdown-item{
+      padding:9px 14px; cursor:pointer; font-size:13px; font-weight:600; color:#eaeaea;
+      transition:background .15s; display:flex; align-items:center; gap:8px;
+    }
+    .compare-dropdown-item:hover, .compare-dropdown-item.selected{ background:rgba(255,20,147,0.12); color:white; }
+    .compare-dropdown-item img{ width:24px; height:24px; border-radius:6px; }
+    .compare-dropdown-empty{ padding:10px 14px; font-size:13px; color:rgba(255,255,255,0.35); font-style:italic; }
+    body.mono .compare-search-input{ background:#000; border-color:#333; color:#fff; }
+    body.mono .compare-dropdown{ background:#000; border-color:#333; }
+    body.mono .compare-dropdown-item:hover, body.mono .compare-dropdown-item.selected{ background:rgba(255,255,255,0.08); }
     .compare-vs{ font-weight:900; font-size:20px; color:var(--accent-pink); flex-shrink:0; }
     body.mono .compare-vs{ color:#fff; }
     .compare-btn{
@@ -253,9 +270,15 @@
       <button onclick="setCompareMode('spear',this)">Spear</button>
     </div>
     <div class="compare-selectors">
-      <select id="compareP1"></select>
+      <div class="compare-search-wrap" id="csw1">
+        <input type="text" id="compareSearch1" class="compare-search-input" placeholder="Search player..." autocomplete="off" oninput="filterCompareList(1)" onfocus="showCompareDropdown(1)" onblur="hideCompareDropdown(1)">
+        <div class="compare-dropdown" id="compareDropdown1"></div>
+      </div>
       <span class="compare-vs">VS</span>
-      <select id="compareP2"></select>
+      <div class="compare-search-wrap" id="csw2">
+        <input type="text" id="compareSearch2" class="compare-search-input" placeholder="Search player..." autocomplete="off" oninput="filterCompareList(2)" onfocus="showCompareDropdown(2)" onblur="hideCompareDropdown(2)">
+        <div class="compare-dropdown" id="compareDropdown2"></div>
+      </div>
       <button class="compare-btn" onclick="runCompare()">Compare</button>
     </div>
     <div id="compareResult"></div>
@@ -272,8 +295,10 @@
     function toggleRetired(){
       showRetired = !showRetired;
       const btn = document.getElementById('retiredToggle');
-      btn.style.color = showRetired ? '#ff66cc' : 'rgba(255,255,255,0.45)';
-      btn.style.borderColor = showRetired ? 'rgba(255,102,204,0.4)' : 'rgba(255,255,255,0.12)';
+      const activeColor = monoMode ? '#fff' : '#ff66cc';
+      const activeBorder = monoMode ? 'rgba(255,255,255,0.4)' : 'rgba(255,102,204,0.4)';
+      btn.style.color = showRetired ? activeColor : 'rgba(255,255,255,0.45)';
+      btn.style.borderColor = showRetired ? activeBorder : 'rgba(255,255,255,0.12)';
       btn.textContent = showRetired ? '🏆 Hide Retired' : '🏆 Show Retired';
       const activeMode = document.querySelector('.mode.active');
       if(activeMode) createPlayers(activeMode.id);
@@ -285,6 +310,11 @@
       document.body.classList.toggle('mono', monoMode);
       thumb.style.transform = monoMode ? 'translateX(26px)' : 'translateX(0)';
       thumb.style.background = monoMode ? '#fff' : '#000';
+      if(showRetired){
+        const btn = document.getElementById('retiredToggle');
+        btn.style.color = monoMode ? '#fff' : '#ff66cc';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.4)' : 'rgba(255,102,204,0.4)';
+      }
     }
 
     function getAvatar(username, size = 48){
@@ -641,20 +671,78 @@
       document.querySelectorAll('#compareModeRow button').forEach(b => b.classList.remove('active'));
       if(btn) btn.classList.add('active');
       document.getElementById('compareResult').innerHTML = '';
-      document.getElementById('compareP1').value = '';
-      document.getElementById('compareP2').value = '';
       populateCompareSelects();
     }
 
+    let compareP1Selected = '';
+    let compareP2Selected = '';
+    let comparePlayers = [];
+
     function populateCompareSelects(){
       if(compareMode === 'overall') updateOverall();
-      const players = Object.keys(playerStats[compareMode] || {}).filter(p => showRetired || !retired.includes(p));
-      players.sort();
-      ['compareP1','compareP2'].forEach((id) => {
-        const sel = document.getElementById(id);
-        sel.innerHTML = `<option value="" disabled selected>Select player...</option>` + players.map(p => `<option value="${p}">${p}</option>`).join('');
-        sel.selectedIndex = 0;
+      comparePlayers = Object.keys(playerStats[compareMode] || {}).filter(p => showRetired || !retired.includes(p));
+      comparePlayers.sort();
+      compareP1Selected = '';
+      compareP2Selected = '';
+      document.getElementById('compareSearch1').value = '';
+      document.getElementById('compareSearch2').value = '';
+      buildDropdown(1, comparePlayers);
+      buildDropdown(2, comparePlayers);
+    }
+
+    function buildDropdown(num, players){
+      const dd = document.getElementById('compareDropdown' + num);
+      const search = document.getElementById('compareSearch' + num).value.toLowerCase();
+      const filtered = players.filter(p => p.toLowerCase().includes(search));
+      dd.innerHTML = '';
+      if(filtered.length === 0){
+        dd.innerHTML = `<div class="compare-dropdown-empty">No players found</div>`;
+        return;
+      }
+      filtered.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'compare-dropdown-item' + (
+          (num === 1 && p === compareP1Selected) || (num === 2 && p === compareP2Selected) ? ' selected' : ''
+        );
+        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}"><span>${p}</span>`;
+        item.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          selectComparePlayer(num, p);
+        });
+        dd.appendChild(item);
       });
+    }
+
+    function selectComparePlayer(num, name){
+      if(num === 1){
+        compareP1Selected = name;
+        document.getElementById('compareSearch1').value = name;
+      } else {
+        compareP2Selected = name;
+        document.getElementById('compareSearch2').value = name;
+      }
+      document.getElementById('compareDropdown' + num).classList.remove('open');
+    }
+
+    function filterCompareList(num){
+      buildDropdown(num, comparePlayers);
+      document.getElementById('compareDropdown' + num).classList.add('open');
+      if(num === 1) compareP1Selected = '';
+      else compareP2Selected = '';
+    }
+
+    function showCompareDropdown(num){
+      buildDropdown(num, comparePlayers);
+      document.getElementById('compareDropdown' + num).classList.add('open');
+    }
+
+    function hideCompareDropdown(num){
+      setTimeout(() => {
+        document.getElementById('compareDropdown' + num).classList.remove('open');
+        const input = document.getElementById('compareSearch' + num);
+        const selected = num === 1 ? compareP1Selected : compareP2Selected;
+        if(!selected) input.value = '';
+      }, 150);
     }
 
     function runCompare(){
@@ -663,8 +751,8 @@
       btn.disabled = true;
       setTimeout(() => { btn.disabled = false; }, 1000);
       if(compareMode === 'overall') updateOverall();
-      const p1 = document.getElementById('compareP1').value;
-      const p2 = document.getElementById('compareP2').value;
+      const p1 = compareP1Selected;
+      const p2 = compareP2Selected;
       if(!p1 || !p2 || p1 === p2 || p1 === '' || p2 === ''){
         document.getElementById('compareResult').innerHTML = `<div class="no-players">Pick two different players!</div>`;
         return;
