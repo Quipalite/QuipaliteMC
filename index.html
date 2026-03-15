@@ -413,6 +413,14 @@
       Netherite:'#4a4a6a', Diamond:'#00BFFF', Emerald:'#50C878', Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#2a2a2a', 'Unranked':'#888'
     };
 
+    const playerCountry = {
+      RealO75:'🇬🇧', Aftlow:'🇬🇧', bubbler2009:'🇬🇧', Jai_B37:'🇬🇧', Knoxy5316:'🇬🇧',
+      Cocotime15:'🇸🇪', "WARDY B33":'🇬🇧', SadInFusIOns:'🇬🇧', "God flow 3":'🇬🇧',
+      gfunkdfunk82:'🇬🇧', TerrorBoy123619:'🇬🇧', LiamTheLemur:'🇬🇧', Killedbycrab:'🇬🇧',
+      "Yearly-scuff81":'🇬🇧', skull_shredder30:'🇬🇧', Neska5036:'🇿🇦', Ushindo:'🇿🇦',
+      EggyCactus78246:'🇩🇰', Oneshot1353:'🇩🇰'
+    };
+
     function updateOverall(){
       const overall = {};
       for(const mode in playerStats){
@@ -502,13 +510,17 @@
         const badgeHtml = (tier && tier !== 'Unranked') ?
           `<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'}; color:${(tier==='Gold')?'#000':'#fff'};">${tier}</span>` : '';
 
+        const flagHtml = playerCountry[name] ? `<span title="${name}'s country" style="font-size:14px;line-height:1;">${playerCountry[name]}</span>` : '';
+
         playerContent.innerHTML = `
           <div class="left">
             <img src="${getAvatar(name)}" alt="${name} avatar" class="player-head">
             <div class="info">
               <div style="display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                 <b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</b>
-                ${fireHtml}${crownHtml}${badgeHtml}${retiredBadge}
+                ${flagHtml}${fireHtml}
+                ${crownHtml}
+                ${badgeHtml}${retiredBadge}
               </div>
               <div class="mini-stats"><strong>W:</strong> ${stats.wins} &nbsp; <strong>K:</strong> ${stats.kills} &nbsp; <strong>D:</strong> ${stats.deaths}</div>
             </div>
@@ -550,6 +562,7 @@
 
         const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
         const retiredProfileBadge = retired.includes(name) ? `<span style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#333;color:#aaa;margin-left:6px;">🏆 Retired</span>` : '';
+        const profileFlag = playerCountry[name] ? `<span style="font-size:22px;line-height:1;" title="Country">${playerCountry[name]}</span>` : '';
 
         document.getElementById('profileContent').innerHTML = `
           <h2 style="margin-top:0;display:flex;align-items:center;gap:12px;">
@@ -560,6 +573,7 @@
               ${crownHtml}${retiredProfileBadge}
             </span>
           </h2>
+          ${profileFlag ? `<div style="font-size:14px;font-weight:600;opacity:0.7;margin:-6px 0 10px 0;">${profileFlag} ${name}'s country</div>` : ''}
           <h3 style="margin-top:-6px;color:${tierColor};font-weight:800;">${tier}</h3>
           <div style="display:flex;justify-content:space-between;margin:15px 0 20px 0;padding:12px 16px;border-radius:10px;border:1px solid ${monoMode ? '#fff' : 'rgba(255,102,204,0.08)'};font-weight:700;">
             <div>K/D: <span style="color:${kdColor}">${kd}</span></div>
@@ -708,7 +722,8 @@
         item.className = 'compare-dropdown-item' + (
           (num === 1 && p === compareP1Selected) || (num === 2 && p === compareP2Selected) ? ' selected' : ''
         );
-        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}"><span>${p}</span>`;
+        const flag = playerCountry[p] ? `<span style="font-size:14px;">${playerCountry[p]}</span>` : '';
+        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}">${flag}<span>${p}</span>`;
         item.addEventListener('mousedown', (e) => {
           e.preventDefault();
           selectComparePlayer(num, p);
@@ -807,7 +822,7 @@
           <div class="compare-card" id="ccard1">
             <h3>
               <img src="${getAvatar(p1,40)}" style="width:40px;height:40px;border-radius:8px;">
-              <span style="color:${c1}">${p1}</span>
+              <span style="color:${c1}">${playerCountry[p1] || ''} ${p1}</span>
               <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r1}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
@@ -822,7 +837,7 @@
           <div class="compare-card" id="ccard2">
             <h3>
               <img src="${getAvatar(p2,40)}" style="width:40px;height:40px;border-radius:8px;">
-              <span style="color:${c2}">${p2}</span>
+              <span style="color:${c2}">${playerCountry[p2] || ''} ${p2}</span>
               <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r2}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
