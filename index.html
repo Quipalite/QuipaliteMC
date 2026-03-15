@@ -152,7 +152,6 @@
     body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
 
-    /* Compare page */
     #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease, transform .35s ease; }
     #comparePage.show{ opacity:1; transform:translateY(0) scale(1); }
     .compare-selectors{ display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; justify-content:center; align-items:center; }
@@ -516,7 +515,7 @@
         const badgeHtml = (tier && tier !== 'Unranked') ?
           `<span class="tier-badge" title="${tier} tier" style="background:${tierColors[tier]||'#888'}; color:${(tier==='Gold')?'#000':'#fff'};">${tier}</span>` : '';
 
-        const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 16) : '';
+        const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 12) : '';
 
         playerContent.innerHTML = `
           <div class="left">
@@ -568,7 +567,7 @@
 
         const crownHtml = (rank === 1) ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
         const retiredProfileBadge = retired.includes(name) ? `<span style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#333;color:#aaa;margin-left:6px;">🏆 Retired</span>` : '';
-        const profileFlag = playerCountry[name] ? getFlagImg(playerCountry[name], 20) : '';
+        const profileFlag = playerCountry[name] ? getFlagImg(playerCountry[name], 16) : '';
 
         document.getElementById('profileContent').innerHTML = `
           <h2 style="margin-top:0;display:flex;align-items:center;gap:12px;">
@@ -728,8 +727,8 @@
         item.className = 'compare-dropdown-item' + (
           (num === 1 && p === compareP1Selected) || (num === 2 && p === compareP2Selected) ? ' selected' : ''
         );
-        const flag = playerCountry[p] ? getFlagImg(playerCountry[p], 14) : '';
-        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}">${flag}<span>${p}</span>`;
+        const flag = playerCountry[p] ? getFlagImg(playerCountry[p], 12) : '';
+        item.innerHTML = `<img src="${getAvatar(p, 24)}" alt="${p}"><span>${p}</span>${flag}`;
         item.addEventListener('mousedown', (e) => {
           e.preventDefault();
           selectComparePlayer(num, p);
@@ -828,7 +827,7 @@
           <div class="compare-card" id="ccard1">
             <h3>
               <img src="${getAvatar(p1,40)}" style="width:40px;height:40px;border-radius:8px;">
-              <span style="color:${c1}">${playerCountry[p1] ? getFlagImg(playerCountry[p1],14)+' ' : ''}${p1}</span>
+              <span style="color:${c1}">${p1} ${playerCountry[p1] ? getFlagImg(playerCountry[p1],12) : ''}</span>
               <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r1}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
@@ -843,7 +842,7 @@
           <div class="compare-card" id="ccard2">
             <h3>
               <img src="${getAvatar(p2,40)}" style="width:40px;height:40px;border-radius:8px;">
-              <span style="color:${c2}">${playerCountry[p2] ? getFlagImg(playerCountry[p2],14)+' ' : ''}${p2}</span>
+              <span style="color:${c2}">${p2} ${playerCountry[p2] ? getFlagImg(playerCountry[p2],12) : ''}</span>
               <span style="font-size:12px;opacity:0.6;font-weight:600;">#${r2}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
