@@ -168,6 +168,7 @@
       width:100%;
     }
     .compare-btn:hover{ background:var(--accent-muted); }
+    .compare-btn:disabled{ opacity:0.5; cursor:not-allowed; }
     body.mono .compare-btn{ background:#fff; color:#000; box-shadow:none; }
     .compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     .compare-card{ background:var(--card-dark); border-radius:12px; padding:18px; border:1px solid rgba(255,20,147,0.08); opacity:0; transform:translateY(12px); transition:opacity .4s ease, transform .4s ease; }
@@ -190,6 +191,7 @@
     }
     .mode-select-row button.active, .mode-select-row button:hover{ background:var(--accent-pink); color:white; border-color:var(--accent-pink); }
     body.mono .mode-select-row button.active{ background:#fff; color:#000; border-color:#fff; }
+    body.mono .mode-select-row button:hover{ background:rgba(255,255,255,0.15); color:#fff; border-color:#fff; }
 
     @media (max-width:720px){
       header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
@@ -264,7 +266,7 @@
   <script>
     let monoMode = false;
     let showRetired = false;
-    const retired = ['skull_shredder30'];
+    const retired = ['skull_shredder30', 'Jai_B37'];
     const thumb = document.getElementById('toggleThumb');
 
     function toggleRetired(){
@@ -275,6 +277,7 @@
       btn.textContent = showRetired ? '🏆 Hide Retired' : '🏆 Show Retired';
       const activeMode = document.querySelector('.mode.active');
       if(activeMode) createPlayers(activeMode.id);
+      populateCompareSelects();
     }
 
     function toggleTheme(){
@@ -472,9 +475,7 @@
             <div class="info">
               <div style="display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                 <b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</b>
-                ${fireHtml}
-                ${crownHtml}
-                ${badgeHtml}${retiredBadge}
+                ${fireHtml}${crownHtml}${badgeHtml}${retiredBadge}
               </div>
               <div class="mini-stats"><strong>W:</strong> ${stats.wins} &nbsp; <strong>K:</strong> ${stats.kills} &nbsp; <strong>D:</strong> ${stats.deaths}</div>
             </div>
@@ -643,7 +644,7 @@
 
     function populateCompareSelects(){
       if(compareMode === 'overall') updateOverall();
-      const players = Object.keys(playerStats[compareMode] || {});
+      const players = Object.keys(playerStats[compareMode] || {}).filter(p => showRetired || !retired.includes(p));
       players.sort();
       ['compareP1','compareP2'].forEach((id) => {
         const sel = document.getElementById(id);
@@ -653,6 +654,10 @@
     }
 
     function runCompare(){
+      const btn = document.querySelector('.compare-btn');
+      if(btn.disabled) return;
+      btn.disabled = true;
+      setTimeout(() => { btn.disabled = false; }, 1000);
       if(compareMode === 'overall') updateOverall();
       const p1 = document.getElementById('compareP1').value;
       const p2 = document.getElementById('compareP2').value;
