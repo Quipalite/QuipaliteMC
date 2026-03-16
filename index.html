@@ -1000,6 +1000,56 @@
       }, 30);
     }
 
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      const tag = document.activeElement.tagName.toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea';
+
+      // "/" to focus search
+      if(e.key === '/' && !isTyping) {
+        e.preventDefault();
+        const search = document.getElementById('searchInput');
+        if(search && search.style.display !== 'none') {
+          search.focus();
+          search.select();
+        }
+      }
+
+      // Escape to clear search / go back from profile / close compare
+      if(e.key === 'Escape') {
+        const profile = document.getElementById('profilePage');
+        const comparePage = document.getElementById('comparePage');
+        if(profile && profile.style.display !== 'none') {
+          goBack();
+        } else if(comparePage && comparePage.classList.contains('show')) {
+          const overallTab = document.querySelector('.tabs button');
+          showMode('overall', overallTab);
+        } else if(!isTyping) {
+          const search = document.getElementById('searchInput');
+          if(search && search.value) {
+            search.value = '';
+            searchPlayers();
+          }
+        } else {
+          document.activeElement.blur();
+        }
+      }
+
+      // Number keys 1-7 to switch tabs
+      if(!isTyping && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const tabMap = { '1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear' };
+        if(tabMap[e.key]) {
+          const tabs = document.querySelectorAll('.tabs .tab');
+          const modeIndex = Object.keys(tabMap).indexOf(e.key);
+          if(tabs[modeIndex]) tabs[modeIndex].click();
+        }
+        if(e.key === '7') {
+          const compareTab = document.querySelector('.tabs .tab:last-child');
+          if(compareTab) compareTab.click();
+        }
+      }
+    });
+
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       const modes = ['sword','axe','uhc','mace','spear'];
