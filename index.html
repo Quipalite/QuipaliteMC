@@ -211,30 +211,48 @@
     .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background: rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
 
     /* ── TIER GUIDE MODAL ── */
-    #tierGuideBtn{
-      margin-left:10px; padding:8px 14px; border-radius:10px;
-      border:1px solid rgba(255,20,147,0.35); background:rgba(255,20,147,0.08);
-      color:var(--accent-muted); font-weight:700; font-size:12px; cursor:pointer;
-      transition:all .2s; letter-spacing:.5px;
-    }
-    #tierGuideBtn:hover{ background:rgba(255,20,147,0.18); color:#fff; border-color:rgba(255,20,147,0.6); }
+    /* tier guide btn now lives in header with inline styles */
 
     #tierModal{
       display:none; position:fixed; inset:0; z-index:10000;
-      background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
       align-items:center; justify-content:center; padding:20px;
     }
-    #tierModal.open{ display:flex; }
+
+    #tierModalBackdrop{
+      position:absolute; inset:0;
+      background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
+      opacity:0; transition:opacity .3s ease;
+    }
+    #tierModal.open #tierModalBackdrop{ opacity:1; }
+    #tierModal.closing #tierModalBackdrop{ opacity:0; }
 
     #tierModalInner{
+      position:relative; z-index:1;
       background:#0f0f14; border:1px solid rgba(255,20,147,0.18);
       border-radius:18px; padding:28px 24px; max-width:480px; width:100%;
       box-shadow:0 32px 80px rgba(0,0,0,0.8), 0 0 40px rgba(255,20,147,0.08);
-      opacity:0; transform:translateY(20px) scale(0.96);
-      transition:opacity .28s cubic-bezier(0.22,1,0.36,1), transform .28s cubic-bezier(0.22,1,0.36,1);
+      opacity:0; transform:translateY(24px) scale(0.95);
+      transition:opacity .32s cubic-bezier(0.22,1,0.36,1), transform .32s cubic-bezier(0.22,1,0.36,1);
       max-height:90vh; overflow-y:auto;
     }
-    #tierModal.open #tierModalInner{ opacity:1; transform:translateY(0) scale(1); }
+    #tierModal.open #tierModalInner{
+      opacity:1; transform:translateY(0) scale(1);
+      transition-delay:0.04s;
+    }
+    #tierModal.closing #tierModalInner{
+      opacity:0; transform:translateY(16px) scale(0.96);
+      transition:opacity .22s ease, transform .22s ease;
+      transition-delay:0s;
+    }
+
+    .tier-row{
+      display:flex; align-items:flex-start; gap:14px;
+      padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04);
+      opacity:0; transform:translateX(-10px);
+      transition:opacity .25s ease, transform .25s ease;
+    }
+    #tierModal.open .tier-row{ opacity:1; transform:translateX(0); }
+    .tier-row:last-child{ border-bottom:none; }
 
     #tierModalInner h2{
       margin:0 0 20px 0; font-size:18px; font-weight:800;
@@ -244,15 +262,9 @@
     #tierModalClose{
       background:none; border:none; color:rgba(255,255,255,0.45);
       font-size:22px; cursor:pointer; line-height:1; padding:0 2px;
-      transition:color .15s;
+      transition:color .15s, transform .2s ease;
     }
-    #tierModalClose:hover{ color:#fff; }
-
-    .tier-row{
-      display:flex; align-items:flex-start; gap:14px;
-      padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04);
-    }
-    .tier-row:last-child{ border-bottom:none; }
+    #tierModalClose:hover{ color:#fff; transform:rotate(90deg); }
 
     .tier-dot{
       width:14px; height:14px; border-radius:50%; flex-shrink:0; margin-top:3px;
@@ -278,7 +290,12 @@
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
     body.mono #tierGuideBtn{ background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.25); color:#fff; }
     body.mono #tierGuideBtn:hover{ background:rgba(255,255,255,0.12); }
-    body.mono #tierModalInner{ background:#111; border-color:#333; }
+    body.mono #tierModalInner{ background:#0a0a0a; border-color:#333; box-shadow:0 32px 80px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.04); }
+    body.mono #tierModalBackdrop{ background:rgba(0,0,0,0.88); }
+    body.mono .tier-row{ border-bottom-color:rgba(255,255,255,0.08); }
+    body.mono .tier-desc{ color:rgba(255,255,255,0.55); }
+    body.mono #tierModalClose{ color:rgba(255,255,255,0.4); }
+    body.mono #tierModalClose:hover{ color:#fff; }
 
     @media (max-width:720px){
       header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
@@ -357,10 +374,13 @@
     <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
       <div class="toggle-thumb" id="toggleThumb"></div>
     </div>
-    <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" style="position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:6px;background:rgba(88,101,242,0.9);color:white;font-weight:700;font-size:12px;padding:6px 10px;border-radius:8px;text-decoration:none;box-shadow:0 4px 12px rgba(88,101,242,0.35);transition:background .2s;" onmouseover="this.style.background='rgba(88,101,242,1)'" onmouseout="this.style.background='rgba(88,101,242,0.9)'">
-      <svg width="18" height="14" viewBox="-2 -2 75 59" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
-      Discord
-    </a>
+    <div style="position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
+      <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;background:rgba(88,101,242,0.9);color:white;font-weight:700;font-size:12px;padding:6px 10px;border-radius:8px;text-decoration:none;box-shadow:0 4px 12px rgba(88,101,242,0.35);transition:background .2s;" onmouseover="this.style.background='rgba(88,101,242,1)'" onmouseout="this.style.background='rgba(88,101,242,0.9)'">
+        <svg width="18" height="14" viewBox="-2 -2 75 59" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
+        Discord
+      </a>
+      <button id="tierGuideBtn" onclick="openTierGuide()" aria-label="Open tier guide" style="display:flex;align-items:center;gap:6px;background:rgba(255,20,147,0.18);color:white;font-weight:700;font-size:12px;padding:6px 10px;border-radius:8px;border:1px solid rgba(255,20,147,0.45);cursor:pointer;box-shadow:0 4px 12px rgba(255,20,147,0.15);transition:background .2s;" onmouseover="this.style.background='rgba(255,20,147,0.3)'" onmouseout="this.style.background='rgba(255,20,147,0.18)'">📊 Tier Guide</button>
+    </div>
   </header>
 
   <div class="tabs" role="tablist" aria-label="modes">
@@ -376,7 +396,7 @@
   <div style="text-align:center;margin-bottom:12px;">
     <input type="text" id="searchInput" placeholder="🔍 Search player..." onkeyup="searchPlayers()" aria-label="Search players">
     <button id="retiredToggle" onclick="toggleRetired()" style="margin-left:10px;padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.45);font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;letter-spacing:.5px;">🏆 Show Retired</button>
-    <button id="tierGuideBtn" onclick="openTierGuide()" aria-label="Open tier guide">📊 Tier Guide</button>
+
   </div>
 
   <div class="container">
@@ -420,6 +440,7 @@
 
   <!-- TIER GUIDE MODAL -->
   <div id="tierModal" role="dialog" aria-modal="true" aria-label="Tier Guide" onclick="handleModalBackdrop(event)">
+    <div id="tierModalBackdrop"></div>
     <div id="tierModalInner">
       <h2>
         <span>📊 Tier Guide</span>
@@ -439,45 +460,62 @@
 
     // ── TIER GUIDE DATA ──
     const tierGuideData = [
-      { name: 'Netherite', color: '#4a4a6a', desc: 'Elite level; represents the highest standard of performance.' },
+      { name: 'Netherite', color: '#4a4a52', desc: 'Elite level; represents the highest standard of performance.' },
       { name: 'Diamond',   color: '#00BFFF', desc: 'Very advanced, demonstrating exceptional proficiency.' },
       { name: 'Emerald',   color: '#50C878', desc: 'Highly skilled with strong consistency.' },
       { name: 'Gold',      color: '#FFD700', desc: 'Competent and reliable performance.' },
       { name: 'Iron',      color: '#8b8b8b', desc: 'Showing improvement, though still below expected skill level.' },
       { name: 'Copper',    color: '#B87333', desc: 'Familiar with the mechanics, but performance is inconsistent and underdeveloped.' },
-      { name: 'Coal',      color: '#888',    desc: 'No demonstrated understanding of the core mechanics.' },
+      { name: 'Coal',      color: '#1a1a1a',    desc: 'No demonstrated understanding of the core mechanics.' },
     ];
 
     function openTierGuide(){
       const list = document.getElementById('tierModalList');
       list.innerHTML = '';
-      tierGuideData.forEach(t => {
+      tierGuideData.forEach((t, i) => {
         const row = document.createElement('div');
         row.className = 'tier-row';
-        const textColor = t.name === 'Gold' ? '#cca800' : t.color;
+        row.style.transitionDelay = (0.06 + i * 0.055) + 's';
+        // In mono mode, show all tier names in white; keep dots coloured for identity
+        const textColor = monoMode ? '#fff' : (t.name === 'Gold' ? '#cca800' : t.color);
+        const descColor = monoMode ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.65)';
         row.innerHTML = `
-          <div class="tier-dot" style="background:${t.color};color:${t.color};"></div>
+          <div class="tier-dot" style="background:${t.color};color:${t.color};border:1px solid rgba(255,255,255,0.15);"></div>
           <div class="tier-name" style="color:${textColor}">${t.name}</div>
-          <div class="tier-desc">${t.desc}</div>
+          <div class="tier-desc" style="color:${descColor}">${t.desc}</div>
         `;
         list.appendChild(row);
       });
       const modal = document.getElementById('tierModal');
-      modal.classList.add('open');
+      modal.classList.remove('closing');
+      modal.style.display = 'flex';
+      // Force a reflow so the browser registers the initial state before open is added
+      modal.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          modal.classList.add('open');
+        });
+      });
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = scrollbarWidth + 'px';
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+      document.body.style.paddingRight = scrollBarWidth + 'px';
     }
 
     function closeTierGuide(){
       const modal = document.getElementById('tierModal');
-      const inner = document.getElementById('tierModalInner');
-      inner.style.opacity = '0';
-      inner.style.transform = 'translateY(20px) scale(0.96)';
+      modal.classList.add('closing');
+      // Clear row delays so they don't delay the close
+      modal.querySelectorAll('.tier-row').forEach(r => r.style.transitionDelay = '0s');
       setTimeout(() => {
-        modal.classList.remove('open');
-        inner.style.opacity = '';
-        inner.style.transform = '';
+        modal.classList.remove('open', 'closing');
+        modal.style.display = 'none';
         document.body.style.overflow = '';
-      }, 260);
+        document.body.style.paddingRight = '';
+        document.body.style.paddingRight = '';
+      }, 300);
     }
 
     function handleModalBackdrop(e){
@@ -599,7 +637,7 @@
     };
 
     const tierColors = {
-      Netherite:'#4a4a6a', Diamond:'#00BFFF', Emerald:'#50C878', Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#2a2a2a', 'Unranked':'#888'
+      Netherite:'#4a4a52', Diamond:'#00BFFF', Emerald:'#50C878', Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#1a1a1a', 'Unranked':'#888'
     };
 
     const playerCountry = {
@@ -796,7 +834,6 @@
       document.querySelector('.container').style.display = 'none';
       document.getElementById('searchInput').style.display = 'none';
       document.getElementById('retiredToggle').style.display = 'none';
-      document.getElementById('tierGuideBtn').style.display = 'none';
       const profile = document.getElementById('profilePage');
       profile.style.display = 'block';
       setTimeout(()=> { profile.classList.add('show'); profile.setAttribute('aria-hidden','false'); }, 10);
@@ -828,7 +865,6 @@
         document.querySelector('.container').style.display = 'block';
         document.getElementById('searchInput').style.display = 'inline-block';
         document.getElementById('retiredToggle').style.display = 'inline-block';
-        document.getElementById('tierGuideBtn').style.display = 'inline-block';
       }, 260);
     }
 
