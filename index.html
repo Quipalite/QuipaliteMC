@@ -13,7 +13,6 @@
       --bg-dark:#070707;
       --card-dark:#0f0f12;
       --muted:#141416;
-      /* subtle translucent podium tints for normal mode */
       --podium-gold-tint: linear-gradient(180deg, rgba(255,246,214,0.06), rgba(255,230,128,0.03));
       --podium-silver-tint: linear-gradient(180deg, rgba(242,247,251,0.05), rgba(219,233,247,0.02));
       --podium-bronze-tint: linear-gradient(180deg, rgba(250,239,224,0.05), rgba(242,217,182,0.02));
@@ -30,7 +29,6 @@
       overflow-x:hidden;
     }
 
-    /* Animated gradient wave background */
     body::before{
       content:'';
       position:fixed;
@@ -69,7 +67,6 @@
     }
     body.mono::before, body.mono::after{ display:none; }
 
-    /* Header */
     header{
       text-align:center;
       padding:36px 20px;
@@ -87,14 +84,12 @@
     .logo{ font-size:34px; font-weight:800; letter-spacing:2px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.45); }
     .subtitle{ font-size:13px; opacity:0.9; color:rgba(255,255,255,0.92); font-weight:600; letter-spacing:1px; }
 
-    /* Toggle */
     .theme-toggle{
       position:absolute; top:14px; right:14px; width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer;
       display:flex; align-items:center; padding:3px; box-sizing:border-box; box-shadow:0 6px 18px rgba(0,0,0,0.25);
     }
     .theme-toggle .toggle-thumb{ width:20px;height:20px;border-radius:50%; transition:transform .25s, background .25s; background:#000; transform:translateX(0); }
 
-    /* Tabs + search */
     .tabs{ text-align:center; margin:16px 0; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; padding:0 12px; }
     .tab{
       background:transparent; border:none; border-bottom:2px solid transparent; padding:8px 14px; border-radius:6px; cursor:pointer;
@@ -128,7 +123,6 @@
     .mode{ display:none; opacity:0; transform:translateY(8px); transition:opacity .3s ease, transform .3s cubic-bezier(0.22,1,0.36,1); }
     .mode.active{ display:block; opacity:1; transform:translateY(0); }
 
-    /* Player card */
     .player{
       background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
       margin:12px 0; padding:16px; border-radius:12px; border:1px solid rgba(255,20,147,0.06);
@@ -149,8 +143,6 @@
     .player-head{ width:48px;height:48px;border-radius:10px;border:2px solid rgba(255,255,255,0.04); object-fit:cover; background:#111; flex-shrink:0; transition:transform .22s ease, box-shadow .22s ease; }
     .player:hover .player-head{ transform:scale(1.08); box-shadow:0 8px 22px rgba(0,0,0,0.6); }
 
-    /* Top 3 glow + subtle podium tint in normal mode.
-       In mono mode we override to simple white glow. */
     .gold-glow{
       border:2px solid rgba(255,215,0,0.9) !important;
       box-shadow:
@@ -179,7 +171,6 @@
       to{ box-shadow:0 0 18px rgba(255,215,0,0.30), 0 0 40px rgba(255,215,0,0.20); }
     }
 
-    /* small podium styling tweaks */
     .player.top1{ transform:translateY(-6px) scale(1.03); }
     .player.top1 .number{ font-size:18px; font-weight:900; }
     .player.top2{ transform:translateY(-3px) scale(1.015); }
@@ -199,19 +190,12 @@
     @keyframes badgePop{ from{transform:scale(0.6);opacity:0;} to{transform:scale(1);opacity:1;} }
     .player:hover .tier-badge{ transform:scale(1.12); box-shadow:0 4px 14px rgba(0,0,0,0.5); }
 
-    /* crown for #1 (cards and profile) */
     .crown{
-      width:18px;
-      height:18px;
-      display:inline-block;
-      vertical-align:middle;
-      margin-left:6px;
-      transform-origin:center;
-      animation: crownFloat 2s ease-in-out infinite;
+      width:18px; height:18px; display:inline-block; vertical-align:middle; margin-left:6px;
+      transform-origin:center; animation: crownFloat 2s ease-in-out infinite;
     }
     @keyframes crownFloat{ 0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)} }
 
-    /* profile */
     #profilePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.97); transition:opacity .35s cubic-bezier(0.22,1,0.36,1), transform .35s cubic-bezier(0.22,1,0.36,1); }
     #profilePage.show{ opacity:1; transform:translateY(0) scale(1); }
     #profileContent{ background:var(--card-dark); padding:20px; border-radius:12px; border:1px solid rgba(255,20,147,0.06); color:white; }
@@ -226,39 +210,76 @@
 
     .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background: rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
 
-    /* MONO MODE OVERRIDES (fix glow + no-players) */
+    /* ── TIER GUIDE MODAL ── */
+    #tierGuideBtn{
+      margin-left:10px; padding:8px 14px; border-radius:10px;
+      border:1px solid rgba(255,20,147,0.35); background:rgba(255,20,147,0.08);
+      color:var(--accent-muted); font-weight:700; font-size:12px; cursor:pointer;
+      transition:all .2s; letter-spacing:.5px;
+    }
+    #tierGuideBtn:hover{ background:rgba(255,20,147,0.18); color:#fff; border-color:rgba(255,20,147,0.6); }
+
+    #tierModal{
+      display:none; position:fixed; inset:0; z-index:10000;
+      background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
+      align-items:center; justify-content:center; padding:20px;
+    }
+    #tierModal.open{ display:flex; }
+
+    #tierModalInner{
+      background:#0f0f14; border:1px solid rgba(255,20,147,0.18);
+      border-radius:18px; padding:28px 24px; max-width:480px; width:100%;
+      box-shadow:0 32px 80px rgba(0,0,0,0.8), 0 0 40px rgba(255,20,147,0.08);
+      opacity:0; transform:translateY(20px) scale(0.96);
+      transition:opacity .28s cubic-bezier(0.22,1,0.36,1), transform .28s cubic-bezier(0.22,1,0.36,1);
+      max-height:90vh; overflow-y:auto;
+    }
+    #tierModal.open #tierModalInner{ opacity:1; transform:translateY(0) scale(1); }
+
+    #tierModalInner h2{
+      margin:0 0 20px 0; font-size:18px; font-weight:800;
+      color:#fff; letter-spacing:1px; text-transform:uppercase;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    #tierModalClose{
+      background:none; border:none; color:rgba(255,255,255,0.45);
+      font-size:22px; cursor:pointer; line-height:1; padding:0 2px;
+      transition:color .15s;
+    }
+    #tierModalClose:hover{ color:#fff; }
+
+    .tier-row{
+      display:flex; align-items:flex-start; gap:14px;
+      padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .tier-row:last-child{ border-bottom:none; }
+
+    .tier-dot{
+      width:14px; height:14px; border-radius:50%; flex-shrink:0; margin-top:3px;
+      box-shadow:0 0 8px currentColor;
+    }
+    .tier-name{
+      font-weight:800; font-size:14px; min-width:76px; flex-shrink:0;
+    }
+    .tier-desc{
+      font-size:13px; color:rgba(255,255,255,0.65); line-height:1.5; font-weight:500;
+    }
+
+    /* mono overrides */
     body.mono{ background:#000; color:#fff; }
     body.mono header{ background:#000; border-bottom:1px solid #111; animation:none; }
-    /* in mono, make glows white and stronger (clear and readable) */
-    body.mono .gold-glow{
-      border-color:#fff !important;
-      box-shadow:0 0 14px #fff, 0 0 32px rgba(255,255,255,0.18) !important;
-      background:transparent !important;
-    }
-    body.mono .silver-glow{
-      border-color:#fff !important;
-      box-shadow:0 0 10px #fff, 0 0 24px rgba(255,255,255,0.14) !important;
-      background:transparent !important;
-    }
-    body.mono .bronze-glow{
-      border-color:#fff !important;
-      box-shadow:0 0 10px #fff, 0 0 20px rgba(255,255,255,0.12) !important;
-      background:transparent !important;
-    }
-
-    /* make the 'no players' message readable in mono */
-    body.mono .no-players{
-      border:2px dashed rgba(255,255,255,0.18);
-      color:#fff;
-      background: rgba(255,255,255,0.03);
-    }
-
+    body.mono .gold-glow{ border-color:#fff !important; box-shadow:0 0 14px #fff, 0 0 32px rgba(255,255,255,0.18) !important; background:transparent !important; }
+    body.mono .silver-glow{ border-color:#fff !important; box-shadow:0 0 10px #fff, 0 0 24px rgba(255,255,255,0.14) !important; background:transparent !important; }
+    body.mono .bronze-glow{ border-color:#fff !important; box-shadow:0 0 10px #fff, 0 0 20px rgba(255,255,255,0.12) !important; background:transparent !important; }
+    body.mono .no-players{ border:2px dashed rgba(255,255,255,0.18); color:#fff; background: rgba(255,255,255,0.03); }
     body.mono .tab{ color:#ddd; } body.mono .tab.active{ color:#fff; border-bottom-color:#fff; }
     body.mono #searchInput{ background:#000; border:1px solid #222; color:#fff; }
     body.mono .player{ background:#000; border:1px solid #111; color:#fff; }
     body.mono .backBtn{ background:#000; color:#fff; border:1px solid #fff; box-shadow:none; }
+    body.mono #tierGuideBtn{ background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.25); color:#fff; }
+    body.mono #tierGuideBtn:hover{ background:rgba(255,255,255,0.12); }
+    body.mono #tierModalInner{ background:#111; border-color:#333; }
 
-    /* responsive */
     @media (max-width:720px){
       header{ padding:24px 12px; } .logo{ font-size:26px; } #searchInput{ width:92%; } .player{ padding:12px; gap:10px; } .player-head{ width:44px;height:44px; }
     }
@@ -266,7 +287,6 @@
       .tabs{ gap:8px; } .subtitle{ font-size:12px; } .number{ display:none; } .right{ display:none; }
     }
 
-    /* Compare page */
     #comparePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.98); transition:opacity .35s ease, transform .35s ease; }
     #comparePage.show{ opacity:1; transform:translateY(0) scale(1); }
     .compare-selectors{ display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; justify-content:center; align-items:center; }
@@ -356,6 +376,7 @@
   <div style="text-align:center;margin-bottom:12px;">
     <input type="text" id="searchInput" placeholder="🔍 Search player..." onkeyup="searchPlayers()" aria-label="Search players">
     <button id="retiredToggle" onclick="toggleRetired()" style="margin-left:10px;padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.45);font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;letter-spacing:.5px;">🏆 Show Retired</button>
+    <button id="tierGuideBtn" onclick="openTierGuide()" aria-label="Open tier guide">📊 Tier Guide</button>
   </div>
 
   <div class="container">
@@ -397,6 +418,17 @@
   <div class="compare-dropdown" id="compareDropdown1"></div>
   <div class="compare-dropdown" id="compareDropdown2"></div>
 
+  <!-- TIER GUIDE MODAL -->
+  <div id="tierModal" role="dialog" aria-modal="true" aria-label="Tier Guide" onclick="handleModalBackdrop(event)">
+    <div id="tierModalInner">
+      <h2>
+        <span>📊 Tier Guide</span>
+        <button id="tierModalClose" onclick="closeTierGuide()" aria-label="Close tier guide">✕</button>
+      </h2>
+      <div id="tierModalList"></div>
+    </div>
+  </div>
+
   <footer>© QUIPALITE MC — PvP leaderboards • Built with ❤️</footer>
 
   <script>
@@ -404,6 +436,53 @@
     let showRetired = false;
     const retired = ['skull_shredder30', 'Jai_B37'];
     const thumb = document.getElementById('toggleThumb');
+
+    // ── TIER GUIDE DATA ──
+    const tierGuideData = [
+      { name: 'Netherite', color: '#4a4a6a', desc: 'Elite level; represents the highest standard of performance.' },
+      { name: 'Diamond',   color: '#00BFFF', desc: 'Very advanced, demonstrating exceptional proficiency.' },
+      { name: 'Emerald',   color: '#50C878', desc: 'Highly skilled with strong consistency.' },
+      { name: 'Gold',      color: '#FFD700', desc: 'Competent and reliable performance.' },
+      { name: 'Iron',      color: '#8b8b8b', desc: 'Showing improvement, though still below expected skill level.' },
+      { name: 'Copper',    color: '#B87333', desc: 'Familiar with the mechanics, but performance is inconsistent and underdeveloped.' },
+      { name: 'Coal',      color: '#888',    desc: 'No demonstrated understanding of the core mechanics.' },
+    ];
+
+    function openTierGuide(){
+      const list = document.getElementById('tierModalList');
+      list.innerHTML = '';
+      tierGuideData.forEach(t => {
+        const row = document.createElement('div');
+        row.className = 'tier-row';
+        const textColor = t.name === 'Gold' ? '#cca800' : t.color;
+        row.innerHTML = `
+          <div class="tier-dot" style="background:${t.color};color:${t.color};"></div>
+          <div class="tier-name" style="color:${textColor}">${t.name}</div>
+          <div class="tier-desc">${t.desc}</div>
+        `;
+        list.appendChild(row);
+      });
+      const modal = document.getElementById('tierModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTierGuide(){
+      const modal = document.getElementById('tierModal');
+      const inner = document.getElementById('tierModalInner');
+      inner.style.opacity = '0';
+      inner.style.transform = 'translateY(20px) scale(0.96)';
+      setTimeout(() => {
+        modal.classList.remove('open');
+        inner.style.opacity = '';
+        inner.style.transform = '';
+        document.body.style.overflow = '';
+      }, 260);
+    }
+
+    function handleModalBackdrop(e){
+      if(e.target === document.getElementById('tierModal')) closeTierGuide();
+    }
 
     function toggleRetired(){
       showRetired = !showRetired;
@@ -595,7 +674,6 @@
       const players = getOrderedPlayers(mode).filter(name => showRetired || !retired.includes(name));
       container.innerHTML = '';
 
-      // Player count header
       const countDiv = document.createElement('div');
       countDiv.style.cssText = 'font-size:12px;font-weight:600;opacity:0.5;text-align:right;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;';
       countDiv.textContent = players.length + ' player' + (players.length !== 1 ? 's' : '');
@@ -612,7 +690,6 @@
         const tier = customTiers[mode]?.[name] || "Unranked";
         const stats = (playerStats[mode] || {})[name] || {wins:0,kills:0,deaths:0};
 
-        // Fire icon for K/D >= 2
         const kdVal = stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths;
         const fireHtml = (kdVal === Infinity || kdVal >= 2) ? `<span title="Hot streak!" style="font-size:14px;line-height:1;">🔥</span>` : '';
 
@@ -719,6 +796,7 @@
       document.querySelector('.container').style.display = 'none';
       document.getElementById('searchInput').style.display = 'none';
       document.getElementById('retiredToggle').style.display = 'none';
+      document.getElementById('tierGuideBtn').style.display = 'none';
       const profile = document.getElementById('profilePage');
       profile.style.display = 'block';
       setTimeout(()=> { profile.classList.add('show'); profile.setAttribute('aria-hidden','false'); }, 10);
@@ -750,6 +828,7 @@
         document.querySelector('.container').style.display = 'block';
         document.getElementById('searchInput').style.display = 'inline-block';
         document.getElementById('retiredToggle').style.display = 'inline-block';
+        document.getElementById('tierGuideBtn').style.display = 'inline-block';
       }, 260);
     }
 
@@ -933,9 +1012,6 @@
       const r1 = getOrderedPlayers(compareMode).indexOf(p1) + 1;
       const r2 = getOrderedPlayers(compareMode).indexOf(p2) + 1;
 
-      const games1 = s1.wins + s1.deaths;
-      const games2 = s2.wins + s2.deaths;
-
       function winClass(a, b, higherIsBetter = true){
         if(a === b) return ['',''];
         const aWins = higherIsBetter ? a > b : a < b;
@@ -1000,23 +1076,15 @@
       }, 30);
     }
 
-    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
       const tag = document.activeElement.tagName.toLowerCase();
       const isTyping = tag === 'input' || tag === 'textarea';
 
-      // "/" to focus search
-      if(e.key === '/' && !isTyping) {
-        e.preventDefault();
-        const search = document.getElementById('searchInput');
-        if(search && search.style.display !== 'none') {
-          search.focus();
-          search.select();
+      if(e.key === 'Escape'){
+        if(document.getElementById('tierModal').classList.contains('open')){
+          closeTierGuide();
+          return;
         }
-      }
-
-      // Escape to clear search / go back from profile / close compare
-      if(e.key === 'Escape') {
         const profile = document.getElementById('profilePage');
         const comparePage = document.getElementById('comparePage');
         if(profile && profile.style.display !== 'none') {
@@ -1035,7 +1103,15 @@
         }
       }
 
-      // Number keys 1-7 to switch tabs
+      if(e.key === '/' && !isTyping) {
+        e.preventDefault();
+        const search = document.getElementById('searchInput');
+        if(search && search.style.display !== 'none') {
+          search.focus();
+          search.select();
+        }
+      }
+
       if(!isTyping && !e.ctrlKey && !e.metaKey && !e.altKey) {
         const tabMap = { '1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear' };
         if(tabMap[e.key]) {
@@ -1050,7 +1126,6 @@
       }
     });
 
-    // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       const modes = ['sword','axe','uhc','mace','spear'];
       modes.forEach(m => createPlayers(m));
