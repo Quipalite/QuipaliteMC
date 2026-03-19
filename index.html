@@ -375,6 +375,125 @@
     body.mono .mode-select-row button:hover{ background:rgba(255,255,255,0.15); color:#fff; border-color:#fff; }
 
     footer{ text-align:center; margin-top:26px; padding:20px; font-size:13px; opacity:0.7; color:rgba(255,255,255,0.75); }
+
+    /* ── ADMIN ── */
+    #adminHeaderBtn{
+      position:absolute; top:14px; right:72px;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+      color:rgba(255,255,255,0.7); font-size:15px; width:32px; height:32px;
+      border-radius:8px; cursor:pointer; transition:all .2s;
+      display:flex; align-items:center; justify-content:center; padding:0;
+    }
+    #adminHeaderBtn:hover{ background:rgba(255,255,255,0.18); color:#fff; }
+    body.mono #adminHeaderBtn{ background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.2); }
+
+    .amodal{
+      position:fixed; inset:0; z-index:11000;
+      display:flex; align-items:center; justify-content:center; padding:20px;
+      visibility:hidden; pointer-events:none;
+    }
+    .amodal.aopen{ visibility:visible; pointer-events:all; }
+    .amodal-bg{
+      position:absolute; inset:0; background:rgba(0,0,0,0.82); backdrop-filter:blur(6px);
+      opacity:0; transition:opacity .28s ease;
+    }
+    .amodal.aopen .amodal-bg{ opacity:1; }
+    .amodal-box{
+      position:relative; z-index:1; background:#0f0f14;
+      border:1px solid rgba(255,20,147,0.22); border-radius:18px;
+      padding:28px 24px; width:100%;
+      box-shadow:0 32px 80px rgba(0,0,0,0.9);
+      opacity:0; transform:translateY(22px) scale(0.95);
+      transition:opacity .3s cubic-bezier(0.22,1,0.36,1), transform .3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .amodal.aopen .amodal-box{ opacity:1; transform:translateY(0) scale(1); transition-delay:.05s; }
+    body.mono .amodal-box{ background:#0d0d0d; border-color:#444; }
+
+    #adminLoginBox{ max-width:340px; text-align:center; }
+    #adminLoginBox h2{ margin:0 0 8px; font-size:18px; font-weight:800; color:#fff; }
+    #adminLoginBox p{ margin:0 0 18px; font-size:13px; color:rgba(255,255,255,0.45); }
+    #adminPwInput{
+      width:100%; padding:11px 14px; border-radius:10px;
+      border:1px solid rgba(255,20,147,0.3); background:rgba(255,255,255,0.04);
+      color:#fff; font-size:15px; font-weight:700; outline:none;
+      text-align:center; letter-spacing:3px; box-sizing:border-box; margin-bottom:10px;
+      transition:border-color .2s;
+    }
+    #adminPwInput:focus{ border-color:rgba(255,20,147,0.7); }
+    body.mono #adminPwInput{ background:#1a1a1a; border-color:#555; }
+    #adminPwErr{ color:#ff6b6b; font-size:12px; font-weight:700; min-height:16px; margin-bottom:10px; }
+    .abtn{
+      width:100%; padding:10px; border-radius:10px; border:none;
+      font-weight:800; font-size:14px; cursor:pointer; transition:all .2s; margin-bottom:6px;
+    }
+    .abtn-pink{ background:var(--accent-pink); color:#fff; }
+    .abtn-pink:hover{ background:var(--accent-muted); }
+    .abtn-ghost{ background:transparent; color:rgba(255,255,255,0.45); border:1px solid rgba(255,255,255,0.12); }
+    .abtn-ghost:hover{ background:rgba(255,255,255,0.06); color:#fff; }
+    body.mono .abtn-pink{ background:#fff; color:#000; }
+
+    #adminPanelBox{ max-width:700px; max-height:88vh; overflow-y:auto; }
+    .apanel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .apanel-head h2{ margin:0; font-size:17px; font-weight:800; color:#fff; }
+    .aclose{ background:none; border:none; color:rgba(255,255,255,0.4); font-size:22px; cursor:pointer; transition:color .15s, transform .2s; padding:0; line-height:1; }
+    .aclose:hover{ color:#fff; transform:rotate(90deg); }
+
+    .atabs{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+    .atab{
+      padding:5px 12px; border-radius:7px; border:1px solid rgba(255,255,255,0.1);
+      background:transparent; color:rgba(255,255,255,0.5); font-weight:700; font-size:12px; cursor:pointer; transition:all .15s;
+    }
+    .atab:hover,.atab.aact{ background:var(--accent-pink); color:#fff; border-color:var(--accent-pink); }
+    body.mono .atab.aact{ background:#fff; color:#000; border-color:#fff; }
+
+    .atable{ width:100%; border-collapse:collapse; font-size:13px; }
+    .atable th{ padding:7px 8px; text-align:left; color:rgba(255,255,255,0.35); font-size:10px; text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .atable td{ padding:5px 4px; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+    .atable tr:last-child td{ border-bottom:none; }
+    .anum{
+      width:50px; padding:4px 6px; border-radius:6px;
+      border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04);
+      color:#fff; font-weight:700; font-size:13px; text-align:center; outline:none;
+      transition:border-color .15s;
+    }
+    .anum:focus{ border-color:rgba(255,20,147,0.5); }
+    .atiersel{
+      padding:4px 6px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);
+      background:#1a1a1f; color:#fff; font-weight:700; font-size:12px; outline:none; cursor:pointer;
+    }
+    body.mono .anum, body.mono .atiersel{ background:#222; border-color:#444; }
+    .armbtn{
+      background:rgba(255,50,50,0.15); border:1px solid rgba(255,50,50,0.3);
+      color:#ff7070; border-radius:6px; padding:3px 8px; cursor:pointer;
+      font-size:12px; font-weight:700; transition:all .15s;
+    }
+    .armbtn:hover{ background:rgba(255,50,50,0.3); color:#fff; }
+
+    .aadd{ margin-top:14px; padding:14px; border-radius:10px; border:1px solid rgba(255,20,147,0.1); background:rgba(255,20,147,0.03); }
+    .aadd h4{ margin:0 0 10px; font-size:12px; font-weight:800; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:.5px; }
+    .aadd-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; }
+    .aadd-row label{ font-size:10px; color:rgba(255,255,255,0.4); font-weight:700; text-transform:uppercase; display:flex; flex-direction:column; gap:3px; }
+    .ainput{
+      padding:6px 8px; border-radius:7px; border:1px solid rgba(255,255,255,0.1);
+      background:rgba(255,255,255,0.04); color:#fff; font-weight:700; font-size:13px;
+      outline:none; width:80px; transition:border-color .15s;
+    }
+    .ainput.aw{ width:120px; }
+    .ainput:focus{ border-color:rgba(255,20,147,0.5); }
+    body.mono .ainput{ background:#222; border-color:#444; }
+    .aadd-btn{
+      padding:6px 14px; border-radius:7px; border:none;
+      background:var(--accent-pink); color:#fff; font-weight:800; font-size:13px;
+      cursor:pointer; transition:background .2s; align-self:flex-end;
+    }
+    .aadd-btn:hover{ background:var(--accent-muted); }
+    body.mono .aadd-btn{ background:#fff; color:#000; }
+
+    .asavebar{ position:sticky; bottom:0; padding:12px 0 2px; display:flex; gap:10px; align-items:center; background:linear-gradient(0deg,#0f0f14 60%,transparent); }
+    body.mono .asavebar{ background:linear-gradient(0deg,#0d0d0d 60%,transparent); }
+    .asavebtn{ flex:1; padding:10px; border-radius:10px; border:none; background:#22c55e; color:#000; font-weight:800; font-size:14px; cursor:pointer; transition:opacity .2s; }
+    .asavebtn:hover{ opacity:.85; }
+    #aSaveMsg{ font-size:13px; font-weight:800; color:#22c55e; opacity:0; transition:opacity .3s; white-space:nowrap; }
   </style>
 </head>
 <body>
@@ -386,6 +505,7 @@
     <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
       <div class="toggle-thumb" id="toggleThumb"></div>
     </div>
+    <button id="adminHeaderBtn" onclick="openAdminLogin()" aria-label="Admin panel" title="Admin">⚙️</button>
     <div style="position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
       <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;background:rgba(88,101,242,0.9);color:white;font-weight:700;font-size:12px;padding:6px 10px;border-radius:8px;text-decoration:none;box-shadow:0 4px 12px rgba(88,101,242,0.35);transition:background .2s;" onmouseover="this.style.background='rgba(88,101,242,1)'" onmouseout="this.style.background='rgba(88,101,242,0.9)'">
         <svg width="18" height="14" viewBox="-2 -2 75 59" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
@@ -459,6 +579,61 @@
         <button id="tierModalClose" onclick="closeTierGuide()" aria-label="Close tier guide">✕</button>
       </h2>
       <div id="tierModalList"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN -->
+  <div id="adminLoginModal" class="amodal">
+    <div class="amodal-bg" id="aLoginBg"></div>
+    <div class="amodal-box" id="adminLoginBox">
+      <h2>🔐 Admin Login</h2>
+      <p>Enter the admin password to access the panel.</p>
+      <input type="password" id="adminPwInput" class="" placeholder="Password" autocomplete="off">
+      <div id="adminPwErr"></div>
+      <button class="abtn abtn-pink" id="adminLoginBtn">Login</button>
+      <button class="abtn abtn-ghost" id="adminCancelBtn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanelModal" class="amodal">
+    <div class="amodal-bg" id="aPanelBg"></div>
+    <div class="amodal-box" id="adminPanelBox">
+      <div class="apanel-head">
+        <h2>⚙️ Admin Panel</h2>
+        <button class="aclose" id="aPanelClose">✕</button>
+      </div>
+      <div class="atabs" id="aTabs"></div>
+      <div id="aTableWrap"></div>
+      <div class="aadd">
+        <h4>➕ Add Player</h4>
+        <div class="aadd-row">
+          <label>Username<input type="text" id="aAddName" class="ainput aw" placeholder="Username"></label>
+          <label>Wins<input type="number" id="aAddWins" class="ainput" value="0" min="0"></label>
+          <label>Kills<input type="number" id="aAddKills" class="ainput" value="0" min="0"></label>
+          <label>Deaths<input type="number" id="aAddDeaths" class="ainput" value="0" min="0"></label>
+          <label>Tier
+            <select id="aAddTier" class="atiersel">
+              <option>Unranked</option><option>Coal</option><option>Copper</option>
+              <option>Iron</option><option>Gold</option><option>Emerald</option>
+              <option>Diamond</option><option>Netherite</option>
+            </select>
+          </label>
+          <label>Country
+            <select id="aAddCountry" class="atiersel">
+              <option value="">None</option>
+              <option value="gb">🇬🇧 UK</option><option value="se">🇸🇪 Sweden</option>
+              <option value="za">🇿🇦 South Africa</option><option value="dk">🇩🇰 Denmark</option>
+              <option value="nl">🇳🇱 Netherlands</option>
+            </select>
+          </label>
+          <button class="aadd-btn" id="aAddBtn">Add</button>
+        </div>
+      </div>
+      <div class="asavebar">
+        <button class="asavebtn" id="aSaveBtn">💾 Save &amp; Apply</button>
+        <span id="aSaveMsg">✓ Saved!</span>
+      </div>
     </div>
   </div>
 
@@ -1142,6 +1317,8 @@
       const isTyping = tag === 'input' || tag === 'textarea';
 
       if(e.key === 'Escape'){
+        if(document.getElementById('adminPanelModal').classList.contains('aopen')){ aCloseModal('adminPanelModal'); return; }
+        if(document.getElementById('adminLoginModal').classList.contains('aopen')){ aCloseModal('adminLoginModal'); return; }
         if(document.getElementById('tierModal').classList.contains('open')){
           closeTierGuide();
           return;
@@ -1187,6 +1364,198 @@
       }
     });
 
+    // ── ADMIN ──
+    const ADMIN_PW = 'Quipalite2010@';
+    const A_MODES = ['sword','axe','uhc','mace','spear','overall'];
+    const A_MODE_LABELS = {sword:'⚔️ Sword',axe:'🪓 Axe',uhc:'❤️ UHC',mace:'🔨 Mace',spear:'🔱 Spear',overall:'🏆 Overall'};
+    const TIER_OPTS = ['Unranked','Coal','Copper','Iron','Gold','Emerald','Diamond','Netherite'];
+    let aCurMode = 'sword';
+    let aPendingRemove = null;
+
+    function aOpenModal(id){
+      const m = document.getElementById(id);
+      m.classList.add('aopen');
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = sw + 'px';
+      document.body.style.overflow = 'hidden';
+    }
+    function aCloseModal(id){
+      const m = document.getElementById(id);
+      const box = m.querySelector('.amodal-box');
+      const bg = m.querySelector('.amodal-bg');
+      box.style.opacity = '0';
+      box.style.transform = 'translateY(16px) scale(0.96)';
+      bg.style.opacity = '0';
+      setTimeout(()=>{
+        m.classList.remove('aopen');
+        box.style.opacity = '';
+        box.style.transform = '';
+        bg.style.opacity = '';
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }, 280);
+    }
+
+    // Login
+    function initAdmin(){
+      document.getElementById('adminHeaderBtn').addEventListener('click', ()=>{
+        document.getElementById('adminPwInput').value = '';
+        document.getElementById('adminPwErr').textContent = '';
+        aOpenModal('adminLoginModal');
+        setTimeout(()=> document.getElementById('adminPwInput').focus(), 120);
+      });
+      document.getElementById('adminCancelBtn').addEventListener('click', ()=> aCloseModal('adminLoginModal'));
+      document.getElementById('aLoginBg').addEventListener('click', ()=> aCloseModal('adminLoginModal'));
+      document.getElementById('adminPwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+      document.getElementById('adminLoginBtn').addEventListener('click', doLogin);
+      document.getElementById('aPanelClose').addEventListener('click', ()=> aCloseModal('adminPanelModal'));
+      document.getElementById('aPanelBg').addEventListener('click', ()=> aCloseModal('adminPanelModal'));
+      document.getElementById('aSaveBtn').addEventListener('click', aDoSave);
+      document.getElementById('aAddBtn').addEventListener('click', aDoAdd);
+    }
+
+    function doLogin(){
+      const val = document.getElementById('adminPwInput').value;
+      if(val === ADMIN_PW){
+        aCloseModal('adminLoginModal');
+        setTimeout(()=>{ aCurMode='sword'; aOpenModal('adminPanelModal'); buildAPanel(); }, 300);
+      } else {
+        const err = document.getElementById('adminPwErr');
+        err.textContent = '✗ Wrong password';
+        document.getElementById('adminPwInput').value = '';
+        document.getElementById('adminPwInput').focus();
+        setTimeout(()=>{ err.textContent=''; }, 2200);
+      }
+    }
+
+    // Panel
+    function buildAPanel(){
+      buildATabs();
+      buildATable(aCurMode);
+    }
+
+    function buildATabs(){
+      const wrap = document.getElementById('aTabs');
+      wrap.innerHTML = '';
+      A_MODES.forEach(m=>{
+        const b = document.createElement('button');
+        b.className = 'atab' + (m===aCurMode?' aact':'');
+        b.textContent = A_MODE_LABELS[m];
+        b.addEventListener('click', ()=>{ aCurMode=m; buildATabs(); buildATable(m); });
+        wrap.appendChild(b);
+      });
+    }
+
+    function buildATable(mode){
+      if(mode==='overall') updateOverall();
+      const data = playerStats[mode] || {};
+      const players = Object.keys(data).sort();
+      const isOverall = mode==='overall';
+      const wrap = document.getElementById('aTableWrap');
+
+      let html = `<table class="atable"><thead><tr>
+        <th>Player</th><th>W</th><th>K</th><th>D</th><th>Tier</th>
+        ${!isOverall?'<th></th>':''}
+      </tr></thead><tbody>`;
+
+      players.forEach(name=>{
+        const s = data[name] || {wins:0,kills:0,deaths:0};
+        const tier = customTiers[mode]?.[name] || 'Unranked';
+        const tierOpts = TIER_OPTS.map(t=>`<option value="${t}"${t===tier?' selected':''}>${t}</option>`).join('');
+        const esc = name.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+        html += `<tr data-player="${esc}" data-mode="${mode}">
+          <td style="font-weight:700;min-width:100px;font-size:13px;">${name}</td>
+          <td><input class="anum" type="number" min="0" data-field="wins" value="${s.wins}"></td>
+          <td><input class="anum" type="number" min="0" data-field="kills" value="${s.kills}"></td>
+          <td><input class="anum" type="number" min="0" data-field="deaths" value="${s.deaths}"></td>
+          <td><select class="atiersel" data-field="tier">${tierOpts}</select></td>
+          ${!isOverall?`<td><button class="armbtn" data-rmplayer="${esc}">✕</button></td>`:''}
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      wrap.innerHTML = html;
+
+      if(isOverall){
+        const note = document.createElement('p');
+        note.style.cssText='font-size:12px;color:rgba(255,255,255,0.35);margin:8px 0 0;text-align:center;';
+        note.textContent='Overall is calculated automatically. Edit individual modes to change overall stats.';
+        wrap.appendChild(note);
+      }
+
+      // Remove buttons via event delegation
+      wrap.querySelectorAll('.armbtn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const playerName = btn.dataset.rmplayer;
+          if(playerStats[mode]) delete playerStats[mode][playerName];
+          if(customTiers[mode]) delete customTiers[mode][playerName];
+          buildATable(mode);
+        });
+      });
+    }
+
+    function aDoSave(){
+      const mode = aCurMode;
+      if(mode==='overall'){ showASaveMsg(); refreshAllModes(); return; }
+
+      document.querySelectorAll('#aTableWrap tbody tr').forEach(row=>{
+        const name = row.dataset.player;
+        if(!name) return;
+        if(!playerStats[mode]) playerStats[mode]={};
+        if(!playerStats[mode][name]) playerStats[mode][name]={wins:0,kills:0,deaths:0};
+
+        row.querySelectorAll('.anum').forEach(inp=>{
+          const field = inp.dataset.field;
+          playerStats[mode][name][field] = Math.max(0, parseInt(inp.value)||0);
+        });
+        const tierSel = row.querySelector('.atiersel');
+        if(tierSel){
+          const tier = tierSel.value;
+          if(!customTiers[mode]) customTiers[mode]={};
+          if(tier==='Unranked') delete customTiers[mode][name];
+          else customTiers[mode][name] = tier;
+        }
+      });
+
+      showASaveMsg();
+      refreshAllModes();
+    }
+
+    function aDoAdd(){
+      const name = document.getElementById('aAddName').value.trim();
+      if(!name){ document.getElementById('aAddName').focus(); return; }
+      const mode = aCurMode==='overall' ? 'sword' : aCurMode;
+      const wins = Math.max(0, parseInt(document.getElementById('aAddWins').value)||0);
+      const kills = Math.max(0, parseInt(document.getElementById('aAddKills').value)||0);
+      const deaths = Math.max(0, parseInt(document.getElementById('aAddDeaths').value)||0);
+      const tier = document.getElementById('aAddTier').value;
+      const country = document.getElementById('aAddCountry').value;
+      if(!playerStats[mode]) playerStats[mode]={};
+      playerStats[mode][name] = {wins,kills,deaths};
+      if(tier && tier!=='Unranked'){
+        if(!customTiers[mode]) customTiers[mode]={};
+        customTiers[mode][name] = tier;
+      }
+      if(country) playerCountry[name] = country;
+      document.getElementById('aAddName').value='';
+      document.getElementById('aAddWins').value='0';
+      document.getElementById('aAddKills').value='0';
+      document.getElementById('aAddDeaths').value='0';
+      buildATable(aCurMode);
+    }
+
+    function showASaveMsg(){
+      const msg = document.getElementById('aSaveMsg');
+      msg.style.opacity='1';
+      setTimeout(()=>{ msg.style.opacity='0'; }, 2000);
+    }
+
+    function refreshAllModes(){
+      const activeMode = document.querySelector('.mode.active');
+      if(activeMode) createPlayers(activeMode.id);
+      populateCompareSelects();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       const modes = ['sword','axe','uhc','mace','spear'];
       modes.forEach(m => createPlayers(m));
@@ -1201,6 +1570,7 @@
       if(overallDiv) overallDiv.classList.add('active');
 
       thumb.style.background = monoMode ? '#fff' : '#000';
+      initAdmin();
     });
   </script>
 
