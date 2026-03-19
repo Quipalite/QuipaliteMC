@@ -85,7 +85,7 @@
     .subtitle{ font-size:13px; opacity:0.9; color:rgba(255,255,255,0.92); font-weight:600; letter-spacing:1px; }
 
     .theme-toggle{
-      position:absolute; top:14px; right:14px; width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer;
+      width:52px; height:26px; border-radius:14px; background:#fff; cursor:pointer;
       display:flex; align-items:center; padding:3px; box-sizing:border-box; box-shadow:0 6px 18px rgba(0,0,0,0.25);
     }
     .theme-toggle .toggle-thumb{ width:20px;height:20px;border-radius:50%; transition:transform .25s, background .25s; background:#000; transform:translateX(0); }
@@ -377,15 +377,51 @@
     footer{ text-align:center; margin-top:26px; padding:20px; font-size:13px; opacity:0.7; color:rgba(255,255,255,0.75); }
 
     /* ── ADMIN ── */
-    #adminHeaderBtn{
-      position:absolute; top:14px; right:72px;
-      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
-      color:rgba(255,255,255,0.7); font-size:15px; width:32px; height:32px;
-      border-radius:8px; cursor:pointer; transition:all .2s;
-      display:flex; align-items:center; justify-content:center; padding:0;
+    #headerRight{
+      position:absolute; top:14px; right:14px;
+      display:flex; flex-direction:column; align-items:center; gap:8px;
     }
-    #adminHeaderBtn:hover{ background:rgba(255,255,255,0.18); color:#fff; }
-    body.mono #adminHeaderBtn{ background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.2); }
+    #adminHeaderBtn{
+      display:flex; align-items:center; gap:6px;
+      background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.7); font-weight:700; font-size:12px;
+      padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.18);
+      cursor:pointer; transition:background .2s, border-color .2s;
+    }
+    #adminHeaderBtn:hover{ background:rgba(255,255,255,0.15); color:#fff; border-color:rgba(255,255,255,0.4); }
+    body.mono #adminHeaderBtn{ background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.18); }
+    body.mono #adminHeaderBtn:hover{ background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.4); }
+
+    /* confirm modal */
+    #aConfirmModal{ display:none; position:fixed; inset:0; z-index:12000; align-items:center; justify-content:center; padding:20px; }
+    #aConfirmModal.aopen{ display:flex; }
+    #aConfirmBg{ position:absolute; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); }
+    #aConfirmBox{
+      position:relative; z-index:1; background:#0f0f14; border:1px solid rgba(255,20,147,0.22);
+      border-radius:14px; padding:24px 22px; max-width:320px; width:100%;
+      text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.9);
+      opacity:0; transform:scale(0.92) translateY(10px);
+      transition:opacity .22s ease, transform .22s cubic-bezier(0.22,1,0.36,1);
+    }
+    #aConfirmModal.aopen #aConfirmBox{ opacity:1; transform:scale(1) translateY(0); }
+    body.mono #aConfirmBox{ background:#0d0d0d; border-color:#444; }
+    #aConfirmBox h3{ margin:0 0 8px; font-size:16px; color:#fff; font-weight:800; }
+    #aConfirmBox p{ margin:0 0 18px; font-size:13px; color:rgba(255,255,255,0.5); line-height:1.5; }
+    .aconfirm-btns{ display:flex; gap:8px; }
+    .aconfirm-btns button{ flex:1; padding:9px; border-radius:8px; border:none; font-weight:800; font-size:13px; cursor:pointer; transition:all .18s; }
+    #aConfirmYes{ background:#ef4444; color:#fff; }
+    #aConfirmYes:hover{ background:#dc2626; }
+    #aConfirmNo{ background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15) !important; }
+    #aConfirmNo:hover{ background:rgba(255,255,255,0.15); }
+
+    /* retirement section in panel */
+    .aret-section{ margin-top:14px; padding:14px; border-radius:10px; border:1px solid rgba(255,215,0,0.12); background:rgba(255,215,0,0.03); }
+    .aret-section h4{ margin:0 0 10px; font-size:12px; font-weight:800; color:rgba(255,215,0,0.7); text-transform:uppercase; letter-spacing:.5px; }
+    .aret-list{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; min-height:24px; }
+    .aret-tag{ display:flex; align-items:center; gap:5px; background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.25); border-radius:999px; padding:3px 10px 3px 8px; font-size:12px; font-weight:700; color:rgba(255,215,0,0.9); }
+    .aret-tag button{ background:none; border:none; color:rgba(255,215,0,0.6); cursor:pointer; font-size:13px; padding:0; line-height:1; transition:color .15s; }
+    .aret-tag button:hover{ color:#fff; }
+    .aret-add-row{ display:flex; gap:8px; align-items:center; }
+    .aret-empty{ font-size:12px; color:rgba(255,255,255,0.25); font-style:italic; }
 
     .amodal{
       position:fixed; inset:0; z-index:11000;
@@ -502,16 +538,18 @@
     <img src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Quipalite MC Logo" style="width:72px;height:72px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.45);">
     <div class="logo">QUIPALITE MC</div>
     <div class="subtitle">Competitive PvP Rankings</div>
-    <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-      <div class="toggle-thumb" id="toggleThumb"></div>
+    <div id="headerRight">
+      <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-thumb" id="toggleThumb"></div>
+      </div>
     </div>
-    <button id="adminHeaderBtn" onclick="openAdminLogin()" aria-label="Admin panel" title="Admin">⚙️</button>
     <div style="position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
       <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;background:rgba(88,101,242,0.9);color:white;font-weight:700;font-size:12px;padding:6px 10px;border-radius:8px;text-decoration:none;box-shadow:0 4px 12px rgba(88,101,242,0.35);transition:background .2s;" onmouseover="this.style.background='rgba(88,101,242,1)'" onmouseout="this.style.background='rgba(88,101,242,0.9)'">
         <svg width="18" height="14" viewBox="-2 -2 75 59" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
         Discord
       </a>
       <button id="tierGuideBtn" onclick="openTierGuide()" aria-label="Open tier guide">📊 Tier Guide</button>
+      <button id="adminHeaderBtn" aria-label="Admin panel">⚙️ Admin</button>
     </div>
   </header>
 
@@ -582,6 +620,19 @@
     </div>
   </div>
 
+  <!-- CONFIRM MODAL -->
+  <div id="aConfirmModal">
+    <div id="aConfirmBg"></div>
+    <div id="aConfirmBox">
+      <h3 id="aConfirmTitle">Are you sure?</h3>
+      <p id="aConfirmMsg"></p>
+      <div class="aconfirm-btns">
+        <button id="aConfirmYes">Confirm</button>
+        <button id="aConfirmNo">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ADMIN LOGIN -->
   <div id="adminLoginModal" class="amodal">
     <div class="amodal-bg" id="aLoginBg"></div>
@@ -628,6 +679,15 @@
             </select>
           </label>
           <button class="aadd-btn" id="aAddBtn">Add</button>
+        </div>
+      </div>
+      <div class="aret-section">
+        <h4>🏆 Retirement</h4>
+        <div class="aret-list" id="aRetList"></div>
+        <div class="aret-add-row">
+          <select id="aRetSelect" class="atiersel" style="flex:1;padding:6px 8px;"></select>
+          <button class="aadd-btn" id="aRetAddBtn">Retire</button>
+          <button class="aadd-btn" id="aRetUnretireBtn" style="background:rgba(255,215,0,0.2);border:1px solid rgba(255,215,0,0.35);color:rgba(255,215,0,0.9);">Unretire</button>
         </div>
       </div>
       <div class="asavebar">
@@ -1370,7 +1430,7 @@
     const A_MODE_LABELS = {sword:'⚔️ Sword',axe:'🪓 Axe',uhc:'❤️ UHC',mace:'🔨 Mace',spear:'🔱 Spear',overall:'🏆 Overall'};
     const TIER_OPTS = ['Unranked','Coal','Copper','Iron','Gold','Emerald','Diamond','Netherite'];
     let aCurMode = 'sword';
-    let aPendingRemove = null;
+    let aConfirmCb = null;
 
     function aOpenModal(id){
       const m = document.getElementById(id);
@@ -1396,6 +1456,18 @@
       }, 280);
     }
 
+    // Confirm dialog (replaces browser confirm())
+    function aConfirm(title, msg, yesLabel, yesColor, cb){
+      document.getElementById('aConfirmTitle').textContent = title;
+      document.getElementById('aConfirmMsg').textContent = msg;
+      const yesBtn = document.getElementById('aConfirmYes');
+      yesBtn.textContent = yesLabel || 'Confirm';
+      yesBtn.style.background = yesColor || '#ef4444';
+      aConfirmCb = cb;
+      document.getElementById('aConfirmModal').classList.add('aopen');
+    }
+    function aCloseConfirm(){ document.getElementById('aConfirmModal').classList.remove('aopen'); aConfirmCb = null; }
+
     // Login
     function initAdmin(){
       document.getElementById('adminHeaderBtn').addEventListener('click', ()=>{
@@ -1408,10 +1480,53 @@
       document.getElementById('aLoginBg').addEventListener('click', ()=> aCloseModal('adminLoginModal'));
       document.getElementById('adminPwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
       document.getElementById('adminLoginBtn').addEventListener('click', doLogin);
-      document.getElementById('aPanelClose').addEventListener('click', ()=> aCloseModal('adminPanelModal'));
-      document.getElementById('aPanelBg').addEventListener('click', ()=> aCloseModal('adminPanelModal'));
-      document.getElementById('aSaveBtn').addEventListener('click', aDoSave);
+      document.getElementById('aPanelClose').addEventListener('click', ()=>{
+        aConfirm('Close panel?', 'Any unsaved changes will be lost.', 'Close', '#6b7280', ()=>{
+          aCloseConfirm();
+          aCloseModal('adminPanelModal');
+        });
+      });
+      document.getElementById('aPanelBg').addEventListener('click', ()=>{
+        aConfirm('Close panel?', 'Any unsaved changes will be lost.', 'Close', '#6b7280', ()=>{
+          aCloseConfirm();
+          aCloseModal('adminPanelModal');
+        });
+      });
+      document.getElementById('aSaveBtn').addEventListener('click', ()=>{
+        aConfirm('Save changes?', 'This will apply all edits to the live leaderboard.', '💾 Save', '#22c55e', ()=>{
+          aCloseConfirm();
+          aDoSave();
+        });
+      });
       document.getElementById('aAddBtn').addEventListener('click', aDoAdd);
+      document.getElementById('aConfirmYes').addEventListener('click', ()=>{ if(aConfirmCb) aConfirmCb(); });
+      document.getElementById('aConfirmNo').addEventListener('click', aCloseConfirm);
+      document.getElementById('aConfirmBg').addEventListener('click', aCloseConfirm);
+      document.getElementById('aRetAddBtn').addEventListener('click', ()=>{
+        const name = document.getElementById('aRetSelect').value;
+        if(!name) return;
+        if(!retired.includes(name)){
+          aConfirm('Retire player?', `Move ${name} to retired status?`, '🏆 Retire', '#b45309', ()=>{
+            aCloseConfirm();
+            retired.push(name);
+            buildARetirement();
+            refreshAllModes();
+          });
+        }
+      });
+      document.getElementById('aRetUnretireBtn').addEventListener('click', ()=>{
+        const name = document.getElementById('aRetSelect').value;
+        if(!name) return;
+        if(retired.includes(name)){
+          aConfirm('Unretire player?', `Bring ${name} back to active?`, '✅ Unretire', '#22c55e', ()=>{
+            aCloseConfirm();
+            const idx = retired.indexOf(name);
+            if(idx > -1) retired.splice(idx,1);
+            buildARetirement();
+            refreshAllModes();
+          });
+        }
+      });
     }
 
     function doLogin(){
@@ -1432,6 +1547,7 @@
     function buildAPanel(){
       buildATabs();
       buildATable(aCurMode);
+      buildARetirement();
     }
 
     function buildATabs(){
@@ -1487,10 +1603,48 @@
       wrap.querySelectorAll('.armbtn').forEach(btn=>{
         btn.addEventListener('click', ()=>{
           const playerName = btn.dataset.rmplayer;
-          if(playerStats[mode]) delete playerStats[mode][playerName];
-          if(customTiers[mode]) delete customTiers[mode][playerName];
-          buildATable(mode);
+          aConfirm('Remove player?', `Remove ${playerName} from ${aCurMode}? This cannot be undone.`, '✕ Remove', '#ef4444', ()=>{
+            aCloseConfirm();
+            if(playerStats[aCurMode]) delete playerStats[aCurMode][playerName];
+            if(customTiers[aCurMode]) delete customTiers[aCurMode][playerName];
+            buildATable(aCurMode);
+          });
         });
+      });
+    }
+
+    function buildARetirement(){
+      const listEl = document.getElementById('aRetList');
+      const selectEl = document.getElementById('aRetSelect');
+      listEl.innerHTML = '';
+      if(retired.length === 0){
+        listEl.innerHTML = '<span class="aret-empty">No retired players</span>';
+      } else {
+        retired.forEach(name=>{
+          const tag = document.createElement('div');
+          tag.className = 'aret-tag';
+          tag.innerHTML = `🏆 ${name} <button data-unret="${name}" title="Unretire">✕</button>`;
+          tag.querySelector('button').addEventListener('click', ()=>{
+            aConfirm('Unretire player?', `Bring ${name} back to active?`, '✅ Unretire', '#22c55e', ()=>{
+              aCloseConfirm();
+              const idx = retired.indexOf(name);
+              if(idx > -1) retired.splice(idx,1);
+              buildARetirement();
+              refreshAllModes();
+            });
+          });
+          listEl.appendChild(tag);
+        });
+      }
+      // Populate the select with all known players
+      const allPlayers = new Set();
+      Object.values(playerStats).forEach(mode=>{ Object.keys(mode||{}).forEach(p=>allPlayers.add(p)); });
+      selectEl.innerHTML = '<option value="">— Select player —</option>';
+      [...allPlayers].sort().forEach(p=>{
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.textContent = p + (retired.includes(p) ? ' 🏆' : '');
+        selectEl.appendChild(opt);
       });
     }
 
