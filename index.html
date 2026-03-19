@@ -192,9 +192,18 @@
 
     .crown{
       width:18px; height:18px; display:inline-block; vertical-align:middle; margin-left:6px;
-      transform-origin:center; animation: crownFloat 2s ease-in-out infinite;
+      transform-origin:center;
+      animation: crownBounce 1.4s cubic-bezier(0.36,0.07,0.19,0.97) infinite;
+      filter: drop-shadow(0 0 6px rgba(255,215,0,0.8));
     }
-    @keyframes crownFloat{ 0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)} }
+    @keyframes crownBounce{
+      0%  { transform: translateY(0) rotate(-8deg) scale(1); }
+      15% { transform: translateY(-5px) rotate(8deg) scale(1.15); }
+      30% { transform: translateY(0) rotate(-4deg) scale(0.95); }
+      45% { transform: translateY(-3px) rotate(4deg) scale(1.05); }
+      60% { transform: translateY(0) rotate(0deg) scale(1); }
+      100%{ transform: translateY(0) rotate(0deg) scale(1); }
+    }
 
     #profilePage{ display:none; max-width:700px; margin:auto; padding:20px; opacity:0; transform:translateY(28px) scale(0.97); transition:opacity .35s cubic-bezier(0.22,1,0.36,1), transform .35s cubic-bezier(0.22,1,0.36,1); }
     #profilePage.show{ opacity:1; transform:translateY(0) scale(1); }
@@ -211,7 +220,11 @@
     .no-players{ margin-top:20px; font-size:18px; text-align:center; padding:16px; border:2px dashed rgba(255,20,147,0.12); border-radius:12px; color:var(--accent-muted); font-weight:700; background: rgba(255,20,147,0.03); display:flex; justify-content:center; align-items:center; gap:10px; }
 
     /* ── TIER GUIDE MODAL ── */
-    /* tier guide btn */
+    /* confetti */
+    #confettiCanvas{
+      position:fixed; inset:0; z-index:9999;
+      pointer-events:none; opacity:1;
+    }
     #tierGuideBtn{
       display:flex; align-items:center; gap:6px;
       background:rgba(255,20,147,0.18); color:white; font-weight:700; font-size:12px;
@@ -533,6 +546,8 @@
   </style>
 </head>
 <body>
+
+<canvas id="confettiCanvas"></canvas>
 
   <header>
     <img src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Quipalite MC Logo" style="width:72px;height:72px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.45);">
@@ -1166,6 +1181,7 @@
 
       document.querySelector('.container').style.display = 'block';
       createPlayers(mode);
+      setTimeout(()=> { if(window.fireConfetti) fireConfetti(100); }, 200);
     }
 
     let compareMode = 'overall';
@@ -1424,7 +1440,90 @@
       }
     });
 
-    // ── ADMIN ──
+    // ── CONFETTI ──
+    (function(){
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let rafId = null;
+      let running = false;
+
+      const COLORS = [
+        '#FFD700','#ff1493','#00BFFF','#50C878',
+        '#ff66cc','#fff','#FFB347','#B87333'
+      ];
+
+      function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function rand(a,b){ return Math.random()*(b-a)+a; }
+
+      function spawnParticles(count){
+        const cx = window.innerWidth / 2;
+        for(let i=0;i<count;i++){
+          const angle = rand(-Math.PI, 0); // upward burst
+          const speed = rand(4, 14);
+          particles.push({
+            x: rand(cx - 120, cx + 120),
+            y: rand(-10, 60),
+            vx: Math.cos(angle) * speed * rand(0.5,1.5),
+            vy: Math.sin(angle) * speed - rand(2,6),
+            w: rand(6,14),
+            h: rand(3,7),
+            rot: rand(0, Math.PI*2),
+            rotV: rand(-0.15, 0.15),
+            color: COLORS[Math.floor(Math.random()*COLORS.length)],
+            life: 1,
+            decay: rand(0.008, 0.018),
+            shape: Math.random() > 0.5 ? 'rect' : 'circle'
+          });
+        }
+      }
+
+      function tick(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p=>{
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.25; // gravity
+          p.vx *= 0.99;
+          p.rot += p.rotV;
+          p.life -= p.decay;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          if(p.shape === 'rect'){
+            ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+          } else {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.w/2, 0, Math.PI*2);
+            ctx.fill();
+          }
+          ctx.restore();
+        });
+        if(particles.length > 0){
+          rafId = requestAnimationFrame(tick);
+        } else {
+          running = false;
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+      }
+
+      window.fireConfetti = function(count){
+        if(document.body.classList.contains('mono')) return; // no confetti in mono
+        spawnParticles(count || 120);
+        if(!running){
+          running = true;
+          rafId = requestAnimationFrame(tick);
+        }
+      };
+    })();
+
+    
     const ADMIN_PW = 'Quipalite2010@';
     const A_MODES = ['sword','axe','uhc','mace','spear','overall'];
     const A_MODE_LABELS = {sword:'⚔️ Sword',axe:'🪓 Axe',uhc:'❤️ UHC',mace:'🔨 Mace',spear:'🔱 Spear',overall:'🏆 Overall'};
@@ -1725,6 +1824,7 @@
 
       thumb.style.background = monoMode ? '#fff' : '#000';
       initAdmin();
+      setTimeout(()=>{ if(window.fireConfetti) fireConfetti(140); }, 400);
     });
   </script>
 
