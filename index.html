@@ -1751,10 +1751,10 @@
     }
 
     // ── PERSISTENCE (GitHub) ──
-    const GH_REPO  = 'quipalite/QuipaliteMC';
-    const GH_FILE  = 'leaderboard-data.json';
-    const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
-    const GH_RAW   = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_FILE}`;
+    const GH_REPO   = 'quipalite/QuipaliteMC';
+    const GH_FILE   = 'leaderboard-data.json';
+    const GH_API    = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+    const GH_RAW    = `https://quipalite.github.io/QuipaliteMC/${GH_FILE}`;
     let ghFileSha  = null;
 
     function getGhToken(){
@@ -1770,24 +1770,27 @@
     }
 
     async function persistData(){
-      // Cache locally instantly
       try { localStorage.setItem('quipalite_cache', JSON.stringify(buildSavePayload())); } catch(e){}
 
       const token = getGhToken();
-      if(!token){ console.warn('No GitHub token stored — data saved locally only.'); return; }
+      if(!token){ console.warn('No GitHub token stored.'); return; }
 
       try {
         const payload = buildSavePayload();
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
+        // Try to get current file SHA (works regardless of branch)
+        if(!ghFileSha){
+          const meta = await fetch(GH_API, { headers:{ 'Authorization': `token ${token}` } });
+          if(meta.ok){ const mj = await meta.json(); ghFileSha = mj.sha; }
+        }
+
         const body = { message: 'Update leaderboard data', content };
         if(ghFileSha) body.sha = ghFileSha;
 
         const res = await fetch(GH_API, {
           method: 'PUT',
-          headers: {
-            'Authorization': `token ${token}`,
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
         const json = await res.json();
