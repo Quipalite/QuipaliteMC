@@ -1810,7 +1810,6 @@
       } catch(e){}
 
       try {
-        // Public repo — raw URL needs no token
         const res = await fetch(GH_RAW + '?t=' + Date.now());
         if(!res.ok){ console.warn('GitHub load failed:', res.status); return; }
         const data = await res.json();
@@ -1822,9 +1821,6 @@
           const meta = await fetch(GH_API, { headers:{ 'Authorization': `token ${token}` } });
           if(meta.ok){ const mj = await meta.json(); ghFileSha = mj.sha; }
         }
-        const activeMode = document.querySelector('.mode.active');
-        if(activeMode) createPlayers(activeMode.id);
-        populateCompareSelects();
       } catch(e){ console.warn('GitHub load error:', e); }
     }
 
@@ -1847,6 +1843,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
+      // Load from GitHub FIRST, then render
       await loadPersistedData();
 
       const modes = ['sword','axe','uhc','mace','spear'];
