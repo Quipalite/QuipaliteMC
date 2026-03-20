@@ -653,6 +653,11 @@
       <p>Enter the admin password to access the panel.</p>
       <input type="password" id="adminPwInput" class="" placeholder="Password" autocomplete="off">
       <div id="adminPwErr"></div>
+      <div style="margin-bottom:10px;text-align:left;">
+        <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;">GitHub Token (for saving)</label>
+        <input type="password" id="adminGhToken" placeholder="ghp_..." autocomplete="off" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:#fff;font-size:13px;font-weight:600;outline:none;box-sizing:border-box;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">Stored in your browser only — never sent anywhere except GitHub.</div>
+      </div>
       <button class="abtn abtn-pink" id="adminLoginBtn">Login</button>
       <button class="abtn abtn-ghost" id="adminCancelBtn">Cancel</button>
     </div>
@@ -1484,6 +1489,8 @@
       document.getElementById('adminHeaderBtn').addEventListener('click', ()=>{
         document.getElementById('adminPwInput').value = '';
         document.getElementById('adminPwErr').textContent = '';
+        const stored = localStorage.getItem('quipalite_gh_token');
+        document.getElementById('adminGhToken').value = stored ? '••••••••••••••••' : '';
         aOpenModal('adminLoginModal');
         setTimeout(()=> document.getElementById('adminPwInput').focus(), 120);
       });
@@ -1544,7 +1551,9 @@
 
     function doLogin(){
       const val = document.getElementById('adminPwInput').value;
+      const ghToken = document.getElementById('adminGhToken').value.trim();
       if(val === ADMIN_PW){
+        if(ghToken) localStorage.setItem('quipalite_gh_token', ghToken);
         aCloseModal('adminLoginModal');
         setTimeout(()=>{ aCurMode='sword'; aOpenModal('adminPanelModal'); buildAPanel(); }, 300);
       } else {
@@ -1741,49 +1750,104 @@
       populateCompareSelects();
     }
 
-    // ── PERSISTENCE ──
-    const STORAGE_KEY = 'quipalite_data_v1';
+    // ── PERSISTENCE (GitHub) ──
+    const GH_REPO  = 'QuipaliteMC/QuipaliteMC';
+    const GH_FILE  = 'leaderboard-data.json';
+    const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+    const GH_RAW   = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_FILE}`;
+    let ghFileSha  = null;
 
-    function persistData(){
+    function getGhToken(){
+      return localStorage.getItem('quipalite_gh_token') || '';
+    }
+
+    function buildSavePayload(){
+      const data = { playerStats:{}, customTiers, playerCountry, retired };
+      ['sword','axe','uhc','mace','spear'].forEach(m=>{
+        if(playerStats[m]) data.playerStats[m] = playerStats[m];
+      });
+      return data;
+    }
+
+    async function persistData(){
+      // Cache locally instantly
+      try { localStorage.setItem('quipalite_cache', JSON.stringify(buildSavePayload())); } catch(e){}
+
+      const token = getGhToken();
+      if(!token){ console.warn('No GitHub token stored — data saved locally only.'); return; }
+
       try {
-        const data = {
-          playerStats: {},
-          customTiers,
-          playerCountry,
-          retired
-        };
-        // Only save non-overall modes (overall is computed)
-        ['sword','axe','uhc','mace','spear'].forEach(m=>{
-          if(playerStats[m]) data.playerStats[m] = playerStats[m];
+        const payload = buildSavePayload();
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+        const body = { message: 'Update leaderboard data', content };
+        if(ghFileSha) body.sha = ghFileSha;
+
+        const res = await fetch(GH_API, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
         });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      } catch(e){ console.warn('Could not save:', e); }
+        const json = await res.json();
+        if(json.content?.sha) ghFileSha = json.content.sha;
+        if(!res.ok){
+          console.warn('GitHub save failed:', json.message);
+          if(res.status === 401){
+            localStorage.removeItem('quipalite_gh_token');
+            alert('GitHub token invalid or expired. Please re-enter it in the admin panel.');
+          }
+        }
+      } catch(e){ console.warn('GitHub save error:', e); }
     }
 
-    function loadPersistedData(){
+    async function loadPersistedData(){
+      // Show cached local data instantly while fetching from GitHub
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw) return;
-        const data = JSON.parse(raw);
-        if(data.playerStats){
-          ['sword','axe','uhc','mace','spear'].forEach(m=>{
-            if(data.playerStats[m]) playerStats[m] = data.playerStats[m];
-          });
+        const cached = localStorage.getItem('quipalite_cache');
+        if(cached) applyData(JSON.parse(cached));
+      } catch(e){}
+
+      try {
+        // Read via public raw URL — no token needed
+        const res = await fetch(GH_RAW + '?t=' + Date.now());
+        if(!res.ok) return;
+        const data = await res.json();
+        applyData(data);
+        try { localStorage.setItem('quipalite_cache', JSON.stringify(data)); } catch(e){}
+        // Also fetch SHA so we can update the file later
+        const token = getGhToken();
+        if(token){
+          const meta = await fetch(GH_API, { headers:{ 'Authorization': `token ${token}` } });
+          if(meta.ok){ const mj = await meta.json(); ghFileSha = mj.sha; }
         }
-        if(data.customTiers){
-          Object.keys(data.customTiers).forEach(m=>{
-            customTiers[m] = Object.assign(customTiers[m]||{}, data.customTiers[m]);
-          });
-        }
-        if(data.playerCountry) Object.assign(playerCountry, data.playerCountry);
-        if(Array.isArray(data.retired)){
-          data.retired.forEach(p=>{ if(!retired.includes(p)) retired.push(p); });
-        }
-      } catch(e){ console.warn('Could not load saved data:', e); }
+        const activeMode = document.querySelector('.mode.active');
+        if(activeMode) createPlayers(activeMode.id);
+        populateCompareSelects();
+      } catch(e){ console.warn('GitHub load error:', e); }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      loadPersistedData();
+    function applyData(data){
+      if(data.playerStats){
+        ['sword','axe','uhc','mace','spear'].forEach(m=>{
+          if(data.playerStats[m]) playerStats[m] = data.playerStats[m];
+        });
+      }
+      if(data.customTiers){
+        Object.keys(data.customTiers).forEach(m=>{
+          customTiers[m] = Object.assign(customTiers[m]||{}, data.customTiers[m]);
+        });
+      }
+      if(data.playerCountry) Object.assign(playerCountry, data.playerCountry);
+      if(Array.isArray(data.retired)){
+        retired.length = 0;
+        data.retired.forEach(p=> retired.push(p));
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadPersistedData();
 
       const modes = ['sword','axe','uhc','mace','spear'];
       modes.forEach(m => createPlayers(m));
