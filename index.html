@@ -1803,20 +1803,20 @@
     }
 
     async function loadPersistedData(){
-      // Show cached local data instantly while fetching from GitHub
+      // Show cached local data instantly
       try {
         const cached = localStorage.getItem('quipalite_cache');
         if(cached) applyData(JSON.parse(cached));
       } catch(e){}
 
       try {
-        // Read via public raw URL — no token needed
+        // Public repo — raw URL needs no token
         const res = await fetch(GH_RAW + '?t=' + Date.now());
-        if(!res.ok) return;
+        if(!res.ok){ console.warn('GitHub load failed:', res.status); return; }
         const data = await res.json();
         applyData(data);
         try { localStorage.setItem('quipalite_cache', JSON.stringify(data)); } catch(e){}
-        // Also fetch SHA so we can update the file later
+        // Fetch SHA for writes (needs token)
         const token = getGhToken();
         if(token){
           const meta = await fetch(GH_API, { headers:{ 'Authorization': `token ${token}` } });
