@@ -1518,6 +1518,7 @@
             retired.push(name);
             buildARetirement();
             refreshAllModes();
+            persistData();
           });
         }
       });
@@ -1531,6 +1532,7 @@
             if(idx > -1) retired.splice(idx,1);
             buildARetirement();
             refreshAllModes();
+            persistData();
           });
         }
       });
@@ -1709,6 +1711,7 @@
       const msg = document.getElementById('aSaveMsg');
       msg.style.opacity='1';
       setTimeout(()=>{ msg.style.opacity='0'; }, 2000);
+      persistData();
     }
 
     function refreshAllModes(){
@@ -1717,7 +1720,50 @@
       populateCompareSelects();
     }
 
+    // ── PERSISTENCE ──
+    const STORAGE_KEY = 'quipalite_data_v1';
+
+    function persistData(){
+      try {
+        const data = {
+          playerStats: {},
+          customTiers,
+          playerCountry,
+          retired
+        };
+        // Only save non-overall modes (overall is computed)
+        ['sword','axe','uhc','mace','spear'].forEach(m=>{
+          if(playerStats[m]) data.playerStats[m] = playerStats[m];
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch(e){ console.warn('Could not save:', e); }
+    }
+
+    function loadPersistedData(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        if(data.playerStats){
+          ['sword','axe','uhc','mace','spear'].forEach(m=>{
+            if(data.playerStats[m]) playerStats[m] = data.playerStats[m];
+          });
+        }
+        if(data.customTiers){
+          Object.keys(data.customTiers).forEach(m=>{
+            customTiers[m] = Object.assign(customTiers[m]||{}, data.customTiers[m]);
+          });
+        }
+        if(data.playerCountry) Object.assign(playerCountry, data.playerCountry);
+        if(Array.isArray(data.retired)){
+          data.retired.forEach(p=>{ if(!retired.includes(p)) retired.push(p); });
+        }
+      } catch(e){ console.warn('Could not load saved data:', e); }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
+      loadPersistedData();
+
       const modes = ['sword','axe','uhc','mace','spear'];
       modes.forEach(m => createPlayers(m));
       createPlayers('overall');
