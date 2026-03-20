@@ -1489,8 +1489,11 @@
       document.getElementById('adminHeaderBtn').addEventListener('click', ()=>{
         document.getElementById('adminPwInput').value = '';
         document.getElementById('adminPwErr').textContent = '';
+        // Only show placeholder if token already stored - don't prefill with fake dots
         const stored = localStorage.getItem('quipalite_gh_token');
-        document.getElementById('adminGhToken').value = stored ? '••••••••••••••••' : '';
+        const tokenInput = document.getElementById('adminGhToken');
+        tokenInput.value = '';
+        tokenInput.placeholder = stored ? '(token already saved — leave blank to keep)' : 'ghp_...';
         aOpenModal('adminLoginModal');
         setTimeout(()=> document.getElementById('adminPwInput').focus(), 120);
       });
@@ -1553,7 +1556,10 @@
       const val = document.getElementById('adminPwInput').value;
       const ghToken = document.getElementById('adminGhToken').value.trim();
       if(val === ADMIN_PW){
-        if(ghToken) localStorage.setItem('quipalite_gh_token', ghToken);
+        // Only update stored token if user actually typed a new one
+        if(ghToken && !ghToken.startsWith('•')) {
+          localStorage.setItem('quipalite_gh_token', ghToken);
+        }
         aCloseModal('adminLoginModal');
         setTimeout(()=>{ aCurMode='sword'; aOpenModal('adminPanelModal'); buildAPanel(); }, 300);
       } else {
@@ -1797,10 +1803,12 @@
         if(json.content?.sha) ghFileSha = json.content.sha;
         if(!res.ok){
           console.warn('GitHub save failed:', json.message);
+          alert('❌ GitHub save failed: ' + (json.message || res.status) + '\n\nCheck your token is correct.');
           if(res.status === 401){
             localStorage.removeItem('quipalite_gh_token');
-            alert('GitHub token invalid or expired. Please re-enter it in the admin panel.');
           }
+        } else {
+          console.log('✅ Saved to GitHub successfully');
         }
       } catch(e){ console.warn('GitHub save error:', e); }
     }
