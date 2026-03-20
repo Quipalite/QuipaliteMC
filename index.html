@@ -1594,9 +1594,9 @@
         const esc = name.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
         html += `<tr data-player="${esc}" data-mode="${mode}">
           <td style="font-weight:700;min-width:100px;font-size:13px;">${name}</td>
-          <td><input class="anum" type="number" min="0" data-field="wins" value="${s.wins}"></td>
-          <td><input class="anum" type="number" min="0" data-field="kills" value="${s.kills}"></td>
-          <td><input class="anum" type="number" min="0" data-field="deaths" value="${s.deaths}"></td>
+          <td><input class="anum" type="number" min="0" data-field="wins" value="${s.wins}" ${isOverall?'disabled style="opacity:0.35;cursor:not-allowed;"':''}></td>
+          <td><input class="anum" type="number" min="0" data-field="kills" value="${s.kills}" ${isOverall?'disabled style="opacity:0.35;cursor:not-allowed;"':''}></td>
+          <td><input class="anum" type="number" min="0" data-field="deaths" value="${s.deaths}" ${isOverall?'disabled style="opacity:0.35;cursor:not-allowed;"':''}></td>
           <td><select class="atiersel" data-field="tier">${tierOpts}</select></td>
           ${!isOverall?`<td><button class="armbtn" data-rmplayer="${esc}">✕</button></td>`:''}
         </tr>`;
@@ -1608,7 +1608,7 @@
       if(isOverall){
         const note = document.createElement('p');
         note.style.cssText='font-size:12px;color:rgba(255,255,255,0.35);margin:8px 0 0;text-align:center;';
-        note.textContent='Overall is calculated automatically. Edit individual modes to change overall stats.';
+        note.textContent='Overall stats are calculated automatically — but you can set Overall tiers here.';
         wrap.appendChild(note);
       }
 
@@ -1663,7 +1663,24 @@
 
     function aDoSave(){
       const mode = aCurMode;
-      if(mode==='overall'){ showASaveMsg(); refreshAllModes(); return; }
+
+      if(mode==='overall'){
+        // Save overall tiers only
+        document.querySelectorAll('#aTableWrap tbody tr').forEach(row=>{
+          const name = row.dataset.player;
+          if(!name) return;
+          const tierSel = row.querySelector('.atiersel');
+          if(tierSel){
+            const tier = tierSel.value;
+            if(!customTiers.overall) customTiers.overall={};
+            if(tier==='Unranked') delete customTiers.overall[name];
+            else customTiers.overall[name] = tier;
+          }
+        });
+        showASaveMsg();
+        refreshAllModes();
+        return;
+      }
 
       document.querySelectorAll('#aTableWrap tbody tr').forEach(row=>{
         const name = row.dataset.player;
