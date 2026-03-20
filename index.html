@@ -390,7 +390,7 @@
 <body>
 
   <header>
-    <img src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Quipalite MC Logo" style="width:72px;height:72px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.45);">
+    <img src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Quipalite MC Logo" onclick="location.reload()" style="width:72px;height:72px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.45);cursor:pointer;transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 8px 28px rgba(0,0,0,0.6)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(0,0,0,0.45)'">
     <div class="logo">QUIPALITE MC</div>
     <div class="subtitle">Ranked Battle Arena</div>
     <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="position:absolute;top:14px;right:14px;">
@@ -565,7 +565,7 @@
       monoMode = !monoMode;
       document.body.classList.toggle('mono', monoMode);
       thumb.style.transform = monoMode ? 'translateX(26px)' : 'translateX(0)';
-      thumb.style.background = monoMode ? '#fff' : '#000';
+      thumb.style.background = '#000';
       if(showRetired){
         const btn = document.getElementById('retiredToggle');
         btn.style.color = monoMode ? '#fff' : '#ff66cc';
@@ -916,6 +916,10 @@
       }, 260);
     }
 
+    function refreshPage(){
+      location.reload();
+    }
+
     function searchPlayers(){
       const value = document.getElementById('searchInput').value.trim().toLowerCase();
       const active = document.querySelector('.mode.active');
@@ -1227,7 +1231,7 @@
       const overallDiv = document.getElementById('overall');
       if(overallDiv) overallDiv.classList.add('active');
 
-      thumb.style.background = monoMode ? '#fff' : '#000';
+      thumb.style.background = '#000';
     });
   </script>
 
