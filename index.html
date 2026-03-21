@@ -658,6 +658,66 @@
     .compare-bar-track { background: var(--surface2); height: 4px; border-radius: 2px; overflow: hidden; }
     .compare-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.22,1,0.36,1); }
 
+    /* ── PRIME SECTION ── */
+    .prime-section {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .prime-heading {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .prime-heading::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .prime-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .prime-cell {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 12px;
+      display: flex; flex-direction: column; gap: 4px;
+      transition: border-color .18s;
+    }
+    .prime-cell:hover { border-color: rgba(255,255,255,0.12); }
+    .prime-cell-mode {
+      font-family: var(--font-mono); font-size: 8px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim);
+    }
+    .prime-cell-rank {
+      font-family: var(--font-mono); font-size: 18px; font-weight: 800;
+      line-height: 1; color: var(--text);
+    }
+    .prime-cell-rank.rank-1 { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.4); }
+    .prime-cell-rank.rank-2 { color: var(--silver); }
+    .prime-cell-rank.rank-3 { color: var(--bronze); }
+    .prime-cell-rank.rank-none { color: var(--text-dim); font-size: 14px; }
+
+    .prime-vs-row {
+      display: flex; align-items: center; gap: 6px; margin-top: 2px;
+    }
+    .prime-vs-block {
+      display: flex; flex-direction: column; gap: 2px; flex: 1;
+    }
+    .prime-vs-label {
+      font-family: var(--font-mono); font-size: 7px; font-weight: 700;
+      letter-spacing: 1.5px; color: var(--text-dim);
+    }
+    .prime-vs-val {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 800;
+      line-height: 1;
+    }
+    .prime-vs-arrow {
+      font-size: 10px; color: var(--text-dim); flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+    .prime-vs-arrow.at-peak {
+      color: #4ade80;
+    }
+
     /* ── MONO OVERRIDES ── */
     body.mono {
       background: #000; color: #fff;
@@ -997,13 +1057,31 @@
       axe:    { Killedbycrab:"Emerald", RealO75:"Gold",    Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Emerald",bubbler2009:"Iron",   "WARDY B33":"Gold",   Cocotime15:"Iron",   w85544534:"Emerald", Terroralex10:"Iron",  SadInFusIOns:"Iron",  Ushindo:"Iron",  Mason20539:"Gold" },
       uhc:    { Killedbycrab:"Gold",    RealO75:"Gold",    Aftlow:"Gold",     Knoxy5316:"Iron",   Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Emerald", Terroralex10:"Iron",  SadInFusIOns:"Copper",Ushindo:"Iron",  Mason20539:"Iron" },
       mace:   { Killedbycrab:"Diamond", RealO75:"Iron",    Aftlow:"Gold",     Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal",   "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Gold",    Terroralex10:"Copper",SadInFusIOns:"Coal",  Ushindo:"Copper",Mason20539:"Copper" },
-      spear:  { Killedbycrab:"Gold",    RealO75:"Iron",    Aftlow:"Diamond",  Knoxy5316:"Copper", Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Iron",    Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Copper" },
+      spear:  { Killedbycrab:"Gold",    RealO75:"Iron",    Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Iron",    Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Copper" },
       overall:{ Killedbycrab:"Emerald", RealO75:"Gold",    Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Emerald", Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",  Mason20539:"Gold" }
     };
 
     const tierColors = {
       Netherite:'#6b6b78', Diamond:'#00BFFF', Emerald:'#50C878',
       Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#444', Unranked:'#555'
+    };
+
+    // Best tier ever achieved per player per mode. Update manually when tiers change.
+    // null = has not been ranked in that mode.
+    const peakTiers = {
+      RealO75:      { overall:'Gold',    sword:'Diamond', axe:'Gold',    uhc:'Gold',    mace:'Iron',    spear:'Iron'   },
+      Aftlow:       { overall:'Emerald', sword:'Emerald', axe:'Emerald', uhc:'Gold',    mace:'Gold',    spear:'Diamond'},
+      Killedbycrab: { overall:'Emerald', sword:'Gold',    axe:'Emerald', uhc:'Gold',    mace:'Diamond', spear:'Gold'   },
+      w85544534:    { overall:'Emerald', sword:'Diamond', axe:'Emerald', uhc:'Emerald', mace:'Gold',    spear:'Iron'   },
+      Mason20539:   { overall:'Gold',    sword:'Emerald', axe:'Gold',    uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      bubbler2009:  { overall:'Copper',  sword:'Gold',    axe:'Iron',    uhc:'Copper',  mace:'Coal',    spear:'Copper' },
+      Ushindo:      { overall:'Iron',    sword:'Gold',    axe:'Iron',    uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      "WARDY B33":  { overall:'Copper',  sword:'Iron',    axe:'Gold',    uhc:'Copper',  mace:'Copper',  spear:'Copper' },
+      Cocotime15:   { overall:'Copper',  sword:'Iron',    axe:'Iron',    uhc:'Copper',  mace:'Copper',  spear:'Copper' },
+      Knoxy5316:    { overall:'Copper',  sword:'Copper',  axe:'Copper',  uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      SadInFusIOns: { overall:'Copper',  sword:'Gold',    axe:'Iron',    uhc:'Copper',  mace:'Coal',    spear:'Copper' },
+      Terroralex10: { overall:'Copper',  sword:'Iron',    axe:'Iron',    uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      Jai_B37:      { overall:'Iron',    sword:'Iron',    axe:'Emerald', uhc:'Iron',    mace:'Copper',  spear:'Iron'   },
     };
 
     const playerCountry = {
@@ -1163,6 +1241,49 @@
       }
     }
 
+    const modeIcons = {
+      overall: '🏆', sword: '⚔️', axe: '🪓', uhc: '❤️', mace: '🔨', spear: '🗡️'
+    };
+    const modeOrder = ['overall','sword','axe','uhc','mace','spear'];
+
+    function buildPrimeSection(name){
+      const peak = peakTiers[name];
+      if(!peak) return '';
+      const cells = modeOrder.map(m => {
+        const currentTier = customTiers[m]?.[name] || null;
+        const peakTier    = peak[m] || null;
+        const cCol = currentTier ? (tierColors[currentTier]||'#555') : 'var(--text-dim)';
+        const pCol = peakTier    ? (tierColors[peakTier]   ||'#555') : 'var(--text-dim)';
+
+        // Check if current matches or exceeds peak
+        const tierPriority = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
+        const cP = tierPriority[currentTier]||0;
+        const pP = tierPriority[peakTier]||0;
+        const atPeak = currentTier && peakTier && cP >= pP;
+
+        return `
+          <div class="prime-cell" title="${m}">
+            <div class="prime-cell-mode">${modeIcons[m]} ${m.toUpperCase()}</div>
+            <div class="prime-vs-row">
+              <div class="prime-vs-block">
+                <div class="prime-vs-label" style="color:rgba(240,240,244,0.5)">NOW</div>
+                <div class="prime-vs-val" style="color:${cCol}">${currentTier||'—'}</div>
+              </div>
+              <div class="prime-vs-arrow ${atPeak?'at-peak':''}">→</div>
+              <div class="prime-vs-block">
+                <div class="prime-vs-label" style="color:#4ade80">PEAK</div>
+                <div class="prime-vs-val" style="color:${pCol}">${peakTier||'—'}</div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+      return `
+        <div class="prime-section">
+          <div class="prime-heading">Current vs Peak Tier</div>
+          <div class="prime-grid">${cells}</div>
+        </div>`;
+    }
+
     function openProfile(name, mode){
       currentProfileName = name;
       currentProfileMode = mode;
@@ -1230,6 +1351,7 @@
             <div class="stat-bar-label"><span>Deaths</span><span style="color:${dColor}">${stats.deaths}</span></div>
             <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
           </div>
+          ${buildPrimeSection(name)}
         `;
         setTimeout(() => animateBars(stats), 30);
       }
