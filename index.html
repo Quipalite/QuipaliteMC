@@ -5,31 +5,37 @@
   <title>Quipalite MC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink:        #FF0A6C;
-      --pink-hi:     #FF3D8A;
-      --pink-dim:    rgba(255,10,108,0.12);
-      --pink-line:   rgba(255,10,108,0.35);
-      --bg:          #060608;
-      --surface:     #0d0d10;
-      --surface2:    #111115;
-      --border:      rgba(255,255,255,0.06);
-      --border-hi:   rgba(255,10,108,0.28);
-      --text:        #f0f0f4;
-      --text-muted:  rgba(240,240,244,0.45);
-      --text-dim:    rgba(240,240,244,0.22);
-      --gold:        #FFD700;
+      --pink:        #FF1A6D;
+      --pink-hi:     #FF4D8D;
+      --pink-glow:   rgba(255,26,109,0.18);
+      --pink-line:   rgba(255,26,109,0.3);
+      --bg:          #050507;
+      --bg2:         #080810;
+      --surface:     rgba(255,255,255,0.034);
+      --surface2:    rgba(255,255,255,0.022);
+      --surface3:    rgba(255,255,255,0.012);
+      --border:      rgba(255,255,255,0.07);
+      --border-hi:   rgba(255,26,109,0.25);
+      --border-card: rgba(255,255,255,0.09);
+      --text:        #eeeef2;
+      --text-muted:  rgba(238,238,242,0.42);
+      --text-dim:    rgba(238,238,242,0.2);
+      --gold:        #F5C842;
+      --gold-dim:    rgba(245,200,66,0.12);
       --silver:      #B8C4D0;
       --bronze:      #CD7F32;
-      --font-display: 'Barlow Condensed', sans-serif;
+      --font-display: 'Syne', sans-serif;
       --font-body:    'DM Sans', sans-serif;
       --font-mono:    'JetBrains Mono', monospace;
+      --radius:       12px;
+      --radius-sm:    8px;
+      --radius-xs:    5px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -41,155 +47,151 @@
       overflow-x: hidden;
     }
 
-    /* ── BACKGROUND ── */
-    body::before {
-      content: '';
+    /* ─── BACKGROUND ─── */
+    .bg-canvas {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      /* Dot grid */
-      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(ellipse 90% 70% at 50% 10%, black 0%, transparent 80%);
+      overflow: hidden;
     }
-    body::after {
+    .bg-canvas::before {
       content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        /* big central top bloom */
-        radial-gradient(ellipse 70% 45% at 50% -5%, rgba(255,10,108,0.13) 0%, transparent 70%),
-        /* left side accent */
-        radial-gradient(ellipse 40% 55% at -5% 55%, rgba(255,10,108,0.07) 0%, transparent 65%),
-        /* right side accent */
-        radial-gradient(ellipse 35% 40% at 105% 30%, rgba(180,0,90,0.07) 0%, transparent 60%),
-        /* bottom warm glow */
-        radial-gradient(ellipse 60% 30% at 50% 110%, rgba(255,10,108,0.05) 0%, transparent 70%);
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, black 0%, transparent 75%);
     }
-    body > * { position: relative; z-index: 1; }
-    body.mono::before, body.mono::after { display: none; }
+    .bg-bloom {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .bg-bloom-1 {
+      width: 700px; height: 500px;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(255,26,109,0.1) 0%, transparent 70%);
+    }
+    .bg-bloom-2 {
+      width: 400px; height: 600px;
+      top: 30%; left: -150px;
+      background: radial-gradient(ellipse, rgba(255,26,109,0.05) 0%, transparent 70%);
+    }
+    .bg-bloom-3 {
+      width: 350px; height: 500px;
+      top: 20%; right: -100px;
+      background: radial-gradient(ellipse, rgba(180,0,80,0.04) 0%, transparent 70%);
+    }
 
-    /* ── HEADER ── */
+    body > *:not(.bg-canvas):not(.compare-dropdown) { position: relative; z-index: 1; }
+    .compare-dropdown { position: fixed !important; z-index: 9999; }
+    body.mono .bg-canvas { display: none; }
+
+    /* ─── HEADER ─── */
     header {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
+      display: flex;
       align-items: center;
-      gap: 20px;
-      padding: 18px 28px;
-      background: rgba(6,6,8,0.85);
-      backdrop-filter: blur(20px);
+      gap: 16px;
+      padding: 14px 28px;
+      background: rgba(5,5,7,0.82);
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
       border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 100;
     }
-    header::after {
-      content: '';
+    .header-glow {
       position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--pink), transparent);
-      opacity: 0.5;
+      background: linear-gradient(90deg, transparent 0%, var(--pink) 40%, var(--pink) 60%, transparent 100%);
+      opacity: 0.35;
     }
 
-    .header-left {
-      display: flex; align-items: center; gap: 14px;
-    }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+
     .logo-img {
-      width: 42px; height: 42px; border-radius: 10px;
-      border: 1px solid var(--border-hi);
-      cursor: pointer;
-      transition: transform .2s, border-color .2s;
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1px solid var(--border-card);
+      cursor: pointer; flex-shrink: 0;
+      transition: transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;
     }
-    .logo-img:hover { transform: scale(1.06); border-color: var(--pink); }
+    .logo-img:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,26,109,0.3); }
 
+    .logo-lockup { display: flex; flex-direction: column; gap: 1px; }
     .logo-text {
       font-family: var(--font-display);
-      font-size: 26px; font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--text);
-      line-height: 1;
+      font-size: 22px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text); line-height: 1;
     }
-    .logo-text span { color: var(--pink); }
-
+    .logo-text em { color: var(--pink); font-style: normal; }
     .logo-sub {
       font-family: var(--font-mono);
-      font-size: 9px; font-weight: 600;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 3px;
+      font-size: 8.5px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-dim);
     }
-
-    .header-center { display: none; }
 
     .header-right {
-      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+      display: flex; align-items: center; gap: 6px;
+      margin-left: auto;
     }
 
-    /* ── ICON BUTTONS (header right) ── */
     .icon-btn {
-      width: 34px; height: 34px; border-radius: 8px;
+      width: 34px; height: 34px; border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center;
       border: 1px solid var(--border);
-      background: var(--surface2);
+      background: var(--surface);
       cursor: pointer; text-decoration: none; color: var(--text-muted);
-      transition: background .18s, border-color .18s, color .18s, transform .18s;
+      transition: all .2s cubic-bezier(0.22,1,0.36,1);
       flex-shrink: 0;
-      position: relative;
     }
     .icon-btn:hover {
-      background: var(--surface); border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
       color: var(--text); transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
-    .icon-btn.yt:hover  { border-color: rgba(204,0,0,0.5); background: rgba(204,0,0,0.12); color: #ff4444; }
-    .icon-btn.dc:hover  { border-color: rgba(88,101,242,0.5); background: rgba(88,101,242,0.12); color: #7b8ff7; }
-    .icon-btn.tier:hover { border-color: var(--pink-line); background: var(--pink-dim); color: var(--pink); }
+    .icon-btn.yt:hover  { border-color: rgba(204,0,0,0.4); background: rgba(204,0,0,0.1); color: #ff5555; }
+    .icon-btn.dc:hover  { border-color: rgba(88,101,242,0.4); background: rgba(88,101,242,0.1); color: #7b8ff7; }
+    .icon-btn.tier:hover { border-color: var(--pink-line); background: var(--pink-glow); color: var(--pink); }
 
-    /* divider */
-    .hdr-divider {
-      width: 1px; height: 22px; background: var(--border); flex-shrink: 0; margin: 0 2px;
-    }
+    .hdr-divider { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; margin: 0 2px; }
 
-    /* ── THEME TOGGLE ── */
     .theme-toggle {
       width: 42px; height: 22px; border-radius: 11px;
-      background: var(--surface2); border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       cursor: pointer; display: flex; align-items: center; padding: 2px;
       transition: border-color .2s;
     }
-    .theme-toggle:hover { border-color: var(--pink-line); }
-    body.mono .theme-toggle:hover { border-color: rgba(255,255,255,0.3); }
+    .theme-toggle:hover { border-color: rgba(255,255,255,0.18); }
     .toggle-thumb {
       width: 16px; height: 16px; border-radius: 50%;
-      background: var(--text-muted); transition: transform .25s, background .25s;
+      background: var(--text-muted); transition: transform .25s cubic-bezier(0.22,1,0.36,1), background .25s;
     }
 
-    /* ── TABS ── */
+    /* ─── TABS ─── */
     .tabs {
       display: flex; justify-content: center; align-items: center;
-      gap: 4px; padding: 16px 20px 0;
+      gap: 3px; padding: 18px 20px 0;
       flex-wrap: wrap;
     }
 
     .tab {
       display: flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 6px;
+      padding: 7px 15px; border-radius: var(--radius-sm);
       background: transparent; border: 1px solid transparent;
-      font-family: var(--font-body); font-weight: 600; font-size: 13px;
+      font-family: var(--font-body); font-weight: 600; font-size: 12.5px;
       color: var(--text-muted); cursor: pointer;
-      transition: color .18s, background .18s, border-color .18s, transform .18s;
-      position: relative; white-space: nowrap;
+      transition: all .2s cubic-bezier(0.22,1,0.36,1);
+      letter-spacing: 0.2px;
     }
-    .tab:hover { color: var(--text); background: var(--surface); border-color: var(--border); transform: translateY(-1px); }
+    .tab:hover { color: var(--text); background: var(--surface); border-color: var(--border); }
     .tab.active {
-      color: var(--pink); background: var(--pink-dim);
+      color: var(--text);
+      background: rgba(255,26,109,0.1);
       border-color: var(--pink-line);
-    }
-    .tab.active::after {
-      content: '';
-      position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
-      width: 50%; height: 1px;
-      background: var(--pink);
-      box-shadow: 0 0 8px var(--pink);
+      box-shadow: 0 0 20px rgba(255,26,109,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
     }
     .tab img { image-rendering: pixelated; }
 
-    /* ── SEARCH BAR ── */
+    /* ─── SEARCH ROW ─── */
     .search-row {
       display: flex; align-items: center; justify-content: center;
       gap: 10px; padding: 16px 20px 0;
@@ -197,126 +199,137 @@
     }
 
     #searchInput {
-      width: 300px; max-width: 92%;
-      padding: 9px 14px 9px 36px;
-      border-radius: 8px;
+      width: 280px; max-width: 92%;
+      padding: 9px 14px 9px 38px;
+      border-radius: var(--radius-sm);
       background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--text); font-family: var(--font-body); font-size: 13px; font-weight: 500;
+      color: var(--text); font-family: var(--font-body); font-size: 13px;
       outline: none;
-      transition: border-color .2s, box-shadow .2s;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(240,240,244,0.35)' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(238,238,242,0.3)' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: 12px center;
+      background-position: 13px center;
     }
-    #searchInput:focus { border-color: var(--pink-line); box-shadow: 0 0 0 3px rgba(255,10,108,0.08); }
-    #searchInput::placeholder { color: var(--text-muted); }
+    #searchInput:focus {
+      border-color: var(--pink-line);
+      background-color: rgba(255,26,109,0.03);
+      box-shadow: 0 0 0 3px rgba(255,26,109,0.07);
+    }
+    #searchInput::placeholder { color: var(--text-dim); }
 
     #retiredToggle {
-      padding: 8px 14px; border-radius: 8px;
+      padding: 8px 14px; border-radius: var(--radius-sm);
       background: var(--surface); border: 1px solid var(--border);
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .5px;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .5px;
       color: var(--text-muted); cursor: pointer;
-      transition: all .18s;
+      transition: all .2s;
     }
-    #retiredToggle:hover { border-color: var(--border-hi); color: var(--text); }
+    #retiredToggle:hover { border-color: rgba(255,255,255,0.14); color: var(--text); }
 
-    /* ── CONTAINER ── */
-    .container {
-      max-width: 860px; margin: 20px auto; padding: 0 20px 40px;
-    }
+    /* ─── CONTAINER ─── */
+    .container { max-width: 820px; margin: 22px auto; padding: 0 20px 60px; }
 
     .mode { display: none; }
     .mode.active { display: block; animation: fadeUp .3s ease both; }
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── PLAYER COUNT ── */
+    /* ─── PLAYER COUNT ─── */
     .player-count {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase;
+      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
       color: var(--text-dim); text-align: right;
-      margin-bottom: 12px; padding-right: 4px;
+      margin-bottom: 14px; padding-right: 2px;
     }
 
-    /* ── PLAYER CARD ── */
+    /* ─── PLAYER CARD ─── */
     .player {
       display: grid;
-      grid-template-columns: 48px 48px 1fr auto;
+      grid-template-columns: 54px 58px 1fr auto;
       align-items: center;
-      gap: 0;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 8px;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      margin-bottom: 7px;
       cursor: pointer;
       overflow: hidden;
       position: relative;
-      transition: transform .22s cubic-bezier(0.22,1,0.36,1), border-color .22s, box-shadow .22s;
+      transition: transform .28s cubic-bezier(0.22,1,0.36,1), border-color .28s, box-shadow .28s, background .28s;
     }
 
-    /* left accent bar */
-    .player::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-      background: var(--border);
-      transition: background .2s;
-    }
-    .player:hover::before { background: var(--pink); }
     .player:hover {
-      border-color: var(--border-hi);
-      transform: translateX(4px);
-      box-shadow: -4px 0 24px rgba(255,10,108,0.12), 0 8px 32px rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-2px) translateX(2px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    /* top 3 accent bars */
-    .player.top1::before { background: var(--gold); box-shadow: 0 0 12px rgba(255,215,0,0.6); }
-    .player.top2::before { background: var(--silver); }
-    .player.top3::before { background: var(--bronze); }
-    .player.top1 { border-color: rgba(255,215,0,0.2); background: linear-gradient(90deg, rgba(255,215,0,0.04), var(--surface)); }
-    .player.top2 { border-color: rgba(184,196,208,0.15); background: linear-gradient(90deg, rgba(184,196,208,0.03), var(--surface)); }
-    .player.top3 { border-color: rgba(205,127,50,0.15); background: linear-gradient(90deg, rgba(205,127,50,0.03), var(--surface)); }
+    /* top glow line */
+    .player::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      pointer-events: none;
+    }
 
-    .player.top1:hover { border-color: rgba(255,215,0,0.4); box-shadow: -4px 0 24px rgba(255,215,0,0.2), 0 8px 32px rgba(0,0,0,0.5); }
+    /* podium variants */
+    .player.top1 {
+      border-color: rgba(245,200,66,0.22);
+      background: linear-gradient(135deg, rgba(245,200,66,0.055) 0%, var(--surface) 60%);
+    }
+    .player.top1::after {
+      background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent);
+    }
+    .player.top2 {
+      border-color: rgba(184,196,208,0.16);
+      background: linear-gradient(135deg, rgba(184,196,208,0.03) 0%, var(--surface) 60%);
+    }
+    .player.top3 {
+      border-color: rgba(205,127,50,0.16);
+      background: linear-gradient(135deg, rgba(205,127,50,0.03) 0%, var(--surface) 60%);
+    }
+
+    .player.top1:hover { border-color: rgba(245,200,66,0.4); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(245,200,66,0.1); }
     .player.top2:hover { border-color: rgba(184,196,208,0.3); }
     .player.top3:hover { border-color: rgba(205,127,50,0.3); }
-    .player.top1:hover::before { background: var(--gold); }
-    .player.top2:hover::before { background: var(--silver); }
-    .player.top3:hover::before { background: var(--bronze); }
 
-    /* rank number */
+    /* rank col */
     .rank-col {
-      display: flex; align-items: center; justify-content: center;
-      height: 100%; padding: 14px 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100%; gap: 2px;
     }
     .rank-num {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-      color: var(--pink); letter-spacing: .5px;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      color: var(--text-dim); letter-spacing: .5px;
     }
-    .rank-num.gold   { color: var(--gold); text-shadow: 0 0 8px rgba(255,215,0,0.5); }
+    .rank-num.gold   { color: var(--gold); }
     .rank-num.silver { color: var(--silver); }
     .rank-num.bronze { color: var(--bronze); }
-    .rank-num.retired-rank { color: var(--text-dim); }
+    .rank-num.retired-rank { color: var(--text-dim); opacity: 0.6; }
 
     /* avatar col */
     .avatar-col {
       display: flex; align-items: center; justify-content: center;
-      padding: 12px 0;
+      padding: 12px 4px;
     }
     .player-head {
-      width: 40px; height: 40px; border-radius: 8px;
+      width: 42px; height: 42px; border-radius: 9px;
       border: 1px solid var(--border);
       object-fit: cover;
-      transition: transform .2s, border-color .2s;
+      transition: transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;
     }
-    .player:hover .player-head { transform: scale(1.06); border-color: var(--border-hi); }
+    .player:hover .player-head {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
 
     /* info col */
     .info-col {
-      padding: 14px 12px;
-      display: flex; flex-direction: column; gap: 5px;
+      padding: 14px 10px;
+      display: flex; flex-direction: column; gap: 6px;
       min-width: 0;
     }
     .name-row {
@@ -324,93 +337,101 @@
       flex-wrap: wrap;
     }
     .player-name {
-      font-family: var(--font-body); font-weight: 700; font-size: 14px;
+      font-family: var(--font-body); font-weight: 700; font-size: 13.5px;
       color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      letter-spacing: 0.1px;
     }
     .tier-badge {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      letter-spacing: .5px; padding: 2px 7px; border-radius: 4px;
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      letter-spacing: .8px; padding: 2px 7px; border-radius: 4px;
       border: 1px solid currentColor;
-      opacity: 0.85;
+      opacity: 0.75;
       transition: opacity .2s;
       flex-shrink: 0;
+      text-transform: uppercase;
     }
     .player:hover .tier-badge { opacity: 1; }
 
-    .stats-row {
-      display: flex; align-items: center; gap: 14px;
+    .stats-row { display: flex; align-items: center; gap: 3px; }
+    .stat-pill {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      display: flex; align-items: center; gap: 4px;
+      white-space: nowrap;
     }
-    .stat-chip {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-      color: var(--text-muted);
+    .stat-pill b { font-weight: 700; }
+    .stat-pill-sep {
+      width: 1px; height: 10px; background: var(--border); flex-shrink: 0;
     }
-    .stat-chip b { color: var(--text); font-weight: 700; }
 
     /* right col */
     .right-col {
-      padding: 14px 18px 14px 12px;
-      display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+      padding: 14px 20px 14px 10px;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
       flex-shrink: 0;
     }
     .kd-val {
-      font-family: var(--font-mono); font-size: 15px; font-weight: 700;
-      line-height: 1; display: flex; align-items: center; justify-content: flex-end;
+      font-family: var(--font-mono); font-size: 16px; font-weight: 700;
+      line-height: 1;
     }
-    .kd-val.kd-inf { font-size: 20px; line-height: 1; justify-content: flex-end; }
+    .kd-val.kd-inf { font-size: 22px; }
     .kd-label {
-      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
-      letter-spacing: 1px; color: var(--text-dim); text-transform: uppercase;
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 600;
+      letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase;
     }
 
     /* crown */
     .crown {
-      width: 16px; height: 16px; flex-shrink: 0;
-      animation: crownBounce 2s ease-in-out infinite;
-      filter: drop-shadow(0 0 5px rgba(255,215,0,0.8));
+      width: 15px; height: 15px; flex-shrink: 0;
+      animation: crownBounce 2.2s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(245,200,66,0.9));
     }
     @keyframes crownBounce {
-      0%, 100% { transform: translateY(0) rotate(-5deg); }
-      40%       { transform: translateY(-4px) rotate(5deg) scale(1.1); }
-      70%       { transform: translateY(-1px) rotate(-2deg); }
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      45%       { transform: translateY(-4px) rotate(4deg) scale(1.12); }
     }
 
-    .fire-icon { font-size: 13px; line-height: 1; }
-    .flag-img { height: 12px; width: auto; border-radius: 2px; vertical-align: middle; }
+    .fire-icon { font-size: 12px; line-height: 1; }
+    .flag-img { height: 11px; width: auto; border-radius: 2px; vertical-align: middle; }
 
     .retired-badge {
-      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
       letter-spacing: .5px; padding: 2px 6px; border-radius: 4px;
-      background: var(--surface2); border: 1px solid var(--border);
+      background: transparent; border: 1px solid var(--border);
       color: var(--text-dim);
     }
 
-    /* ── NO PLAYERS ── */
+    /* ─── NO PLAYERS ─── */
     .no-players {
       text-align: center; padding: 40px 20px;
-      border: 1px dashed var(--border-hi); border-radius: 10px;
-      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      border: 1px dashed var(--border-hi); border-radius: var(--radius);
+      font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
       letter-spacing: 1px; color: var(--text-muted);
-      background: var(--pink-dim);
+      background: var(--pink-glow);
     }
 
-    /* ── PROFILE PAGE ── */
+    /* ─── PROFILE PAGE ─── */
     #profilePage {
-      display: none; max-width: 660px; margin: 0 auto; padding: 24px 20px;
-      opacity: 0; transform: translateY(20px);
+      display: none; max-width: 620px; margin: 0 auto; padding: 28px 20px;
+      opacity: 0; transform: translateY(16px);
       transition: opacity .3s ease, transform .3s ease;
     }
     #profilePage.show { opacity: 1; transform: translateY(0); }
 
     .backBtn {
       display: inline-flex; align-items: center; gap: 7px;
-      padding: 8px 16px; border-radius: 7px;
+      padding: 8px 16px; border-radius: var(--radius-sm);
       background: var(--surface); border: 1px solid var(--border);
-      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-      letter-spacing: .5px; color: var(--text); cursor: pointer;
-      transition: border-color .18s, color .18s, transform .18s;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      letter-spacing: .5px; color: var(--text-muted); cursor: pointer;
+      transition: all .2s;
       margin-bottom: 20px;
     }
-    .backBtn:hover { border-color: var(--pink-line); color: var(--pink); transform: translateX(-2px); }
+    .backBtn:hover { border-color: rgba(255,255,255,0.18); color: var(--text); transform: translateX(-2px); }
 
     .profile-top-row {
       display: flex; align-items: center; justify-content: space-between;
@@ -419,79 +440,90 @@
 
     .share-btn {
       display: inline-flex; align-items: center; gap: 7px;
-      padding: 8px 16px; border-radius: 7px;
-      background: var(--pink-dim); border: 1px solid var(--pink-line);
-      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      background: var(--pink-glow); border: 1px solid var(--pink-line);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
       letter-spacing: .5px; color: var(--pink); cursor: pointer;
-      transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
+      transition: all .2s cubic-bezier(0.22,1,0.36,1);
     }
     .share-btn:hover {
-      background: rgba(255,10,108,0.22); border-color: var(--pink);
-      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,10,108,0.2);
+      background: rgba(255,26,109,0.2); border-color: var(--pink);
+      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,26,109,0.2);
     }
-    .share-btn:active { transform: translateY(0); }
-    .share-btn svg { flex-shrink: 0; }
-    body.mono .share-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: #fff; }
-    body.mono .share-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); box-shadow: none; }
 
     #profileContent {
       background: var(--surface);
-      border: 1px solid var(--border); border-radius: 12px;
-      padding: 24px; color: var(--text);
+      border: 1px solid var(--border-card); border-radius: 16px;
+      overflow: hidden;
     }
 
+    .profile-banner {
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-banner-bg {
+      position: absolute; inset: 0;
+    }
+
+    .profile-body { padding: 0 24px 24px; }
+
     .profile-header {
-      display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+      display: flex; align-items: flex-end; gap: 16px;
+      margin-top: -28px; margin-bottom: 20px;
     }
     .profile-avatar {
-      width: 68px; height: 68px; border-radius: 12px;
-      border: 2px solid var(--border); flex-shrink: 0;
+      width: 64px; height: 64px; border-radius: 12px;
+      border: 2px solid var(--bg); flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
     }
+    .profile-name-block { padding-bottom: 4px; }
     .profile-name {
-      font-family: var(--font-display); font-size: 28px; font-weight: 800;
-      letter-spacing: 1px; line-height: 1.1;
+      font-family: var(--font-display); font-size: 26px; font-weight: 800;
+      letter-spacing: .5px; line-height: 1.1; color: var(--text);
+      display: flex; align-items: center; gap: 10px;
     }
-    .profile-rank {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-      letter-spacing: 1px; color: var(--text-muted); margin-top: 3px;
-    }
-    .profile-tier-label {
-      font-family: var(--font-mono); font-size: 13px; font-weight: 700;
-      letter-spacing: 1px; margin-bottom: 20px;
+    .profile-meta {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 1.5px; color: var(--text-dim); margin-top: 4px;
+      text-transform: uppercase;
     }
 
     .profile-kd-bar {
-      display: flex; gap: 12px; margin-bottom: 24px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      margin-bottom: 20px;
     }
     .profile-stat-block {
-      flex: 1; background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 8px; padding: 12px 16px; text-align: center;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 12px 14px;
+      text-align: center;
+      transition: border-color .2s;
     }
+    .profile-stat-block:hover { border-color: rgba(255,255,255,0.12); }
     .profile-stat-val {
-      font-family: var(--font-mono); font-size: 22px; font-weight: 700;
+      font-family: var(--font-mono); font-size: 20px; font-weight: 700;
       line-height: 1;
     }
     .profile-stat-label {
-      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--text-muted); margin-top: 5px;
+      font-family: var(--font-mono); font-size: 8px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 5px;
     }
 
-    .stat-bar-group { margin-bottom: 16px; }
+    .stat-bar-group { margin-bottom: 13px; }
     .stat-bar-label {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     .stat-bar-label span:first-child {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
+      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
     }
     .stat-bar-label span:last-child {
-      font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--text);
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--text);
     }
     .stat-bar {
-      background: var(--surface2); height: 6px; border-radius: 3px; overflow: hidden;
-      border: 1px solid var(--border);
+      background: var(--surface2); height: 5px; border-radius: 3px; overflow: hidden;
     }
     .stat-fill {
       height: 100%; width: 0%; border-radius: 3px;
@@ -501,19 +533,19 @@
     .stat-fill::after {
       content: '';
       position: absolute; top: 0; left: -60%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-      animation: barShine 1.8s linear infinite;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: barShine 2s linear infinite;
     }
     @keyframes barShine { to { left: 160%; } }
 
-    /* ── TIER GUIDE MODAL ── */
+    /* ─── TIER GUIDE MODAL ─── */
     #tierModal {
       display: none; position: fixed; inset: 0; z-index: 10000;
       align-items: center; justify-content: center; padding: 20px;
     }
     #tierModalBackdrop {
       position: absolute; inset: 0;
-      background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
       opacity: 0; transition: opacity .3s;
     }
     #tierModal.open #tierModalBackdrop { opacity: 1; }
@@ -521,34 +553,33 @@
 
     #tierModalInner {
       position: relative; z-index: 1;
-      background: var(--surface); border: 1px solid var(--border-hi);
-      border-radius: 14px; padding: 28px 24px;
-      max-width: 460px; width: 100%;
+      background: #0b0b10; border: 1px solid var(--border-card);
+      border-radius: 16px; padding: 28px 24px;
+      max-width: 440px; width: 100%;
       max-height: 90vh; overflow-y: auto;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px var(--border);
-      opacity: 0; transform: translateY(20px) scale(0.96);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+      opacity: 0; transform: translateY(20px) scale(0.97);
       transition: opacity .3s cubic-bezier(0.22,1,0.36,1), transform .3s cubic-bezier(0.22,1,0.36,1);
     }
     #tierModal.open #tierModalInner { opacity: 1; transform: none; transition-delay: .04s; }
     #tierModal.closing #tierModalInner { opacity: 0; transform: translateY(12px) scale(0.97); transition: opacity .2s, transform .2s; }
 
     #tierModalInner h2 {
-      font-family: var(--font-display); font-size: 20px; font-weight: 800;
+      font-family: var(--font-display); font-size: 18px; font-weight: 800;
       letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       display: flex; align-items: center; justify-content: space-between;
     }
     #tierModalClose {
       background: none; border: none;
       font-size: 18px; color: var(--text-muted); cursor: pointer;
-      transition: color .15s, transform .2s;
-      line-height: 1;
+      transition: color .15s, transform .2s; line-height: 1;
     }
     #tierModalClose:hover { color: var(--text); transform: rotate(90deg); }
 
     .tier-row {
       display: flex; align-items: flex-start; gap: 12px;
-      padding: 12px 0; border-bottom: 1px solid var(--border);
+      padding: 11px 0; border-bottom: 1px solid var(--border);
       opacity: 0; transform: translateX(-8px);
       transition: opacity .25s, transform .25s;
     }
@@ -556,35 +587,39 @@
     .tier-row:last-child { border-bottom: none; }
 
     .tier-dot {
-      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
     }
     .tier-name {
-      font-family: var(--font-mono); font-weight: 700; font-size: 13px;
-      min-width: 80px; flex-shrink: 0;
+      font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+      min-width: 80px; flex-shrink: 0; letter-spacing: .5px;
     }
-    .tier-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .tier-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
 
-    /* ── COMPARE ── */
+    /* ─── COMPARE ─── */
     #comparePage {
-      display: none; max-width: 100%; margin: 0; padding: 20px 28px 60px;
+      display: none; max-width: 100%; margin: 0; padding: 24px 0 60px;
       opacity: 0; transform: translateY(16px);
       transition: opacity .3s, transform .3s;
     }
     #comparePage.show { opacity: 1; transform: none; }
 
+    .compare-inner {
+      max-width: 820px; margin: 0 auto; padding: 0 20px;
+    }
+
     .mode-select-row {
-      display: flex; justify-content: center; gap: 6px;
+      display: flex; justify-content: center; gap: 5px;
       flex-wrap: wrap; margin-bottom: 20px;
     }
     .mode-select-row button {
-      padding: 6px 12px; border-radius: 6px;
+      padding: 6px 12px; border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       background: transparent; color: var(--text-muted);
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
       cursor: pointer; transition: all .18s;
     }
     .mode-select-row button.active, .mode-select-row button:hover {
-      background: var(--pink-dim); border-color: var(--pink-line); color: var(--pink);
+      background: var(--pink-glow); border-color: var(--pink-line); color: var(--pink);
     }
 
     .compare-selectors {
@@ -593,7 +628,7 @@
     }
     .compare-search-wrap { flex: 1; min-width: 140px; max-width: 220px; position: relative; }
     .compare-search-input {
-      width: 100%; padding: 9px 14px; border-radius: 8px;
+      width: 100%; padding: 9px 14px; border-radius: var(--radius-sm);
       background: var(--surface); border: 1px solid var(--border);
       color: var(--text); font-family: var(--font-body); font-size: 13px; font-weight: 600;
       outline: none; cursor: text; transition: border-color .2s;
@@ -603,9 +638,9 @@
 
     .compare-dropdown {
       display: none; position: fixed; z-index: 9999;
-      background: var(--surface2); border: 1px solid var(--border-hi); border-radius: 8px;
+      background: #0b0b10; border: 1px solid var(--border-card); border-radius: var(--radius-sm);
       max-height: 200px; overflow-y: auto;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
     }
     .compare-dropdown.open { display: block; }
     .compare-dropdown-item {
@@ -613,28 +648,28 @@
       font-size: 13px; font-weight: 600; color: var(--text);
       transition: background .12s; display: flex; align-items: center; gap: 8px;
     }
-    .compare-dropdown-item:hover, .compare-dropdown-item.selected { background: var(--pink-dim); color: var(--pink-hi); }
+    .compare-dropdown-item:hover, .compare-dropdown-item.selected { background: var(--pink-glow); color: var(--pink-hi); }
     .compare-dropdown-item img { width: 22px; height: 22px; border-radius: 5px; }
     .compare-dropdown-item .round-flag { width: 14px; height: 14px; border-radius: 50%; object-fit: cover; }
     .compare-dropdown-empty { padding: 10px 12px; font-size: 12px; color: var(--text-muted); font-style: italic; }
 
     .compare-vs {
-      font-family: var(--font-display); font-size: 22px; font-weight: 900;
-      letter-spacing: 2px; color: var(--pink); flex-shrink: 0;
+      font-family: var(--font-display); font-size: 20px; font-weight: 800;
+      letter-spacing: 2px; color: var(--text-dim); flex-shrink: 0;
     }
     .compare-btn {
-      padding: 9px 22px; border-radius: 8px; border: none;
+      padding: 9px 22px; border-radius: var(--radius-sm); border: none;
       background: var(--pink); color: white;
-      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
       letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer; transition: filter .18s, transform .18s;
+      cursor: pointer; transition: filter .18s, transform .18s, box-shadow .18s;
     }
-    .compare-btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+    .compare-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,26,109,0.35); }
     .compare-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 780px; margin: 0 auto; }
     .compare-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--border-card); border-radius: var(--radius);
       padding: 18px; opacity: 0; transform: translateY(10px);
       transition: opacity .4s, transform .4s;
     }
@@ -647,179 +682,131 @@
     }
     .compare-row:last-child { border-bottom: none; }
     .compare-row .label {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
       letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
     }
     .compare-row .val { font-family: var(--font-mono); font-weight: 700; font-size: 15px; }
     .compare-winner { color: #4ade80; }
-    .compare-loser { opacity: 0.35; }
+    .compare-loser { opacity: 0.3; }
 
-    .compare-bar-wrap { margin: 6px 0 12px; }
-    .compare-bar-track { background: var(--surface2); height: 4px; border-radius: 2px; overflow: hidden; }
+    .compare-bar-wrap { margin: 5px 0 11px; }
+    .compare-bar-track { background: var(--surface2); height: 3px; border-radius: 2px; overflow: hidden; }
     .compare-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.22,1,0.36,1); }
 
-    /* ── PRIME SECTION ── */
+    /* ─── PRIME SECTION ─── */
     .prime-section {
-      margin-top: 20px;
-      padding-top: 18px;
+      margin-top: 20px; padding-top: 18px;
       border-top: 1px solid var(--border);
     }
     .prime-heading {
-      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
       letter-spacing: 2.5px; text-transform: uppercase;
       color: var(--text-dim); margin-bottom: 12px;
       display: flex; align-items: center; gap: 8px;
     }
-    .prime-heading::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
-    }
-    .prime-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-    }
+    .prime-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .prime-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
     .prime-cell {
       background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 8px; padding: 10px 12px;
+      border-radius: var(--radius-sm); padding: 10px 12px;
       display: flex; flex-direction: column; gap: 4px;
       transition: border-color .18s;
     }
-    .prime-cell:hover { border-color: rgba(255,255,255,0.12); }
+    .prime-cell:hover { border-color: rgba(255,255,255,0.1); }
     .prime-cell-mode {
-      font-family: var(--font-mono); font-size: 8px; font-weight: 600;
+      font-family: var(--font-mono); font-size: 7.5px; font-weight: 600;
       letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim);
     }
-    .prime-cell-rank {
-      font-family: var(--font-mono); font-size: 18px; font-weight: 800;
-      line-height: 1; color: var(--text);
-    }
-    .prime-cell-rank.rank-1 { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.4); }
+    .prime-cell-rank { font-family: var(--font-mono); font-size: 17px; font-weight: 800; line-height: 1; }
+    .prime-cell-rank.rank-1 { color: var(--gold); text-shadow: 0 0 12px rgba(245,200,66,0.4); }
     .prime-cell-rank.rank-2 { color: var(--silver); }
     .prime-cell-rank.rank-3 { color: var(--bronze); }
-    .prime-cell-rank.rank-none { color: var(--text-dim); font-size: 14px; }
+    .prime-cell-rank.rank-none { color: var(--text-dim); font-size: 13px; }
 
-    .prime-vs-row {
-      display: flex; align-items: center; gap: 6px; margin-top: 2px;
-    }
-    .prime-vs-block {
-      display: flex; flex-direction: column; gap: 2px; flex: 1;
-    }
-    .prime-vs-label {
-      font-family: var(--font-mono); font-size: 7px; font-weight: 700;
-      letter-spacing: 1.5px; color: var(--text-dim);
-    }
-    .prime-vs-val {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 800;
-      line-height: 1;
-    }
-    .prime-vs-arrow {
-      font-size: 10px; color: var(--text-dim); flex-shrink: 0;
-      margin-bottom: 2px;
-    }
-    .prime-vs-arrow.at-peak {
-      color: #4ade80;
-    }
+    .prime-vs-row { display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    .prime-vs-block { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .prime-vs-label { font-family: var(--font-mono); font-size: 6.5px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-dim); }
+    .prime-vs-val { font-family: var(--font-mono); font-size: 10px; font-weight: 800; line-height: 1; }
+    .prime-vs-arrow { font-size: 9px; color: var(--text-dim); flex-shrink: 0; margin-bottom: 2px; }
+    .prime-vs-arrow.at-peak { color: #4ade80; }
 
-    /* ── MONO OVERRIDES ── */
-    body.mono {
-      background: #000; color: #fff;
-    }
-    body.mono header { background: rgba(0,0,0,0.95); border-bottom-color: #1a1a1a; }
-    body.mono header::after { display: none; }
-    body.mono .tab.active { color: #fff; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
-    body.mono .tab.active::after { background: #fff; box-shadow: none; }
-    body.mono #searchInput { background: #0a0a0a; border-color: #1a1a1a; }
-    body.mono #retiredToggle { background: #0a0a0a; border-color: #1a1a1a; }
-    body.mono .player { background: #0a0a0a; border-color: #1a1a1a; }
-    body.mono .player:hover { border-color: rgba(255,255,255,0.2); box-shadow: -4px 0 20px rgba(255,255,255,0.06); }
-    body.mono .player::before { background: #222; }
-    body.mono .player:hover::before { background: #fff; }
-    /* strip podium bar colours */
-    body.mono .player.top1::before,
-    body.mono .player.top2::before,
-    body.mono .player.top3::before { background: #fff; box-shadow: none; }
-    body.mono .player.top1,
-    body.mono .player.top2,
-    body.mono .player.top3 { border-color: rgba(255,255,255,0.1); background: #000; }
-    body.mono .player.top1:hover,
-    body.mono .player.top2:hover,
-    body.mono .player.top3:hover { border-color: rgba(255,255,255,0.25); box-shadow: -4px 0 20px rgba(255,255,255,0.06); }
-    /* keep rank number colours */
+    /* ─── MONO OVERRIDES ─── */
+    body.mono { background: #000; color: #fff; }
+    body.mono header { background: rgba(0,0,0,0.95); border-bottom-color: #111; }
+    body.mono .header-glow { display: none; }
+    body.mono .tab.active { color: #fff; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); box-shadow: none; }
+    body.mono #searchInput { background: #050505; border-color: #111; }
+    body.mono #retiredToggle { background: #050505; border-color: #111; }
+    body.mono .player { background: rgba(255,255,255,0.025); border-color: #111; }
+    body.mono .player::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+    body.mono .player:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+    body.mono .player.top1, body.mono .player.top2, body.mono .player.top3 { background: rgba(255,255,255,0.025); }
     body.mono .rank-num { color: var(--pink); }
-    body.mono .rank-num.gold   { color: var(--gold); text-shadow: 0 0 8px rgba(255,215,0,0.5); }
-    body.mono .rank-num.silver { color: var(--silver); text-shadow: none; }
-    body.mono .rank-num.bronze { color: var(--bronze); text-shadow: none; }
-    body.mono .rank-num.retired-rank { color: rgba(255,255,255,0.2); }
-    /* keep crown colours for top 3 */
-    body.mono .crown { filter: none; }
-    /* keep logo text pink */
-    /* keep tier badge colours */
-    /* strip stat chip colours */
+    body.mono .rank-num.gold { color: var(--gold); }
+    body.mono .rank-num.silver { color: var(--silver); }
+    body.mono .rank-num.bronze { color: var(--bronze); }
     body.mono .stat-chip b { color: #fff !important; }
-    /* keep KD colour */
-    /* strip profile stat values */
     body.mono .profile-stat-val { color: #fff !important; }
     body.mono .stat-fill { background: #fff !important; }
     body.mono .stat-bar-label span:last-child { color: #fff !important; }
-    /* keep prime vs tier colours */
-    body.mono .prime-vs-arrow { color: rgba(255,255,255,0.3); }
+    body.mono .prime-vs-arrow { color: rgba(255,255,255,0.2); }
     body.mono .prime-vs-arrow.at-peak { color: #4ade80; }
-    body.mono .prime-cell { background: #111; border-color: #222; }
-    /* strip compare colours */
+    body.mono .prime-cell { background: #050505; border-color: #111; }
     body.mono .compare-winner { color: #fff; }
     body.mono .compare-bar-fill { background: #fff !important; }
-    /* keep logo text pink */
-    body.mono .logo-text span { color: var(--pink); }
-    body.mono .player { background: #000; border-color: #111; }
-    body.mono #searchInput { background: #000; border-color: #111; }
-    body.mono #retiredToggle { background: #000; border-color: #111; }
-    body.mono #profileContent, body.mono .compare-card { background: #000; border-color: #111; }
-    body.mono .profile-stat-block { background: #000; border-color: #111; }
-    body.mono .stat-bar { background: #000; border-color: #111; }
-    body.mono #tierModalInner { background: #000; border-color: #222; }
-    body.mono .compare-search-input { background: #000; border-color: #111; }
-    body.mono .compare-dropdown { background: #000; border-color: #222; }
-    body.mono .icon-btn { background: #000; border-color: #222; color: #aaa; }
-    body.mono .prime-cell { background: #000; border-color: #111; }
-    body.mono .backBtn { background: #000; border-color: #111; }
-    body.mono .compare-dropdown-item:hover,
-    body.mono .compare-dropdown-item.selected { background: rgba(255,255,255,0.08); color: #fff; }
-    body.mono .no-players { background: #000; border-color: #111; color: rgba(255,255,255,0.5); }
-    body.mono .mode-select-row button.active,
-    body.mono .mode-select-row button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
-    body.mono .compare-search-input:focus { border-color: rgba(255,255,255,0.3); box-shadow: none; }
-    body.mono #retiredToggle.active-retired { color: #fff !important; border-color: rgba(255,255,255,0.35) !important; }
-    body.mono .compare-vs { color: #fff; }
-    body.mono .backBtn:hover { border-color: #444; color: #fff; }
-    body.mono .icon-btn:hover { background: #0a0a0a; border-color: #444; color: #fff; }
-    body.mono .compare-btn { background: #fff; color: #000; border: none; }
-    body.mono #tierModalBackdrop { background: rgba(0,0,0,0.9); }
-    body.mono .share-btn { background: #000; border-color: #111; color: #fff; }
+    body.mono .logo-text em { color: var(--pink); }
+    body.mono #profileContent, body.mono .compare-card { background: #050505; border-color: #111; }
+    body.mono .profile-stat-block { background: #050505; border-color: #111; }
+    body.mono .stat-bar { background: #050505; }
+    body.mono #tierModalInner { background: #050505; border-color: #222; }
+    body.mono .compare-search-input { background: #050505; border-color: #111; }
+    body.mono .compare-dropdown { background: #050505; border-color: #222; }
+    body.mono .icon-btn { background: #050505; border-color: #111; color: #888; }
+    body.mono .backBtn { background: #050505; border-color: #111; color: #888; }
+    body.mono .backBtn:hover { border-color: #333; color: #fff; }
+    body.mono .share-btn { background: #050505; border-color: #111; color: #fff; }
     body.mono .share-btn:hover { background: #0a0a0a; border-color: #333; box-shadow: none; }
-    body.mono .theme-toggle:hover { border-color: rgba(255,255,255,0.3); }
+    body.mono .compare-btn { background: #fff; color: #000; }
+    body.mono .compare-vs { color: rgba(255,255,255,0.3); }
+    body.mono .no-players { background: #050505; border-color: #222; }
+    body.mono .mode-select-row button.active, body.mono .mode-select-row button:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: #fff; }
+    body.mono #tierModalBackdrop { background: rgba(0,0,0,0.88); }
+    body.mono .compare-dropdown-item:hover, body.mono .compare-dropdown-item.selected { background: rgba(255,255,255,0.06); color: #fff; }
+    body.mono .stat-pill { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.06); }
+    body.mono #retiredToggle.active-retired { color: #fff !important; border-color: rgba(255,255,255,0.3) !important; }
+    body.mono .compare-search-input:focus { border-color: rgba(255,255,255,0.25); box-shadow: none; }
 
-    /* ── FOOTER ── */
+    /* ─── FOOTER ─── */
     footer {
-      text-align: center; padding: 24px 20px;
-      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
+      text-align: center; padding: 28px 20px;
+      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-dim);
       border-top: 1px solid var(--border);
     }
 
-    /* ── RESPONSIVE ── */
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 720px) {
-      header { grid-template-columns: 1fr auto; gap: 12px; padding: 12px 16px; }
-      .header-center { display: none; }
-      .logo-text { font-size: 20px; }
-      .player { grid-template-columns: 40px 44px 1fr auto; }
+      header { padding: 12px 16px; }
+      .logo-text { font-size: 19px; }
+      .player { grid-template-columns: 44px 50px 1fr auto; }
     }
     @media (max-width: 500px) {
       .right-col { display: none; }
       .stats-row { display: none; }
-      .player { grid-template-columns: 36px 42px 1fr; }
+      .player { grid-template-columns: 36px 46px 1fr; }
       .compare-grid { grid-template-columns: 1fr; }
+      .profile-kd-bar { grid-template-columns: repeat(2,1fr); }
     }
   </style>
 </head>
 <body>
+
+  <!-- BG -->
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="bg-bloom bg-bloom-1"></div>
+    <div class="bg-bloom bg-bloom-2"></div>
+    <div class="bg-bloom bg-bloom-3"></div>
+  </div>
 
   <!-- HEADER -->
   <header>
@@ -827,22 +814,20 @@
       <img class="logo-img"
         src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj"
         alt="Logo" onclick="location.reload()">
-      <div>
-        <div class="logo-text">QUIPA<span>LITE</span> MC</div>
+      <div class="logo-lockup">
+        <div class="logo-text">QUIPA<em>LITE</em> MC</div>
         <div class="logo-sub">Ranked Battle Arena</div>
       </div>
     </div>
 
-    <div class="header-center"></div>
-
-    <div class="header-right" style="margin-left:auto;">
+    <div class="header-right">
       <a class="icon-btn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
         <svg width="15" height="11" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
       </a>
       <a class="icon-btn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
         <svg width="17" height="13" viewBox="-2 -2 75 59" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
       </a>
-      <button class="icon-btn tier" onclick="openTierGuide()" title="Tier Guide" id="tierGuideBtn">
+      <button class="icon-btn tier" onclick="openTierGuide()" title="Tier Guide">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </button>
       <div class="hdr-divider"></div>
@@ -850,32 +835,33 @@
         <div class="toggle-thumb" id="toggleThumb"></div>
       </div>
     </div>
+    <div class="header-glow"></div>
   </header>
 
   <!-- TABS -->
   <div class="tabs" role="tablist">
     <button class="tab active" onclick="showMode('overall',this)" role="tab">🏆 Overall</button>
     <button class="tab" onclick="showMode('sword',this)" role="tab">
-      <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" width="14" height="14" alt=""> Sword
+      <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" width="13" height="13" alt=""> Sword
     </button>
     <button class="tab" onclick="showMode('axe',this)" role="tab">
-      <img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" width="14" height="14" alt=""> Axe
+      <img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" width="13" height="13" alt=""> Axe
     </button>
     <button class="tab" onclick="showMode('uhc',this)" role="tab">
-      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" width="14" height="14" alt=""> UHC
+      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" width="13" height="13" alt=""> UHC
     </button>
     <button class="tab" onclick="showMode('mace',this)" role="tab">
-      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" width="14" height="14" alt=""> Mace
+      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" width="13" height="13" alt=""> Mace
     </button>
     <button class="tab" onclick="showMode('spear',this)" role="tab">
-      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" width="14" height="14" alt=""> Spear
+      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" width="13" height="13" alt=""> Spear
     </button>
     <button class="tab" onclick="showCompare(this)" role="tab">⚖️ Compare</button>
   </div>
 
   <!-- SEARCH ROW -->
   <div class="search-row">
-    <input type="text" id="searchInput" placeholder="Search player..." onkeyup="searchPlayers()" aria-label="Search players">
+    <input type="text" id="searchInput" placeholder="Search player…" onkeyup="searchPlayers()" aria-label="Search players">
     <button id="retiredToggle" onclick="toggleRetired()">🏆 Show Retired</button>
   </div>
 
@@ -894,7 +880,7 @@
     <div class="profile-top-row">
       <button class="backBtn" onclick="goBack()">← Back</button>
       <button class="share-btn" id="shareCardBtn" onclick="generateShareCard()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
         Export Card
       </button>
     </div>
@@ -903,6 +889,7 @@
 
   <!-- COMPARE PAGE -->
   <div id="comparePage" aria-hidden="true">
+    <div class="compare-inner">
     <div class="mode-select-row" id="compareModeRow">
       <button class="active" onclick="setCompareMode('overall',this)">🏆 Overall</button>
       <button onclick="setCompareMode('sword',this)"><img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Sword</button>
@@ -913,15 +900,16 @@
     </div>
     <div class="compare-selectors">
       <div class="compare-search-wrap" id="csw1">
-        <input type="text" id="compareSearch1" class="compare-search-input" placeholder="Search player..." autocomplete="off" oninput="filterCompareList(1)" onfocus="showCompareDropdown(1)" onblur="hideCompareDropdown(1)">
+        <input type="text" id="compareSearch1" class="compare-search-input" placeholder="Search player…" autocomplete="off" oninput="filterCompareList(1)" onfocus="showCompareDropdown(1)" onblur="hideCompareDropdown(1)">
       </div>
       <span class="compare-vs">VS</span>
       <div class="compare-search-wrap" id="csw2">
-        <input type="text" id="compareSearch2" class="compare-search-input" placeholder="Search player..." autocomplete="off" oninput="filterCompareList(2)" onfocus="showCompareDropdown(2)" onblur="hideCompareDropdown(2)">
+        <input type="text" id="compareSearch2" class="compare-search-input" placeholder="Search player…" autocomplete="off" oninput="filterCompareList(2)" onfocus="showCompareDropdown(2)" onblur="hideCompareDropdown(2)">
       </div>
       <button class="compare-btn" onclick="runCompare()">Compare</button>
     </div>
     <div id="compareResult"></div>
+    </div><!-- /.compare-inner -->
   </div>
 
   <div class="compare-dropdown" id="compareDropdown1"></div>
@@ -953,7 +941,7 @@
       { name:'Netherite', color:'#6b6b78', desc:'Elite level; represents the highest standard of performance.' },
       { name:'Diamond',   color:'#00BFFF', desc:'Very advanced, demonstrating exceptional proficiency.' },
       { name:'Emerald',   color:'#50C878', desc:'Highly skilled with strong consistency.' },
-      { name:'Gold',      color:'#FFD700', desc:'Competent and reliable performance.' },
+      { name:'Gold',      color:'#F5C842', desc:'Competent and reliable performance.' },
       { name:'Iron',      color:'#8b8b8b', desc:'Showing improvement, though still below expected skill level.' },
       { name:'Copper',    color:'#B87333', desc:'Familiar with mechanics but performance is inconsistent.' },
       { name:'Coal',      color:'#555',    desc:'No demonstrated understanding of core mechanics.' },
@@ -967,7 +955,7 @@
         row.className = 'tier-row';
         row.style.transitionDelay = (0.06 + i * 0.055) + 's';
         row.innerHTML = `
-          <div class="tier-dot" style="background:${t.color}; box-shadow: 0 0 6px ${t.color};"></div>
+          <div class="tier-dot" style="background:${t.color};box-shadow:0 0 6px ${t.color};"></div>
           <div class="tier-name" style="color:${t.color}">${t.name}</div>
           <div class="tier-desc">${t.desc}</div>
         `;
@@ -1002,7 +990,7 @@
       if(showRetired){
         btn.classList.add('active-retired');
         btn.style.color = monoMode ? '#fff' : 'var(--pink)';
-        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.35)' : 'var(--pink-line)';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.3)' : 'var(--pink-line)';
         btn.textContent = '🏆 Hide Retired';
       } else {
         btn.classList.remove('active-retired');
@@ -1020,11 +1008,10 @@
       document.body.classList.toggle('mono', monoMode);
       thumb.style.transform = monoMode ? 'translateX(20px)' : '';
       thumb.style.background = monoMode ? '#fff' : '';
-      // Re-apply retired button colour for new theme
       if(showRetired){
         const btn = document.getElementById('retiredToggle');
         btn.style.color = monoMode ? '#fff' : 'var(--pink)';
-        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.35)' : 'var(--pink-line)';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.3)' : 'var(--pink-line)';
       }
     }
 
@@ -1100,11 +1087,9 @@
 
     const tierColors = {
       Netherite:'#6b6b78', Diamond:'#00BFFF', Emerald:'#50C878',
-      Gold:'#FFD700', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#444', Unranked:'#555'
+      Gold:'#F5C842', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#555', Unranked:'#444'
     };
 
-    // Best tier ever achieved per player per mode. Update manually when tiers change.
-    // null = has not been ranked in that mode.
     const peakTiers = {
       RealO75:      { overall:'Gold',    sword:'Diamond', axe:'Gold',    uhc:'Gold',    mace:'Iron',    spear:'Iron'   },
       Aftlow:       { overall:'Emerald', sword:'Emerald', axe:'Emerald', uhc:'Gold',    mace:'Gold',    spear:'Diamond'},
@@ -1130,7 +1115,7 @@
     };
     const countryNames = { gb:'UK', se:'Sweden', za:'South Africa', dk:'Denmark', nl:'Netherlands' };
 
-    function getFlagImg(code, size=12){
+    function getFlagImg(code, size=11){
       return `<img src="https://flagcdn.com/w40/${code}.png" class="flag-img" alt="${countryNames[code]||code}" title="${countryNames[code]||code}" style="height:${size}px;">`;
     }
 
@@ -1178,11 +1163,10 @@
       return '#f87171';
     }
 
-    // Colour W/K/D relative to all players in that mode
     function statColor(value, allValues, lowerIsBetter=false){
       if(allValues.length <= 1) return 'var(--text)';
       const sorted = [...allValues].sort((a,b)=>a-b);
-      const rank = sorted.lastIndexOf(value); // highest index = position
+      const rank = sorted.lastIndexOf(value);
       const pct = rank / (sorted.length - 1);
       if(lowerIsBetter){
         if(pct <= 0.33) return '#4ade80';
@@ -1202,7 +1186,6 @@
       const players = getOrderedPlayers(mode).filter(n => showRetired||!retired.includes(n));
       container.innerHTML = '';
 
-      // Collect all stat values for relative colouring
       const allWins   = players.map(n => ((playerStats[mode]||{})[n]||{}).wins   || 0);
       const allKills  = players.map(n => ((playerStats[mode]||{})[n]||{}).kills  || 0);
       const allDeaths = players.map(n => ((playerStats[mode]||{})[n]||{}).deaths || 0);
@@ -1215,12 +1198,10 @@
       players.forEach((name,i) => {
         let rankClass='', podiumClass='', crownHtml='';
         const isRetired = retired.includes(name);
-
-        // Count only non-retired players above this one to get the active rank
         const activeRank = players.slice(0,i).filter(n=>!retired.includes(n)).length;
 
         if(!isRetired && activeRank===0){ rankClass='gold'; podiumClass='top1';
-          crownHtml=`<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;
+          crownHtml=`<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;
         } else if(!isRetired && activeRank===1){ rankClass='silver'; podiumClass='top2';
         } else if(!isRetired && activeRank===2){ rankClass='bronze'; podiumClass='top3';
         } else if(isRetired){ rankClass='retired-rank'; }
@@ -1231,22 +1212,21 @@
         const kdStr = kd===Infinity?'∞':kd===0?'0.00':kd.toFixed(2);
         const isInf = kd===Infinity;
         const fireHtml = (kd===Infinity||kd>=2) ? `<span class="fire-icon" title="Hot streak!">🔥</span>` : '';
-        const tierColor = tierColors[tier]||'#555';
+        const tierColor = tierColors[tier]||'#444';
 
-        // Relative stat colours
         const wColor = isRetired ? 'var(--text-dim)' : statColor(stats.wins,   allWins,   false);
         const kColor = isRetired ? 'var(--text-dim)' : statColor(stats.kills,  allKills,  false);
         const dColor = isRetired ? 'var(--text-dim)' : statColor(stats.deaths, allDeaths, true);
 
         const card = document.createElement('div');
         card.className = `player ${podiumClass}`;
-        card.style.animation = `fadeUp .35s ${i*0.045}s ease both`;
-        if(isRetired) card.style.opacity='0.45';
+        card.style.animation = `fadeUp .38s ${i*0.04}s ease both`;
+        if(isRetired) card.style.opacity='0.4';
         card.onclick = () => openProfile(name, mode);
 
         const badgeHtml = tier && tier!=='Unranked'
-          ? `<span class="tier-badge" style="color:${tierColor};border-color:${tierColor};">${tier}</span>` : '';
-        const flagHtml  = playerCountry[name] ? getFlagImg(playerCountry[name], 12) : '';
+          ? `<span class="tier-badge" style="color:${tierColor};border-color:${tierColor}20;background:${tierColor}12;">${tier}</span>` : '';
+        const flagHtml  = playerCountry[name] ? getFlagImg(playerCountry[name]) : '';
         const retiredBadge = isRetired ? `<span class="retired-badge">Retired</span>` : '';
 
         card.innerHTML = `
@@ -1260,9 +1240,11 @@
               ${flagHtml}${fireHtml}${crownHtml}${badgeHtml}${retiredBadge}
             </div>
             <div class="stats-row">
-              <span class="stat-chip" style="color:var(--text-muted)"><b style="color:${wColor}">${stats.wins}</b> W</span>
-              <span class="stat-chip" style="color:var(--text-muted)"><b style="color:${kColor}">${stats.kills}</b> K</span>
-              <span class="stat-chip" style="color:var(--text-muted)"><b style="color:${dColor}">${stats.deaths}</b> D</span>
+              <span class="stat-pill"><b style="color:${wColor}">${stats.wins}</b> <span style="color:var(--text-dim)">W</span></span>
+              <div class="stat-pill-sep"></div>
+              <span class="stat-pill"><b style="color:${kColor}">${stats.kills}</b> <span style="color:var(--text-dim)">K</span></span>
+              <div class="stat-pill-sep"></div>
+              <span class="stat-pill"><b style="color:${dColor}">${stats.deaths}</b> <span style="color:var(--text-dim)">D</span></span>
             </div>
           </div>
           <div class="right-col">
@@ -1281,9 +1263,7 @@
       }
     }
 
-    const modeIcons = {
-      overall: '🏆', sword: '⚔️', axe: '🪓', uhc: '❤️', mace: '🔨', spear: '🗡️'
-    };
+    const modeIcons = { overall:'🏆', sword:'⚔️', axe:'🪓', uhc:'❤️', mace:'🔨', spear:'🗡️' };
     const modeOrder = ['overall','sword','axe','uhc','mace','spear'];
 
     function buildPrimeSection(name){
@@ -1292,21 +1272,16 @@
       const cells = modeOrder.map(m => {
         const currentTier = customTiers[m]?.[name] || null;
         const peakTier    = peak[m] || null;
-        const cCol = currentTier ? (tierColors[currentTier]||'#555') : 'var(--text-dim)';
-        const pCol = peakTier    ? (tierColors[peakTier]   ||'#555') : 'var(--text-dim)';
-
-        // Check if current matches or exceeds peak
+        const cCol = currentTier ? (tierColors[currentTier]||'#444') : 'var(--text-dim)';
+        const pCol = peakTier    ? (tierColors[peakTier]   ||'#444') : 'var(--text-dim)';
         const tierPriority = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
-        const cP = tierPriority[currentTier]||0;
-        const pP = tierPriority[peakTier]||0;
-        const atPeak = currentTier && peakTier && cP >= pP;
-
+        const atPeak = currentTier && peakTier && (tierPriority[currentTier]||0) >= (tierPriority[peakTier]||0);
         return `
           <div class="prime-cell" title="${m}">
             <div class="prime-cell-mode">${modeIcons[m]} ${m.toUpperCase()}</div>
             <div class="prime-vs-row">
               <div class="prime-vs-block">
-                <div class="prime-vs-label" style="color:rgba(240,240,244,0.5)">NOW</div>
+                <div class="prime-vs-label" style="color:rgba(238,238,242,0.35)">NOW</div>
                 <div class="prime-vs-val" style="color:${cCol}">${currentTier||'—'}</div>
               </div>
               <div class="prime-vs-arrow ${atPeak?'at-peak':''}">→</div>
@@ -1331,14 +1306,13 @@
       const ranking = getOrderedPlayers(mode);
       const rank = ranking.indexOf(name)+1;
       const tier = customTiers[mode]?.[name]||'Unranked';
-      const tierColor = tierColors[tier]||'#555';
+      const tierColor = tierColors[tier]||'#444';
       const kd = stats ? (stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths) : 0;
       const kdStr = kd===Infinity?'∞':kd.toFixed(2);
-      const crownHtml = rank===1 ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
-      const retiredBadge = retired.includes(name) ? `<span class="retired-badge" style="font-size:11px;padding:3px 8px;">🏆 Retired</span>` : '';
-      const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 14) : '';
+      const crownHtml = rank===1 ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
+      const retiredBadge = retired.includes(name) ? `<span class="retired-badge" style="font-size:10px;padding:3px 8px;">🏆 Retired</span>` : '';
+      const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 13) : '';
 
-      // Compute relative colours vs all players in this mode
       if(mode==='overall') updateOverall();
       const allPlayers = Object.keys(playerStats[mode]||{});
       const allWins   = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
@@ -1349,49 +1323,56 @@
       const dColor = stats ? statColor(stats.deaths, allDeaths, true)  : 'var(--text)';
 
       if(!stats){
-        document.getElementById('profileContent').innerHTML = `<p style="color:var(--pink);font-family:var(--font-mono);font-size:13px;">No stats for ${name} in ${mode}.</p>`;
+        document.getElementById('profileContent').innerHTML = `<p style="padding:24px;color:var(--pink);font-family:var(--font-mono);font-size:12px;">No stats for ${name} in ${mode}.</p>`;
       } else {
         document.getElementById('profileContent').innerHTML = `
-          <div class="profile-header">
-            <img src="${getAvatar(name,64)}" class="profile-avatar" alt="${name}">
-            <div>
-              <div class="profile-name" style="display:flex;align-items:center;gap:10px;">
-                ${name} ${flagHtml} ${crownHtml} ${retiredBadge}
+          <div class="profile-banner">
+            <div class="profile-banner-bg" style="background: linear-gradient(135deg, ${tierColor}18 0%, transparent 60%), radial-gradient(ellipse 80% 100% at 20% 50%, ${tierColor}12 0%, transparent 70%); backdrop-filter: none;"></div>
+          </div>
+          <div class="profile-body">
+            <div class="profile-header">
+              <img src="${getAvatar(name,128)}" class="profile-avatar" alt="${name}">
+              <div class="profile-name-block">
+                <div class="profile-name">
+                  ${name} ${flagHtml} ${crownHtml} ${retiredBadge}
+                </div>
+                <div class="profile-meta">
+                  Rank #${rank} &nbsp;·&nbsp; <span style="color:${tierColor}">${tier}</span> &nbsp;·&nbsp; ${mode.toUpperCase()}
+                </div>
               </div>
-              <div class="profile-rank">RANK #${rank} &nbsp;·&nbsp; <span style="color:${tierColor};font-weight:700;">${tier}</span></div>
             </div>
-          </div>
-          <div class="profile-kd-bar">
-            <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:${wColor}">${stats.wins}</div>
-              <div class="profile-stat-label">Wins</div>
+            <div class="profile-kd-bar">
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" style="color:${wColor}">${stats.wins}</div>
+                <div class="profile-stat-label">Wins</div>
+              </div>
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" style="color:${kColor}">${stats.kills}</div>
+                <div class="profile-stat-label">Kills</div>
+              </div>
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" style="color:${dColor}">${stats.deaths}</div>
+                <div class="profile-stat-label">Deaths</div>
+              </div>
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" style="color:${kdColor(kd)}">${kdStr}</div>
+                <div class="profile-stat-label">K / D</div>
+              </div>
             </div>
-            <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:${kColor}">${stats.kills}</div>
-              <div class="profile-stat-label">Kills</div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-label"><span>Wins</span><span style="color:${wColor}">${stats.wins}</span></div>
+              <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
             </div>
-            <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:${dColor}">${stats.deaths}</div>
-              <div class="profile-stat-label">Deaths</div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-label"><span>Kills</span><span style="color:${kColor}">${stats.kills}</span></div>
+              <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
             </div>
-            <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:${kdColor(kd)}">${kdStr}</div>
-              <div class="profile-stat-label">K / D</div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-label"><span>Deaths</span><span style="color:${dColor}">${stats.deaths}</span></div>
+              <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
             </div>
+            ${buildPrimeSection(name)}
           </div>
-          <div class="stat-bar-group">
-            <div class="stat-bar-label"><span>Wins</span><span style="color:${wColor}">${stats.wins}</span></div>
-            <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
-          </div>
-          <div class="stat-bar-group">
-            <div class="stat-bar-label"><span>Kills</span><span style="color:${kColor}">${stats.kills}</span></div>
-            <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
-          </div>
-          <div class="stat-bar-group">
-            <div class="stat-bar-label"><span>Deaths</span><span style="color:${dColor}">${stats.deaths}</span></div>
-            <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
-          </div>
-          ${buildPrimeSection(name)}
         `;
         setTimeout(() => animateBars(stats), 30);
       }
@@ -1545,7 +1526,7 @@
       const s1=(playerStats[compareMode]||{})[p1]||{wins:0,kills:0,deaths:0};
       const s2=(playerStats[compareMode]||{})[p2]||{wins:0,kills:0,deaths:0};
       const t1=customTiers[compareMode]?.[p1]||'Unranked', t2=customTiers[compareMode]?.[p2]||'Unranked';
-      const c1=tierColors[t1]||'#555', c2=tierColors[t2]||'#555';
+      const c1=tierColors[t1]||'#444', c2=tierColors[t2]||'#444';
       const kd1=s1.deaths===0?(s1.kills>0?Infinity:0):s1.kills/s1.deaths;
       const kd2=s2.deaths===0?(s2.kills>0?Infinity:0):s2.kills/s2.deaths;
       const kd1str=kd1===Infinity?'∞':kd1.toFixed(2);
@@ -1565,7 +1546,7 @@
             <h3>
               <img src="${getAvatar(p1,36)}" style="width:36px;height:36px;border-radius:7px;">
               <span style="color:${c1};font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:1px;">${p1} ${playerCountry[p1]?getFlagImg(playerCountry[p1],11):''}</span>
-              <span style="font-family:var(--font-mono);font-size:10px;opacity:0.45;font-weight:600;">#${r1}</span>
+              <span style="font-family:var(--font-mono);font-size:10px;opacity:0.35;font-weight:600;">#${r1}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
             <div class="compare-row"><span class="label">Wins</span><span class="val ${wc1w}">${s1.wins}</span></div>
@@ -1580,7 +1561,7 @@
             <h3>
               <img src="${getAvatar(p2,36)}" style="width:36px;height:36px;border-radius:7px;">
               <span style="color:${c2};font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:1px;">${p2} ${playerCountry[p2]?getFlagImg(playerCountry[p2],11):''}</span>
-              <span style="font-family:var(--font-mono);font-size:10px;opacity:0.45;font-weight:600;">#${r2}</span>
+              <span style="font-family:var(--font-mono);font-size:10px;opacity:0.35;font-weight:600;">#${r2}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
             <div class="compare-row"><span class="label">Wins</span><span class="val ${wc2w}">${s2.wins}</span></div>
@@ -1635,6 +1616,7 @@
       document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
       const od=document.getElementById('overall'); if(od) od.classList.add('active');
     });
+
     // ── SHARE CARD ──
     function roundRect(ctx, x, y, w, h, r){
       ctx.beginPath();
@@ -1658,7 +1640,7 @@
 
       const stats = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
       const tier  = customTiers[mode]?.[name] || 'Unranked';
-      const tierColor = tierColors[tier] || '#555';
+      const tierColor = tierColors[tier] || '#444';
       const rank  = getOrderedPlayers(mode).indexOf(name)+1;
       const kd    = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
       const kdStr = kd===Infinity?'∞':kd.toFixed(2);
@@ -1680,23 +1662,19 @@
       const ctx = canvas.getContext('2d');
       ctx.scale(SC,SC);
 
-      // ── Background ──
       ctx.fillStyle='#07070b';
       ctx.fillRect(0,0,W,H);
 
-      // Subtle dot grid
       ctx.fillStyle='rgba(255,255,255,0.03)';
-      for(let gx=14;gx<W;gx+=28) for(let gy=14;gy<H;gy+=28){
+      for(let gx=16;gx<W;gx+=32) for(let gy=16;gy<H;gy+=32){
         ctx.beginPath(); ctx.arc(gx,gy,1,0,Math.PI*2); ctx.fill();
       }
 
-      // Soft bloom centred on avatar area
-      const bloom=ctx.createRadialGradient(80,H/2,0,80,H/2,180);
-      bloom.addColorStop(0, tierColor+'22');
+      const bloom=ctx.createRadialGradient(80,H/2,0,80,H/2,200);
+      bloom.addColorStop(0, tierColor+'20');
       bloom.addColorStop(1,'rgba(0,0,0,0)');
       ctx.fillStyle=bloom; ctx.fillRect(0,0,W,H);
 
-      // Tier-coloured left accent bar
       const accent=ctx.createLinearGradient(0,0,0,H);
       accent.addColorStop(0, tierColor+'00');
       accent.addColorStop(0.3, tierColor);
@@ -1705,7 +1683,6 @@
       ctx.fillStyle=accent;
       ctx.fillRect(0,0,3,H);
 
-      // ── Avatar ──
       const ax=20, ay=20, as=88;
       ctx.fillStyle='#13131e';
       roundRect(ctx,ax,ay,as,as,12); ctx.fill();
@@ -1719,37 +1696,32 @@
         ctx.drawImage(img,ax,ay,as,as);
         ctx.restore();
       }
-      ctx.strokeStyle=tierColor; ctx.lineWidth=1.5;
+      ctx.strokeStyle=tierColor+'88'; ctx.lineWidth=1.5;
       roundRect(ctx,ax+0.75,ay+0.75,as-1.5,as-1.5,11.5); ctx.stroke();
 
-      // ── Name ──
       const tx=ax+as+18;
-      ctx.font='900 28px "Barlow Condensed",Arial,sans-serif';
-      ctx.fillStyle='#f0f0f4';
+      ctx.font='800 28px "Syne",Arial,sans-serif';
+      ctx.fillStyle='#eeeef2';
       ctx.fillText(name,tx,ay+30);
 
-      // Tier pill
       ctx.font='700 10px "JetBrains Mono",monospace';
       const tierTw=ctx.measureText(tier).width;
       const pillX=tx, pillY=ay+38, pillW=tierTw+20, pillH=20;
-      ctx.fillStyle=tierColor+'18';
+      ctx.fillStyle=tierColor+'15';
       roundRect(ctx,pillX,pillY,pillW,pillH,4); ctx.fill();
-      ctx.strokeStyle=tierColor+'99'; ctx.lineWidth=1;
+      ctx.strokeStyle=tierColor+'60'; ctx.lineWidth=1;
       roundRect(ctx,pillX,pillY,pillW,pillH,4); ctx.stroke();
       ctx.fillStyle=tierColor;
       ctx.fillText(tier,pillX+10,pillY+13.5);
 
-      // Rank line
-      ctx.font='600 10px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(240,240,244,0.38)';
+      ctx.font='500 10px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.32)';
       const rankLine = `#${rank}  ·  ${modeLabel.toUpperCase()}${country?' · '+country.toUpperCase():''}`;
       ctx.fillText(rankLine,tx,ay+80);
 
-      // ── Divider ──
-      ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+      ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(16,122); ctx.lineTo(W-16,122); ctx.stroke();
 
-      // ── Stat boxes (4 across) ──
       const boxes=[
         {label:'WINS',   val:String(stats.wins),  col:wCol},
         {label:'KILLS',  val:String(stats.kills), col:kCol},
@@ -1760,24 +1732,20 @@
       const bw=(W-bpad*2-bgap*3)/4, bh=58, bsy=132;
       boxes.forEach((b,i)=>{
         const bx=bpad+i*(bw+bgap);
-        // box bg
-        ctx.fillStyle='rgba(255,255,255,0.03)';
+        ctx.fillStyle='rgba(255,255,255,0.025)';
         roundRect(ctx,bx,bsy,bw,bh,7); ctx.fill();
-        ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
+        ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
         roundRect(ctx,bx,bsy,bw,bh,7); ctx.stroke();
-        // value
         ctx.font='bold 22px "JetBrains Mono",monospace';
         ctx.fillStyle=b.col;
         const vw=ctx.measureText(b.val).width;
         ctx.fillText(b.val,bx+(bw-vw)/2,bsy+34);
-        // label
         ctx.font='500 8px "JetBrains Mono",monospace';
-        ctx.fillStyle='rgba(240,240,244,0.32)';
+        ctx.fillStyle='rgba(238,238,242,0.28)';
         const lw=ctx.measureText(b.label).width;
         ctx.fillText(b.label,bx+(bw-lw)/2,bsy+50);
       });
 
-      // ── Labelled bars ──
       const barRows=[
         {label:'WINS',   v:stats.wins,   col:wCol},
         {label:'KILLS',  v:stats.kills,  col:kCol},
@@ -1790,40 +1758,30 @@
 
       barRows.forEach((row,i)=>{
         const by=barSectionY+i*22;
-
-        // Label
         ctx.font='600 8px "JetBrains Mono",monospace';
-        ctx.fillStyle='rgba(240,240,244,0.3)';
+        ctx.fillStyle='rgba(238,238,242,0.25)';
         ctx.fillText(row.label,bpad,by+8);
-
-        // Track
-        ctx.fillStyle='rgba(255,255,255,0.05)';
-        roundRect(ctx,barX,by,barTrackW,7,3.5); ctx.fill();
-
-        // Fill
+        ctx.fillStyle='rgba(255,255,255,0.04)';
+        roundRect(ctx,barX,by,barTrackW,6,3); ctx.fill();
         if(row.v>0){
           const fw=(row.v/maxV)*barTrackW;
           const grad=ctx.createLinearGradient(barX,0,barX+fw,0);
           grad.addColorStop(0,row.col);
-          grad.addColorStop(1,row.col+'55');
+          grad.addColorStop(1,row.col+'44');
           ctx.fillStyle=grad;
-          roundRect(ctx,barX,by,fw,7,3.5); ctx.fill();
+          roundRect(ctx,barX,by,fw,6,3); ctx.fill();
         }
-
-        // Value
         ctx.font='700 9px "JetBrains Mono",monospace';
         ctx.fillStyle=row.col;
         ctx.fillText(String(row.v),barEndX+6,by+8);
       });
 
-      // ── Watermark ──
-      ctx.font='600 8px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(240,240,244,0.18)';
+      ctx.font='500 8px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.15)';
       const wm='QUIPALITE MC';
       const wmw=ctx.measureText(wm).width;
       ctx.fillText(wm,W-bpad-wmw,H-10);
 
-      // ── Download ──
       const link=document.createElement('a');
       link.download=`${name}_quipalite_${mode}.png`;
       link.href=canvas.toDataURL('image/png');
@@ -1831,7 +1789,6 @@
 
       btn.innerHTML=origText; btn.disabled=false;
     }
-
   </script>
 </body>
 </html>
