@@ -41,27 +41,29 @@
       overflow-x: hidden;
     }
 
-    /* ── GRID BG ── */
+    /* ── BACKGROUND ── */
     body::before {
       content: '';
-      position: fixed; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 0%, transparent 100%);
-      pointer-events: none;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      /* Dot grid */
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 10%, black 0%, transparent 80%);
     }
     body::after {
       content: '';
-      position: fixed; inset: 0; z-index: 0;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 60% 40% at 70% 20%, rgba(255,10,108,0.08) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(255,10,108,0.05) 0%, transparent 60%);
-      pointer-events: none;
+        /* big central top bloom */
+        radial-gradient(ellipse 70% 45% at 50% -5%, rgba(255,10,108,0.13) 0%, transparent 70%),
+        /* left side accent */
+        radial-gradient(ellipse 40% 55% at -5% 55%, rgba(255,10,108,0.07) 0%, transparent 65%),
+        /* right side accent */
+        radial-gradient(ellipse 35% 40% at 105% 30%, rgba(180,0,90,0.07) 0%, transparent 60%),
+        /* bottom warm glow */
+        radial-gradient(ellipse 60% 30% at 50% 110%, rgba(255,10,108,0.05) 0%, transparent 70%);
     }
     body > * { position: relative; z-index: 1; }
-
     body.mono::before, body.mono::after { display: none; }
 
     /* ── HEADER ── */
@@ -113,26 +115,35 @@
       margin-top: 3px;
     }
 
-    .header-center {
-      display: flex; justify-content: center; align-items: center; gap: 6px;
-      flex-wrap: wrap;
-    }
+    .header-center { display: none; }
 
     .header-right {
-      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
     }
 
-    /* ── EXTERNAL LINKS ── */
-    .ext-link {
-      display: flex; align-items: center; gap: 5px;
-      padding: 6px 11px; border-radius: 6px;
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      letter-spacing: .5px; text-decoration: none; color: white;
-      transition: filter .18s, transform .18s;
+    /* ── ICON BUTTONS (header right) ── */
+    .icon-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      cursor: pointer; text-decoration: none; color: var(--text-muted);
+      transition: background .18s, border-color .18s, color .18s, transform .18s;
+      flex-shrink: 0;
+      position: relative;
     }
-    .ext-link:hover { filter: brightness(1.15); transform: translateY(-1px); }
-    .ext-link.yt  { background: #CC0000; }
-    .ext-link.dc  { background: #5865F2; }
+    .icon-btn:hover {
+      background: var(--surface); border-color: rgba(255,255,255,0.14);
+      color: var(--text); transform: translateY(-2px);
+    }
+    .icon-btn.yt:hover  { border-color: rgba(204,0,0,0.5); background: rgba(204,0,0,0.12); color: #ff4444; }
+    .icon-btn.dc:hover  { border-color: rgba(88,101,242,0.5); background: rgba(88,101,242,0.12); color: #7b8ff7; }
+    .icon-btn.tier:hover { border-color: var(--pink-line); background: var(--pink-dim); color: var(--pink); }
+
+    /* divider */
+    .hdr-divider {
+      width: 1px; height: 22px; background: var(--border); flex-shrink: 0; margin: 0 2px;
+    }
 
     /* ── THEME TOGGLE ── */
     .theme-toggle {
@@ -142,21 +153,11 @@
       transition: border-color .2s;
     }
     .theme-toggle:hover { border-color: var(--pink-line); }
+    body.mono .theme-toggle:hover { border-color: rgba(255,255,255,0.3); }
     .toggle-thumb {
       width: 16px; height: 16px; border-radius: 50%;
       background: var(--text-muted); transition: transform .25s, background .25s;
     }
-
-    /* ── TIER GUIDE BTN ── */
-    .tier-guide-btn {
-      display: flex; align-items: center; gap: 5px;
-      padding: 6px 11px; border-radius: 6px;
-      background: var(--pink-dim); border: 1px solid var(--pink-line);
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      letter-spacing: .5px; color: var(--text); cursor: pointer;
-      transition: background .18s, border-color .18s, transform .18s;
-    }
-    .tier-guide-btn:hover { background: rgba(255,10,108,0.22); border-color: var(--pink); transform: translateY(-1px); }
 
     /* ── TABS ── */
     .tabs {
@@ -274,9 +275,9 @@
     .player.top1::before { background: var(--gold); box-shadow: 0 0 12px rgba(255,215,0,0.6); }
     .player.top2::before { background: var(--silver); }
     .player.top3::before { background: var(--bronze); }
-    .player.top1 { border-color: rgba(255,215,0,0.2); background: linear-gradient(90deg, rgba(255,215,0,0.04), var(--surface)); }
-    .player.top2 { border-color: rgba(184,196,208,0.15); background: linear-gradient(90deg, rgba(184,196,208,0.03), var(--surface)); }
-    .player.top3 { border-color: rgba(205,127,50,0.15); background: linear-gradient(90deg, rgba(205,127,50,0.03), var(--surface)); }
+    .player.top1 { border-color: rgba(255,215,0,0.2); background: linear-gradient(90deg, rgba(255,215,0,0.04), var(--surface)); margin-left: -14px; margin-right: -14px; padding: 0; }
+    .player.top2 { border-color: rgba(184,196,208,0.15); background: linear-gradient(90deg, rgba(184,196,208,0.03), var(--surface)); margin-left: -8px; margin-right: -8px; }
+    .player.top3 { border-color: rgba(205,127,50,0.15); background: linear-gradient(90deg, rgba(205,127,50,0.03), var(--surface)); margin-left: -4px; margin-right: -4px; }
 
     .player.top1:hover { border-color: rgba(255,215,0,0.4); box-shadow: -4px 0 24px rgba(255,215,0,0.2), 0 8px 32px rgba(0,0,0,0.5); }
     .player.top2:hover { border-color: rgba(184,196,208,0.3); }
@@ -292,11 +293,12 @@
     }
     .rank-num {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-      color: var(--text-dim); letter-spacing: .5px;
+      color: var(--pink); letter-spacing: .5px;
     }
-    .rank-num.gold   { color: var(--gold);   text-shadow: 0 0 8px rgba(255,215,0,0.5); }
+    .rank-num.gold   { color: var(--gold); text-shadow: 0 0 8px rgba(255,215,0,0.5); }
     .rank-num.silver { color: var(--silver); }
     .rank-num.bronze { color: var(--bronze); }
+    .rank-num.retired-rank { color: var(--text-dim); }
 
     /* avatar col */
     .avatar-col {
@@ -352,8 +354,9 @@
     }
     .kd-val {
       font-family: var(--font-mono); font-size: 15px; font-weight: 700;
-      line-height: 1;
+      line-height: 1; display: flex; align-items: center; justify-content: flex-end;
     }
+    .kd-val.kd-inf { font-size: 20px; line-height: 1; justify-content: flex-end; }
     .kd-label {
       font-family: var(--font-mono); font-size: 9px; font-weight: 600;
       letter-spacing: 1px; color: var(--text-dim); text-transform: uppercase;
@@ -541,7 +544,7 @@
 
     /* ── COMPARE ── */
     #comparePage {
-      display: none; max-width: 700px; margin: 0 auto; padding: 20px;
+      display: none; max-width: 700px; margin: 0 auto; padding: 20px 20px 60px;
       opacity: 0; transform: translateY(16px);
       transition: opacity .3s, transform .3s;
     }
@@ -590,6 +593,7 @@
     }
     .compare-dropdown-item:hover, .compare-dropdown-item.selected { background: var(--pink-dim); color: var(--pink-hi); }
     .compare-dropdown-item img { width: 22px; height: 22px; border-radius: 5px; }
+    .compare-dropdown-item .round-flag { width: 14px; height: 14px; border-radius: 50%; object-fit: cover; }
     .compare-dropdown-empty { padding: 10px 12px; font-size: 12px; color: var(--text-muted); font-style: italic; }
 
     .compare-vs {
@@ -656,7 +660,18 @@
     body.mono #tierModalBackdrop { background: rgba(0,0,0,0.9); }
     body.mono .compare-search-input { background: #0a0a0a; border-color: #222; }
     body.mono .compare-dropdown { background: #111; border-color: #333; }
-    body.mono .compare-btn, body.mono .tier-guide-btn { background: #fff; color: #000; border: none; }
+    body.mono .compare-btn { background: #fff; color: #000; border: none; }
+    body.mono .icon-btn { background: #111; border-color: #333; color: #aaa; }
+    body.mono .icon-btn:hover { background: #1a1a1a; border-color: #555; color: #fff; }
+    body.mono .rank-num:not(.gold):not(.silver):not(.bronze):not(.retired-rank) { color: rgba(255,255,255,0.5); }
+    body.mono .compare-dropdown-item:hover,
+    body.mono .compare-dropdown-item.selected { background: rgba(255,255,255,0.08); color: #fff; }
+    body.mono .compare-dropdown { border-color: #333; }
+    body.mono .no-players { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+    body.mono .mode-select-row button.active,
+    body.mono .mode-select-row button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
+    body.mono .compare-search-input:focus { border-color: rgba(255,255,255,0.3); box-shadow: none; }
+    body.mono #retiredToggle.active-retired { color: #fff !important; border-color: rgba(255,255,255,0.35) !important; }
     body.mono .compare-vs { color: #fff; }
     body.mono .mode-select-row button.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
     body.mono .backBtn { background: #0a0a0a; border-color: #222; }
@@ -699,23 +714,22 @@
       </div>
     </div>
 
-    <div class="header-center">
-      <button class="tier-guide-btn" onclick="openTierGuide()" id="tierGuideBtn">📊 Tier Guide</button>
-      <a class="ext-link yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">
-        <svg width="14" height="10" viewBox="0 0 24 17" fill="white"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
-        YouTube
+    <div class="header-center"></div>
+
+    <div class="header-right">
+      <a class="icon-btn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
+        <svg width="15" height="11" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
       </a>
-      <a class="ext-link dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">
-        <svg width="16" height="12" viewBox="-2 -2 75 59" fill="white"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
-        Discord
+      <a class="icon-btn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
+        <svg width="17" height="13" viewBox="-2 -2 75 59" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
       </a>
-      <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <button class="icon-btn tier" onclick="openTierGuide()" title="Tier Guide" id="tierGuideBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </button>
+      <div class="hdr-divider"></div>
+      <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
         <div class="toggle-thumb" id="toggleThumb"></div>
       </div>
-    </div>
-
-    <div class="header-right" style="display:flex;align-items:center;gap:8px;">
-      <!-- mobile collapsed links -->
     </div>
   </header>
 
@@ -858,9 +872,17 @@
     function toggleRetired(){
       showRetired = !showRetired;
       const btn = document.getElementById('retiredToggle');
-      btn.style.color = showRetired ? 'var(--pink)' : '';
-      btn.style.borderColor = showRetired ? 'var(--pink-line)' : '';
-      btn.textContent = showRetired ? '🏆 Hide Retired' : '🏆 Show Retired';
+      if(showRetired){
+        btn.classList.add('active-retired');
+        btn.style.color = monoMode ? '#fff' : 'var(--pink)';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.35)' : 'var(--pink-line)';
+        btn.textContent = '🏆 Hide Retired';
+      } else {
+        btn.classList.remove('active-retired');
+        btn.style.color = '';
+        btn.style.borderColor = '';
+        btn.textContent = '🏆 Show Retired';
+      }
       const activeMode = document.querySelector('.mode.active');
       if(activeMode) createPlayers(activeMode.id);
       populateCompareSelects();
@@ -871,6 +893,12 @@
       document.body.classList.toggle('mono', monoMode);
       thumb.style.transform = monoMode ? 'translateX(20px)' : '';
       thumb.style.background = monoMode ? '#fff' : '';
+      // Re-apply retired button colour for new theme
+      if(showRetired){
+        const btn = document.getElementById('retiredToggle');
+        btn.style.color = monoMode ? '#fff' : 'var(--pink)';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.35)' : 'var(--pink-line)';
+      }
     }
 
     function getAvatar(username, size=48){
@@ -1005,12 +1033,34 @@
       return '#f87171';
     }
 
+    // Colour W/K/D relative to all players in that mode
+    function statColor(value, allValues, lowerIsBetter=false){
+      if(allValues.length <= 1) return 'var(--text)';
+      const sorted = [...allValues].sort((a,b)=>a-b);
+      const rank = sorted.lastIndexOf(value); // highest index = position
+      const pct = rank / (sorted.length - 1);
+      if(lowerIsBetter){
+        if(pct <= 0.33) return '#4ade80';
+        if(pct <= 0.66) return '#facc15';
+        return '#f87171';
+      } else {
+        if(pct >= 0.67) return '#4ade80';
+        if(pct >= 0.34) return '#facc15';
+        return '#f87171';
+      }
+    }
+
     function createPlayers(mode){
       if(mode==='overall') updateOverall();
       const container = document.getElementById(mode);
       if(!container) return;
       const players = getOrderedPlayers(mode).filter(n => showRetired||!retired.includes(n));
       container.innerHTML = '';
+
+      // Collect all stat values for relative colouring
+      const allWins   = players.map(n => ((playerStats[mode]||{})[n]||{}).wins   || 0);
+      const allKills  = players.map(n => ((playerStats[mode]||{})[n]||{}).kills  || 0);
+      const allDeaths = players.map(n => ((playerStats[mode]||{})[n]||{}).deaths || 0);
 
       const countDiv = document.createElement('div');
       countDiv.className = 'player-count';
@@ -1019,22 +1069,29 @@
 
       players.forEach((name,i) => {
         let rankClass='', podiumClass='', crownHtml='';
-        if(i===0){ rankClass='gold'; podiumClass='top1';
+        const isRetired = retired.includes(name);
+
+        if(i===0 && !isRetired){ rankClass='gold'; podiumClass='top1';
           crownHtml=`<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="gold" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;
-        } else if(i===1){ rankClass='silver'; podiumClass='top2'; }
-          else if(i===2){ rankClass='bronze'; podiumClass='top3'; }
+        } else if(i===1 && !isRetired){ rankClass='silver'; podiumClass='top2';
+        } else if(i===2 && !isRetired){ rankClass='bronze'; podiumClass='top3';
+        } else if(isRetired){ rankClass='retired-rank'; }
 
         const tier  = customTiers[mode]?.[name] || 'Unranked';
         const stats = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
         const kd    = stats.deaths===0 ? (stats.kills>0?Infinity:0) : stats.kills/stats.deaths;
         const kdStr = kd===Infinity?'∞':kd===0?'0.00':kd.toFixed(2);
+        const isInf = kd===Infinity;
         const fireHtml = (kd===Infinity||kd>=2) ? `<span class="fire-icon" title="Hot streak!">🔥</span>` : '';
-        const isRetired = retired.includes(name);
         const tierColor = tierColors[tier]||'#555';
+
+        // Relative stat colours
+        const wColor = isRetired ? 'var(--text-dim)' : statColor(stats.wins,   allWins,   false);
+        const kColor = isRetired ? 'var(--text-dim)' : statColor(stats.kills,  allKills,  false);
+        const dColor = isRetired ? 'var(--text-dim)' : statColor(stats.deaths, allDeaths, true);
 
         const card = document.createElement('div');
         card.className = `player ${podiumClass}`;
-        card.style.animationDelay = (i*0.045)+'s';
         card.style.animation = `fadeUp .35s ${i*0.045}s ease both`;
         if(isRetired) card.style.opacity='0.45';
         card.onclick = () => openProfile(name, mode);
@@ -1055,13 +1112,13 @@
               ${flagHtml}${fireHtml}${crownHtml}${badgeHtml}${retiredBadge}
             </div>
             <div class="stats-row">
-              <span class="stat-chip"><b>${stats.wins}</b> W</span>
-              <span class="stat-chip"><b>${stats.kills}</b> K</span>
-              <span class="stat-chip"><b>${stats.deaths}</b> D</span>
+              <span class="stat-chip" style="color:var(--text-muted)"><b style="color:${wColor}">${stats.wins}</b> W</span>
+              <span class="stat-chip" style="color:var(--text-muted)"><b style="color:${kColor}">${stats.kills}</b> K</span>
+              <span class="stat-chip" style="color:var(--text-muted)"><b style="color:${dColor}">${stats.deaths}</b> D</span>
             </div>
           </div>
           <div class="right-col">
-            <span class="kd-val" style="color:${kdColor(kd)}">${kdStr}</span>
+            <span class="kd-val${isInf?' kd-inf':''}" style="color:${kdColor(kd)}">${kdStr}</span>
             <span class="kd-label">K / D</span>
           </div>
         `;
@@ -1088,6 +1145,16 @@
       const retiredBadge = retired.includes(name) ? `<span class="retired-badge" style="font-size:11px;padding:3px 8px;">🏆 Retired</span>` : '';
       const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 14) : '';
 
+      // Compute relative colours vs all players in this mode
+      if(mode==='overall') updateOverall();
+      const allPlayers = Object.keys(playerStats[mode]||{});
+      const allWins   = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
+      const allKills  = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).kills||0);
+      const allDeaths = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).deaths||0);
+      const wColor = stats ? statColor(stats.wins,   allWins,   false) : 'var(--text)';
+      const kColor = stats ? statColor(stats.kills,  allKills,  false) : 'var(--text)';
+      const dColor = stats ? statColor(stats.deaths, allDeaths, true)  : 'var(--text)';
+
       if(!stats){
         document.getElementById('profileContent').innerHTML = `<p style="color:var(--pink);font-family:var(--font-mono);font-size:13px;">No stats for ${name} in ${mode}.</p>`;
       } else {
@@ -1103,15 +1170,15 @@
           </div>
           <div class="profile-kd-bar">
             <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:var(--pink)">${stats.wins}</div>
+              <div class="profile-stat-val" style="color:${wColor}">${stats.wins}</div>
               <div class="profile-stat-label">Wins</div>
             </div>
             <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:#facc15">${stats.kills}</div>
+              <div class="profile-stat-val" style="color:${kColor}">${stats.kills}</div>
               <div class="profile-stat-label">Kills</div>
             </div>
             <div class="profile-stat-block">
-              <div class="profile-stat-val" style="color:#f87171">${stats.deaths}</div>
+              <div class="profile-stat-val" style="color:${dColor}">${stats.deaths}</div>
               <div class="profile-stat-label">Deaths</div>
             </div>
             <div class="profile-stat-block">
@@ -1120,15 +1187,15 @@
             </div>
           </div>
           <div class="stat-bar-group">
-            <div class="stat-bar-label"><span>Wins</span><span>${stats.wins}</span></div>
+            <div class="stat-bar-label"><span>Wins</span><span style="color:${wColor}">${stats.wins}</span></div>
             <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
           </div>
           <div class="stat-bar-group">
-            <div class="stat-bar-label"><span>Kills</span><span>${stats.kills}</span></div>
+            <div class="stat-bar-label"><span>Kills</span><span style="color:${kColor}">${stats.kills}</span></div>
             <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
           </div>
           <div class="stat-bar-group">
-            <div class="stat-bar-label"><span>Deaths</span><span>${stats.deaths}</span></div>
+            <div class="stat-bar-label"><span>Deaths</span><span style="color:${dColor}">${stats.deaths}</span></div>
             <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
           </div>
         `;
@@ -1241,7 +1308,7 @@
         const item=document.createElement('div'); item.className='compare-dropdown-item'+(
           (num===1&&p===compareP1Selected)||(num===2&&p===compareP2Selected)?' selected':''
         );
-        const flag=playerCountry[p]?getFlagImg(playerCountry[p],10):'';
+        const flag=playerCountry[p]?`<img src="https://flagcdn.com/w40/${playerCountry[p]}.png" class="round-flag" alt="" title="${countryNames[playerCountry[p]]||playerCountry[p]}">`:'';
         item.innerHTML=`<img src="${getAvatar(p,24)}" alt="${p}">${flag}<span>${p}</span>`;
         item.addEventListener('mousedown',e=>{e.preventDefault();selectComparePlayer(num,p);});
         dd.appendChild(item);
