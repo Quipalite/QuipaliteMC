@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -412,6 +413,28 @@
     }
     .backBtn:hover { border-color: var(--pink-line); color: var(--pink); transform: translateX(-2px); }
 
+    .profile-top-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 16px; border-radius: 7px;
+      background: var(--pink-dim); border: 1px solid var(--pink-line);
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: .5px; color: var(--pink); cursor: pointer;
+      transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
+    }
+    .share-btn:hover {
+      background: rgba(255,10,108,0.22); border-color: var(--pink);
+      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,10,108,0.2);
+    }
+    .share-btn:active { transform: translateY(0); }
+    .share-btn svg { flex-shrink: 0; }
+    body.mono .share-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: #fff; }
+    body.mono .share-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); box-shadow: none; }
+
     #profileContent {
       background: var(--surface);
       border: 1px solid var(--border); border-radius: 12px;
@@ -544,7 +567,7 @@
 
     /* ── COMPARE ── */
     #comparePage {
-      display: none; max-width: 700px; margin: 0 auto; padding: 20px 20px 60px;
+      display: none; max-width: 100%; margin: 0; padding: 20px 28px 60px;
       opacity: 0; transform: translateY(16px);
       transition: opacity .3s, transform .3s;
     }
@@ -610,7 +633,7 @@
     .compare-btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
     .compare-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
     .compare-card {
       background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
       padding: 18px; opacity: 0; transform: translateY(10px);
@@ -716,7 +739,7 @@
 
     <div class="header-center"></div>
 
-    <div class="header-right">
+    <div class="header-right" style="margin-left:auto;">
       <a class="icon-btn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
         <svg width="15" height="11" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
       </a>
@@ -772,7 +795,13 @@
 
   <!-- PROFILE PAGE -->
   <div id="profilePage" aria-hidden="true">
-    <button class="backBtn" onclick="goBack()">← Back</button>
+    <div class="profile-top-row">
+      <button class="backBtn" onclick="goBack()">← Back</button>
+      <button class="share-btn" id="shareCardBtn" onclick="generateShareCard()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Export Card
+      </button>
+    </div>
     <div id="profileContent"></div>
   </div>
 
@@ -821,6 +850,8 @@
     let showRetired = false;
     const retired = ['Jai_B37'];
     const thumb = document.getElementById('toggleThumb');
+    let currentProfileName = '';
+    let currentProfileMode = '';
 
     const tierGuideData = [
       { name:'Netherite', color:'#6b6b78', desc:'Elite level; represents the highest standard of performance.' },
@@ -1134,6 +1165,8 @@
     }
 
     function openProfile(name, mode){
+      currentProfileName = name;
+      currentProfileMode = mode;
       const stats = (playerStats[mode]||{})[name];
       const ranking = getOrderedPlayers(mode);
       const rank = ranking.indexOf(name)+1;
@@ -1441,6 +1474,180 @@
       document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
       const od=document.getElementById('overall'); if(od) od.classList.add('active');
     });
+    // ── SHARE CARD ──
+    function roundRect(ctx, x, y, w, h, r){
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+      ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+      ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+      ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+      ctx.closePath();
+    }
+
+    async function generateShareCard(){
+      const btn = document.getElementById('shareCardBtn');
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg> Generating…';
+      btn.disabled = true;
+
+      const name = currentProfileName;
+      const mode = currentProfileMode;
+      if(mode==='overall') updateOverall();
+
+      const stats = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
+      const tier = customTiers[mode]?.[name] || 'Unranked';
+      const tierColor = tierColors[tier] || '#555';
+      const rank = getOrderedPlayers(mode).indexOf(name)+1;
+      const kd = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
+      const kdStr = kd===Infinity?'∞':kd.toFixed(2);
+      const modeLabel = mode.charAt(0).toUpperCase()+mode.slice(1);
+
+      const allP  = Object.keys(playerStats[mode]||{});
+      const allWs = allP.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
+      const allKs = allP.map(n=>((playerStats[mode]||{})[n]||{}).kills||0);
+      const allDs = allP.map(n=>((playerStats[mode]||{})[n]||{}).deaths||0);
+      const wCol = statColor(stats.wins,   allWs, false);
+      const kCol = statColor(stats.kills,  allKs, false);
+      const dCol = statColor(stats.deaths, allDs, true);
+      const kdCol = kdColor(kd);
+
+      const W=520, H=272, SC=2;
+      const canvas = document.createElement('canvas');
+      canvas.width=W*SC; canvas.height=H*SC;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(SC,SC);
+
+      // ── Background ──
+      ctx.fillStyle='#07070b';
+      ctx.fillRect(0,0,W,H);
+
+      // Dot grid
+      ctx.fillStyle='rgba(255,255,255,0.035)';
+      for(let x=14;x<W;x+=28) for(let y=14;y<H;y+=28){
+        ctx.beginPath(); ctx.arc(x,y,1,0,Math.PI*2); ctx.fill();
+      }
+
+      // Top pink bloom
+      const bloom=ctx.createRadialGradient(W/2,0,0,W/2,0,200);
+      bloom.addColorStop(0,'rgba(255,10,108,0.14)');
+      bloom.addColorStop(1,'rgba(255,10,108,0)');
+      ctx.fillStyle=bloom; ctx.fillRect(0,0,W,H);
+
+      // Top accent bar
+      const bar=ctx.createLinearGradient(0,0,W,0);
+      bar.addColorStop(0,'rgba(255,10,108,0)');
+      bar.addColorStop(0.5,'#FF0A6C');
+      bar.addColorStop(1,'rgba(255,10,108,0)');
+      ctx.fillStyle=bar; ctx.fillRect(0,0,W,3);
+
+      // ── Avatar ──
+      const ax=24,ay=22,as=80;
+      // placeholder bg
+      ctx.fillStyle='#181820';
+      roundRect(ctx,ax,ay,as,as,10); ctx.fill();
+
+      const img = new Image();
+      img.crossOrigin='anonymous';
+      await new Promise(res=>{ img.onload=res; img.onerror=res; img.src=getAvatar(name,128); });
+
+      if(img.naturalWidth>0){
+        ctx.save();
+        roundRect(ctx,ax,ay,as,as,10); ctx.clip();
+        ctx.drawImage(img,ax,ay,as,as);
+        ctx.restore();
+      }
+      // Avatar border with tier colour
+      ctx.strokeStyle=tierColor; ctx.lineWidth=2;
+      roundRect(ctx,ax+1,ay+1,as-2,as-2,9); ctx.stroke();
+
+      // ── Player name ──
+      const tx=ax+as+20;
+      ctx.font='900 26px "Barlow Condensed",Arial,sans-serif';
+      ctx.fillStyle='#f0f0f4';
+      ctx.fillText(name,tx,ay+28);
+
+      // Tier badge pill
+      ctx.font='700 11px "JetBrains Mono",monospace';
+      ctx.fillStyle=tierColor;
+      const tierTw=ctx.measureText(tier).width;
+      ctx.strokeStyle=tierColor; ctx.lineWidth=1;
+      roundRect(ctx,tx,ay+36,tierTw+18,20,4); ctx.stroke();
+      ctx.fillText(tier,tx+9,ay+50);
+
+      // Rank · Mode
+      ctx.font='600 10px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(240,240,244,0.4)';
+      ctx.fillText(`RANK #${rank}  ·  ${modeLabel.toUpperCase()}`,tx,ay+76);
+
+      // Country if available
+      if(playerCountry[name]){
+        ctx.font='600 10px "JetBrains Mono",monospace';
+        ctx.fillStyle='rgba(240,240,244,0.35)';
+        ctx.fillText(countryNames[playerCountry[name]]||playerCountry[name],tx,ay+93);
+      }
+
+      // ── Divider ──
+      ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(24,118); ctx.lineTo(W-24,118); ctx.stroke();
+
+      // ── Stat boxes ──
+      const boxes=[
+        {label:'WINS',   val:String(stats.wins),  col:wCol},
+        {label:'KILLS',  val:String(stats.kills), col:kCol},
+        {label:'DEATHS', val:String(stats.deaths),col:dCol},
+        {label:'K / D',  val:kdStr,               col:kdCol},
+      ];
+      const bw=(W-48-9)/4, bh=64, bstarty=130;
+      boxes.forEach((b,i)=>{
+        const bx=24+i*(bw+3);
+        ctx.fillStyle='#10101a';
+        roundRect(ctx,bx,bstarty,bw,bh,7); ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+        roundRect(ctx,bx,bstarty,bw,bh,7); ctx.stroke();
+        // value
+        ctx.font='bold 20px "JetBrains Mono",monospace';
+        ctx.fillStyle=b.col;
+        const vw=ctx.measureText(b.val).width;
+        ctx.fillText(b.val,bx+(bw-vw)/2,bstarty+36);
+        // label
+        ctx.font='600 8px "JetBrains Mono",monospace';
+        ctx.fillStyle='rgba(240,240,244,0.38)';
+        const lw=ctx.measureText(b.label).width;
+        ctx.fillText(b.label,bx+(bw-lw)/2,bstarty+52);
+      });
+
+      // ── Mini bars ──
+      const barAreaW=W-48, barStartY=bstarty+bh+14;
+      const maxStat=Math.max(stats.wins,stats.kills,stats.deaths,1);
+      [{v:stats.wins,c:wCol},{v:stats.kills,c:kCol},{v:stats.deaths,c:dCol}].forEach((s,i)=>{
+        const by=barStartY+i*9;
+        ctx.fillStyle='rgba(255,255,255,0.05)';
+        ctx.fillRect(24,by,barAreaW,5);
+        if(s.v>0){
+          const fg=ctx.createLinearGradient(24,0,24+(s.v/maxStat)*barAreaW,0);
+          fg.addColorStop(0,s.c); fg.addColorStop(1,s.c+'66');
+          ctx.fillStyle=fg;
+          ctx.fillRect(24,by,(s.v/maxStat)*barAreaW,5);
+        }
+      });
+
+      // ── Watermark ──
+      ctx.font='700 9px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(255,10,108,0.5)';
+      const wm='QUIPALITE MC';
+      const wmw=ctx.measureText(wm).width;
+      ctx.fillText(wm,W-24-wmw,H-12);
+
+      // ── Download ──
+      const link=document.createElement('a');
+      link.download=`${name}_quipalite_${mode}.png`;
+      link.href=canvas.toDataURL('image/png');
+      link.click();
+
+      btn.innerHTML=origText; btn.disabled=false;
+    }
+
   </script>
 </body>
 </html>
