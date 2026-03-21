@@ -732,32 +732,69 @@
     body.mono .player:hover { border-color: rgba(255,255,255,0.2); box-shadow: -4px 0 20px rgba(255,255,255,0.06); }
     body.mono .player::before { background: #222; }
     body.mono .player:hover::before { background: #fff; }
-    body.mono .player.top1::before { background: var(--gold); }
-    body.mono .player.top2::before { background: var(--silver); }
-    body.mono .player.top3::before { background: var(--bronze); }
-    body.mono #profileContent, body.mono .compare-card { background: #0a0a0a; border-color: #1a1a1a; }
-    body.mono .profile-stat-block { background: #111; border-color: #1a1a1a; }
-    body.mono .stat-bar { background: #111; border-color: #1a1a1a; }
-    body.mono #tierModalInner { background: #0a0a0a; border-color: #333; }
-    body.mono #tierModalBackdrop { background: rgba(0,0,0,0.9); }
-    body.mono .compare-search-input { background: #0a0a0a; border-color: #222; }
-    body.mono .compare-dropdown { background: #111; border-color: #333; }
-    body.mono .compare-btn { background: #fff; color: #000; border: none; }
-    body.mono .icon-btn { background: #111; border-color: #333; color: #aaa; }
-    body.mono .icon-btn:hover { background: #1a1a1a; border-color: #555; color: #fff; }
-    body.mono .rank-num:not(.gold):not(.silver):not(.bronze):not(.retired-rank) { color: rgba(255,255,255,0.5); }
+    /* strip podium bar colours */
+    body.mono .player.top1::before,
+    body.mono .player.top2::before,
+    body.mono .player.top3::before { background: #fff; box-shadow: none; }
+    body.mono .player.top1,
+    body.mono .player.top2,
+    body.mono .player.top3 { border-color: rgba(255,255,255,0.1); background: #000; }
+    body.mono .player.top1:hover,
+    body.mono .player.top2:hover,
+    body.mono .player.top3:hover { border-color: rgba(255,255,255,0.25); box-shadow: -4px 0 20px rgba(255,255,255,0.06); }
+    /* keep rank number colours */
+    body.mono .rank-num { color: var(--pink); }
+    body.mono .rank-num.gold   { color: var(--gold); text-shadow: 0 0 8px rgba(255,215,0,0.5); }
+    body.mono .rank-num.silver { color: var(--silver); text-shadow: none; }
+    body.mono .rank-num.bronze { color: var(--bronze); text-shadow: none; }
+    body.mono .rank-num.retired-rank { color: rgba(255,255,255,0.2); }
+    /* keep crown colours for top 3 */
+    body.mono .crown { filter: none; }
+    /* keep logo text pink */
+    /* keep tier badge colours */
+    /* strip stat chip colours */
+    body.mono .stat-chip b { color: #fff !important; }
+    /* keep KD colour */
+    /* strip profile stat values */
+    body.mono .profile-stat-val { color: #fff !important; }
+    body.mono .stat-fill { background: #fff !important; }
+    body.mono .stat-bar-label span:last-child { color: #fff !important; }
+    /* keep prime vs tier colours */
+    body.mono .prime-vs-arrow { color: rgba(255,255,255,0.3); }
+    body.mono .prime-vs-arrow.at-peak { color: #4ade80; }
+    body.mono .prime-cell { background: #111; border-color: #222; }
+    /* strip compare colours */
+    body.mono .compare-winner { color: #fff; }
+    body.mono .compare-bar-fill { background: #fff !important; }
+    /* keep logo text pink */
+    body.mono .logo-text span { color: var(--pink); }
+    body.mono .player { background: #000; border-color: #111; }
+    body.mono #searchInput { background: #000; border-color: #111; }
+    body.mono #retiredToggle { background: #000; border-color: #111; }
+    body.mono #profileContent, body.mono .compare-card { background: #000; border-color: #111; }
+    body.mono .profile-stat-block { background: #000; border-color: #111; }
+    body.mono .stat-bar { background: #000; border-color: #111; }
+    body.mono #tierModalInner { background: #000; border-color: #222; }
+    body.mono .compare-search-input { background: #000; border-color: #111; }
+    body.mono .compare-dropdown { background: #000; border-color: #222; }
+    body.mono .icon-btn { background: #000; border-color: #222; color: #aaa; }
+    body.mono .prime-cell { background: #000; border-color: #111; }
+    body.mono .backBtn { background: #000; border-color: #111; }
     body.mono .compare-dropdown-item:hover,
     body.mono .compare-dropdown-item.selected { background: rgba(255,255,255,0.08); color: #fff; }
-    body.mono .compare-dropdown { border-color: #333; }
-    body.mono .no-players { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+    body.mono .no-players { background: #000; border-color: #111; color: rgba(255,255,255,0.5); }
     body.mono .mode-select-row button.active,
     body.mono .mode-select-row button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
     body.mono .compare-search-input:focus { border-color: rgba(255,255,255,0.3); box-shadow: none; }
     body.mono #retiredToggle.active-retired { color: #fff !important; border-color: rgba(255,255,255,0.35) !important; }
     body.mono .compare-vs { color: #fff; }
-    body.mono .mode-select-row button.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
-    body.mono .backBtn { background: #0a0a0a; border-color: #222; }
-    body.mono .backBtn:hover { border-color: #555; color: #fff; }
+    body.mono .backBtn:hover { border-color: #444; color: #fff; }
+    body.mono .icon-btn:hover { background: #0a0a0a; border-color: #444; color: #fff; }
+    body.mono .compare-btn { background: #fff; color: #000; border: none; }
+    body.mono #tierModalBackdrop { background: rgba(0,0,0,0.9); }
+    body.mono .share-btn { background: #000; border-color: #111; color: #fff; }
+    body.mono .share-btn:hover { background: #0a0a0a; border-color: #333; box-shadow: none; }
+    body.mono .theme-toggle:hover { border-color: rgba(255,255,255,0.3); }
 
     /* ── FOOTER ── */
     footer {
