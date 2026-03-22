@@ -627,6 +627,51 @@
     #tierModal.open .tier-row { opacity: 1; transform: none; }
     .tier-row:last-child { border-bottom: none; }
 
+    .tier-method {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .tier-method-heading {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tier-method-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .tier-method p {
+      font-size: 12px; color: var(--text-muted); line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .tier-method p:last-child { margin-bottom: 0; }
+    .tier-method ul {
+      list-style: none; margin: 0 0 10px; padding: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tier-method ul li {
+      font-size: 12px; color: var(--text-muted); line-height: 1.55;
+      padding-left: 14px; position: relative;
+    }
+    .tier-method ul li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--pink); font-size: 10px;
+    }
+    .tier-method ul li span {
+      color: var(--text); font-weight: 600;
+    }
+    .staff-link {
+      color: var(--pink); font-weight: 700;
+      cursor: pointer; text-decoration: underline;
+      text-decoration-color: rgba(255,26,109,0.35);
+      text-underline-offset: 3px;
+      transition: color .15s, text-decoration-color .15s;
+    }
+    .staff-link:hover {
+      color: var(--pink-hi);
+      text-decoration-color: var(--pink);
+    }
+
     .tier-dot {
       width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
     }
@@ -1239,6 +1284,21 @@
         <button id="tierModalClose" onclick="closeTierGuide()" aria-label="Close">✕</button>
       </h2>
       <div id="tierModalList"></div>
+      <div class="tier-method">
+        <div class="tier-method-heading">Tier Evaluation</div>
+        <p>Tiers are assigned based on individual performance within each category, rather than raw statistics alone. A player's effectiveness, consistency, and demonstrated skill are the primary factors in determining their tier. For example, a player who achieves a win with minimal use of a mace may be ranked lower than a player who loses but shows a higher level of proficiency with the mace.</p>
+        <div class="tier-method-heading" style="margin-top:14px;">Reranking Policy</div>
+        <p>Players are eligible to request a rerank within two (2) days of their initial ranking. After this period, reranks are restricted to the monthly rerank cycle, which occurs on the 1st of each month.</p>
+        <div class="tier-method-heading" style="margin-top:14px;">Peak Tier</div>
+        <p>A player's Peak Tier reflects the highest tier they have achieved in a specific mode and is recorded as a permanent benchmark of their performance.</p>
+        <div class="tier-method-heading" style="margin-top:14px;">Staff Oversight</div>
+        <p>All tiers are determined by the Quipalite MC Staff Team, including:</p>
+        <ul>
+          <li><span class="staff-link" onclick="closeTierGuide();setTimeout(()=>openProfile('RealO75','overall'),320);">RealO75</span> — Owner</li>
+          <li><span class="staff-link" onclick="closeTierGuide();setTimeout(()=>openProfile('Aftlow','overall'),320);">Aftlow</span> — Builder &amp; Former Player</li>
+        </ul>
+        <p>If a staff member is actively participating in tier evaluations, their ranking will be determined by another staff member to ensure fairness and impartiality.</p>
+      </div>
     </div>
   </div>
 
