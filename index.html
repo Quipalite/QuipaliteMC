@@ -48,6 +48,15 @@
     .nav-brand:hover .nav-logo{transform:scale(1.08);box-shadow:0 0 18px rgba(255,26,109,.3);}
     .nav-logo.spin{animation:logoSpin .5s cubic-bezier(.22,1,.36,1) both;}
     @keyframes logoSpin{0%{transform:scale(.8) rotate(-180deg);opacity:.3}100%{transform:scale(1) rotate(0deg);opacity:1}}
+    /* Ranked page brand hover hint */
+    .nav-brand-text-wrap{position:relative;display:inline-block;}
+
+    body.on-ranked .nav-brand::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%) scaleX(0);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transition:transform .2s cubic-bezier(.22,1,.36,1);transform-origin:center;}
+    body.on-ranked .nav-brand:hover::after{transform:translateX(-50%) scaleX(1);}
+    body.on-ranked .nav-brand:hover .nav-brand-text{color:var(--gold);}
+    body.on-ranked .nav-brand:hover .nav-brand-text em{color:var(--gold);filter:drop-shadow(0 0 14px rgba(245,200,66,.7));}
+    body.on-ranked .nav-brand{position:relative;}
+
     .nav-brand-text{font-family:var(--font-d);font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;line-height:1;}
     .nav-brand-text em{color:var(--pink);font-style:normal;filter:drop-shadow(0 0 8px rgba(255,26,109,.5));}
     .nav-brand-sub{font-family:var(--font-m);font-size:8px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
@@ -504,7 +513,10 @@
     <div class="nav-brand" id="navBrand">
       <img class="nav-logo" id="navLogo" src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Logo">
       <div>
-        <div class="nav-brand-text">QUIPA<em>LITE</em> MC</div>
+        <div class="nav-brand-text-wrap">
+          <div class="nav-brand-text">QUIPA<em>LITE</em> MC</div>
+
+        </div>
         <div class="nav-brand-sub" id="navSub">Minigames Server</div>
       </div>
     </div>
@@ -535,7 +547,7 @@
 
     <!-- Hero -->
     <section class="hero">
-      <div class="hero-eyebrow"><span class="hero-dot"></span>Server Online — Welcome!</div>
+      <div class="hero-eyebrow"><span class="hero-dot"></span>Welcome!</div>
       <h1 class="hero-title">QUIPA<em>LITE</em> MC</h1>
       <p class="hero-sub">A fun, competitive Minecraft server with custom minigames and a <strong>friendly community</strong>. Whether you're here to grind ranked or just hang out — you'll fit right in. 👋</p>
       <div class="hero-actions">
@@ -622,7 +634,7 @@
               <div class="gicon"><img src="https://minecraft.wiki/images/Iron_Sword_JE2_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🗡️'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Battle Royale</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
             </div>
-            <p class="gdesc">Loot up, fight hard, and be the last one standing. The arena shrinks — can you survive?</p>
+            <p class="gdesc">Loot up, fight hard, and be the last one standing. One winner, no second chances.</p>
           </div>
 
         </div>
@@ -756,14 +768,10 @@
   let mono=false;
   const tth=document.getElementById('tth');
 
-  /* Logo spin on click */
+  /* Logo click = refresh page */
   document.getElementById('navLogo').addEventListener('click', function(e) {
     e.stopPropagation();
-    const logo = this;
-    logo.classList.remove('spin');
-    void logo.offsetWidth;
-    logo.classList.add('spin');
-    logo.addEventListener('animationend', () => logo.classList.remove('spin'), {once: true});
+    window.location.reload();
   });
 
   function goHome(){
@@ -773,6 +781,7 @@
     document.getElementById('nlRanked').classList.remove('active');
     document.getElementById('navSub').textContent='Minigames Server';
     document.getElementById('tierBtn').style.display='none';
+    document.body.classList.remove('on-ranked');
     window.scrollTo({top:0,behavior:'smooth'});
     setTimeout(setupReveal,50);
   }
@@ -784,6 +793,7 @@
     document.getElementById('nlRanked').classList.add('active');
     document.getElementById('navSub').textContent='Ranked Battle Arena';
     document.getElementById('tierBtn').style.display='';
+    document.body.classList.add('on-ranked');
     window.scrollTo({top:0,behavior:'instant'});
     showRankedMain();
     const am=document.querySelector('.lbm.active');
