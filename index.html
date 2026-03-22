@@ -44,8 +44,10 @@
     nav{display:flex;align-items:center;justify-content:space-between;padding:13px 32px;background:linear-gradient(90deg,rgba(140,0,180,.17) 0%,rgba(5,5,7,.74) 28%,rgba(5,5,7,.74) 72%,rgba(70,0,220,.13) 100%);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.07);position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(255,26,109,.13),0 8px 32px rgba(0,0,0,.4);}
     .nav-glow{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(140,0,200,.5),var(--pink) 32%,rgba(255,140,0,.4) 58%,rgba(60,0,220,.45) 84%,transparent);opacity:.65;}
     .nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
-    .nav-logo{width:36px;height:36px;border-radius:9px;border:1px solid var(--border-card);transition:transform .25s,box-shadow .25s;flex-shrink:0;}
+    .nav-logo{width:36px;height:36px;border-radius:9px;border:1px solid var(--border-card);transition:transform .25s,box-shadow .25s,filter .25s;flex-shrink:0;}
     .nav-brand:hover .nav-logo{transform:scale(1.08);box-shadow:0 0 18px rgba(255,26,109,.3);}
+    .nav-logo.spin{animation:logoSpin .5s cubic-bezier(.22,1,.36,1) both;}
+    @keyframes logoSpin{0%{transform:scale(.8) rotate(-180deg);opacity:.3}100%{transform:scale(1) rotate(0deg);opacity:1}}
     .nav-brand-text{font-family:var(--font-d);font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;line-height:1;}
     .nav-brand-text em{color:var(--pink);font-style:normal;filter:drop-shadow(0 0 8px rgba(255,26,109,.5));}
     .nav-brand-sub{font-family:var(--font-m);font-size:8px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
@@ -69,13 +71,13 @@
     /* ============================
        HOME
     ============================ */
-    .hero{min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;}
-    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid var(--border-hi);background:var(--pink-glow);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--pink);margin-bottom:28px;animation:fadeDown .6s .1s ease both;}
+    .hero{min-height:82vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.08);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:28px;animation:fadeDown .6s .1s ease both;}
     .hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.7);animation:pulse 2s ease-in-out infinite;}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
     .hero-title{font-family:var(--font-d);font-weight:800;font-size:clamp(52px,9vw,108px);line-height:.95;letter-spacing:-2px;color:var(--text);margin-bottom:24px;animation:fadeDown .6s .2s ease both;}
     .hero-title em{font-style:normal;color:var(--pink);filter:drop-shadow(0 0 30px rgba(255,26,109,.45));}
-    .hero-sub{max-width:500px;margin:0 auto 40px;font-size:17px;line-height:1.65;color:var(--text-muted);animation:fadeDown .6s .3s ease both;}
+    .hero-sub{max-width:540px;margin:0 auto 40px;font-size:18px;line-height:1.7;color:var(--text-muted);animation:fadeDown .6s .3s ease both;}
     .hero-sub strong{color:var(--text);font-weight:600;}
     .hero-actions{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeDown .6s .4s ease both;}
     @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
@@ -499,8 +501,8 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-brand" onclick="goHome()">
-      <img class="nav-logo" src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Logo">
+    <div class="nav-brand" id="navBrand">
+      <img class="nav-logo" id="navLogo" src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Logo">
       <div>
         <div class="nav-brand-text">QUIPA<em>LITE</em> MC</div>
         <div class="nav-brand-sub" id="navSub">Minigames Server</div>
@@ -515,8 +517,9 @@
       <a class="ibtn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
         <svg width="14" height="10" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
       </a>
+      <!-- Fixed Discord SVG logo -->
       <a class="ibtn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
-        <svg width="15" height="12" viewBox="-2 -2 75 59" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045Z"/></svg>
+        <svg width="16" height="12" viewBox="0 0 71 55" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.492 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.684 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.239C31.6816 49.2576 43.8966 49.2576 55.1126 44.239C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.637 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.258 53.9884 68.0638 50.7185 75.0918 45.5576C75.145 45.5182 75.1786 45.459 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1436C17.3451 26.1735 20.1717 22.9618 23.7259 22.9618C27.308 22.9618 30.1626 26.2014 30.1066 30.1436C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1436C40.9371 26.1735 43.7636 22.9618 47.3178 22.9618C50.9 22.9618 53.7545 26.2014 53.6986 30.1436C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/></svg>
       </a>
       <button class="ibtn tier" id="tierBtn" onclick="openTier()" title="Tier Guide" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -532,9 +535,9 @@
 
     <!-- Hero -->
     <section class="hero">
-      <div class="hero-eyebrow"><span class="hero-dot"></span>Server Online</div>
+      <div class="hero-eyebrow"><span class="hero-dot"></span>Server Online — Welcome!</div>
       <h1 class="hero-title">QUIPA<em>LITE</em> MC</h1>
-      <p class="hero-sub">A competitive Minecraft server packed with custom minigames, <strong>Ranked PvP</strong>, and a tight-knit community.</p>
+      <p class="hero-sub">A fun, competitive Minecraft server with custom minigames and a <strong>friendly community</strong>. Whether you're here to grind ranked or just hang out — you'll fit right in. 👋</p>
       <div class="hero-actions">
         <button class="btn-primary disabled" disabled title="Coming Soon">
           Explore Games — Coming Soon
@@ -558,7 +561,7 @@
     <!-- Server Games -->
     <section class="hsec" id="games">
       <div class="sinner">
-        <div class="rv"><div class="stag">Server Games</div><h2 class="stitle">What We <em>Offer</em></h2><p class="ssub">Jump into one of our live game modes or prove yourself on the competitive ranked ladder.</p></div>
+        <div class="rv"><div class="stag">Server Games</div><h2 class="stitle">Something for <em>Everyone</em></h2><p class="ssub">Jump into your favourite game mode or test your skills on the competitive ranked ladder — all skill levels welcome!</p></div>
         <div class="ggrid">
 
           <!-- Ranked — featured, full width -->
@@ -571,7 +574,7 @@
               </div>
               <div class="garrow">↗</div>
             </div>
-            <p class="gdesc">Compete across five weapon disciplines, climb through seven tiers from Coal to Netherite, and earn your place on the leaderboard.</p>
+            <p class="gdesc">Prove yourself across five weapon modes, climb from Coal to Netherite, and see where you rank among the best.</p>
             <div class="mode-pills">
               <span class="mpill click" onclick="event.stopPropagation();goRankedMode('sword')">
                 <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated" alt=""> Sword
@@ -592,7 +595,7 @@
               <div class="gicon"><img src="https://minecraft.wiki/images/Grass_Block_JE7_BE6.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🌿'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Island Evolution</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
             </div>
-            <p class="gdesc">Start from scratch on your island and evolve it through the ages. Build, survive, and thrive.</p>
+            <p class="gdesc">Start from scratch on your own island and evolve it through the ages. Build, survive, and thrive your way.</p>
           </div>
 
           <!-- Party Games -->
@@ -601,7 +604,7 @@
               <div class="gicon"><img src="https://minecraft.wiki/images/Balloon_(Minecraft_Education)_BE.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🎈'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Party Games</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
             </div>
-            <p class="gdesc">A collection of fun minigames for everyone. Jump in, laugh, and compete with the whole server.</p>
+            <p class="gdesc">A fun mix of minigames for everyone. Jump in, laugh, and compete with the whole server — no experience needed!</p>
           </div>
 
           <!-- Current Nations -->
@@ -610,20 +613,17 @@
               <div class="gicon"><img src="https://minecraft.wiki/images/Globe_Banner_Pattern_JE2_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🌍'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Current Nations</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
             </div>
-            <p class="gdesc">Represent your nation, claim territory, and rise to dominance on a shared world map.</p>
+            <p class="gdesc">Pick your nation, claim territory, and work together to rise to the top of a shared world map.</p>
           </div>
 
-          <!-- Battle Royale -->
+          <!-- Battle Royale — fixed description -->
           <div class="gcard rv rd2">
             <div class="gcard-top">
               <div class="gicon"><img src="https://minecraft.wiki/images/Iron_Sword_JE2_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🗡️'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Battle Royale</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
             </div>
-            <p class="gdesc">Last player standing wins. Loot, fight, and outlast everyone else in a shrinking arena.</p>
+            <p class="gdesc">Loot up, fight hard, and be the last one standing. The arena shrinks — can you survive?</p>
           </div>
-
-          <!-- Battle Royale placeholder to keep grid even — hidden -->
-          <div style="display:none"></div>
 
         </div>
       </div>
@@ -632,19 +632,19 @@
     <!-- Community -->
     <section class="hsec">
       <div class="sinner">
-        <div class="rv"><div class="stag">Community</div><h2 class="stitle">Join the <em>Crew</em></h2><p class="ssub">Stay connected, watch server updates, and hang out with the community.</p></div>
+        <div class="rv"><div class="stag">Community</div><h2 class="stitle">Join the <em>Crew</em></h2><p class="ssub">We're a welcoming bunch. Come chat, watch highlights, and stay in the loop — everyone's invited!</p></div>
         <div class="cgrid">
           <div class="ccard yt rv" onclick="window.open('https://www.youtube.com/@QuipaliteMC','_blank')">
             <div class="cbanner cb-yt">
               <svg width="52" height="36" viewBox="0 0 24 17" fill="#ff5555" opacity=".9" style="position:relative;z-index:1"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
             </div>
-            <div class="cbody"><div class="cname">YouTube</div><p class="cdesc">Watch for server updates, highlights, and more.</p><div class="caction">Watch Now ↗</div></div>
+            <div class="cbody"><div class="cname">YouTube</div><p class="cdesc">Watch server highlights, updates, and more. Subscribe to stay in the loop!</p><div class="caction">Watch Now ↗</div></div>
           </div>
           <div class="ccard dc rv rd1" onclick="window.open('https://discord.gg/pnMRQsqUtA','_blank')">
             <div class="cbanner cb-dc">
-              <svg width="52" height="40" viewBox="-2 -2 75 59" fill="#7b8ff7" opacity=".9" style="position:relative;z-index:1"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045Z"/></svg>
+              <svg width="52" height="40" viewBox="0 0 71 55" fill="#7b8ff7" opacity=".9" style="position:relative;z-index:1"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.492 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.684 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.239C31.6816 49.2576 43.8966 49.2576 55.1126 44.239C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.637 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.258 53.9884 68.0638 50.7185 75.0918 45.5576C75.145 45.5182 75.1786 45.459 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1436C17.3451 26.1735 20.1717 22.9618 23.7259 22.9618C27.308 22.9618 30.1626 26.2014 30.1066 30.1436C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1436C40.9371 26.1735 43.7636 22.9618 47.3178 22.9618C50.9 22.9618 53.7545 26.2014 53.6986 30.1436C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/></svg>
             </div>
-            <div class="cbody"><div class="cname">Discord</div><p class="cdesc">Join the server, chat with the community, and stay up to date.</p><div class="caction">Join Server ↗</div></div>
+            <div class="cbody"><div class="cname">Discord</div><p class="cdesc">Hang out, make friends, and stay up to date. Our community is active and always welcoming new faces!</p><div class="caction">Join Server ↗</div></div>
           </div>
         </div>
       </div>
@@ -653,8 +653,8 @@
     <!-- CTA -->
     <section class="cta-sec">
       <div class="cta-box rv">
-        <div class="cta-title">Ready to <em>Compete?</em></div>
-        <p class="cta-sub">Jump in, earn your rank, and climb the leaderboard. Every duel counts.</p>
+        <div class="cta-title">Ready to <em>Play?</em></div>
+        <p class="cta-sub">Check out the leaderboard, find your competition, and start your journey up the ranks. See you in the arena! 🎮</p>
         <div class="cta-btns">
           <button class="btn-primary" onclick="goRanked()">View Leaderboard</button>
           <button class="btn-secondary" onclick="window.open('https://discord.gg/pnMRQsqUtA','_blank')">Join Discord</button>
@@ -755,6 +755,16 @@
   /* ── NAVIGATION ── */
   let mono=false;
   const tth=document.getElementById('tth');
+
+  /* Logo spin on click */
+  document.getElementById('navLogo').addEventListener('click', function(e) {
+    e.stopPropagation();
+    const logo = this;
+    logo.classList.remove('spin');
+    void logo.offsetWidth;
+    logo.classList.add('spin');
+    logo.addEventListener('animationend', () => logo.classList.remove('spin'), {once: true});
+  });
 
   function goHome(){
     document.getElementById('homePage').classList.add('active');
@@ -1299,7 +1309,7 @@
     createPlayers('overall');
     setupReveal();
     // Logo click on ranked page = show HOF
-    document.querySelector('.nav-brand').addEventListener('click',()=>{
+    document.getElementById('navBrand').addEventListener('click',()=>{
       if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);
     });
   });
