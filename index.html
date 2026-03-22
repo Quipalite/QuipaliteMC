@@ -1041,16 +1041,53 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 720px) {
-      header { padding: 12px 16px; }
-      .logo-text { font-size: 19px; }
-      .player { grid-template-columns: 44px 50px 1fr auto; }
+      header { padding: 11px 16px; gap: 10px; }
+      .logo-text { font-size: 18px; letter-spacing: 1.5px; }
+      .logo-sub { display: none; }
+      .hdr-divider { display: none; }
+      .theme-toggle { width: 38px; height: 20px; }
+      .player { grid-template-columns: 40px 48px 1fr auto; }
+      .tabs { gap: 4px; padding: 12px 12px; }
+      .tab { font-size: 11.5px; padding: 6px 10px; gap: 4px; }
+      .search-row { padding: 12px 14px 0; gap: 8px; }
+      #searchInput { width: 100%; max-width: 100%; font-size: 14px; }
+      .container { margin: 14px auto; padding: 0 12px 40px; }
     }
+
     @media (max-width: 500px) {
+      header { padding: 10px 14px; }
+      .logo-text { font-size: 16px; }
+      .icon-btn { width: 30px; height: 30px; }
       .right-col { display: none; }
       .stats-row { display: none; }
-      .player { grid-template-columns: 36px 46px 1fr; }
+      .player { grid-template-columns: 34px 44px 1fr; }
+      .player-name { font-size: 13px; }
+      .rank-num { font-size: 10px; }
+      .tab { font-size: 11px; padding: 5px 8px; }
+      .tab img { width: 11px; height: 11px; }
       .compare-grid { grid-template-columns: 1fr; }
       .profile-kd-bar { grid-template-columns: repeat(2,1fr); }
+      .prime-grid { grid-template-columns: repeat(2,1fr); }
+      .hof-stats-row { grid-template-columns: repeat(2,1fr); }
+      #profilePage { padding: 16px 14px; }
+      .profile-name { font-size: 22px; }
+      .profile-body { padding: 0 16px 20px; }
+      .profile-banner { height: 56px; }
+      #comparePage { padding: 16px 14px 40px; }
+      .compare-selectors { flex-direction: column; align-items: stretch; }
+      .compare-search-wrap { max-width: 100%; }
+      .compare-vs { text-align: center; }
+      .compare-btn { width: 100%; }
+      .achievements-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+      #tierModalInner, #achModalInner { padding: 20px 16px; border-radius: 12px; }
+      .hof-card-body { padding: 0 14px 18px; }
+      .hof-name { font-size: 20px; }
+      #hofPage { padding: 16px 14px 40px; }
+    }
+
+    /* hide tooltips on touch devices */
+    @media (hover: none) {
+      #statTooltip { display: none !important; }
     }
   </style>
 </head>
@@ -2165,20 +2202,22 @@
           .map(([m,t])=>`<span class="hof-peak-chip" style="color:${tierColors[t]};border-color:${tierColors[t]}40;display:inline-flex;align-items:center;gap:5px;">${modeImgHtml(m,11)} ${t}</span>`)
           .join('');
 
-        // Career achievements (overall)
-        const achBadges = allAchievements.filter(a=>{
-          try{
-            // check against overall stats
-            const allS = Object.values(playerStats.overall||{});
-            const rank = getOrderedPlayers('overall').indexOf(name)+1;
-            return a.check(name,'overall',overall,rank,allS);
-          }catch(e){return false;}
-        });
-        const achHtml = achBadges.length ? achBadges.map(b=>`
-          <div class="achievement-badge" title="${b.desc}">
-            <span class="ab-icon" style="${b.monospace?'font-family:var(--font-mono);font-size:13px;font-weight:800;':''}">${b.icon}</span>
-            <span class="ab-name">${b.name}</span>
-          </div>`).join('') : '<span class="no-achievements">—</span>';
+        // Career achievements — collect across all modes like overall profile
+        const hofSeen = new Map();
+        for(const m of modes){
+          for(const ach of computeAchievements(name, m)){
+            if(!hofSeen.has(ach.id)) hofSeen.set(ach.id, {ach, ms:[]});
+            hofSeen.get(ach.id).ms.push(m);
+          }
+        }
+        for(const ach of computeAchievements(name, 'overall')){
+          if(!hofSeen.has(ach.id)) hofSeen.set(ach.id, {ach, ms:['overall']});
+        }
+        const achHtml = hofSeen.size ? [...hofSeen.values()].map(({ach, ms})=>{
+          const modeLabel = ms.map(m => modeImgTag[m] + m.charAt(0).toUpperCase()+m.slice(1)).join(', ');
+          const tooltipHtml = `<b>${ach.name}</b><span class="tt-pct">${modeLabel}</span>`;
+          return badgeHtml(ach, tooltipHtml);
+        }).join('') : '<span class="no-achievements">—</span>';
 
         return `
           <div class="hof-card" style="animation:fadeUp .4s ease both;">
@@ -2212,7 +2251,7 @@
                 </div>
               </div>
               ${peakChips ? `<div class="hof-peak-row">${peakChips}</div>` : ''}
-              <div class="hof-achievements">${achHtml}</div>
+              <div class="hof-achievements achievements-grid">${achHtml}</div>
             </div>
           </div>`;
       }).join('');
