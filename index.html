@@ -2029,6 +2029,7 @@
           </div>`;
       } else {
         const badges = computeAchievements(name, mode);
+        const modeDisplay = modeImgTag[mode] + mode.charAt(0).toUpperCase() + mode.slice(1);
         if(!badges.length) return `
           <div class="achievements-section">
             <div class="achievements-heading">Achievements</div>
@@ -2037,7 +2038,10 @@
         return `
           <div class="achievements-section">
             <div class="achievements-heading">Achievements</div>
-            <div class="achievements-grid">${badges.map(b => badgeHtml(b, `<b>${b.name}</b><span class="tt-pct">${b.desc}</span>`)).join('')}</div>
+            <div class="achievements-grid">${badges.map(b => {
+              const desc = b.desc.replace('in a mode', 'in ' + modeDisplay).replace('in this mode', 'in ' + modeDisplay);
+              return badgeHtml(b, `<b>${b.name}</b><span class="tt-pct">${desc}</span>`);
+            }).join('')}</div>
           </div>`;
       }
     }
