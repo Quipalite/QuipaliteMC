@@ -1578,6 +1578,7 @@
 
     const modeIcons = { overall:'🏆', sword:'⚔️', axe:'🪓', uhc:'❤️', mace:'🔨', spear:'🗡️' };
     const modeOrder = ['overall','sword','axe','uhc','mace','spear'];
+    function modeName(m){ return m==='uhc'?'UHC': m==='overall'?'Overall': m.charAt(0).toUpperCase()+m.slice(1); }
 
     const modeImgSmall = {
       overall: '🏆',
@@ -1600,7 +1601,7 @@
         const atPeak = currentTier && peakTier && (tierPriority[currentTier]||0) >= (tierPriority[peakTier]||0);
         return `
           <div class="prime-cell" title="${m}">
-            <div class="prime-cell-mode" style="display:flex;align-items:center;gap:4px;">${modeImgSmall[m]} ${m.toUpperCase()}</div>
+            <div class="prime-cell-mode" style="display:flex;align-items:center;gap:4px;">${modeImgSmall[m]} ${modeName(m).toUpperCase()}</div>
             <div class="prime-vs-row">
               <div class="prime-vs-block">
                 <div class="prime-vs-label" style="color:rgba(238,238,242,0.35)">NOW</div>
@@ -1659,7 +1660,7 @@
                   ${name} ${flagHtml} ${crownHtml} ${retiredBadge}
                 </div>
                 <div class="profile-meta">
-                  Rank #${rank} &nbsp;·&nbsp; <span style="color:${tierColor}">${tier}</span> &nbsp;·&nbsp; ${mode.toUpperCase()}
+                  Rank #${rank} &nbsp;·&nbsp; <span style="color:${tierColor}">${tier}</span> &nbsp;·&nbsp; ${modeName(mode).toUpperCase()}
                 </div>
               </div>
             </div>
@@ -2068,7 +2069,7 @@
             <div class="no-achievements">No achievements yet — keep grinding!</div>
           </div>`;
         const html = [...seen.values()].map(({ach, ms}) => {
-          const modeLabel = ms.map(m => modeImgTag[m] + m.charAt(0).toUpperCase()+m.slice(1)).join(', ');
+          const modeLabel = ms.map(m => modeImgTag[m] + modeName(m)).join(', ');
           const tooltipHtml = `<b>${ach.name}</b><span class="tt-pct">${modeLabel}</span>`;
           return badgeHtml(ach, tooltipHtml);
         }).join('');
@@ -2079,7 +2080,7 @@
           </div>`;
       } else {
         const badges = computeAchievements(name, mode);
-        const modeDisplay = modeImgTag[mode] + mode.charAt(0).toUpperCase() + mode.slice(1);
+        const modeDisplay = modeImgTag[mode] + modeName(mode);
         if(!badges.length) return `
           <div class="achievements-section">
             <div class="achievements-heading">Achievements</div>
@@ -2214,7 +2215,7 @@
           if(!hofSeen.has(ach.id)) hofSeen.set(ach.id, {ach, ms:['overall']});
         }
         const achHtml = hofSeen.size ? [...hofSeen.values()].map(({ach, ms})=>{
-          const modeLabel = ms.map(m => modeImgTag[m] + m.charAt(0).toUpperCase()+m.slice(1)).join(', ');
+          const modeLabel = ms.map(m => modeImgTag[m] + modeName(m)).join(', ');
           const tooltipHtml = `<b>${ach.name}</b><span class="tt-pct">${modeLabel}</span>`;
           return badgeHtml(ach, tooltipHtml);
         }).join('') : '<span class="no-achievements">—</span>';
@@ -2229,7 +2230,7 @@
                 <img src="${getAvatar(name,120)}" class="hof-avatar" alt="${name}">
                 <div>
                   <div class="hof-name">${name} ${flagHtml}</div>
-                  <div class="hof-meta" style="display:flex;align-items:center;gap:5px;">Best mode: ${modeImgHtml(bestMode,12)} <span>${bestMode.toUpperCase()}</span> · Career stats</div>
+                  <div class="hof-meta" style="display:flex;align-items:center;gap:5px;">Best mode: ${modeImgHtml(bestMode,12)} <span>${modeName(bestMode).toUpperCase()}</span> · Career stats</div>
                 </div>
               </div>
               <div class="hof-stats-row">
@@ -2292,8 +2293,7 @@
       const rank  = getOrderedPlayers(mode).indexOf(name)+1;
       const kd    = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
       const kdStr = kd===Infinity?'∞':kd.toFixed(2);
-      const modeLabel = mode.charAt(0).toUpperCase()+mode.slice(1);
-      const country = playerCountry[name] ? (countryNames[playerCountry[name]]||playerCountry[name]) : null;
+      const modeLabel = modeName(mode);      const country = playerCountry[name] ? (countryNames[playerCountry[name]]||playerCountry[name]) : null;
 
       const allP  = Object.keys(playerStats[mode]||{});
       const allWs = allP.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
