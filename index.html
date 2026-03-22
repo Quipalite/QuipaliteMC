@@ -807,8 +807,8 @@
       color: var(--text); letter-spacing: .3px;
       box-shadow: 0 12px 32px rgba(0,0,0,0.7);
       opacity: 0; transition: opacity .12s;
-      max-width: 180px; line-height: 1.5;
-      white-space: nowrap;
+      max-width: 220px; width: max-content; line-height: 1.5;
+      white-space: normal; word-break: break-word;
     }
     #statTooltip.visible { opacity: 1; }
     #statTooltip .tt-pct { display: block; font-size: 9px; color: var(--text-muted); margin-top: 2px; letter-spacing: 1px; }
@@ -826,22 +826,26 @@
     }
     .achievements-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .achievements-grid {
-      display: flex; flex-wrap: wrap; gap: 7px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 7px;
     }
     .achievement-badge {
-      display: flex; align-items: center; gap: 7px;
-      padding: 6px 10px; border-radius: 6px;
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 9px; border-radius: 6px;
       border: 1px solid var(--border);
       background: var(--surface2);
-      cursor: default;
+      cursor: pointer;
       transition: border-color .18s, background .18s;
       position: relative;
+      min-width: 0;
     }
     .achievement-badge:hover { background: rgba(255,255,255,0.05); }
-    .achievement-badge .ab-icon { font-size: 14px; line-height: 1; }
+    .achievement-badge .ab-icon { font-size: 14px; line-height: 1; flex-shrink: 0; }
     .achievement-badge .ab-name {
       font-family: var(--font-mono); font-size: 10px; font-weight: 700;
       letter-spacing: .5px; color: var(--text);
+      word-break: break-word; min-width: 0;
     }
     .achievement-badge .ab-desc {
       font-family: var(--font-mono); font-size: 8.5px;
@@ -1538,6 +1542,15 @@
     const modeIcons = { overall:'🏆', sword:'⚔️', axe:'🪓', uhc:'❤️', mace:'🔨', spear:'🗡️' };
     const modeOrder = ['overall','sword','axe','uhc','mace','spear'];
 
+    const modeImgSmall = {
+      overall: '🏆',
+      sword: '<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      axe:   '<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      uhc:   '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      mace:  '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      spear: '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+    };
+
     function buildPrimeSection(name){
       const peak = peakTiers[name];
       if(!peak) return '';
@@ -1550,7 +1563,7 @@
         const atPeak = currentTier && peakTier && (tierPriority[currentTier]||0) >= (tierPriority[peakTier]||0);
         return `
           <div class="prime-cell" title="${m}">
-            <div class="prime-cell-mode">${modeIcons[m]} ${m.toUpperCase()}</div>
+            <div class="prime-cell-mode" style="display:flex;align-items:center;gap:4px;">${modeImgSmall[m]} ${m.toUpperCase()}</div>
             <div class="prime-vs-row">
               <div class="prime-vs-block">
                 <div class="prime-vs-label" style="color:rgba(238,238,242,0.35)">NOW</div>
