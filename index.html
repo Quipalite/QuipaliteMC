@@ -2295,14 +2295,15 @@
 
       const stats  = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
       const tier   = customTiers[mode]?.[name] || 'Unranked';
-      const tc     = tierColors[tier] || '#666';
+      const tc     = tierColors[tier] || '#555';
       const allRanking = getOrderedPlayers(mode);
       const visRanking = allRanking.filter(n => showRetired || !retired.includes(n));
-      const rank  = (visRanking.indexOf(name)+1) || (allRanking.indexOf(name)+1);
+      const rank   = (visRanking.indexOf(name)+1) || (allRanking.indexOf(name)+1);
       const kd     = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
       const kdStr  = kd===Infinity?'∞':kd.toFixed(2);
       const ml     = modeName(mode);
       const country= playerCountry[name] ? (countryNames[playerCountry[name]]||playerCountry[name]) : null;
+      const PINK   = '#FF1A6D';
 
       const allP  = Object.keys(playerStats[mode]||{});
       const allWs = allP.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
@@ -2313,162 +2314,281 @@
       const dCol  = statColor(stats.deaths,allDs, true);
       const kdCol = kdColor(kd);
 
-      // Canvas: 640×200, retina 2×
-      const W=640, H=200, SC=2;
+      // ── Canvas setup: 700×340 @ 2x ──
+      const W=700, H=340, SC=2;
       const canvas = document.createElement('canvas');
       canvas.width=W*SC; canvas.height=H*SC;
       const ctx = canvas.getContext('2d');
       ctx.scale(SC,SC);
 
-      // ── Background ──
-      ctx.fillStyle='#08080d';
+      // ── 1. Base background ──
+      ctx.fillStyle='#050507';
       ctx.fillRect(0,0,W,H);
 
-      // Subtle dot grid
-      ctx.fillStyle='rgba(255,255,255,0.028)';
-      for(let gx=20;gx<W;gx+=24) for(let gy=20;gy<H;gy+=24){
-        ctx.beginPath(); ctx.arc(gx,gy,0.8,0,Math.PI*2); ctx.fill();
+      // ── 2. Dot grid (masked to top) ──
+      ctx.save();
+      const dotMask = ctx.createLinearGradient(0,0,0,H*0.7);
+      dotMask.addColorStop(0,'rgba(0,0,0,1)');
+      dotMask.addColorStop(1,'rgba(0,0,0,0)');
+      // draw dots with reduced opacity
+      ctx.globalAlpha = 0.055;
+      ctx.fillStyle = '#ffffff';
+      for(let gx=16;gx<W;gx+=28) for(let gy=16;gy<H;gy+=28){
+        const fadePct = Math.min(gy/(H*0.65), 1);
+        ctx.globalAlpha = 0.065 * (1-fadePct);
+        ctx.beginPath(); ctx.arc(gx,gy,0.9,0,Math.PI*2); ctx.fill();
       }
+      ctx.globalAlpha = 1;
+      ctx.restore();
 
-      // Tier-colour bloom behind avatar
-      const bl=ctx.createRadialGradient(100,H/2,0,100,H/2,180);
-      bl.addColorStop(0,tc+'35'); bl.addColorStop(1,'transparent');
-      ctx.fillStyle=bl; ctx.fillRect(0,0,W,H);
+      // ── 3. Background blooms ──
+      // Left bloom (tier colour, behind avatar area)
+      const blL = ctx.createRadialGradient(130, H*0.42, 0, 130, H*0.42, 260);
+      blL.addColorStop(0, tc+'40'); blL.addColorStop(0.5, tc+'15'); blL.addColorStop(1,'transparent');
+      ctx.fillStyle=blL; ctx.fillRect(0,0,W,H);
 
-      // Full-card border
+      // Right bloom (pink)
+      const blR = ctx.createRadialGradient(W, 0, 0, W, 0, 380);
+      blR.addColorStop(0,'rgba(160,0,200,0.18)'); blR.addColorStop(0.5,'rgba(255,26,109,0.07)'); blR.addColorStop(1,'transparent');
+      ctx.fillStyle=blR; ctx.fillRect(0,0,W,H);
+
+      // Bottom-left purple tint
+      const blBL = ctx.createRadialGradient(0, H, 0, 0, H, 220);
+      blBL.addColorStop(0,'rgba(80,0,255,0.1)'); blBL.addColorStop(1,'transparent');
+      ctx.fillStyle=blBL; ctx.fillRect(0,0,W,H);
+
+      // ── 4. Outer card border ──
+      ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1;
+      roundRect(ctx,0.5,0.5,W-1,H-1,14); ctx.stroke();
+
+      // ── 5. Header strip (top section background) ──
+      const headerH = 80;
+      const headerGrad = ctx.createLinearGradient(0,0,W,0);
+      headerGrad.addColorStop(0, 'rgba(160,0,200,0.22)');
+      headerGrad.addColorStop(0.3,'rgba(5,5,7,0.6)');
+      headerGrad.addColorStop(0.7,'rgba(5,5,7,0.6)');
+      headerGrad.addColorStop(1, 'rgba(80,0,255,0.18)');
+      ctx.save();
+      roundRect(ctx,0,0,W,headerH,0);
+      ctx.clip();
+      ctx.fillStyle = headerGrad;
+      ctx.fillRect(0,0,W,headerH);
+      ctx.restore();
+
+      // Header bottom border
       ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
-      roundRect(ctx,0.5,0.5,W-1,H-1,0); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,headerH); ctx.lineTo(W,headerH); ctx.stroke();
 
-      // Left accent bar (full height, tapered)
-      const bar=ctx.createLinearGradient(0,0,0,H);
-      bar.addColorStop(0,tc+'00'); bar.addColorStop(0.2,tc);
-      bar.addColorStop(0.8,tc);   bar.addColorStop(1,tc+'00');
-      ctx.fillStyle=bar; ctx.fillRect(0,0,3,H);
+      // ── 6. Top rainbow glow line (like site header) ──
+      const glowLine = ctx.createLinearGradient(0,0,W,0);
+      glowLine.addColorStop(0,   'rgba(160,0,200,0.7)');
+      glowLine.addColorStop(0.28, PINK+'dd');
+      glowLine.addColorStop(0.52,'rgba(255,140,0,0.6)');
+      glowLine.addColorStop(0.78,'rgba(80,0,255,0.6)');
+      glowLine.addColorStop(1,   'transparent');
+      ctx.fillStyle=glowLine; ctx.fillRect(0,0,W,2);
 
-      // Top glow line
-      const tg=ctx.createLinearGradient(0,0,W,0);
-      tg.addColorStop(0,'transparent'); tg.addColorStop(0.25,tc+'cc');
-      tg.addColorStop(0.75,tc+'cc');   tg.addColorStop(1,'transparent');
-      ctx.fillStyle=tg; ctx.fillRect(0,0,W,1);
+      // ── 7. Left accent bar (tier color, full height) ──
+      const accentBar = ctx.createLinearGradient(0,0,0,H);
+      accentBar.addColorStop(0,   tc+'00');
+      accentBar.addColorStop(0.15, tc+'ee');
+      accentBar.addColorStop(0.85, tc+'ee');
+      accentBar.addColorStop(1,   tc+'00');
+      ctx.fillStyle=accentBar; ctx.fillRect(0,0,3,H);
 
-      // ── Avatar (left) ──
-      const AX=18, AY=18, AS=100;
+      // Subtle inner glow on left edge
+      const innerGlow = ctx.createLinearGradient(0,0,60,0);
+      innerGlow.addColorStop(0, tc+'18'); innerGlow.addColorStop(1,'transparent');
+      ctx.fillStyle=innerGlow; ctx.fillRect(3,0,60,H);
 
-      // Avatar shadow
-      ctx.shadowColor=tc+'66'; ctx.shadowBlur=20;
-      ctx.fillStyle='rgba(0,0,0,0.4)';
-      roundRect(ctx,AX+2,AY+4,AS,AS,13); ctx.fill();
+      // ── 8. Header content: branding left, rank right ──
+      // Logo text left
+      ctx.font='800 13px "Syne",sans-serif';
+      ctx.fillStyle='rgba(238,238,242,0.45)';
+      ctx.letterSpacing = '2px';
+      ctx.fillText('QUIPA', 20, 30);
+      ctx.fillStyle=PINK;
+      ctx.fillText('LITE', 20+ctx.measureText('QUIPA').width, 30);
+      ctx.fillStyle='rgba(238,238,242,0.45)';
+      ctx.fillText(' MC', 20+ctx.measureText('QUIPA').width+ctx.measureText('LITE').width, 30);
+
+      ctx.font='500 7.5px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.2)';
+      ctx.fillText('RANKED BATTLE ARENA', 20, 46);
+
+      // Mode badge (header right area)
+      ctx.font='700 8px "JetBrains Mono",monospace';
+      const modeStr = ml.toUpperCase() + (country ? '  ·  ' + country.toUpperCase() : '');
+      const modeW = ctx.measureText(modeStr).width + 20;
+      roundRect(ctx, W-modeW-16, 14, modeW, 20, 5);
+      ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=1;
+      roundRect(ctx, W-modeW-16, 14, modeW, 20, 5); ctx.stroke();
+      ctx.fillStyle='rgba(238,238,242,0.5)';
+      ctx.fillText(modeStr, W-modeW-16+10, 28);
+
+      // Rank chip header right
+      ctx.font='800 11px "JetBrains Mono",monospace';
+      const rankLabel = `RANK  #${rank}`;
+      const rkW = ctx.measureText(rankLabel).width + 22;
+      roundRect(ctx, W-rkW-16, 42, rkW, 24, 5);
+      ctx.fillStyle=tc+'18'; ctx.fill();
+      ctx.strokeStyle=tc+'55'; ctx.lineWidth=1;
+      roundRect(ctx, W-rkW-16, 42, rkW, 24, 5); ctx.stroke();
+      ctx.fillStyle=tc;
+      ctx.fillText(rankLabel, W-rkW-16+11, 58);
+
+      // ── 9. Avatar ──
+      const AX=20, AY=headerH+22, AS=150;
+
+      // Outer glow ring
+      ctx.shadowColor=tc+'88'; ctx.shadowBlur=28;
+      ctx.strokeStyle=tc+'66'; ctx.lineWidth=1;
+      roundRect(ctx,AX-4,AY-4,AS+8,AS+8,18); ctx.stroke();
       ctx.shadowBlur=0;
 
+      // Avatar clip + draw
       const img=new Image();
       img.crossOrigin='anonymous';
-      await new Promise(r=>{ img.onload=r; img.onerror=r; img.src=getAvatar(name,200); });
-      if(img.naturalWidth>0){
-        ctx.save(); roundRect(ctx,AX,AY,AS,AS,13); ctx.clip();
-        ctx.drawImage(img,AX,AY,AS,AS);
-        ctx.restore();
+      await new Promise(r=>{ img.onload=r; img.onerror=r; img.src=getAvatar(name,300); });
+      ctx.save();
+      roundRect(ctx,AX,AY,AS,AS,14); ctx.clip();
+      if(img.naturalWidth>0) ctx.drawImage(img,AX,AY,AS,AS);
+      else {
+        ctx.fillStyle='rgba(255,255,255,0.05)'; ctx.fill();
       }
-      // Avatar border
-      ctx.strokeStyle=tc; ctx.lineWidth=2;
-      roundRect(ctx,AX+1,AY+1,AS-2,AS-2,12); ctx.stroke();
+      ctx.restore();
 
-      // ── Player info (middle-left) ──
-      const IX=AX+AS+18, IY=AY;
+      // Avatar border (tier color)
+      ctx.strokeStyle=tc; ctx.lineWidth=2.5;
+      roundRect(ctx,AX+1,AY+1,AS-2,AS-2,13); ctx.stroke();
 
-      // Name
-      ctx.font='800 22px "Syne",sans-serif';
+      // ── 10. Player info block (right of avatar) ──
+      const IX = AX+AS+24;
+      const IY = headerH+28;
+      const infoW = W - IX - 20;
+
+      // Player name
+      ctx.font='800 30px "Syne",sans-serif';
       ctx.fillStyle='#eeeef2';
-      ctx.fillText(name, IX, IY+22);
+      // truncate if needed
+      let displayName = name;
+      while(ctx.measureText(displayName).width > infoW - 10 && displayName.length > 4)
+        displayName = displayName.slice(0,-1);
+      if(displayName !== name) displayName += '…';
+      ctx.fillText(displayName, IX, IY+30);
 
       // Tier badge
-      ctx.font='700 9px "JetBrains Mono",monospace';
-      const tw=ctx.measureText(tier.toUpperCase()).width;
-      const PX=IX, PY=IY+30, PW=tw+16, PH=17;
-      ctx.fillStyle=tc+'22'; roundRect(ctx,PX,PY,PW,PH,4); ctx.fill();
-      ctx.strokeStyle=tc+'88'; ctx.lineWidth=1;
-      roundRect(ctx,PX,PY,PW,PH,4); ctx.stroke();
-      ctx.fillStyle=tc; ctx.fillText(tier.toUpperCase(), PX+8, PY+11.5);
+      ctx.font='700 9.5px "JetBrains Mono",monospace';
+      const tierLabel = tier.toUpperCase();
+      const tBW = ctx.measureText(tierLabel).width + 18;
+      const tBY = IY+42;
+      roundRect(ctx,IX,tBY,tBW,20,5);
+      ctx.fillStyle=tc+'20'; ctx.fill();
+      ctx.strokeStyle=tc+'99'; ctx.lineWidth=1;
+      roundRect(ctx,IX,tBY,tBW,20,5); ctx.stroke();
+      ctx.fillStyle=tc;
+      ctx.fillText(tierLabel, IX+9, tBY+13.5);
 
-      // Rank chip
-      const rankStr=`#${rank}`;
-      const rw=ctx.measureText(rankStr).width;
-      const RX=PX+PW+7, RY=PY, RW=rw+16, RH=17;
-      ctx.fillStyle='rgba(255,255,255,0.05)'; roundRect(ctx,RX,RY,RW,RH,4); ctx.fill();
-      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=1;
-      roundRect(ctx,RX,RY,RW,RH,4); ctx.stroke();
-      ctx.fillStyle='rgba(238,238,242,0.55)'; ctx.fillText(rankStr, RX+8, RY+11.5);
+      // K/D big display (right of tier badge)
+      const kdBig = kd===Infinity?'∞':kd.toFixed(2);
+      ctx.font=`800 ${kdBig.length>4?20:26}px "JetBrains Mono",monospace`;
+      ctx.fillStyle=kdCol;
+      ctx.shadowColor=kdCol+'66'; ctx.shadowBlur=14;
+      const kdBigX = IX + tBW + 16;
+      ctx.fillText(kdBig, kdBigX, tBY+18);
+      ctx.shadowBlur=0;
+      ctx.font='500 7px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.28)';
+      ctx.fillText('K / D', kdBigX, tBY+30);
 
-      // Mode · Country
-      ctx.font='500 8.5px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(238,238,242,0.3)';
-      const sub=`${ml.toUpperCase()}${country?' · '+country.toUpperCase():''}`;
-      ctx.fillText(sub, IX, IY+66);
+      // ── 11. Stat blocks row ──
+      const sbY = headerH + 22 + AS - 72; // align to bottom of avatar area
+      const sbCount = 3;
+      const sbGap   = 8;
+      const sbW     = (infoW - sbGap*(sbCount-1)) / sbCount;
+      const sbH     = 62;
 
-      // ── Vertical divider ──
-      const DX=Math.round(W*0.44);
-      ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(DX,16); ctx.lineTo(DX,H-16); ctx.stroke();
-
-      // ── Stats (right half) ──
-      const SX=DX+20, SW=W-DX-24;
-      const stats4=[
-        {label:'WINS',   val:String(stats.wins),  col:wCol},
-        {label:'KILLS',  val:String(stats.kills), col:kCol},
-        {label:'DEATHS', val:String(stats.deaths),col:dCol},
-        {label:'K / D',  val:kdStr,               col:kdCol},
+      const statBlocks = [
+        {label:'WINS',   val:String(stats.wins),   col:wCol},
+        {label:'KILLS',  val:String(stats.kills),  col:kCol},
+        {label:'DEATHS', val:String(stats.deaths), col:dCol},
       ];
 
-      const colW=SW/4;
-      stats4.forEach((s,i)=>{
-        const cx=SX+i*colW+colW/2;
+      statBlocks.forEach((s,i)=>{
+        const bx = IX + i*(sbW+sbGap);
+        const by = sbY;
+
+        // Block bg
+        roundRect(ctx,bx,by,sbW,sbH,9);
+        ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1;
+        roundRect(ctx,bx,by,sbW,sbH,9); ctx.stroke();
+
+        // Top accent line on block
+        const bAccent = ctx.createLinearGradient(bx,by,bx+sbW,by);
+        bAccent.addColorStop(0,'transparent'); bAccent.addColorStop(0.5,s.col+'88'); bAccent.addColorStop(1,'transparent');
+        ctx.fillStyle=bAccent; ctx.fillRect(bx+10,by,sbW-20,1.5);
 
         // Value
-        ctx.font=`700 ${s.val.length>4?16:20}px "JetBrains Mono",monospace`;
+        ctx.font=`700 ${String(s.val).length>3?18:22}px "JetBrains Mono",monospace`;
         ctx.fillStyle=s.col;
+        ctx.shadowColor=s.col+'55'; ctx.shadowBlur=10;
         const vw=ctx.measureText(s.val).width;
-        ctx.fillText(s.val, cx-vw/2, H/2+8);
+        ctx.fillText(s.val, bx+sbW/2-vw/2, by+36);
+        ctx.shadowBlur=0;
 
         // Label
-        ctx.font='500 7px "JetBrains Mono",monospace';
-        ctx.fillStyle='rgba(238,238,242,0.28)';
+        ctx.font='600 7px "JetBrains Mono",monospace';
+        ctx.fillStyle='rgba(238,238,242,0.3)';
         const lw=ctx.measureText(s.label).width;
-        ctx.fillText(s.label, cx-lw/2, H/2+24);
-
-        // Separator between cells
-        if(i<3){
-          ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=1;
-          ctx.beginPath();
-          ctx.moveTo(SX+(i+1)*colW, H/2-18);
-          ctx.lineTo(SX+(i+1)*colW, H/2+30);
-          ctx.stroke();
-        }
+        ctx.fillText(s.label, bx+sbW/2-lw/2, by+51);
       });
 
-      // KD bar at bottom of stats area
-      const barY=H-28, barW=SW-4;
-      const maxStat=Math.max(stats.wins,stats.kills,stats.deaths,1);
-      const bars3=[
+      // ── 12. Bottom bar ──
+      const bbY = H-36;
+      ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(20,bbY); ctx.lineTo(W-20,bbY); ctx.stroke();
+
+      // Achievements count
+      const achCount = (() => {
+        const seen = new Set();
+        const modes2 = ['sword','axe','uhc','mace','spear'];
+        for(const m of modes2) for(const a of computeAchievements(name,m)) seen.add(a.id);
+        for(const a of computeAchievements(name,'overall')) seen.add(a.id);
+        return seen.size;
+      })();
+
+      ctx.font='600 7.5px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.22)';
+      ctx.fillText(`${achCount} ACHIEVEMENT${achCount!==1?'S':''}`, 20, bbY+20);
+
+      // KD bar strip
+      const stripX=20, stripY=bbY+28, stripW=W-40, stripH=3;
+      const maxBar=Math.max(stats.wins,stats.kills,stats.deaths,1);
+      const strips3=[
         {v:stats.wins,  col:wCol},
         {v:stats.kills, col:kCol},
         {v:stats.deaths,col:dCol},
       ];
-      const segW=(barW-4)/3;
-      bars3.forEach((b,i)=>{
-        const bx=SX+2+i*(segW+2);
+      const sSegW=(stripW-4)/3;
+      strips3.forEach((b,i)=>{
+        const bx=stripX+i*(sSegW+2);
         ctx.fillStyle='rgba(255,255,255,0.05)';
-        roundRect(ctx,bx,barY,segW,5,2.5); ctx.fill();
+        roundRect(ctx,bx,stripY,sSegW,stripH,1.5); ctx.fill();
         if(b.v>0){
-          const fw=(b.v/maxStat)*segW;
-          const g=ctx.createLinearGradient(bx,0,bx+fw,0);
-          g.addColorStop(0,b.col); g.addColorStop(1,b.col+'55');
-          ctx.fillStyle=g; roundRect(ctx,bx,barY,fw,5,2.5); ctx.fill();
+          const fw=Math.min((b.v/maxBar)*sSegW, sSegW);
+          const sg=ctx.createLinearGradient(bx,0,bx+fw,0);
+          sg.addColorStop(0,b.col+'ee'); sg.addColorStop(1,b.col+'33');
+          ctx.fillStyle=sg; roundRect(ctx,bx,stripY,fw,stripH,1.5); ctx.fill();
         }
       });
 
-      // ── Watermark ──
-      ctx.font='600 7px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(238,238,242,0.12)';
-      ctx.fillText('QUIPALITE MC', W-14-ctx.measureText('QUIPALITE MC').width, H-8);
+      // Watermark right
+      ctx.font='600 7.5px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.13)';
+      const wm='quipalitemc.com';
+      ctx.fillText(wm, W-20-ctx.measureText(wm).width, bbY+20);
 
       // ── Download ──
       const link=document.createElement('a');
