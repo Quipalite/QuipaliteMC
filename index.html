@@ -290,7 +290,6 @@
       box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    /* top glow line */
     .player::after {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; height: 1px;
@@ -298,7 +297,6 @@
       pointer-events: none;
     }
 
-    /* podium variants */
     .player.top1 {
       border-color: rgba(245,200,66,0.22);
       background: linear-gradient(135deg, rgba(245,200,66,0.055) 0%, var(--surface) 60%);
@@ -319,7 +317,6 @@
     .player.top2:hover { border-color: rgba(184,196,208,0.3); }
     .player.top3:hover { border-color: rgba(205,127,50,0.3); }
 
-    /* rank col */
     .rank-col {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       height: 100%; gap: 2px;
@@ -333,7 +330,6 @@
     .rank-num.bronze { color: var(--bronze); }
     .rank-num.retired-rank { color: var(--text-dim); opacity: 0.6; }
 
-    /* avatar col */
     .avatar-col {
       display: flex; align-items: center; justify-content: center;
       padding: 12px 4px;
@@ -349,7 +345,6 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
 
-    /* info col */
     .info-col {
       padding: 14px 10px;
       display: flex; flex-direction: column; gap: 6px;
@@ -391,7 +386,6 @@
       width: 1px; height: 10px; background: var(--border); flex-shrink: 0;
     }
 
-    /* right col */
     .right-col {
       padding: 14px 20px 14px 10px;
       display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
@@ -407,7 +401,6 @@
       letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase;
     }
 
-    /* crown */
     .crown {
       width: 15px; height: 15px; flex-shrink: 0;
       animation: crownBounce 2.2s ease-in-out infinite;
@@ -455,24 +448,6 @@
       margin-bottom: 20px;
     }
     .backBtn:hover { border-color: rgba(255,255,255,0.18); color: var(--text); transform: translateX(-2px); }
-
-    .profile-top-row {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .share-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 8px 16px; border-radius: var(--radius-sm);
-      background: var(--pink-glow); border: 1px solid var(--pink-line);
-      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
-      letter-spacing: .5px; color: var(--pink); cursor: pointer;
-      transition: all .2s cubic-bezier(0.22,1,0.36,1);
-    }
-    .share-btn:hover {
-      background: rgba(255,26,109,0.2); border-color: var(--pink);
-      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,26,109,0.2);
-    }
 
     #profileContent {
       background: var(--surface);
@@ -786,8 +761,6 @@
     body.mono .icon-btn { background: #050505; border-color: #111; color: #888; }
     body.mono .backBtn { background: #050505; border-color: #111; color: #888; }
     body.mono .backBtn:hover { border-color: #333; color: #fff; }
-    body.mono .share-btn { background: #050505; border-color: #111; color: #fff; }
-    body.mono .share-btn:hover { background: #0a0a0a; border-color: #333; box-shadow: none; }
     body.mono .compare-btn { background: #fff; color: #000; }
     body.mono .compare-btn:hover { filter: brightness(0.88); box-shadow: none; }
     body.mono .compare-vs { color: rgba(255,255,255,0.3); }
@@ -847,10 +820,6 @@
       font-family: var(--font-mono); font-size: 10px; font-weight: 700;
       letter-spacing: .5px; color: var(--text);
       word-break: break-word; min-width: 0;
-    }
-    .achievement-badge .ab-desc {
-      font-family: var(--font-mono); font-size: 8.5px;
-      color: var(--text-dim); display: none;
     }
     .no-achievements {
       font-family: var(--font-mono); font-size: 10px;
@@ -1086,7 +1055,6 @@
       #hofPage { padding: 16px 14px 40px; }
     }
 
-    /* hide tooltips on touch devices */
     @media (hover: none) {
       #statTooltip { display: none !important; }
     }
@@ -1171,13 +1139,7 @@
 
   <!-- PROFILE PAGE -->
   <div id="profilePage" aria-hidden="true">
-    <div class="profile-top-row">
-      <button class="backBtn" onclick="goBack()">← Back</button>
-      <button class="share-btn" id="shareCardBtn" onclick="generateShareCard()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-        Export Card
-      </button>
-    </div>
+    <button class="backBtn" onclick="goBack()">← Back</button>
     <div id="profileContent"></div>
   </div>
 
@@ -1203,7 +1165,7 @@
       <button class="compare-btn" onclick="runCompare()">Compare</button>
     </div>
     <div id="compareResult"></div>
-    </div><!-- /.compare-inner -->
+    </div>
   </div>
 
   <!-- HALL OF FAME -->
@@ -1246,8 +1208,6 @@
     let showRetired = false;
     const retired = ['Jai_B37', 'Aftlow'];
     const thumb = document.getElementById('toggleThumb');
-    let currentProfileName = '';
-    let currentProfileMode = '';
 
     const tierGuideData = [
       { name:'Netherite', color:'#6b6b78', desc:'Elite level; represents the highest standard of performance.' },
@@ -1565,7 +1525,6 @@
           </div>
         `;
         container.appendChild(card);
-        // attach tooltips to stat pills
         attachTooltips(card, mode, stats, allWins, allKills, allDeaths);
       });
 
@@ -1624,11 +1583,8 @@
     }
 
     function openProfile(name, mode){
-      currentProfileName = name;
-      currentProfileMode = mode;
       const stats = (playerStats[mode]||{})[name];
       const allRanking = getOrderedPlayers(mode);
-      // Rank should reflect what the leaderboard shows
       const visibleRanking = allRanking.filter(n => showRetired || !retired.includes(n));
       const rank = visibleRanking.indexOf(name) + 1 || allRanking.indexOf(name) + 1;
       const tier = customTiers[mode]?.[name]||'Unranked';
@@ -1948,7 +1904,6 @@
       initTooltip();
     });
 
-    // ── STAT TOOLTIPS ──
     function getPercentileLabel(value, allValues, lowerIsBetter=false){
       if(!allValues.length) return '';
       const sorted = [...allValues].filter(v=>v>0).sort((a,b)=>a-b);
@@ -1995,8 +1950,6 @@
     function attachTooltips(container, mode, stats, allWins, allKills, allDeaths){
       const pills = container.querySelectorAll('.stat-pill');
       if(pills.length < 3) return;
-      const kd = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
-      const kdPct = kd===Infinity ? 'Best K/D in mode' : kd===0 ? 'No kills yet' : getPercentileLabel(kd, allKills.map((_,i)=>allDeaths[i]===0?(allKills[i]>0?999:0):allKills[i]/allDeaths[i]));
       const labels = [
         `<b>${stats.wins} Wins</b><span class="tt-pct">${getPercentileLabel(stats.wins, allWins)}</span>`,
         `<b>${stats.kills} Kills</b><span class="tt-pct">${getPercentileLabel(stats.kills, allKills)}</span>`,
@@ -2005,7 +1958,6 @@
       pills.forEach((p,i) => { if(labels[i]) p.dataset.tt = labels[i]; });
     }
 
-    // ── ACHIEVEMENTS ──
     const allAchievements = [
       { id:'champion',    icon:'👑', name:'Champion',    desc:'#1 ranked in a mode',        check:(name,mode,stats,rank)=>rank===1 },
       { id:'untouchable', icon:'🛡️', name:'Untouchable', desc:'0 deaths in a mode',          check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0 },
@@ -2137,18 +2089,17 @@
     }
     function handleAchModalBackdrop(e){ if(e.target===document.getElementById('achModal')) closeAchModal(); }
 
-    // Click on any achievement badge opens the guide
     document.addEventListener('click', e => {
       const badge = e.target.closest('.achievement-badge');
       if(badge) openAchModal();
     });
+
     function showHallOfFame(btn){
       document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
       if(btn) btn.classList.add('active');
       document.querySelector('.container').style.display='none';
       document.getElementById('searchInput').style.display='none';
       document.getElementById('retiredToggle').style.display='none';
-      // hide profile if open
       const profile=document.getElementById('profilePage');
       if(profile&&profile.style.display!=='none'){
         profile.classList.remove('show');
@@ -2179,7 +2130,6 @@
         const flagHtml = country ? getFlagImg(country,13) : '';
         const peak = peakTiers[name]||{};
 
-        // Best mode by highest peak tier
         const modes = ['sword','axe','uhc','mace','spear'];
         const tierPriority = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
         const bestMode = modes.reduce((best,m)=>{
@@ -2206,7 +2156,6 @@
           .map(([m,t])=>`<span class="hof-peak-chip" style="color:${tierColors[t]};border-color:${tierColors[t]}40;display:inline-flex;align-items:center;gap:5px;">${modeImgHtml(m,11)} ${t}</span>`)
           .join('');
 
-        // Career achievements — collect across all modes like overall profile
         const hofSeen = new Map();
         for(const m of modes){
           for(const ach of computeAchievements(name, m)){
@@ -2267,213 +2216,6 @@
         </div>
         ${cards}
       `;
-    }
-
-    // ── SHARE CARD ──
-    function roundRect(ctx, x, y, w, h, r){
-      ctx.beginPath();
-      ctx.moveTo(x+r,y);
-      ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-      ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-      ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-      ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-      ctx.closePath();
-    }
-
-    async function generateShareCard(){
-      const btn = document.getElementById('shareCardBtn');
-      const origText = btn.innerHTML;
-      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg> Generating…';
-      btn.disabled = true;
-
-      const name = currentProfileName;
-      const mode = currentProfileMode;
-      if(mode==='overall') updateOverall();
-
-      const stats  = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
-      const tier   = customTiers[mode]?.[name] || 'Unranked';
-      const tc     = tierColors[tier] || '#666';
-      const allRanking = getOrderedPlayers(mode);
-      const visRanking = allRanking.filter(n => showRetired || !retired.includes(n));
-      const rank  = (visRanking.indexOf(name)+1) || (allRanking.indexOf(name)+1);
-      const kd     = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
-      const kdStr  = kd===Infinity?'∞':kd.toFixed(2);
-      const ml     = modeName(mode);
-      const country= playerCountry[name] ? (countryNames[playerCountry[name]]||playerCountry[name]) : null;
-
-      const allP  = Object.keys(playerStats[mode]||{});
-      const allWs = allP.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
-      const allKs = allP.map(n=>((playerStats[mode]||{})[n]||{}).kills||0);
-      const allDs = allP.map(n=>((playerStats[mode]||{})[n]||{}).deaths||0);
-      const wCol  = statColor(stats.wins,  allWs, false);
-      const kCol  = statColor(stats.kills, allKs, false);
-      const dCol  = statColor(stats.deaths,allDs, true);
-      const kdCol = kdColor(kd);
-
-      // Canvas: 640×200, retina 2×
-      const W=640, H=200, SC=2;
-      const canvas = document.createElement('canvas');
-      canvas.width=W*SC; canvas.height=H*SC;
-      const ctx = canvas.getContext('2d');
-      ctx.scale(SC,SC);
-
-      // ── Background ──
-      ctx.fillStyle='#08080d';
-      ctx.fillRect(0,0,W,H);
-
-      // Subtle dot grid
-      ctx.fillStyle='rgba(255,255,255,0.028)';
-      for(let gx=20;gx<W;gx+=24) for(let gy=20;gy<H;gy+=24){
-        ctx.beginPath(); ctx.arc(gx,gy,0.8,0,Math.PI*2); ctx.fill();
-      }
-
-      // Tier-colour bloom behind avatar
-      const bl=ctx.createRadialGradient(100,H/2,0,100,H/2,180);
-      bl.addColorStop(0,tc+'35'); bl.addColorStop(1,'transparent');
-      ctx.fillStyle=bl; ctx.fillRect(0,0,W,H);
-
-      // Full-card border
-      ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
-      roundRect(ctx,0.5,0.5,W-1,H-1,0); ctx.stroke();
-
-      // Left accent bar (full height, tapered)
-      const bar=ctx.createLinearGradient(0,0,0,H);
-      bar.addColorStop(0,tc+'00'); bar.addColorStop(0.2,tc);
-      bar.addColorStop(0.8,tc);   bar.addColorStop(1,tc+'00');
-      ctx.fillStyle=bar; ctx.fillRect(0,0,3,H);
-
-      // Top glow line
-      const tg=ctx.createLinearGradient(0,0,W,0);
-      tg.addColorStop(0,'transparent'); tg.addColorStop(0.25,tc+'cc');
-      tg.addColorStop(0.75,tc+'cc');   tg.addColorStop(1,'transparent');
-      ctx.fillStyle=tg; ctx.fillRect(0,0,W,1);
-
-      // ── Avatar (left) ──
-      const AX=18, AY=18, AS=100;
-
-      // Avatar shadow
-      ctx.shadowColor=tc+'66'; ctx.shadowBlur=20;
-      ctx.fillStyle='rgba(0,0,0,0.4)';
-      roundRect(ctx,AX+2,AY+4,AS,AS,13); ctx.fill();
-      ctx.shadowBlur=0;
-
-      const img=new Image();
-      img.crossOrigin='anonymous';
-      await new Promise(r=>{ img.onload=r; img.onerror=r; img.src=getAvatar(name,200); });
-      if(img.naturalWidth>0){
-        ctx.save(); roundRect(ctx,AX,AY,AS,AS,13); ctx.clip();
-        ctx.drawImage(img,AX,AY,AS,AS);
-        ctx.restore();
-      }
-      // Avatar border
-      ctx.strokeStyle=tc; ctx.lineWidth=2;
-      roundRect(ctx,AX+1,AY+1,AS-2,AS-2,12); ctx.stroke();
-
-      // ── Player info (middle-left) ──
-      const IX=AX+AS+18, IY=AY;
-
-      // Name
-      ctx.font='800 22px "Syne",sans-serif';
-      ctx.fillStyle='#eeeef2';
-      ctx.fillText(name, IX, IY+22);
-
-      // Tier badge
-      ctx.font='700 9px "JetBrains Mono",monospace';
-      const tw=ctx.measureText(tier.toUpperCase()).width;
-      const PX=IX, PY=IY+30, PW=tw+16, PH=17;
-      ctx.fillStyle=tc+'22'; roundRect(ctx,PX,PY,PW,PH,4); ctx.fill();
-      ctx.strokeStyle=tc+'88'; ctx.lineWidth=1;
-      roundRect(ctx,PX,PY,PW,PH,4); ctx.stroke();
-      ctx.fillStyle=tc; ctx.fillText(tier.toUpperCase(), PX+8, PY+11.5);
-
-      // Rank chip
-      const rankStr=`#${rank}`;
-      const rw=ctx.measureText(rankStr).width;
-      const RX=PX+PW+7, RY=PY, RW=rw+16, RH=17;
-      ctx.fillStyle='rgba(255,255,255,0.05)'; roundRect(ctx,RX,RY,RW,RH,4); ctx.fill();
-      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=1;
-      roundRect(ctx,RX,RY,RW,RH,4); ctx.stroke();
-      ctx.fillStyle='rgba(238,238,242,0.55)'; ctx.fillText(rankStr, RX+8, RY+11.5);
-
-      // Mode · Country
-      ctx.font='500 8.5px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(238,238,242,0.3)';
-      const sub=`${ml.toUpperCase()}${country?' · '+country.toUpperCase():''}`;
-      ctx.fillText(sub, IX, IY+66);
-
-      // ── Vertical divider ──
-      const DX=Math.round(W*0.44);
-      ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(DX,16); ctx.lineTo(DX,H-16); ctx.stroke();
-
-      // ── Stats (right half) ──
-      const SX=DX+20, SW=W-DX-24;
-      const stats4=[
-        {label:'WINS',   val:String(stats.wins),  col:wCol},
-        {label:'KILLS',  val:String(stats.kills), col:kCol},
-        {label:'DEATHS', val:String(stats.deaths),col:dCol},
-        {label:'K / D',  val:kdStr,               col:kdCol},
-      ];
-
-      const colW=SW/4;
-      stats4.forEach((s,i)=>{
-        const cx=SX+i*colW+colW/2;
-
-        // Value
-        ctx.font=`700 ${s.val.length>4?16:20}px "JetBrains Mono",monospace`;
-        ctx.fillStyle=s.col;
-        const vw=ctx.measureText(s.val).width;
-        ctx.fillText(s.val, cx-vw/2, H/2+8);
-
-        // Label
-        ctx.font='500 7px "JetBrains Mono",monospace';
-        ctx.fillStyle='rgba(238,238,242,0.28)';
-        const lw=ctx.measureText(s.label).width;
-        ctx.fillText(s.label, cx-lw/2, H/2+24);
-
-        // Separator between cells
-        if(i<3){
-          ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=1;
-          ctx.beginPath();
-          ctx.moveTo(SX+(i+1)*colW, H/2-18);
-          ctx.lineTo(SX+(i+1)*colW, H/2+30);
-          ctx.stroke();
-        }
-      });
-
-      // KD bar at bottom of stats area
-      const barY=H-28, barW=SW-4;
-      const maxStat=Math.max(stats.wins,stats.kills,stats.deaths,1);
-      const bars3=[
-        {v:stats.wins,  col:wCol},
-        {v:stats.kills, col:kCol},
-        {v:stats.deaths,col:dCol},
-      ];
-      const segW=(barW-4)/3;
-      bars3.forEach((b,i)=>{
-        const bx=SX+2+i*(segW+2);
-        ctx.fillStyle='rgba(255,255,255,0.05)';
-        roundRect(ctx,bx,barY,segW,5,2.5); ctx.fill();
-        if(b.v>0){
-          const fw=(b.v/maxStat)*segW;
-          const g=ctx.createLinearGradient(bx,0,bx+fw,0);
-          g.addColorStop(0,b.col); g.addColorStop(1,b.col+'55');
-          ctx.fillStyle=g; roundRect(ctx,bx,barY,fw,5,2.5); ctx.fill();
-        }
-      });
-
-      // ── Watermark ──
-      ctx.font='600 7px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(238,238,242,0.12)';
-      ctx.fillText('QUIPALITE MC', W-14-ctx.measureText('QUIPALITE MC').width, H-8);
-
-      // ── Download ──
-      const link=document.createElement('a');
-      link.download=`${name}_${mode}_quipalite.png`;
-      link.href=canvas.toDataURL('image/png');
-      link.click();
-
-      btn.innerHTML=origText; btn.disabled=false;
     }
   </script>
 </body>
