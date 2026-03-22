@@ -972,7 +972,62 @@
     body.mono .hof-title { color: #fff; text-shadow: none; }
     body.mono .hof-retired-label { color: #fff; background: rgba(255,255,255,0.05); border-color: #333; }
 
-    /* ─── FOOTER ─── */
+    /* ─── ACHIEVEMENTS MODAL ─── */
+    #achModal {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #achModalBackdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
+      opacity: 0; transition: opacity .3s;
+    }
+    #achModal.open #achModalBackdrop { opacity: 1; }
+    #achModal.closing #achModalBackdrop { opacity: 0; }
+    #achModalInner {
+      position: relative; z-index: 1;
+      background: #0b0b10; border: 1px solid var(--border-card);
+      border-radius: 16px; padding: 28px 24px;
+      max-width: 460px; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+      opacity: 0; transform: translateY(20px) scale(0.97);
+      transition: opacity .3s cubic-bezier(0.22,1,0.36,1), transform .3s cubic-bezier(0.22,1,0.36,1);
+    }
+    #achModal.open #achModalInner { opacity: 1; transform: none; transition-delay: .04s; }
+    #achModal.closing #achModalInner { opacity: 0; transform: translateY(12px) scale(0.97); transition: opacity .2s, transform .2s; }
+    #achModalInner h2 {
+      font-family: var(--font-display); font-size: 18px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    #achModalClose {
+      background: none; border: none;
+      font-size: 18px; color: var(--text-muted); cursor: pointer;
+      transition: color .15s, transform .2s; line-height: 1;
+    }
+    #achModalClose:hover { color: var(--text); transform: rotate(90deg); }
+    .ach-modal-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity .22s, transform .22s;
+    }
+    #achModal.open .ach-modal-row { opacity: 1; transform: none; }
+    .ach-modal-row:last-child { border-bottom: none; }
+    .ach-modal-icon {
+      font-size: 22px; line-height: 1; flex-shrink: 0;
+      width: 36px; text-align: center;
+    }
+    .ach-modal-info { display: flex; flex-direction: column; gap: 3px; }
+    .ach-modal-name {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+      color: var(--text); letter-spacing: .5px;
+    }
+    .ach-modal-desc { font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+    body.mono #achModalInner { background: #050505; border-color: #222; }
+    body.mono #achModalBackdrop { background: rgba(0,0,0,0.88); }
     footer {
       text-align: center; padding: 28px 20px;
       font-family: var(--font-mono); font-size: 9px; font-weight: 600;
@@ -1127,6 +1182,18 @@
         <button id="tierModalClose" onclick="closeTierGuide()" aria-label="Close">✕</button>
       </h2>
       <div id="tierModalList"></div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS GUIDE MODAL -->
+  <div id="achModal" role="dialog" aria-modal="true" aria-label="Achievements Guide" onclick="handleAchModalBackdrop(event)">
+    <div id="achModalBackdrop"></div>
+    <div id="achModalInner">
+      <h2>
+        <span>🏅 Achievements</span>
+        <button id="achModalClose" onclick="closeAchModal()" aria-label="Close">✕</button>
+      </h2>
+      <div id="achModalList"></div>
     </div>
   </div>
 
@@ -1801,6 +1868,7 @@
       const isTyping = tag==='input'||tag==='textarea';
       if(e.key==='Escape'){
         if(document.getElementById('tierModal').classList.contains('open')){ closeTierGuide(); return; }
+        if(document.getElementById('achModal').classList.contains('open')){ closeAchModal(); return; }
         const profile=document.getElementById('profilePage');
         const cp=document.getElementById('comparePage');
         if(profile&&profile.style.display!=='none') goBack();
@@ -1974,7 +2042,48 @@
       }
     }
 
-    // ── HALL OF FAME ──
+    function openAchModal(){
+      const list = document.getElementById('achModalList');
+      list.innerHTML = '';
+      allAchievements.forEach((a, i) => {
+        const row = document.createElement('div');
+        row.className = 'ach-modal-row';
+        row.style.transitionDelay = (0.05 + i * 0.045) + 's';
+        row.innerHTML = `
+          <div class="ach-modal-icon" style="${a.monospace?'font-family:var(--font-mono);font-weight:800;font-size:16px;':''}">${a.icon}</div>
+          <div class="ach-modal-info">
+            <div class="ach-modal-name">${a.name}</div>
+            <div class="ach-modal-desc">${a.desc}</div>
+          </div>`;
+        list.appendChild(row);
+      });
+      const modal = document.getElementById('achModal');
+      modal.classList.remove('closing');
+      modal.style.display = 'flex';
+      modal.getBoundingClientRect();
+      requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = sw + 'px';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAchModal(){
+      const modal = document.getElementById('achModal');
+      modal.classList.add('closing');
+      modal.querySelectorAll('.ach-modal-row').forEach(r => r.style.transitionDelay = '0s');
+      setTimeout(() => {
+        modal.classList.remove('open','closing');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }, 280);
+    }
+    function handleAchModalBackdrop(e){ if(e.target===document.getElementById('achModal')) closeAchModal(); }
+
+    // Click on any achievement badge opens the guide
+    document.addEventListener('click', e => {
+      const badge = e.target.closest('.achievement-badge');
+      if(badge) openAchModal();
+    });
     function showHallOfFame(btn){
       document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
       if(btn) btn.classList.add('active');
