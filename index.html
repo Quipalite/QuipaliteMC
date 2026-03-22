@@ -2290,188 +2290,186 @@
       const mode = currentProfileMode;
       if(mode==='overall') updateOverall();
 
-      const stats = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
-      const tier  = customTiers[mode]?.[name] || 'Unranked';
-      const tierColor = tierColors[tier] || '#444';
-      const rank  = getOrderedPlayers(mode).indexOf(name)+1;
-      const kd    = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
-      const kdStr = kd===Infinity?'∞':kd.toFixed(2);
-      const modeLabel = modeName(mode);
-      const country = playerCountry[name] ? (countryNames[playerCountry[name]]||playerCountry[name]) : null;
+      const stats  = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
+      const tier   = customTiers[mode]?.[name] || 'Unranked';
+      const tc     = tierColors[tier] || '#666';
+      const allRanking = getOrderedPlayers(mode);
+      const visRanking = allRanking.filter(n => showRetired || !retired.includes(n));
+      const rank  = (visRanking.indexOf(name)+1) || (allRanking.indexOf(name)+1);
+      const kd     = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
+      const kdStr  = kd===Infinity?'∞':kd.toFixed(2);
+      const ml     = modeName(mode);
+      const country= playerCountry[name] ? (countryNames[playerCountry[name]]||playerCountry[name]) : null;
 
       const allP  = Object.keys(playerStats[mode]||{});
       const allWs = allP.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
       const allKs = allP.map(n=>((playerStats[mode]||{})[n]||{}).kills||0);
       const allDs = allP.map(n=>((playerStats[mode]||{})[n]||{}).deaths||0);
-      const wCol  = statColor(stats.wins,   allWs, false);
-      const kCol  = statColor(stats.kills,  allKs, false);
-      const dCol  = statColor(stats.deaths, allDs, true);
+      const wCol  = statColor(stats.wins,  allWs, false);
+      const kCol  = statColor(stats.kills, allKs, false);
+      const dCol  = statColor(stats.deaths,allDs, true);
       const kdCol = kdColor(kd);
 
-      const W=600, H=320, SC=2;
+      // Canvas: 640×200, retina 2×
+      const W=640, H=200, SC=2;
       const canvas = document.createElement('canvas');
       canvas.width=W*SC; canvas.height=H*SC;
       const ctx = canvas.getContext('2d');
       ctx.scale(SC,SC);
 
       // ── Background ──
-      ctx.fillStyle='#07070b';
+      ctx.fillStyle='#08080d';
       ctx.fillRect(0,0,W,H);
 
-      // Dot grid
-      ctx.fillStyle='rgba(255,255,255,0.035)';
-      for(let gx=16;gx<W;gx+=28) for(let gy=16;gy<H;gy+=28){
-        ctx.beginPath(); ctx.arc(gx,gy,0.9,0,Math.PI*2); ctx.fill();
+      // Subtle dot grid
+      ctx.fillStyle='rgba(255,255,255,0.028)';
+      for(let gx=20;gx<W;gx+=24) for(let gy=20;gy<H;gy+=24){
+        ctx.beginPath(); ctx.arc(gx,gy,0.8,0,Math.PI*2); ctx.fill();
       }
 
-      // Banner gradient at top
-      const bannerH = 90;
-      const banner = ctx.createLinearGradient(0,0,W,bannerH);
-      banner.addColorStop(0, tierColor+'40');
-      banner.addColorStop(0.5, tierColor+'18');
-      banner.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle=banner; ctx.fillRect(0,0,W,bannerH);
+      // Tier-colour bloom behind avatar
+      const bl=ctx.createRadialGradient(100,H/2,0,100,H/2,180);
+      bl.addColorStop(0,tc+'35'); bl.addColorStop(1,'transparent');
+      ctx.fillStyle=bl; ctx.fillRect(0,0,W,H);
 
-      // Side bloom
-      const bloom = ctx.createRadialGradient(50,H/2,0,50,H/2,220);
-      bloom.addColorStop(0, tierColor+'28'); bloom.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=bloom; ctx.fillRect(0,0,W,H);
+      // Full-card border
+      ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
+      roundRect(ctx,0.5,0.5,W-1,H-1,0); ctx.stroke();
 
-      // Left accent bar
-      const accent=ctx.createLinearGradient(0,0,0,H);
-      accent.addColorStop(0,tierColor+'00');
-      accent.addColorStop(0.25,tierColor);
-      accent.addColorStop(0.75,tierColor);
-      accent.addColorStop(1,tierColor+'00');
-      ctx.fillStyle=accent; ctx.fillRect(0,0,3,H);
+      // Left accent bar (full height, tapered)
+      const bar=ctx.createLinearGradient(0,0,0,H);
+      bar.addColorStop(0,tc+'00'); bar.addColorStop(0.2,tc);
+      bar.addColorStop(0.8,tc);   bar.addColorStop(1,tc+'00');
+      ctx.fillStyle=bar; ctx.fillRect(0,0,3,H);
 
-      // Top highlight line
-      const topLine=ctx.createLinearGradient(0,0,W,0);
-      topLine.addColorStop(0,'rgba(255,255,255,0)');
-      topLine.addColorStop(0.3,tierColor+'aa');
-      topLine.addColorStop(0.7,tierColor+'aa');
-      topLine.addColorStop(1,'rgba(255,255,255,0)');
-      ctx.fillStyle=topLine; ctx.fillRect(0,0,W,1);
+      // Top glow line
+      const tg=ctx.createLinearGradient(0,0,W,0);
+      tg.addColorStop(0,'transparent'); tg.addColorStop(0.25,tc+'cc');
+      tg.addColorStop(0.75,tc+'cc');   tg.addColorStop(1,'transparent');
+      ctx.fillStyle=tg; ctx.fillRect(0,0,W,1);
 
-      // ── Avatar ──
-      const ax=20, ay=18, as=88;
-      ctx.fillStyle='rgba(255,255,255,0.05)';
-      roundRect(ctx,ax,ay,as,as,13); ctx.fill();
+      // ── Avatar (left) ──
+      const AX=18, AY=18, AS=100;
 
-      const img = new Image();
+      // Avatar shadow
+      ctx.shadowColor=tc+'66'; ctx.shadowBlur=20;
+      ctx.fillStyle='rgba(0,0,0,0.4)';
+      roundRect(ctx,AX+2,AY+4,AS,AS,13); ctx.fill();
+      ctx.shadowBlur=0;
+
+      const img=new Image();
       img.crossOrigin='anonymous';
-      await new Promise(res=>{ img.onload=res; img.onerror=res; img.src=getAvatar(name,128); });
+      await new Promise(r=>{ img.onload=r; img.onerror=r; img.src=getAvatar(name,200); });
       if(img.naturalWidth>0){
-        ctx.save();
-        roundRect(ctx,ax,ay,as,as,13); ctx.clip();
-        ctx.drawImage(img,ax,ay,as,as);
+        ctx.save(); roundRect(ctx,AX,AY,AS,AS,13); ctx.clip();
+        ctx.drawImage(img,AX,AY,AS,AS);
         ctx.restore();
       }
-      ctx.strokeStyle=tierColor+'cc'; ctx.lineWidth=1.5;
-      roundRect(ctx,ax+0.75,ay+0.75,as-1.5,as-1.5,12.5); ctx.stroke();
+      // Avatar border
+      ctx.strokeStyle=tc; ctx.lineWidth=2;
+      roundRect(ctx,AX+1,AY+1,AS-2,AS-2,12); ctx.stroke();
 
-      // ── Header text ──
-      const tx=ax+as+16;
+      // ── Player info (middle-left) ──
+      const IX=AX+AS+18, IY=AY;
+
       // Name
-      ctx.font='800 26px "Syne",Arial,sans-serif';
+      ctx.font='800 22px "Syne",sans-serif';
       ctx.fillStyle='#eeeef2';
-      ctx.fillText(name, tx, ay+28);
+      ctx.fillText(name, IX, IY+22);
 
-      // Tier pill
-      ctx.font='700 9.5px "JetBrains Mono",monospace';
-      const tierTw=ctx.measureText(tier).width;
-      const pillX=tx, pillY=ay+36, pillW=tierTw+18, pillH=18;
-      ctx.fillStyle=tierColor+'20'; roundRect(ctx,pillX,pillY,pillW,pillH,4); ctx.fill();
-      ctx.strokeStyle=tierColor+'70'; ctx.lineWidth=1;
-      roundRect(ctx,pillX,pillY,pillW,pillH,4); ctx.stroke();
-      ctx.fillStyle=tierColor; ctx.fillText(tier, pillX+9, pillY+12.5);
+      // Tier badge
+      ctx.font='700 9px "JetBrains Mono",monospace';
+      const tw=ctx.measureText(tier.toUpperCase()).width;
+      const PX=IX, PY=IY+30, PW=tw+16, PH=17;
+      ctx.fillStyle=tc+'22'; roundRect(ctx,PX,PY,PW,PH,4); ctx.fill();
+      ctx.strokeStyle=tc+'88'; ctx.lineWidth=1;
+      roundRect(ctx,PX,PY,PW,PH,4); ctx.stroke();
+      ctx.fillStyle=tc; ctx.fillText(tier.toUpperCase(), PX+8, PY+11.5);
 
-      // Rank · Mode · Country
-      ctx.font='500 9px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(238,238,242,0.35)';
-      const meta = `#${rank}  ·  ${modeLabel.toUpperCase()}${country?' · '+country.toUpperCase():''}`;
-      ctx.fillText(meta, tx, ay+74);
+      // Rank chip
+      const rankStr=`#${rank}`;
+      const rw=ctx.measureText(rankStr).width;
+      const RX=PX+PW+7, RY=PY, RW=rw+16, RH=17;
+      ctx.fillStyle='rgba(255,255,255,0.05)'; roundRect(ctx,RX,RY,RW,RH,4); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=1;
+      roundRect(ctx,RX,RY,RW,RH,4); ctx.stroke();
+      ctx.fillStyle='rgba(238,238,242,0.55)'; ctx.fillText(rankStr, RX+8, RY+11.5);
 
-      // ── Divider ──
-      ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(16,118); ctx.lineTo(W-16,118); ctx.stroke();
+      // Mode · Country
+      ctx.font='500 8.5px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.3)';
+      const sub=`${ml.toUpperCase()}${country?' · '+country.toUpperCase():''}`;
+      ctx.fillText(sub, IX, IY+66);
 
-      // ── Stat boxes (4 across) ──
-      const boxes=[
+      // ── Vertical divider ──
+      const DX=Math.round(W*0.44);
+      ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(DX,16); ctx.lineTo(DX,H-16); ctx.stroke();
+
+      // ── Stats (right half) ──
+      const SX=DX+20, SW=W-DX-24;
+      const stats4=[
         {label:'WINS',   val:String(stats.wins),  col:wCol},
         {label:'KILLS',  val:String(stats.kills), col:kCol},
         {label:'DEATHS', val:String(stats.deaths),col:dCol},
         {label:'K / D',  val:kdStr,               col:kdCol},
       ];
-      const bpad=16, bgap=9;
-      const bw=(W-bpad*2-bgap*3)/4, bh=64, bsy=128;
-      boxes.forEach((b,i)=>{
-        const bx=bpad+i*(bw+bgap);
-        // Box bg with subtle gradient
-        const boxGrad=ctx.createLinearGradient(bx,bsy,bx,bsy+bh);
-        boxGrad.addColorStop(0,'rgba(255,255,255,0.04)');
-        boxGrad.addColorStop(1,'rgba(255,255,255,0.01)');
-        ctx.fillStyle=boxGrad; roundRect(ctx,bx,bsy,bw,bh,8); ctx.fill();
-        ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=1;
-        roundRect(ctx,bx,bsy,bw,bh,8); ctx.stroke();
+
+      const colW=SW/4;
+      stats4.forEach((s,i)=>{
+        const cx=SX+i*colW+colW/2;
+
         // Value
-        ctx.font=`bold ${b.val.length>4?18:22}px "JetBrains Mono",monospace`;
-        ctx.fillStyle=b.col;
-        const vw=ctx.measureText(b.val).width;
-        ctx.fillText(b.val, bx+(bw-vw)/2, bsy+36);
+        ctx.font=`700 ${s.val.length>4?16:20}px "JetBrains Mono",monospace`;
+        ctx.fillStyle=s.col;
+        const vw=ctx.measureText(s.val).width;
+        ctx.fillText(s.val, cx-vw/2, H/2+8);
+
         // Label
-        ctx.font='500 7.5px "JetBrains Mono",monospace';
+        ctx.font='500 7px "JetBrains Mono",monospace';
         ctx.fillStyle='rgba(238,238,242,0.28)';
-        const lw=ctx.measureText(b.label).width;
-        ctx.fillText(b.label, bx+(bw-lw)/2, bsy+52);
+        const lw=ctx.measureText(s.label).width;
+        ctx.fillText(s.label, cx-lw/2, H/2+24);
+
+        // Separator between cells
+        if(i<3){
+          ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=1;
+          ctx.beginPath();
+          ctx.moveTo(SX+(i+1)*colW, H/2-18);
+          ctx.lineTo(SX+(i+1)*colW, H/2+30);
+          ctx.stroke();
+        }
       });
 
-      // ── Stat bars ──
-      const barRows=[
-        {label:'WINS',   v:stats.wins,   col:wCol},
-        {label:'KILLS',  v:stats.kills,  col:kCol},
-        {label:'DEATHS', v:stats.deaths, col:dCol},
+      // KD bar at bottom of stats area
+      const barY=H-28, barW=SW-4;
+      const maxStat=Math.max(stats.wins,stats.kills,stats.deaths,1);
+      const bars3=[
+        {v:stats.wins,  col:wCol},
+        {v:stats.kills, col:kCol},
+        {v:stats.deaths,col:dCol},
       ];
-      const maxV=Math.max(stats.wins,stats.kills,stats.deaths,1);
-      const barY0=bsy+bh+16;
-      const lbW=44, vbW=24;
-      const barX=bpad+lbW+6, barEndX=W-bpad-vbW-8;
-      const barTW=barEndX-barX;
-
-      barRows.forEach((row,i)=>{
-        const by=barY0+i*24;
-        ctx.font='600 7.5px "JetBrains Mono",monospace';
-        ctx.fillStyle='rgba(238,238,242,0.22)';
-        ctx.fillText(row.label, bpad, by+8);
-        // Track
+      const segW=(barW-4)/3;
+      bars3.forEach((b,i)=>{
+        const bx=SX+2+i*(segW+2);
         ctx.fillStyle='rgba(255,255,255,0.05)';
-        roundRect(ctx,barX,by,barTW,7,3.5); ctx.fill();
-        // Fill
-        if(row.v>0){
-          const fw=(row.v/maxV)*barTW;
-          const g=ctx.createLinearGradient(barX,0,barX+fw,0);
-          g.addColorStop(0,row.col); g.addColorStop(1,row.col+'55');
-          ctx.fillStyle=g; roundRect(ctx,barX,by,fw,7,3.5); ctx.fill();
-          // Shine
-          const shine=ctx.createLinearGradient(barX,by,barX,by+7);
-          shine.addColorStop(0,'rgba(255,255,255,0.15)');
-          shine.addColorStop(1,'rgba(255,255,255,0)');
-          ctx.fillStyle=shine; roundRect(ctx,barX,by,fw,7,3.5); ctx.fill();
+        roundRect(ctx,bx,barY,segW,5,2.5); ctx.fill();
+        if(b.v>0){
+          const fw=(b.v/maxStat)*segW;
+          const g=ctx.createLinearGradient(bx,0,bx+fw,0);
+          g.addColorStop(0,b.col); g.addColorStop(1,b.col+'55');
+          ctx.fillStyle=g; roundRect(ctx,bx,barY,fw,5,2.5); ctx.fill();
         }
-        ctx.font='700 8.5px "JetBrains Mono",monospace';
-        ctx.fillStyle=row.col;
-        ctx.fillText(String(row.v), barEndX+6, by+8);
       });
 
       // ── Watermark ──
-      ctx.font='600 7.5px "JetBrains Mono",monospace';
-      ctx.fillStyle='rgba(238,238,242,0.14)';
-      const wm='QUIPALITE MC';
-      ctx.fillText(wm, W-bpad-ctx.measureText(wm).width, H-10);
+      ctx.font='600 7px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(238,238,242,0.12)';
+      ctx.fillText('QUIPALITE MC', W-14-ctx.measureText('QUIPALITE MC').width, H-8);
 
       // ── Download ──
       const link=document.createElement('a');
-      link.download=`${name}_quipalite_${mode}.png`;
+      link.download=`${name}_${mode}_quipalite.png`;
       link.href=canvas.toDataURL('image/png');
       link.click();
 
