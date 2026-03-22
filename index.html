@@ -300,24 +300,42 @@
 
     /* podium variants */
     .player.top1 {
-      border-color: rgba(245,200,66,0.22);
-      background: linear-gradient(135deg, rgba(245,200,66,0.055) 0%, var(--surface) 60%);
+      border-color: rgba(245,200,66,0.45);
+      background: linear-gradient(120deg, rgba(245,200,66,0.13) 0%, rgba(245,160,0,0.06) 40%, var(--surface) 70%);
+      box-shadow: 0 0 0 1px rgba(245,200,66,0.12), inset 0 1px 0 rgba(245,200,66,0.15), 0 4px 24px rgba(245,200,66,0.08);
     }
     .player.top1::after {
-      background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(245,200,66,0.55), rgba(255,180,0,0.3), transparent);
+    }
+    .player.top1 .rank-col {
+      background: linear-gradient(180deg, rgba(245,200,66,0.12) 0%, transparent 100%);
     }
     .player.top2 {
-      border-color: rgba(184,196,208,0.16);
-      background: linear-gradient(135deg, rgba(184,196,208,0.03) 0%, var(--surface) 60%);
+      border-color: rgba(184,196,208,0.38);
+      background: linear-gradient(120deg, rgba(184,196,208,0.1) 0%, rgba(140,180,220,0.05) 40%, var(--surface) 70%);
+      box-shadow: 0 0 0 1px rgba(184,196,208,0.1), inset 0 1px 0 rgba(184,196,208,0.12), 0 4px 24px rgba(184,196,208,0.06);
+    }
+    .player.top2::after {
+      background: linear-gradient(90deg, transparent, rgba(184,196,208,0.45), rgba(160,210,240,0.25), transparent);
+    }
+    .player.top2 .rank-col {
+      background: linear-gradient(180deg, rgba(184,196,208,0.1) 0%, transparent 100%);
     }
     .player.top3 {
-      border-color: rgba(205,127,50,0.16);
-      background: linear-gradient(135deg, rgba(205,127,50,0.03) 0%, var(--surface) 60%);
+      border-color: rgba(205,127,50,0.38);
+      background: linear-gradient(120deg, rgba(205,127,50,0.1) 0%, rgba(180,90,30,0.05) 40%, var(--surface) 70%);
+      box-shadow: 0 0 0 1px rgba(205,127,50,0.1), inset 0 1px 0 rgba(205,127,50,0.12), 0 4px 24px rgba(205,127,50,0.06);
+    }
+    .player.top3::after {
+      background: linear-gradient(90deg, transparent, rgba(205,127,50,0.45), rgba(220,150,60,0.25), transparent);
+    }
+    .player.top3 .rank-col {
+      background: linear-gradient(180deg, rgba(205,127,50,0.1) 0%, transparent 100%);
     }
 
-    .player.top1:hover { border-color: rgba(245,200,66,0.4); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(245,200,66,0.1); }
-    .player.top2:hover { border-color: rgba(184,196,208,0.3); }
-    .player.top3:hover { border-color: rgba(205,127,50,0.3); }
+    .player.top1:hover { border-color: rgba(245,200,66,0.65); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 40px rgba(245,200,66,0.18), inset 0 1px 0 rgba(245,200,66,0.2); }
+    .player.top2:hover { border-color: rgba(184,196,208,0.55); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(184,196,208,0.12); }
+    .player.top3:hover { border-color: rgba(205,127,50,0.55); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(205,127,50,0.12); }
 
     /* rank col */
     .rank-col {
