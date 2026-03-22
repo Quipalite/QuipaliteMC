@@ -1,35 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8"/>
-  <title>Quipalite MC — Minigames Server</title>
+  <meta charset="utf-8" />
+  <title>Quipalite MC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Quipalite MC — A competitive Minecraft minigames server featuring PvP, Ranked Battle Arena, and more.">
   <link rel="icon" href="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink:       #FF1A6D;
-      --pink-hi:    #FF4D8D;
-      --pink-glow:  rgba(255,26,109,0.18);
-      --pink-line:  rgba(255,26,109,0.30);
-      --bg:         #050507;
-      --bg2:        #080810;
-      --surface:    rgba(255,255,255,0.034);
-      --surface2:   rgba(255,255,255,0.022);
-      --border:     rgba(255,255,255,0.07);
-      --border-hi:  rgba(255,26,109,0.25);
-      --border-card:rgba(255,255,255,0.09);
-      --text:       #eeeef2;
-      --text-muted: rgba(238,238,242,0.48);
-      --text-dim:   rgba(238,238,242,0.22);
-      --gold:       #F5C842;
-      --green:      #4ade80;
-      --font-display:'Syne', sans-serif;
-      --font-body:  'DM Sans', sans-serif;
-      --font-mono:  'JetBrains Mono', monospace;
-      --radius:     14px;
-      --radius-sm:  9px;
+      --pink:        #FF1A6D;
+      --pink-hi:     #FF4D8D;
+      --pink-glow:   rgba(255,26,109,0.18);
+      --pink-line:   rgba(255,26,109,0.3);
+      --bg:          #050507;
+      --bg2:         #080810;
+      --surface:     rgba(255,255,255,0.034);
+      --surface2:    rgba(255,255,255,0.022);
+      --surface3:    rgba(255,255,255,0.012);
+      --border:      rgba(255,255,255,0.07);
+      --border-hi:   rgba(255,26,109,0.25);
+      --border-card: rgba(255,255,255,0.09);
+      --text:        #eeeef2;
+      --text-muted:  rgba(238,238,242,0.42);
+      --text-dim:    rgba(238,238,242,0.2);
+      --gold:        #F5C842;
+      --gold-dim:    rgba(245,200,66,0.12);
+      --silver:      #B8C4D0;
+      --bronze:      #CD7F32;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --radius:       12px;
+      --radius-sm:    8px;
+      --radius-xs:    5px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,619 +43,1115 @@
       background: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── BACKGROUND ── */
+    /* ─── BACKGROUND ─── */
     .bg-canvas {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      overflow: hidden;
     }
     .bg-canvas::before {
       content: '';
       position: absolute; inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
       background-size: 32px 32px;
-      mask-image: radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 80%);
+      mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, black 0%, transparent 75%);
     }
-    .bloom {
-      position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none;
+    .bg-bloom {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
     }
-    .bloom-1 { width:900px;height:700px;top:-260px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(255,26,109,0.20) 0%,rgba(140,0,180,0.08) 50%,transparent 70%); }
-    .bloom-2 { width:600px;height:800px;top:30%;left:-200px;background:radial-gradient(ellipse,rgba(255,80,0,0.08) 0%,rgba(255,26,109,0.04) 40%,transparent 70%); }
-    .bloom-3 { width:500px;height:700px;top:25%;right:-180px;background:radial-gradient(ellipse,rgba(60,0,220,0.09) 0%,rgba(160,0,255,0.04) 40%,transparent 70%); }
-    .bloom-4 { width:700px;height:400px;bottom:-100px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(0,140,255,0.06) 0%,transparent 70%); }
+    .bg-bloom-1 {
+      width: 800px; height: 600px;
+      top: -220px; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(255,26,109,0.22) 0%, rgba(160,0,200,0.08) 50%, transparent 70%);
+    }
+    .bg-bloom-2 {
+      width: 500px; height: 700px;
+      top: 20%; left: -180px;
+      background: radial-gradient(ellipse, rgba(255,80,0,0.1) 0%, rgba(255,26,109,0.06) 40%, transparent 70%);
+    }
+    .bg-bloom-3 {
+      width: 450px; height: 600px;
+      top: 15%; right: -140px;
+      background: radial-gradient(ellipse, rgba(80,0,255,0.1) 0%, rgba(180,0,255,0.05) 40%, transparent 70%);
+    }
+    .bg-bloom-4 {
+      width: 600px; height: 400px;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(0,160,255,0.06) 0%, rgba(0,80,200,0.03) 50%, transparent 70%);
+    }
 
-    body > *:not(.bg-canvas) { position: relative; z-index: 1; }
+    body > *:not(.bg-canvas):not(.compare-dropdown) { position: relative; z-index: 1; }
+    .compare-dropdown { position: fixed !important; z-index: 9999; }
+    body.mono .bg-canvas { display: none; }
 
-    /* ── NAV ── */
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 40px;
-      background: linear-gradient(90deg, rgba(140,0,180,0.15) 0%, rgba(5,5,7,0.72) 30%, rgba(5,5,7,0.72) 70%, rgba(70,0,220,0.12) 100%);
+    /* ─── HEADER ─── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 28px;
+      background: linear-gradient(90deg,
+        rgba(160,0,200,0.18) 0%,
+        rgba(5,5,7,0.75) 25%,
+        rgba(5,5,7,0.75) 75%,
+        rgba(80,0,255,0.14) 100%
+      );
       backdrop-filter: blur(28px) saturate(1.6);
       -webkit-backdrop-filter: blur(28px) saturate(1.6);
       border-bottom: 1px solid rgba(255,255,255,0.07);
       position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 1px 0 rgba(255,26,109,0.12), 0 8px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 1px 0 rgba(255,26,109,0.15), 0 8px 32px rgba(0,0,0,0.4);
     }
-    .nav-glow {
+    .header-glow {
       position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, rgba(140,0,200,0.5), var(--pink) 35%, rgba(255,140,0,0.4) 60%, rgba(60,0,220,0.45) 85%, transparent);
-      opacity: 0.65;
+      background: linear-gradient(90deg,
+        rgba(160,0,200,0.6),
+        var(--pink) 30%,
+        rgba(255,140,0,0.5) 55%,
+        rgba(80,0,255,0.5) 80%,
+        transparent
+      );
+      opacity: 0.7;
     }
-    .nav-brand {
-      display: flex; align-items: center; gap: 12px;
-      text-decoration: none; color: var(--text);
-    }
-    .nav-brand img {
-      width: 36px; height: 36px; border-radius: 9px;
+
+    .header-left { display: flex; align-items: center; gap: 14px; }
+
+    .logo-img {
+      width: 38px; height: 38px; border-radius: 10px;
       border: 1px solid var(--border-card);
-      transition: transform .25s, box-shadow .25s;
+      cursor: pointer; flex-shrink: 0;
+      transition: transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;
     }
-    .nav-brand:hover img { transform: scale(1.08); box-shadow: 0 0 18px rgba(255,26,109,0.3); }
-    .nav-brand-text {
-      font-family: var(--font-display); font-size: 20px; font-weight: 800;
-      letter-spacing: 2px; text-transform: uppercase; line-height: 1;
+    .logo-img:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,26,109,0.3); }
+
+    .logo-lockup { display: flex; flex-direction: column; gap: 1px; }
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text); line-height: 1;
+      text-shadow: 0 0 40px rgba(255,26,109,0.3);
     }
-    .nav-brand-text em { color: var(--pink); font-style: normal; }
-    .nav-brand-sub {
-      font-family: var(--font-mono); font-size: 8px; font-weight: 500;
-      letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
-      margin-top: 2px;
+    .logo-text em { color: var(--pink); font-style: normal; filter: drop-shadow(0 0 8px rgba(255,26,109,0.6)); }
+    .logo-text:hover em { color: var(--gold); transition: color .2s; filter: drop-shadow(0 0 8px rgba(245,200,66,0.6)); }
+    .logo-text:hover { color: rgba(238,238,242,0.75); transition: color .2s; }
+    .logo-sub {
+      font-family: var(--font-mono);
+      font-size: 8.5px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-dim);
     }
 
-    .nav-links {
-      display: flex; align-items: center; gap: 4px;
+    .header-right {
+      display: flex; align-items: center; gap: 6px;
+      margin-left: auto;
     }
-    .nav-link {
-      padding: 7px 14px; border-radius: 8px;
-      font-family: var(--font-body); font-size: 13px; font-weight: 600;
-      color: var(--text-muted); text-decoration: none;
-      transition: color .18s, background .18s;
-      letter-spacing: .2px;
-    }
-    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-    .nav-link.active { color: var(--text); }
 
-    .nav-divider { width: 1px; height: 18px; background: var(--border); margin: 0 4px; }
-
-    .nav-cta {
-      display: flex; align-items: center; gap: 8px;
-    }
-    .icon-btn-sm {
-      width: 32px; height: 32px; border-radius: 8px;
+    .icon-btn {
+      width: 34px; height: 34px; border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      color: var(--text-muted); text-decoration: none;
-      transition: all .2s;
-    }
-    .icon-btn-sm:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
-    .icon-btn-sm.yt:hover  { border-color: rgba(204,0,0,0.4); background: rgba(204,0,0,0.1); color: #ff5555; }
-    .icon-btn-sm.dc:hover  { border-color: rgba(88,101,242,0.4); background: rgba(88,101,242,0.1); color: #7b8ff7; }
-
-    .btn-ranked {
-      padding: 8px 18px; border-radius: 8px;
-      background: var(--pink); color: #fff;
-      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
-      transition: filter .2s, transform .2s, box-shadow .2s;
-      border: none; cursor: pointer;
-    }
-    .btn-ranked:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,26,109,0.35); }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 92vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 80px 24px 60px;
-      position: relative;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 5px 14px; border-radius: 100px;
-      border: 1px solid var(--border-hi);
-      background: var(--pink-glow);
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      letter-spacing: 2.5px; text-transform: uppercase; color: var(--pink);
-      margin-bottom: 28px;
-      animation: fadeDown .6s .1s ease both;
-    }
-    .hero-eyebrow-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-      box-shadow: 0 0 8px rgba(74,222,128,0.7);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(0.85)} }
-
-    .hero-title {
-      font-family: var(--font-display); font-weight: 800;
-      font-size: clamp(52px, 9vw, 108px);
-      line-height: 0.95; letter-spacing: -2px;
-      color: var(--text);
-      text-shadow: 0 0 80px rgba(255,26,109,0.15);
-      margin-bottom: 24px;
-      animation: fadeDown .6s .2s ease both;
-    }
-    .hero-title em {
-      font-style: normal; color: var(--pink);
-      filter: drop-shadow(0 0 30px rgba(255,26,109,0.45));
-    }
-    .hero-title .line2 {
-      display: block; font-size: clamp(34px, 6vw, 72px);
-      color: var(--text-muted); font-weight: 600; letter-spacing: -1px;
-    }
-
-    .hero-sub {
-      max-width: 520px; margin: 0 auto 40px;
-      font-size: 17px; font-weight: 400; line-height: 1.65;
-      color: var(--text-muted);
-      animation: fadeDown .6s .3s ease both;
-    }
-    .hero-sub strong { color: var(--text); font-weight: 600; }
-
-    .hero-actions {
-      display: flex; align-items: center; gap: 12px; justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeDown .6s .4s ease both;
-    }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 28px; border-radius: 10px;
-      background: var(--pink); color: #fff;
-      font-family: var(--font-mono); font-size: 11.5px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
-      border: none; cursor: pointer;
-      transition: filter .2s, transform .2s, box-shadow .2s;
-    }
-    .btn-primary:hover { filter: brightness(1.12); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(255,26,109,0.4); }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 26px; border-radius: 10px;
-      background: rgba(255,255,255,0.05); color: var(--text);
-      border: 1px solid var(--border-card);
-      font-family: var(--font-mono); font-size: 11.5px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
-      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
-    }
-    .btn-secondary:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
-
-    /* IP chip */
-    .ip-chip {
-      display: inline-flex; align-items: center; gap: 10px;
-      margin-top: 36px;
-      padding: 10px 18px; border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.09);
-      background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(10px);
-      cursor: pointer; user-select: none;
-      transition: border-color .2s, background .2s;
-      animation: fadeDown .6s .5s ease both;
-    }
-    .ip-chip:hover { border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.06); }
-    .ip-label { font-family: var(--font-mono); font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); }
-    .ip-address { font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: .5px; }
-    .ip-copy {
-      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--pink); padding: 3px 9px; border-radius: 5px;
-      background: var(--pink-glow); border: 1px solid var(--pink-line);
-      transition: background .15s;
-    }
-    .ip-chip:hover .ip-copy { background: rgba(255,26,109,0.22); }
-
-    /* scroll indicator */
-    .scroll-hint {
-      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      font-family: var(--font-mono); font-size: 8.5px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
-      opacity: 0; animation: fadeIn 1s 1.4s ease forwards;
-    }
-    .scroll-hint-line {
-      width: 1px; height: 36px;
-      background: linear-gradient(to bottom, var(--text-dim), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
-    @keyframes fadeIn { to{opacity:1} }
-
-    /* ── STATS STRIP ── */
-    .stats-strip {
-      display: flex; align-items: stretch; justify-content: center;
-      gap: 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.016);
-      overflow-x: auto;
-    }
-    .stat-item {
-      flex: 1; min-width: 120px; max-width: 220px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 24px 20px;
-      border-right: 1px solid var(--border);
-      text-align: center;
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-family: var(--font-display); font-size: 40px; font-weight: 800;
-      line-height: 1; color: var(--text);
-      background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .stat-num.accent { background: linear-gradient(135deg, var(--pink), var(--pink-hi)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .stat-num.gold   { background: linear-gradient(135deg, var(--gold), #ffd580); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .stat-num.green  { background: linear-gradient(135deg, var(--green), #86efac); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .stat-lbl {
-      font-family: var(--font-mono); font-size: 8.5px; font-weight: 600;
-      letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-dim);
-      margin-top: 5px;
-    }
-
-    /* ── SECTION COMMON ── */
-    section { padding: 100px 24px; }
-    .section-inner { max-width: 1080px; margin: 0 auto; }
-
-    .section-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase; color: var(--pink);
-      margin-bottom: 16px;
-    }
-    .section-tag::before { content: ''; width: 24px; height: 1px; background: var(--pink); opacity: .6; }
-
-    .section-title {
-      font-family: var(--font-display); font-size: clamp(30px, 4.5vw, 52px);
-      font-weight: 800; letter-spacing: -1px; line-height: 1.05;
-      color: var(--text); margin-bottom: 16px;
-    }
-    .section-title em { color: var(--pink); font-style: normal; }
-
-    .section-sub {
-      font-size: 16px; font-weight: 400; line-height: 1.7;
-      color: var(--text-muted); max-width: 560px;
-    }
-
-    /* ── GAMES GRID ── */
-    .games-header { margin-bottom: 56px; }
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .game-card {
-      position: relative; overflow: hidden;
-      border-radius: var(--radius);
-      border: 1px solid var(--border-card);
-      background: var(--surface);
-      padding: 28px 26px;
-      cursor: pointer; text-decoration: none; color: var(--text);
-      transition: transform .3s cubic-bezier(0.22,1,0.36,1), border-color .3s, box-shadow .3s, background .3s;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .game-card::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    }
-    .game-card:hover {
-      transform: translateY(-4px) translateX(2px);
-      border-color: rgba(255,255,255,0.15);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3);
-      background: rgba(255,255,255,0.052);
-    }
-
-    /* featured card — ranked */
-    .game-card.featured {
-      grid-column: span 2;
-      border-color: var(--pink-line);
-      background: linear-gradient(130deg, rgba(255,26,109,0.1) 0%, rgba(160,0,200,0.04) 50%, var(--surface) 80%);
-      box-shadow: 0 0 0 1px rgba(255,26,109,0.08), inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 20px rgba(255,26,109,0.06);
-    }
-    .game-card.featured::after {
-      background: linear-gradient(90deg, transparent, rgba(255,26,109,0.35), rgba(255,80,0,0.2), transparent);
-    }
-    .game-card.featured:hover {
-      border-color: rgba(255,26,109,0.5);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255,26,109,0.14);
-    }
-
-    .game-icon {
-      font-size: 30px; line-height: 1;
-      width: 52px; height: 52px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--surface2); border: 1px solid var(--border);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      cursor: pointer; text-decoration: none; color: var(--text-muted);
+      transition: all .2s cubic-bezier(0.22,1,0.36,1);
       flex-shrink: 0;
     }
-    .game-card.featured .game-icon {
-      background: var(--pink-glow); border-color: var(--pink-line);
+    .icon-btn:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
+      color: var(--text); transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .icon-btn.yt:hover  { border-color: rgba(204,0,0,0.4); background: rgba(204,0,0,0.1); color: #ff5555; }
+    .icon-btn.dc:hover  { border-color: rgba(88,101,242,0.4); background: rgba(88,101,242,0.1); color: #7b8ff7; }
+    .icon-btn.tier:hover { border-color: var(--pink-line); background: var(--pink-glow); color: var(--pink); }
+
+    .hdr-divider { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; margin: 0 2px; }
+
+    .theme-toggle {
+      width: 42px; height: 22px; border-radius: 11px;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; display: flex; align-items: center; padding: 2px;
+      transition: border-color .2s;
+    }
+    .theme-toggle:hover { border-color: rgba(255,255,255,0.18); }
+    .toggle-thumb {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--text-muted); transition: transform .25s cubic-bezier(0.22,1,0.36,1), background .25s;
     }
 
-    .game-card-top { display: flex; align-items: flex-start; gap: 14px; }
-    .game-info { flex: 1; }
-
-    .game-name {
-      font-family: var(--font-display); font-size: 22px; font-weight: 800;
-      letter-spacing: .3px; line-height: 1.1; color: var(--text);
-      margin-bottom: 4px;
-    }
-    .game-card.featured .game-name { font-size: 28px; color: var(--pink); filter: drop-shadow(0 0 12px rgba(255,26,109,0.3)); }
-
-    .game-tag {
-      display: inline-flex;
-      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 2px 8px; border-radius: 4px;
-      border: 1px solid currentColor;
+    /* ─── TABS ─── */
+    .tabs {
+      display: flex; justify-content: center; align-items: center;
+      gap: 3px; padding: 18px 20px;
+      flex-wrap: wrap;
     }
 
-    .game-desc {
-      font-size: 13.5px; line-height: 1.65; color: var(--text-muted);
+    .tab {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 15px; border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--font-body); font-weight: 600; font-size: 12.5px;
+      color: var(--text-muted); cursor: pointer;
+      transition: all .2s cubic-bezier(0.22,1,0.36,1);
+      letter-spacing: 0.2px;
     }
-    .game-card.featured .game-desc { font-size: 14.5px; max-width: 460px; }
+    .tab:hover { color: var(--text); background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); }
+    .tab.active {
+      color: var(--text);
+      background: rgba(255,26,109,0.1);
+      border-color: var(--pink-line);
+      box-shadow: 0 0 20px rgba(255,26,109,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .tab img { image-rendering: pixelated; }
 
-    .game-meta {
-      display: flex; align-items: center; gap: 10px;
-      margin-top: 4px;
-    }
-    .game-meta-pill {
-      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
-      padding: 3px 9px; border-radius: 5px;
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text-dim); display: flex; align-items: center; gap: 5px;
-    }
-
-    .game-arrow {
-      margin-left: auto; width: 32px; height: 32px; border-radius: 8px;
+    /* ─── SEARCH ROW ─── */
+    .search-row {
       display: flex; align-items: center; justify-content: center;
-      border: 1px solid var(--border); background: var(--surface2);
-      color: var(--text-dim); font-size: 14px; flex-shrink: 0;
-      transition: background .2s, border-color .2s, color .2s, transform .2s;
+      gap: 10px; padding: 16px 20px 0;
+      flex-wrap: wrap;
     }
-    .game-card:hover .game-arrow { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); color: var(--text); transform: translate(2px,-2px); }
-    .game-card.featured .game-arrow { border-color: var(--pink-line); background: var(--pink-glow); color: var(--pink); }
-    .game-card.featured:hover .game-arrow { background: rgba(255,26,109,0.2); transform: translate(3px,-3px); }
 
-    /* ── RANKED FEATURE SECTION ── */
-    .ranked-section { background: none; position: relative; }
-    .ranked-section::before {
+    #searchInput {
+      width: 280px; max-width: 92%;
+      padding: 9px 14px 9px 38px;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text); font-family: var(--font-body); font-size: 13px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(238,238,242,0.3)' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 13px center;
+    }
+    #searchInput:focus {
+      border-color: var(--border-card);
+      background-color: transparent;
+      box-shadow: none;
+    }
+    #searchInput::placeholder { color: var(--text-dim); }
+    body.mono #searchInput { background: #050505; border-color: #111; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 13px center; }
+    body.mono #searchInput:focus { border-color: rgba(255,255,255,0.2); box-shadow: none; }
+
+    #retiredToggle {
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      background: var(--surface); border: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .5px;
+      color: var(--text-muted); cursor: pointer;
+      transition: all .2s;
+    }
+    #retiredToggle:hover { border-color: rgba(255,255,255,0.14); color: var(--text); }
+
+    /* ─── CONTAINER ─── */
+    .container { max-width: 820px; margin: 22px auto; padding: 0 20px 60px; }
+
+    .mode { display: none; }
+    .mode.active { display: block; animation: fadeUp .3s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── PLAYER COUNT ─── */
+    .player-count {
+      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); text-align: right;
+      margin-bottom: 14px; padding-right: 2px;
+    }
+
+    /* ─── PLAYER CARD ─── */
+    .player {
+      display: grid;
+      grid-template-columns: 54px 58px 1fr auto;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      margin-bottom: 7px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: transform .28s cubic-bezier(0.22,1,0.36,1), border-color .28s, box-shadow .28s, background .28s;
+    }
+
+    .player:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-2px) translateX(2px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* top glow line */
+    .player::after {
       content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(255,26,109,0.025) 50%, transparent 100%);
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
       pointer-events: none;
     }
 
-    .ranked-feature {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    /* podium variants */
+    .player.top1 {
+      border-color: rgba(245,200,66,0.45);
+      background: linear-gradient(120deg, rgba(245,200,66,0.13) 0%, rgba(245,160,0,0.06) 40%, var(--surface) 70%);
+      box-shadow: 0 0 0 1px rgba(245,200,66,0.12), inset 0 1px 0 rgba(245,200,66,0.15), 0 4px 24px rgba(245,200,66,0.08);
+    }
+    .player.top1::after {
+      background: linear-gradient(90deg, transparent, rgba(245,200,66,0.55), rgba(255,180,0,0.3), transparent);
+    }
+    .player.top1 .rank-col {
+      background: linear-gradient(180deg, rgba(245,200,66,0.12) 0%, transparent 100%);
+    }
+    .player.top2 {
+      border-color: rgba(184,196,208,0.38);
+      background: linear-gradient(120deg, rgba(184,196,208,0.1) 0%, rgba(140,180,220,0.05) 40%, var(--surface) 70%);
+      box-shadow: 0 0 0 1px rgba(184,196,208,0.1), inset 0 1px 0 rgba(184,196,208,0.12), 0 4px 24px rgba(184,196,208,0.06);
+    }
+    .player.top2::after {
+      background: linear-gradient(90deg, transparent, rgba(184,196,208,0.45), rgba(160,210,240,0.25), transparent);
+    }
+    .player.top2 .rank-col {
+      background: linear-gradient(180deg, rgba(184,196,208,0.1) 0%, transparent 100%);
+    }
+    .player.top3 {
+      border-color: rgba(205,127,50,0.38);
+      background: linear-gradient(120deg, rgba(205,127,50,0.1) 0%, rgba(180,90,30,0.05) 40%, var(--surface) 70%);
+      box-shadow: 0 0 0 1px rgba(205,127,50,0.1), inset 0 1px 0 rgba(205,127,50,0.12), 0 4px 24px rgba(205,127,50,0.06);
+    }
+    .player.top3::after {
+      background: linear-gradient(90deg, transparent, rgba(205,127,50,0.45), rgba(220,150,60,0.25), transparent);
+    }
+    .player.top3 .rank-col {
+      background: linear-gradient(180deg, rgba(205,127,50,0.1) 0%, transparent 100%);
     }
 
-    .ranked-feature-text { order: 1; }
-    .ranked-feature-visual { order: 2; }
+    .player.top1:hover { border-color: rgba(245,200,66,0.65); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 40px rgba(245,200,66,0.18), inset 0 1px 0 rgba(245,200,66,0.2); }
+    .player.top2:hover { border-color: rgba(184,196,208,0.55); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(184,196,208,0.12); }
+    .player.top3:hover { border-color: rgba(205,127,50,0.55); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(205,127,50,0.12); }
 
-    .ranked-big-title {
-      font-family: var(--font-display); font-size: clamp(38px, 6vw, 68px);
-      font-weight: 800; line-height: 0.95; letter-spacing: -1.5px;
-      color: var(--text); margin-bottom: 20px;
+    /* rank col */
+    .rank-col {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100%; gap: 2px;
     }
-    .ranked-big-title em { display: block; color: var(--pink); font-style: normal; filter: drop-shadow(0 0 24px rgba(255,26,109,0.4)); }
+    .rank-num {
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      color: var(--text-dim); letter-spacing: .5px;
+    }
+    .rank-num.gold   { color: var(--gold); }
+    .rank-num.silver { color: var(--silver); }
+    .rank-num.bronze { color: var(--bronze); }
+    .rank-num.retired-rank { color: var(--text-dim); opacity: 0.6; }
 
-    .ranked-features-list {
-      list-style: none; display: flex; flex-direction: column; gap: 14px;
-      margin: 28px 0 36px;
-    }
-    .ranked-feature-item {
-      display: flex; align-items: flex-start; gap: 14px;
-    }
-    .rfi-icon {
-      width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 17px;
-      background: var(--pink-glow); border: 1px solid var(--pink-line);
-    }
-    .rfi-body {}
-    .rfi-title { font-weight: 700; font-size: 14px; color: var(--text); line-height: 1.2; }
-    .rfi-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-top: 2px; }
-
-    /* leaderboard preview card */
-    .lb-preview {
-      background: var(--bg2); border: 1px solid var(--border-card); border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
-    }
-    .lb-preview-header {
-      padding: 16px 20px 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 12px;
-      background: rgba(255,255,255,0.015);
-    }
-    .lb-preview-title {
-      font-family: var(--font-display); font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--pink);
-    }
-    .lb-tabs-preview {
-      display: flex; gap: 4px; margin-left: auto;
-    }
-    .lb-tab-preview {
-      padding: 3px 9px; border-radius: 5px;
-      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; letter-spacing: .5px;
-      background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
-    }
-    .lb-tab-preview.a { background: var(--pink-glow); border-color: var(--pink-line); color: var(--pink); }
-
-    .lb-rows { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
-    .lb-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 10px; border-radius: 9px;
-      background: var(--surface); border: 1px solid transparent;
-      transition: border-color .2s, background .2s;
-    }
-    .lb-row:hover { background: rgba(255,255,255,0.05); border-color: var(--border-card); }
-    .lb-row.r1 { background: linear-gradient(90deg, rgba(245,200,66,0.1), var(--surface)); border-color: rgba(245,200,66,0.22); }
-    .lb-row.r2 { background: linear-gradient(90deg, rgba(184,196,208,0.07), var(--surface)); border-color: rgba(184,196,208,0.15); }
-    .lb-row.r3 { background: linear-gradient(90deg, rgba(205,127,50,0.08), var(--surface)); border-color: rgba(205,127,50,0.15); }
-    .lb-rank {
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      width: 22px; text-align: center; flex-shrink: 0;
-    }
-    .lb-rank.g { color: #F5C842; }
-    .lb-rank.s { color: #B8C4D0; }
-    .lb-rank.b { color: #CD7F32; }
-    .lb-rank.d { color: var(--text-dim); }
-    .lb-avatar { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border); flex-shrink: 0; }
-    .lb-name { font-weight: 700; font-size: 13px; flex: 1; }
-    .lb-tier {
-      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
-      padding: 2px 7px; border-radius: 4px; border: 1px solid currentColor;
-      letter-spacing: .5px; text-transform: uppercase;
-    }
-    .lb-kd {
-      font-family: var(--font-mono); font-size: 13px; font-weight: 700;
-      min-width: 38px; text-align: right;
-    }
-
-    /* ── COMMUNITY SECTION ── */
-    .community-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
-    }
-    .comm-card {
-      border-radius: var(--radius); border: 1px solid var(--border-card);
-      background: var(--surface); overflow: hidden;
-      display: flex; flex-direction: column;
-      transition: transform .3s, border-color .3s, box-shadow .3s;
-      text-decoration: none;
-    }
-    .comm-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.45); }
-    .comm-card.yt:hover { border-color: rgba(204,0,0,0.3); }
-    .comm-card.dc:hover { border-color: rgba(88,101,242,0.3); }
-
-    .comm-banner {
-      height: 120px; position: relative; overflow: hidden;
+    /* avatar col */
+    .avatar-col {
       display: flex; align-items: center; justify-content: center;
+      padding: 12px 4px;
     }
-    .comm-banner-yt  { background: linear-gradient(135deg, rgba(204,0,0,0.25) 0%, rgba(180,0,0,0.1) 60%, transparent 100%); }
-    .comm-banner-dc  { background: linear-gradient(135deg, rgba(88,101,242,0.25) 0%, rgba(60,80,220,0.1) 60%, transparent 100%); }
-    .comm-banner-icon { font-size: 44px; opacity: .85; }
-    .comm-banner::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 50%, var(--bg2) 100%); }
+    .player-head {
+      width: 42px; height: 42px; border-radius: 9px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      transition: transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;
+    }
+    .player:hover .player-head {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
 
-    .comm-body { padding: 18px 22px 22px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-    .comm-name {
-      font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: .3px;
+    /* info col */
+    .info-col {
+      padding: 14px 10px;
+      display: flex; flex-direction: column; gap: 6px;
+      min-width: 0;
     }
-    .comm-card.yt .comm-name { color: #ff5555; }
-    .comm-card.dc .comm-name { color: #7b8ff7; }
-    .comm-desc { font-size: 13.5px; line-height: 1.65; color: var(--text-muted); flex: 1; }
-    .comm-action {
+    .name-row {
+      display: flex; align-items: center; gap: 7px;
+      flex-wrap: wrap;
+    }
+    .player-name {
+      font-family: var(--font-body); font-weight: 700; font-size: 13.5px;
+      color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      letter-spacing: 0.1px;
+    }
+    .tier-badge {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      letter-spacing: .8px; padding: 2px 7px; border-radius: 4px;
+      border: 1px solid currentColor;
+      opacity: 0.75;
+      transition: opacity .2s;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+    .player:hover .tier-badge { opacity: 1; }
+
+    .stats-row { display: flex; align-items: center; gap: 3px; }
+    .stat-pill {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      display: flex; align-items: center; gap: 4px;
+      white-space: nowrap;
+    }
+    .stat-pill b { font-weight: 700; }
+    .stat-pill-sep {
+      width: 1px; height: 10px; background: var(--border); flex-shrink: 0;
+    }
+
+    /* right col */
+    .right-col {
+      padding: 14px 20px 14px 10px;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+      flex-shrink: 0;
+    }
+    .kd-val {
+      font-family: var(--font-mono); font-size: 16px; font-weight: 700;
+      line-height: 1;
+    }
+    .kd-val.kd-inf { font-size: 22px; }
+    .kd-label {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 600;
+      letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase;
+    }
+
+    /* crown */
+    .crown {
+      width: 15px; height: 15px; flex-shrink: 0;
+      animation: crownBounce 2.2s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(245,200,66,0.9));
+    }
+    @keyframes crownBounce {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      45%       { transform: translateY(-4px) rotate(4deg) scale(1.12); }
+    }
+
+    .fire-icon { font-size: 12px; line-height: 1; }
+    .flag-img { height: 11px; width: auto; border-radius: 2px; vertical-align: middle; }
+
+    .retired-badge {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
+      letter-spacing: .5px; padding: 2px 6px; border-radius: 4px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+
+    /* ─── NO PLAYERS ─── */
+    .no-players {
+      text-align: center; padding: 40px 20px;
+      border: 1px dashed var(--border-hi); border-radius: var(--radius);
+      font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
+      letter-spacing: 1px; color: var(--text-muted);
+      background: var(--pink-glow);
+    }
+
+    /* ─── PROFILE PAGE ─── */
+    #profilePage {
+      display: none; max-width: 620px; margin: 0 auto; padding: 28px 20px;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    #profilePage.show { opacity: 1; transform: translateY(0); }
+
+    .backBtn {
       display: inline-flex; align-items: center; gap: 7px;
-      margin-top: 8px; padding: 9px 16px; border-radius: 8px;
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      border: 1px solid currentColor; transition: background .18s;
-      align-self: flex-start;
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      background: var(--surface); border: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      letter-spacing: .5px; color: var(--text-muted); cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 20px;
     }
-    .comm-card.yt .comm-action { color: #ff5555; }
-    .comm-card.yt:hover .comm-action { background: rgba(204,0,0,0.12); }
-    .comm-card.dc .comm-action { color: #7b8ff7; }
-    .comm-card.dc:hover .comm-action { background: rgba(88,101,242,0.12); }
+    .backBtn:hover { border-color: rgba(255,255,255,0.18); color: var(--text); transform: translateX(-2px); }
 
-    /* ── CTA SECTION ── */
-    .cta-section {
-      text-align: center; padding: 100px 24px;
+    .profile-top-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
     }
-    .cta-inner {
-      max-width: 680px; margin: 0 auto;
-      border: 1px solid var(--border-hi);
-      border-radius: 20px;
-      padding: 60px 40px;
-      background: linear-gradient(135deg, var(--pink-glow) 0%, rgba(255,26,109,0.05) 50%, transparent 100%);
+
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      background: var(--pink-glow); border: 1px solid var(--pink-line);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      letter-spacing: .5px; color: var(--pink); cursor: pointer;
+      transition: all .2s cubic-bezier(0.22,1,0.36,1);
+    }
+    .share-btn:hover {
+      background: rgba(255,26,109,0.2); border-color: var(--pink);
+      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,26,109,0.2);
+    }
+
+    #profileContent {
+      background: var(--surface);
+      border: 1px solid var(--border-card); border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .profile-banner {
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-banner-bg {
+      position: absolute; inset: 0;
+    }
+
+    .profile-body { padding: 0 24px 24px; }
+
+    .profile-header {
+      display: flex; align-items: flex-end; gap: 16px;
+      margin-top: -28px; margin-bottom: 20px;
+    }
+    .profile-avatar {
+      width: 64px; height: 64px; border-radius: 12px;
+      border: 2px solid var(--bg); flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .profile-name-block { padding-bottom: 4px; }
+    .profile-name {
+      font-family: var(--font-display); font-size: 26px; font-weight: 800;
+      letter-spacing: .5px; line-height: 1.1; color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .profile-meta {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 1.5px; color: var(--text-dim); margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .profile-kd-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      margin-bottom: 20px;
+    }
+    .profile-stat-block {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 12px 14px;
+      text-align: center;
+      transition: border-color .2s;
+    }
+    .profile-stat-block:hover { border-color: rgba(255,255,255,0.12); }
+    .profile-stat-val {
+      font-family: var(--font-mono); font-size: 20px; font-weight: 700;
+      line-height: 1;
+    }
+    .profile-stat-label {
+      font-family: var(--font-mono); font-size: 8px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 5px;
+    }
+
+    .stat-bar-group { margin-bottom: 13px; }
+    .stat-bar-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .stat-bar-label span:first-child {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
+    }
+    .stat-bar-label span:last-child {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--text);
+    }
+    .stat-bar {
+      background: var(--surface2); height: 5px; border-radius: 3px; overflow: hidden;
+    }
+    .stat-fill {
+      height: 100%; width: 0%; border-radius: 3px;
+      transition: width 1s cubic-bezier(0.22,1,0.36,1);
       position: relative; overflow: hidden;
     }
-    .cta-inner::before {
+    .stat-fill::after {
+      content: '';
+      position: absolute; top: 0; left: -60%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: barShine 2s linear infinite;
+    }
+    @keyframes barShine { to { left: 160%; } }
+
+    /* ─── TIER GUIDE MODAL ─── */
+    #tierModal {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #tierModalBackdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
+      opacity: 0; transition: opacity .3s;
+    }
+    #tierModal.open #tierModalBackdrop { opacity: 1; }
+    #tierModal.closing #tierModalBackdrop { opacity: 0; }
+
+    #tierModalInner {
+      position: relative; z-index: 1;
+      background: #0b0b10; border: 1px solid var(--border-card);
+      border-radius: 16px; padding: 28px 24px;
+      max-width: 440px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+      opacity: 0; transform: translateY(20px) scale(0.97);
+      transition: opacity .3s cubic-bezier(0.22,1,0.36,1), transform .3s cubic-bezier(0.22,1,0.36,1);
+    }
+    #tierModal.open #tierModalInner { opacity: 1; transform: none; transition-delay: .04s; }
+    #tierModal.closing #tierModalInner { opacity: 0; transform: translateY(12px) scale(0.97); transition: opacity .2s, transform .2s; }
+
+    #tierModalInner h2 {
+      font-family: var(--font-display); font-size: 18px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 22px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    #tierModalClose {
+      background: none; border: none;
+      font-size: 18px; color: var(--text-muted); cursor: pointer;
+      transition: color .15s, transform .2s; line-height: 1;
+    }
+    #tierModalClose:hover { color: var(--text); transform: rotate(90deg); }
+
+    .tier-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity .25s, transform .25s;
+    }
+    #tierModal.open .tier-row { opacity: 1; transform: none; }
+    .tier-row:last-child { border-bottom: none; }
+
+    .tier-method {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .tier-method-heading {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tier-method-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .tier-method p {
+      font-size: 12px; color: var(--text-muted); line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .tier-method p:last-child { margin-bottom: 0; }
+    .tier-method ul {
+      list-style: none; margin: 0 0 10px; padding: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tier-method ul li {
+      font-size: 12px; color: var(--text-muted); line-height: 1.55;
+      padding-left: 14px; position: relative;
+    }
+    .tier-method ul li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--pink); font-size: 10px;
+    }
+    .tier-method ul li span {
+      color: var(--text); font-weight: 600;
+    }
+    .staff-link {
+      color: var(--pink); font-weight: 700;
+      cursor: pointer; text-decoration: underline;
+      text-decoration-color: rgba(255,26,109,0.35);
+      text-underline-offset: 3px;
+      transition: color .15s, text-decoration-color .15s;
+    }
+    .staff-link:hover {
+      color: var(--pink-hi);
+      text-decoration-color: var(--pink);
+    }
+
+    .tier-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+    }
+    .tier-name {
+      font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+      min-width: 80px; flex-shrink: 0; letter-spacing: .5px;
+    }
+    .tier-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+
+    /* ─── COMPARE ─── */
+    #comparePage {
+      display: none; max-width: 100%; margin: 0; padding: 24px 0 60px;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .3s, transform .3s;
+    }
+    #comparePage.show { opacity: 1; transform: none; }
+
+    .compare-inner {
+      max-width: 820px; margin: 0 auto; padding: 0 20px;
+    }
+
+    .mode-select-row {
+      display: flex; justify-content: center; gap: 5px;
+      flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .mode-select-row button {
+      padding: 6px 12px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+      cursor: pointer; transition: all .18s;
+    }
+    .mode-select-row button.active, .mode-select-row button:hover {
+      background: var(--pink-glow); border-color: var(--pink-line); color: var(--pink);
+    }
+
+    .compare-selectors {
+      display: flex; gap: 12px; margin-bottom: 24px;
+      flex-wrap: wrap; justify-content: center; align-items: center;
+    }
+    .compare-search-wrap { flex: 1; min-width: 140px; max-width: 220px; position: relative; }
+    .compare-search-input {
+      width: 100%; padding: 9px 14px; border-radius: var(--radius-sm);
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-family: var(--font-body); font-size: 13px; font-weight: 600;
+      outline: none; cursor: text; transition: border-color .2s;
+    }
+    .compare-search-input:focus { border-color: var(--pink-line); }
+    .compare-search-input::placeholder { color: var(--text-muted); }
+
+    .compare-dropdown {
+      display: none; position: fixed; z-index: 9999;
+      background: #0b0b10; border: 1px solid var(--border-card); border-radius: var(--radius-sm);
+      max-height: 200px; overflow-y: auto;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+    }
+    .compare-dropdown.open { display: block; }
+    .compare-dropdown-item {
+      padding: 8px 12px; cursor: pointer;
+      font-size: 13px; font-weight: 600; color: var(--text);
+      transition: background .12s; display: flex; align-items: center; gap: 8px;
+    }
+    .compare-dropdown-item:hover, .compare-dropdown-item.selected { background: var(--pink-glow); color: var(--pink-hi); }
+    .compare-dropdown-item img { width: 22px; height: 22px; border-radius: 5px; }
+    .compare-dropdown-item .round-flag { width: 14px; height: 14px; border-radius: 50%; object-fit: cover; }
+    .compare-dropdown-empty { padding: 10px 12px; font-size: 12px; color: var(--text-muted); font-style: italic; }
+
+    .compare-vs {
+      font-family: var(--font-display); font-size: 20px; font-weight: 800;
+      letter-spacing: 2px; color: var(--text-dim); flex-shrink: 0;
+    }
+    .compare-btn {
+      padding: 9px 22px; border-radius: var(--radius-sm); border: none;
+      background: var(--pink); color: white;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; transition: filter .18s, transform .18s, box-shadow .18s;
+    }
+    .compare-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,26,109,0.35); }
+    .compare-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 780px; margin: 0 auto; }
+    .compare-card {
+      background: var(--surface); border: 1px solid var(--border-card); border-radius: var(--radius);
+      padding: 18px; opacity: 0; transform: translateY(10px);
+      transition: opacity .4s, transform .4s;
+    }
+    .compare-card.visible { opacity: 1; transform: none; }
+    .compare-card h3 { margin-bottom: 14px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+    .compare-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row .label {
+      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
+    }
+    .compare-row .val { font-family: var(--font-mono); font-weight: 700; font-size: 15px; }
+    .compare-winner { color: #4ade80; }
+    .compare-loser { opacity: 0.3; }
+
+    .compare-bar-wrap { margin: 5px 0 11px; }
+    .compare-bar-track { background: var(--surface2); height: 3px; border-radius: 2px; overflow: hidden; }
+    .compare-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.22,1,0.36,1); }
+
+    /* ─── PRIME SECTION ─── */
+    .prime-section {
+      margin-top: 20px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .prime-heading {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .prime-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .prime-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .prime-cell {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 10px 12px;
+      display: flex; flex-direction: column; gap: 4px;
+      transition: border-color .18s;
+    }
+    .prime-cell:hover { border-color: rgba(255,255,255,0.1); }
+    .prime-cell-mode {
+      font-family: var(--font-mono); font-size: 7.5px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim);
+    }
+    .prime-cell-rank { font-family: var(--font-mono); font-size: 17px; font-weight: 800; line-height: 1; }
+    .prime-cell-rank.rank-1 { color: var(--gold); text-shadow: 0 0 12px rgba(245,200,66,0.4); }
+    .prime-cell-rank.rank-2 { color: var(--silver); }
+    .prime-cell-rank.rank-3 { color: var(--bronze); }
+    .prime-cell-rank.rank-none { color: var(--text-dim); font-size: 13px; }
+
+    .prime-vs-row { display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    .prime-vs-block { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .prime-vs-label { font-family: var(--font-mono); font-size: 6.5px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-dim); }
+    .prime-vs-val { font-family: var(--font-mono); font-size: 10px; font-weight: 800; line-height: 1; }
+    .prime-vs-arrow { font-size: 9px; color: var(--text-dim); flex-shrink: 0; margin-bottom: 2px; }
+    .prime-vs-arrow.at-peak { color: #4ade80; }
+
+    /* ─── MONO OVERRIDES ─── */
+    body.mono { background: #000; color: #fff; }
+    body.mono header { background: rgba(0,0,0,0.95); border-bottom-color: #111; }
+    body.mono .header-glow { display: none; }
+    body.mono .tab.active { color: #fff; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); box-shadow: none; }
+    body.mono #retiredToggle { background: #050505; border-color: #111; }
+    body.mono .player { background: rgba(255,255,255,0.025); border-color: #111; }
+    body.mono .player::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+    body.mono .player:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+    body.mono .player.top1, body.mono .player.top2, body.mono .player.top3 { background: rgba(255,255,255,0.025); }
+    body.mono .rank-num { color: var(--pink); }
+    body.mono .rank-num.gold { color: var(--gold); }
+    body.mono .rank-num.silver { color: var(--silver); }
+    body.mono .rank-num.bronze { color: var(--bronze); }
+    body.mono .stat-chip b { color: #fff !important; }
+    body.mono .profile-stat-val { color: #fff !important; }
+    body.mono .stat-fill { background: #fff !important; }
+    body.mono .stat-bar-label span:last-child { color: #fff !important; }
+    body.mono .prime-vs-arrow { color: rgba(255,255,255,0.2); }
+    body.mono .prime-vs-arrow.at-peak { color: #4ade80; }
+    body.mono .prime-cell { background: #050505; border-color: #111; }
+    body.mono .compare-winner { color: #fff; }
+    body.mono .compare-bar-fill { background: #fff !important; }
+    body.mono .logo-text em { color: var(--pink); }
+    body.mono #profileContent, body.mono .compare-card { background: #050505; border-color: #111; }
+    body.mono .profile-stat-block { background: #050505; border-color: #111; }
+    body.mono .stat-bar { background: #050505; }
+    body.mono #tierModalInner { background: #050505; border-color: #222; }
+    body.mono .compare-search-input { background: #050505; border-color: #111; }
+    body.mono .compare-dropdown { background: #050505; border-color: #222; }
+    body.mono .icon-btn { background: #050505; border-color: #111; color: #888; }
+    body.mono .backBtn { background: #050505; border-color: #111; color: #888; }
+    body.mono .backBtn:hover { border-color: #333; color: #fff; }
+    body.mono .share-btn { background: #050505; border-color: #111; color: #fff; }
+    body.mono .share-btn:hover { background: #0a0a0a; border-color: #333; box-shadow: none; }
+    body.mono .compare-btn { background: #fff; color: #000; }
+    body.mono .compare-btn:hover { filter: brightness(0.88); box-shadow: none; }
+    body.mono .compare-vs { color: rgba(255,255,255,0.3); }
+    body.mono .no-players { background: #050505; border-color: #222; }
+    body.mono .mode-select-row button.active, body.mono .mode-select-row button:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: #fff; }
+    body.mono #tierModalBackdrop { background: rgba(0,0,0,0.88); }
+    body.mono .compare-dropdown-item:hover, body.mono .compare-dropdown-item.selected { background: rgba(255,255,255,0.06); color: #fff; }
+    body.mono .stat-pill { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.06); }
+    body.mono #retiredToggle.active-retired { color: #fff !important; border-color: rgba(255,255,255,0.3) !important; }
+    body.mono .compare-search-input:focus { border-color: rgba(255,255,255,0.25); box-shadow: none; }
+
+    /* ─── TOOLTIP ─── */
+    #statTooltip {
+      position: fixed; z-index: 99999; pointer-events: none;
+      background: #0e0e14; border: 1px solid var(--border-card);
+      border-radius: 7px; padding: 7px 11px;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+      color: var(--text); letter-spacing: .3px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.7);
+      opacity: 0; transition: opacity .12s;
+      max-width: 220px; width: max-content; line-height: 1.5;
+      white-space: normal; word-break: break-word;
+    }
+    #statTooltip.visible { opacity: 1; }
+    #statTooltip .tt-pct { display: block; font-size: 9px; color: var(--text-muted); margin-top: 2px; letter-spacing: 1px; }
+
+    /* ─── ACHIEVEMENT BADGES ─── */
+    .achievements-section {
+      margin-top: 20px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .achievements-heading {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .achievements-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 7px;
+    }
+    .achievement-badge {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 9px; border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      cursor: pointer;
+      transition: border-color .18s, background .18s;
+      position: relative;
+      min-width: 0;
+    }
+    .achievement-badge:hover { background: rgba(255,255,255,0.05); }
+    .achievement-badge .ab-icon { font-size: 14px; line-height: 1; flex-shrink: 0; }
+    .achievement-badge .ab-name {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      letter-spacing: .5px; color: var(--text);
+      word-break: break-word; min-width: 0;
+    }
+    .achievement-badge .ab-desc {
+      font-family: var(--font-mono); font-size: 8.5px;
+      color: var(--text-dim); display: none;
+    }
+    .no-achievements {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-dim); font-style: italic;
+    }
+
+    /* ─── HALL OF FAME ─── */
+    #hofPage {
+      display: none; max-width: 820px; margin: 0 auto; padding: 28px 20px 60px;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .3s, transform .3s;
+    }
+    #hofPage.show { opacity: 1; transform: none; }
+
+    .hof-header {
+      text-align: center; margin-bottom: 36px; padding: 28px 20px;
+      background: linear-gradient(135deg, rgba(245,200,66,0.06) 0%, transparent 60%);
+      border: 1px solid rgba(245,200,66,0.14);
+      border-radius: 14px; position: relative; overflow: hidden;
+    }
+    .hof-header::before {
       content: '';
       position: absolute; inset: 0;
       background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 28px 28px;
+      background-size: 24px 24px;
     }
-    .cta-inner > * { position: relative; }
+    .hof-title {
+      font-family: var(--font-display); font-size: 34px; font-weight: 800;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); text-shadow: 0 0 40px rgba(245,200,66,0.3);
+      position: relative;
+    }
+    .hof-subtitle {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 8px; position: relative;
+    }
 
-    .cta-title {
-      font-family: var(--font-display); font-size: clamp(30px, 5vw, 50px);
-      font-weight: 800; letter-spacing: -1px; line-height: 1.05;
-      color: var(--text); margin-bottom: 14px;
+    .hof-card {
+      background: var(--surface); border: 1px solid rgba(245,200,66,0.15);
+      border-radius: 14px; overflow: hidden; margin-bottom: 16px;
+      transition: border-color .2s, box-shadow .2s;
     }
-    .cta-title em { color: var(--pink); font-style: normal; }
-    .cta-sub { font-size: 16px; color: var(--text-muted); line-height: 1.65; margin-bottom: 32px; }
+    .hof-card:hover { border-color: rgba(245,200,66,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(245,200,66,0.06); }
 
-    .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .cta-ip {
-      margin-top: 24px;
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
+    .hof-card-banner {
+      height: 64px; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, rgba(245,200,66,0.08) 0%, transparent 70%);
     }
-    .cta-ip span { color: var(--text); font-size: 15px; letter-spacing: .5px; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
+    .hof-card-banner::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent);
     }
-    .footer-brand {
-      font-family: var(--font-display); font-size: 16px; font-weight: 800;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--text);
-    }
-    .footer-brand em { color: var(--pink); font-style: normal; }
-    .footer-links {
-      display: flex; gap: 20px; align-items: center;
-    }
-    .footer-link {
-      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
+    .hof-retired-label {
+      position: absolute; top: 14px; right: 16px;
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase;
-      color: var(--text-dim); text-decoration: none;
-      transition: color .18s;
+      color: var(--gold); opacity: 0.7;
+      background: rgba(245,200,66,0.08); border: 1px solid rgba(245,200,66,0.2);
+      padding: 3px 9px; border-radius: 4px;
     }
-    .footer-link:hover { color: var(--text); }
-    .footer-copy {
+
+    .hof-card-body { padding: 0 22px 22px; }
+    .hof-card-header {
+      display: flex; align-items: flex-end; gap: 14px;
+      margin-top: -28px; margin-bottom: 18px;
+    }
+    .hof-avatar {
+      width: 60px; height: 60px; border-radius: 11px;
+      border: 2px solid rgba(245,200,66,0.4);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 20px rgba(245,200,66,0.1);
+      flex-shrink: 0;
+    }
+    .hof-name {
+      font-family: var(--font-display); font-size: 24px; font-weight: 800;
+      letter-spacing: .5px; color: var(--text); padding-bottom: 4px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hof-meta {
+      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
+      letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .hof-stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      margin-bottom: 16px;
+    }
+    .hof-stat-block {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 12px; text-align: center;
+    }
+    .hof-stat-val {
+      font-family: var(--font-mono); font-size: 18px; font-weight: 700; line-height: 1;
+    }
+    .hof-stat-label {
+      font-family: var(--font-mono); font-size: 7.5px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 4px;
+    }
+
+    .hof-peak-row {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+    }
+    .hof-peak-chip {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      border: 1px solid currentColor; opacity: 0.8;
+      letter-spacing: .5px;
+    }
+
+    .hof-achievements { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* mono overrides for new features */
+    body.mono #statTooltip { background: #000; border-color: #222; }
+    body.mono .achievement-badge { background: rgba(255,255,255,0.02); border-color: #111; }
+    body.mono .achievement-badge:hover { background: rgba(255,255,255,0.05); }
+    body.mono .hof-card { background: #050505; border-color: rgba(255,255,255,0.08); }
+    body.mono .hof-card:hover { border-color: rgba(255,255,255,0.2); box-shadow: none; }
+    body.mono .hof-card-banner { background: rgba(255,255,255,0.02); }
+    body.mono .hof-stat-block { background: #000; border-color: #111; }
+    body.mono .hof-header { background: rgba(255,255,255,0.02); border-color: #222; }
+    body.mono .hof-title { color: #fff; text-shadow: none; }
+    body.mono .hof-retired-label { color: #fff; background: rgba(255,255,255,0.05); border-color: #333; }
+
+    /* ─── ACHIEVEMENTS MODAL ─── */
+    #achModal {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #achModalBackdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
+      opacity: 0; transition: opacity .3s;
+    }
+    #achModal.open #achModalBackdrop { opacity: 1; }
+    #achModal.closing #achModalBackdrop { opacity: 0; }
+    #achModalInner {
+      position: relative; z-index: 1;
+      background: #0b0b10; border: 1px solid var(--border-card);
+      border-radius: 16px; padding: 28px 24px;
+      max-width: 460px; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+      opacity: 0; transform: translateY(20px) scale(0.97);
+      transition: opacity .3s cubic-bezier(0.22,1,0.36,1), transform .3s cubic-bezier(0.22,1,0.36,1);
+    }
+    #achModal.open #achModalInner { opacity: 1; transform: none; transition-delay: .04s; }
+    #achModal.closing #achModalInner { opacity: 0; transform: translateY(12px) scale(0.97); transition: opacity .2s, transform .2s; }
+    #achModalInner h2 {
+      font-family: var(--font-display); font-size: 18px; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    #achModalClose {
+      background: none; border: none;
+      font-size: 18px; color: var(--text-muted); cursor: pointer;
+      transition: color .15s, transform .2s; line-height: 1;
+    }
+    #achModalClose:hover { color: var(--text); transform: rotate(90deg); }
+    .ach-modal-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity .22s, transform .22s;
+    }
+    #achModal.open .ach-modal-row { opacity: 1; transform: none; }
+    .ach-modal-row:last-child { border-bottom: none; }
+    .ach-modal-icon {
+      font-size: 22px; line-height: 1; flex-shrink: 0;
+      width: 36px; text-align: center;
+    }
+    .ach-modal-info { display: flex; flex-direction: column; gap: 3px; }
+    .ach-modal-name {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+      color: var(--text); letter-spacing: .5px;
+    }
+    .ach-modal-desc { font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+    body.mono #achModalInner { background: #050505; border-color: #222; }
+    body.mono #achModalBackdrop { background: rgba(0,0,0,0.88); }
+    footer {
+      text-align: center; padding: 28px 20px;
       font-family: var(--font-mono); font-size: 9px; font-weight: 600;
-      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim);
-      width: 100%; text-align: center; margin-top: 8px;
-      border-top: 1px solid var(--border); padding-top: 20px;
+      letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-dim);
+      border-top: 1px solid var(--border);
     }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeDown {
-      from { opacity:0; transform:translateY(-16px); }
-      to   { opacity:1; transform:translateY(0); }
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      header { padding: 11px 16px; gap: 10px; }
+      .logo-text { font-size: 18px; letter-spacing: 1.5px; }
+      .logo-sub { display: none; }
+      .hdr-divider { display: none; }
+      .theme-toggle { width: 38px; height: 20px; }
+      .player { grid-template-columns: 40px 48px 1fr auto; }
+      .tabs { gap: 4px; padding: 12px 12px; }
+      .tab { font-size: 11.5px; padding: 6px 10px; gap: 4px; }
+      .search-row { padding: 12px 14px 0; gap: 8px; }
+      #searchInput { width: 100%; max-width: 100%; font-size: 14px; }
+      .container { margin: 14px auto; padding: 0 12px 40px; }
     }
 
-    .reveal {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity .7s cubic-bezier(0.22,1,0.36,1), transform .7s cubic-bezier(0.22,1,0.36,1);
+    @media (max-width: 500px) {
+      header { padding: 10px 14px; }
+      .logo-text { font-size: 16px; }
+      .icon-btn { width: 30px; height: 30px; }
+      .right-col { display: none; }
+      .stats-row { display: none; }
+      .player { grid-template-columns: 34px 44px 1fr; }
+      .player-name { font-size: 13px; }
+      .rank-num { font-size: 10px; }
+      .tab { font-size: 11px; padding: 5px 8px; }
+      .tab img { width: 11px; height: 11px; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .profile-kd-bar { grid-template-columns: repeat(2,1fr); }
+      .prime-grid { grid-template-columns: repeat(2,1fr); }
+      .hof-stats-row { grid-template-columns: repeat(2,1fr); }
+      #profilePage { padding: 16px 14px; }
+      .profile-name { font-size: 22px; }
+      .profile-body { padding: 0 16px 20px; }
+      .profile-banner { height: 56px; }
+      #comparePage { padding: 16px 14px 40px; }
+      .compare-selectors { flex-direction: column; align-items: stretch; }
+      .compare-search-wrap { max-width: 100%; }
+      .compare-vs { text-align: center; }
+      .compare-btn { width: 100%; }
+      .achievements-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+      #tierModalInner, #achModalInner { padding: 20px 16px; border-radius: 12px; }
+      .hof-card-body { padding: 0 14px 18px; }
+      .hof-name { font-size: 20px; }
+      #hofPage { padding: 16px 14px 40px; }
     }
-    .reveal.visible { opacity: 1; transform: none; }
-    .reveal-delay-1 { transition-delay: .1s; }
-    .reveal-delay-2 { transition-delay: .2s; }
-    .reveal-delay-3 { transition-delay: .3s; }
-    .reveal-delay-4 { transition-delay: .4s; }
 
-    /* ── RESPONSIVE ── */
-    @media(max-width:900px){
-      nav { padding: 12px 20px; }
-      .nav-links { display: none; }
-      .games-grid { grid-template-columns: 1fr; }
-      .game-card.featured { grid-column: span 1; }
-      .ranked-feature { grid-template-columns: 1fr; gap: 40px; }
-      .ranked-feature-text { order: 1; }
-      .ranked-feature-visual { order: 2; }
-      .community-grid { grid-template-columns: 1fr; }
-    }
-    @media(max-width:600px){
-      .hero-title { letter-spacing: -1px; }
-      .stats-strip { flex-wrap: wrap; }
-      .stat-item { min-width: 50%; border-right: none; border-bottom: 1px solid var(--border); }
-      .cta-inner { padding: 36px 20px; }
-      footer { flex-direction: column; text-align: center; padding: 24px 20px; }
+    /* hide tooltips on touch devices */
+    @media (hover: none) {
+      #statTooltip { display: none !important; }
     }
   </style>
 </head>
@@ -660,392 +1159,1259 @@
 
   <!-- BG -->
   <div class="bg-canvas" aria-hidden="true">
-    <div class="bloom bloom-1"></div>
-    <div class="bloom bloom-2"></div>
-    <div class="bloom bloom-3"></div>
-    <div class="bloom bloom-4"></div>
+    <div class="bg-bloom bg-bloom-1"></div>
+    <div class="bg-bloom bg-bloom-2"></div>
+    <div class="bg-bloom bg-bloom-3"></div>
+    <div class="bg-bloom bg-bloom-4"></div>
   </div>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-brand" href="#">
-      <img src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" alt="Logo">
-      <div>
-        <div class="nav-brand-text">QUIPA<em>LITE</em> MC</div>
-        <div class="nav-brand-sub">Minigames Server</div>
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <img class="logo-img"
+        src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj"
+        alt="Logo" onclick="location.reload()">
+      <div class="logo-lockup">
+        <div class="logo-text" onclick="showHallOfFame(null)" style="cursor:pointer;" title="Hall of Fame">QUIPA<em>LITE</em> MC</div>
+        <div class="logo-sub">Ranked Battle Arena</div>
       </div>
-    </a>
-    <div class="nav-links">
-      <a class="nav-link active" href="#">Home</a>
-      <a class="nav-link" href="#games">Games</a>
-      <a class="nav-link" href="#ranked">Ranked</a>
-      <a class="nav-link" href="#community">Community</a>
     </div>
-    <div class="nav-cta">
-      <a class="icon-btn-sm yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
-        <svg width="14" height="10" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
-      </a>
-      <a class="icon-btn-sm dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
-        <svg width="16" height="12" viewBox="-2 -2 75 59" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045Z"/></svg>
-      </a>
-      <div class="nav-divider"></div>
-      <a class="btn-ranked" href="ranked.html">Ranked ↗</a>
-    </div>
-    <div class="nav-glow"></div>
-  </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-dot"></span>
-      Server Online
-    </div>
-    <h1 class="hero-title">
-      QUIPA<em>LITE</em>
-      <span class="line2">Minecraft Minigames</span>
-    </h1>
-    <p class="hero-sub">
-      A competitive Minecraft server packed with custom minigames, <strong>Ranked PvP tournaments</strong>, and a tight-knit community. Step in, pick your weapon, and prove yourself on the leaderboard.
-    </p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="#games">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg>
-        Explore Games
+    <div class="header-right">
+      <a class="icon-btn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
+        <svg width="15" height="11" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
       </a>
-      <a class="btn-secondary" href="ranked.html">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        View Ranked Leaderboard
+      <a class="icon-btn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
+        <svg width="17" height="13" viewBox="-2 -2 75 59" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM25.1928 37.3591C21.8962 37.3591 19.1983 34.3373 19.1983 30.6325C19.1983 26.9277 21.8409 23.9059 25.1928 23.9059C28.5727 23.9059 31.2431 26.9558 31.1874 30.6325C31.1874 34.3373 28.5447 37.3591 25.1928 37.3591ZM49.9519 37.3591C46.6553 37.3591 43.9574 34.3373 43.9574 30.6325C43.9574 26.9277 46.6000 23.9059 49.9519 23.9059C53.3318 23.9059 56.0022 26.9558 55.9465 30.6325C55.9465 34.3373 53.3318 37.3591 49.9519 37.3591Z"/></svg>
       </a>
-    </div>
-    <div class="ip-chip" onclick="copyIP(this)" title="Click to copy">
-      <div>
-        <div class="ip-label">Server IP</div>
-        <div class="ip-address">quipalite.mc</div>
+      <button class="icon-btn tier" onclick="openTierGuide()" title="Tier Guide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </button>
+      <div class="hdr-divider"></div>
+      <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <div class="toggle-thumb" id="toggleThumb"></div>
       </div>
-      <div class="ip-copy" id="ipCopyLabel">Copy</div>
     </div>
-    <div class="scroll-hint">
-      <div class="scroll-hint-line"></div>
-      Scroll
-    </div>
-  </section>
+    <div class="header-glow"></div>
+  </header>
 
-  <!-- STATS STRIP -->
-  <div class="stats-strip" aria-label="Server statistics">
-    <div class="stat-item reveal">
-      <div class="stat-num accent">20+</div>
-      <div class="stat-lbl">Ranked Players</div>
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" onclick="showMode('overall',this)" role="tab">🏆 Overall</button>
+    <button class="tab" onclick="showMode('sword',this)" role="tab">
+      <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" width="13" height="13" alt=""> Sword
+    </button>
+    <button class="tab" onclick="showMode('axe',this)" role="tab">
+      <img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" width="13" height="13" alt=""> Axe
+    </button>
+    <button class="tab" onclick="showMode('uhc',this)" role="tab">
+      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" width="13" height="13" alt=""> UHC
+    </button>
+    <button class="tab" onclick="showMode('mace',this)" role="tab">
+      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" width="13" height="13" alt=""> Mace
+    </button>
+    <button class="tab" onclick="showMode('spear',this)" role="tab">
+      <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" width="13" height="13" alt=""> Spear
+    </button>
+    <button class="tab" onclick="showCompare(this)" role="tab">⚖️ Compare</button>
+  </div>
+
+  <!-- SEARCH ROW -->
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="Search player…" onkeyup="searchPlayers()" aria-label="Search players">
+    <button id="retiredToggle" onclick="toggleRetired()">🏆 Show Retired</button>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="container">
+    <div id="overall" class="mode active" aria-live="polite"></div>
+    <div id="sword"   class="mode"></div>
+    <div id="axe"     class="mode"></div>
+    <div id="uhc"     class="mode"></div>
+    <div id="mace"    class="mode"></div>
+    <div id="spear"   class="mode"></div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="profilePage" aria-hidden="true">
+    <div class="profile-top-row">
+      <button class="backBtn" onclick="goBack()">← Back</button>
+
     </div>
-    <div class="stat-item reveal reveal-delay-1">
-      <div class="stat-num gold">5</div>
-      <div class="stat-lbl">Game Modes</div>
+    <div id="profileContent"></div>
+  </div>
+
+  <!-- COMPARE PAGE -->
+  <div id="comparePage" aria-hidden="true">
+    <div class="compare-inner">
+    <div class="mode-select-row" id="compareModeRow">
+      <button class="active" onclick="setCompareMode('overall',this)">🏆 Overall</button>
+      <button onclick="setCompareMode('sword',this)"><img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Sword</button>
+      <button onclick="setCompareMode('axe',this)"><img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Axe</button>
+      <button onclick="setCompareMode('uhc',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> UHC</button>
+      <button onclick="setCompareMode('mace',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Mace</button>
+      <button onclick="setCompareMode('spear',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle;margin-right:3px;" alt=""> Spear</button>
     </div>
-    <div class="stat-item reveal reveal-delay-2">
-      <div class="stat-num">7</div>
-      <div class="stat-lbl">Tier Ranks</div>
+    <div class="compare-selectors">
+      <div class="compare-search-wrap" id="csw1">
+        <input type="text" id="compareSearch1" class="compare-search-input" placeholder="Search player…" autocomplete="off" oninput="filterCompareList(1)" onfocus="showCompareDropdown(1)" onblur="hideCompareDropdown(1)">
+      </div>
+      <span class="compare-vs">VS</span>
+      <div class="compare-search-wrap" id="csw2">
+        <input type="text" id="compareSearch2" class="compare-search-input" placeholder="Search player…" autocomplete="off" oninput="filterCompareList(2)" onfocus="showCompareDropdown(2)" onblur="hideCompareDropdown(2)">
+      </div>
+      <button class="compare-btn" onclick="runCompare()">Compare</button>
     </div>
-    <div class="stat-item reveal reveal-delay-3">
-      <div class="stat-num green">Live</div>
-      <div class="stat-lbl">Leaderboards</div>
+    <div id="compareResult"></div>
+    </div><!-- /.compare-inner -->
+  </div>
+
+  <!-- HALL OF FAME -->
+  <div id="hofPage" aria-hidden="true"></div>
+
+  <!-- TOOLTIP -->
+  <div id="statTooltip"></div>
+
+  <div class="compare-dropdown" id="compareDropdown1"></div>
+  <div class="compare-dropdown" id="compareDropdown2"></div>
+
+  <!-- TIER MODAL -->
+  <div id="tierModal" role="dialog" aria-modal="true" aria-label="Tier Guide" onclick="handleModalBackdrop(event)">
+    <div id="tierModalBackdrop"></div>
+    <div id="tierModalInner">
+      <h2>
+        <span>📊 Tier Guide</span>
+        <button id="tierModalClose" onclick="closeTierGuide()" aria-label="Close">✕</button>
+      </h2>
+      <div id="tierModalList"></div>
+      <div class="tier-method">
+        <div class="tier-method-heading">Tier Evaluation</div>
+        <p>Tiers are assigned based on individual performance within each category, rather than raw statistics alone. A player's effectiveness, consistency, and demonstrated skill are the primary factors in determining their tier. For example, a player who achieves a win with minimal use of a mace may be ranked lower than a player who loses but shows a higher level of proficiency with the mace.</p>
+        <div class="tier-method-heading" style="margin-top:14px;">Reranking Policy</div>
+        <p>Players are eligible to request a rerank within two (2) days of their initial ranking. After this period, reranks are restricted to the monthly rerank cycle, which occurs on the 1st of each month.</p>
+        <div class="tier-method-heading" style="margin-top:14px;">Peak Tier</div>
+        <p>A player's Peak Tier reflects the highest tier they have achieved in a specific mode and is recorded as a permanent benchmark of their performance.</p>
+        <div class="tier-method-heading" style="margin-top:14px;">Staff Oversight</div>
+        <p>All tiers are determined by the Quipalite MC Staff Team, including:</p>
+        <ul>
+          <li><span class="staff-link" onclick="closeTierGuide();setTimeout(()=>openProfile('RealO75','overall'),320);">RealO75</span> — Owner</li>
+          <li><span class="staff-link" onclick="closeTierGuide();setTimeout(()=>openProfile('Aftlow','overall'),320);">Aftlow</span> — Builder &amp; Former Player</li>
+        </ul>
+        <p>If a staff member is actively participating in tier evaluations, their ranking will be determined by another staff member to ensure fairness and impartiality.</p>
+      </div>
     </div>
   </div>
 
-  <!-- GAMES SECTION -->
-  <section id="games">
-    <div class="section-inner">
-      <div class="games-header reveal">
-        <div class="section-tag">Game Modes</div>
-        <h2 class="section-title">Pick Your <em>Battleground</em></h2>
-        <p class="section-sub">Five distinct PvP disciplines, each with its own meta, skills, and ranked ladder.</p>
-      </div>
-      <div class="games-grid">
-
-        <!-- FEATURED: Ranked Arena -->
-        <a class="game-card featured reveal" href="ranked.html" style="grid-column:span 2;">
-          <div class="game-card-top">
-            <div class="game-icon" style="font-size:26px;">⚔️</div>
-            <div class="game-info">
-              <div class="game-name">Ranked Battle Arena</div>
-              <span class="game-tag" style="color:var(--pink);border-color:var(--pink-line);background:var(--pink-glow);">Featured</span>
-            </div>
-            <div class="game-arrow">↗</div>
-          </div>
-          <p class="game-desc">The centrepiece of Quipalite MC. Compete in five weapon disciplines — Sword, Axe, UHC, Mace, and Spear — climb through seven tiers from Coal to Netherite, and earn your place on the all-time leaderboard.</p>
-          <div class="game-meta">
-            <span class="game-meta-pill">🏆 7 Tier Ranks</span>
-            <span class="game-meta-pill">⚖️ Player Compare</span>
-            <span class="game-meta-pill">📊 Live Stats</span>
-            <span class="game-meta-pill" style="color:var(--pink);border-color:var(--pink-line);background:var(--pink-glow);">Hall of Fame</span>
-          </div>
-        </a>
-
-        <!-- Sword -->
-        <div class="game-card reveal reveal-delay-1">
-          <div class="game-card-top">
-            <div class="game-icon">
-              <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:26px;height:26px;image-rendering:pixelated;" alt="Sword">
-            </div>
-            <div class="game-info">
-              <div class="game-name" style="font-size:18px;">Sword</div>
-              <span class="game-tag" style="color:#50C878;border-color:rgba(80,200,120,0.3);background:rgba(80,200,120,0.08);">Combo</span>
-            </div>
-            <div class="game-arrow">↗</div>
-          </div>
-          <p class="game-desc">Classic sword-fighting with combo mechanics. Precision and timing are everything.</p>
-        </div>
-
-        <!-- Axe -->
-        <div class="game-card reveal reveal-delay-2">
-          <div class="game-card-top">
-            <div class="game-icon">
-              <img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:26px;height:26px;image-rendering:pixelated;" alt="Axe">
-            </div>
-            <div class="game-info">
-              <div class="game-name" style="font-size:18px;">Axe</div>
-              <span class="game-tag" style="color:#F5C842;border-color:rgba(245,200,66,0.3);background:rgba(245,200,66,0.08);">Power</span>
-            </div>
-            <div class="game-arrow">↗</div>
-          </div>
-          <p class="game-desc">Heavy-hitting axe duels. Shield-breaking and burst damage define the pace.</p>
-        </div>
-
-        <!-- UHC -->
-        <div class="game-card reveal reveal-delay-1">
-          <div class="game-card-top">
-            <div class="game-icon">
-              <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:24px;height:24px;image-rendering:pixelated;" alt="UHC">
-            </div>
-            <div class="game-info">
-              <div class="game-name" style="font-size:18px;">UHC</div>
-              <span class="game-tag" style="color:#f87171;border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.08);">No Regen</span>
-            </div>
-            <div class="game-arrow">↗</div>
-          </div>
-          <p class="game-desc">Ultra-Hardcore rules. Every heart matters — no natural regeneration.</p>
-        </div>
-
-        <!-- Mace -->
-        <div class="game-card reveal reveal-delay-2">
-          <div class="game-card-top">
-            <div class="game-icon">
-              <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:26px;height:26px;image-rendering:pixelated;" alt="Mace">
-            </div>
-            <div class="game-info">
-              <div class="game-name" style="font-size:18px;">Mace</div>
-              <span class="game-tag" style="color:#B87333;border-color:rgba(184,115,51,0.3);background:rgba(184,115,51,0.08);">Impact</span>
-            </div>
-            <div class="game-arrow">↗</div>
-          </div>
-          <p class="game-desc">Fall damage amplified smashes. Master the drop attack to dominate.</p>
-        </div>
-
-        <!-- Spear -->
-        <div class="game-card reveal reveal-delay-3" style="grid-column:span 1;">
-          <div class="game-card-top">
-            <div class="game-icon">
-              <img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:26px;height:26px;image-rendering:pixelated;" alt="Spear">
-            </div>
-            <div class="game-info">
-              <div class="game-name" style="font-size:18px;">Spear</div>
-              <span class="game-tag" style="color:#00BFFF;border-color:rgba(0,191,255,0.3);background:rgba(0,191,255,0.08);">Reach</span>
-            </div>
-            <div class="game-arrow">↗</div>
-          </div>
-          <p class="game-desc">Extended reach with the spear. Control space and poke your way to victory.</p>
-        </div>
-
-      </div>
+  <!-- ACHIEVEMENTS GUIDE MODAL -->
+  <div id="achModal" role="dialog" aria-modal="true" aria-label="Achievements Guide" onclick="handleAchModalBackdrop(event)">
+    <div id="achModalBackdrop"></div>
+    <div id="achModalInner">
+      <h2>
+        <span>🏅 Achievements</span>
+        <button id="achModalClose" onclick="closeAchModal()" aria-label="Close">✕</button>
+      </h2>
+      <div id="achModalList"></div>
     </div>
-  </section>
+  </div>
 
-  <!-- RANKED FEATURE SECTION -->
-  <section class="ranked-section" id="ranked">
-    <div class="section-inner">
-      <div class="ranked-feature">
-        <div class="ranked-feature-text reveal">
-          <div class="section-tag">Ranked System</div>
-          <h2 class="ranked-big-title">Climb the<em>Tiers</em></h2>
-          <p class="section-sub">A fully-featured competitive ranking system with seven tiers, per-mode leaderboards, and a permanent hall of fame for retired legends.</p>
-          <ul class="ranked-features-list">
-            <li class="ranked-feature-item">
-              <div class="rfi-icon">📊</div>
-              <div class="rfi-body">
-                <div class="rfi-title">Per-Mode Leaderboards</div>
-                <div class="rfi-desc">Separate rankings for every weapon discipline — your Sword rank doesn't define your Mace rank.</div>
-              </div>
-            </li>
-            <li class="ranked-feature-item">
-              <div class="rfi-icon">⚖️</div>
-              <div class="rfi-body">
-                <div class="rfi-title">Head-to-Head Compare</div>
-                <div class="rfi-desc">Go head-to-head with any player across all stats with the Compare tool.</div>
-              </div>
-            </li>
-            <li class="ranked-feature-item">
-              <div class="rfi-icon">🏅</div>
-              <div class="rfi-body">
-                <div class="rfi-title">Hall of Fame</div>
-                <div class="rfi-desc">Retired legends are enshrined permanently with their peak stats and career achievements.</div>
-              </div>
-            </li>
-            <li class="ranked-feature-item">
-              <div class="rfi-icon">🔄</div>
-              <div class="rfi-body">
-                <div class="rfi-title">Monthly Reranks</div>
-                <div class="rfi-desc">Rankings reset and recalibrate on the 1st of each month to keep competition fresh.</div>
-              </div>
-            </li>
-          </ul>
-          <a class="btn-primary" href="ranked.html" style="align-self:flex-start;">
-            Open Leaderboard ↗
-          </a>
-        </div>
-        <div class="ranked-feature-visual reveal reveal-delay-2">
-          <div class="lb-preview">
-            <div class="lb-preview-header">
-              <img src="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" style="width:24px;height:24px;border-radius:6px;" alt="">
-              <div class="lb-preview-title">RANKED OVERALL</div>
-              <div class="lb-tabs-preview">
-                <span class="lb-tab-preview a">Overall</span>
-                <span class="lb-tab-preview">Sword</span>
-                <span class="lb-tab-preview">Axe</span>
-              </div>
-            </div>
-            <div class="lb-rows">
-              <div class="lb-row r1">
-                <span class="lb-rank g">#1</span>
-                <img src="https://tabavatars.net/avatar/?username=Killedbycrab&size=48&type=head" class="lb-avatar" alt="Killedbycrab">
-                <span class="lb-name">Killedbycrab</span>
-                <span class="lb-tier" style="color:#50C878;border-color:rgba(80,200,120,0.35);">Emerald</span>
-                <span class="lb-kd" style="color:#4ade80;">4.44</span>
-              </div>
-              <div class="lb-row r2">
-                <span class="lb-rank s">#2</span>
-                <img src="https://tabavatars.net/avatar/?username=w85544534&size=48&type=head" class="lb-avatar" alt="w85544534">
-                <span class="lb-name">w85544534</span>
-                <span class="lb-tier" style="color:#50C878;border-color:rgba(80,200,120,0.35);">Emerald</span>
-                <span class="lb-kd" style="color:#4ade80;">3.00</span>
-              </div>
-              <div class="lb-row r3">
-                <span class="lb-rank b">#3</span>
-                <img src="https://tabavatars.net/avatar/?username=Aftlow&size=48&type=head" class="lb-avatar" alt="Aftlow">
-                <span class="lb-name">Aftlow</span>
-                <span class="lb-tier" style="color:#50C878;border-color:rgba(80,200,120,0.35);">Emerald</span>
-                <span class="lb-kd" style="color:#facc15;">2.30</span>
-              </div>
-              <div class="lb-row">
-                <span class="lb-rank d">#4</span>
-                <img src="https://tabavatars.net/avatar/?username=Mason20539&size=48&type=head" class="lb-avatar" alt="Mason20539">
-                <span class="lb-name">Mason20539</span>
-                <span class="lb-tier" style="color:#F5C842;border-color:rgba(245,200,66,0.35);">Gold</span>
-                <span class="lb-kd" style="color:#facc15;">1.60</span>
-              </div>
-              <div class="lb-row">
-                <span class="lb-rank d">#5</span>
-                <img src="https://tabavatars.net/avatar/?username=RealO75&size=48&type=head" class="lb-avatar" alt="RealO75">
-                <span class="lb-name">RealO75</span>
-                <span class="lb-tier" style="color:#F5C842;border-color:rgba(245,200,66,0.35);">Gold</span>
-                <span class="lb-kd" style="color:#facc15;">1.18</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMMUNITY SECTION -->
-  <section id="community">
-    <div class="section-inner">
-      <div class="games-header reveal">
-        <div class="section-tag">Community</div>
-        <h2 class="section-title">Join the <em>Crew</em></h2>
-        <p class="section-sub">Watch highlights, catch up on events, and connect with other players on Discord.</p>
-      </div>
-      <div class="community-grid">
-        <a class="comm-card yt reveal" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">
-          <div class="comm-banner comm-banner-yt">
-            <div class="comm-banner-icon">
-              <svg width="54" height="38" viewBox="0 0 24 17" fill="#ff5555" opacity=".9"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
-            </div>
-          </div>
-          <div class="comm-body">
-            <div class="comm-name">YouTube</div>
-            <p class="comm-desc">Watch tournament VODs, highlights, and server updates on the official Quipalite MC channel.</p>
-            <div class="comm-action">Watch Now ↗</div>
-          </div>
-        </a>
-        <a class="comm-card dc reveal reveal-delay-1" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">
-          <div class="comm-banner comm-banner-dc">
-            <div class="comm-banner-icon">
-              <svg width="54" height="42" viewBox="-2 -2 75 59" fill="#7b8ff7" opacity=".9"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.4920 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.6840 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.2390C31.6816 49.2576 43.8966 49.2576 55.1126 44.2390C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.6370 45.2625C56.7654 45.3576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.2580 53.9884 68.0638 50.7185 75.0918 45.5576C75.1450 45.5182 75.1786 45.4590 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045Z"/></svg>
-            </div>
-          </div>
-          <div class="comm-body">
-            <div class="comm-name">Discord</div>
-            <p class="comm-desc">Join the server community, find matches, challenge rivals, and stay up to date with announcements and events.</p>
-            <div class="comm-action">Join Server ↗</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA SECTION -->
-  <section class="cta-section">
-    <div class="cta-inner reveal">
-      <div class="cta-title">Ready to <em>Compete?</em></div>
-      <p class="cta-sub">Jump in, earn your rank, and climb the leaderboard. Every duel counts.</p>
-      <div class="cta-actions">
-        <a class="btn-primary" href="ranked.html">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          View Leaderboard
-        </a>
-        <a class="btn-secondary" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">Join Discord</a>
-      </div>
-      <div class="cta-ip">Server IP &nbsp;—&nbsp; <span>quipalite.mc</span></div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-brand">QUIPA<em>LITE</em> MC</div>
-    <div class="footer-links">
-      <a class="footer-link" href="#">Home</a>
-      <a class="footer-link" href="#games">Games</a>
-      <a class="footer-link" href="ranked.html">Ranked</a>
-      <a class="footer-link" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">YouTube</a>
-      <a class="footer-link" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">Discord</a>
-    </div>
-    <div class="footer-copy">© 2026 Quipalite MC — All Rights Reserved</div>
-  </footer>
+  <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 22 Mar 2026</footer>
 
   <script>
-    // ── Copy IP ──
-    function copyIP(el){
-      const lbl = document.getElementById('ipCopyLabel');
-      navigator.clipboard.writeText('quipalite.mc').then(()=>{
-        lbl.textContent = '✓ Copied!';
-        lbl.style.color = 'var(--green)';
-        lbl.style.borderColor = 'rgba(74,222,128,0.3)';
-        lbl.style.background = 'rgba(74,222,128,0.1)';
-        setTimeout(()=>{
-          lbl.textContent = 'Copy';
-          lbl.style.color = '';
-          lbl.style.borderColor = '';
-          lbl.style.background = '';
-        }, 2000);
+    let monoMode = false;
+    let showRetired = false;
+    const retired = ['Jai_B37', 'Aftlow'];
+    const thumb = document.getElementById('toggleThumb');
+    let currentProfileName = '';
+    let currentProfileMode = '';
+
+    const tierGuideData = [
+      { name:'Netherite', color:'#6b6b78', desc:'Elite level; represents the highest standard of performance.' },
+      { name:'Diamond',   color:'#00BFFF', desc:'Very advanced, demonstrating exceptional proficiency.' },
+      { name:'Emerald',   color:'#50C878', desc:'Highly skilled with strong consistency.' },
+      { name:'Gold',      color:'#F5C842', desc:'Competent and reliable performance.' },
+      { name:'Iron',      color:'#8b8b8b', desc:'Showing improvement, though still below expected skill level.' },
+      { name:'Copper',    color:'#B87333', desc:'Familiar with mechanics but performance is inconsistent.' },
+      { name:'Coal',      color:'#555',    desc:'No demonstrated understanding of core mechanics.' },
+    ];
+
+    function openTierGuide(){
+      const list = document.getElementById('tierModalList');
+      list.innerHTML = '';
+      tierGuideData.forEach((t,i) => {
+        const row = document.createElement('div');
+        row.className = 'tier-row';
+        row.style.transitionDelay = (0.06 + i * 0.055) + 's';
+        row.innerHTML = `
+          <div class="tier-dot" style="background:${t.color};box-shadow:0 0 6px ${t.color};"></div>
+          <div class="tier-name" style="color:${t.color}">${t.name}</div>
+          <div class="tier-desc">${t.desc}</div>
+        `;
+        list.appendChild(row);
+      });
+      const modal = document.getElementById('tierModal');
+      modal.classList.remove('closing');
+      modal.style.display = 'flex';
+      modal.getBoundingClientRect();
+      requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = sw + 'px';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTierGuide(){
+      const modal = document.getElementById('tierModal');
+      modal.classList.add('closing');
+      modal.querySelectorAll('.tier-row').forEach(r => r.style.transitionDelay = '0s');
+      setTimeout(() => {
+        modal.classList.remove('open','closing');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }, 300);
+    }
+    function handleModalBackdrop(e){ if(e.target === document.getElementById('tierModal')) closeTierGuide(); }
+
+    function toggleRetired(){
+      showRetired = !showRetired;
+      const btn = document.getElementById('retiredToggle');
+      if(showRetired){
+        btn.classList.add('active-retired');
+        btn.style.color = monoMode ? '#fff' : 'var(--pink)';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.3)' : 'var(--pink-line)';
+        btn.textContent = '🏆 Hide Retired';
+      } else {
+        btn.classList.remove('active-retired');
+        btn.style.color = '';
+        btn.style.borderColor = '';
+        btn.textContent = '🏆 Show Retired';
+      }
+      const activeMode = document.querySelector('.mode.active');
+      if(activeMode) createPlayers(activeMode.id);
+      populateCompareSelects();
+    }
+
+    function toggleTheme(){
+      monoMode = !monoMode;
+      document.body.classList.toggle('mono', monoMode);
+      thumb.style.transform = monoMode ? 'translateX(20px)' : '';
+      thumb.style.background = monoMode ? '#fff' : '';
+      if(showRetired){
+        const btn = document.getElementById('retiredToggle');
+        btn.style.color = monoMode ? '#fff' : 'var(--pink)';
+        btn.style.borderColor = monoMode ? 'rgba(255,255,255,0.3)' : 'var(--pink-line)';
+      }
+    }
+
+    function getAvatar(username, size=48){
+      return 'https://tabavatars.net/avatar/?username=' + encodeURIComponent(username) + '&size=' + size + '&type=head';
+    }
+
+    const playerStats = {
+      sword:{
+        RealO75:{wins:22,kills:68,deaths:23}, Jai_B37:{wins:1,kills:3,deaths:1},
+        skull_shredder30:{wins:1,kills:3,deaths:1}, Killedbycrab:{wins:1,kills:6,deaths:6},
+        Knoxy5316:{wins:2,kills:11,deaths:36}, EggyCactus78246:{wins:1,kills:4,deaths:3},
+        Aftlow:{wins:4,kills:16,deaths:17}, Ushindo:{wins:4,kills:15,deaths:13},
+        LiamTheLemur:{wins:0,kills:0,deaths:3}, SadInFusIOns:{wins:1,kills:4,deaths:8},
+        Cocotime15:{wins:1,kills:4,deaths:12}, gfunkdfunk82:{wins:0,kills:0,deaths:3},
+        "WARDY B33":{wins:1,kills:3,deaths:9}, Neska5036:{wins:0,kills:0,deaths:3},
+        bubbler2009:{wins:1,kills:3,deaths:6}, TerrorBoy123619:{wins:0,kills:0,deaths:3},
+        w85544534:{wins:3,kills:9,deaths:1}, Terroralex10:{wins:0,kills:0,deaths:3},
+        Mason20539:{wins:2,kills:7,deaths:4}
+      },
+      axe:{
+        RealO75:{wins:6,kills:17,deaths:6}, Killedbycrab:{wins:4,kills:12,deaths:6},
+        Jai_B37:{wins:1,kills:5,deaths:3}, skull_shredder30:{wins:0,kills:1,deaths:3},
+        "Yearly-scuff81":{wins:0,kills:0,deaths:3}, Knoxy5316:{wins:0,kills:1,deaths:6},
+        Ushindo:{wins:0,kills:1,deaths:3}, Aftlow:{wins:6,kills:18,deaths:2},
+        bubbler2009:{wins:1,kills:4,deaths:10}, "God flow 3":{wins:0,kills:2,deaths:2},
+        "WARDY B33":{wins:3,kills:2,deaths:8}, Cocotime15:{wins:0,kills:1,deaths:1},
+        w85544534:{wins:2,kills:7,deaths:3}, Terroralex10:{wins:0,kills:1,deaths:3},
+        SadInFusIOns:{wins:0,kills:0,deaths:3}, Mason20539:{wins:2,kills:8,deaths:8},
+        EggyCactus78246:{wins:0,kills:1,deaths:3}, Neska5036:{wins:0,kills:1,deaths:3},
+        Redpanda2013:{wins:0,kills:4,deaths:0},
+        Redpanda2013:{wins:0,kills:2,deaths:0}
+      },
+      uhc:{
+        Killedbycrab:{wins:4,kills:12,deaths:5}, "Yearly-scuff81":{wins:0,kills:0,deaths:3},
+        Aftlow:{wins:7,kills:21,deaths:4}, RealO75:{wins:2,kills:5,deaths:3},
+        Knoxy5316:{wins:0,kills:0,deaths:3}, Jai_B37:{wins:0,kills:1,deaths:3},
+        bubbler2009:{wins:0,kills:2,deaths:9}, "WARDY B33":{wins:0,kills:2,deaths:5},
+        Oneshot1353:{wins:1,kills:3,deaths:0}, Cocotime15:{wins:0,kills:1,deaths:6},
+        w85544534:{wins:1,kills:3,deaths:1}, Terroralex10:{wins:1,kills:3,deaths:2},
+        SadInFusIOns:{wins:0,kills:0,deaths:3}, Ushindo:{wins:0,kills:0,deaths:3},
+        "God flow 3":{wins:0,kills:0,deaths:0}, Mason20539:{wins:1,kills:0,deaths:0},
+        Neska5036:{wins:1,kills:3,deaths:2}, Redpanda2013:{wins:0,kills:2,deaths:2}
+      },
+      mace:{
+        Killedbycrab:{wins:14,kills:42,deaths:17}, "Yearly-scuff81":{wins:0,kills:3,deaths:15},
+        Aftlow:{wins:4,kills:12,deaths:7}, Knoxy5316:{wins:1,kills:7,deaths:25},
+        EggyCactus78246:{wins:1,kills:3,deaths:0}, LiamTheLemur:{wins:0,kills:0,deaths:1},
+        RealO75:{wins:6,kills:17,deaths:10}, Cocotime15:{wins:1,kills:4,deaths:3},
+        Jai_B37:{wins:1,kills:3,deaths:2}, Neska5036:{wins:0,kills:2,deaths:6},
+        "God flow 3":{wins:0,kills:2,deaths:2}, bubbler2009:{wins:0,kills:2,deaths:6},
+        TerrorBoy123619:{wins:0,kills:1,deaths:3}, "WARDY B33":{wins:1,kills:8,deaths:9},
+        w85544534:{wins:0,kills:0,deaths:3}, Terroralex10:{wins:1,kills:3,deaths:1},
+        SadInFusIOns:{wins:0,kills:2,deaths:3}, Ushindo:{wins:0,kills:0,deaths:3},
+        Mason20539:{wins:3,kills:9,deaths:6},
+        Techno5132:{wins:0,kills:2,deaths:3},
+        Redpanda2013:{wins:2,kills:6,deaths:0}
+      },
+      spear:{
+        Killedbycrab:{wins:2,kills:6,deaths:3}, Aftlow:{wins:6,kills:18,deaths:6},
+        "Yearly-scuff81":{wins:0,kills:1,deaths:6}, Cocotime15:{wins:0,kills:0,deaths:3},
+        RealO75:{wins:1,kills:7,deaths:9}, gfunkdfunk82:{wins:0,kills:2,deaths:3},
+        Ushindo:{wins:0,kills:0,deaths:3}, Knoxy5316:{wins:1,kills:3,deaths:2},
+        Jai_B37:{wins:0,kills:0,deaths:3}, bubbler2009:{wins:1,kills:3,deaths:3},
+        "WARDY B33":{wins:0,kills:0,deaths:3}, w85544534:{wins:1,kills:3,deaths:0},
+        Terroralex10:{wins:0,kills:0,deaths:3}, SadInFusIOns:{wins:0,kills:0,deaths:3},
+        Mason20539:{wins:1,kills:3,deaths:0}, Neska5036:{wins:1,kills:3,deaths:2},
+        Redpanda2013:{wins:1,kills:3,deaths:0}
+      }
+    };
+
+    const customTiers = {
+      sword:  { Killedbycrab:"Gold",    RealO75:"Diamond", Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Iron",   bubbler2009:"Gold",   "WARDY B33":"Iron",   Cocotime15:"Iron",   w85544534:"Diamond", Terroralex10:"Iron",  SadInFusIOns:"Gold",  Ushindo:"Gold",  Mason20539:"Emerald", Neska5036:"Iron" },
+      axe:    { Killedbycrab:"Emerald", RealO75:"Gold",    Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Emerald",bubbler2009:"Iron",   "WARDY B33":"Gold",   Cocotime15:"Iron",   w85544534:"Emerald", Terroralex10:"Iron",  SadInFusIOns:"Iron",  Ushindo:"Iron",  Mason20539:"Gold", Neska5036:"Iron" },
+      uhc:    { Killedbycrab:"Gold",    RealO75:"Gold",    Aftlow:"Gold",     Knoxy5316:"Iron",   Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Emerald", Terroralex10:"Iron",  SadInFusIOns:"Copper",Ushindo:"Iron",  Mason20539:"Iron", Neska5036:"Gold" },
+      mace:   { Killedbycrab:"Diamond", RealO75:"Iron",    Aftlow:"Gold",     Knoxy5316:"Copper", Jai_B37:"Copper", bubbler2009:"Coal",   "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Gold",    Terroralex10:"Copper",SadInFusIOns:"Coal",  Ushindo:"Copper",Mason20539:"Iron", Neska5036:"Copper" },
+      spear:  { Killedbycrab:"Gold",    RealO75:"Iron",    Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Iron",    Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Copper", Neska5036:"Iron" },
+      overall:{ Killedbycrab:"Emerald", RealO75:"Gold",    Aftlow:"Emerald",  Knoxy5316:"Copper", Jai_B37:"Iron",   bubbler2009:"Copper", "WARDY B33":"Copper", Cocotime15:"Copper", w85544534:"Emerald", Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",  Mason20539:"Gold", Neska5036:"Iron" }
+    };
+
+    const tierColors = {
+      Netherite:'#6b6b78', Diamond:'#00BFFF', Emerald:'#50C878',
+      Gold:'#F5C842', Iron:'#8b8b8b', Copper:'#B87333', Coal:'#555', Unranked:'#444'
+    };
+
+    const peakTiers = {
+      RealO75:      { overall:'Gold',    sword:'Diamond', axe:'Gold',    uhc:'Gold',    mace:'Iron',    spear:'Iron'   },
+      Aftlow:       { overall:'Emerald', sword:'Emerald', axe:'Emerald', uhc:'Gold',    mace:'Gold',    spear:'Diamond'},
+      Killedbycrab: { overall:'Emerald', sword:'Gold',    axe:'Emerald', uhc:'Gold',    mace:'Diamond', spear:'Gold'   },
+      w85544534:    { overall:'Emerald', sword:'Diamond', axe:'Emerald', uhc:'Emerald', mace:'Gold',    spear:'Iron'   },
+      Mason20539:   { overall:'Gold',    sword:'Emerald', axe:'Gold',    uhc:'Iron',    mace:'Iron',    spear:'Copper' },
+      bubbler2009:  { overall:'Copper',  sword:'Gold',    axe:'Iron',    uhc:'Copper',  mace:'Coal',    spear:'Copper' },
+      Ushindo:      { overall:'Iron',    sword:'Gold',    axe:'Iron',    uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      "WARDY B33":  { overall:'Copper',  sword:'Iron',    axe:'Gold',    uhc:'Copper',  mace:'Copper',  spear:'Copper' },
+      Cocotime15:   { overall:'Copper',  sword:'Iron',    axe:'Iron',    uhc:'Copper',  mace:'Copper',  spear:'Copper' },
+      Knoxy5316:    { overall:'Copper',  sword:'Copper',  axe:'Copper',  uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      SadInFusIOns: { overall:'Copper',  sword:'Gold',    axe:'Iron',    uhc:'Copper',  mace:'Coal',    spear:'Copper' },
+      Terroralex10: { overall:'Copper',  sword:'Iron',    axe:'Iron',    uhc:'Iron',    mace:'Copper',  spear:'Copper' },
+      Jai_B37:      { overall:'Iron',    sword:'Iron',    axe:'Emerald', uhc:'Iron',    mace:'Copper',  spear:'Iron'   },
+    };
+
+    const playerCountry = {
+      RealO75:'gb-eng', Aftlow:'gb-eng', bubbler2009:'gb-eng', Jai_B37:'gb-eng', Knoxy5316:'gb-eng',
+      Cocotime15:'se', "WARDY B33":'gb-eng', SadInFusIOns:'gb-eng', "God flow 3":'gb-eng',
+      gfunkdfunk82:'gb-eng', TerrorBoy123619:'gb-eng', LiamTheLemur:'gb-eng', Killedbycrab:'gb-eng',
+      "Yearly-scuff81":'gb-eng', skull_shredder30:'gb-eng', Neska5036:'za', Ushindo:'za',
+      EggyCactus78246:'dk', Oneshot1353:'dk', w85544534:'nl', Terroralex10:'gb-eng',
+      Mason20539:'gb-eng', Techno5132:'gb-eng', Redpanda2013:'gb-sct'
+    };
+    const countryNames = { 'gb-eng':'England', se:'Sweden', za:'South Africa', dk:'Denmark', nl:'Netherlands', 'gb-sct':'Scotland' };
+
+    function getFlagImg(code, size=11){
+      return `<img src="https://flagcdn.com/w40/${code}.png" class="flag-img" alt="${countryNames[code]||code}" title="${countryNames[code]||code}" style="height:${size}px;">`;
+    }
+
+    function updateOverall(){
+      const overall = {};
+      for(const mode in playerStats){
+        if(mode==='overall') continue;
+        const list = playerStats[mode] || {};
+        for(const p in list){
+          if(!overall[p]) overall[p] = {wins:0,kills:0,deaths:0};
+          const s = list[p];
+          overall[p].wins   += (s.wins||0);
+          overall[p].kills  += (s.kills||0);
+          overall[p].deaths += (s.deaths||0);
+        }
+      }
+      playerStats.overall = overall;
+    }
+
+    function getOrderedPlayers(mode){
+      if(mode==='overall') updateOverall();
+      const data = playerStats[mode] || {};
+      const tierPriority = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
+      const computed = Object.entries(data).map(([name,stats]) => {
+        const s = stats||{wins:0,kills:0,deaths:0};
+        const tier = customTiers[mode]?.[name] || 'Unranked';
+        const kd = s.deaths===0 ? s.kills : s.kills/s.deaths;
+        const score = s.wins*10 + s.kills + kd*5;
+        return {name,stats:s,tier,score};
+      });
+      computed.sort((a,b)=>{
+        const tDiff = (tierPriority[b.tier]||0)-(tierPriority[a.tier]||0);
+        if(tDiff!==0) return tDiff;
+        if(b.score!==a.score) return b.score-a.score;
+        if(b.stats.wins!==a.stats.wins) return b.stats.wins-a.stats.wins;
+        if(b.stats.kills!==a.stats.kills) return b.stats.kills-a.stats.kills;
+        return a.stats.deaths-b.stats.deaths;
+      });
+      return computed.map(c=>c.name);
+    }
+
+    function kdColor(kd){
+      if(kd===Infinity||kd>=2) return '#4ade80';
+      if(kd>=1) return '#facc15';
+      return '#f87171';
+    }
+
+    function statColor(value, allValues, lowerIsBetter=false){
+      if(allValues.length <= 1) return 'var(--text)';
+      const sorted = [...allValues].sort((a,b)=>a-b);
+      const rank = sorted.lastIndexOf(value);
+      const pct = rank / (sorted.length - 1);
+      if(lowerIsBetter){
+        if(pct <= 0.33) return '#4ade80';
+        if(pct <= 0.66) return '#facc15';
+        return '#f87171';
+      } else {
+        if(pct >= 0.67) return '#4ade80';
+        if(pct >= 0.34) return '#facc15';
+        return '#f87171';
+      }
+    }
+
+    function createPlayers(mode){
+      if(mode==='overall') updateOverall();
+      const container = document.getElementById(mode);
+      if(!container) return;
+      const players = getOrderedPlayers(mode).filter(n => showRetired||!retired.includes(n));
+      container.innerHTML = '';
+
+      const allWins   = players.map(n => ((playerStats[mode]||{})[n]||{}).wins   || 0);
+      const allKills  = players.map(n => ((playerStats[mode]||{})[n]||{}).kills  || 0);
+      const allDeaths = players.map(n => ((playerStats[mode]||{})[n]||{}).deaths || 0);
+
+      const countDiv = document.createElement('div');
+      countDiv.className = 'player-count';
+      countDiv.textContent = players.length + ' player' + (players.length!==1?'s':'');
+      container.appendChild(countDiv);
+
+      players.forEach((name,i) => {
+        let rankClass='', podiumClass='', crownHtml='';
+        const isRetired = retired.includes(name);
+        const activeRank = players.slice(0,i).filter(n=>!retired.includes(n)).length;
+
+        if(!isRetired && activeRank===0){ rankClass='gold'; podiumClass='top1';
+          crownHtml=`<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>`;
+        } else if(!isRetired && activeRank===1){ rankClass='silver'; podiumClass='top2';
+        } else if(!isRetired && activeRank===2){ rankClass='bronze'; podiumClass='top3';
+        } else if(isRetired){ rankClass='retired-rank'; }
+
+        const tier  = customTiers[mode]?.[name] || 'Unranked';
+        const stats = (playerStats[mode]||{})[name] || {wins:0,kills:0,deaths:0};
+        const kd    = stats.deaths===0 ? (stats.kills>0?Infinity:0) : stats.kills/stats.deaths;
+        const kdStr = kd===Infinity?'∞':kd===0?'0.00':kd.toFixed(2);
+        const isInf = kd===Infinity;
+        const fireHtml = (kd===Infinity||kd>=2) ? `<span class="fire-icon" title="Hot streak!">🔥</span>` : '';
+        const tierColor = tierColors[tier]||'#444';
+
+        const wColor = isRetired ? 'var(--text-dim)' : statColor(stats.wins,   allWins,   false);
+        const kColor = isRetired ? 'var(--text-dim)' : statColor(stats.kills,  allKills,  false);
+        const dColor = isRetired ? 'var(--text-dim)' : statColor(stats.deaths, allDeaths, true);
+
+        const card = document.createElement('div');
+        card.className = `player ${podiumClass}`;
+        card.style.animation = `fadeUp .38s ${i*0.04}s ease both`;
+        if(isRetired) card.style.opacity='0.4';
+        card.onclick = () => openProfile(name, mode);
+
+        const badgeHtml = tier && tier!=='Unranked'
+          ? `<span class="tier-badge" style="color:${tierColor};border-color:${tierColor}20;background:${tierColor}12;">${tier}</span>` : '';
+        const flagHtml  = playerCountry[name] ? getFlagImg(playerCountry[name]) : '';
+        const retiredBadge = isRetired ? `<span class="retired-badge">Retired</span>` : '';
+
+        card.innerHTML = `
+          <div class="rank-col"><span class="rank-num ${rankClass}">#${i+1}</span></div>
+          <div class="avatar-col">
+            <img src="${getAvatar(name)}" alt="${name}" class="player-head">
+          </div>
+          <div class="info-col">
+            <div class="name-row">
+              <span class="player-name">${name}</span>
+              ${flagHtml}${fireHtml}${crownHtml}${badgeHtml}${retiredBadge}
+            </div>
+            <div class="stats-row">
+              <span class="stat-pill"><b style="color:${wColor}">${stats.wins}</b> <span style="color:var(--text-dim)">W</span></span>
+              <div class="stat-pill-sep"></div>
+              <span class="stat-pill"><b style="color:${kColor}">${stats.kills}</b> <span style="color:var(--text-dim)">K</span></span>
+              <div class="stat-pill-sep"></div>
+              <span class="stat-pill"><b style="color:${dColor}">${stats.deaths}</b> <span style="color:var(--text-dim)">D</span></span>
+            </div>
+          </div>
+          <div class="right-col">
+            <span class="kd-val${isInf?' kd-inf':''}" style="color:${kdColor(kd)}">${kdStr}</span>
+            <span class="kd-label">K / D</span>
+          </div>
+        `;
+        container.appendChild(card);
+        // attach tooltips to stat pills
+        attachTooltips(card, mode, stats, allWins, allKills, allDeaths);
+      });
+
+      if(players.length===0){
+        const div = document.createElement('div');
+        div.className='no-players';
+        div.textContent='No players found';
+        container.appendChild(div);
+      }
+    }
+
+    const modeIcons = { overall:'🏆', sword:'⚔️', axe:'🪓', uhc:'❤️', mace:'🔨', spear:'🗡️' };
+    const modeOrder = ['overall','sword','axe','uhc','mace','spear'];
+    function modeName(m){ return m==='uhc'?'UHC': m==='overall'?'Overall': m.charAt(0).toUpperCase()+m.slice(1); }
+
+    const modeImgSmall = {
+      overall: '🏆',
+      sword: '<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      axe:   '<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      uhc:   '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      mace:  '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+      spear: '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle;">',
+    };
+
+    function buildPrimeSection(name){
+      const peak = peakTiers[name];
+      if(!peak) return '';
+      const cells = modeOrder.map(m => {
+        const currentTier = customTiers[m]?.[name] || null;
+        const peakTier    = peak[m] || null;
+        const cCol = currentTier ? (tierColors[currentTier]||'#444') : 'var(--text-dim)';
+        const pCol = peakTier    ? (tierColors[peakTier]   ||'#444') : 'var(--text-dim)';
+        const tierPriority = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
+        const atPeak = currentTier && peakTier && (tierPriority[currentTier]||0) >= (tierPriority[peakTier]||0);
+        return `
+          <div class="prime-cell" title="${m}">
+            <div class="prime-cell-mode" style="display:flex;align-items:center;gap:4px;">${modeImgSmall[m]} ${modeName(m).toUpperCase()}</div>
+            <div class="prime-vs-row">
+              <div class="prime-vs-block">
+                <div class="prime-vs-label" style="color:rgba(238,238,242,0.35)">NOW</div>
+                <div class="prime-vs-val" style="color:${cCol}">${currentTier||'—'}</div>
+              </div>
+              <div class="prime-vs-arrow ${atPeak?'at-peak':''}">→</div>
+              <div class="prime-vs-block">
+                <div class="prime-vs-label" style="color:#4ade80">PEAK</div>
+                <div class="prime-vs-val" style="color:${pCol}">${peakTier||'—'}</div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+      return `
+        <div class="prime-section">
+          <div class="prime-heading">Current vs Peak Tier</div>
+          <div class="prime-grid">${cells}</div>
+        </div>`;
+    }
+
+    function openProfile(name, mode){
+      currentProfileName = name;
+      currentProfileMode = mode;
+      const stats = (playerStats[mode]||{})[name];
+      const allRanking = getOrderedPlayers(mode);
+      // Rank should reflect what the leaderboard shows
+      const visibleRanking = allRanking.filter(n => showRetired || !retired.includes(n));
+      const rank = visibleRanking.indexOf(name) + 1 || allRanking.indexOf(name) + 1;
+      const tier = customTiers[mode]?.[name]||'Unranked';
+      const tierColor = tierColors[tier]||'#444';
+      const kd = stats ? (stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths) : 0;
+      const kdStr = kd===Infinity?'∞':kd.toFixed(2);
+      const crownHtml = rank===1 ? `<svg class="crown" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>` : '';
+      const retiredBadge = retired.includes(name) ? `<span class="retired-badge" style="font-size:10px;padding:3px 8px;">🏆 Retired</span>` : '';
+      const flagHtml = playerCountry[name] ? getFlagImg(playerCountry[name], 13) : '';
+
+      if(mode==='overall') updateOverall();
+      const allPlayers = Object.keys(playerStats[mode]||{});
+      const allWins   = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).wins||0);
+      const allKills  = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).kills||0);
+      const allDeaths = allPlayers.map(n=>((playerStats[mode]||{})[n]||{}).deaths||0);
+      const wColor = stats ? statColor(stats.wins,   allWins,   false) : 'var(--text)';
+      const kColor = stats ? statColor(stats.kills,  allKills,  false) : 'var(--text)';
+      const dColor = stats ? statColor(stats.deaths, allDeaths, true)  : 'var(--text)';
+
+      if(!stats){
+        document.getElementById('profileContent').innerHTML = `<p style="padding:24px;color:var(--pink);font-family:var(--font-mono);font-size:12px;">No stats for ${name} in ${mode}.</p>`;
+      } else {
+        document.getElementById('profileContent').innerHTML = `
+          <div class="profile-banner">
+            <div class="profile-banner-bg" style="background: linear-gradient(135deg, ${tierColor}18 0%, transparent 60%), radial-gradient(ellipse 80% 100% at 20% 50%, ${tierColor}12 0%, transparent 70%); backdrop-filter: none;"></div>
+          </div>
+          <div class="profile-body">
+            <div class="profile-header">
+              <img src="${getAvatar(name,128)}" class="profile-avatar" alt="${name}">
+              <div class="profile-name-block">
+                <div class="profile-name">
+                  ${name} ${flagHtml} ${crownHtml} ${retiredBadge}
+                </div>
+                <div class="profile-meta">
+                  Rank #${rank} &nbsp;·&nbsp; <span style="color:${tierColor}">${tier}</span> &nbsp;·&nbsp; ${modeName(mode).toUpperCase()}
+                </div>
+              </div>
+            </div>
+            <div class="profile-kd-bar">
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" id="statWins" style="color:${wColor}">0</div>
+                <div class="profile-stat-label">Wins</div>
+              </div>
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" id="statKills" style="color:${kColor}">0</div>
+                <div class="profile-stat-label">Kills</div>
+              </div>
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" id="statDeaths" style="color:${dColor}">0</div>
+                <div class="profile-stat-label">Deaths</div>
+              </div>
+              <div class="profile-stat-block">
+                <div class="profile-stat-val" id="statKD" style="color:${kdColor(kd)}">0</div>
+                <div class="profile-stat-label">K / D</div>
+              </div>
+            </div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-label"><span>Wins</span><span style="color:${wColor}">${stats.wins}</span></div>
+              <div class="stat-bar"><div class="stat-fill" id="winsBar" style="background:${tierColor}"></div></div>
+            </div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-label"><span>Kills</span><span style="color:${kColor}">${stats.kills}</span></div>
+              <div class="stat-bar"><div class="stat-fill" id="killsBar" style="background:${tierColor}"></div></div>
+            </div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-label"><span>Deaths</span><span style="color:${dColor}">${stats.deaths}</span></div>
+              <div class="stat-bar"><div class="stat-fill" id="deathsBar" style="background:${tierColor}"></div></div>
+            </div>
+            ${buildAchievementsSection(name, mode)}
+            ${buildPrimeSection(name)}
+          </div>
+        `;
+        setTimeout(() => animateBars(stats), 30);
+      }
+
+      document.querySelector('.tabs').style.display = 'none';
+      document.querySelector('.container').style.display = 'none';
+      document.getElementById('searchInput').style.display = 'none';
+      document.getElementById('retiredToggle').style.display = 'none';
+      const profile = document.getElementById('profilePage');
+      profile.style.display = 'block';
+      setTimeout(() => { profile.classList.add('show'); profile.setAttribute('aria-hidden','false'); }, 10);
+    }
+
+    function animateBars(stats){
+      const max = Math.max(stats.wins||0,stats.kills||0,stats.deaths||0,1);
+      [{id:'winsBar',key:'wins'},{id:'killsBar',key:'kills'},{id:'deathsBar',key:'deaths'}].forEach((m,idx) => {
+        const bar = document.getElementById(m.id);
+        if(!bar) return;
+        bar.style.width='0%'; void bar.offsetWidth;
+        setTimeout(() => { bar.style.width = Math.round(((stats[m.key]||0)/max)*100)+'%'; }, idx*180);
+      });
+      // Animate stat counters
+      const kd = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
+      const duration = 2500;
+      const fps = 60;
+      const steps = Math.round(duration / (1000/fps));
+      function easeOut(t){ return 1 - Math.pow(1-t, 3); }
+      [
+        {id:'statWins',   target:stats.wins,   isInt:true,  suffix:''},
+        {id:'statKills',  target:stats.kills,  isInt:true,  suffix:''},
+        {id:'statDeaths', target:stats.deaths, isInt:true,  suffix:''},
+        {id:'statKD',     target:kd,           isInt:false, suffix:''},
+      ].forEach((s, si) => {
+        const el = document.getElementById(s.id);
+        if(!el) return;
+        const delay = si * 60;
+        setTimeout(() => {
+          let step = 0;
+          const timer = setInterval(() => {
+            step++;
+            const progress = easeOut(Math.min(step/steps, 1));
+            if(s.target === Infinity){
+              el.textContent = step >= steps ? '∞' : Math.round(progress * 99) + '';
+            } else if(s.isInt){
+              el.textContent = Math.round(progress * s.target);
+            } else {
+              el.textContent = (progress * s.target).toFixed(2);
+            }
+            if(step >= steps) clearInterval(timer);
+          }, 1000/fps);
+        }, delay);
       });
     }
 
-    // ── Scroll reveal ──
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    function goBack(){
+      const profile = document.getElementById('profilePage');
+      profile.classList.remove('show');
+      profile.setAttribute('aria-hidden','true');
+      setTimeout(() => {
+        profile.style.display = 'none';
+        document.querySelector('.tabs').style.display = 'flex';
+        document.querySelector('.container').style.display = 'block';
+        document.getElementById('searchInput').style.display = '';
+        document.getElementById('retiredToggle').style.display = '';
+      }, 260);
+    }
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function searchPlayers(){
+      const val = document.getElementById('searchInput').value.trim().toLowerCase();
+      const active = document.querySelector('.mode.active');
+      if(!active) return;
+      active.querySelectorAll('.no-players').forEach(n=>n.remove());
+      const players = Array.from(active.querySelectorAll('.player'));
+      players.forEach(p => {
+        const nm = p.querySelector('.player-name');
+        p.style.display = (nm && nm.textContent.toLowerCase().includes(val)) ? '' : 'none';
+      });
+      if(!players.filter(p=>p.style.display!=='none').length){
+        const div=document.createElement('div'); div.className='no-players'; div.textContent='No players found';
+        active.appendChild(div);
+      }
+    }
+
+    function showMode(mode, btn){
+      if(document.querySelector('.tab.active')===btn) return;
+      hideCompare();
+      hideHallOfFame();
+      document.getElementById('searchInput').style.display='';
+      document.getElementById('searchInput').value='';
+      document.getElementById('retiredToggle').style.display='';
+      document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+      const el=document.getElementById(mode); if(el) el.classList.add('active');
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      document.querySelector('.container').style.display='block';
+      createPlayers(mode);
+    }
+
+    let compareMode='overall';
+    function showCompare(btn){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      document.querySelector('.container').style.display='none';
+      document.getElementById('searchInput').style.display='none';
+      const cp=document.getElementById('comparePage');
+      cp.style.display='block';
+      setTimeout(()=>{cp.classList.add('show');cp.setAttribute('aria-hidden','false');},10);
+      populateCompareSelects();
+    }
+    function hideCompare(){
+      const cp=document.getElementById('comparePage');
+      cp.classList.remove('show'); cp.setAttribute('aria-hidden','true');
+      setTimeout(()=>{ cp.style.display='none'; },260);
+    }
+    function setCompareMode(mode, btn){
+      compareMode=mode;
+      document.querySelectorAll('#compareModeRow button').forEach(b=>b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      document.getElementById('compareResult').innerHTML='';
+      populateCompareSelects();
+    }
+
+    let compareP1Selected='', compareP2Selected='', comparePlayers=[];
+    function populateCompareSelects(){
+      if(compareMode==='overall') updateOverall();
+      comparePlayers=Object.keys(playerStats[compareMode]||{}).filter(p=>showRetired||!retired.includes(p));
+      comparePlayers.sort();
+      compareP1Selected=''; compareP2Selected='';
+      document.getElementById('compareSearch1').value='';
+      document.getElementById('compareSearch2').value='';
+      buildDropdown(1,comparePlayers); buildDropdown(2,comparePlayers);
+    }
+    function buildDropdown(num, players){
+      const dd=document.getElementById('compareDropdown'+num);
+      const input=document.getElementById('compareSearch'+num);
+      const search=input.value.toLowerCase();
+      const filtered=players.filter(p=>p.toLowerCase().includes(search));
+      dd.innerHTML='';
+      if(!filtered.length){ dd.innerHTML=`<div class="compare-dropdown-empty">No players found</div>`; return; }
+      filtered.forEach(p=>{
+        const item=document.createElement('div'); item.className='compare-dropdown-item'+(
+          (num===1&&p===compareP1Selected)||(num===2&&p===compareP2Selected)?' selected':''
+        );
+        const flag=playerCountry[p]?`<img src="https://flagcdn.com/w40/${playerCountry[p]}.png" class="round-flag" alt="" title="${countryNames[playerCountry[p]]||playerCountry[p]}">`:'';
+        item.innerHTML=`<img src="${getAvatar(p,24)}" alt="${p}">${flag}<span>${p}</span>`;
+        item.addEventListener('mousedown',e=>{e.preventDefault();selectComparePlayer(num,p);});
+        dd.appendChild(item);
+      });
+    }
+    function selectComparePlayer(num, name){
+      if(num===1){compareP1Selected=name;document.getElementById('compareSearch1').value=name;}
+      else{compareP2Selected=name;document.getElementById('compareSearch2').value=name;}
+      document.getElementById('compareDropdown'+num).classList.remove('open');
+    }
+    function filterCompareList(num){
+      buildDropdown(num,comparePlayers); positionDropdown(num);
+      document.getElementById('compareDropdown'+num).classList.add('open');
+      if(num===1) compareP1Selected=''; else compareP2Selected='';
+    }
+    function positionDropdown(num){
+      const input=document.getElementById('compareSearch'+num);
+      const dd=document.getElementById('compareDropdown'+num);
+      const rect=input.getBoundingClientRect();
+      dd.style.top=(rect.bottom+4)+'px'; dd.style.left=rect.left+'px'; dd.style.width=rect.width+'px';
+    }
+    function showCompareDropdown(num){ buildDropdown(num,comparePlayers); positionDropdown(num); document.getElementById('compareDropdown'+num).classList.add('open'); }
+    function hideCompareDropdown(num){
+      setTimeout(()=>{
+        document.getElementById('compareDropdown'+num).classList.remove('open');
+        const input=document.getElementById('compareSearch'+num);
+        const sel=num===1?compareP1Selected:compareP2Selected;
+        if(!sel) input.value='';
+      },150);
+    }
+
+    function runCompare(){
+      const btn=document.querySelector('.compare-btn');
+      if(btn.disabled) return; btn.disabled=true; setTimeout(()=>{btn.disabled=false;},1000);
+      if(compareMode==='overall') updateOverall();
+      const p1=compareP1Selected, p2=compareP2Selected;
+      if(!p1||!p2||p1===p2){
+        document.getElementById('compareResult').innerHTML=`<div class="no-players">Pick two different players!</div>`; return;
+      }
+      const s1=(playerStats[compareMode]||{})[p1]||{wins:0,kills:0,deaths:0};
+      const s2=(playerStats[compareMode]||{})[p2]||{wins:0,kills:0,deaths:0};
+      const t1=customTiers[compareMode]?.[p1]||'Unranked', t2=customTiers[compareMode]?.[p2]||'Unranked';
+      const c1=tierColors[t1]||'#444', c2=tierColors[t2]||'#444';
+      const kd1=s1.deaths===0?(s1.kills>0?Infinity:0):s1.kills/s1.deaths;
+      const kd2=s2.deaths===0?(s2.kills>0?Infinity:0):s2.kills/s2.deaths;
+      const kd1str=kd1===Infinity?'∞':kd1.toFixed(2);
+      const kd2str=kd2===Infinity?'∞':kd2.toFixed(2);
+      const r1=getOrderedPlayers(compareMode).indexOf(p1)+1;
+      const r2=getOrderedPlayers(compareMode).indexOf(p2)+1;
+      function winClass(a,b,hiB=true){ if(a===b)return['','']; return (hiB?a>b:a<b)?['compare-winner','compare-loser']:['compare-loser','compare-winner']; }
+      const [wc1k,wc2k]=winClass(s1.kills,s2.kills);
+      const [wc1w,wc2w]=winClass(s1.wins,s2.wins);
+      const [wc1d,wc2d]=winClass(s1.deaths,s2.deaths,false);
+      const [wc1kd,wc2kd]=winClass(kd1,kd2);
+      const maxK=Math.max(s1.kills,s2.kills,1), maxW=Math.max(s1.wins,s2.wins,1), maxD=Math.max(s1.deaths,s2.deaths,1);
+
+      document.getElementById('compareResult').innerHTML=`
+        <div class="compare-grid">
+          <div class="compare-card" id="ccard1">
+            <h3>
+              <img src="${getAvatar(p1,36)}" style="width:36px;height:36px;border-radius:7px;">
+              <span style="color:${c1};font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:1px;">${p1} ${playerCountry[p1]?getFlagImg(playerCountry[p1],11):''}</span>
+              <span style="font-family:var(--font-mono);font-size:10px;opacity:0.35;font-weight:600;">#${r1}</span>
+            </h3>
+            <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
+            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc1w}" id="cv1w">0</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1w" style="background:${c1};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc1k}" id="cv1k">0</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1k" style="background:${c1};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc1d}" id="cv1d">0</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1d" style="background:${c1};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" id="cv1kd" style="color:${kdColor(kd1)}">0</span></div>
+          </div>
+          <div class="compare-card" id="ccard2">
+            <h3>
+              <img src="${getAvatar(p2,36)}" style="width:36px;height:36px;border-radius:7px;">
+              <span style="color:${c2};font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:1px;">${p2} ${playerCountry[p2]?getFlagImg(playerCountry[p2],11):''}</span>
+              <span style="font-family:var(--font-mono);font-size:10px;opacity:0.35;font-weight:600;">#${r2}</span>
+            </h3>
+            <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
+            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc2w}" id="cv2w">0</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2w" style="background:${c2};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc2k}" id="cv2k">0</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2k" style="background:${c2};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc2d}" id="cv2d">0</span></div>
+            <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2d" style="background:${c2};width:0%"></div></div></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" id="cv2kd" style="color:${kdColor(kd2)}">0</span></div>
+          </div>
+        </div>
+      `;
+      setTimeout(()=>{
+        document.getElementById('ccard1').classList.add('visible');
+        setTimeout(()=>document.getElementById('ccard2').classList.add('visible'),80);
+        setTimeout(()=>{
+          document.getElementById('b1w').style.width=Math.round(s1.wins/maxW*100)+'%';
+          document.getElementById('b2w').style.width=Math.round(s2.wins/maxW*100)+'%';
+          document.getElementById('b1k').style.width=Math.round(s1.kills/maxK*100)+'%';
+          document.getElementById('b2k').style.width=Math.round(s2.kills/maxK*100)+'%';
+          document.getElementById('b1d').style.width=Math.round(s1.deaths/maxD*100)+'%';
+          document.getElementById('b2d').style.width=Math.round(s2.deaths/maxD*100)+'%';
+        },200);
+        // Animate compare counters
+        const cDuration=2500, cFps=60, cSteps=Math.round(cDuration/(1000/cFps));
+        function easeOut(t){ return 1-Math.pow(1-t,3); }
+        [
+          {id:'cv1w', target:s1.wins,   isKD:false},
+          {id:'cv1k', target:s1.kills,  isKD:false},
+          {id:'cv1d', target:s1.deaths, isKD:false},
+          {id:'cv1kd',target:kd1,       isKD:true},
+          {id:'cv2w', target:s2.wins,   isKD:false},
+          {id:'cv2k', target:s2.kills,  isKD:false},
+          {id:'cv2d', target:s2.deaths, isKD:false},
+          {id:'cv2kd',target:kd2,       isKD:true},
+        ].forEach((s,si)=>{
+          const el=document.getElementById(s.id);
+          if(!el) return;
+          setTimeout(()=>{
+            let step=0;
+            const timer=setInterval(()=>{
+              step++;
+              const progress=easeOut(Math.min(step/cSteps,1));
+              if(s.target===Infinity){ el.textContent=step>=cSteps?'∞':Math.round(progress*99)+''; }
+              else if(s.isKD){ el.textContent=(progress*s.target).toFixed(2); }
+              else { el.textContent=Math.round(progress*s.target); }
+              if(step>=cSteps) clearInterval(timer);
+            },1000/cFps);
+          }, si*40);
+        });
+      },30);
+    }
+
+    document.addEventListener('keydown', e => {
+      const tag = document.activeElement.tagName.toLowerCase();
+      const isTyping = tag==='input'||tag==='textarea';
+      if(e.key==='Escape'){
+        if(document.getElementById('tierModal').classList.contains('open')){ closeTierGuide(); return; }
+        if(document.getElementById('achModal').classList.contains('open')){ closeAchModal(); return; }
+        const profile=document.getElementById('profilePage');
+        const cp=document.getElementById('comparePage');
+        if(profile&&profile.style.display!=='none') goBack();
+        else if(cp&&cp.classList.contains('show')){ const t=document.querySelector('.tabs button'); showMode('overall',t); }
+        else if(!isTyping){ const s=document.getElementById('searchInput'); if(s&&s.value){ s.value=''; searchPlayers(); } }
+        else document.activeElement.blur();
+      }
+      if(e.key==='/'&&!isTyping){ e.preventDefault(); const s=document.getElementById('searchInput'); if(s&&s.style.display!=='none'){ s.focus(); s.select(); } }
+      if(!isTyping&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+        const tabMap={'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};
+        if(tabMap[e.key]){ const tabs=document.querySelectorAll('.tabs .tab'); const idx=Object.keys(tabMap).indexOf(e.key); if(tabs[idx]) tabs[idx].click(); }
+        if(e.key==='7'){ const ct=document.querySelector('.tabs .tab:last-child'); if(ct) ct.click(); }
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      ['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));
+      createPlayers('overall');
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      const ot=document.querySelector('.tabs button'); if(ot) ot.classList.add('active');
+      document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+      const od=document.getElementById('overall'); if(od) od.classList.add('active');
+      initTooltip();
+    });
+
+    // ── STAT TOOLTIPS ──
+    function getPercentileLabel(value, allValues, lowerIsBetter=false){
+      if(!allValues.length) return '';
+      const sorted = [...allValues].filter(v=>v>0).sort((a,b)=>a-b);
+      if(!sorted.length) return value===0 ? 'None recorded' : '';
+      const pos = sorted.filter(v => lowerIsBetter ? v<=value : v<value).length;
+      const pct = Math.round((lowerIsBetter
+        ? (sorted.length - sorted.filter(v=>v<value).length - 1)
+        : pos) / sorted.length * 100);
+      if(lowerIsBetter){
+        const betterThan = Math.round((sorted.filter(v=>v>value).length / sorted.length)*100);
+        if(betterThan >= 80) return `Top ${100-betterThan}% fewest`;
+        if(betterThan >= 50) return `Better than ${betterThan}%`;
+        return `Below average`;
+      } else {
+        if(pct >= 80) return `Top ${100-pct}%`;
+        if(pct >= 50) return `Above average`;
+        if(pct >= 20) return `Below average`;
+        return `Bottom ${pct+1}%`;
+      }
+    }
+
+    function initTooltip(){
+      const tt = document.getElementById('statTooltip');
+      document.addEventListener('mouseover', e => {
+        const el = e.target.closest('[data-tt],[data-tid]');
+        if(!el) return;
+        const content = el.dataset.tid ? tooltipStore.get(el.dataset.tid) : el.dataset.tt;
+        if(!content) return;
+        tt.innerHTML = content;
+        tt.classList.add('visible');
+      });
+      document.addEventListener('mousemove', e => {
+        if(!tt.classList.contains('visible')) return;
+        const x = e.clientX + 14, y = e.clientY - 36;
+        tt.style.left = Math.min(x, window.innerWidth - 220) + 'px';
+        tt.style.top  = Math.max(y, 8) + 'px';
+      });
+      document.addEventListener('mouseout', e => {
+        const el = e.target.closest('[data-tt],[data-tid]');
+        if(el) tt.classList.remove('visible');
+      });
+    }
+
+    function attachTooltips(container, mode, stats, allWins, allKills, allDeaths){
+      const pills = container.querySelectorAll('.stat-pill');
+      if(pills.length < 3) return;
+      const kd = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
+      const kdPct = kd===Infinity ? 'Best K/D in mode' : kd===0 ? 'No kills yet' : getPercentileLabel(kd, allKills.map((_,i)=>allDeaths[i]===0?(allKills[i]>0?999:0):allKills[i]/allDeaths[i]));
+      const labels = [
+        `<b>${stats.wins} Wins</b><span class="tt-pct">${getPercentileLabel(stats.wins, allWins)}</span>`,
+        `<b>${stats.kills} Kills</b><span class="tt-pct">${getPercentileLabel(stats.kills, allKills)}</span>`,
+        `<b>${stats.deaths} Deaths</b><span class="tt-pct">${getPercentileLabel(stats.deaths, allDeaths, true)}</span>`,
+      ];
+      pills.forEach((p,i) => { if(labels[i]) p.dataset.tt = labels[i]; });
+    }
+
+    // ── ACHIEVEMENTS ──
+    const allAchievements = [
+      { id:'champion',    icon:'👑', name:'Champion',    desc:'#1 ranked in a mode',        check:(name,mode,stats,rank)=>rank===1 },
+      { id:'untouchable', icon:'🛡️', name:'Untouchable', desc:'0 deaths in a mode',          check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0 },
+      { id:'infinite',    icon:'∞',  name:'Infinite',    desc:'∞ K/D ratio',                 check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0, monospace:true },
+      { id:'topfragger',  icon:'🎯', name:'Top Fragger', desc:'Most kills in a mode',        check:(name,mode,stats,rank,all)=>stats.kills>0&&stats.kills===Math.max(...all.map(s=>s.kills)) },
+      { id:'onfire',      icon:'🔥', name:'On Fire',     desc:'K/D ratio of 3.0 or higher', check:(name,mode,stats)=>stats.deaths>0&&(stats.kills/stats.deaths)>=3 },
+      { id:'dominant',    icon:'🏆', name:'Dominant',    desc:'Most wins in a mode',         check:(name,mode,stats,rank,all)=>stats.wins>0&&stats.wins===Math.max(...all.map(s=>s.wins)) },
+      { id:'legend',      icon:'💎', name:'Legend',      desc:'Peak tier of Diamond+ in this mode', check:(name,mode)=>{ const tp={Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1}; const p=peakTiers[name]; if(!p) return false; return (tp[p[mode]]||0)>=6; } },
+      { id:'ironwall',    icon:'🪨', name:'Iron Wall',   desc:'Fewest deaths in a mode',     check:(name,mode,stats,rank,all)=>stats.kills>0&&stats.deaths===Math.min(...all.filter(s=>s.kills>0).map(s=>s.deaths)) },
+      { id:'allrounder',  icon:'🌟', name:'All-Rounder', desc:'Top 5 rank in 3+ modes',     overallOnly:true, check:(name)=>{ let c=0; ['sword','axe','uhc','mace','spear'].forEach(m=>{ const r=getOrderedPlayers(m).indexOf(name)+1; if(r>=1&&r<=5) c++; }); return c>=3; } },
+    ];
+
+    function computeAchievements(name, mode){
+      if(mode==='overall') updateOverall();
+      const stats = (playerStats[mode]||{})[name];
+      if(!stats) return [];
+      const rank = getOrderedPlayers(mode).indexOf(name)+1;
+      const allStats = Object.values(playerStats[mode]||{});
+      const earned = [];
+      for(const ach of allAchievements){
+        if(ach.overallOnly && mode !== 'overall') continue;
+        try{ if(ach.check(name, mode, stats, rank, allStats)) earned.push(ach); } catch(e){}
+      }
+      return earned;
+    }
+
+    const tooltipStore = new Map();
+    let tooltipIdCounter = 0;
+
+    function badgeHtml(b, tooltipText){
+      const tid = 'tt-' + (tooltipIdCounter++);
+      tooltipStore.set(tid, tooltipText || b.desc);
+      return `<div class="achievement-badge" data-tid="${tid}" style="border-color:${b.id==='champion'?'rgba(245,200,66,0.3)':b.id==='legend'?'rgba(0,191,255,0.25)':'var(--border)'}">
+        <span class="ab-icon" style="${b.monospace?'font-family:var(--font-mono);font-size:13px;font-weight:800;':''}">${b.icon}</span>
+        <span class="ab-name">${b.name}</span>
+      </div>`;
+    }
+
+    const modeImgTag = {
+      sword:   '<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      axe:     '<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      uhc:     '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      mace:    '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      spear:   '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      overall: '🏆 ',
+    };
+
+    function buildAchievementsSection(name, mode){
+      if(mode === 'overall'){
+        const seen = new Map();
+        const modes = ['sword','axe','uhc','mace','spear'];
+        for(const m of modes){
+          for(const ach of computeAchievements(name, m)){
+            if(!seen.has(ach.id)) seen.set(ach.id, {ach, ms:[]});
+            seen.get(ach.id).ms.push(m);
+          }
+        }
+        for(const ach of computeAchievements(name, 'overall')){
+          if(!seen.has(ach.id)) seen.set(ach.id, {ach, ms:['overall']});
+        }
+        if(!seen.size) return `
+          <div class="achievements-section">
+            <div class="achievements-heading">All Achievements</div>
+            <div class="no-achievements">No achievements yet — keep grinding!</div>
+          </div>`;
+        const html = [...seen.values()].map(({ach, ms}) => {
+          const modeLabel = ms.map(m => modeImgTag[m] + modeName(m)).join(', ');
+          const tooltipHtml = `<b>${ach.name}</b><span class="tt-pct">${modeLabel}</span>`;
+          return badgeHtml(ach, tooltipHtml);
+        }).join('');
+        return `
+          <div class="achievements-section">
+            <div class="achievements-heading">All Achievements</div>
+            <div class="achievements-grid">${html}</div>
+          </div>`;
+      } else {
+        const badges = computeAchievements(name, mode);
+        const modeDisplay = modeImgTag[mode] + modeName(mode);
+        if(!badges.length) return `
+          <div class="achievements-section">
+            <div class="achievements-heading">Achievements</div>
+            <div class="no-achievements">No achievements in ${mode} yet.</div>
+          </div>`;
+        return `
+          <div class="achievements-section">
+            <div class="achievements-heading">Achievements</div>
+            <div class="achievements-grid">${badges.map(b => {
+              const desc = b.desc.replace('in a mode', 'in ' + modeDisplay).replace('in this mode', 'in ' + modeDisplay);
+              return badgeHtml(b, `<b>${b.name}</b><span class="tt-pct">${desc}</span>`);
+            }).join('')}</div>
+          </div>`;
+      }
+    }
+
+    function openAchModal(){
+      const list = document.getElementById('achModalList');
+      list.innerHTML = '';
+      allAchievements.forEach((a, i) => {
+        const row = document.createElement('div');
+        row.className = 'ach-modal-row';
+        row.style.transitionDelay = (0.05 + i * 0.045) + 's';
+        row.innerHTML = `
+          <div class="ach-modal-icon" style="${a.monospace?'font-family:var(--font-mono);font-weight:800;font-size:16px;':''}">${a.icon}</div>
+          <div class="ach-modal-info">
+            <div class="ach-modal-name">${a.name}</div>
+            <div class="ach-modal-desc">${a.desc}</div>
+          </div>`;
+        list.appendChild(row);
+      });
+      const modal = document.getElementById('achModal');
+      modal.classList.remove('closing');
+      modal.style.display = 'flex';
+      modal.getBoundingClientRect();
+      requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = sw + 'px';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAchModal(){
+      const modal = document.getElementById('achModal');
+      modal.classList.add('closing');
+      modal.querySelectorAll('.ach-modal-row').forEach(r => r.style.transitionDelay = '0s');
+      setTimeout(() => {
+        modal.classList.remove('open','closing');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }, 280);
+    }
+    function handleAchModalBackdrop(e){ if(e.target===document.getElementById('achModal')) closeAchModal(); }
+
+    // Click on any achievement badge opens the guide
+    document.addEventListener('click', e => {
+      const badge = e.target.closest('.achievement-badge');
+      if(badge) openAchModal();
+    });
+    function showHallOfFame(btn){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      document.querySelector('.container').style.display='none';
+      document.getElementById('searchInput').style.display='none';
+      document.getElementById('retiredToggle').style.display='none';
+      // hide profile if open
+      const profile=document.getElementById('profilePage');
+      if(profile&&profile.style.display!=='none'){
+        profile.classList.remove('show');
+        profile.style.display='none';
+      }
+      hideCompare();
+      const hof = document.getElementById('hofPage');
+      hof.style.display='block';
+      renderHallOfFame();
+      setTimeout(()=>{ hof.classList.add('show'); hof.setAttribute('aria-hidden','false'); },10);
+    }
+
+    function hideHallOfFame(){
+      const hof=document.getElementById('hofPage');
+      hof.classList.remove('show'); hof.setAttribute('aria-hidden','true');
+      setTimeout(()=>{ hof.style.display='none'; },260);
+    }
+
+    function renderHallOfFame(){
+      updateOverall();
+      const hof = document.getElementById('hofPage');
+      const hofPlayers = retired.filter(n => n !== 'Jai_B37');
+      const cards = hofPlayers.map(name => {
+        const overall = playerStats.overall[name]||{wins:0,kills:0,deaths:0};
+        const kd = overall.deaths===0?(overall.kills>0?Infinity:0):overall.kills/overall.deaths;
+        const kdStr = kd===Infinity?'∞':kd.toFixed(2);
+        const country = playerCountry[name];
+        const flagHtml = country ? getFlagImg(country,13) : '';
+        const peak = peakTiers[name]||{};
+
+        // Best mode by highest peak tier
+        const modes = ['sword','axe','uhc','mace','spear'];
+        const tierPriority = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
+        const bestMode = modes.reduce((best,m)=>{
+          const tp = tierPriority[peak[m]]||0;
+          const bestTp = tierPriority[peak[best]]||0;
+          return tp > bestTp ? m : best;
+        }, modes[0]);
+        const modeImgs = {
+          overall: null,
+          sword: 'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png',
+          axe:   'https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png',
+          uhc:   'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png',
+          mace:  'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png',
+          spear: 'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png',
+        };
+        function modeImgHtml(m, size=13){
+          const src = modeImgs[m];
+          return src ? `<img src="${src}" style="width:${size}px;height:${size}px;image-rendering:pixelated;vertical-align:middle;" alt="${m}">` : modeIcons[m];
+        }
+
+        const peakChips = Object.entries(peak)
+          .filter(([,t])=>t&&(tierPriority[t]||0)>=4)
+          .sort((a,b)=>(tierPriority[b[1]]||0)-(tierPriority[a[1]]||0))
+          .map(([m,t])=>`<span class="hof-peak-chip" style="color:${tierColors[t]};border-color:${tierColors[t]}40;display:inline-flex;align-items:center;gap:5px;">${modeImgHtml(m,11)} ${t}</span>`)
+          .join('');
+
+        // Career achievements — collect across all modes like overall profile
+        const hofSeen = new Map();
+        for(const m of modes){
+          for(const ach of computeAchievements(name, m)){
+            if(!hofSeen.has(ach.id)) hofSeen.set(ach.id, {ach, ms:[]});
+            hofSeen.get(ach.id).ms.push(m);
+          }
+        }
+        for(const ach of computeAchievements(name, 'overall')){
+          if(!hofSeen.has(ach.id)) hofSeen.set(ach.id, {ach, ms:['overall']});
+        }
+        const achHtml = hofSeen.size ? [...hofSeen.values()].map(({ach, ms})=>{
+          const modeLabel = ms.map(m => modeImgTag[m] + modeName(m)).join(', ');
+          const tooltipHtml = `<b>${ach.name}</b><span class="tt-pct">${modeLabel}</span>`;
+          return badgeHtml(ach, tooltipHtml);
+        }).join('') : '<span class="no-achievements">—</span>';
+
+        return `
+          <div class="hof-card" style="animation:fadeUp .4s ease both;">
+            <div class="hof-card-banner">
+              <div class="hof-retired-label">RETIRED LEGEND</div>
+            </div>
+            <div class="hof-card-body">
+              <div class="hof-card-header">
+                <img src="${getAvatar(name,120)}" class="hof-avatar" alt="${name}">
+                <div>
+                  <div class="hof-name">${name} ${flagHtml}</div>
+                  <div class="hof-meta" style="display:flex;align-items:center;gap:5px;">Best mode: ${modeImgHtml(bestMode,12)} <span>${modeName(bestMode).toUpperCase()}</span> · Career stats</div>
+                </div>
+              </div>
+              <div class="hof-stats-row">
+                <div class="hof-stat-block">
+                  <div class="hof-stat-val" style="color:#4ade80">${overall.wins}</div>
+                  <div class="hof-stat-label">Career Wins</div>
+                </div>
+                <div class="hof-stat-block">
+                  <div class="hof-stat-val" style="color:#facc15">${overall.kills}</div>
+                  <div class="hof-stat-label">Career Kills</div>
+                </div>
+                <div class="hof-stat-block">
+                  <div class="hof-stat-val" style="color:#f87171">${overall.deaths}</div>
+                  <div class="hof-stat-label">Career Deaths</div>
+                </div>
+                <div class="hof-stat-block">
+                  <div class="hof-stat-val" style="color:${kdColor(kd)}">${kdStr}</div>
+                  <div class="hof-stat-label">Career K/D</div>
+                </div>
+              </div>
+              ${peakChips ? `<div class="hof-peak-row">${peakChips}</div>` : ''}
+              <div class="hof-achievements achievements-grid">${achHtml}</div>
+            </div>
+          </div>`;
+      }).join('');
+
+      hof.innerHTML = `
+        <div class="hof-header">
+          <div class="hof-title">🏅 Hall of Fame</div>
+          <div class="hof-subtitle">Legends who shaped the arena</div>
+        </div>
+        ${cards}
+      `;
+    }
+
+
+
   </script>
 </body>
 </html>
