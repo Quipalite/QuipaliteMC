@@ -1692,19 +1692,19 @@
             </div>
             <div class="profile-kd-bar">
               <div class="profile-stat-block">
-                <div class="profile-stat-val" style="color:${wColor}">${stats.wins}</div>
+                <div class="profile-stat-val" id="statWins" style="color:${wColor}">0</div>
                 <div class="profile-stat-label">Wins</div>
               </div>
               <div class="profile-stat-block">
-                <div class="profile-stat-val" style="color:${kColor}">${stats.kills}</div>
+                <div class="profile-stat-val" id="statKills" style="color:${kColor}">0</div>
                 <div class="profile-stat-label">Kills</div>
               </div>
               <div class="profile-stat-block">
-                <div class="profile-stat-val" style="color:${dColor}">${stats.deaths}</div>
+                <div class="profile-stat-val" id="statDeaths" style="color:${dColor}">0</div>
                 <div class="profile-stat-label">Deaths</div>
               </div>
               <div class="profile-stat-block">
-                <div class="profile-stat-val" style="color:${kdColor(kd)}">${kdStr}</div>
+                <div class="profile-stat-val" id="statKD" style="color:${kdColor(kd)}">0</div>
                 <div class="profile-stat-label">K / D</div>
               </div>
             </div>
@@ -1743,6 +1743,37 @@
         if(!bar) return;
         bar.style.width='0%'; void bar.offsetWidth;
         setTimeout(() => { bar.style.width = Math.round(((stats[m.key]||0)/max)*100)+'%'; }, idx*180);
+      });
+      // Animate stat counters
+      const kd = stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
+      const duration = 2500;
+      const fps = 60;
+      const steps = Math.round(duration / (1000/fps));
+      function easeOut(t){ return 1 - Math.pow(1-t, 3); }
+      [
+        {id:'statWins',   target:stats.wins,   isInt:true,  suffix:''},
+        {id:'statKills',  target:stats.kills,  isInt:true,  suffix:''},
+        {id:'statDeaths', target:stats.deaths, isInt:true,  suffix:''},
+        {id:'statKD',     target:kd,           isInt:false, suffix:''},
+      ].forEach((s, si) => {
+        const el = document.getElementById(s.id);
+        if(!el) return;
+        const delay = si * 60;
+        setTimeout(() => {
+          let step = 0;
+          const timer = setInterval(() => {
+            step++;
+            const progress = easeOut(Math.min(step/steps, 1));
+            if(s.target === Infinity){
+              el.textContent = step >= steps ? '∞' : Math.round(progress * 99) + '';
+            } else if(s.isInt){
+              el.textContent = Math.round(progress * s.target);
+            } else {
+              el.textContent = (progress * s.target).toFixed(2);
+            }
+            if(step >= steps) clearInterval(timer);
+          }, 1000/fps);
+        }, delay);
       });
     }
 
@@ -1901,13 +1932,13 @@
               <span style="font-family:var(--font-mono);font-size:10px;opacity:0.35;font-weight:600;">#${r1}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c1}">${t1}</span></div>
-            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc1w}">${s1.wins}</span></div>
+            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc1w}" id="cv1w">0</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1w" style="background:${c1};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc1k}">${s1.kills}</span></div>
+            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc1k}" id="cv1k">0</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1k" style="background:${c1};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc1d}">${s1.deaths}</span></div>
+            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc1d}" id="cv1d">0</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b1d" style="background:${c1};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" style="color:${kdColor(kd1)}">${kd1str}</span></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc1kd}" id="cv1kd" style="color:${kdColor(kd1)}">0</span></div>
           </div>
           <div class="compare-card" id="ccard2">
             <h3>
@@ -1916,13 +1947,13 @@
               <span style="font-family:var(--font-mono);font-size:10px;opacity:0.35;font-weight:600;">#${r2}</span>
             </h3>
             <div class="compare-row"><span class="label">Tier</span><span class="val" style="color:${c2}">${t2}</span></div>
-            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc2w}">${s2.wins}</span></div>
+            <div class="compare-row"><span class="label">Wins</span><span class="val ${wc2w}" id="cv2w">0</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2w" style="background:${c2};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc2k}">${s2.kills}</span></div>
+            <div class="compare-row"><span class="label">Kills</span><span class="val ${wc2k}" id="cv2k">0</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2k" style="background:${c2};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc2d}">${s2.deaths}</span></div>
+            <div class="compare-row"><span class="label">Deaths</span><span class="val ${wc2d}" id="cv2d">0</span></div>
             <div class="compare-bar-wrap"><div class="compare-bar-track"><div class="compare-bar-fill" id="b2d" style="background:${c2};width:0%"></div></div></div>
-            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" style="color:${kdColor(kd2)}">${kd2str}</span></div>
+            <div class="compare-row"><span class="label">K/D</span><span class="val ${wc2kd}" id="cv2kd" style="color:${kdColor(kd2)}">0</span></div>
           </div>
         </div>
       `;
@@ -1937,6 +1968,33 @@
           document.getElementById('b1d').style.width=Math.round(s1.deaths/maxD*100)+'%';
           document.getElementById('b2d').style.width=Math.round(s2.deaths/maxD*100)+'%';
         },200);
+        // Animate compare counters
+        const cDuration=2500, cFps=60, cSteps=Math.round(cDuration/(1000/cFps));
+        function easeOut(t){ return 1-Math.pow(1-t,3); }
+        [
+          {id:'cv1w', target:s1.wins,   isKD:false},
+          {id:'cv1k', target:s1.kills,  isKD:false},
+          {id:'cv1d', target:s1.deaths, isKD:false},
+          {id:'cv1kd',target:kd1,       isKD:true},
+          {id:'cv2w', target:s2.wins,   isKD:false},
+          {id:'cv2k', target:s2.kills,  isKD:false},
+          {id:'cv2d', target:s2.deaths, isKD:false},
+          {id:'cv2kd',target:kd2,       isKD:true},
+        ].forEach((s,si)=>{
+          const el=document.getElementById(s.id);
+          if(!el) return;
+          setTimeout(()=>{
+            let step=0;
+            const timer=setInterval(()=>{
+              step++;
+              const progress=easeOut(Math.min(step/cSteps,1));
+              if(s.target===Infinity){ el.textContent=step>=cSteps?'∞':Math.round(progress*99)+''; }
+              else if(s.isKD){ el.textContent=(progress*s.target).toFixed(2); }
+              else { el.textContent=Math.round(progress*s.target); }
+              if(step>=cSteps) clearInterval(timer);
+            },1000/cFps);
+          }, si*40);
+        });
       },30);
     }
 
