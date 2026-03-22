@@ -1851,20 +1851,22 @@
     function initTooltip(){
       const tt = document.getElementById('statTooltip');
       document.addEventListener('mouseover', e => {
-        const pill = e.target.closest('.stat-pill[data-tt]');
-        if(!pill) return;
-        tt.innerHTML = pill.dataset.tt;
+        const el = e.target.closest('[data-tt],[data-tid]');
+        if(!el) return;
+        const content = el.dataset.tid ? tooltipStore.get(el.dataset.tid) : el.dataset.tt;
+        if(!content) return;
+        tt.innerHTML = content;
         tt.classList.add('visible');
       });
       document.addEventListener('mousemove', e => {
         if(!tt.classList.contains('visible')) return;
         const x = e.clientX + 14, y = e.clientY - 36;
-        tt.style.left = Math.min(x, window.innerWidth - 200) + 'px';
+        tt.style.left = Math.min(x, window.innerWidth - 220) + 'px';
         tt.style.top  = Math.max(y, 8) + 'px';
       });
       document.addEventListener('mouseout', e => {
-        const pill = e.target.closest('.stat-pill[data-tt]');
-        if(pill) tt.classList.remove('visible');
+        const el = e.target.closest('[data-tt],[data-tid]');
+        if(el) tt.classList.remove('visible');
       });
     }
 
@@ -1883,16 +1885,15 @@
 
     // ── ACHIEVEMENTS ──
     const allAchievements = [
-      { id:'champion',   icon:'👑', name:'Champion',     desc:'#1 ranked in a mode',           check:(name,mode,stats,rank)=>rank===1 },
-      { id:'untouchable',icon:'🛡️', name:'Untouchable',  desc:'0 deaths in a mode',             check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0 },
-      { id:'infinite',   icon:'∞',  name:'Infinite',     desc:'∞ K/D ratio',                    check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0, monospace:true },
-      { id:'topfragger', icon:'🎯', name:'Top Fragger',  desc:'Most kills in a mode',           check:(name,mode,stats,rank,all)=>stats.kills>0&&stats.kills===Math.max(...all.map(s=>s.kills)) },
-      { id:'onfire',     icon:'🔥', name:'On Fire',      desc:'K/D ratio of 3.0 or higher',    check:(name,mode,stats)=>stats.deaths>0&&(stats.kills/stats.deaths)>=3 },
-      { id:'dominant',   icon:'🏆', name:'Dominant',     desc:'Most wins in a mode',            check:(name,mode,stats,rank,all)=>stats.wins>0&&stats.wins===Math.max(...all.map(s=>s.wins)) },
-      { id:'veteran',    icon:'⚔️', name:'Veteran',      desc:'Has played all 5 modes',        check:(name)=>['sword','axe','uhc','mace','spear'].every(m=>playerStats[m]?.[name]) },
-      { id:'legend',     icon:'💎', name:'Legend',       desc:'Peak tier of Diamond or above',  check:(name)=>{ const p=peakTiers[name]; if(!p) return false; const tp={Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1}; return Object.values(p).some(t=>(tp[t]||0)>=6); } },
-      { id:'ironwall',   icon:'🪨', name:'Iron Wall',    desc:'Fewest deaths in a mode',        check:(name,mode,stats,rank,all)=>stats.kills>0&&stats.deaths===Math.min(...all.filter(s=>s.kills>0).map(s=>s.deaths)) },
-      { id:'allrounder', icon:'🌟', name:'All-Rounder',  desc:'Top 5 rank across 3+ modes',    check:(name)=>{ let count=0; ['sword','axe','uhc','mace','spear'].forEach(m=>{ const r=getOrderedPlayers(m).indexOf(name)+1; if(r>=1&&r<=5) count++; }); return count>=3; } },
+      { id:'champion',    icon:'👑', name:'Champion',    desc:'#1 ranked in a mode',        check:(name,mode,stats,rank)=>rank===1 },
+      { id:'untouchable', icon:'🛡️', name:'Untouchable', desc:'0 deaths in a mode',          check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0 },
+      { id:'infinite',    icon:'∞',  name:'Infinite',    desc:'∞ K/D ratio',                 check:(name,mode,stats)=>stats.deaths===0&&stats.kills>0, monospace:true },
+      { id:'topfragger',  icon:'🎯', name:'Top Fragger', desc:'Most kills in a mode',        check:(name,mode,stats,rank,all)=>stats.kills>0&&stats.kills===Math.max(...all.map(s=>s.kills)) },
+      { id:'onfire',      icon:'🔥', name:'On Fire',     desc:'K/D ratio of 3.0 or higher', check:(name,mode,stats)=>stats.deaths>0&&(stats.kills/stats.deaths)>=3 },
+      { id:'dominant',    icon:'🏆', name:'Dominant',    desc:'Most wins in a mode',         check:(name,mode,stats,rank,all)=>stats.wins>0&&stats.wins===Math.max(...all.map(s=>s.wins)) },
+      { id:'legend',      icon:'💎', name:'Legend',      desc:'Peak tier of Diamond+ in this mode', check:(name,mode)=>{ const tp={Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1}; const p=peakTiers[name]; if(!p) return false; return (tp[p[mode]]||0)>=6; } },
+      { id:'ironwall',    icon:'🪨', name:'Iron Wall',   desc:'Fewest deaths in a mode',     check:(name,mode,stats,rank,all)=>stats.kills>0&&stats.deaths===Math.min(...all.filter(s=>s.kills>0).map(s=>s.deaths)) },
+      { id:'allrounder',  icon:'🌟', name:'All-Rounder', desc:'Top 5 rank in 3+ modes',     overallOnly:true, check:(name)=>{ let c=0; ['sword','axe','uhc','mace','spear'].forEach(m=>{ const r=getOrderedPlayers(m).indexOf(name)+1; if(r>=1&&r<=5) c++; }); return c>=3; } },
     ];
 
     function computeAchievements(name, mode){
@@ -1903,28 +1904,74 @@
       const allStats = Object.values(playerStats[mode]||{});
       const earned = [];
       for(const ach of allAchievements){
+        if(ach.overallOnly && mode !== 'overall') continue;
         try{ if(ach.check(name, mode, stats, rank, allStats)) earned.push(ach); } catch(e){}
       }
       return earned;
     }
 
+    const tooltipStore = new Map();
+    let tooltipIdCounter = 0;
+
+    function badgeHtml(b, tooltipText){
+      const tid = 'tt-' + (tooltipIdCounter++);
+      tooltipStore.set(tid, tooltipText || b.desc);
+      return `<div class="achievement-badge" data-tid="${tid}" style="border-color:${b.id==='champion'?'rgba(245,200,66,0.3)':b.id==='legend'?'rgba(0,191,255,0.25)':'var(--border)'}">
+        <span class="ab-icon" style="${b.monospace?'font-family:var(--font-mono);font-size:13px;font-weight:800;':''}">${b.icon}</span>
+        <span class="ab-name">${b.name}</span>
+      </div>`;
+    }
+
+    const modeImgTag = {
+      sword:   '<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      axe:     '<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      uhc:     '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      mace:    '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      spear:   '<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px;">',
+      overall: '🏆 ',
+    };
+
     function buildAchievementsSection(name, mode){
-      const badges = computeAchievements(name, mode);
-      if(!badges.length) return `
-        <div class="achievements-section">
-          <div class="achievements-heading">Achievements</div>
-          <div class="no-achievements">No achievements yet — keep grinding!</div>
-        </div>`;
-      const html = badges.map(b => `
-        <div class="achievement-badge" title="${b.desc}" style="border-color:${b.id==='champion'?'rgba(245,200,66,0.3)':b.id==='legend'?'rgba(0,191,255,0.25)':'var(--border)'}">
-          <span class="ab-icon" style="${b.monospace?'font-family:var(--font-mono);font-size:13px;font-weight:800;':''}"}>${b.icon}</span>
-          <span class="ab-name">${b.name}</span>
-        </div>`).join('');
-      return `
-        <div class="achievements-section">
-          <div class="achievements-heading">Achievements</div>
-          <div class="achievements-grid">${html}</div>
-        </div>`;
+      if(mode === 'overall'){
+        const seen = new Map();
+        const modes = ['sword','axe','uhc','mace','spear'];
+        for(const m of modes){
+          for(const ach of computeAchievements(name, m)){
+            if(!seen.has(ach.id)) seen.set(ach.id, {ach, ms:[]});
+            seen.get(ach.id).ms.push(m);
+          }
+        }
+        for(const ach of computeAchievements(name, 'overall')){
+          if(!seen.has(ach.id)) seen.set(ach.id, {ach, ms:['overall']});
+        }
+        if(!seen.size) return `
+          <div class="achievements-section">
+            <div class="achievements-heading">All Achievements</div>
+            <div class="no-achievements">No achievements yet — keep grinding!</div>
+          </div>`;
+        const html = [...seen.values()].map(({ach, ms}) => {
+          const modeLabel = ms.map(m => modeImgTag[m] + m.charAt(0).toUpperCase()+m.slice(1)).join(', ');
+          const tooltipHtml = `<b>${ach.name}</b><span class="tt-pct">${modeLabel}</span>`;
+          return badgeHtml(ach, tooltipHtml);
+        }).join('');
+        return `
+          <div class="achievements-section">
+            <div class="achievements-heading">All Achievements</div>
+            <div class="achievements-grid">${html}</div>
+          </div>`;
+      } else {
+        const badges = computeAchievements(name, mode);
+        if(!badges.length) return `
+          <div class="achievements-section">
+            <div class="achievements-heading">Achievements</div>
+            <div class="no-achievements">No achievements in ${mode} yet.</div>
+          </div>`;
+        return `
+          <div class="achievements-section">
+            <div class="achievements-heading">Achievements</div>
+            <div class="achievements-grid">${badges.map(b => badgeHtml(b, `<b>${b.name}</b><span class="tt-pct">${b.desc}</span>`)).join('')}</div>
+          </div>`;
+      }
     }
 
     // ── HALL OF FAME ──
