@@ -806,18 +806,23 @@
     spear:{Killedbycrab:{wins:2,kills:6,deaths:3},Aftlow:{wins:6,kills:18,deaths:6},"Yearly-scuff81":{wins:0,kills:1,deaths:6},Cocotime15:{wins:0,kills:0,deaths:3},RealO75:{wins:1,kills:7,deaths:9},gfunkdfunk82:{wins:0,kills:2,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:1,kills:3,deaths:2},Jai_B37:{wins:0,kills:0,deaths:3},bubbler2009:{wins:2,kills:6,deaths:3},"WARDY B33":{wins:0,kills:0,deaths:3},w85544534:{wins:1,kills:3,deaths:0},Terroralex10:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:1,kills:3,deaths:0},Neska5036:{wins:1,kills:3,deaths:2},Redpanda2013:{wins:1,kills:3,deaths:0},Theopitt:{wins:0,kills:0,deaths:3}}
   };
 
+  // ── TIER DATA ──────────────────────────────────────────────────────────────
+  // CT = current tier per mode
+  // Theopitt: Coal everywhere EXCEPT Axe (Copper) and Overall (Coal)
   const CT={
-    sword:{Killedbycrab:"Gold",RealO75:"Diamond",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Gold","WARDY B33":"Iron",Cocotime15:"Iron",w85544534:"Diamond",Terroralex10:"Iron",SadInFusIOns:"Gold",Ushindo:"Gold",Mason20539:"Emerald",Neska5036:"Iron"},
-    axe:{Killedbycrab:"Emerald",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Emerald",bubbler2009:"Iron","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Iron",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Iron"},
-    uhc:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Gold",Knoxy5316:"Iron",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Iron",Neska5036:"Gold"},
-    mace:{Killedbycrab:"Diamond",RealO75:"Iron",Aftlow:"Gold",Knoxy5316:"Copper",Jai_B37:"Copper",bubbler2009:"Coal","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Gold",Terroralex10:"Copper",SadInFusIOns:"Coal",Ushindo:"Copper",Mason20539:"Iron",Neska5036:"Copper"},
-    spear:{Killedbycrab:"Gold",RealO75:"Iron",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Iron",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Copper",Neska5036:"Iron"},
-    overall:{Killedbycrab:"Emerald",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Iron"}
+    sword:{Killedbycrab:"Gold",RealO75:"Diamond",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Gold","WARDY B33":"Iron",Cocotime15:"Iron",w85544534:"Diamond",Terroralex10:"Iron",SadInFusIOns:"Gold",Ushindo:"Gold",Mason20539:"Emerald",Neska5036:"Iron",Theopitt:"Coal"},
+    axe:{Killedbycrab:"Emerald",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Emerald",bubbler2009:"Iron","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Iron",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Iron",Theopitt:"Copper"},
+    uhc:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Gold",Knoxy5316:"Iron",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Iron",Neska5036:"Gold",Theopitt:"Coal"},
+    mace:{Killedbycrab:"Diamond",RealO75:"Iron",Aftlow:"Gold",Knoxy5316:"Copper",Jai_B37:"Copper",bubbler2009:"Coal","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Gold",Terroralex10:"Copper",SadInFusIOns:"Coal",Ushindo:"Copper",Mason20539:"Iron",Neska5036:"Copper",Theopitt:"Coal"},
+    spear:{Killedbycrab:"Gold",RealO75:"Iron",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Iron",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Copper",Neska5036:"Iron",Theopitt:"Coal"},
+    overall:{Killedbycrab:"Emerald",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Iron",Theopitt:"Coal"}
   };
 
   const TC={Netherite:'#6b6b78',Diamond:'#00BFFF',Emerald:'#50C878',Gold:'#F5C842',Iron:'#8b8b8b',Copper:'#B87333',Coal:'#555',Unranked:'#444'};
   const TP={Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
 
+  // PT = peak tiers
+  // Theopitt: Coal everywhere except Axe (Copper), overall Coal
   const PT={
     RealO75:{overall:'Gold',sword:'Diamond',axe:'Gold',uhc:'Gold',mace:'Iron',spear:'Iron'},
     Aftlow:{overall:'Emerald',sword:'Emerald',axe:'Emerald',uhc:'Gold',mace:'Gold',spear:'Diamond'},
@@ -832,6 +837,7 @@
     SadInFusIOns:{overall:'Copper',sword:'Gold',axe:'Iron',uhc:'Copper',mace:'Coal',spear:'Copper'},
     Terroralex10:{overall:'Copper',sword:'Iron',axe:'Iron',uhc:'Iron',mace:'Copper',spear:'Copper'},
     Jai_B37:{overall:'Iron',sword:'Iron',axe:'Emerald',uhc:'Iron',mace:'Copper',spear:'Iron'},
+    Theopitt:{overall:'Coal',sword:'Coal',axe:'Copper',uhc:'Coal',mace:'Coal',spear:'Coal'},
   };
 
   const PC={RealO75:'gb-eng',Aftlow:'gb-eng',bubbler2009:'gb-eng',Jai_B37:'gb-eng',Knoxy5316:'gb-eng',Cocotime15:'se',"WARDY B33":'gb-eng',SadInFusIOns:'gb-eng',"God flow 3":'gb-eng',gfunkdfunk82:'gb-eng',TerrorBoy123619:'gb-eng',LiamTheLemur:'gb-eng',Killedbycrab:'gb-eng',"Yearly-scuff81":'gb-eng',skull_shredder30:'gb-eng',Neska5036:'za',Ushindo:'za',EggyCactus78246:'dk',Oneshot1353:'dk',w85544534:'nl',Terroralex10:'gb-eng',Mason20539:'gb-eng',Techno5132:'gb-eng',Redpanda2013:'gb-sct',Theopitt:'gb-eng'};
