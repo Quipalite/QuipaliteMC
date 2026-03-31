@@ -271,7 +271,6 @@
     .pavatar{width:64px;height:64px;border-radius:12px;border:2px solid var(--bg);flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,.5);}
     .pnm{font-family:var(--font-d);font-size:26px;font-weight:800;letter-spacing:.5px;line-height:1.1;color:var(--text);display:flex;align-items:center;gap:10px;}
     .pmeta{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;}
-    /* YouTube profile link */
     .pyt-link{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:6px 13px;border-radius:6px;background:rgba(204,0,0,0.1);border:1px solid rgba(204,0,0,0.3);color:#ff5555;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:background .18s,border-color .18s,transform .18s;}
     .pyt-link:hover{background:rgba(204,0,0,0.18);border-color:rgba(204,0,0,0.5);transform:translateY(-1px);}
     .pkdbar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
@@ -907,7 +906,15 @@
     "Yearly-scuff81":'https://www.youtube.com/@yearlyscuff81',
   };
 
-  const PC={RealO75:'gb-eng',Aftlow:'gb-eng',bubbler2009:'gb-eng',Jai_B37:'gb-eng',Knoxy5316:'gb-eng',Cocotime15:'se',"WARDY B33":'gb-eng',SadInFusIOns:'gb-eng',"God flow 3":'gb-eng',gfunkdfunk82:'gb-eng',TerrorBoy123619:'gb-eng',LiamTheLemur:'gb-eng',Killedbycrab:'gb-eng',"Yearly-scuff81":'gb-eng',skull_shredder30:'gb-eng',Neska5036:'za',Ushindo:'za',EggyCactus78246:'dk',Oneshot1353:'dk',w85544534:'nl',Terroralex10:'gb-eng',Mason20539:'gb-eng',Techno5132:'gb-eng',Redpanda2013:'gb-sct',Theopitt:'gb-eng',Cobio29:'gb-eng',MagicBooch5510:'gb-eng'};
+  const PC={
+    RealO75:'gb-eng',Aftlow:'gb-eng',bubbler2009:'gb-eng',Jai_B37:'gb-eng',Knoxy5316:'gb-eng',
+    Cocotime15:'se',"WARDY B33":'gb-eng',SadInFusIOns:'gb-eng',"God flow 3":'gb-eng',
+    gfunkdfunk82:'gb-eng',TerrorBoy123619:'gb-eng',LiamTheLemur:'gb-eng',Killedbycrab:'gb-eng',
+    "Yearly-scuff81":'gb-eng',skull_shredder30:'gb-eng',Neska5036:'za',Ushindo:'za',
+    EggyCactus78246:'dk',Oneshot1353:'dk',w85544534:'nl',Terroralex10:'gb-eng',Mason20539:'gb-eng',
+    Techno5132:'gb-eng',Redpanda2013:'gb-sct',Theopitt:'gb-eng',Cobio29:'gb-eng',
+    MagicBooch5510:'gb-eng',ItsEggybruh:'dk',mack29702:'gb-eng'
+  };
   const CN={'gb-eng':'England',se:'Sweden',za:'South Africa',dk:'Denmark',nl:'Netherlands','gb-sct':'Scotland'};
 
   function flag(c,s=11){return`<img src="https://flagcdn.com/w40/${c}.png" class="flag" alt="${CN[c]||c}" title="${CN[c]||c}" style="height:${s}px">`;}
