@@ -896,7 +896,6 @@
     mack29702:{overall:'Iron',sword:'Iron',axe:'Gold',uhc:'Iron',mace:'Copper',spear:'Copper'},
   };
 
-  // ── PLAYER YOUTUBE CHANNELS ────────────────────────────────────────────────
   const PYT={
     bubbler2009:'https://www.youtube.com/@registeel78',
     RealO75:'https://www.youtube.com/@Quipalite',
@@ -918,7 +917,7 @@
   const CN={'gb-eng':'England',se:'Sweden',za:'South Africa',dk:'Denmark',nl:'Netherlands','gb-sct':'Scotland'};
 
   function flag(c,s=11){return`<img src="https://flagcdn.com/w40/${c}.png" class="flag" alt="${CN[c]||c}" title="${CN[c]||c}" style="height:${s}px">`;}
-  function av(u,s=48){return`https://tabavatars.net/avatar/?username=${encodeURIComponent(u)}&size=${s}&type=head`;}
+  const _avt=Date.now();function av(u,s=48){return`https://tabavatars.net/avatar/?username=${encodeURIComponent(u)}&size=${s}&type=head&t=${_avt}`;}
 
   function updateOverall(){
     const o={};
@@ -1126,8 +1125,6 @@
     const crn=rank===1?'<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>':'';
     const rb=retired.includes(name)?`<span class="retbadge" style="font-size:10px;padding:3px 8px">🏆 Retired</span>`:'';
     const fh=PC[name]?flag(PC[name],13):'';
-
-    // YouTube channel button (if available)
     const ytBtn=PYT[name]
       ? `<a href="${PYT[name]}" target="_blank" rel="noopener" class="pyt-link" onclick="event.stopPropagation()">
            <svg width="11" height="8" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
