@@ -62,8 +62,6 @@
     .ibtn.tier:hover{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
     .ibtn.sk:hover{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);}
     .ibtn.sk{font-family:var(--font-m);font-size:13px;font-weight:800;}
-    .btn-ranked-nav{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:var(--rs);background:var(--pink);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:filter .2s,transform .2s,box-shadow .2s;}
-    .btn-ranked-nav:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,26,109,.35);}
     .ttoggle{width:42px;height:22px;border-radius:11px;background:var(--surface);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;padding:2px;transition:border-color .2s;}
     .ttoggle:hover{border-color:rgba(255,255,255,.18);}
     .tthumb{width:16px;height:16px;border-radius:50%;background:var(--text-muted);transition:transform .25s cubic-bezier(.22,1,.36,1),background .25s;}
@@ -143,14 +141,6 @@
     .caction{display:inline-flex;align-items:center;gap:7px;margin-top:8px;padding:9px 16px;border-radius:8px;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:1px solid currentColor;transition:background .18s;align-self:flex-start;}
     .ccard.yt .caction{color:#ff5555;} .ccard.yt:hover .caction{background:rgba(204,0,0,.12);}
     .ccard.dc .caction{color:#7b8ff7;} .ccard.dc:hover .caction{background:rgba(88,101,242,.12);}
-    .cta-sec{text-align:center;padding:70px 24px;}
-    .cta-box{max-width:620px;margin:0 auto;border:1px solid var(--border-hi);border-radius:18px;padding:48px 36px;background:linear-gradient(135deg,var(--pink-glow) 0%,rgba(255,26,109,.05) 50%,transparent 100%);position:relative;overflow:hidden;}
-    .cta-box::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;}
-    .cta-box>*{position:relative;}
-    .cta-title{font-family:var(--font-d);font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-.5px;line-height:1.08;color:var(--text);margin-bottom:12px;}
-    .cta-title em{color:var(--pink);font-style:normal;}
-    .cta-sub{font-size:15px;color:var(--text-muted);line-height:1.65;margin-bottom:28px;}
-    .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
     .htj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px;}
     .htj-card{border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);padding:28px 24px;display:flex;flex-direction:column;gap:10px;transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s;}
     .htj-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.15);box-shadow:0 16px 48px rgba(0,0,0,.4);}
@@ -445,7 +435,6 @@
     body.mono .gcard{background:rgba(255,255,255,.025);border-color:#111;}
     body.mono .gcard:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18);}
     body.mono .ccard{background:rgba(255,255,255,.025);border-color:#111;}
-    body.mono .cta-box{background:rgba(255,255,255,.02);border-color:#222;}
     body.mono .stat-item{border-color:#111;}
     body.mono .stats-strip{border-color:#111;}
     body.mono .hof-card{background:#050505;}
@@ -496,7 +485,6 @@
       .co-sw{max-width:100%;}
       .co-btn{width:100%;}
       .ach-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr));}
-      .cta-box{padding:36px 20px;}
       .stats-strip{flex-wrap:wrap;}
       .stat-item{min-width:50%;border-right:none;border-bottom:1px solid var(--border);}
       #hofp{padding:16px 14px 40px;}
@@ -738,7 +726,7 @@
     </div>
 
     <div id="hofp" aria-hidden="true"></div>
-    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 25 Mar 2026</footer>
+    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 6 Apr 2026</footer>
   </div>
 
   <div id="tt"></div>
@@ -857,20 +845,20 @@
   const retired=['Jai_B37','Aftlow'];
 
   const PS={
-    sword:{RealO75:{wins:29,kills:89,deaths:27},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:1,kills:6,deaths:9},Knoxy5316:{wins:3,kills:14,deaths:36},ItsEggybruh:{wins:1,kills:4,deaths:3},Aftlow:{wins:4,kills:16,deaths:17},Ushindo:{wins:4,kills:15,deaths:13},LiamTheLemur:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:1,kills:4,deaths:8},Cocotime15:{wins:1,kills:5,deaths:12},gfunkdfunk82:{wins:0,kills:0,deaths:3},"WARDY B33":{wins:5,kills:15,deaths:14},Neska5036:{wins:2,kills:4,deaths:4},bubbler2009:{wins:2,kills:7,deaths:18},TerrorBoy123619:{wins:0,kills:0,deaths:3},w85544534:{wins:4,kills:10,deaths:1},Terroralex10:{wins:0,kills:0,deaths:3},Mason20539:{wins:6,kills:19,deaths:4},Theopitt:{wins:1,kills:3,deaths:12},Cobio29:{wins:0,kills:0,deaths:3},MagicBooch5510:{wins:0,kills:0,deaths:6},mack29702:{wins:2,kills:4,deaths:8},"Nxthxn Tier":{wins:0,kills:0,deaths:1},Aobyte:{wins:1,kills:3,deaths:1},LukeGamer2109:{wins:0,kills:0,deaths:3},Steelcorbyo9008:{wins:0,kills:0,deaths:1}},
-    axe:{RealO75:{wins:11,kills:29,deaths:22},Killedbycrab:{wins:8,kills:20,deaths:17},Jai_B37:{wins:1,kills:5,deaths:3},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:2,kills:7,deaths:10},Ushindo:{wins:0,kills:1,deaths:3},Aftlow:{wins:6,kills:18,deaths:2},bubbler2009:{wins:2,kills:7,deaths:19},"God flow 3":{wins:0,kills:2,deaths:2},"WARDY B33":{wins:4,kills:9,deaths:14},Cocotime15:{wins:0,kills:1,deaths:1},w85544534:{wins:3,kills:13,deaths:3},Terroralex10:{wins:0,kills:1,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:5,kills:17,deaths:8},ItsEggybruh:{wins:0,kills:1,deaths:3},Neska5036:{wins:3,kills:14,deaths:10},Redpanda2013:{wins:0,kills:2,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:0,deaths:6},MagicBooch5510:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:4,deaths:21},Aobyte:{wins:1,kills:3,deaths:2},LukeGamer2109:{wins:1,kills:3,deaths:2}},
-    uhc:{Killedbycrab:{wins:5,kills:14,deaths:11},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Aftlow:{wins:7,kills:21,deaths:4},RealO75:{wins:4,kills:11,deaths:6},Knoxy5316:{wins:1,kills:7,deaths:12},Jai_B37:{wins:0,kills:1,deaths:3},bubbler2009:{wins:2,kills:8,deaths:11},"WARDY B33":{wins:1,kills:5,deaths:6},Oneshot1353:{wins:1,kills:3,deaths:0},Cocotime15:{wins:1,kills:4,deaths:6},w85544534:{wins:3,kills:9,deaths:1},Terroralex10:{wins:1,kills:3,deaths:2},SadInFusIOns:{wins:0,kills:0,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},"God flow 3":{wins:0,kills:0,deaths:0},Mason20539:{wins:2,kills:3,deaths:0},Neska5036:{wins:1,kills:3,deaths:2},Redpanda2013:{wins:0,kills:2,deaths:2},Theopitt:{wins:1,kills:3,deaths:5},Cobio29:{wins:0,kills:2,deaths:5},mack29702:{wins:1,kills:3,deaths:14},Aobyte:{wins:1,kills:3,deaths:1}},
-    mace:{Killedbycrab:{wins:19,kills:58,deaths:22},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:4,kills:12,deaths:7},Knoxy5316:{wins:5,kills:23,deaths:38},ItsEggybruh:{wins:1,kills:3,deaths:0},LiamTheLemur:{wins:0,kills:0,deaths:1},RealO75:{wins:8,kills:24,deaths:15},Cocotime15:{wins:1,kills:4,deaths:3},Jai_B37:{wins:1,kills:3,deaths:2},Neska5036:{wins:0,kills:2,deaths:6},"God flow 3":{wins:0,kills:2,deaths:2},bubbler2009:{wins:0,kills:2,deaths:6},TerrorBoy123619:{wins:0,kills:1,deaths:3},"WARDY B33":{wins:5,kills:20,deaths:14},w85544534:{wins:2,kills:8,deaths:13},Terroralex10:{wins:1,kills:3,deaths:1},SadInFusIOns:{wins:0,kills:2,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},Mason20539:{wins:4,kills:12,deaths:9},Techno5132:{wins:0,kills:2,deaths:3},Redpanda2013:{wins:2,kills:6,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:2,deaths:9},MagicBooch5510:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:12,deaths:26},TerrorBoy123619:{wins:1,kills:3,deaths:0},Aobyte:{wins:1,kills:3,deaths:1}},
-    spear:{Killedbycrab:{wins:2,kills:6,deaths:3},Aftlow:{wins:6,kills:18,deaths:6},"Yearly-scuff81":{wins:0,kills:1,deaths:6},Cocotime15:{wins:0,kills:0,deaths:3},RealO75:{wins:1,kills:7,deaths:9},gfunkdfunk82:{wins:0,kills:2,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:3,kills:7,deaths:2},Jai_B37:{wins:0,kills:0,deaths:3},bubbler2009:{wins:2,kills:6,deaths:3},"WARDY B33":{wins:0,kills:0,deaths:3},w85544534:{wins:3,kills:9,deaths:0},Terroralex10:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:2,kills:6,deaths:0},Neska5036:{wins:2,kills:6,deaths:2},Redpanda2013:{wins:1,kills:3,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:1,kills:3,deaths:3},mack29702:{wins:1,kills:3,deaths:10},TerrorBoy123619:{wins:0,kills:0,deaths:1},Aobyte:{wins:0,kills:1,deaths:3}},
+    sword:{RealO75:{wins:28,kills:86,deaths:26},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:1,kills:6,deaths:9},Knoxy5316:{wins:3,kills:14,deaths:36},ItsEggybruh:{wins:1,kills:4,deaths:3},Aftlow:{wins:4,kills:16,deaths:17},Ushindo:{wins:4,kills:15,deaths:13},LiamTheLemur:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:1,kills:4,deaths:8},Cocotime15:{wins:1,kills:5,deaths:12},gfunkdfunk82:{wins:0,kills:0,deaths:3},"WARDY B33":{wins:5,kills:15,deaths:14},Neska5036:{wins:2,kills:4,deaths:4},bubbler2009:{wins:2,kills:7,deaths:18},TerrorBoy123619:{wins:0,kills:0,deaths:3},w85544534:{wins:4,kills:10,deaths:1},Terroralex10:{wins:0,kills:0,deaths:3},Mason20539:{wins:6,kills:19,deaths:4},Theopitt:{wins:1,kills:3,deaths:12},Cobio29:{wins:0,kills:0,deaths:3},MagicBooch5510:{wins:0,kills:0,deaths:6},mack29702:{wins:2,kills:4,deaths:8},"Nxthxn Tier":{wins:0,kills:0,deaths:1},Aobyte:{wins:1,kills:3,deaths:1},LukeGamer2109:{wins:0,kills:0,deaths:3},Steelcorbyo9008:{wins:0,kills:0,deaths:1},Wancerr:{wins:0,kills:1,deaths:3}},
+    axe:{RealO75:{wins:11,kills:29,deaths:22},Killedbycrab:{wins:8,kills:20,deaths:17},Jai_B37:{wins:1,kills:5,deaths:3},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:2,kills:7,deaths:10},Ushindo:{wins:0,kills:1,deaths:3},Aftlow:{wins:6,kills:18,deaths:2},bubbler2009:{wins:2,kills:7,deaths:19},"God flow 3":{wins:0,kills:2,deaths:2},"WARDY B33":{wins:4,kills:9,deaths:14},Cocotime15:{wins:0,kills:1,deaths:1},w85544534:{wins:3,kills:13,deaths:3},Terroralex10:{wins:0,kills:1,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:5,kills:17,deaths:8},ItsEggybruh:{wins:0,kills:1,deaths:3},Neska5036:{wins:3,kills:14,deaths:10},Redpanda2013:{wins:0,kills:2,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:0,deaths:3},MagicBooch5510:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:3,deaths:18},Aobyte:{wins:1,kills:3,deaths:2},LukeGamer2109:{wins:1,kills:3,deaths:2},Wancerr:{wins:1,kills:8,deaths:7}},
+    uhc:{Killedbycrab:{wins:5,kills:14,deaths:11},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Aftlow:{wins:7,kills:21,deaths:4},RealO75:{wins:4,kills:11,deaths:6},Knoxy5316:{wins:1,kills:7,deaths:12},Jai_B37:{wins:0,kills:1,deaths:3},bubbler2009:{wins:2,kills:8,deaths:11},"WARDY B33":{wins:1,kills:5,deaths:6},Oneshot1353:{wins:1,kills:3,deaths:0},Cocotime15:{wins:1,kills:4,deaths:6},w85544534:{wins:3,kills:9,deaths:1},Terroralex10:{wins:1,kills:3,deaths:2},SadInFusIOns:{wins:0,kills:0,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},"God flow 3":{wins:0,kills:0,deaths:0},Mason20539:{wins:2,kills:3,deaths:0},Neska5036:{wins:1,kills:3,deaths:2},Redpanda2013:{wins:0,kills:2,deaths:2},Theopitt:{wins:1,kills:3,deaths:5},Cobio29:{wins:0,kills:2,deaths:5},mack29702:{wins:1,kills:3,deaths:11},Aobyte:{wins:1,kills:3,deaths:1},Wancerr:{wins:1,kills:3,deaths:0}},
+    mace:{Killedbycrab:{wins:19,kills:58,deaths:22},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:4,kills:12,deaths:7},Knoxy5316:{wins:5,kills:23,deaths:38},ItsEggybruh:{wins:1,kills:3,deaths:0},LiamTheLemur:{wins:0,kills:0,deaths:1},RealO75:{wins:8,kills:24,deaths:15},Cocotime15:{wins:1,kills:4,deaths:3},Jai_B37:{wins:1,kills:3,deaths:2},Neska5036:{wins:0,kills:2,deaths:6},"God flow 3":{wins:0,kills:2,deaths:2},bubbler2009:{wins:0,kills:2,deaths:6},TerrorBoy123619:{wins:0,kills:1,deaths:3},"WARDY B33":{wins:5,kills:20,deaths:14},w85544534:{wins:2,kills:8,deaths:13},Terroralex10:{wins:1,kills:3,deaths:1},SadInFusIOns:{wins:0,kills:2,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},Mason20539:{wins:4,kills:12,deaths:9},Techno5132:{wins:0,kills:2,deaths:3},Redpanda2013:{wins:2,kills:6,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:2,deaths:6},MagicBooch5510:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:12,deaths:23},TerrorBoy123619:{wins:1,kills:3,deaths:0},Aobyte:{wins:1,kills:3,deaths:1},Wancerr:{wins:2,kills:6,deaths:0}},
+    spear:{Killedbycrab:{wins:2,kills:6,deaths:3},Aftlow:{wins:6,kills:18,deaths:6},"Yearly-scuff81":{wins:0,kills:1,deaths:6},Cocotime15:{wins:0,kills:0,deaths:3},RealO75:{wins:1,kills:7,deaths:9},gfunkdfunk82:{wins:0,kills:2,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:3,kills:7,deaths:2},Jai_B37:{wins:0,kills:0,deaths:3},bubbler2009:{wins:2,kills:6,deaths:3},"WARDY B33":{wins:0,kills:0,deaths:3},w85544534:{wins:3,kills:9,deaths:0},Terroralex10:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:2,kills:6,deaths:0},Neska5036:{wins:2,kills:6,deaths:2},Redpanda2013:{wins:1,kills:3,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:3,deaths:7},TerrorBoy123619:{wins:0,kills:0,deaths:1},Aobyte:{wins:0,kills:1,deaths:3},Wancerr:{wins:1,kills:3,deaths:3}},
   };
 
   const CT={
-    sword:{Killedbycrab:"Gold",RealO75:"Emerald",Aftlow:"Emerald",Knoxy5316:"Iron",Jai_B37:"Iron",bubbler2009:"Gold","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Diamond",Terroralex10:"Iron",SadInFusIOns:"Gold",Ushindo:"Gold",Mason20539:"Diamond",Neska5036:"Iron",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Iron",Aobyte:"Gold"},
-    axe:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Emerald",bubbler2009:"Iron","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Iron",Ushindo:"Iron",Mason20539:"Emerald",Neska5036:"Gold",Theopitt:"Copper",Cobio29:"Copper",mack29702:"Gold",Aobyte:"Gold"},
-    uhc:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Gold",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Iron","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Iron",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Copper",Aobyte:"Gold"},
-    mace:{Killedbycrab:"Diamond",RealO75:"Iron",Aftlow:"Gold",Knoxy5316:"Iron",Jai_B37:"Copper",bubbler2009:"Coal","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Iron",Terroralex10:"Copper",SadInFusIOns:"Coal",Ushindo:"Copper",Mason20539:"Iron",Neska5036:"Copper",Theopitt:"Coal",Cobio29:"Coal",mack29702:"Iron",Aobyte:"Copper"},
-    spear:{Killedbycrab:"Gold",RealO75:"Iron",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Gold",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Iron",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Iron",mack29702:"Copper",Aobyte:"Iron"},
-    overall:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Iron",Aobyte:"Gold"},
+    sword:{Killedbycrab:"Gold",RealO75:"Emerald",Aftlow:"Emerald",Knoxy5316:"Iron",Jai_B37:"Iron",bubbler2009:"Gold","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Diamond",Terroralex10:"Iron",SadInFusIOns:"Gold",Ushindo:"Gold",Mason20539:"Diamond",Neska5036:"Iron",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Iron",Aobyte:"Gold",Wancerr:"Gold"},
+    axe:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Emerald",bubbler2009:"Iron","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Iron",Ushindo:"Iron",Mason20539:"Emerald",Neska5036:"Gold",Theopitt:"Copper",Cobio29:"Copper",mack29702:"Gold",Aobyte:"Gold",Wancerr:"Gold"},
+    uhc:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Gold",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Iron","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Iron",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Copper",Aobyte:"Gold",Wancerr:"Gold"},
+    mace:{Killedbycrab:"Diamond",RealO75:"Iron",Aftlow:"Gold",Knoxy5316:"Iron",Jai_B37:"Copper",bubbler2009:"Coal","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Iron",Terroralex10:"Copper",SadInFusIOns:"Coal",Ushindo:"Copper",Mason20539:"Iron",Neska5036:"Copper",Theopitt:"Coal",Cobio29:"Coal",mack29702:"Iron",Aobyte:"Copper",Wancerr:"Copper"},
+    spear:{Killedbycrab:"Gold",RealO75:"Iron",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Copper",Cocotime15:"Copper",w85544534:"Gold",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Copper",Mason20539:"Iron",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Iron",mack29702:"Copper",Aobyte:"Iron",Wancerr:"Copper"},
+    overall:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Iron",Aobyte:"Gold",Wancerr:"Gold"},
   };
 
   const TC={Netherite:'#6b6b78',Diamond:'#00BFFF',Emerald:'#50C878',Gold:'#F5C842',Iron:'#8b8b8b',Copper:'#B87333',Coal:'#555',Unranked:'#444'};
@@ -895,6 +883,7 @@
     Cobio29:{overall:'Copper',sword:'Copper',axe:'Copper',uhc:'Copper',mace:'Coal',spear:'Iron'},
     mack29702:{overall:'Iron',sword:'Iron',axe:'Gold',uhc:'Iron',mace:'Iron',spear:'Copper'},
     Aobyte:{overall:'Gold',sword:'Gold',axe:'Gold',uhc:'Gold',mace:'Copper',spear:'Iron'},
+    Wancerr:{overall:'Gold',sword:'Gold',axe:'Gold',uhc:'Gold',mace:'Copper',spear:'Copper'},
   };
 
   const PYT={
@@ -904,6 +893,8 @@
     Killedbycrab:'https://www.youtube.com/@Killedbycrab',
     w85544534:'https://www.youtube.com/@PLhixzo',
     "Yearly-scuff81":'https://www.youtube.com/@yearlyscuff81',
+    Theopitt:'https://www.youtube.com/channel/UCKkLsH8MLaWunKK7P6kH5xw',
+    Cocotime15:'https://www.youtube.com/@TimeLord-n5t/videos',
   };
 
   const PC={
@@ -914,7 +905,7 @@
     EggyCactus78246:'dk',Oneshot1353:'dk',w85544534:'nl',Terroralex10:'gb-eng',Mason20539:'gb-eng',
     Techno5132:'gb-eng',Redpanda2013:'gb-sct',Theopitt:'gb-eng',Cobio29:'gb-eng',
     MagicBooch5510:'gb-eng',ItsEggybruh:'dk',mack29702:'gb-eng',Aobyte:'gb-eng',
-    LukeGamer2109:'gb-eng',Steelcorbyo9008:'gb-eng',
+    LukeGamer2109:'gb-eng',Steelcorbyo9008:'gb-eng',Wancerr:'gb-eng',
   };
   const CN={'gb-eng':'England',se:'Sweden',za:'South Africa',dk:'Denmark',nl:'Netherlands','gb-sct':'Scotland'};
 
@@ -1028,12 +1019,9 @@
 
   const SHORTCUTS=[
     {section:'Navigation',items:[
-      {keys:['1'],desc:'Overall leaderboard'},
-      {keys:['2'],desc:'Sword leaderboard'},
-      {keys:['3'],desc:'Axe leaderboard'},
-      {keys:['4'],desc:'UHC leaderboard'},
-      {keys:['5'],desc:'Mace leaderboard'},
-      {keys:['6'],desc:'Spear leaderboard'},
+      {keys:['1'],desc:'Overall leaderboard'},{keys:['2'],desc:'Sword leaderboard'},
+      {keys:['3'],desc:'Axe leaderboard'},{keys:['4'],desc:'UHC leaderboard'},
+      {keys:['5'],desc:'Mace leaderboard'},{keys:['6'],desc:'Spear leaderboard'},
       {keys:['7'],desc:'Open Compare tab'},
     ]},
     {section:'Actions',items:[
@@ -1041,14 +1029,11 @@
       {keys:['Esc'],desc:'Go back / close modal / clear search'},
       {keys:['?'],desc:'Open this shortcuts panel'},
     ]},
-    {section:'Surprise',items:[
-      {keys:['R'],desc:'Open a random player\'s profile'},
-    ]},
+    {section:'Surprise',items:[{keys:['R'],desc:"Open a random player's profile"}]},
   ];
 
   function openShortcuts(){
-    const list=document.getElementById('skl');
-    list.innerHTML='';
+    const list=document.getElementById('skl');list.innerHTML='';
     let delay=0.06;
     SHORTCUTS.forEach(section=>{
       const sh=document.createElement('div');sh.className='sk-section';
@@ -1069,8 +1054,7 @@
   }
 
   function closeShortcuts(){
-    const m=document.getElementById('sm');
-    m.classList.add('closing');
+    const m=document.getElementById('sm');m.classList.add('closing');
     m.querySelectorAll('.sk-row').forEach(r=>r.style.transitionDelay='0s');
     setTimeout(()=>{m.classList.remove('open','closing');m.style.display='none';document.body.style.overflow='';document.body.style.paddingRight='';},280);
   }
@@ -1133,7 +1117,6 @@
            YouTube ↗
          </a>`
       : '';
-
     if(!stats){
       document.getElementById('pc').innerHTML=`<p style="padding:24px;color:var(--pink);font-family:var(--font-m);font-size:12px">No stats for ${name} in ${mode}.</p>`;
     } else {
@@ -1417,7 +1400,6 @@
   document.addEventListener('keydown',e=>{
     const tag=document.activeElement.tagName.toLowerCase(),typing=tag==='input'||tag==='textarea';
     const onRanked=document.getElementById('rankedPage').classList.contains('active');
-
     if(e.key==='Escape'){
       if(document.getElementById('sm').classList.contains('open')){closeShortcuts();return;}
       if(document.getElementById('tm').classList.contains('open')){closeTier();return;}
@@ -1428,19 +1410,13 @@
       if(!typing){const s=document.getElementById('si');if(s&&s.value){s.value='';searchPlayers();}}
       else document.activeElement.blur();
     }
-
     if(e.key==='/'&&!typing){e.preventDefault();const s=document.getElementById('si');if(s&&document.querySelector('.srow').style.display!=='none'){s.focus();s.select();}}
-
     if(e.key==='?'&&!typing){e.preventDefault();openShortcuts();return;}
-
     if(!typing&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&onRanked){
       const mMap={'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};
       if(mMap[e.key]){const tabs=document.querySelectorAll('.rtabs .tab');const idx=Object.keys(mMap).indexOf(e.key);if(tabs[idx])tabs[idx].click();}
       if(e.key==='7'){const t=document.querySelector('.rtabs .tab:last-child');if(t)t.click();}
-      if(e.key==='r'||e.key==='R'){
-        const srow=document.querySelector('.srow');
-        if(srow&&srow.style.display!=='none') surpriseMe();
-      }
+      if(e.key==='r'||e.key==='R'){const srow=document.querySelector('.srow');if(srow&&srow.style.display!=='none')surpriseMe();}
     }
   });
 
