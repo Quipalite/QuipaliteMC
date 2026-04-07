@@ -1319,7 +1319,7 @@
   function renderHOF(){
     updateOverall();
     const modeImgs={sword:'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png',axe:'https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png',uhc:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png',mace:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png',spear:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png'};
-    const hofP=retired.filter(n=>n!=='Jai_B37');
+    const hofP=retired.filter(n=>n!=='Jai_B37'&&n!=='TerrorBoy123619');
     const cards=hofP.map(name=>{
       const ov=PS.overall[name]||{wins:0,kills:0,deaths:0};
       const kd=ov.deaths===0?(ov.kills>0?Infinity:0):ov.kills/ov.deaths;
