@@ -402,6 +402,13 @@
     #tt.v{opacity:1;}
     #tt .tp{display:block;font-size:9px;color:var(--text-muted);margin-top:2px;letter-spacing:1px;}
     footer{text-align:center;padding:28px 20px;font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);border-top:1px solid var(--border);}
+    /* ─── FEEDBACK FORM ─────────────────────────────────── */
+    .fb-wrap{border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);overflow:hidden;position:relative;margin-top:40px;}
+    .fb-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,26,109,.4),rgba(255,80,0,.2),transparent);z-index:2;pointer-events:none;}
+    .fb-wrap iframe{display:block;width:100%;height:640px;border:none;filter:invert(1) hue-rotate(180deg) brightness(0.86) contrast(0.95);}
+    body.mono .fb-wrap iframe{filter:invert(1) hue-rotate(180deg) brightness(0.80) contrast(0.90);}
+    @media(max-width:600px){.fb-wrap iframe{height:760px;}}
+    /* ─────────────────────────────────────────────────────── */
     body.mono{background:#000;color:#fff;}
     body.mono nav{background:rgba(0,0,0,.95);border-bottom-color:#111;}
     body.mono .nav-glow{display:none;}
@@ -450,6 +457,7 @@
     body.mono .sk-tip{background:rgba(255,255,255,.03);border-color:#333;color:rgba(255,255,255,.5);}
     body.mono .pyt-link{background:rgba(255,0,0,.08);border-color:rgba(255,0,0,.2);}
     body.mono .pyt-link:hover{background:rgba(255,0,0,.15);}
+    body.mono .fb-wrap{background:#050505;border-color:#111;}
     @media(hover:none){#tt{display:none!important;}}
     @media(max-width:900px){
       nav{padding:12px 18px;}
@@ -517,6 +525,7 @@
       <div class="nav-links">
         <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
         <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
+        <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
       </div>
       <div class="nav-div"></div>
       <a class="ibtn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
@@ -671,6 +680,23 @@
             <p class="contact-desc">For general enquiries, player reports, or anything else — we're happy to help. Expect a reply within a day or two.</p>
             <a class="contact-link" href="mailto:hello@quipalitemc.com">hello@quipalitemc.com ↗</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FEEDBACK SECTION ── -->
+    <section class="hsec" id="feedback">
+      <div class="sinner" style="text-align:center">
+        <div class="rv">
+          <div class="stag">Feedback</div>
+          <h2 class="stitle">Share your <em>Thoughts</em></h2>
+          <p class="ssub" style="margin:0 auto">Got ideas, suggestions, or something you'd like to see? Fill in the form below — every bit of feedback helps us improve.</p>
+        </div>
+        <div class="fb-wrap rv rd1">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdukisvpdwTcjYBgby1yM0AGyWay1njTUHewyN7OvnK9yVnwQ/viewform?embedded=true"
+            title="Quipalite MC Feedback Form"
+            loading="lazy">Loading feedback form…</iframe>
         </div>
       </div>
     </section>
