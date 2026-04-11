@@ -597,26 +597,29 @@
             </div>
             <p class="gdesc">Start from scratch on your own island and evolve it through the ages. Build, survive, and thrive your way.</p>
           </div>
-          <div class="gcard rv rd2">
+          <div class="gcard rv rd2" onclick="goPartyGames()">
             <div class="gcard-top">
               <div class="gicon"><img src="https://minecraft.wiki/images/Balloon_(Minecraft_Education)_BE.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🎈'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Party Games</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
+              <div class="garrow">↗</div>
             </div>
             <p class="gdesc">A fun mix of minigames for everyone. Jump in, laugh, and compete with the whole server — no experience needed!</p>
           </div>
-          <div class="gcard rv rd1">
+          <div class="gcard rv rd1" onclick="goCurrentNations()">
             <div class="gcard-top">
               <div class="gicon"><img src="https://minecraft.wiki/images/Globe_Banner_Pattern_JE2_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🌍'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Current Nations</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
+              <div class="garrow">↗</div>
             </div>
             <p class="gdesc">Pick your nation, claim territory, and work together to rise to the top of a shared world map.</p>
           </div>
-          <div class="gcard rv rd2">
+          <div class="gcard rv rd2" onclick="goParkour()">
             <div class="gcard-top">
-              <div class="gicon"><img src="https://minecraft.wiki/images/Iron_Sword_JE2_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🗡️'))"></div>
-              <div class="ginfo"><div class="gname" style="font-size:18px">Battle Royale</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
+              <div class="gicon"><img src="https://minecraft.wiki/images/Feather_JE3_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🪶'))"></div>
+              <div class="ginfo"><div class="gname" style="font-size:18px">Parkour</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
+              <div class="garrow">↗</div>
             </div>
-            <p class="gdesc">Loot up, fight hard, and be the last one standing. One winner, no second chances.</p>
+            <p class="gdesc">Test your movement skills across challenging courses. Jump, sprint, and push your limits to the top of the leaderboard.</p>
           </div>
         </div>
       </div>
@@ -764,6 +767,17 @@
   <div id="islandPage" class="page">
     <footer>© Quipalite MC &nbsp;·&nbsp; Island Evolution &nbsp;·&nbsp; 2026</footer>
   </div>
+  <div id="partyGamesPage" class="page">
+    <footer>© Quipalite MC &nbsp;·&nbsp; Party Games &nbsp;·&nbsp; 2026</footer>
+  </div>
+
+  <div id="currentNationsPage" class="page">
+    <footer>© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
+  </div>
+
+  <div id="parkourPage" class="page">
+    <footer>© Quipalite MC &nbsp;·&nbsp; Parkour &nbsp;·&nbsp; 2026</footer>
+  </div>
 
   <div id="tt"></div>
   <div class="cdd" id="dd1"></div>
@@ -861,6 +875,39 @@
     document.getElementById('nlHome').classList.remove('active');
     document.getElementById('nlRanked').classList.remove('active');
     document.getElementById('navSub').textContent='Island Evolution';
+    document.getElementById('tierBtn').style.display='none';
+    document.body.classList.remove('on-ranked');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+
+  function goPartyGames(){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('partyGamesPage').classList.add('active');
+    document.getElementById('nlHome').classList.remove('active');
+    document.getElementById('nlRanked').classList.remove('active');
+    document.getElementById('navSub').textContent='Party Games';
+    document.getElementById('tierBtn').style.display='none';
+    document.body.classList.remove('on-ranked');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+
+  function goCurrentNations(){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('currentNationsPage').classList.add('active');
+    document.getElementById('nlHome').classList.remove('active');
+    document.getElementById('nlRanked').classList.remove('active');
+    document.getElementById('navSub').textContent='Current Nations';
+    document.getElementById('tierBtn').style.display='none';
+    document.body.classList.remove('on-ranked');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+
+  function goParkour(){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('parkourPage').classList.add('active');
+    document.getElementById('nlHome').classList.remove('active');
+    document.getElementById('nlRanked').classList.remove('active');
+    document.getElementById('navSub').textContent='Parkour';
     document.getElementById('tierBtn').style.display='none';
     document.body.classList.remove('on-ranked');
     window.scrollTo({top:0,behavior:'instant'});
