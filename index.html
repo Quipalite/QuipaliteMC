@@ -589,10 +589,11 @@
               <span class="mpill special">🏆 7 Tier Ranks</span>
             </div>
           </div>
-          <div class="gcard rv rd1">
+          <div class="gcard rv rd1" onclick="goIsland()">
             <div class="gcard-top">
               <div class="gicon"><img src="https://minecraft.wiki/images/Grass_Block_JE7_BE6.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🌿'))"></div>
               <div class="ginfo"><div class="gname" style="font-size:18px">Island Evolution</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
+              <div class="garrow">↗</div>
             </div>
             <p class="gdesc">Start from scratch on your own island and evolve it through the ages. Build, survive, and thrive your way.</p>
           </div>
@@ -759,6 +760,11 @@
     <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 6 Apr 2026</footer>
   </div>
 
+
+  <div id="islandPage" class="page">
+    <footer>© Quipalite MC &nbsp;·&nbsp; Island Evolution &nbsp;·&nbsp; 2026</footer>
+  </div>
+
   <div id="tt"></div>
   <div class="cdd" id="dd1"></div>
   <div class="cdd" id="dd2"></div>
@@ -814,8 +820,8 @@
   });
 
   function goHome(){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById('homePage').classList.add('active');
-    document.getElementById('rankedPage').classList.remove('active');
     document.getElementById('nlHome').classList.add('active');
     document.getElementById('nlRanked').classList.remove('active');
     document.getElementById('navSub').textContent='Minigames Server';
@@ -826,7 +832,7 @@
   }
 
   function goRanked(){
-    document.getElementById('homePage').classList.remove('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById('rankedPage').classList.add('active');
     document.getElementById('nlHome').classList.remove('active');
     document.getElementById('nlRanked').classList.add('active');
@@ -848,6 +854,17 @@
     },80);
   }
 
+
+  function goIsland(){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('islandPage').classList.add('active');
+    document.getElementById('nlHome').classList.remove('active');
+    document.getElementById('nlRanked').classList.remove('active');
+    document.getElementById('navSub').textContent='Island Evolution';
+    document.getElementById('tierBtn').style.display='none';
+    document.body.classList.remove('on-ranked');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
   function showRankedMain(){
     document.querySelector('.rtabs').style.display='';
     document.querySelector('.lbc').style.display='';
