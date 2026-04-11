@@ -462,8 +462,8 @@
     @media(max-width:900px){
       nav{padding:12px 18px;}
       .nav-links{display:none;}
-      .ggrid{grid-template-columns:1fr;}
-      .gcard.featured{grid-column:span 1;}
+      .ggrid{grid-template-columns:repeat(2,1fr);}
+      .gcard.featured{grid-column:span 2;}
       .cgrid{grid-template-columns:1fr;}
       .htj-grid{grid-template-columns:1fr;}
       .contact-box{flex-direction:column;text-align:center;}
@@ -477,6 +477,8 @@
       .lbc{padding:0 12px 40px;}
     }
     @media(max-width:500px){
+      .ggrid{grid-template-columns:1fr;}
+      .gcard.featured{grid-column:span 1;}
       nav{padding:10px 14px;}
       .nav-brand-text{font-size:16px;}
       .nav-brand-sub{display:none;}
@@ -570,7 +572,7 @@
       <div class="sinner">
         <div class="rv"><div class="stag">Server Games</div><h2 class="stitle">Something for <em>Everyone</em></h2><p class="ssub">Jump into your favourite game mode or test your skills on the competitive ranked ladder — all skill levels welcome!</p></div>
         <div class="ggrid">
-          <div class="gcard featured rv" onclick="goRanked()" style="grid-column:span 3">
+          <div class="gcard featured rv" onclick="goRanked()">
             <div class="gcard-top">
               <div class="gicon">⚔️</div>
               <div class="ginfo">
