@@ -402,13 +402,66 @@
     #tt.v{opacity:1;}
     #tt .tp{display:block;font-size:9px;color:var(--text-muted);margin-top:2px;letter-spacing:1px;}
     footer{text-align:center;padding:28px 20px;font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);border-top:1px solid var(--border);}
-    /* ─── FEEDBACK FORM ─────────────────────────────────── */
     .fb-wrap{border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);overflow:hidden;position:relative;margin-top:40px;}
     .fb-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,26,109,.4),rgba(255,80,0,.2),transparent);z-index:2;pointer-events:none;}
     .fb-wrap iframe{display:block;width:100%;height:640px;border:none;filter:invert(1) hue-rotate(180deg) brightness(0.86) contrast(0.95);}
     body.mono .fb-wrap iframe{filter:invert(1) hue-rotate(180deg) brightness(0.80) contrast(0.90);}
     @media(max-width:600px){.fb-wrap iframe{height:760px;}}
-    /* ─────────────────────────────────────────────────────── */
+
+    /* ── NATION MODAL ── */
+    #nm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
+    #nmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
+    #nm.open #nmb{opacity:1;}
+    #nm.closing #nmb{opacity:0;}
+    #nmi{position:relative;z-index:1;background:#0b0b10;border:1px solid var(--border-card);border-radius:18px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,.9);opacity:0;transform:translateY(24px) scale(.96);transition:opacity .32s cubic-bezier(.22,1,.36,1),transform .32s cubic-bezier(.22,1,.36,1);}
+    #nm.open #nmi{opacity:1;transform:none;transition-delay:.05s;}
+    #nm.closing #nmi{opacity:0;transform:translateY(16px) scale(.97);transition:opacity .22s,transform .22s;}
+    .nm-banner{height:90px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border-radius:18px 18px 0 0;}
+    .nm-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,#0b0b10 100%);}
+    .nm-banner-pattern{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:22px 22px;}
+    .nm-body{padding:0 24px 28px;}
+    .nm-header{display:flex;align-items:flex-end;gap:14px;margin-top:-32px;margin-bottom:20px;position:relative;z-index:1;}
+    .nm-ico-wrap{width:62px;height:62px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:2px solid rgba(255,255,255,.08);box-shadow:0 8px 24px rgba(0,0,0,.6);}
+    .nm-title-wrap{padding-bottom:4px;}
+    .nm-name{font-family:var(--font-d);font-size:26px;font-weight:800;line-height:1;color:var(--text);}
+    .nm-est{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:5px;}
+    .nm-close{position:absolute;top:14px;right:14px;z-index:2;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--text-muted);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;}
+    .nm-close:hover{background:rgba(255,255,255,.12);color:var(--text);transform:rotate(90deg);}
+    .nm-desc{font-size:13.5px;line-height:1.7;color:var(--text-muted);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+    .nm-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px;}
+    .nm-stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+    .nm-stat-lbl{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px;}
+    .nm-stat-val{font-family:var(--font-m);font-size:14px;font-weight:700;color:var(--text);line-height:1.2;}
+    .nm-tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+    .nm-tag{font-family:var(--font-m);font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;letter-spacing:.5px;}
+    .nm-sec-h{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+    .nm-sec-h::after{content:'';flex:1;height:1px;background:var(--border);}
+    .nm-fact-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .nm-fact-row:last-child{border-bottom:none;}
+    .nm-fact-lbl{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);}
+    .nm-fact-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
+
+    /* ── CURRENT NATIONS PAGE ── */
+    #currentNationsPage .nations-header{padding:60px 24px 0;}
+    #currentNationsPage .nations-inner{max-width:1080px;margin:0 auto;}
+    #nations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;}
+    .nation-card{position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);padding:22px 20px;cursor:pointer;color:var(--text);transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s,background .3s;gap:0;}
+    .nation-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);}
+    .nation-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.5);background:rgba(255,255,255,.052);}
+    .nation-card:active{transform:translateY(-2px);}
+    .nation-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+    .nation-ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .nation-name{font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;}
+    .nation-est{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
+    .nation-divider{height:1px;background:var(--border);margin-bottom:12px;}
+    .nation-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+    .nation-row:last-child{margin-bottom:0;}
+    .nation-lbl{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);}
+    .nation-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
+    .nation-gov{font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
+    .nation-click-hint{position:absolute;bottom:10px;right:12px;font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:1px;color:var(--text-dim);opacity:0;transition:opacity .2s;}
+    .nation-card:hover .nation-click-hint{opacity:1;}
+
     body.mono{background:#000;color:#fff;}
     body.mono nav{background:rgba(0,0,0,.95);border-bottom-color:#111;}
     body.mono .nav-glow{display:none;}
@@ -430,7 +483,7 @@
     body.mono .co-bf{background:#fff!important;}
     body.mono #pc,.co-card{background:#050505;border-color:#111;}
     body.mono .psb,.sbar{background:#050505;border-color:#111;}
-    body.mono #tmi,#ami,#smi{background:#050505;border-color:#222;}
+    body.mono #tmi,#ami,#smi,#nmi{background:#050505;border-color:#222;}
     body.mono .co-si{background:#050505;border-color:#111;}
     body.mono .cdd{background:#050505;border-color:#222;}
     body.mono .ibtn,.back{background:#050505;border-color:#111;color:#888;}
@@ -458,7 +511,11 @@
     body.mono .pyt-link{background:rgba(255,0,0,.08);border-color:rgba(255,0,0,.2);}
     body.mono .pyt-link:hover{background:rgba(255,0,0,.15);}
     body.mono .fb-wrap{background:#050505;border-color:#111;}
-    @media(hover:none){#tt{display:none!important;}}
+    body.mono .nation-card{background:rgba(255,255,255,.025);border-color:#111;}
+    body.mono .nation-card:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18);}
+    body.mono #nmi{background:#050505;border-color:#222;}
+    body.mono .nm-stat{background:#000;border-color:#111;}
+    @media(hover:none){#tt{display:none!important;}.nation-click-hint{display:none;}}
     @media(max-width:900px){
       nav{padding:12px 18px;}
       .nav-links{display:none;}
@@ -467,6 +524,7 @@
       .cgrid{grid-template-columns:1fr;}
       .htj-grid{grid-template-columns:1fr;}
       .contact-box{flex-direction:column;text-align:center;}
+      #nations-grid{grid-template-columns:repeat(2,1fr);}
     }
     @media(max-width:720px){
       .player{grid-template-columns:40px 48px 1fr auto;}
@@ -475,6 +533,12 @@
       .srow{padding:12px 14px 0;gap:8px;}
       #si{width:100%;max-width:100%;}
       .lbc{padding:0 12px 40px;}
+    }
+    @media(max-width:600px){
+      #nations-grid{grid-template-columns:1fr;}
+      #currentNationsPage .nations-header{padding:40px 16px 0;}
+      .nm-stats{grid-template-columns:repeat(2,1fr);}
+      .nm-body{padding:0 18px 24px;}
     }
     @media(max-width:500px){
       .ggrid{grid-template-columns:1fr;}
@@ -504,6 +568,7 @@
       #hofp{padding:16px 14px 40px;}
       .hof-body{padding-left:14px;padding-right:14px;}
       .hof-nm{font-size:20px;}
+      .nm-name{font-size:21px;}
     }
   </style>
 </head>
@@ -546,6 +611,7 @@
     <div class="nav-glow"></div>
   </nav>
 
+  <!-- HOME PAGE -->
   <div id="homePage" class="page active">
     <section class="hero">
       <div class="hero-eyebrow"><span class="hero-dot"></span>Welcome!</div>
@@ -690,7 +756,6 @@
       </div>
     </section>
 
-    <!-- ── FEEDBACK SECTION ── -->
     <section class="hsec" id="feedback">
       <div class="sinner" style="text-align:center">
         <div class="rv">
@@ -710,6 +775,7 @@
     <footer>© Quipalite MC &nbsp;·&nbsp; Minigames Server &nbsp;·&nbsp; 2026</footer>
   </div>
 
+  <!-- RANKED PAGE -->
   <div id="rankedPage" class="page">
     <div class="rtabs" role="tablist">
       <button class="tab active" onclick="showMode('overall',this)">🏆 Overall</button>
@@ -765,301 +831,32 @@
     <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 6 Apr 2026</footer>
   </div>
 
-
+  <!-- ISLAND PAGE -->
   <div id="islandPage" class="page">
     <footer>© Quipalite MC &nbsp;·&nbsp; Island Evolution &nbsp;·&nbsp; 2026</footer>
   </div>
+
+  <!-- PARTY GAMES PAGE -->
   <div id="partyGamesPage" class="page">
     <footer>© Quipalite MC &nbsp;·&nbsp; Party Games &nbsp;·&nbsp; 2026</footer>
   </div>
 
+  <!-- CURRENT NATIONS PAGE -->
   <div id="currentNationsPage" class="page">
-    <section style="padding:60px 24px 20px;">
-      <div style="max-width:1080px;margin:0 auto;">
-        <div style="margin-bottom:40px;">
-          <div style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:12px;">
-            <span style="width:20px;height:1px;background:var(--pink);opacity:.6;display:inline-block;"></span>Active Nations
-          </div>
-          <h2 style="font-family:var(--font-d);font-size:clamp(24px,3.5vw,38px);font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:10px;">Current <span style="color:var(--pink);">Nations</span></h2>
-          <p style="font-size:15px;line-height:1.7;color:var(--text-muted);max-width:520px;">All active nations on the server. Claim your territory, build your empire, and rise to the top.</p>
+    <div class="nations-header">
+      <div class="nations-inner">
+        <div style="margin-bottom:8px;">
+          <div class="stag">Active Nations</div>
+          <h2 class="stitle">Current <em>Nations</em></h2>
+          <p class="ssub">All active nations on the server. Tap any nation to learn more — claim your territory, build your empire, and rise to the top.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" id="nations-grid">
-
-          <!-- Smegtopia -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(255,26,109,.12);border:1px solid rgba(255,26,109,.25);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🏛️</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Smegtopia</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 1.1.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">SadInFusIOns</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">977</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Smegbucks</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80;">Democratic</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Crabville -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.25);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🦀</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Crabville</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 17.2.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Killedbycrab</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">3,370</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Iron</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80;">Democratic</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Keem -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(184,196,208,.08);border:1px solid rgba(184,196,208,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">⚔️</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Keem</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 12.1.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">WARDY B33</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">0</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:#00BFFF;">Diamonds</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80;">Democratic</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Craineun -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.25);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🌿</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Craineun</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 12.1.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Aftlow</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">2,750</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Craintown</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:#50C878;">Emeralds</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80;">Democratic</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Sylvian -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(160,0,255,.1);border:1px solid rgba(160,0,255,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🌙</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Sylvian</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 18.1.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Ushindo</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">42</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:#50C878;">Emeralds</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(160,0,255,.1);border:1px solid rgba(160,0,255,.25);color:#c084fc;">Monarchy</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Springbuck -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(205,127,50,.1);border:1px solid rgba(205,127,50,.25);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🦌</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Springbuck</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 8.4.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Neska5036</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">2,400</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Rand</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171;">Communism</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Okpemon -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(0,191,255,.08);border:1px solid rgba(0,191,255,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">💧</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Okpemon</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 9.4.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">bubbler2009</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">20</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:#00BFFF;">Bubbles</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171;">Communism</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Wancerville -->
-          <div class="gcard" style="gap:0;cursor:default;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <div style="width:44px;height:44px;border-radius:10px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">👑</div>
-              <div>
-                <div style="font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;">Wancerville</div>
-                <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;">Est. 10.4.26</div>
-              </div>
-            </div>
-            <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Leader</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);">Wancerr</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Population</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">0</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Capital</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);">N/A</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Currency</span>
-                <span style="font-family:var(--font-m);font-size:11px;font-weight:700;color:#F5C842;">Gold</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);">Government</span>
-                <span style="font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171;">Dictatorship</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
+        <div id="nations-grid"></div>
       </div>
-    </section>
-    <style>
-      #nations-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-      @media(max-width:900px){ #nations-grid{ grid-template-columns:repeat(2,1fr); } }
-      @media(max-width:500px){ #nations-grid{ grid-template-columns:1fr; } }
-    </style>
-    <footer>© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
+    </div>
+    <footer style="margin-top:60px;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
   </div>
 
+  <!-- PARKOUR PAGE -->
   <div id="parkourPage" class="page">
     <footer>© Quipalite MC &nbsp;·&nbsp; Parkour &nbsp;·&nbsp; 2026</footer>
   </div>
@@ -1067,6 +864,15 @@
   <div id="tt"></div>
   <div class="cdd" id="dd1"></div>
   <div class="cdd" id="dd2"></div>
+
+  <!-- NATION DETAIL MODAL -->
+  <div id="nm" onclick="if(event.target===this||event.target===document.getElementById('nmb'))closeNation()">
+    <div id="nmb"></div>
+    <div id="nmi">
+      <button class="nm-close" onclick="closeNation()">✕</button>
+      <div id="nmc"></div>
+    </div>
+  </div>
 
   <!-- TIER MODAL -->
   <div id="tm" onclick="if(event.target===this)closeTier()">
@@ -1109,272 +915,539 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  let mono=false;
-  const tth=document.getElementById('tth');
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
+  // ─── NATION DATA ─────────────────────────────────────────────────────────────
+  const NATIONS = [
+    {
+      id: 'smegtopia',
+      name: 'Smegtopia',
+      icon: '🏛️',
+      iconBg: 'rgba(255,26,109,.12)',
+      iconBorder: 'rgba(255,26,109,.25)',
+      accentColor: '#FF1A6D',
+      est: 'Est. 1.1.26',
+      founded: '1 Jan 2026',
+      leader: 'SadInFusIOns',
+      population: '977',
+      capital: 'N/A',
+      currency: 'Smegbucks',
+      currencyColor: '#FF1A6D',
+      government: 'Democratic',
+      govStyle: 'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
+      description: 'Smegtopia is one of the original founding nations of the server. Built on democratic principles, it has grown steadily since day one under the steady leadership of SadInFusIOns. Known for its unique Smegbucks economy, citizens enjoy a fair and community-driven experience.',
+      tags: [
+        {label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},
+        {label:'Founding Nation',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Large'},
+        {label:'Alliance',val:'Best Buddies & Crab Alliance'},
+        {label:'Age',val:'3 months+'},
+      ]
+    },
+    {
+      id: 'crabville',
+      name: 'Crabville',
+      icon: '🦀',
+      iconBg: 'rgba(245,200,66,.1)',
+      iconBorder: 'rgba(245,200,66,.25)',
+      accentColor: '#F5C842',
+      est: 'Est. 17.2.26',
+      founded: '17 Feb 2026',
+      leader: 'Killedbycrab',
+      population: '3,370',
+      capital: 'N/A',
+      currency: 'Iron',
+      currencyColor: '#8b8b8b',
+      government: 'Democratic',
+      govStyle: 'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
+      description: 'Crabville is the most populous nation on the server, boasting an impressive 3,370 citizens. Led by the formidable Killedbycrab, this democratic powerhouse has rapidly expanded since its founding. Its iron-based economy reflects the no-nonsense, industrious spirit of its people.',
+      tags: [
+        {label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},
+        {label:'Most Populated',style:'background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);color:#F5C842'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Small'},
+        {label:'Alliance',val:'Best Buddies & Crab Alliance'},
+        {label:'Age',val:'~2 months'},
+      ]
+    },
+    {
+      id: 'keem',
+      name: 'Keem',
+      icon: '⚔️',
+      iconBg: 'rgba(184,196,208,.08)',
+      iconBorder: 'rgba(184,196,208,.2)',
+      accentColor: '#B8C4D0',
+      est: 'Est. 12.1.26',
+      founded: '12 Jan 2026',
+      leader: 'WARDY B33',
+      population: '0',
+      capital: 'N/A',
+      currency: 'Diamonds',
+      currencyColor: '#00BFFF',
+      government: 'Democratic',
+      govStyle: 'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
+      description: 'Keem is an early nation founded shortly after the server launch. Currently in a rebuilding phase with zero registered population, WARDY B33 leads this diamond-currency nation with ambitions to grow.',
+      tags: [
+        {label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},
+        {label:'Rebuilding',style:'background:rgba(184,196,208,.1);border:1px solid rgba(184,196,208,.25);color:#B8C4D0'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Large'},
+        {label:'Alliance',val:'Neutral'},
+        {label:'Age',val:'3 months+'},
+      ]
+    },
+    {
+      id: 'craineun',
+      name: 'Craineun',
+      icon: '🌿',
+      iconBg: 'rgba(80,200,120,.1)',
+      iconBorder: 'rgba(80,200,120,.25)',
+      accentColor: '#50C878',
+      est: 'Est. 12.1.26',
+      founded: '12 Jan 2026',
+      leader: 'Aftlow',
+      population: '2,750',
+      capital: 'Craintown',
+      currency: 'Emeralds',
+      currencyColor: '#50C878',
+      government: 'Democratic',
+      govStyle: 'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
+      description: 'Craineun stands as one of the most established nations, founded by the legendary Aftlow — builder and former ranked player. With a thriving population of 2,750 and the server\'s only named capital city, Craintown, Craineun is a beacon of organised governance and green prosperity.',
+      tags: [
+        {label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},
+        {label:'Has Capital',style:'background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.3);color:#50C878'},
+        {label:'Founding Nation',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Very Large'},
+        {label:'Capital City',val:'Craintown'},
+        {label:'Alliance',val:'Best Buddies & Crab Alliance'},
+      ]
+    },
+    {
+      id: 'sylvian',
+      name: 'Sylvian',
+      icon: '🌙',
+      iconBg: 'rgba(160,0,255,.1)',
+      iconBorder: 'rgba(160,0,255,.2)',
+      accentColor: '#c084fc',
+      est: 'Est. 18.1.26',
+      founded: '18 Jan 2026',
+      leader: 'Ushindo',
+      population: '110',
+      capital: 'N/A',
+      currency: 'Emeralds',
+      currencyColor: '#50C878',
+      government: 'Monarchy',
+      govStyle: 'background:rgba(160,0,255,.1);border:1px solid rgba(160,0,255,.25);color:#c084fc',
+      description: 'Sylvian is the only Monarchy on the server, ruled absolutely by Ushindo. A mysterious and small nation of 110 dedicated subjects, Sylvian operates by royal decree. Its purple-hued rule sets it apart from the democracies and dictatorships that surround it — an intriguing wildcard on the map.',
+      tags: [
+        {label:'Monarchy',style:'background:rgba(160,0,255,.1);border:1px solid rgba(160,0,255,.25);color:#c084fc'},
+        {label:'Unique Gov.',style:'background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);color:#c084fc'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Medium'},
+        {label:'Alliance',val:'None'},
+        {label:'Age',val:'~3 months'},
+      ]
+    },
+    {
+      id: 'springbuck',
+      name: 'Springbuck',
+      icon: '🦌',
+      iconBg: 'rgba(205,127,50,.1)',
+      iconBorder: 'rgba(205,127,50,.25)',
+      accentColor: '#CD7F32',
+      est: 'Est. 8.4.26',
+      founded: '8 Apr 2026',
+      leader: 'Neska5036',
+      population: '2,400',
+      capital: 'N/A',
+      currency: 'Rand',
+      currencyColor: '#CD7F32',
+      government: 'Communism',
+      govStyle: 'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',
+      description: 'One of the newest nations, Springbuck has exploded onto the scene with an impressive 2,400 citizens in just days of existence. Led by Neska5036 under a Communist government, all resources are shared equally among citizens. The Rand currency symbolises its South African-inspired identity.',
+      tags: [
+        {label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},
+        {label:'New Nation',style:'background:rgba(205,127,50,.1);border:1px solid rgba(205,127,50,.25);color:#CD7F32'},
+        {label:'Fast Growing',style:'background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Very Small'},
+        {label:'Alliance',val:'Open'},
+        {label:'Age',val:'< 1 week'},
+      ]
+    },
+    {
+      id: 'okpemon',
+      name: 'Okpemon',
+      icon: '💧',
+      iconBg: 'rgba(0,191,255,.08)',
+      iconBorder: 'rgba(0,191,255,.2)',
+      accentColor: '#00BFFF',
+      est: 'Est. 9.4.26',
+      founded: '9 Apr 2026',
+      leader: 'bubbler2009',
+      population: '0',
+      capital: 'N/A',
+      currency: 'Bubbles',
+      currencyColor: '#00BFFF',
+      government: 'Communism',
+      govStyle: 'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',
+      description: 'Okpemon is the newest arrival, founded just a day after Springbuck. Led by bubbler2009, this fledgling communist nation currently has 0 citizens after a devastating war against Crabville, sealed their fate.',
+      tags: [
+        {label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},
+        {label:'Newest Nation',style:'background:rgba(0,191,255,.1);border:1px solid rgba(0,191,255,.25);color:#00BFFF'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Very Small'},
+        {label:'Alliance',val:'None'},
+        {label:'Age',val:'< 1 week'},
+      ]
+    },
+    {
+      id: 'wancerville',
+      name: 'Wancerville',
+      icon: '👑',
+      iconBg: 'rgba(245,200,66,.08)',
+      iconBorder: 'rgba(245,200,66,.2)',
+      accentColor: '#F5C842',
+      est: 'Est. 10.4.26',
+      founded: '10 Apr 2026',
+      leader: 'Wancerr',
+      population: '0',
+      capital: 'N/A',
+      currency: 'Gold',
+      currencyColor: '#F5C842',
+      government: 'Dictatorship',
+      govStyle: 'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171',
+      description: 'Wancerville is a fresh Dictatorship founded by Wancerr. The only nation on the server operating under authoritarian rule — Wancerr\'s word is law. Currently with no registered population, this gold-backed nation is recruiting. Those who join will thrive under strong, decisive leadership.',
+      tags: [
+        {label:'Dictatorship',style:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171'},
+        {label:'Recruiting',style:'background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);color:#F5C842'},
+        {label:'New Nation',style:'background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.2);color:#F5C842'},
+      ],
+      facts: [
+        {label:'Status',val:'Active'},
+        {label:'Territory',val:'Small'},
+        {label:'Alliance',val:'None'},
+        {label:'Age',val:'< 1 week'},
+      ]
+    },
+  ];
+
+  // ─── RENDER NATIONS GRID ─────────────────────────────────────────────────────
+  function renderNationsGrid() {
+    const grid = document.getElementById('nations-grid');
+    if (!grid) return;
+    grid.innerHTML = NATIONS.map((n, i) => `
+      <div class="nation-card" onclick="openNation('${n.id}')" style="animation:fadeUp .38s ${i * 0.06}s ease both">
+        <div class="nation-top">
+          <div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div>
+          <div>
+            <div class="nation-name">${n.name}</div>
+            <div class="nation-est">${n.est}</div>
+          </div>
+        </div>
+        <div class="nation-divider"></div>
+        <div class="nation-row">
+          <span class="nation-lbl">Leader</span>
+          <span class="nation-val">${n.leader}</span>
+        </div>
+        <div class="nation-row">
+          <span class="nation-lbl">Population</span>
+          <span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span>
+        </div>
+        <div class="nation-row">
+          <span class="nation-lbl">Capital</span>
+          <span class="nation-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</span>
+        </div>
+        <div class="nation-row">
+          <span class="nation-lbl">Currency</span>
+          <span class="nation-val" style="color:${n.currencyColor}">${n.currency}</span>
+        </div>
+        <div class="nation-row" style="margin-top:4px">
+          <span class="nation-lbl">Government</span>
+          <span class="nation-gov" style="${n.govStyle}">${n.government}</span>
+        </div>
+        <span class="nation-click-hint">TAP TO VIEW ↗</span>
+      </div>
+    `).join('');
+  }
+
+  // ─── NATION MODAL ─────────────────────────────────────────────────────────────
+  function openNation(id) {
+    const n = NATIONS.find(x => x.id === id);
+    if (!n) return;
+
+    const tagsHtml = n.tags.map(t => `<span class="nm-tag" style="${t.style}">${t.label}</span>`).join('');
+    const factsHtml = n.facts.map(f => `
+      <div class="nm-fact-row">
+        <span class="nm-fact-lbl">${f.label}</span>
+        <span class="nm-fact-val">${f.val}</span>
+      </div>
+    `).join('');
+
+    document.getElementById('nmc').innerHTML = `
+      <div class="nm-banner" style="background:linear-gradient(135deg,${n.accentColor}18 0%,${n.accentColor}06 60%,transparent 100%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="nm-body">
+        <div class="nm-header">
+          <div class="nm-ico-wrap" style="background:${n.iconBg};border-color:${n.iconBorder};">${n.icon}</div>
+          <div class="nm-title-wrap">
+            <div class="nm-name">${n.name}</div>
+            <div class="nm-est">${n.est}</div>
+          </div>
+        </div>
+        <p class="nm-desc">${n.description}</p>
+        <div class="nm-stats">
+          <div class="nm-stat">
+            <div class="nm-stat-lbl">Leader</div>
+            <div class="nm-stat-val">${n.leader}</div>
+          </div>
+          <div class="nm-stat">
+            <div class="nm-stat-lbl">Population</div>
+            <div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</div>
+          </div>
+          <div class="nm-stat">
+            <div class="nm-stat-lbl">Currency</div>
+            <div class="nm-stat-val" style="color:${n.currencyColor}">${n.currency}</div>
+          </div>
+          <div class="nm-stat">
+            <div class="nm-stat-lbl">Capital</div>
+            <div class="nm-stat-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</div>
+          </div>
+        </div>
+        <div class="nm-tag-row">${tagsHtml}</div>
+        <div class="nm-sec-h">Nation Details</div>
+        <div style="margin-bottom:0">${factsHtml}</div>
+        <div class="nm-sec-h" style="margin-top:20px">Government</div>
+        <div class="nm-fact-row">
+          <span class="nm-fact-lbl">System</span>
+          <span class="nm-gov" style="font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;${n.govStyle}">${n.government}</span>
+        </div>
+        <div class="nm-fact-row">
+          <span class="nm-fact-lbl">Founded</span>
+          <span class="nm-fact-val">${n.founded}</span>
+        </div>
+      </div>
+    `;
+
+    const m = document.getElementById('nm');
+    m.classList.remove('closing');
+    m.style.display = 'flex';
+    m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNation() {
+    const m = document.getElementById('nm');
+    m.classList.add('closing');
+    setTimeout(() => {
+      m.classList.remove('open', 'closing');
+      m.style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }, 280);
+  }
+
+  // ─── NAVIGATION ──────────────────────────────────────────────────────────────
+  let mono = false;
+  const tth = document.getElementById('tth');
 
   document.getElementById('navLogo').addEventListener('click', function(e) {
     e.stopPropagation();
     window.location.reload();
   });
 
-  function goHome(){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  function setNavActive(home, ranked) {
+    document.getElementById('nlHome').classList.toggle('active', home);
+    document.getElementById('nlRanked').classList.toggle('active', ranked);
+  }
+
+  function goHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('homePage').classList.add('active');
-    document.getElementById('nlHome').classList.add('active');
-    document.getElementById('nlRanked').classList.remove('active');
-    document.getElementById('navSub').textContent='Minigames Server';
-    document.getElementById('tierBtn').style.display='none';
+    setNavActive(true, false);
+    document.getElementById('navSub').textContent = 'Minigames Server';
+    document.getElementById('tierBtn').style.display = 'none';
     document.body.classList.remove('on-ranked');
-    window.scrollTo({top:0,behavior:'smooth'});
-    setTimeout(setupReveal,50);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    setTimeout(setupReveal, 50);
   }
 
-  function goRanked(){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  function goRanked() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('rankedPage').classList.add('active');
-    document.getElementById('nlHome').classList.remove('active');
-    document.getElementById('nlRanked').classList.add('active');
-    document.getElementById('navSub').textContent='Ranked Battle Arena';
-    document.getElementById('tierBtn').style.display='';
+    setNavActive(false, true);
+    document.getElementById('navSub').textContent = 'Ranked Battle Arena';
+    document.getElementById('tierBtn').style.display = '';
     document.body.classList.add('on-ranked');
-    window.scrollTo({top:0,behavior:'instant'});
+    window.scrollTo({top: 0, behavior: 'instant'});
     showRankedMain();
-    const am=document.querySelector('.lbm.active');
-    if(am&&!am.children.length) createPlayers(am.id);
+    const am = document.querySelector('.lbm.active');
+    if (am && !am.children.length) createPlayers(am.id);
   }
 
-  function goRankedMode(mode){
+  function goRankedMode(mode) {
     goRanked();
-    setTimeout(()=>{
-      const mMap={overall:0,sword:1,axe:2,uhc:3,mace:4,spear:5};
-      const tabs=document.querySelectorAll('.rtabs .tab');
-      if(tabs[mMap[mode]]) tabs[mMap[mode]].click();
-    },80);
+    setTimeout(() => {
+      const mMap = {overall: 0, sword: 1, axe: 2, uhc: 3, mace: 4, spear: 5};
+      const tabs = document.querySelectorAll('.rtabs .tab');
+      if (tabs[mMap[mode]]) tabs[mMap[mode]].click();
+    }, 80);
   }
 
-
-  function goIsland(){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  function goIsland() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('islandPage').classList.add('active');
-    document.getElementById('nlHome').classList.remove('active');
-    document.getElementById('nlRanked').classList.remove('active');
-    document.getElementById('navSub').textContent='Island Evolution';
-    document.getElementById('tierBtn').style.display='none';
+    setNavActive(false, false);
+    document.getElementById('navSub').textContent = 'Island Evolution';
+    document.getElementById('tierBtn').style.display = 'none';
     document.body.classList.remove('on-ranked');
-    window.scrollTo({top:0,behavior:'instant'});
+    window.scrollTo({top: 0, behavior: 'instant'});
   }
 
-  function goPartyGames(){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  function goPartyGames() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('partyGamesPage').classList.add('active');
-    document.getElementById('nlHome').classList.remove('active');
-    document.getElementById('nlRanked').classList.remove('active');
-    document.getElementById('navSub').textContent='Party Games';
-    document.getElementById('tierBtn').style.display='none';
+    setNavActive(false, false);
+    document.getElementById('navSub').textContent = 'Party Games';
+    document.getElementById('tierBtn').style.display = 'none';
     document.body.classList.remove('on-ranked');
-    window.scrollTo({top:0,behavior:'instant'});
+    window.scrollTo({top: 0, behavior: 'instant'});
   }
 
-  function goCurrentNations(){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  function goCurrentNations() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('currentNationsPage').classList.add('active');
-    document.getElementById('nlHome').classList.remove('active');
-    document.getElementById('nlRanked').classList.remove('active');
-    document.getElementById('navSub').textContent='Current Nations';
-    document.getElementById('tierBtn').style.display='none';
+    setNavActive(false, false);
+    document.getElementById('navSub').textContent = 'Current Nations';
+    document.getElementById('tierBtn').style.display = 'none';
     document.body.classList.remove('on-ranked');
-    window.scrollTo({top:0,behavior:'instant'});
+    window.scrollTo({top: 0, behavior: 'instant'});
+    renderNationsGrid();
   }
 
-  function goParkour(){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  function goParkour() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('parkourPage').classList.add('active');
-    document.getElementById('nlHome').classList.remove('active');
-    document.getElementById('nlRanked').classList.remove('active');
-    document.getElementById('navSub').textContent='Parkour';
-    document.getElementById('tierBtn').style.display='none';
+    setNavActive(false, false);
+    document.getElementById('navSub').textContent = 'Parkour';
+    document.getElementById('tierBtn').style.display = 'none';
     document.body.classList.remove('on-ranked');
-    window.scrollTo({top:0,behavior:'instant'});
-  }
-  function showRankedMain(){
-    document.querySelector('.rtabs').style.display='';
-    document.querySelector('.lbc').style.display='';
-    document.querySelector('.srow').style.display='';
-    const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show');
-    const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show');
-    const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show');
+    window.scrollTo({top: 0, behavior: 'instant'});
   }
 
-  function toggleTheme(){
-    mono=!mono;
-    document.body.classList.toggle('mono',mono);
-    tth.style.transform=mono?'translateX(20px)':'';
-    tth.style.background=mono?'#fff':'';
-    if(showRet){const b=document.getElementById('rt');b.style.color=mono?'#fff':'var(--pink)';b.style.borderColor=mono?'rgba(255,255,255,.3)':'var(--pink-line)';}
+  function showRankedMain() {
+    document.querySelector('.rtabs').style.display = '';
+    document.querySelector('.lbc').style.display = '';
+    document.querySelector('.srow').style.display = '';
+    const pp = document.getElementById('pp'); pp.style.display = 'none'; pp.classList.remove('show');
+    const cop = document.getElementById('cop'); cop.style.display = 'none'; cop.classList.remove('show');
+    const hof = document.getElementById('hofp'); hof.style.display = 'none'; hof.classList.remove('show');
   }
 
-  function setupReveal(){
-    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el));
+  function toggleTheme() {
+    mono = !mono;
+    document.body.classList.toggle('mono', mono);
+    tth.style.transform = mono ? 'translateX(20px)' : '';
+    tth.style.background = mono ? '#fff' : '';
+    if (showRet) {
+      const b = document.getElementById('rt');
+      b.style.color = mono ? '#fff' : 'var(--pink)';
+      b.style.borderColor = mono ? 'rgba(255,255,255,.3)' : 'var(--pink-line)';
+    }
   }
-  document.addEventListener('DOMContentLoaded',setupReveal);
 
-  let showRet=false;
-  const retired=['Jai_B37','Aftlow','TerrorBoy123619'];
+  function setupReveal() {
+    const obs = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, {threshold: .08, rootMargin: '0px 0px -40px 0px'});
+    document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el => obs.observe(el));
+  }
+  document.addEventListener('DOMContentLoaded', setupReveal);
+
+  let showRet = false;
+  const retired = ['Jai_B37', 'Aftlow', 'TerrorBoy123619'];
 
   // ─── PLAYER STATS ────────────────────────────────────────────────────────────
-  const PS={
-    sword:{
-      RealO75:{wins:30,kills:92,deaths:26},
-      Jai_B37:{wins:1,kills:3,deaths:1},
-      skull_shredder30:{wins:1,kills:3,deaths:1},
-      Killedbycrab:{wins:3,kills:11,deaths:12},
-      Knoxy5316:{wins:3,kills:14,deaths:36},
-      ItsEggybruh:{wins:1,kills:4,deaths:3},
-      Aftlow:{wins:4,kills:16,deaths:17},
-      Ushindo:{wins:4,kills:15,deaths:13},
-      LiamTheLemur:{wins:0,kills:0,deaths:3},
-      SadInFusIOns:{wins:1,kills:4,deaths:8},
-      Cocotime15:{wins:1,kills:5,deaths:12},
-      gfunkdfunk82:{wins:0,kills:0,deaths:3},
-      "WARDY B33":{wins:5,kills:15,deaths:14},
-      Neska5036:{wins:2,kills:4,deaths:4},
-      bubbler2009:{wins:2,kills:7,deaths:18},
-      TerrorBoy123619:{wins:0,kills:0,deaths:3},
-      w85544534:{wins:5,kills:13,deaths:1},
-      Terroralex10:{wins:0,kills:0,deaths:3},
-      Mason20539:{wins:6,kills:19,deaths:4},
-      Theopitt:{wins:1,kills:3,deaths:12},
-      Cobio29:{wins:0,kills:0,deaths:6},
-      MagicBooch5510:{wins:0,kills:0,deaths:6},
-      mack29702:{wins:2,kills:4,deaths:8},
-      "Nxthxn Tier":{wins:0,kills:0,deaths:1},
-      Aobyte:{wins:1,kills:3,deaths:1},
-      LukeGamer2109:{wins:0,kills:0,deaths:3},
-      Steelcorbyo9008:{wins:0,kills:0,deaths:1},
-      Wancerr:{wins:1,kills:4,deaths:8},
-      Redpanda2013:{wins:0,kills:0,deaths:3},
+  const PS = {
+    sword: {
+      RealO75:{wins:30,kills:92,deaths:26},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},
+      Killedbycrab:{wins:3,kills:11,deaths:12},Knoxy5316:{wins:3,kills:14,deaths:36},ItsEggybruh:{wins:1,kills:4,deaths:3},
+      Aftlow:{wins:4,kills:16,deaths:17},Ushindo:{wins:4,kills:15,deaths:13},LiamTheLemur:{wins:0,kills:0,deaths:3},
+      SadInFusIOns:{wins:1,kills:4,deaths:8},Cocotime15:{wins:1,kills:5,deaths:12},gfunkdfunk82:{wins:0,kills:0,deaths:3},
+      "WARDY B33":{wins:5,kills:15,deaths:14},Neska5036:{wins:2,kills:4,deaths:4},bubbler2009:{wins:2,kills:7,deaths:18},
+      TerrorBoy123619:{wins:0,kills:0,deaths:3},w85544534:{wins:5,kills:13,deaths:1},Terroralex10:{wins:0,kills:0,deaths:3},
+      Mason20539:{wins:6,kills:19,deaths:4},Theopitt:{wins:1,kills:3,deaths:12},Cobio29:{wins:0,kills:0,deaths:6},
+      MagicBooch5510:{wins:0,kills:0,deaths:6},mack29702:{wins:2,kills:4,deaths:8},"Nxthxn Tier":{wins:0,kills:0,deaths:1},
+      Aobyte:{wins:1,kills:3,deaths:1},LukeGamer2109:{wins:0,kills:0,deaths:3},Steelcorbyo9008:{wins:0,kills:0,deaths:1},
+      Wancerr:{wins:1,kills:4,deaths:8},Redpanda2013:{wins:0,kills:0,deaths:3},Wvqtz:{wins:0,kills:0,deaths:3},
+    },
+    axe: {
+      RealO75:{wins:11,kills:30,deaths:25},Killedbycrab:{wins:8,kills:20,deaths:17},Jai_B37:{wins:1,kills:5,deaths:3},
+      skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:2,kills:7,deaths:10},
+      Ushindo:{wins:0,kills:1,deaths:3},Aftlow:{wins:6,kills:18,deaths:2},bubbler2009:{wins:2,kills:7,deaths:19},
+      "God flow 3":{wins:0,kills:2,deaths:2},"WARDY B33":{wins:4,kills:9,deaths:14},Cocotime15:{wins:0,kills:1,deaths:1},
+      w85544534:{wins:5,kills:17,deaths:3},Terroralex10:{wins:0,kills:1,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},
+      Mason20539:{wins:6,kills:20,deaths:10},ItsEggybruh:{wins:0,kills:1,deaths:3},Neska5036:{wins:3,kills:14,deaths:10},
+      Redpanda2013:{wins:0,kills:2,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:0,deaths:6},
+      MagicBooch5510:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:3,deaths:18},Aobyte:{wins:1,kills:3,deaths:2},
+      LukeGamer2109:{wins:1,kills:3,deaths:2},Wancerr:{wins:3,kills:15,deaths:11},Penguiin1156:{wins:0,kills:1,deaths:3},
       Wvqtz:{wins:0,kills:0,deaths:3},
     },
-    axe:{
-      RealO75:{wins:11,kills:30,deaths:25},
-      Killedbycrab:{wins:8,kills:20,deaths:17},
-      Jai_B37:{wins:1,kills:5,deaths:3},
-      skull_shredder30:{wins:0,kills:1,deaths:3},
-      "Yearly-scuff81":{wins:0,kills:0,deaths:3},
-      Knoxy5316:{wins:2,kills:7,deaths:10},
-      Ushindo:{wins:0,kills:1,deaths:3},
-      Aftlow:{wins:6,kills:18,deaths:2},
-      bubbler2009:{wins:2,kills:7,deaths:19},
-      "God flow 3":{wins:0,kills:2,deaths:2},
-      "WARDY B33":{wins:4,kills:9,deaths:14},
-      Cocotime15:{wins:0,kills:1,deaths:1},
-      w85544534:{wins:5,kills:17,deaths:3},
-      Terroralex10:{wins:0,kills:1,deaths:3},
-      SadInFusIOns:{wins:0,kills:0,deaths:3},
-      Mason20539:{wins:6,kills:20,deaths:10},
-      ItsEggybruh:{wins:0,kills:1,deaths:3},
-      Neska5036:{wins:3,kills:14,deaths:10},
-      Redpanda2013:{wins:0,kills:2,deaths:0},
-      Theopitt:{wins:0,kills:0,deaths:3},
-      Cobio29:{wins:0,kills:0,deaths:6},
-      MagicBooch5510:{wins:0,kills:0,deaths:3},
-      mack29702:{wins:1,kills:3,deaths:18},
-      Aobyte:{wins:1,kills:3,deaths:2},
-      LukeGamer2109:{wins:1,kills:3,deaths:2},
-      Wancerr:{wins:3,kills:15,deaths:11},
-      Penguiin1156:{wins:0,kills:1,deaths:3},
-      Wvqtz:{wins:0,kills:0,deaths:3},
+    uhc: {
+      Killedbycrab:{wins:6,kills:17,deaths:14},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Aftlow:{wins:7,kills:21,deaths:4},
+      RealO75:{wins:4,kills:11,deaths:6},Knoxy5316:{wins:1,kills:7,deaths:12},Jai_B37:{wins:0,kills:1,deaths:3},
+      bubbler2009:{wins:2,kills:8,deaths:11},"WARDY B33":{wins:1,kills:5,deaths:6},Oneshot1353:{wins:1,kills:3,deaths:0},
+      Cocotime15:{wins:1,kills:4,deaths:6},w85544534:{wins:3,kills:9,deaths:1},Terroralex10:{wins:1,kills:3,deaths:2},
+      SadInFusIOns:{wins:0,kills:0,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},"God flow 3":{wins:0,kills:0,deaths:0},
+      Mason20539:{wins:3,kills:6,deaths:2},Neska5036:{wins:1,kills:3,deaths:2},Redpanda2013:{wins:0,kills:2,deaths:2},
+      Theopitt:{wins:1,kills:3,deaths:5},Cobio29:{wins:0,kills:2,deaths:8},mack29702:{wins:1,kills:3,deaths:11},
+      Aobyte:{wins:1,kills:3,deaths:1},Wancerr:{wins:4,kills:12,deaths:0},Penguiin1156:{wins:0,kills:1,deaths:3},
+      Puro9641:{wins:0,kills:0,deaths:0},Wvqtz:{wins:0,kills:0,deaths:1},
     },
-    uhc:{
-      Killedbycrab:{wins:6,kills:17,deaths:14},
-      "Yearly-scuff81":{wins:0,kills:0,deaths:3},
-      Aftlow:{wins:7,kills:21,deaths:4},
-      RealO75:{wins:4,kills:11,deaths:6},
-      Knoxy5316:{wins:1,kills:7,deaths:12},
-      Jai_B37:{wins:0,kills:1,deaths:3},
-      bubbler2009:{wins:2,kills:8,deaths:11},
-      "WARDY B33":{wins:1,kills:5,deaths:6},
-      Oneshot1353:{wins:1,kills:3,deaths:0},
-      Cocotime15:{wins:1,kills:4,deaths:6},
-      w85544534:{wins:3,kills:9,deaths:1},
-      Terroralex10:{wins:1,kills:3,deaths:2},
-      SadInFusIOns:{wins:0,kills:0,deaths:3},
-      Ushindo:{wins:0,kills:0,deaths:3},
-      "God flow 3":{wins:0,kills:0,deaths:0},
-      Mason20539:{wins:3,kills:6,deaths:2},
-      Neska5036:{wins:1,kills:3,deaths:2},
-      Redpanda2013:{wins:0,kills:2,deaths:2},
-      Theopitt:{wins:1,kills:3,deaths:5},
-      Cobio29:{wins:0,kills:2,deaths:8},
-      mack29702:{wins:1,kills:3,deaths:11},
-      Aobyte:{wins:1,kills:3,deaths:1},
-      Wancerr:{wins:4,kills:12,deaths:0},
-      Penguiin1156:{wins:0,kills:1,deaths:3},
-      Puro9641:{wins:0,kills:0,deaths:0},
-      Wvqtz:{wins:0,kills:0,deaths:1},
-    },
-    mace:{
-      Killedbycrab:{wins:24,kills:74,deaths:25},
-      "Yearly-scuff81":{wins:0,kills:3,deaths:15},
-      Aftlow:{wins:4,kills:12,deaths:7},
-      Knoxy5316:{wins:5,kills:23,deaths:38},
-      ItsEggybruh:{wins:1,kills:3,deaths:0},
-      LiamTheLemur:{wins:0,kills:0,deaths:1},
-      RealO75:{wins:8,kills:24,deaths:15},
-      Cocotime15:{wins:1,kills:4,deaths:3},
-      Jai_B37:{wins:1,kills:3,deaths:2},
-      Neska5036:{wins:0,kills:2,deaths:9},
-      "God flow 3":{wins:0,kills:2,deaths:2},
-      bubbler2009:{wins:0,kills:2,deaths:6},
-      TerrorBoy123619:{wins:0,kills:1,deaths:3},
-      "WARDY B33":{wins:5,kills:20,deaths:14},
-      w85544534:{wins:2,kills:8,deaths:13},
-      Terroralex10:{wins:1,kills:3,deaths:1},
-      SadInFusIOns:{wins:0,kills:2,deaths:3},
-      Ushindo:{wins:0,kills:0,deaths:3},
-      Mason20539:{wins:5,kills:15,deaths:11},
-      Techno5132:{wins:0,kills:2,deaths:3},
-      Redpanda2013:{wins:2,kills:6,deaths:0},
-      Theopitt:{wins:0,kills:0,deaths:3},
-      Cobio29:{wins:0,kills:2,deaths:17},
-      MagicBooch5510:{wins:0,kills:0,deaths:3},
-      mack29702:{wins:1,kills:12,deaths:23},
-      Aobyte:{wins:1,kills:3,deaths:1},
-      Wancerr:{wins:4,kills:12,deaths:3},
+    mace: {
+      Killedbycrab:{wins:24,kills:74,deaths:25},"Yearly-scuff81":{wins:0,kills:3,deaths:15},Aftlow:{wins:4,kills:12,deaths:7},
+      Knoxy5316:{wins:5,kills:23,deaths:38},ItsEggybruh:{wins:1,kills:3,deaths:0},LiamTheLemur:{wins:0,kills:0,deaths:1},
+      RealO75:{wins:8,kills:24,deaths:15},Cocotime15:{wins:1,kills:4,deaths:3},Jai_B37:{wins:1,kills:3,deaths:2},
+      Neska5036:{wins:0,kills:2,deaths:9},"God flow 3":{wins:0,kills:2,deaths:2},bubbler2009:{wins:0,kills:2,deaths:6},
+      TerrorBoy123619:{wins:0,kills:1,deaths:3},"WARDY B33":{wins:5,kills:20,deaths:14},w85544534:{wins:2,kills:8,deaths:13},
+      Terroralex10:{wins:1,kills:3,deaths:1},SadInFusIOns:{wins:0,kills:2,deaths:3},Ushindo:{wins:0,kills:0,deaths:3},
+      Mason20539:{wins:5,kills:15,deaths:11},Techno5132:{wins:0,kills:2,deaths:3},Redpanda2013:{wins:2,kills:6,deaths:0},
+      Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:2,deaths:17},MagicBooch5510:{wins:0,kills:0,deaths:3},
+      mack29702:{wins:1,kills:12,deaths:23},Aobyte:{wins:1,kills:3,deaths:1},Wancerr:{wins:4,kills:12,deaths:3},
       Penguiin1156:{wins:1,kills:3,deaths:6}
     },
-    spear:{
-      Killedbycrab:{wins:4,kills:12,deaths:5},
-      Aftlow:{wins:6,kills:18,deaths:6},
-      "Yearly-scuff81":{wins:0,kills:1,deaths:6},
-      Cocotime15:{wins:0,kills:0,deaths:3},
-      RealO75:{wins:1,kills:7,deaths:9},
-      gfunkdfunk82:{wins:0,kills:2,deaths:3},
-      Ushindo:{wins:0,kills:0,deaths:3},
-      Knoxy5316:{wins:3,kills:7,deaths:2},
-      Jai_B37:{wins:0,kills:0,deaths:3},
-      bubbler2009:{wins:2,kills:6,deaths:3},
-      "WARDY B33":{wins:0,kills:0,deaths:3},
-      w85544534:{wins:3,kills:9,deaths:0},
-      Terroralex10:{wins:0,kills:0,deaths:3},
-      SadInFusIOns:{wins:0,kills:0,deaths:3},
-      Mason20539:{wins:2,kills:9,deaths:5},
-      Neska5036:{wins:2,kills:6,deaths:2},
-      Redpanda2013:{wins:2,kills:6,deaths:1},
-      Theopitt:{wins:0,kills:0,deaths:3},
-      Cobio29:{wins:0,kills:0,deaths:6},
-      mack29702:{wins:1,kills:3,deaths:7},
-      TerrorBoy123619:{wins:0,kills:0,deaths:1},
-      Aobyte:{wins:0,kills:1,deaths:3},
-      Wancerr:{wins:2,kills:6,deaths:4},
-      Penguiin1156:{wins:0,kills:1,deaths:3}
+    spear: {
+      Killedbycrab:{wins:4,kills:12,deaths:5},Aftlow:{wins:6,kills:18,deaths:6},"Yearly-scuff81":{wins:0,kills:1,deaths:6},
+      Cocotime15:{wins:0,kills:0,deaths:3},RealO75:{wins:1,kills:7,deaths:9},gfunkdfunk82:{wins:0,kills:2,deaths:3},
+      Ushindo:{wins:0,kills:0,deaths:3},Knoxy5316:{wins:3,kills:7,deaths:2},Jai_B37:{wins:0,kills:0,deaths:3},
+      bubbler2009:{wins:2,kills:6,deaths:3},"WARDY B33":{wins:0,kills:0,deaths:3},w85544534:{wins:3,kills:9,deaths:0},
+      Terroralex10:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:2,kills:9,deaths:5},
+      Neska5036:{wins:2,kills:6,deaths:2},Redpanda2013:{wins:2,kills:6,deaths:1},Theopitt:{wins:0,kills:0,deaths:3},
+      Cobio29:{wins:0,kills:0,deaths:6},mack29702:{wins:1,kills:3,deaths:7},TerrorBoy123619:{wins:0,kills:0,deaths:1},
+      Aobyte:{wins:0,kills:1,deaths:3},Wancerr:{wins:2,kills:6,deaths:4},Penguiin1156:{wins:0,kills:1,deaths:3}
     },
   };
 
-  // ─── CURRENT TIERS ───────────────────────────────────────────────────────────
-  const CT={
+  const CT = {
     sword:{Killedbycrab:"Gold",RealO75:"Emerald",Aftlow:"Emerald",Knoxy5316:"Iron",Jai_B37:"Iron",bubbler2009:"Gold","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Diamond",Terroralex10:"Iron",SadInFusIOns:"Gold",Ushindo:"Gold",Mason20539:"Diamond",Neska5036:"Iron",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Iron",Aobyte:"Gold",Wancerr:"Gold",Penguiin1156:"Copper",Redpanda2013:"Iron"},
     axe:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Emerald",bubbler2009:"Iron","WARDY B33":"Gold",Cocotime15:"Iron",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Iron",Ushindo:"Iron",Mason20539:"Emerald",Neska5036:"Gold",Theopitt:"Copper",Cobio29:"Copper",mack29702:"Gold",Aobyte:"Gold",Wancerr:"Gold",Penguiin1156:"Copper",Redpanda2013:"Copper"},
     uhc:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Gold",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Iron","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Iron",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Iron",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Copper",Aobyte:"Gold",Wancerr:"Emerald",Penguiin1156:"Copper",Redpanda2013:"Copper"},
@@ -1383,10 +1456,10 @@
     overall:{Killedbycrab:"Gold",RealO75:"Gold",Aftlow:"Emerald",Knoxy5316:"Copper",Jai_B37:"Iron",bubbler2009:"Copper","WARDY B33":"Iron",Cocotime15:"Copper",w85544534:"Emerald",Terroralex10:"Copper",SadInFusIOns:"Copper",Ushindo:"Iron",Mason20539:"Gold",Neska5036:"Gold",Theopitt:"Coal",Cobio29:"Copper",mack29702:"Iron",Aobyte:"Gold",Wancerr:"Gold",Penguiin1156:"Copper",Redpanda2013:"Iron"}
   };
 
-  const TC={Netherite:'#6b6b78',Diamond:'#00BFFF',Emerald:'#50C878',Gold:'#F5C842',Iron:'#8b8b8b',Copper:'#B87333',Coal:'#555',Unranked:'#444'};
-  const TP={Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
+  const TC = {Netherite:'#6b6b78',Diamond:'#00BFFF',Emerald:'#50C878',Gold:'#F5C842',Iron:'#8b8b8b',Copper:'#B87333',Coal:'#555',Unranked:'#444'};
+  const TP = {Netherite:7,Diamond:6,Emerald:5,Gold:4,Iron:3,Copper:2,Coal:1,Unranked:0};
 
-  const PT={
+  const PT = {
     RealO75:{overall:'Gold',sword:'Diamond',axe:'Gold',uhc:'Gold',mace:'Iron',spear:'Iron'},
     Aftlow:{overall:'Emerald',sword:'Emerald',axe:'Emerald',uhc:'Gold',mace:'Gold',spear:'Diamond'},
     Killedbycrab:{overall:'Emerald',sword:'Gold',axe:'Emerald',uhc:'Gold',mace:'Diamond',spear:'Gold'},
@@ -1410,18 +1483,14 @@
     Redpanda2013:{overall:'Iron',sword:'Iron',axe:'Copper',uhc:'Copper',mace:'Gold',spear:'Iron'},
   };
 
-  const PYT={
-    bubbler2009:'https://www.youtube.com/@registeel78',
-    RealO75:'https://www.youtube.com/@Quipalite',
-    Aftlow:'https://www.youtube.com/@Aftlow',
-    Killedbycrab:'https://www.youtube.com/@Killedbycrab',
-    w85544534:'https://www.youtube.com/@PLhixzo',
-    "Yearly-scuff81":'https://www.youtube.com/@yearlyscuff81',
-    Theopitt:'https://www.youtube.com/channel/UCKkLsH8MLaWunKK7P6kH5xw',
-    Cocotime15:'https://www.youtube.com/@TimeLord-n5t/videos',
+  const PYT = {
+    bubbler2009:'https://www.youtube.com/@registeel78',RealO75:'https://www.youtube.com/@Quipalite',
+    Aftlow:'https://www.youtube.com/@Aftlow',Killedbycrab:'https://www.youtube.com/@Killedbycrab',
+    w85544534:'https://www.youtube.com/@PLhixzo',"Yearly-scuff81":'https://www.youtube.com/@yearlyscuff81',
+    Theopitt:'https://www.youtube.com/channel/UCKkLsH8MLaWunKK7P6kH5xw',Cocotime15:'https://www.youtube.com/@TimeLord-n5t/videos',
   };
 
-  const PC={
+  const PC = {
     RealO75:'gb-eng',Aftlow:'gb-eng',bubbler2009:'gb-eng',Jai_B37:'gb-eng',Knoxy5316:'gb-eng',
     Cocotime15:'se',"WARDY B33":'gb-eng',SadInFusIOns:'gb-eng',"God flow 3":'gb-eng',
     gfunkdfunk82:'gb-eng',TerrorBoy123619:'gb-eng',LiamTheLemur:'gb-eng',Killedbycrab:'gb-eng',
@@ -1431,69 +1500,88 @@
     MagicBooch5510:'gb-eng',ItsEggybruh:'dk',mack29702:'gb-eng',Aobyte:'gb-eng',
     LukeGamer2109:'gb-eng',Steelcorbyo9008:'gb-eng',Wancerr:'gb-eng',Wvqtz:'gb-eng',
   };
-  const CN={'gb-eng':'England',se:'Sweden',za:'South Africa',dk:'Denmark',nl:'Netherlands','gb-sct':'Scotland'};
+  const CN = {'gb-eng':'England',se:'Sweden',za:'South Africa',dk:'Denmark',nl:'Netherlands','gb-sct':'Scotland'};
 
-  function flag(c,s=11){return`<img src="https://flagcdn.com/w40/${c}.png" class="flag" alt="${CN[c]||c}" title="${CN[c]||c}" style="height:${s}px">`;}
-  const _avt=Date.now();function av(u,s=48){return`https://tabavatars.net/avatar/?username=${encodeURIComponent(u)}&size=${s}&type=head&t=${_avt}`;}
+  function flag(c, s = 11) { return `<img src="https://flagcdn.com/w40/${c}.png" class="flag" alt="${CN[c]||c}" title="${CN[c]||c}" style="height:${s}px">`; }
+  const _avt = Date.now();
+  function av(u, s = 48) { return `https://tabavatars.net/avatar/?username=${encodeURIComponent(u)}&size=${s}&type=head&t=${_avt}`; }
 
-  function updateOverall(){
-    const o={};
-    for(const m in PS){if(m==='overall')continue;for(const p in PS[m]){if(!o[p])o[p]={wins:0,kills:0,deaths:0};const s=PS[m][p];o[p].wins+=s.wins||0;o[p].kills+=s.kills||0;o[p].deaths+=s.deaths||0;}}
-    PS.overall=o;
+  function updateOverall() {
+    const o = {};
+    for (const m in PS) {
+      if (m === 'overall') continue;
+      for (const p in PS[m]) {
+        if (!o[p]) o[p] = {wins:0,kills:0,deaths:0};
+        const s = PS[m][p];
+        o[p].wins += s.wins||0; o[p].kills += s.kills||0; o[p].deaths += s.deaths||0;
+      }
+    }
+    PS.overall = o;
   }
 
-  function getOrdered(mode){
-    if(mode==='overall')updateOverall();
-    const d=PS[mode]||{};
-    const c=Object.entries(d).map(([n,s])=>{const tier=CT[mode]?.[n]||'Unranked';const kd=s.deaths===0?s.kills:s.kills/s.deaths;return{n,s,tier,score:s.wins*10+s.kills+kd*5};});
-    c.sort((a,b)=>{const td=(TP[b.tier]||0)-(TP[a.tier]||0);if(td)return td;if(b.score!==a.score)return b.score-a.score;if(b.s.wins!==a.s.wins)return b.s.wins-a.s.wins;if(b.s.kills!==a.s.kills)return b.s.kills-a.s.kills;return a.s.deaths-b.s.deaths;});
-    return c.map(x=>x.n);
+  function getOrdered(mode) {
+    if (mode === 'overall') updateOverall();
+    const d = PS[mode] || {};
+    const c = Object.entries(d).map(([n, s]) => {
+      const tier = CT[mode]?.[n] || 'Unranked';
+      const kd = s.deaths === 0 ? s.kills : s.kills / s.deaths;
+      return {n, s, tier, score: s.wins*10 + s.kills + kd*5};
+    });
+    c.sort((a, b) => {
+      const td = (TP[b.tier]||0) - (TP[a.tier]||0);
+      if (td) return td;
+      if (b.score !== a.score) return b.score - a.score;
+      if (b.s.wins !== a.s.wins) return b.s.wins - a.s.wins;
+      if (b.s.kills !== a.s.kills) return b.s.kills - a.s.kills;
+      return a.s.deaths - b.s.deaths;
+    });
+    return c.map(x => x.n);
   }
 
-  function kdc(kd){return(kd===Infinity||kd>=2)?'#4ade80':kd>=1?'#facc15':'#f87171';}
-  function sc(v,all,lo=false){
-    if(all.length<=1)return'var(--text)';
-    const s=[...all].sort((a,b)=>a-b),r=s.lastIndexOf(v),p=r/(s.length-1);
-    if(lo){if(p<=.33)return'#4ade80';if(p<=.66)return'#facc15';return'#f87171';}
-    else{if(p>=.67)return'#4ade80';if(p>=.34)return'#facc15';return'#f87171';}
+  function kdc(kd) { return (kd === Infinity || kd >= 2) ? '#4ade80' : kd >= 1 ? '#facc15' : '#f87171'; }
+  function sc(v, all, lo = false) {
+    if (all.length <= 1) return 'var(--text)';
+    const s = [...all].sort((a, b) => a - b), r = s.lastIndexOf(v), p = r / (s.length - 1);
+    if (lo) { if (p <= .33) return '#4ade80'; if (p <= .66) return '#facc15'; return '#f87171'; }
+    else { if (p >= .67) return '#4ade80'; if (p >= .34) return '#facc15'; return '#f87171'; }
   }
 
-  function createPlayers(mode){
-    if(mode==='overall')updateOverall();
-    const con=document.getElementById(mode);if(!con)return;
-    const pl=getOrdered(mode).filter(n=>showRet||!retired.includes(n));
-    con.innerHTML='';
-    const aW=pl.map(n=>((PS[mode]||{})[n]||{}).wins||0);
-    const aK=pl.map(n=>((PS[mode]||{})[n]||{}).kills||0);
-    const aD=pl.map(n=>((PS[mode]||{})[n]||{}).deaths||0);
-    const cnt=document.createElement('div');cnt.className='pc';cnt.textContent=pl.length+' player'+(pl.length!==1?'s':'');con.appendChild(cnt);
-    pl.forEach((name,i)=>{
-      let rc='',pc2='',crn='';
-      const isR=retired.includes(name);
-      const ar=pl.slice(0,i).filter(n=>!retired.includes(n)).length;
-      if(!isR&&ar===0){rc='g';pc2='top1';crn='<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>';}
-      else if(!isR&&ar===1){rc='s';pc2='top2';}
-      else if(!isR&&ar===2){rc='b';pc2='top3';}
-      else if(isR){rc='ret';}
-      const tier=CT[mode]?.[name]||'Unranked';
-      const stats=(PS[mode]||{})[name]||{wins:0,kills:0,deaths:0};
-      const kd=stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;
-      const kdStr=kd===Infinity?'∞':kd===0?'0.00':kd.toFixed(2);
-      const tc=TC[tier]||'#444';
-      const wc=isR?'var(--text-dim)':sc(stats.wins,aW);
-      const kc2=isR?'var(--text-dim)':sc(stats.kills,aK);
-      const dc=isR?'var(--text-dim)':sc(stats.deaths,aD,true);
-      const card=document.createElement('div');
-      card.className=`player ${pc2}`;card.style.animation=`fadeUp .38s ${i*.04}s ease both`;
-      card.dataset.player=name;
-      if(isR)card.style.opacity='.4';
-      card.onclick=()=>openProfile(name,mode);
-      const bh=tier&&tier!=='Unranked'?`<span class="tbadge" style="color:${tc};border-color:${tc}20;background:${tc}12">${tier}</span>`:'';
-      const fh=PC[name]?flag(PC[name]):'';
-      const rb=isR?`<span class="retbadge">Retired</span>`:'';
-      const fire=(kd===Infinity||kd>=2)?`<span class="fire">🔥</span>`:'';
-      card.innerHTML=`
-        <div class="rcol"><span class="rnum ${rc}">#${i+1}</span></div>
+  function createPlayers(mode) {
+    if (mode === 'overall') updateOverall();
+    const con = document.getElementById(mode); if (!con) return;
+    const pl = getOrdered(mode).filter(n => showRet || !retired.includes(n));
+    con.innerHTML = '';
+    const aW = pl.map(n => ((PS[mode]||{})[n]||{}).wins||0);
+    const aK = pl.map(n => ((PS[mode]||{})[n]||{}).kills||0);
+    const aD = pl.map(n => ((PS[mode]||{})[n]||{}).deaths||0);
+    const cnt = document.createElement('div'); cnt.className = 'pc'; cnt.textContent = pl.length + ' player' + (pl.length !== 1 ? 's' : ''); con.appendChild(cnt);
+    pl.forEach((name, i) => {
+      let rc = '', pc2 = '', crn = '';
+      const isR = retired.includes(name);
+      const ar = pl.slice(0, i).filter(n => !retired.includes(n)).length;
+      if (!isR && ar === 0) { rc = 'g'; pc2 = 'top1'; crn = '<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>'; }
+      else if (!isR && ar === 1) { rc = 's'; pc2 = 'top2'; }
+      else if (!isR && ar === 2) { rc = 'b'; pc2 = 'top3'; }
+      else if (isR) { rc = 'ret'; }
+      const tier = CT[mode]?.[name] || 'Unranked';
+      const stats = (PS[mode]||{})[name] || {wins:0,kills:0,deaths:0};
+      const kd = stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths;
+      const kdStr = kd === Infinity ? '∞' : kd === 0 ? '0.00' : kd.toFixed(2);
+      const tc = TC[tier] || '#444';
+      const wc = isR ? 'var(--text-dim)' : sc(stats.wins, aW);
+      const kc2 = isR ? 'var(--text-dim)' : sc(stats.kills, aK);
+      const dc = isR ? 'var(--text-dim)' : sc(stats.deaths, aD, true);
+      const card = document.createElement('div');
+      card.className = `player ${pc2}`; card.style.animation = `fadeUp .38s ${i * .04}s ease both`;
+      card.dataset.player = name;
+      if (isR) card.style.opacity = '.4';
+      card.onclick = () => openProfile(name, mode);
+      const bh = tier && tier !== 'Unranked' ? `<span class="tbadge" style="color:${tc};border-color:${tc}20;background:${tc}12">${tier}</span>` : '';
+      const fh = PC[name] ? flag(PC[name]) : '';
+      const rb = isR ? `<span class="retbadge">Retired</span>` : '';
+      const fire = (kd === Infinity || kd >= 2) ? `<span class="fire">🔥</span>` : '';
+      card.innerHTML = `
+        <div class="rcol"><span class="rnum ${rc}">#${i + 1}</span></div>
         <div class="acol"><img src="${av(name)}" alt="${name}" class="phead"></div>
         <div class="icol">
           <div class="nrow"><span class="pname">${name}</span>${fh}${fire}${crn}${bh}${rb}</div>
@@ -1506,42 +1594,37 @@
           </div>
         </div>
         <div class="kcol">
-          <span class="kdv${kd===Infinity?' inf':''}" style="color:${kdc(kd)}">${kdStr}</span>
+          <span class="kdv${kd === Infinity ? ' inf' : ''}" style="color:${kdc(kd)}">${kdStr}</span>
           <span class="kdl">K / D</span>
         </div>`;
       con.appendChild(card);
-      attachTT(card,mode,stats,aW,aK,aD);
+      attachTT(card, mode, stats, aW, aK, aD);
     });
-    if(!pl.length){const d=document.createElement('div');d.className='noplayers';d.textContent='No players found';con.appendChild(d);}
+    if (!pl.length) { const d = document.createElement('div'); d.className = 'noplayers'; d.textContent = 'No players found'; con.appendChild(d); }
   }
 
-  function surpriseMe(){
-    const am=document.querySelector('.lbm.active');
-    if(!am)return;
-    const mode=am.id;
-    if(mode==='overall')updateOverall();
-    const players=getOrdered(mode).filter(n=>showRet||!retired.includes(n));
-    if(!players.length)return;
-    const btn=document.getElementById('srp');
-    btn.classList.remove('rolling');
-    void btn.offsetWidth;
-    btn.classList.add('rolling');
-    setTimeout(()=>btn.classList.remove('rolling'),400);
-    const pick=players[Math.floor(Math.random()*players.length)];
-    const card=am.querySelector(`[data-player="${CSS.escape(pick)}"]`);
-    if(card){
+  function surpriseMe() {
+    const am = document.querySelector('.lbm.active'); if (!am) return;
+    const mode = am.id;
+    if (mode === 'overall') updateOverall();
+    const players = getOrdered(mode).filter(n => showRet || !retired.includes(n));
+    if (!players.length) return;
+    const btn = document.getElementById('srp');
+    btn.classList.remove('rolling'); void btn.offsetWidth; btn.classList.add('rolling');
+    setTimeout(() => btn.classList.remove('rolling'), 400);
+    const pick = players[Math.floor(Math.random() * players.length)];
+    const card = am.querySelector(`[data-player="${CSS.escape(pick)}"]`);
+    if (card) {
       card.scrollIntoView({behavior:'smooth',block:'center'});
-      setTimeout(()=>{
+      setTimeout(() => {
         card.classList.add('surprise-flash');
-        setTimeout(()=>card.classList.remove('surprise-flash'),700);
-        setTimeout(()=>openProfile(pick,mode),380);
-      },300);
-    } else {
-      openProfile(pick,mode);
-    }
+        setTimeout(() => card.classList.remove('surprise-flash'), 700);
+        setTimeout(() => openProfile(pick, mode), 380);
+      }, 300);
+    } else { openProfile(pick, mode); }
   }
 
-  const SHORTCUTS=[
+  const SHORTCUTS = [
     {section:'Navigation',items:[
       {keys:['1'],desc:'Overall leaderboard'},{keys:['2'],desc:'Sword leaderboard'},
       {keys:['3'],desc:'Axe leaderboard'},{keys:['4'],desc:'UHC leaderboard'},
@@ -1556,99 +1639,113 @@
     {section:'Surprise',items:[{keys:['R'],desc:"Open a random player's profile"}]},
   ];
 
-  function openShortcuts(){
-    const list=document.getElementById('skl');list.innerHTML='';
-    let delay=0.06;
-    SHORTCUTS.forEach(section=>{
-      const sh=document.createElement('div');sh.className='sk-section';
-      sh.innerHTML=`<div class="sk-section-title">${section.section}</div>`;
-      section.items.forEach(item=>{
-        const row=document.createElement('div');row.className='sk-row';row.style.transitionDelay=delay+'s';delay+=0.04;
-        const keysHtml=item.keys.map(k=>`<span class="sk-kbd">${k}</span>`).join(`<span class="sk-plus">+</span>`);
-        row.innerHTML=`<div class="sk-desc">${item.desc}</div><div class="sk-keys">${keysHtml}</div>`;
+  function openShortcuts() {
+    const list = document.getElementById('skl'); list.innerHTML = '';
+    let delay = 0.06;
+    SHORTCUTS.forEach(section => {
+      const sh = document.createElement('div'); sh.className = 'sk-section';
+      sh.innerHTML = `<div class="sk-section-title">${section.section}</div>`;
+      section.items.forEach(item => {
+        const row = document.createElement('div'); row.className = 'sk-row'; row.style.transitionDelay = delay + 's'; delay += 0.04;
+        const keysHtml = item.keys.map(k => `<span class="sk-kbd">${k}</span>`).join(`<span class="sk-plus">+</span>`);
+        row.innerHTML = `<div class="sk-desc">${item.desc}</div><div class="sk-keys">${keysHtml}</div>`;
         sh.appendChild(row);
       });
       list.appendChild(sh);
     });
-    const m=document.getElementById('sm');
-    m.classList.remove('closing');m.style.display='flex';m.getBoundingClientRect();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('open')));
-    document.body.style.paddingRight=(window.innerWidth-document.documentElement.clientWidth)+'px';
-    document.body.style.overflow='hidden';
+    const m = document.getElementById('sm');
+    m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
   }
 
-  function closeShortcuts(){
-    const m=document.getElementById('sm');m.classList.add('closing');
-    m.querySelectorAll('.sk-row').forEach(r=>r.style.transitionDelay='0s');
-    setTimeout(()=>{m.classList.remove('open','closing');m.style.display='none';document.body.style.overflow='';document.body.style.paddingRight='';},280);
+  function closeShortcuts() {
+    const m = document.getElementById('sm'); m.classList.add('closing');
+    m.querySelectorAll('.sk-row').forEach(r => r.style.transitionDelay = '0s');
+    setTimeout(() => { m.classList.remove('open','closing'); m.style.display = 'none'; document.body.style.overflow = ''; document.body.style.paddingRight = ''; }, 280);
   }
 
-  const MO=['overall','sword','axe','uhc','mace','spear'];
-  const MIS={overall:'🏆',sword:'<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',axe:'<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',uhc:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',mace:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',spear:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">'};
-  const MIT={sword:'<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',axe:'<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',uhc:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',mace:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',spear:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',overall:'🏆 '};
-  function mn(m){return m==='uhc'?'UHC':m==='overall'?'Overall':m[0].toUpperCase()+m.slice(1);}
+  const MO = ['overall','sword','axe','uhc','mace','spear'];
+  const MIS = {
+    overall:'🏆',
+    sword:'<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',
+    axe:'<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',
+    uhc:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',
+    mace:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">',
+    spear:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:10px;height:10px;image-rendering:pixelated;vertical-align:middle">'
+  };
+  const MIT = {
+    sword:'<img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',
+    axe:'<img src="https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',
+    uhc:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',
+    mace:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',
+    spear:'<img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle;margin-right:2px">',
+    overall:'🏆 '
+  };
+  function mn(m) { return m === 'uhc' ? 'UHC' : m === 'overall' ? 'Overall' : m[0].toUpperCase() + m.slice(1); }
 
-  function toggleRetired(){
-    showRet=!showRet;
-    const b=document.getElementById('rt');
-    if(showRet){b.classList.add('ar');b.style.color=mono?'#fff':'var(--pink)';b.style.borderColor=mono?'rgba(255,255,255,.3)':'var(--pink-line)';b.textContent='🏆 Hide Retired';}
-    else{b.classList.remove('ar');b.style.color='';b.style.borderColor='';b.textContent='🏆 Show Retired';}
-    const am=document.querySelector('.lbm.active');if(am)createPlayers(am.id);
+  function toggleRetired() {
+    showRet = !showRet;
+    const b = document.getElementById('rt');
+    if (showRet) { b.classList.add('ar'); b.style.color = mono ? '#fff' : 'var(--pink)'; b.style.borderColor = mono ? 'rgba(255,255,255,.3)' : 'var(--pink-line)'; b.textContent = '🏆 Hide Retired'; }
+    else { b.classList.remove('ar'); b.style.color = ''; b.style.borderColor = ''; b.textContent = '🏆 Show Retired'; }
+    const am = document.querySelector('.lbm.active'); if (am) createPlayers(am.id);
     popCoSel();
   }
 
-  function showMode(mode,btn){
-    if(document.querySelector('.rtabs .tab.active')===btn)return;
-    hideCo();hideHof();
-    document.querySelector('.srow').style.display='';
-    document.getElementById('si').value='';
-    document.querySelectorAll('.lbm').forEach(m=>m.classList.remove('active'));
-    const el=document.getElementById(mode);if(el)el.classList.add('active');
-    document.querySelectorAll('.rtabs .tab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');
-    document.querySelector('.lbc').style.display='block';
+  function showMode(mode, btn) {
+    if (document.querySelector('.rtabs .tab.active') === btn) return;
+    hideCo(); hideHof();
+    document.querySelector('.srow').style.display = '';
+    document.getElementById('si').value = '';
+    document.querySelectorAll('.lbm').forEach(m => m.classList.remove('active'));
+    const el = document.getElementById(mode); if (el) el.classList.add('active');
+    document.querySelectorAll('.rtabs .tab').forEach(t => t.classList.remove('active')); if (btn) btn.classList.add('active');
+    document.querySelector('.lbc').style.display = 'block';
     createPlayers(mode);
   }
 
-  function searchPlayers(){
-    const v=document.getElementById('si').value.trim().toLowerCase();
-    const a=document.querySelector('.lbm.active');if(!a)return;
-    a.querySelectorAll('.noplayers').forEach(n=>n.remove());
-    const ps2=Array.from(a.querySelectorAll('.player'));
-    ps2.forEach(p=>{const nm=p.querySelector('.pname');p.style.display=(nm&&nm.textContent.toLowerCase().includes(v))?'':'none';});
-    if(!ps2.filter(p=>p.style.display!=='none').length){const d=document.createElement('div');d.className='noplayers';d.textContent='No players found';a.appendChild(d);}
+  function searchPlayers() {
+    const v = document.getElementById('si').value.trim().toLowerCase();
+    const a = document.querySelector('.lbm.active'); if (!a) return;
+    a.querySelectorAll('.noplayers').forEach(n => n.remove());
+    const ps2 = Array.from(a.querySelectorAll('.player'));
+    ps2.forEach(p => { const nm = p.querySelector('.pname'); p.style.display = (nm && nm.textContent.toLowerCase().includes(v)) ? '' : 'none'; });
+    if (!ps2.filter(p => p.style.display !== 'none').length) { const d = document.createElement('div'); d.className = 'noplayers'; d.textContent = 'No players found'; a.appendChild(d); }
   }
 
-  function openProfile(name,mode){
-    if(mode==='overall')updateOverall();
-    const stats=(PS[mode]||{})[name];
-    const vis=getOrdered(mode).filter(n=>showRet||!retired.includes(n));
-    const rank=vis.indexOf(name)+1||getOrdered(mode).indexOf(name)+1;
-    const tier=CT[mode]?.[name]||'Unranked';const tc=TC[tier]||'#444';
-    const kd=stats?(stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths):0;
-    const allP=Object.keys(PS[mode]||{});
-    const aW=allP.map(n=>((PS[mode]||{})[n]||{}).wins||0);
-    const aK=allP.map(n=>((PS[mode]||{})[n]||{}).kills||0);
-    const aD=allP.map(n=>((PS[mode]||{})[n]||{}).deaths||0);
-    const wc=stats?sc(stats.wins,aW):'var(--text)';
-    const kc2=stats?sc(stats.kills,aK):'var(--text)';
-    const dc=stats?sc(stats.deaths,aD,true):'var(--text)';
-    const crn=rank===1?'<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>':'';
-    const rb=retired.includes(name)?`<span class="retbadge" style="font-size:10px;padding:3px 8px">🏆 Retired</span>`:'';
-    const fh=PC[name]?flag(PC[name],13):'';
-    const ytBtn=PYT[name]
+  function openProfile(name, mode) {
+    if (mode === 'overall') updateOverall();
+    const stats = (PS[mode]||{})[name];
+    const vis = getOrdered(mode).filter(n => showRet || !retired.includes(n));
+    const rank = vis.indexOf(name) + 1 || getOrdered(mode).indexOf(name) + 1;
+    const tier = CT[mode]?.[name] || 'Unranked'; const tc = TC[tier] || '#444';
+    const kd = stats ? (stats.deaths === 0 ? (stats.kills > 0 ? Infinity : 0) : stats.kills / stats.deaths) : 0;
+    const allP = Object.keys(PS[mode]||{});
+    const aW = allP.map(n => ((PS[mode]||{})[n]||{}).wins||0);
+    const aK = allP.map(n => ((PS[mode]||{})[n]||{}).kills||0);
+    const aD = allP.map(n => ((PS[mode]||{})[n]||{}).deaths||0);
+    const wc = stats ? sc(stats.wins, aW) : 'var(--text)';
+    const kc2 = stats ? sc(stats.kills, aK) : 'var(--text)';
+    const dc = stats ? sc(stats.deaths, aD, true) : 'var(--text)';
+    const crn = rank === 1 ? '<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>' : '';
+    const rb = retired.includes(name) ? `<span class="retbadge" style="font-size:10px;padding:3px 8px">🏆 Retired</span>` : '';
+    const fh = PC[name] ? flag(PC[name], 13) : '';
+    const ytBtn = PYT[name]
       ? `<a href="${PYT[name]}" target="_blank" rel="noopener" class="pyt-link" onclick="event.stopPropagation()">
            <svg width="11" height="8" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
            YouTube ↗
          </a>`
       : '';
-    if(!stats){
-      document.getElementById('pc').innerHTML=`<p style="padding:24px;color:var(--pink);font-family:var(--font-m);font-size:12px">No stats for ${name} in ${mode}.</p>`;
+    if (!stats) {
+      document.getElementById('pc').innerHTML = `<p style="padding:24px;color:var(--pink);font-family:var(--font-m);font-size:12px">No stats for ${name} in ${mode}.</p>`;
     } else {
-      document.getElementById('pc').innerHTML=`
+      document.getElementById('pc').innerHTML = `
         <div class="pbanner"><div class="pbg" style="background:linear-gradient(135deg,${tc}18 0%,transparent 60%),radial-gradient(ellipse 80% 100% at 20% 50%,${tc}12 0%,transparent 70%)"></div></div>
         <div class="pbody">
           <div class="pheader">
-            <img src="${av(name,128)}" class="pavatar" alt="${name}">
+            <img src="${av(name, 128)}" class="pavatar" alt="${name}">
             <div>
               <div class="pnm">${name} ${fh} ${crn} ${rb}</div>
               <div class="pmeta">Rank #${rank} · <span style="color:${tc}">${tier}</span> · ${mn(mode).toUpperCase()}</div>
@@ -1664,55 +1761,65 @@
           <div class="sbg"><div class="sbl"><span>Wins</span><span style="color:${wc}">${stats.wins}</span></div><div class="sbar"><div class="sfill" id="bW" style="background:${tc}"></div></div></div>
           <div class="sbg"><div class="sbl"><span>Kills</span><span style="color:${kc2}">${stats.kills}</span></div><div class="sbar"><div class="sfill" id="bK" style="background:${tc}"></div></div></div>
           <div class="sbg"><div class="sbl"><span>Deaths</span><span style="color:${dc}">${stats.deaths}</span></div><div class="sbar"><div class="sfill" id="bD" style="background:${tc}"></div></div></div>
-          ${buildAch(name,mode)}
+          ${buildAch(name, mode)}
           ${buildPrime(name)}
         </div>`;
-      setTimeout(()=>animBars(stats,kd),30);
+      setTimeout(() => animBars(stats, kd), 30);
     }
-    document.querySelector('.rtabs').style.display='none';
-    document.querySelector('.lbc').style.display='none';
-    document.querySelector('.srow').style.display='none';
-    const el=document.getElementById('pp');el.style.display='block';
-    setTimeout(()=>{el.classList.add('show');el.setAttribute('aria-hidden','false');},10);
+    document.querySelector('.rtabs').style.display = 'none';
+    document.querySelector('.lbc').style.display = 'none';
+    document.querySelector('.srow').style.display = 'none';
+    const el = document.getElementById('pp'); el.style.display = 'block';
+    setTimeout(() => { el.classList.add('show'); el.setAttribute('aria-hidden', 'false'); }, 10);
   }
 
-  function animBars(stats,kd){
-    const max=Math.max(stats.wins||0,stats.kills||0,stats.deaths||0,1);
-    [{id:'bW',k:'wins'},{id:'bK',k:'kills'},{id:'bD',k:'deaths'}].forEach((m,i)=>{
-      const b=document.getElementById(m.id);if(!b)return;
-      b.style.width='0%';void b.offsetWidth;
-      setTimeout(()=>{b.style.width=Math.round(((stats[m.k]||0)/max)*100)+'%';},i*180);
+  function animBars(stats, kd) {
+    const max = Math.max(stats.wins||0, stats.kills||0, stats.deaths||0, 1);
+    [{id:'bW',k:'wins'},{id:'bK',k:'kills'},{id:'bD',k:'deaths'}].forEach((m, i) => {
+      const b = document.getElementById(m.id); if (!b) return;
+      b.style.width = '0%'; void b.offsetWidth;
+      setTimeout(() => { b.style.width = Math.round(((stats[m.k]||0) / max) * 100) + '%'; }, i * 180);
     });
-    const dur=2500,fps=60,steps=Math.round(dur/(1000/fps));
-    function eOut(t){return 1-Math.pow(1-t,3);}
-    [{id:'sW',t:stats.wins,f:true},{id:'sK',t:stats.kills,f:true},{id:'sD',t:stats.deaths,f:true},{id:'sKD',t:kd,f:false}].forEach((s,si)=>{
-      const el=document.getElementById(s.id);if(!el)return;
-      setTimeout(()=>{let step=0;const ti=setInterval(()=>{step++;const p=eOut(Math.min(step/steps,1));if(s.t===Infinity){el.textContent=step>=steps?'∞':Math.round(p*99)+'';}else if(s.f){el.textContent=Math.round(p*s.t);}else{el.textContent=(p*s.t).toFixed(2);}if(step>=steps)clearInterval(ti);},1000/fps);},si*60);
+    const dur = 2500, fps = 60, steps = Math.round(dur / (1000 / fps));
+    function eOut(t) { return 1 - Math.pow(1 - t, 3); }
+    [{id:'sW',t:stats.wins,f:true},{id:'sK',t:stats.kills,f:true},{id:'sD',t:stats.deaths,f:true},{id:'sKD',t:kd,f:false}].forEach((s, si) => {
+      const el = document.getElementById(s.id); if (!el) return;
+      setTimeout(() => {
+        let step = 0;
+        const ti = setInterval(() => {
+          step++;
+          const p = eOut(Math.min(step / steps, 1));
+          if (s.t === Infinity) { el.textContent = step >= steps ? '∞' : Math.round(p * 99) + ''; }
+          else if (s.f) { el.textContent = Math.round(p * s.t); }
+          else { el.textContent = (p * s.t).toFixed(2); }
+          if (step >= steps) clearInterval(ti);
+        }, 1000 / fps);
+      }, si * 60);
     });
   }
 
-  function backFromProfile(){
-    const el=document.getElementById('pp');el.classList.remove('show');el.setAttribute('aria-hidden','true');
-    setTimeout(()=>{el.style.display='none';document.querySelector('.rtabs').style.display='';document.querySelector('.lbc').style.display='';document.querySelector('.srow').style.display='';},260);
+  function backFromProfile() {
+    const el = document.getElementById('pp'); el.classList.remove('show'); el.setAttribute('aria-hidden', 'true');
+    setTimeout(() => { el.style.display = 'none'; document.querySelector('.rtabs').style.display = ''; document.querySelector('.lbc').style.display = ''; document.querySelector('.srow').style.display = ''; }, 260);
   }
 
-  function buildPrime(name){
-    const peak=PT[name];if(!peak)return'';
-    const cells=MO.map(m=>{
-      const ct=CT[m]?.[name]||null,pt=peak[m]||null;
-      const cc=ct?(TC[ct]||'#444'):'var(--text-dim)',pc2=pt?(TC[pt]||'#444'):'var(--text-dim)';
-      const atPeak=ct&&pt&&(TP[ct]||0)>=(TP[pt]||0);
-      return`<div class="prime-cell"><div class="prime-mode" style="display:flex;align-items:center;gap:4px">${MIS[m]} ${mn(m).toUpperCase()}</div>
+  function buildPrime(name) {
+    const peak = PT[name]; if (!peak) return '';
+    const cells = MO.map(m => {
+      const ct = CT[m]?.[name] || null, pt = peak[m] || null;
+      const cc = ct ? (TC[ct]||'#444') : 'var(--text-dim)', pc2 = pt ? (TC[pt]||'#444') : 'var(--text-dim)';
+      const atPeak = ct && pt && (TP[ct]||0) >= (TP[pt]||0);
+      return `<div class="prime-cell"><div class="prime-mode" style="display:flex;align-items:center;gap:4px">${MIS[m]} ${mn(m).toUpperCase()}</div>
         <div class="prime-vrow">
           <div class="prime-vb"><div class="prime-vl" style="color:rgba(238,238,242,.35)">NOW</div><div class="prime-vv" style="color:${cc}">${ct||'—'}</div></div>
-          <div class="prime-arr ${atPeak?'peak':''}">→</div>
+          <div class="prime-arr ${atPeak ? 'peak' : ''}">→</div>
           <div class="prime-vb"><div class="prime-vl" style="color:#4ade80">PEAK</div><div class="prime-vv" style="color:${pc2}">${pt||'—'}</div></div>
         </div></div>`;
     }).join('');
-    return`<div class="prime-sec"><div class="prime-h">Current vs Peak Tier</div><div class="prime-grid">${cells}</div></div>`;
+    return `<div class="prime-sec"><div class="prime-h">Current vs Peak Tier</div><div class="prime-grid">${cells}</div></div>`;
   }
 
-  const ACHS=[
+  const ACHS = [
     {id:'champion',icon:'👑',name:'Champion',desc:'#1 ranked in a mode',check:(n,m,s,r)=>r===1},
     {id:'untouchable',icon:'🛡️',name:'Untouchable',desc:'0 deaths in a mode',check:(n,m,s)=>s.deaths===0&&s.kills>0},
     {id:'infinite',icon:'∞',name:'Infinite',desc:'∞ K/D ratio',check:(n,m,s)=>s.deaths===0&&s.kills>0,mono:true},
@@ -1724,84 +1831,84 @@
     {id:'allrounder',icon:'🌟',name:'All-Rounder',desc:'Top 5 rank in 3+ modes',ov:true,check:(n)=>{let c=0;['sword','axe','uhc','mace','spear'].forEach(m=>{const r=getOrdered(m).indexOf(n)+1;if(r>=1&&r<=5)c++;});return c>=3;}},
   ];
 
-  function compAch(name,mode){
-    if(mode==='overall')updateOverall();
-    const s=(PS[mode]||{})[name];if(!s)return[];
-    const rank=getOrdered(mode).indexOf(name)+1;
-    const all=Object.values(PS[mode]||{});
-    return ACHS.filter(a=>{if(a.ov&&mode!=='overall')return false;try{return a.check(name,mode,s,rank,all);}catch(e){return false;}});
+  function compAch(name, mode) {
+    if (mode === 'overall') updateOverall();
+    const s = (PS[mode]||{})[name]; if (!s) return [];
+    const rank = getOrdered(mode).indexOf(name) + 1;
+    const all = Object.values(PS[mode]||{});
+    return ACHS.filter(a => { if (a.ov && mode !== 'overall') return false; try { return a.check(name, mode, s, rank, all); } catch(e) { return false; } });
   }
 
-  const TTS=new Map();let ttId=0;
-  function bh(a,tt){
-    const id='tt-'+(ttId++);TTS.set(id,tt||a.desc);
-    return`<div class="abadge" data-tid="${id}" style="border-color:${a.id==='champion'?'rgba(245,200,66,.3)':a.id==='legend'?'rgba(0,191,255,.25)':'var(--border)'}"><span class="aico" style="${a.mono?'font-family:var(--font-m);font-size:13px;font-weight:800':''}">${a.icon}</span><span class="aname">${a.name}</span></div>`;
+  const TTS = new Map(); let ttId = 0;
+  function bh(a, tt) {
+    const id = 'tt-' + (ttId++); TTS.set(id, tt || a.desc);
+    return `<div class="abadge" data-tid="${id}" style="border-color:${a.id==='champion'?'rgba(245,200,66,.3)':a.id==='legend'?'rgba(0,191,255,.25)':'var(--border)'}"><span class="aico" style="${a.mono?'font-family:var(--font-m);font-size:13px;font-weight:800':''}">${a.icon}</span><span class="aname">${a.name}</span></div>`;
   }
 
-  function buildAch(name,mode){
-    if(mode==='overall'){
-      const seen=new Map();
-      for(const m of['sword','axe','uhc','mace','spear']){for(const a of compAch(name,m)){if(!seen.has(a.id))seen.set(a.id,{a,ms:[]});seen.get(a.id).ms.push(m);}}
-      for(const a of compAch(name,'overall')){if(!seen.has(a.id))seen.set(a.id,{a,ms:['overall']});}
-      if(!seen.size)return`<div class="ach-sec"><div class="ach-h">All Achievements</div><div class="noach">No achievements yet — keep grinding!</div></div>`;
-      const html=[...seen.values()].map(({a,ms})=>bh(a,`<b>${a.name}</b><span class="tp">${ms.map(m=>MIT[m]+mn(m)).join(', ')}</span>`)).join('');
-      return`<div class="ach-sec"><div class="ach-h">All Achievements</div><div class="ach-grid">${html}</div></div>`;
+  function buildAch(name, mode) {
+    if (mode === 'overall') {
+      const seen = new Map();
+      for (const m of ['sword','axe','uhc','mace','spear']) { for (const a of compAch(name, m)) { if (!seen.has(a.id)) seen.set(a.id, {a, ms:[]}); seen.get(a.id).ms.push(m); } }
+      for (const a of compAch(name, 'overall')) { if (!seen.has(a.id)) seen.set(a.id, {a, ms:['overall']}); }
+      if (!seen.size) return `<div class="ach-sec"><div class="ach-h">All Achievements</div><div class="noach">No achievements yet — keep grinding!</div></div>`;
+      const html = [...seen.values()].map(({a, ms}) => bh(a, `<b>${a.name}</b><span class="tp">${ms.map(m => MIT[m] + mn(m)).join(', ')}</span>`)).join('');
+      return `<div class="ach-sec"><div class="ach-h">All Achievements</div><div class="ach-grid">${html}</div></div>`;
     } else {
-      const badges=compAch(name,mode);
-      if(!badges.length)return`<div class="ach-sec"><div class="ach-h">Achievements</div><div class="noach">No achievements in ${mode} yet.</div></div>`;
-      return`<div class="ach-sec"><div class="ach-h">Achievements</div><div class="ach-grid">${badges.map(a=>bh(a,`<b>${a.name}</b><span class="tp">${a.desc.replace('in a mode','in '+MIT[mode]+mn(mode)).replace('in this mode','in '+MIT[mode]+mn(mode))}</span>`)).join('')}</div></div>`;
+      const badges = compAch(name, mode);
+      if (!badges.length) return `<div class="ach-sec"><div class="ach-h">Achievements</div><div class="noach">No achievements in ${mode} yet.</div></div>`;
+      return `<div class="ach-sec"><div class="ach-h">Achievements</div><div class="ach-grid">${badges.map(a => bh(a, `<b>${a.name}</b><span class="tp">${a.desc.replace('in a mode','in '+MIT[mode]+mn(mode)).replace('in this mode','in '+MIT[mode]+mn(mode))}</span>`)).join('')}</div></div>`;
     }
   }
 
-  let cmode='overall',cp1='',cp2='',cpl=[];
-  function showCompare(btn){
-    document.querySelectorAll('.rtabs .tab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');
-    document.querySelector('.lbc').style.display='none';document.querySelector('.srow').style.display='none';
-    const cop=document.getElementById('cop');cop.style.display='block';
-    setTimeout(()=>{cop.classList.add('show');cop.setAttribute('aria-hidden','false');},10);
+  let cmode = 'overall', cp1 = '', cp2 = '', cpl = [];
+  function showCompare(btn) {
+    document.querySelectorAll('.rtabs .tab').forEach(t => t.classList.remove('active')); if (btn) btn.classList.add('active');
+    document.querySelector('.lbc').style.display = 'none'; document.querySelector('.srow').style.display = 'none';
+    const cop = document.getElementById('cop'); cop.style.display = 'block';
+    setTimeout(() => { cop.classList.add('show'); cop.setAttribute('aria-hidden', 'false'); }, 10);
     popCoSel();
   }
-  function hideCo(){const c=document.getElementById('cop');c.classList.remove('show');c.setAttribute('aria-hidden','true');setTimeout(()=>{c.style.display='none';},260);}
-  function setCMode(mode,btn){cmode=mode;document.querySelectorAll('#cmr button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('cr').innerHTML='';popCoSel();}
-  function popCoSel(){
-    if(cmode==='overall')updateOverall();
-    cpl=Object.keys(PS[cmode]||{}).filter(p=>showRet||!retired.includes(p));cpl.sort();
-    cp1='';cp2='';document.getElementById('cs1').value='';document.getElementById('cs2').value='';
-    buildDD(1,cpl);buildDD(2,cpl);
+  function hideCo() { const c = document.getElementById('cop'); c.classList.remove('show'); c.setAttribute('aria-hidden', 'true'); setTimeout(() => { c.style.display = 'none'; }, 260); }
+  function setCMode(mode, btn) { cmode = mode; document.querySelectorAll('#cmr button').forEach(b => b.classList.remove('active')); if (btn) btn.classList.add('active'); document.getElementById('cr').innerHTML = ''; popCoSel(); }
+  function popCoSel() {
+    if (cmode === 'overall') updateOverall();
+    cpl = Object.keys(PS[cmode]||{}).filter(p => showRet || !retired.includes(p)); cpl.sort();
+    cp1 = ''; cp2 = ''; document.getElementById('cs1').value = ''; document.getElementById('cs2').value = '';
+    buildDD(1, cpl); buildDD(2, cpl);
   }
-  function buildDD(num,players){
-    const dd=document.getElementById('dd'+num),inp=document.getElementById('cs'+num);
-    const search=inp.value.toLowerCase(),filtered=players.filter(p=>p.toLowerCase().includes(search));
-    dd.innerHTML='';
-    if(!filtered.length){dd.innerHTML=`<div class="cde">No players found</div>`;return;}
-    filtered.forEach(p=>{
-      const item=document.createElement('div');item.className='cdi'+((num===1&&p===cp1)||(num===2&&p===cp2)?' sel':'');
-      const fl=PC[p]?`<img src="https://flagcdn.com/w40/${PC[p]}.png" class="rf" alt="">`:'';
-      item.innerHTML=`<img src="${av(p,24)}" alt="${p}">${fl}<span>${p}</span>`;
-      item.addEventListener('mousedown',e=>{e.preventDefault();if(num===1){cp1=p;document.getElementById('cs1').value=p;}else{cp2=p;document.getElementById('cs2').value=p;}dd.classList.remove('open');});
+  function buildDD(num, players) {
+    const dd = document.getElementById('dd' + num), inp = document.getElementById('cs' + num);
+    const search = inp.value.toLowerCase(), filtered = players.filter(p => p.toLowerCase().includes(search));
+    dd.innerHTML = '';
+    if (!filtered.length) { dd.innerHTML = `<div class="cde">No players found</div>`; return; }
+    filtered.forEach(p => {
+      const item = document.createElement('div'); item.className = 'cdi' + ((num===1&&p===cp1)||(num===2&&p===cp2)?' sel':'');
+      const fl = PC[p] ? `<img src="https://flagcdn.com/w40/${PC[p]}.png" class="rf" alt="">` : '';
+      item.innerHTML = `<img src="${av(p, 24)}" alt="${p}">${fl}<span>${p}</span>`;
+      item.addEventListener('mousedown', e => { e.preventDefault(); if (num===1){cp1=p;document.getElementById('cs1').value=p;}else{cp2=p;document.getElementById('cs2').value=p;} dd.classList.remove('open'); });
       dd.appendChild(item);
     });
   }
-  function filterDD(num){buildDD(num,cpl);posDD(num);document.getElementById('dd'+num).classList.add('open');if(num===1)cp1='';else cp2='';}
-  function posDD(num){const inp=document.getElementById('cs'+num),dd=document.getElementById('dd'+num),r=inp.getBoundingClientRect();dd.style.top=(r.bottom+4)+'px';dd.style.left=r.left+'px';dd.style.width=r.width+'px';}
-  function showDD(num){buildDD(num,cpl);posDD(num);document.getElementById('dd'+num).classList.add('open');}
-  function hideDD(num){setTimeout(()=>{document.getElementById('dd'+num).classList.remove('open');const inp=document.getElementById('cs'+num);const sel=num===1?cp1:cp2;if(!sel)inp.value='';},150);}
+  function filterDD(num) { buildDD(num, cpl); posDD(num); document.getElementById('dd' + num).classList.add('open'); if (num===1) cp1=''; else cp2=''; }
+  function posDD(num) { const inp = document.getElementById('cs' + num), dd = document.getElementById('dd' + num), r = inp.getBoundingClientRect(); dd.style.top = (r.bottom+4)+'px'; dd.style.left = r.left+'px'; dd.style.width = r.width+'px'; }
+  function showDD(num) { buildDD(num, cpl); posDD(num); document.getElementById('dd' + num).classList.add('open'); }
+  function hideDD(num) { setTimeout(() => { document.getElementById('dd' + num).classList.remove('open'); const inp = document.getElementById('cs' + num); const sel = num===1?cp1:cp2; if (!sel) inp.value = ''; }, 150); }
 
-  function runCompare(){
-    const btn=document.querySelector('.co-btn');if(btn.disabled)return;btn.disabled=true;setTimeout(()=>{btn.disabled=false;},1000);
-    if(cmode==='overall')updateOverall();
-    const p1=cp1,p2=cp2;
-    if(!p1||!p2||p1===p2){document.getElementById('cr').innerHTML=`<div class="noplayers">Pick two different players!</div>`;return;}
-    const s1=(PS[cmode]||{})[p1]||{wins:0,kills:0,deaths:0},s2=(PS[cmode]||{})[p2]||{wins:0,kills:0,deaths:0};
-    const t1=CT[cmode]?.[p1]||'Unranked',t2=CT[cmode]?.[p2]||'Unranked';
-    const c1=TC[t1]||'#444',c2=TC[t2]||'#444';
-    const kd1=s1.deaths===0?(s1.kills>0?Infinity:0):s1.kills/s1.deaths,kd2=s2.deaths===0?(s2.kills>0?Infinity:0):s2.kills/s2.deaths;
-    const r1=getOrdered(cmode).indexOf(p1)+1,r2=getOrdered(cmode).indexOf(p2)+1;
-    function wc2(a,b,hi=true){if(a===b)return['',''];return(hi?a>b:a<b)?['win','lose']:['lose','win'];}
+  function runCompare() {
+    const btn = document.querySelector('.co-btn'); if (btn.disabled) return; btn.disabled = true; setTimeout(() => { btn.disabled = false; }, 1000);
+    if (cmode === 'overall') updateOverall();
+    const p1 = cp1, p2 = cp2;
+    if (!p1 || !p2 || p1 === p2) { document.getElementById('cr').innerHTML = `<div class="noplayers">Pick two different players!</div>`; return; }
+    const s1 = (PS[cmode]||{})[p1]||{wins:0,kills:0,deaths:0}, s2 = (PS[cmode]||{})[p2]||{wins:0,kills:0,deaths:0};
+    const t1 = CT[cmode]?.[p1]||'Unranked', t2 = CT[cmode]?.[p2]||'Unranked';
+    const c1 = TC[t1]||'#444', c2 = TC[t2]||'#444';
+    const kd1 = s1.deaths===0?(s1.kills>0?Infinity:0):s1.kills/s1.deaths, kd2 = s2.deaths===0?(s2.kills>0?Infinity:0):s2.kills/s2.deaths;
+    const r1 = getOrdered(cmode).indexOf(p1)+1, r2 = getOrdered(cmode).indexOf(p2)+1;
+    function wc2(a, b, hi = true) { if (a===b) return ['','']; return (hi?a>b:a<b)?['win','lose']:['lose','win']; }
     const [w1k,w2k]=wc2(s1.kills,s2.kills),[w1w,w2w]=wc2(s1.wins,s2.wins),[w1d,w2d]=wc2(s1.deaths,s2.deaths,false),[w1kd,w2kd]=wc2(kd1,kd2);
     const mxK=Math.max(s1.kills,s2.kills,1),mxW=Math.max(s1.wins,s2.wins,1),mxD=Math.max(s1.deaths,s2.deaths,1);
     function mkCard(p,s,t,c,kd,r,ww,wk,wd,wkd,idx){
-      return`<div class="co-card" id="cc${idx}">
+      return `<div class="co-card" id="cc${idx}">
         <h3><img src="${av(p,36)}" style="width:36px;height:36px;border-radius:7px"><span style="color:${c};font-family:var(--font-d);font-size:16px;font-weight:800">${p} ${PC[p]?flag(PC[p],11):''}</span><span style="font-family:var(--font-m);font-size:10px;opacity:.35">#${r}</span></h3>
         <div class="co-row"><span class="lbl">Tier</span><span class="val" style="color:${c}">${t}</span></div>
         <div class="co-row"><span class="lbl">Wins</span><span class="val ${ww}" id="cv${idx}w">0</span></div>
@@ -1813,50 +1920,50 @@
         <div class="co-row"><span class="lbl">K/D</span><span class="val ${wkd}" id="cv${idx}kd" style="color:${kdc(kd)}">${kd===Infinity?'∞':kd.toFixed(2)}</span></div>
       </div>`;
     }
-    document.getElementById('cr').innerHTML=`<div class="co-grid">${mkCard(p1,s1,t1,c1,kd1,r1,w1w,w1k,w1d,w1kd,1)}${mkCard(p2,s2,t2,c2,kd2,r2,w2w,w2k,w2d,w2kd,2)}</div>`;
-    setTimeout(()=>{
-      ['cc1','cc2'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('visible'),i*80));
-      setTimeout(()=>{
-        document.getElementById('b1w').style.width=Math.round(s1.wins/mxW*100)+'%';document.getElementById('b2w').style.width=Math.round(s2.wins/mxW*100)+'%';
-        document.getElementById('b1k').style.width=Math.round(s1.kills/mxK*100)+'%';document.getElementById('b2k').style.width=Math.round(s2.kills/mxK*100)+'%';
-        document.getElementById('b1d').style.width=Math.round(s1.deaths/mxD*100)+'%';document.getElementById('b2d').style.width=Math.round(s2.deaths/mxD*100)+'%';
-      },200);
-      const dur=2500,fps=60,steps=Math.round(dur/(1000/fps));
-      function eOut(t){return 1-Math.pow(1-t,3);}
-      [{id:'cv1w',t:s1.wins,kd:false},{id:'cv1k',t:s1.kills,kd:false},{id:'cv1d',t:s1.deaths,kd:false},{id:'cv1kd',t:kd1,kd:true},{id:'cv2w',t:s2.wins,kd:false},{id:'cv2k',t:s2.kills,kd:false},{id:'cv2d',t:s2.deaths,kd:false},{id:'cv2kd',t:kd2,kd:true}].forEach((s,si)=>{
-        const el=document.getElementById(s.id);if(!el)return;
-        setTimeout(()=>{let step=0;const ti=setInterval(()=>{step++;const p=eOut(Math.min(step/steps,1));if(s.t===Infinity){el.textContent=step>=steps?'∞':Math.round(p*99)+'';}else if(s.kd){el.textContent=(p*s.t).toFixed(2);}else{el.textContent=Math.round(p*s.t);}if(step>=steps)clearInterval(ti);},1000/fps);},si*40);
+    document.getElementById('cr').innerHTML = `<div class="co-grid">${mkCard(p1,s1,t1,c1,kd1,r1,w1w,w1k,w1d,w1kd,1)}${mkCard(p2,s2,t2,c2,kd2,r2,w2w,w2k,w2d,w2kd,2)}</div>`;
+    setTimeout(() => {
+      ['cc1','cc2'].forEach((id, i) => setTimeout(() => document.getElementById(id).classList.add('visible'), i * 80));
+      setTimeout(() => {
+        document.getElementById('b1w').style.width = Math.round(s1.wins/mxW*100)+'%'; document.getElementById('b2w').style.width = Math.round(s2.wins/mxW*100)+'%';
+        document.getElementById('b1k').style.width = Math.round(s1.kills/mxK*100)+'%'; document.getElementById('b2k').style.width = Math.round(s2.kills/mxK*100)+'%';
+        document.getElementById('b1d').style.width = Math.round(s1.deaths/mxD*100)+'%'; document.getElementById('b2d').style.width = Math.round(s2.deaths/mxD*100)+'%';
+      }, 200);
+      const dur = 2500, fps = 60, steps = Math.round(dur / (1000/fps));
+      function eOut(t) { return 1 - Math.pow(1 - t, 3); }
+      [{id:'cv1w',t:s1.wins,kd:false},{id:'cv1k',t:s1.kills,kd:false},{id:'cv1d',t:s1.deaths,kd:false},{id:'cv1kd',t:kd1,kd:true},{id:'cv2w',t:s2.wins,kd:false},{id:'cv2k',t:s2.kills,kd:false},{id:'cv2d',t:s2.deaths,kd:false},{id:'cv2kd',t:kd2,kd:true}].forEach((s, si) => {
+        const el = document.getElementById(s.id); if (!el) return;
+        setTimeout(() => { let step = 0; const ti = setInterval(() => { step++; const p = eOut(Math.min(step/steps,1)); if(s.t===Infinity){el.textContent=step>=steps?'∞':Math.round(p*99)+'';}else if(s.kd){el.textContent=(p*s.t).toFixed(2);}else{el.textContent=Math.round(p*s.t);}if(step>=steps)clearInterval(ti); }, 1000/fps); }, si * 40);
       });
-    },30);
+    }, 30);
   }
 
-  function showHOF(btn){
-    document.querySelectorAll('.rtabs .tab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');
-    document.querySelector('.lbc').style.display='none';document.querySelector('.srow').style.display='none';
-    const pp=document.getElementById('pp');if(pp.style.display!=='none'){pp.classList.remove('show');pp.style.display='none';}
+  function showHOF(btn) {
+    document.querySelectorAll('.rtabs .tab').forEach(t => t.classList.remove('active')); if (btn) btn.classList.add('active');
+    document.querySelector('.lbc').style.display = 'none'; document.querySelector('.srow').style.display = 'none';
+    const pp = document.getElementById('pp'); if (pp.style.display !== 'none') { pp.classList.remove('show'); pp.style.display = 'none'; }
     hideCo();
-    const hof=document.getElementById('hofp');hof.style.display='block';renderHOF();
-    setTimeout(()=>{hof.classList.add('show');hof.setAttribute('aria-hidden','false');},10);
+    const hof = document.getElementById('hofp'); hof.style.display = 'block'; renderHOF();
+    setTimeout(() => { hof.classList.add('show'); hof.setAttribute('aria-hidden', 'false'); }, 10);
   }
-  function hideHof(){const h=document.getElementById('hofp');h.classList.remove('show');h.setAttribute('aria-hidden','true');setTimeout(()=>{h.style.display='none';},260);}
+  function hideHof() { const h = document.getElementById('hofp'); h.classList.remove('show'); h.setAttribute('aria-hidden', 'true'); setTimeout(() => { h.style.display = 'none'; }, 260); }
 
-  function renderHOF(){
+  function renderHOF() {
     updateOverall();
-    const modeImgs={sword:'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png',axe:'https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png',uhc:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png',mace:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png',spear:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png'};
-    const hofP=retired.filter(n=>n!=='Jai_B37'&&n!=='TerrorBoy123619');
-    const cards=hofP.map(name=>{
-      const ov=PS.overall[name]||{wins:0,kills:0,deaths:0};
-      const kd=ov.deaths===0?(ov.kills>0?Infinity:0):ov.kills/ov.deaths;
-      const kdStr=kd===Infinity?'∞':kd.toFixed(2);
-      const peak=PT[name]||{};
-      const modes=['sword','axe','uhc','mace','spear'];
-      const best=modes.reduce((b,m)=>(TP[peak[m]]||0)>(TP[peak[b]]||0)?m:b,modes[0]);
-      const chips=Object.entries(peak).filter(([,t])=>t&&(TP[t]||0)>=4).sort((a,b2)=>(TP[b2[1]]||0)-(TP[a[1]]||0)).map(([m,t])=>`<span class="hof-chip" style="color:${TC[t]};border-color:${TC[t]}40;display:inline-flex;align-items:center;gap:4px"><img src="${modeImgs[m]}" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle"> ${t}</span>`).join('');
-      const hofSeen=new Map();
-      for(const m of modes){for(const a of compAch(name,m)){if(!hofSeen.has(a.id))hofSeen.set(a.id,{a,ms:[]});hofSeen.get(a.id).ms.push(m);}}
-      for(const a of compAch(name,'overall')){if(!hofSeen.has(a.id))hofSeen.set(a.id,{a,ms:['overall']});}
-      const achH=hofSeen.size?[...hofSeen.values()].map(({a,ms})=>bh(a,`<b>${a.name}</b><span class="tp">${ms.map(m=>MIT[m]+mn(m)).join(', ')}</span>`)).join(''):'<span class="noach">—</span>';
-      return`<div class="hof-card" style="animation:fadeUp .4s ease both">
+    const modeImgs = {sword:'https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png',axe:'https://minecraft.wiki/images/Netherite_Axe_JE2_BE2.png',uhc:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png',mace:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png',spear:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png'};
+    const hofP = retired.filter(n => n !== 'Jai_B37' && n !== 'TerrorBoy123619');
+    const cards = hofP.map(name => {
+      const ov = PS.overall[name]||{wins:0,kills:0,deaths:0};
+      const kd = ov.deaths===0?(ov.kills>0?Infinity:0):ov.kills/ov.deaths;
+      const kdStr = kd===Infinity?'∞':kd.toFixed(2);
+      const peak = PT[name]||{};
+      const modes = ['sword','axe','uhc','mace','spear'];
+      const best = modes.reduce((b,m)=>(TP[peak[m]]||0)>(TP[peak[b]]||0)?m:b,modes[0]);
+      const chips = Object.entries(peak).filter(([,t])=>t&&(TP[t]||0)>=4).sort((a,b2)=>(TP[b2[1]]||0)-(TP[a[1]]||0)).map(([m,t])=>`<span class="hof-chip" style="color:${TC[t]};border-color:${TC[t]}40;display:inline-flex;align-items:center;gap:4px"><img src="${modeImgs[m]}" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle"> ${t}</span>`).join('');
+      const hofSeen = new Map();
+      for (const m of modes) { for (const a of compAch(name,m)) { if (!hofSeen.has(a.id)) hofSeen.set(a.id,{a,ms:[]}); hofSeen.get(a.id).ms.push(m); } }
+      for (const a of compAch(name,'overall')) { if (!hofSeen.has(a.id)) hofSeen.set(a.id,{a,ms:['overall']}); }
+      const achH = hofSeen.size ? [...hofSeen.values()].map(({a,ms})=>bh(a,`<b>${a.name}</b><span class="tp">${ms.map(m=>MIT[m]+mn(m)).join(', ')}</span>`)).join('') : '<span class="noach">—</span>';
+      return `<div class="hof-card" style="animation:fadeUp .4s ease both">
         <div class="hof-banner"><div class="hof-rlbl">RETIRED LEGEND</div></div>
         <div class="hof-body">
           <div class="hof-prow">
@@ -1877,79 +1984,80 @@
         </div>
       </div>`;
     }).join('');
-    document.getElementById('hofp').innerHTML=`<div class="hof-hdr"><div class="hof-title">🏅 Hall of Fame</div><div class="hof-sub">Legends who shaped the arena</div></div>${cards}`;
+    document.getElementById('hofp').innerHTML = `<div class="hof-hdr"><div class="hof-title">🏅 Hall of Fame</div><div class="hof-sub">Legends who shaped the arena</div></div>${cards}`;
   }
 
-  const TGD=[{name:'Netherite',color:'#6b6b78',desc:'Elite level; the highest standard.'},{name:'Diamond',color:'#00BFFF',desc:'Very advanced, exceptional proficiency.'},{name:'Emerald',color:'#50C878',desc:'Highly skilled with strong consistency.'},{name:'Gold',color:'#F5C842',desc:'Competent and reliable performance.'},{name:'Iron',color:'#8b8b8b',desc:'Showing improvement, below expected level.'},{name:'Copper',color:'#B87333',desc:'Familiar with mechanics but inconsistent.'},{name:'Coal',color:'#555',desc:'No demonstrated understanding of core mechanics.'}];
-  function openTier(){
-    const list=document.getElementById('tml');list.innerHTML='';
-    TGD.forEach((t,i)=>{const r=document.createElement('div');r.className='tr';r.style.transitionDelay=(0.06+i*.055)+'s';r.innerHTML=`<div class="tdot" style="background:${t.color};box-shadow:0 0 6px ${t.color}"></div><div class="tname" style="color:${t.color}">${t.name}</div><div class="tdesc">${t.desc}</div>`;list.appendChild(r);});
-    const m=document.getElementById('tm');m.classList.remove('closing');m.style.display='flex';m.getBoundingClientRect();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('open')));
-    document.body.style.paddingRight=(window.innerWidth-document.documentElement.clientWidth)+'px';document.body.style.overflow='hidden';
+  const TGD = [{name:'Netherite',color:'#6b6b78',desc:'Elite level; the highest standard.'},{name:'Diamond',color:'#00BFFF',desc:'Very advanced, exceptional proficiency.'},{name:'Emerald',color:'#50C878',desc:'Highly skilled with strong consistency.'},{name:'Gold',color:'#F5C842',desc:'Competent and reliable performance.'},{name:'Iron',color:'#8b8b8b',desc:'Showing improvement, below expected level.'},{name:'Copper',color:'#B87333',desc:'Familiar with mechanics but inconsistent.'},{name:'Coal',color:'#555',desc:'No demonstrated understanding of core mechanics.'}];
+  function openTier() {
+    const list = document.getElementById('tml'); list.innerHTML = '';
+    TGD.forEach((t, i) => { const r = document.createElement('div'); r.className = 'tr'; r.style.transitionDelay = (0.06 + i * .055) + 's'; r.innerHTML = `<div class="tdot" style="background:${t.color};box-shadow:0 0 6px ${t.color}"></div><div class="tname" style="color:${t.color}">${t.name}</div><div class="tdesc">${t.desc}</div>`; list.appendChild(r); });
+    const m = document.getElementById('tm'); m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px'; document.body.style.overflow = 'hidden';
   }
-  function closeTier(){
-    const m=document.getElementById('tm');m.classList.add('closing');m.querySelectorAll('.tr').forEach(r=>r.style.transitionDelay='0s');
-    setTimeout(()=>{m.classList.remove('open','closing');m.style.display='none';document.body.style.overflow='';document.body.style.paddingRight='';},300);
+  function closeTier() {
+    const m = document.getElementById('tm'); m.classList.add('closing'); m.querySelectorAll('.tr').forEach(r => r.style.transitionDelay = '0s');
+    setTimeout(() => { m.classList.remove('open','closing'); m.style.display = 'none'; document.body.style.overflow = ''; document.body.style.paddingRight = ''; }, 300);
   }
 
-  function openAch(){
-    const list=document.getElementById('aml');list.innerHTML='';
-    ACHS.forEach((a,i)=>{const r=document.createElement('div');r.className='amr';r.style.transitionDelay=(0.05+i*.045)+'s';r.innerHTML=`<div class="ami2" style="${a.mono?'font-family:var(--font-m);font-weight:800;font-size:16px':''}">${a.icon}</div><div><div class="amn">${a.name}</div><div class="amd">${a.desc}</div></div>`;list.appendChild(r);});
-    const m=document.getElementById('am');m.classList.remove('closing');m.style.display='flex';m.getBoundingClientRect();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('open')));
-    document.body.style.paddingRight=(window.innerWidth-document.documentElement.clientWidth)+'px';document.body.style.overflow='hidden';
+  function openAch() {
+    const list = document.getElementById('aml'); list.innerHTML = '';
+    ACHS.forEach((a, i) => { const r = document.createElement('div'); r.className = 'amr'; r.style.transitionDelay = (0.05 + i * .045) + 's'; r.innerHTML = `<div class="ami2" style="${a.mono?'font-family:var(--font-m);font-weight:800;font-size:16px':''}">${a.icon}</div><div><div class="amn">${a.name}</div><div class="amd">${a.desc}</div></div>`; list.appendChild(r); });
+    const m = document.getElementById('am'); m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px'; document.body.style.overflow = 'hidden';
   }
-  function closeAch(){const m=document.getElementById('am');m.classList.add('closing');m.querySelectorAll('.amr').forEach(r=>r.style.transitionDelay='0s');setTimeout(()=>{m.classList.remove('open','closing');m.style.display='none';document.body.style.overflow='';document.body.style.paddingRight='';},280);}
-  document.addEventListener('click',e=>{if(e.target.closest('.abadge'))openAch();});
+  function closeAch() { const m = document.getElementById('am'); m.classList.add('closing'); m.querySelectorAll('.amr').forEach(r => r.style.transitionDelay = '0s'); setTimeout(() => { m.classList.remove('open','closing'); m.style.display = 'none'; document.body.style.overflow = ''; document.body.style.paddingRight = ''; }, 280); }
+  document.addEventListener('click', e => { if (e.target.closest('.abadge')) openAch(); });
 
-  function getPctLabel(v,all,lo=false){
-    if(!all.length)return'';
-    const s=[...all].filter(x=>x>0).sort((a,b)=>a-b);if(!s.length)return v===0?'None recorded':'';
-    if(lo){const bt=Math.round((s.filter(x=>x>v).length/s.length)*100);if(bt>=80)return`Top ${100-bt}% fewest`;if(bt>=50)return`Better than ${bt}%`;return'Below average';}
-    else{const pos=s.filter(x=>x<v).length,pct=Math.round(pos/s.length*100);if(pct>=80)return`Top ${100-pct}%`;if(pct>=50)return'Above average';if(pct>=20)return'Below average';return`Bottom ${pct+1}%`;}
+  function getPctLabel(v, all, lo = false) {
+    if (!all.length) return '';
+    const s = [...all].filter(x => x > 0).sort((a, b) => a - b); if (!s.length) return v === 0 ? 'None recorded' : '';
+    if (lo) { const bt = Math.round((s.filter(x => x > v).length / s.length) * 100); if (bt >= 80) return `Top ${100-bt}% fewest`; if (bt >= 50) return `Better than ${bt}%`; return 'Below average'; }
+    else { const pos = s.filter(x => x < v).length, pct = Math.round(pos / s.length * 100); if (pct >= 80) return `Top ${100-pct}%`; if (pct >= 50) return 'Above average'; if (pct >= 20) return 'Below average'; return `Bottom ${pct+1}%`; }
   }
-  function attachTT(card,mode,stats,aW,aK,aD){
-    const pills=card.querySelectorAll('.spill');if(pills.length<3)return;
-    const labels=[`<b>${stats.wins} Wins</b><span class="tp">${getPctLabel(stats.wins,aW)}</span>`,`<b>${stats.kills} Kills</b><span class="tp">${getPctLabel(stats.kills,aK)}</span>`,`<b>${stats.deaths} Deaths</b><span class="tp">${getPctLabel(stats.deaths,aD,true)}</span>`];
-    pills.forEach((p,i)=>{if(labels[i])p.dataset.tt=labels[i];});
+  function attachTT(card, mode, stats, aW, aK, aD) {
+    const pills = card.querySelectorAll('.spill'); if (pills.length < 3) return;
+    const labels = [`<b>${stats.wins} Wins</b><span class="tp">${getPctLabel(stats.wins,aW)}</span>`,`<b>${stats.kills} Kills</b><span class="tp">${getPctLabel(stats.kills,aK)}</span>`,`<b>${stats.deaths} Deaths</b><span class="tp">${getPctLabel(stats.deaths,aD,true)}</span>`];
+    pills.forEach((p, i) => { if (labels[i]) p.dataset.tt = labels[i]; });
   }
-  (function initTT(){
-    const el=document.getElementById('tt');
-    document.addEventListener('mouseover',e=>{const t=e.target.closest('[data-tt],[data-tid]');if(!t)return;const c=t.dataset.tid?TTS.get(t.dataset.tid):t.dataset.tt;if(!c)return;el.innerHTML=c;el.classList.add('v');});
-    document.addEventListener('mousemove',e=>{if(!el.classList.contains('v'))return;el.style.left=Math.min(e.clientX+14,window.innerWidth-220)+'px';el.style.top=Math.max(e.clientY-36,8)+'px';});
-    document.addEventListener('mouseout',e=>{if(e.target.closest('[data-tt],[data-tid]'))el.classList.remove('v');});
+  (function initTT() {
+    const el = document.getElementById('tt');
+    document.addEventListener('mouseover', e => { const t = e.target.closest('[data-tt],[data-tid]'); if (!t) return; const c = t.dataset.tid ? TTS.get(t.dataset.tid) : t.dataset.tt; if (!c) return; el.innerHTML = c; el.classList.add('v'); });
+    document.addEventListener('mousemove', e => { if (!el.classList.contains('v')) return; el.style.left = Math.min(e.clientX+14, window.innerWidth-220)+'px'; el.style.top = Math.max(e.clientY-36, 8)+'px'; });
+    document.addEventListener('mouseout', e => { if (e.target.closest('[data-tt],[data-tid]')) el.classList.remove('v'); });
   })();
 
-  document.addEventListener('keydown',e=>{
-    const tag=document.activeElement.tagName.toLowerCase(),typing=tag==='input'||tag==='textarea';
-    const onRanked=document.getElementById('rankedPage').classList.contains('active');
-    if(e.key==='Escape'){
-      if(document.getElementById('sm').classList.contains('open')){closeShortcuts();return;}
-      if(document.getElementById('tm').classList.contains('open')){closeTier();return;}
-      if(document.getElementById('am').classList.contains('open')){closeAch();return;}
-      const pp=document.getElementById('pp'),cop=document.getElementById('cop');
-      if(pp&&pp.style.display!=='none'){backFromProfile();return;}
-      if(cop&&cop.classList.contains('show')){const t=document.querySelector('.rtabs .tab');showMode('overall',t);return;}
-      if(!typing){const s=document.getElementById('si');if(s&&s.value){s.value='';searchPlayers();}}
+  document.addEventListener('keydown', e => {
+    const tag = document.activeElement.tagName.toLowerCase(), typing = tag === 'input' || tag === 'textarea';
+    const onRanked = document.getElementById('rankedPage').classList.contains('active');
+    if (e.key === 'Escape') {
+      if (document.getElementById('nm').classList.contains('open')) { closeNation(); return; }
+      if (document.getElementById('sm').classList.contains('open')) { closeShortcuts(); return; }
+      if (document.getElementById('tm').classList.contains('open')) { closeTier(); return; }
+      if (document.getElementById('am').classList.contains('open')) { closeAch(); return; }
+      const pp = document.getElementById('pp'), cop = document.getElementById('cop');
+      if (pp && pp.style.display !== 'none') { backFromProfile(); return; }
+      if (cop && cop.classList.contains('show')) { const t = document.querySelector('.rtabs .tab'); showMode('overall', t); return; }
+      if (!typing) { const s = document.getElementById('si'); if (s && s.value) { s.value = ''; searchPlayers(); } }
       else document.activeElement.blur();
     }
-    if(e.key==='/'&&!typing){e.preventDefault();const s=document.getElementById('si');if(s&&document.querySelector('.srow').style.display!=='none'){s.focus();s.select();}}
-    if(e.key==='?'&&!typing){e.preventDefault();openShortcuts();return;}
-    if(!typing&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&onRanked){
-      const mMap={'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};
-      if(mMap[e.key]){const tabs=document.querySelectorAll('.rtabs .tab');const idx=Object.keys(mMap).indexOf(e.key);if(tabs[idx])tabs[idx].click();}
-      if(e.key==='7'){const t=document.querySelector('.rtabs .tab:last-child');if(t)t.click();}
-      if(e.key==='r'||e.key==='R'){const srow=document.querySelector('.srow');if(srow&&srow.style.display!=='none')surpriseMe();}
+    if (e.key === '/' && !typing) { e.preventDefault(); const s = document.getElementById('si'); if (s && document.querySelector('.srow').style.display !== 'none') { s.focus(); s.select(); } }
+    if (e.key === '?' && !typing) { e.preventDefault(); openShortcuts(); return; }
+    if (!typing && !e.ctrlKey && !e.metaKey && !e.altKey && onRanked) {
+      const mMap = {'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};
+      if (mMap[e.key]) { const tabs = document.querySelectorAll('.rtabs .tab'); const idx = Object.keys(mMap).indexOf(e.key); if (tabs[idx]) tabs[idx].click(); }
+      if (e.key === '7') { const t = document.querySelector('.rtabs .tab:last-child'); if (t) t.click(); }
+      if (e.key === 'r' || e.key === 'R') { const srow = document.querySelector('.srow'); if (srow && srow.style.display !== 'none') surpriseMe(); }
     }
   });
 
-  window.addEventListener('DOMContentLoaded',()=>{
-    ['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));
+  window.addEventListener('DOMContentLoaded', () => {
+    ['sword','axe','uhc','mace','spear'].forEach(m => createPlayers(m));
     createPlayers('overall');
     setupReveal();
-    document.getElementById('navBrand').addEventListener('click',()=>{
-      if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);
+    document.getElementById('navBrand').addEventListener('click', () => {
+      if (document.getElementById('rankedPage').classList.contains('active')) showHOF(null);
     });
   });
   </script>
