@@ -487,7 +487,58 @@
     .nation-card:hover .nation-arrow{color:var(--text);transform:translate(2px,-2px);}
 
     .nation-click-hint{display:none;}
-    body.mono{background:#000;color:#fff;}
+    /* ── CLUB WORLD CUP ── */
+    .wc-section{max-width:1100px;margin:64px auto 0;padding:0 24px 80px;}
+    .wc-header{text-align:center;margin-bottom:40px;padding:32px 24px 28px;position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,26,109,.04) 50%,transparent 100%);border:1px solid rgba(245,200,66,.14);}
+    .wc-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);background-size:22px 22px;}
+    .wc-trophy{font-size:42px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 0 18px rgba(245,200,66,.5));animation:wcTrophy 3s ease-in-out infinite;display:block;}
+    @keyframes wcTrophy{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+    .wc-title{font-family:var(--font-d);font-size:clamp(22px,3.5vw,34px);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-shadow:0 0 30px rgba(245,200,66,.35);position:relative;}
+    .wc-sub{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:6px;position:relative;}
+    .wc-stadium-note{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-muted);position:relative;}
+
+    .wc-round{margin-bottom:44px;}
+    .wc-round-label{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+    .wc-round-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);}
+    .wc-round-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+    .wc-round-badge{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:1.5px;padding:2px 9px;border-radius:4px;}
+
+    .wc-matches{display:grid;gap:10px;}
+    .wc-matches.qf{grid-template-columns:repeat(2,1fr);}
+    .wc-matches.sf{grid-template-columns:repeat(2,1fr);}
+    .wc-matches.final{grid-template-columns:1fr;}
+
+    .wc-match{border-radius:12px;border:1px solid var(--border-card);background:var(--surface);overflow:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .28s,box-shadow .28s;}
+    .wc-match:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.45);}
+    .wc-match.played{border-color:rgba(255,255,255,.1);}
+    .wc-match.upcoming{border-color:rgba(74,222,128,.25);background:linear-gradient(135deg,rgba(74,222,128,.04) 0%,var(--surface) 60%);}
+    .wc-match.final-match{border-color:rgba(245,200,66,.3);background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,26,109,.04) 50%,var(--surface) 80%);box-shadow:0 0 0 1px rgba(245,200,66,.08);}
+    .wc-match.final-match:hover{border-color:rgba(245,200,66,.5);box-shadow:0 16px 40px rgba(0,0,0,.5),0 0 30px rgba(245,200,66,.12);}
+    .wc-match.forfeit{border-color:rgba(248,113,113,.2);background:linear-gradient(135deg,rgba(248,113,113,.04) 0%,var(--surface) 60%);}
+
+    .wc-match-meta{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 6px;border-bottom:1px solid rgba(255,255,255,.05);}
+    .wc-date{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1px;color:var(--text-dim);}
+    .wc-status-badge{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:3px;text-transform:uppercase;}
+
+    .wc-match-body{padding:14px 16px 12px;display:flex;align-items:center;gap:10px;}
+    .wc-team{flex:1;min-width:0;}
+    .wc-team-name{font-family:var(--font-d);font-size:13.5px;font-weight:800;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .wc-team-name.winner{color:var(--gold);}
+    .wc-team-nation{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);margin-top:2px;}
+    .wc-team.away{text-align:right;}
+
+    .wc-score-block{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+    .wc-score{font-family:var(--font-d);font-size:26px;font-weight:800;line-height:1;min-width:22px;text-align:center;}
+    .wc-score.win{color:var(--gold);}
+    .wc-score.lose{color:var(--text-dim);opacity:.5;}
+    .wc-score.draw{color:var(--text-muted);}
+    .wc-dash{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--text-dim);}
+    .wc-score-tbd{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text-dim);padding:0 6px;}
+
+    .wc-match-footer{padding:6px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+    .wc-note{font-family:var(--font-m);font-size:8.5px;font-weight:600;color:var(--text-dim);font-style:italic;}
+    .wc-note.red{color:#f87171;}
+    .wc-pens{font-family:var(--font-m);font-size:8.5px;font-weight:700;color:var(--text-muted);background:rgba(255,255,255,.05);border:1px solid var(--border);padding:2px 7px;border-radius:4px;}
     body.mono nav{background:rgba(0,0,0,.95);border-bottom-color:#111;}
     body.mono .nav-glow{display:none;}
     body.mono .tab.active{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);box-shadow:none;}
@@ -595,7 +646,14 @@
       .hof-body{padding-left:14px;padding-right:14px;}
       .hof-nm{font-size:20px;}
       .nm-name{font-size:21px;}
+      .wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}
+      .wc-team-name{font-size:12px;}.wc-score{font-size:20px;}
     }
+    body.mono .wc-match{background:rgba(255,255,255,.025);border-color:#111;}
+    body.mono .wc-match.upcoming{background:rgba(74,222,128,.03);border-color:rgba(74,222,128,.2);}
+    body.mono .wc-match.final-match{background:#050505;border-color:rgba(245,200,66,.25);}
+    body.mono .wc-header{background:#050505;border-color:#222;}
+    @media(max-width:720px){.wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -869,12 +927,237 @@
             <h2 class="stitle">Current <em>Nations</em></h2>
             <p class="ssub">All active nations on the server. Click any card to learn more about a nation's history, government, and stats.</p>
             <div class="nations-count-row" id="nationsCountRow"></div>
+            <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+              <button onclick="document.getElementById('wcSection').scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);color:var(--gold);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .18s;" onmouseover="this.style.background='rgba(245,200,66,.18)'" onmouseout="this.style.background='rgba(245,200,66,.1)'">🏆 Club World Cup ↓</button>
+            </div>
           </div>
         </div>
         <div id="nations-grid"></div>
       </div>
     </div>
-    <footer style="margin-top:60px;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
+
+    <!-- CLUB WORLD CUP -->
+    <div class="wc-section" id="wcSection">
+      <div class="wc-header">
+        <span class="wc-trophy">🏆</span>
+        <div class="wc-title">Club World Cup 2026</div>
+        <div class="wc-sub">Nations Edition &nbsp;·&nbsp; Spring Tournament</div>
+        <div style="margin-top:10px;display:flex;justify-content:center">
+          <span class="wc-stadium-note">🏟️ All matches — SmegTopia Stadium</span>
+        </div>
+      </div>
+
+      <!-- QUARTER FINALS -->
+      <div class="wc-round">
+        <div class="wc-round-label">
+          <span class="wc-round-title">Quarter Finals</span>
+          <div class="wc-round-line"></div>
+          <span class="wc-round-badge" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)">QF</span>
+        </div>
+        <div class="wc-matches qf">
+
+          <!-- QF1 -->
+          <div class="wc-match played">
+            <div class="wc-match-meta">
+              <span class="wc-date">13 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
+            </div>
+            <div class="wc-match-body">
+              <div class="wc-team">
+                <div class="wc-team-name winner">Okpemon FC</div>
+                <div class="wc-team-nation">Okpemon</div>
+              </div>
+              <div class="wc-score-block">
+                <span class="wc-score win">9</span>
+                <span class="wc-dash">–</span>
+                <span class="wc-score lose">0</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name">Smeg City FC</div>
+                <div class="wc-team-nation">Smegtopia</div>
+              </div>
+            </div>
+            <div class="wc-match-footer"><span class="wc-note"></span></div>
+          </div>
+
+          <!-- QF2 -->
+          <div class="wc-match played">
+            <div class="wc-match-meta">
+              <span class="wc-date">14 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
+            </div>
+            <div class="wc-match-body">
+              <div class="wc-team">
+                <div class="wc-team-name winner">Crabville Breezers</div>
+                <div class="wc-team-nation">Crabville</div>
+              </div>
+              <div class="wc-score-block">
+                <span class="wc-score draw">1</span>
+                <span class="wc-dash">–</span>
+                <span class="wc-score draw">1</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name">Smeggers FC</div>
+                <div class="wc-team-nation">Smegtopia</div>
+              </div>
+            </div>
+            <div class="wc-match-footer">
+              <span class="wc-note">Crabville Breezers win on penalties</span>
+              <span class="wc-pens">5 – 4 pens</span>
+            </div>
+          </div>
+
+          <!-- QF3 -->
+          <div class="wc-match played">
+            <div class="wc-match-meta">
+              <span class="wc-date">15 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
+            </div>
+            <div class="wc-match-body">
+              <div class="wc-team">
+                <div class="wc-team-name winner">Keem Town United</div>
+                <div class="wc-team-nation">Keem</div>
+              </div>
+              <div class="wc-score-block">
+                <span class="wc-score win">5</span>
+                <span class="wc-dash">–</span>
+                <span class="wc-score lose">1</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name">Springfield United</div>
+                <div class="wc-team-nation">Springbuck</div>
+              </div>
+            </div>
+            <div class="wc-match-footer"><span class="wc-note"></span></div>
+          </div>
+
+          <!-- QF4 -->
+          <div class="wc-match played">
+            <div class="wc-match-meta">
+              <span class="wc-date">16 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
+            </div>
+            <div class="wc-match-body">
+              <div class="wc-team">
+                <div class="wc-team-name winner">Crainetown FC</div>
+                <div class="wc-team-nation">Craineun</div>
+              </div>
+              <div class="wc-score-block">
+                <span class="wc-score win">2</span>
+                <span class="wc-dash">–</span>
+                <span class="wc-score lose">0</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name">Crabville Creepers</div>
+                <div class="wc-team-nation">Crabville</div>
+              </div>
+            </div>
+            <div class="wc-match-footer"><span class="wc-note"></span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SEMI FINALS -->
+      <div class="wc-round">
+        <div class="wc-round-label">
+          <span class="wc-round-title">Semi Finals</span>
+          <div class="wc-round-line"></div>
+          <span class="wc-round-badge" style="background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.25);color:var(--pink)">SF</span>
+        </div>
+        <div class="wc-matches sf">
+
+          <!-- SF1 -->
+          <div class="wc-match played forfeit">
+            <div class="wc-match-meta">
+              <span class="wc-date">19 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171">FT</span>
+            </div>
+            <div class="wc-match-body">
+              <div class="wc-team">
+                <div class="wc-team-name">Keem Town United</div>
+                <div class="wc-team-nation">Keem</div>
+              </div>
+              <div class="wc-score-block">
+                <span class="wc-score lose">0</span>
+                <span class="wc-dash">–</span>
+                <span class="wc-score win">3</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name winner">Crainetown FC</div>
+                <div class="wc-team-nation">Craineun</div>
+              </div>
+            </div>
+            <div class="wc-match-footer">
+              <span class="wc-note red">⚠️ Crainetown FC win by forfeit — ineligible players fielded by KTU</span>
+            </div>
+          </div>
+
+          <!-- SF2 -->
+          <div class="wc-match played">
+            <div class="wc-match-meta">
+              <span class="wc-date">18 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
+            </div>
+            <div class="wc-match-body">
+              <div class="wc-team">
+                <div class="wc-team-name">Crabville Breezers</div>
+                <div class="wc-team-nation">Crabville</div>
+              </div>
+              <div class="wc-score-block">
+                <span class="wc-score lose">2</span>
+                <span class="wc-dash">–</span>
+                <span class="wc-score win">3</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name winner">Smeg City FC</div>
+                <div class="wc-team-nation">Smegtopia</div>
+              </div>
+            </div>
+            <div class="wc-match-footer"><span class="wc-note"></span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FINAL -->
+      <div class="wc-round">
+        <div class="wc-round-label">
+          <span class="wc-round-title">Final</span>
+          <div class="wc-round-line"></div>
+          <span class="wc-round-badge" style="background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)">🏆 FINAL</span>
+        </div>
+        <div class="wc-matches final">
+
+          <div class="wc-match upcoming final-match">
+            <div class="wc-match-meta">
+              <span class="wc-date">25 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
+              <span class="wc-status-badge" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80;animation:pulse 2s ease-in-out infinite">🟢 UPCOMING</span>
+            </div>
+            <div class="wc-match-body" style="padding:20px 24px 16px">
+              <div class="wc-team">
+                <div class="wc-team-name" style="font-size:18px">Crainetown FC</div>
+                <div class="wc-team-nation">Craineun</div>
+              </div>
+              <div class="wc-score-block" style="gap:10px">
+                <span class="wc-score-tbd" style="font-size:14px;letter-spacing:3px;color:var(--gold)">VS</span>
+              </div>
+              <div class="wc-team away">
+                <div class="wc-team-name" style="font-size:18px">Smeg City FC</div>
+                <div class="wc-team-nation">Smegtopia</div>
+              </div>
+            </div>
+            <div class="wc-match-footer" style="justify-content:center;padding-bottom:14px">
+              <span class="wc-note" style="font-style:normal;color:var(--text-muted);font-size:9.5px">🏟️ SmegTopia Stadium &nbsp;·&nbsp; 25 Apr 2026 at 6:00 PM</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
   </div>
 
   <!-- PARKOUR PAGE -->
