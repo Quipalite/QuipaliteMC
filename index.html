@@ -440,25 +440,53 @@
     .nm-fact-lbl{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);}
     .nm-fact-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
     /* ── CURRENT NATIONS PAGE ── */
-    #currentNationsPage .nations-header{padding:60px 24px 0;}
-    #currentNationsPage .nations-inner{max-width:1080px;margin:0 auto;}
-    #nations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px;}
-    .nation-card{position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);padding:22px 20px;cursor:pointer;color:var(--text);transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s,background .3s;gap:0;}
-    .nation-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);}
-    .nation-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.5);background:rgba(255,255,255,.052);}
+    #currentNationsPage .nations-header{padding:56px 24px 0;}
+    #currentNationsPage .nations-inner{max-width:1100px;margin:0 auto;}
+
+    /* Hero banner strip for nations page */
+    .nations-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px;}
+    .nations-hero-left{flex:1;min-width:260px;}
+    .nations-count-row{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap;}
+    .nc-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:100px;border:1px solid var(--border-card);background:var(--surface);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-muted);}
+    .nc-pill strong{color:var(--text);}
+    .nc-pill-dot{width:7px;height:7px;border-radius:50%;}
+
+    #nations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:0;}
+
+    /* Nation card — accent colour applied via inline --nc CSS var */
+    .nation-card{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:0;cursor:pointer;color:var(--text);transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s;}
+    /* coloured top stripe */
+    .nation-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--nc,var(--border));opacity:.7;transition:opacity .3s;}
+    .nation-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);top:3px;}
+    .nation-card:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--nc,white) 40%,transparent);box-shadow:0 24px 64px rgba(0,0,0,.55),0 0 0 1px color-mix(in srgb,var(--nc,white) 15%,transparent);}
+    .nation-card:hover::before{opacity:1;}
     .nation-card:active{transform:translateY(-2px);}
+
+    /* card inner padding wrapper */
+    .nation-body{padding:18px 20px 16px;}
+
     .nation-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-    .nation-ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-    .nation-name{font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);line-height:1.1;}
-    .nation-est{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
-    .nation-divider{height:1px;background:var(--border);margin-bottom:12px;}
-    .nation-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+    .nation-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;transition:transform .25s cubic-bezier(.22,1,.36,1);}
+    .nation-card:hover .nation-ico{transform:scale(1.08);}
+    .nation-name{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--text);line-height:1.15;}
+    .nation-est{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:3px;}
+
+    .nation-divider{height:1px;background:linear-gradient(90deg,var(--nc,var(--border)),transparent);opacity:.25;margin-bottom:12px;}
+
+    .nation-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
     .nation-row:last-child{margin-bottom:0;}
-    .nation-lbl{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);}
+    .nation-lbl{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);}
     .nation-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
-    .nation-gov{font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
-    .nation-click-hint{position:absolute;bottom:10px;right:12px;font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:1px;color:var(--text-dim);opacity:0;transition:opacity .2s;}
-    .nation-card:hover .nation-click-hint{opacity:1;}
+    .nation-gov{font-family:var(--font-m);font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:4px;}
+
+    /* card footer */
+    .nation-footer{padding:10px 20px 12px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;}
+    .nation-leader-row{display:flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:9.5px;font-weight:700;color:var(--text-muted);}
+    .nation-leader-row span{color:var(--text);}
+    .nation-arrow{font-size:11px;color:var(--text-dim);transition:color .2s,transform .2s;}
+    .nation-card:hover .nation-arrow{color:var(--text);transform:translate(2px,-2px);}
+
+    .nation-click-hint{display:none;}
     body.mono{background:#000;color:#fff;}
     body.mono nav{background:rgba(0,0,0,.95);border-bottom-color:#111;}
     body.mono .nav-glow{display:none;}
@@ -509,7 +537,8 @@
     body.mono .pyt-link:hover{background:rgba(255,0,0,.15);}
     body.mono .fb-wrap{background:#050505;border-color:#111;}
     body.mono .nation-card{background:rgba(255,255,255,.025);border-color:#111;}
-    body.mono .nation-card:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18);}
+    body.mono .nation-card:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.2);}
+    body.mono .nation-footer{border-color:rgba(255,255,255,.06);}
     body.mono #nmi{background:#050505;border-color:#222;}
     body.mono .nm-stat{background:#000;border-color:#111;}
     @media(hover:none){#tt{display:none!important;}.nation-click-hint{display:none;}}
@@ -533,7 +562,7 @@
     }
     @media(max-width:600px){
       #nations-grid{grid-template-columns:1fr;}
-      #currentNationsPage .nations-header{padding:40px 16px 0;}
+      #currentNationsPage .nations-header{padding:36px 16px 0;}
       .nm-stats{grid-template-columns:repeat(2,1fr);}
       .nm-body{padding:0 18px 24px;}
     }
@@ -834,10 +863,13 @@
   <div id="currentNationsPage" class="page">
     <div class="nations-header">
       <div class="nations-inner">
-        <div style="margin-bottom:8px;">
-          <div class="stag">Active Nations</div>
-          <h2 class="stitle">Current <em>Nations</em></h2>
-          <p class="ssub">All active nations on the server. Tap any nation to learn more — claim your territory, build your empire, and rise to the top.</p>
+        <div class="nations-hero">
+          <div class="nations-hero-left">
+            <div class="stag">Active Nations</div>
+            <h2 class="stitle">Current <em>Nations</em></h2>
+            <p class="ssub">All active nations on the server. Click any card to learn more about a nation's history, government, and stats.</p>
+            <div class="nations-count-row" id="nationsCountRow"></div>
+          </div>
         </div>
         <div id="nations-grid"></div>
       </div>
@@ -1006,7 +1038,7 @@
       government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',
       description:'Corexia is a recently founded nation established by RealO75 under a Technocracy — governance by technical experts. Operating a fully digital economy where all transactions are conducted via cards and chips, Corexia represents a vision of a high-tech future on the server.',
       tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Unknown'},{label:'Alliance',val:'None'},{label:'Age',val:'< 1 day'}]
+      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Age',val:'< 1 day'}]
     },
   ];
 
@@ -1016,29 +1048,50 @@
   function renderNationsGrid() {
     const grid = document.getElementById('nations-grid');
     if (!grid) return;
+
+    // populate count pills
+    const countRow = document.getElementById('nationsCountRow');
+    if (countRow && !countRow.children.length) {
+      const total = NATIONS.length;
+      const govCounts = {};
+      NATIONS.forEach(n => { govCounts[n.government] = (govCounts[n.government]||0)+1; });
+      const totalPop = NATIONS.reduce((s,n)=>s+parseInt(n.population.replace(/,/g,'')||0),0);
+      countRow.innerHTML = `
+        <span class="nc-pill"><span class="nc-pill-dot" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.6)"></span><strong>${total}</strong>&nbsp;Nations</span>
+        <span class="nc-pill"><strong>${totalPop.toLocaleString()}</strong>&nbsp;Total Citizens</span>
+        <span class="nc-pill"><strong>${Object.keys(govCounts).length}</strong>&nbsp;Gov. Types</span>
+      `;
+    }
+
     grid.innerHTML = NATIONS.map((n, i) => `
-      <div class="nation-card" onclick="openNation('${n.id}')" style="animation:fadeUp .38s ${i * 0.06}s ease both">
-        <div class="nation-top">
-          <div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div>
-          <div>
-            <div class="nation-name">${n.name}</div>
-            <div class="nation-est">${n.est}</div>
+      <div class="nation-card" onclick="openNation('${n.id}')"
+           style="--nc:${n.accentColor};animation:fadeUp .38s ${i * 0.06}s ease both">
+        <div class="nation-body">
+          <div class="nation-top">
+            <div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div>
+            <div>
+              <div class="nation-name">${n.name}</div>
+              <div class="nation-est">${n.est}</div>
+            </div>
+          </div>
+          <div class="nation-divider"></div>
+          <div class="nation-row">
+            <span class="nation-lbl">Population</span>
+            <span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span>
+          </div>
+          <div class="nation-row">
+            <span class="nation-lbl">Founded</span>
+            <span class="nation-val">${n.founded}</span>
+          </div>
+          <div class="nation-row" style="margin-top:2px">
+            <span class="nation-lbl">Government</span>
+            <span class="nation-gov" style="${n.govStyle}">${n.government}</span>
           </div>
         </div>
-        <div class="nation-divider"></div>
-        <div class="nation-row">
-          <span class="nation-lbl">Population</span>
-          <span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span>
+        <div class="nation-footer">
+          <div class="nation-leader-row">👤 <span>${n.leader}</span></div>
+          <span class="nation-arrow">↗</span>
         </div>
-        <div class="nation-row">
-          <span class="nation-lbl">Founded</span>
-          <span class="nation-val">${n.founded}</span>
-        </div>
-        <div class="nation-row" style="margin-top:4px">
-          <span class="nation-lbl">Government</span>
-          <span class="nation-gov" style="${n.govStyle}">${n.government}</span>
-        </div>
-        <span class="nation-click-hint">TAP TO VIEW ↗</span>
       </div>
     `).join('');
   }
