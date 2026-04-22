@@ -724,7 +724,7 @@
       <button class="ibtn tier" id="tierBtn" onclick="openTier()" title="Tier Guide" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </button>
-      <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)">?</button>
+      <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)" style="display:none">?</button>
       <div class="nav-div"></div>
       <div class="ttoggle" onclick="toggleTheme()" title="Toggle theme"><div class="tthumb" id="tth"></div></div>
     </div>
@@ -1272,6 +1272,7 @@
     setNavActive(true, false);
     document.getElementById('navSub').textContent = 'Minigames Server';
     document.getElementById('tierBtn').style.display = 'none';
+    document.getElementById('shortcutBtn').style.display = 'none';
     document.body.classList.remove('on-ranked');
     window.scrollTo({top:0,behavior:'smooth'});
     setTimeout(setupReveal, 50);
@@ -1282,6 +1283,7 @@
     setNavActive(false, true);
     document.getElementById('navSub').textContent = 'Ranked Battle Arena';
     document.getElementById('tierBtn').style.display = '';
+    document.getElementById('shortcutBtn').style.display = '';
     document.body.classList.add('on-ranked');
     window.scrollTo({top:0,behavior:'instant'});
     showRankedMain();
@@ -1296,10 +1298,10 @@
       if (tabs[mMap[mode]]) tabs[mMap[mode]].click();
     }, 80);
   }
-  function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
-  function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
+  function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
+  function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
+  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
+  function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() {
     document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display='';
     const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show');
