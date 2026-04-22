@@ -654,6 +654,42 @@
     body.mono .wc-match.final-match{background:#050505;border-color:rgba(245,200,66,.25);}
     body.mono .wc-header{background:#050505;border-color:#222;}
     @media(max-width:720px){.wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}}
+    /* cursor pointer on match cards */
+    .wc-match{cursor:pointer;}
+    /* ── MATCH MODAL ── */
+    #mm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
+    #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
+    #mm.open #mmb{opacity:1;}
+    #mm.closing #mmb{opacity:0;}
+    #mmi{position:relative;z-index:1;background:#0b0b10;border:1px solid var(--border-card);border-radius:18px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,.9);opacity:0;transform:translateY(24px) scale(.96);transition:opacity .32s cubic-bezier(.22,1,.36,1),transform .32s cubic-bezier(.22,1,.36,1);}
+    #mm.open #mmi{opacity:1;transform:none;transition-delay:.05s;}
+    #mm.closing #mmi{opacity:0;transform:translateY(16px) scale(.97);transition:opacity .22s,transform .22s;}
+    .mm-banner{height:76px;position:relative;overflow:hidden;border-radius:18px 18px 0 0;}
+    .mm-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,#0b0b10 100%);}
+    .mm-body{padding:0 24px 28px;}
+    .mm-round-tag{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:4px;position:relative;z-index:1;margin-top:-8px;}
+    .mm-scoreline{display:flex;align-items:center;gap:0;margin-bottom:10px;}
+    .mm-team-block{flex:1;min-width:0;}
+    .mm-team-block.away{text-align:right;}
+    .mm-club{font-family:var(--font-d);font-size:17px;font-weight:800;line-height:1.2;color:var(--text);}
+    .mm-club.winner{color:var(--gold);}
+    .mm-nation{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1px;color:var(--text-dim);margin-top:3px;}
+    .mm-score-centre{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 14px;flex-shrink:0;}
+    .mm-big-score{font-family:var(--font-d);font-size:46px;font-weight:800;line-height:1;display:flex;align-items:center;gap:8px;}
+    .mm-big-score .w{color:var(--gold);}
+    .mm-big-score .l{color:var(--text-dim);opacity:.4;}
+    .mm-big-score .d{color:var(--text-muted);}
+    .mm-big-score .sep{color:var(--border);font-size:32px;opacity:.6;}
+    .mm-big-score .vs{font-size:20px;letter-spacing:3px;color:var(--gold);}
+    .mm-pens{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text-muted);background:rgba(255,255,255,.05);border:1px solid var(--border);padding:3px 10px;border-radius:5px;}
+    .mm-divider{height:1px;background:var(--border);margin:18px 0;}
+    .mm-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+    .mm-fact{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:10px 13px;}
+    .mm-fact-lbl{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
+    .mm-fact-val{font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text);}
+    .mm-note-box{padding:10px 14px;border-radius:8px;font-family:var(--font-m);font-size:10.5px;font-weight:600;line-height:1.55;letter-spacing:.3px;}
+    body.mono #mmi{background:#050505;border-color:#222;}
+    body.mono .mm-fact{background:#000;border-color:#111;}
   </style>
 </head>
 <body>
@@ -946,215 +982,7 @@
           <span class="wc-stadium-note">🏟️ All matches — SmegTopia Stadium</span>
         </div>
       </div>
-
-      <!-- QUARTER FINALS -->
-      <div class="wc-round">
-        <div class="wc-round-label">
-          <span class="wc-round-title">Quarter Finals</span>
-          <div class="wc-round-line"></div>
-          <span class="wc-round-badge" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)">QF</span>
-        </div>
-        <div class="wc-matches qf">
-
-          <!-- QF1 -->
-          <div class="wc-match played">
-            <div class="wc-match-meta">
-              <span class="wc-date">13 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
-            </div>
-            <div class="wc-match-body">
-              <div class="wc-team">
-                <div class="wc-team-name winner">Smeg City FC</div>
-                <div class="wc-team-nation">Smegtopia</div>
-              </div>
-              <div class="wc-score-block">
-                <span class="wc-score win">9</span>
-                <span class="wc-dash">–</span>
-                <span class="wc-score lose">0</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name">Okpemon FC</div>
-                <div class="wc-team-nation">Okpemon</div>
-              </div>
-            </div>
-            <div class="wc-match-footer"><span class="wc-note"></span></div>
-          </div>
-
-          <!-- QF2 -->
-          <div class="wc-match played">
-            <div class="wc-match-meta">
-              <span class="wc-date">14 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
-            </div>
-            <div class="wc-match-body">
-              <div class="wc-team">
-                <div class="wc-team-name winner">Crabville Breezers</div>
-                <div class="wc-team-nation">Crabville</div>
-              </div>
-              <div class="wc-score-block">
-                <span class="wc-score draw">1</span>
-                <span class="wc-dash">–</span>
-                <span class="wc-score draw">1</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name">Smeggers FC</div>
-                <div class="wc-team-nation">Smegtopia</div>
-              </div>
-            </div>
-            <div class="wc-match-footer">
-              <span class="wc-note">Crabville Breezers win on penalties</span>
-              <span class="wc-pens">5 – 4 pens</span>
-            </div>
-          </div>
-
-          <!-- QF3 -->
-          <div class="wc-match played">
-            <div class="wc-match-meta">
-              <span class="wc-date">15 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
-            </div>
-            <div class="wc-match-body">
-              <div class="wc-team">
-                <div class="wc-team-name winner">Keem Town United</div>
-                <div class="wc-team-nation">Keem</div>
-              </div>
-              <div class="wc-score-block">
-                <span class="wc-score win">5</span>
-                <span class="wc-dash">–</span>
-                <span class="wc-score lose">1</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name">Springfield United</div>
-                <div class="wc-team-nation">Craineun</div>
-              </div>
-            </div>
-            <div class="wc-match-footer"><span class="wc-note"></span></div>
-          </div>
-
-          <!-- QF4 -->
-          <div class="wc-match played">
-            <div class="wc-match-meta">
-              <span class="wc-date">16 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
-            </div>
-            <div class="wc-match-body">
-              <div class="wc-team">
-                <div class="wc-team-name winner">Crainetown FC</div>
-                <div class="wc-team-nation">Craineun</div>
-              </div>
-              <div class="wc-score-block">
-                <span class="wc-score win">2</span>
-                <span class="wc-dash">–</span>
-                <span class="wc-score lose">0</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name">Crabville Creepers</div>
-                <div class="wc-team-nation">Crabville</div>
-              </div>
-            </div>
-            <div class="wc-match-footer"><span class="wc-note"></span></div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- SEMI FINALS -->
-      <div class="wc-round">
-        <div class="wc-round-label">
-          <span class="wc-round-title">Semi Finals</span>
-          <div class="wc-round-line"></div>
-          <span class="wc-round-badge" style="background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.25);color:var(--pink)">SF</span>
-        </div>
-        <div class="wc-matches sf">
-
-          <!-- SF1 -->
-          <div class="wc-match played forfeit">
-            <div class="wc-match-meta">
-              <span class="wc-date">19 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171">FT</span>
-            </div>
-            <div class="wc-match-body">
-              <div class="wc-team">
-                <div class="wc-team-name">Keem Town United</div>
-                <div class="wc-team-nation">Keem</div>
-              </div>
-              <div class="wc-score-block">
-                <span class="wc-score lose">0</span>
-                <span class="wc-dash">–</span>
-                <span class="wc-score win">3</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name winner">Crainetown FC</div>
-                <div class="wc-team-nation">Craineun</div>
-              </div>
-            </div>
-            <div class="wc-match-footer">
-              <span class="wc-note red">⚠️ Crainetown FC win by forfeit — ineligible players fielded by KTU</span>
-            </div>
-          </div>
-
-          <!-- SF2 -->
-          <div class="wc-match played">
-            <div class="wc-match-meta">
-              <span class="wc-date">18 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>
-            </div>
-            <div class="wc-match-body">
-              <div class="wc-team">
-                <div class="wc-team-name">Crabville Breezers</div>
-                <div class="wc-team-nation">Crabville</div>
-              </div>
-              <div class="wc-score-block">
-                <span class="wc-score lose">2</span>
-                <span class="wc-dash">–</span>
-                <span class="wc-score win">3</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name winner">Smeg City FC</div>
-                <div class="wc-team-nation">Smegtopia</div>
-              </div>
-            </div>
-            <div class="wc-match-footer"><span class="wc-note"></span></div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- FINAL -->
-      <div class="wc-round">
-        <div class="wc-round-label">
-          <span class="wc-round-title">Final</span>
-          <div class="wc-round-line"></div>
-          <span class="wc-round-badge" style="background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)">🏆 FINAL</span>
-        </div>
-        <div class="wc-matches final">
-
-          <div class="wc-match upcoming final-match">
-            <div class="wc-match-meta">
-              <span class="wc-date">25 Apr 2026 &nbsp;·&nbsp; 6:00 PM</span>
-              <span class="wc-status-badge" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80;animation:pulse 2s ease-in-out infinite">🟢 UPCOMING</span>
-            </div>
-            <div class="wc-match-body" style="padding:20px 24px 16px">
-              <div class="wc-team">
-                <div class="wc-team-name" style="font-size:18px">Crainetown FC</div>
-                <div class="wc-team-nation">Craineun</div>
-              </div>
-              <div class="wc-score-block" style="gap:10px">
-                <span class="wc-score-tbd" style="font-size:14px;letter-spacing:3px;color:var(--gold)">VS</span>
-              </div>
-              <div class="wc-team away">
-                <div class="wc-team-name" style="font-size:18px">Smeg City FC</div>
-                <div class="wc-team-nation">Smegtopia</div>
-              </div>
-            </div>
-            <div class="wc-match-footer" style="justify-content:center;padding-bottom:14px">
-              <span class="wc-note" style="font-style:normal;color:var(--text-muted);font-size:9.5px">🏟️ SmegTopia Stadium &nbsp;·&nbsp; 25 Apr 2026 at 6:00 PM</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
+      <div id="wc-bracket"></div>
     </div>
 
     <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
@@ -1169,7 +997,14 @@
   <div class="cdd" id="dd1"></div>
   <div class="cdd" id="dd2"></div>
 
-  <!-- NATION DETAIL MODAL -->
+  <!-- MATCH MODAL -->
+  <div id="mm" onclick="if(event.target===this||event.target===document.getElementById('mmb'))closeMatch()">
+    <div id="mmb"></div>
+    <div id="mmi">
+      <button class="nm-close" onclick="closeMatch()">✕</button>
+      <div id="mmc"></div>
+    </div>
+  </div>
   <div id="nm" onclick="if(event.target===this||event.target===document.getElementById('nmb'))closeNation()">
     <div id="nmb"></div>
     <div id="nmi">
@@ -1463,7 +1298,7 @@
   }
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); }
+  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
   function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() {
     document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display='';
@@ -1560,6 +1395,242 @@
   function attachTT(card,mode,stats,aW,aK,aD){const pills=card.querySelectorAll('.spill');if(pills.length<3)return;const labels=[`<b>${stats.wins} Wins</b><span class="tp">${getPctLabel(stats.wins,aW)}</span>`,`<b>${stats.kills} Kills</b><span class="tp">${getPctLabel(stats.kills,aK)}</span>`,`<b>${stats.deaths} Deaths</b><span class="tp">${getPctLabel(stats.deaths,aD,true)}</span>`];pills.forEach((p,i)=>{if(labels[i])p.dataset.tt=labels[i];});}
   (function initTT(){const el=document.getElementById('tt');document.addEventListener('mouseover',e=>{const t=e.target.closest('[data-tt],[data-tid]');if(!t)return;const c=t.dataset.tid?TTS.get(t.dataset.tid):t.dataset.tt;if(!c)return;el.innerHTML=c;el.classList.add('v');});document.addEventListener('mousemove',e=>{if(!el.classList.contains('v'))return;el.style.left=Math.min(e.clientX+14,window.innerWidth-220)+'px';el.style.top=Math.max(e.clientY-36,8)+'px';});document.addEventListener('mouseout',e=>{if(e.target.closest('[data-tt],[data-tid]'))el.classList.remove('v');});})();
   document.addEventListener('keydown',e=>{const tag=document.activeElement.tagName.toLowerCase(),typing=tag==='input'||tag==='textarea';const onRanked=document.getElementById('rankedPage').classList.contains('active');if(e.key==='Escape'){if(document.getElementById('nm').classList.contains('open')){closeNation();return;}if(document.getElementById('sm').classList.contains('open')){closeShortcuts();return;}if(document.getElementById('tm').classList.contains('open')){closeTier();return;}if(document.getElementById('am').classList.contains('open')){closeAch();return;}const pp=document.getElementById('pp'),cop=document.getElementById('cop');if(pp&&pp.style.display!=='none'){backFromProfile();return;}if(cop&&cop.classList.contains('show')){const t=document.querySelector('.rtabs .tab');showMode('overall',t);return;}if(!typing){const s=document.getElementById('si');if(s&&s.value){s.value='';searchPlayers();}}else document.activeElement.blur();}if(e.key==='/'&&!typing){e.preventDefault();const s=document.getElementById('si');if(s&&document.querySelector('.srow').style.display!=='none'){s.focus();s.select();}}if(e.key==='?'&&!typing){e.preventDefault();openShortcuts();return;}if(!typing&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&onRanked){const mMap={'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};if(mMap[e.key]){const tabs=document.querySelectorAll('.rtabs .tab');const idx=Object.keys(mMap).indexOf(e.key);if(tabs[idx])tabs[idx].click();}if(e.key==='7'){const t=document.querySelector('.rtabs .tab:last-child');if(t)t.click();}if(e.key==='r'||e.key==='R'){const srow=document.querySelector('.srow');if(srow&&srow.style.display!=='none')surpriseMe();}}});
+  // ─── CLUB WORLD CUP DATA ─────────────────────────────────────────────────────
+  const WC_MATCHES = [
+    // Quarter Finals
+    {id:'qf1',round:'Quarter Final',roundShort:'QF',date:'13 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Okpemon FC',homeNation:'Okpemon',homeAccent:'#ef4444',
+     away:'Smeg City FC',awayNation:'Smegtopia',awayAccent:'#FF8C00',
+     homeScore:9,awayScore:0,status:'FT',pens:null,forfeit:false,note:''},
+    {id:'qf2',round:'Quarter Final',roundShort:'QF',date:'14 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Crabville Breezers',homeNation:'Crabville',homeAccent:'#9333ea',
+     away:'Smeggers FC',awayNation:'Smegtopia',awayAccent:'#FF8C00',
+     homeScore:1,awayScore:1,status:'FT',pens:{home:5,away:4},forfeit:false,note:'Crabville Breezers win on penalties'},
+    {id:'qf3',round:'Quarter Final',roundShort:'QF',date:'15 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Keem Town United',homeNation:'Keem',homeAccent:'#facc15',
+     away:'Springfield United',awayNation:'Springbuck',awayAccent:'#22c55e',
+     homeScore:5,awayScore:1,status:'FT',pens:null,forfeit:false,note:''},
+    {id:'qf4',round:'Quarter Final',roundShort:'QF',date:'16 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Crainetown FC',homeNation:'Craineun',homeAccent:'#50C878',
+     away:'Crabville Creepers',awayNation:'Crabville',awayAccent:'#9333ea',
+     homeScore:2,awayScore:0,status:'FT',pens:null,forfeit:false,note:''},
+    // Semi Finals
+    {id:'sf1',round:'Semi Final',roundShort:'SF',date:'19 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Keem Town United',homeNation:'Keem',homeAccent:'#facc15',
+     away:'Crainetown FC',awayNation:'Craineun',awayAccent:'#50C878',
+     homeScore:0,awayScore:3,status:'FT',pens:null,forfeit:true,
+     note:'⚠️ Crainetown FC win by forfeit — ineligible players fielded by Keem Town United'},
+    {id:'sf2',round:'Semi Final',roundShort:'SF',date:'18 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Crabville Breezers',homeNation:'Crabville',homeAccent:'#9333ea',
+     away:'Smeg City FC',awayNation:'Smegtopia',awayAccent:'#FF8C00',
+     homeScore:2,awayScore:3,status:'FT',pens:null,forfeit:false,note:''},
+    // Final
+    {id:'final',round:'Final',roundShort:'FINAL',date:'25 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
+     home:'Crainetown FC',homeNation:'Craineun',homeAccent:'#50C878',
+     away:'Smeg City FC',awayNation:'Smegtopia',awayAccent:'#FF8C00',
+     homeScore:null,awayScore:null,status:'UPCOMING',pens:null,forfeit:false,note:''},
+  ];
+
+  function getWinner(m) {
+    if (m.status === 'UPCOMING') return null;
+    if (m.homeScore > m.awayScore) return 'home';
+    if (m.awayScore > m.homeScore) return 'away';
+    if (m.pens) return m.pens.home > m.pens.away ? 'home' : 'away';
+    return null;
+  }
+
+  function renderBracket() {
+    const bracket = document.getElementById('wc-bracket');
+    if (!bracket) return;
+
+    const rounds = [
+      {label:'Quarter Finals', short:'QF', matches:WC_MATCHES.filter(m=>m.roundShort==='QF'),
+       badgeStyle:'background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)', cols:'qf'},
+      {label:'Semi Finals', short:'SF', matches:WC_MATCHES.filter(m=>m.roundShort==='SF'),
+       badgeStyle:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.25);color:var(--pink)', cols:'sf'},
+      {label:'Final', short:'FINAL', matches:WC_MATCHES.filter(m=>m.roundShort==='FINAL'),
+       badgeStyle:'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)', cols:'final'},
+    ];
+
+    bracket.innerHTML = rounds.map(r => `
+      <div class="wc-round">
+        <div class="wc-round-label">
+          <span class="wc-round-title">${r.label}</span>
+          <div class="wc-round-line"></div>
+          <span class="wc-round-badge" style="${r.badgeStyle}">${r.short === 'FINAL' ? '🏆 FINAL' : r.short}</span>
+        </div>
+        <div class="wc-matches ${r.cols}">
+          ${r.matches.map(m => renderMatchCard(m)).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderMatchCard(m) {
+    const winner = getWinner(m);
+    const isUpcoming = m.status === 'UPCOMING';
+    const isFinal = m.roundShort === 'FINAL';
+    const isForfeit = m.forfeit;
+
+    const cardClass = ['wc-match',
+      isUpcoming ? 'upcoming' : 'played',
+      isFinal ? 'final-match' : '',
+      isForfeit ? 'forfeit' : ''
+    ].filter(Boolean).join(' ');
+
+    const statusStyle = isUpcoming
+      ? 'background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80'
+      : isForfeit
+        ? 'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171'
+        : 'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80';
+    const statusLabel = isUpcoming ? '🟢 UPCOMING' : 'FT';
+
+    let scoreHtml;
+    if (isUpcoming) {
+      scoreHtml = `<span class="wc-score-tbd" style="font-size:${isFinal?'16px':'13px'};letter-spacing:3px;color:var(--gold)">VS</span>`;
+    } else {
+      const hClass = winner === 'home' ? 'win' : winner === 'away' ? 'lose' : 'draw';
+      const aClass = winner === 'away' ? 'win' : winner === 'home' ? 'lose' : 'draw';
+      scoreHtml = `<span class="wc-score ${hClass}">${m.homeScore}</span><span class="wc-dash">–</span><span class="wc-score ${aClass}">${m.awayScore}</span>`;
+    }
+
+    const nameSize = isFinal ? 'font-size:17px' : '';
+
+    return `
+      <div class="${cardClass}" onclick="openMatch('${m.id}')">
+        <div class="wc-match-meta">
+          <span class="wc-date">${m.date} &nbsp;·&nbsp; ${m.time}</span>
+          <span class="wc-status-badge" style="${statusStyle}">${statusLabel}</span>
+        </div>
+        <div class="wc-match-body"${isFinal?' style="padding:18px 20px 14px"':''}>
+          <div class="wc-team">
+            <div class="wc-team-name${winner==='home'?' winner':''}" style="${nameSize}">${m.home}</div>
+            <div class="wc-team-nation">${m.homeNation}</div>
+          </div>
+          <div class="wc-score-block">${scoreHtml}</div>
+          <div class="wc-team away">
+            <div class="wc-team-name${winner==='away'?' winner':''}" style="${nameSize}">${m.away}</div>
+            <div class="wc-team-nation">${m.awayNation}</div>
+          </div>
+        </div>
+        <div class="wc-match-footer">
+          ${m.pens ? `<span class="wc-note">${m.note}</span><span class="wc-pens">${m.pens.home} – ${m.pens.away} pens</span>` :
+            m.note ? `<span class="wc-note${m.forfeit?' red':''}">${m.note}</span>` :
+            isUpcoming ? `<span class="wc-note" style="font-style:normal;color:var(--text-muted)">🏟️ ${m.stadium}</span>` :
+            '<span></span>'}
+        </div>
+      </div>`;
+  }
+
+  function openMatch(id) {
+    const m = WC_MATCHES.find(x => x.id === id);
+    if (!m) return;
+    const winner = getWinner(m);
+    const isUpcoming = m.status === 'UPCOMING';
+    const isFinal = m.roundShort === 'FINAL';
+    const accentColor = isFinal ? '#F5C842' : m.roundShort === 'SF' ? '#FF1A6D' : 'rgba(255,255,255,.15)';
+
+    let scoreSectionHtml;
+    if (isUpcoming) {
+      scoreSectionHtml = `
+        <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
+          <div style="display:flex;align-items:center;gap:24px;width:100%">
+            <div class="mm-team-block"><div class="mm-club">${m.home}</div><div class="mm-nation">${m.homeNation}</div></div>
+            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            <div class="mm-team-block away"><div class="mm-club">${m.away}</div><div class="mm-nation">${m.awayNation}</div></div>
+          </div>
+        </div>`;
+    } else {
+      const hClass = winner==='home'?'w':winner==='away'?'l':'d';
+      const aClass = winner==='away'?'w':winner==='home'?'l':'d';
+      scoreSectionHtml = `
+        <div class="mm-scoreline">
+          <div class="mm-team-block">
+            <div class="mm-club${winner==='home'?' winner':''}">${m.home}</div>
+            <div class="mm-nation">${m.homeNation}</div>
+          </div>
+          <div class="mm-score-centre">
+            <div class="mm-big-score">
+              <span class="${hClass}">${m.homeScore}</span>
+              <span class="sep">–</span>
+              <span class="${aClass}">${m.awayScore}</span>
+            </div>
+            ${m.pens ? `<div class="mm-pens">${m.pens.home} – ${m.pens.away} on penalties</div>` : ''}
+          </div>
+          <div class="mm-team-block away">
+            <div class="mm-club${winner==='away'?' winner':''}">${m.away}</div>
+            <div class="mm-nation">${m.awayNation}</div>
+          </div>
+        </div>`;
+    }
+
+    const roundTagStyle = isFinal
+      ? 'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.3);color:var(--gold)'
+      : m.roundShort==='SF'
+        ? 'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.25);color:var(--pink)'
+        : 'background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)';
+
+    const statusLine = isUpcoming
+      ? `<div class="mm-fact-val" style="color:#4ade80">🟢 Upcoming</div>`
+      : m.forfeit
+        ? `<div class="mm-fact-val" style="color:#f87171">FT — Forfeit</div>`
+        : `<div class="mm-fact-val" style="color:#4ade80">Full Time</div>`;
+
+    const noteHtml = m.note ? `
+      <div class="mm-note-box" style="${m.forfeit
+        ? 'background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);color:#f87171'
+        : 'background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-muted)'}">
+        ${m.note}
+      </div>` : '';
+
+    document.getElementById('mmc').innerHTML = `
+      <div class="mm-banner" style="background:linear-gradient(135deg,${accentColor}20 0%,transparent 70%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="mm-body">
+        <span class="mm-round-tag" style="${roundTagStyle}">${m.round.toUpperCase()}</span>
+        ${scoreSectionHtml}
+        <div class="mm-divider"></div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">Date</div><div class="mm-fact-val">${m.date}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${m.time}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Stadium</div><div class="mm-fact-val">${m.stadium}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div>${statusLine}</div>
+        </div>
+        ${noteHtml}
+      </div>`;
+
+    const modal = document.getElementById('mm');
+    modal.classList.remove('closing');
+    modal.style.display = 'flex';
+    modal.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMatch() {
+    const modal = document.getElementById('mm');
+    modal.classList.add('closing');
+    setTimeout(() => {
+      modal.classList.remove('open', 'closing');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }, 280);
+  }
+
+  // also close match modal on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('mm').classList.contains('open')) {
+      closeMatch();
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    renderBracket();
+  });
+
   window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));createPlayers('overall');setupReveal();document.getElementById('navBrand').addEventListener('click',()=>{if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);});});
   </script>
 </body>
