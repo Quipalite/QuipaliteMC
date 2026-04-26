@@ -407,7 +407,6 @@
     .fb-wrap iframe{display:block;width:100%;height:640px;border:none;filter:invert(1) hue-rotate(180deg) brightness(0.86) contrast(0.95);}
     body.mono .fb-wrap iframe{filter:invert(1) hue-rotate(180deg) brightness(0.80) contrast(0.90);}
     @media(max-width:600px){.fb-wrap iframe{height:760px;}}
-    /* ── NATION MODAL ── */
     #nm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
     #nmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
     #nm.open #nmb{opacity:1;}
@@ -439,55 +438,39 @@
     .nm-fact-row:last-child{border-bottom:none;}
     .nm-fact-lbl{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);}
     .nm-fact-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
-    /* ── CURRENT NATIONS PAGE ── */
     #currentNationsPage .nations-header{padding:56px 24px 0;}
     #currentNationsPage .nations-inner{max-width:1100px;margin:0 auto;}
-
-    /* Hero banner strip for nations page */
     .nations-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px;}
     .nations-hero-left{flex:1;min-width:260px;}
     .nations-count-row{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap;}
     .nc-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:100px;border:1px solid var(--border-card);background:var(--surface);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-muted);}
     .nc-pill strong{color:var(--text);}
     .nc-pill-dot{width:7px;height:7px;border-radius:50%;}
-
     #nations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:0;}
-
-    /* Nation card — accent colour applied via inline --nc CSS var */
     .nation-card{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:0;cursor:pointer;color:var(--text);transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s,background .3s;}
-    /* coloured top stripe */
     .nation-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--nc-stripe,var(--border));opacity:.8;transition:opacity .3s;}
     .nation-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);top:3px;}
     .nation-card:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--nc,white) 45%,transparent);background:color-mix(in srgb,var(--nc,white) 4%,var(--surface));box-shadow:0 24px 64px rgba(0,0,0,.55),0 0 0 1px color-mix(in srgb,var(--nc,white) 18%,transparent),0 0 32px color-mix(in srgb,var(--nc,white) 8%,transparent);}
     .nation-card:hover::before{opacity:1;}
     .nation-card:active{transform:translateY(-2px);}
-
-    /* card inner padding wrapper */
     .nation-body{padding:18px 20px 16px;}
-
     .nation-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-    .nation-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;transition:transform .25s cubic-bezier(.22,1,.36,1);}
+    .nation-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;transition:transform .25px cubic-bezier(.22,1,.36,1);}
     .nation-card:hover .nation-ico{transform:scale(1.08);}
     .nation-name{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--text);line-height:1.15;}
     .nation-est{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:3px;}
-
     .nation-divider{height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--nc,white) 35%,transparent),transparent);margin-bottom:12px;}
-
     .nation-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
     .nation-row:last-child{margin-bottom:0;}
     .nation-lbl{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);}
     .nation-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
     .nation-gov{font-family:var(--font-m);font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:4px;}
-
-    /* card footer */
     .nation-footer{padding:10px 20px 12px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;}
     .nation-leader-row{display:flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:9.5px;font-weight:700;color:var(--text-muted);}
     .nation-leader-row span{color:var(--text);}
     .nation-arrow{font-size:11px;color:var(--text-dim);transition:color .2s,transform .2s;}
     .nation-card:hover .nation-arrow{color:var(--text);transform:translate(2px,-2px);}
-
     .nation-click-hint{display:none;}
-    /* ── CLUB WORLD CUP ── */
     .wc-section{max-width:1100px;margin:64px auto 0;padding:0 24px 80px;}
     .wc-header{text-align:center;margin-bottom:40px;padding:32px 24px 28px;position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,26,109,.04) 50%,transparent 100%);border:1px solid rgba(245,200,66,.14);}
     .wc-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);background-size:22px 22px;}
@@ -496,18 +479,15 @@
     .wc-title{font-family:var(--font-d);font-size:clamp(22px,3.5vw,34px);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-shadow:0 0 30px rgba(245,200,66,.35);position:relative;}
     .wc-sub{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:6px;position:relative;}
     .wc-stadium-note{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-muted);position:relative;}
-
     .wc-round{margin-bottom:44px;}
     .wc-round-label{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
     .wc-round-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);}
     .wc-round-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
     .wc-round-badge{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:1.5px;padding:2px 9px;border-radius:4px;}
-
     .wc-matches{display:grid;gap:10px;}
     .wc-matches.qf{grid-template-columns:repeat(2,1fr);}
     .wc-matches.sf{grid-template-columns:repeat(2,1fr);}
     .wc-matches.final{grid-template-columns:1fr;}
-
     .wc-match{border-radius:12px;border:1px solid var(--border-card);background:var(--surface);overflow:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .28s,box-shadow .28s;}
     .wc-match:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.45);}
     .wc-match.played{border-color:rgba(255,255,255,.1);}
@@ -515,18 +495,15 @@
     .wc-match.final-match{border-color:rgba(245,200,66,.3);background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,26,109,.04) 50%,var(--surface) 80%);box-shadow:0 0 0 1px rgba(245,200,66,.08);}
     .wc-match.final-match:hover{border-color:rgba(245,200,66,.5);box-shadow:0 16px 40px rgba(0,0,0,.5),0 0 30px rgba(245,200,66,.12);}
     .wc-match.forfeit{border-color:rgba(248,113,113,.2);background:linear-gradient(135deg,rgba(248,113,113,.04) 0%,var(--surface) 60%);}
-
     .wc-match-meta{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 6px;border-bottom:1px solid rgba(255,255,255,.05);}
     .wc-date{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1px;color:var(--text-dim);}
     .wc-status-badge{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:3px;text-transform:uppercase;}
-
     .wc-match-body{padding:14px 16px 12px;display:flex;align-items:center;gap:10px;}
     .wc-team{flex:1;min-width:0;}
     .wc-team-name{font-family:var(--font-d);font-size:13.5px;font-weight:800;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .wc-team-name.winner{color:var(--gold);}
     .wc-team-nation{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);margin-top:2px;}
     .wc-team.away{text-align:right;}
-
     .wc-score-block{display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .wc-score{font-family:var(--font-d);font-size:26px;font-weight:800;line-height:1;min-width:22px;text-align:center;}
     .wc-score.win{color:var(--gold);}
@@ -534,7 +511,6 @@
     .wc-score.draw{color:var(--text-muted);}
     .wc-dash{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--text-dim);}
     .wc-score-tbd{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text-dim);padding:0 6px;}
-
     .wc-match-footer{padding:6px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
     .wc-note{font-family:var(--font-m);font-size:8.5px;font-weight:600;color:var(--text-dim);font-style:italic;}
     .wc-note.red{color:#f87171;}
@@ -654,9 +630,7 @@
     body.mono .wc-match.final-match{background:#050505;border-color:rgba(245,200,66,.25);}
     body.mono .wc-header{background:#050505;border-color:#222;}
     @media(max-width:720px){.wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}}
-    /* cursor pointer on match cards */
     .wc-match{cursor:pointer;}
-    /* ── MATCH MODAL ── */
     #mm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
     #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
     #mm.open #mmb{opacity:1;}
@@ -972,7 +946,6 @@
       </div>
     </div>
 
-    <!-- CLUB WORLD CUP -->
     <div class="wc-section" id="wcSection">
       <div class="wc-header">
         <span class="wc-trophy">🏆</span>
@@ -1055,216 +1028,45 @@
   </div>
 
   <script>
-  // ─── NATION DATA ─────────────────────────────────────────────────────────────
   const NATIONS = [
-    {
-      id:'smegtopia',name:'Smegtopia',icon:'🏛️',
-      iconBg:'rgba(255,140,0,.12)',iconBorder:'rgba(255,140,0,.25)',
-      accentColor:'#FF8C00',colors:['#FF8C00'],est:'Est. 1.1.26',founded:'1 Jan 2026',
-      leader:'SadInFusIOns',population:'977',capital:'N/A',currency:'Smegbucks',currencyColor:'#FF8C00',
-      government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
-      description:'Smegtopia is one of the original founding nations of the server. Built on democratic principles, it has grown steadily since day one under the steady leadership of SadInFusIOns. Known for its unique Smegbucks economy, citizens enjoy a fair and community-driven experience.',
-      tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Founding Nation',style:'background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:#FF8C00'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]
-    },
-    {
-      id:'crabville',name:'Crabville',icon:'🦀',
-      iconBg:'rgba(147,51,234,.1)',iconBorder:'rgba(147,51,234,.25)',
-      accentColor:'#9333ea',colors:['#9333ea'],est:'Est. 17.2.26',founded:'17 Feb 2026',
-      leader:'Killedbycrab',population:'3,370',capital:'N/A',currency:'Iron',currencyColor:'#8b8b8b',
-      government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
-      description:'Crabville is the most populous nation on the server, boasting an impressive 3,370 citizens. Led by the formidable Killedbycrab, this democratic powerhouse has rapidly expanded since its founding. Its iron-based economy reflects the no-nonsense, industrious spirit of its people.',
-      tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Most Populated',style:'background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.3);color:#9333ea'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]
-    },
-    {
-      id:'keem',name:'Keem',icon:'⚔️',
-      iconBg:'rgba(250,204,21,.08)',iconBorder:'rgba(250,204,21,.2)',
-      accentColor:'#facc15',colors:['#facc15'],est:'Est. 12.1.26',founded:'12 Jan 2026',
-      leader:'WARDY B33',population:'0',capital:'N/A',currency:'Diamonds',currencyColor:'#00BFFF',
-      government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
-      description:'Keem is an early nation founded shortly after the server launch. Currently in a rebuilding phase with zero registered population, WARDY B33 leads this diamond-currency nation with ambitions to grow.',
-      tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Rebuilding',style:'background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.25);color:#facc15'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Neutral'}]
-    },
-    {
-      id:'craineun',name:'Craineun',icon:'🌿',
-      iconBg:'rgba(239,68,68,.1)',iconBorder:'rgba(239,68,68,.25)',
-      accentColor:'#ef4444',colors:['#ef4444','#ffffff','#3b82f6'],est:'Est. 12.1.26',founded:'12 Jan 2026',
-      leader:'Aftlow',population:'2,750',capital:'Craintown',currency:'Emeralds',currencyColor:'#50C878',
-      government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',
-      description:'Craineun stands as one of the most established nations, founded by the legendary Aftlow — builder and former ranked player. With a thriving population of 2,750 and the server\'s only named capital city, Craintown, Craineun is a beacon of organised governance and green prosperity.',
-      tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Has Capital',style:'background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.3);color:#50C878'},{label:'Founding Nation',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Large'},{label:'Capital City',val:'Craintown'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]
-    },
-    {
-      id:'sylvian',name:'Sylvian',icon:'🌙',
-      iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(34,197,94,.2)',
-      accentColor:'#22c55e',colors:['#22c55e'],est:'Est. 18.1.26',founded:'18 Jan 2026',
-      leader:'Ushindo',population:'110',capital:'N/A',currency:'Emeralds',currencyColor:'#50C878',
-      government:'Monarchy',govStyle:'background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e',
-      description:'Sylvian is the only Monarchy on the server, ruled absolutely by Ushindo. A mysterious and small nation of 110 dedicated subjects, Sylvian operates by royal decree. Its green realm sets it apart from the democracies and dictatorships that surround it — an intriguing wildcard on the map.',
-      tags:[{label:'Monarchy',style:'background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e'},{label:'Unique Gov.',style:'background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Medium'},{label:'Alliance',val:'None'}]
-    },
-    {
-      id:'springbuck',name:'Springbuck',icon:'🦌',
-      iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(250,204,21,.25)',
-      accentColor:'#22c55e',colors:['#22c55e','#facc15'],est:'Est. 8.4.26',founded:'8 Apr 2026',
-      leader:'Neska5036',population:'2,400',capital:'N/A',currency:'Rand',currencyColor:'#facc15',
-      government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',
-      description:'One of the newer nations, Springbuck has exploded onto the scene with an impressive 2,400 citizens. Led by Neska5036 under a Communist government, all resources are shared equally among citizens. The Rand currency symbolises its South African-inspired identity.',
-      tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},{label:'Fast Growing',style:'background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'Open'}]
-    },
-    {
-      id:'okpemon',name:'Okpemon',icon:'💧',
-      iconBg:'rgba(17,17,17,.3)',iconBorder:'rgba(239,68,68,.3)',
-      accentColor:'#ef4444',colors:['#111111','#ef4444'],est:'Est. 24.4.26',founded:'24 Apr 2026',
-      leader:'bubbler2009',population:'0',capital:'N/A',currency:'Bubbles',currencyColor:'#ef4444',
-      government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',
-      description:'Okpemon was founded by bubbler2009 as a communist nation. Currently with 0 citizens.',
-      tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'None'}]
-    },
-    {
-      id:'wancerville',name:'Wancerville',icon:'👑',
-      iconBg:'rgba(245,200,66,.08)',iconBorder:'rgba(248,113,113,.3)',
-      accentColor:'#F5C842',colors:['#F5C842','#f87171'],est:'Est. 10.4.26',founded:'10 Apr 2026',
-      leader:'Wancerr',population:'0',capital:'N/A',currency:'Gold',currencyColor:'#F5C842',
-      government:'Dictatorship',govStyle:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171',
-      description:'Wancerville is a fresh Dictatorship founded by Wancerr. The only nation on the server operating under authoritarian rule — Wancerr\'s word is law. Currently with no registered population, this gold-backed nation is recruiting. Those who join will thrive under strong, decisive leadership.',
-      tags:[{label:'Dictatorship',style:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]
-    },
-    {
-      id:'waterland',name:'Waterland',icon:'🌊',
-      iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,140,0,.3)',
-      accentColor:'#1E90FF',colors:['#1E90FF','#FF8C00'],est:'Est. 13.4.26',founded:'13 Apr 2026',
-      leader:'Gooner5342',population:'128',capital:'N/A',currency:'British Pounds',currencyColor:'#1E90FF',
-      government:'Reform',govStyle:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF',
-      description:'Waterland is one of the newer nations on the server, founded by Gooner5342 under a Reform government. With 128 citizens and growing, Waterland operates with British Pounds as its currency and is steadily carving out its place on the world map.',
-      tags:[{label:'Reform',style:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'}]
-    },
-    {
-      id:'corexia',name:'Corexia',icon:'💾',
-      iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',
-      accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',
-      leader:'RealO75',population:'14',capital:'N/A',currency:'Credits',currencyColor:'#00FFFF',
-      government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',
-      description:'Corexia is a recently founded nation established by RealO75 under a Technocracy — governance by technical experts. Operating a fully digital economy where all transactions are conducted via cards and chips, Corexia represents a vision of a high-tech future on the server.',
-      tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'}]
-    },
-    {
-      id:'smogtowne',name:'Smogtowne',icon:'🌫️',
-      iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',
-      accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',
-      leader:'RT2345678',population:'0',capital:'N/A',currency:'Smucks',currencyColor:'#888888',
-      government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',
-      description:'Smogtowne is one of the newest nations on the server, founded by RT2345678 under a Smog government — a unique form of Communism. Shrouded in mystery, this grey nation is in its earliest days with no registered citizens yet, but its distinct ideology and aesthetic set it apart from every other nation on the map.',
-      tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],
-      facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]
-    },
+    {id:'smegtopia',name:'Smegtopia',icon:'🏛️',iconBg:'rgba(255,140,0,.12)',iconBorder:'rgba(255,140,0,.25)',accentColor:'#FF8C00',colors:['#FF8C00'],est:'Est. 1.1.26',founded:'1 Jan 2026',leader:'SadInFusIOns',population:'977',capital:'N/A',currency:'Smegbucks',currencyColor:'#FF8C00',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Smegtopia is one of the original founding nations of the server. Built on democratic principles, it has grown steadily since day one under the steady leadership of SadInFusIOns. Known for its unique Smegbucks economy, citizens enjoy a fair and community-driven experience.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Founding Nation',style:'background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:#FF8C00'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
+    {id:'crabville',name:'Crabville',icon:'🦀',iconBg:'rgba(147,51,234,.1)',iconBorder:'rgba(147,51,234,.25)',accentColor:'#9333ea',colors:['#9333ea'],est:'Est. 17.2.26',founded:'17 Feb 2026',leader:'Killedbycrab',population:'3,370',capital:'N/A',currency:'Iron',currencyColor:'#8b8b8b',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Crabville is the most populous nation on the server, boasting an impressive 3,370 citizens. Led by the formidable Killedbycrab, this democratic powerhouse has rapidly expanded since its founding. Its iron-based economy reflects the no-nonsense, industrious spirit of its people.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Most Populated',style:'background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.3);color:#9333ea'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
+    {id:'keem',name:'Keem',icon:'⚔️',iconBg:'rgba(250,204,21,.08)',iconBorder:'rgba(250,204,21,.2)',accentColor:'#facc15',colors:['#facc15'],est:'Est. 12.1.26',founded:'12 Jan 2026',leader:'WARDY B33',population:'0',capital:'N/A',currency:'Diamonds',currencyColor:'#00BFFF',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Keem is an early nation founded shortly after the server launch. Currently in a rebuilding phase with zero registered population, WARDY B33 leads this diamond-currency nation with ambitions to grow.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Rebuilding',style:'background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.25);color:#facc15'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Neutral'}]},
+    {id:'craineun',name:'Craineun',icon:'🌿',iconBg:'rgba(239,68,68,.1)',iconBorder:'rgba(239,68,68,.25)',accentColor:'#ef4444',colors:['#ef4444','#ffffff','#3b82f6'],est:'Est. 12.1.26',founded:'12 Jan 2026',leader:'Aftlow',population:'2,750',capital:'Craintown',currency:'Emeralds',currencyColor:'#50C878',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:"Craineun stands as one of the most established nations, founded by the legendary Aftlow — builder and former ranked player. With a thriving population of 2,750 and the server's only named capital city, Craintown, Craineun is a beacon of organised governance and green prosperity.",tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Has Capital',style:'background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.3);color:#50C878'},{label:'Founding Nation',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Large'},{label:'Capital City',val:'Craintown'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
+    {id:'sylvian',name:'Sylvian',icon:'🌙',iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(34,197,94,.2)',accentColor:'#22c55e',colors:['#22c55e'],est:'Est. 18.1.26',founded:'18 Jan 2026',leader:'Ushindo',population:'110',capital:'N/A',currency:'Emeralds',currencyColor:'#50C878',government:'Monarchy',govStyle:'background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e',description:'Sylvian is the only Monarchy on the server, ruled absolutely by Ushindo. A mysterious and small nation of 110 dedicated subjects, Sylvian operates by royal decree. Its green realm sets it apart from the democracies and dictatorships that surround it — an intriguing wildcard on the map.',tags:[{label:'Monarchy',style:'background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e'},{label:'Unique Gov.',style:'background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Medium'},{label:'Alliance',val:'None'}]},
+    {id:'springbuck',name:'Springbuck',icon:'🦌',iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(250,204,21,.25)',accentColor:'#22c55e',colors:['#22c55e','#facc15'],est:'Est. 8.4.26',founded:'8 Apr 2026',leader:'Neska5036',population:'2,400',capital:'N/A',currency:'Rand',currencyColor:'#facc15',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'One of the newer nations, Springbuck has exploded onto the scene with an impressive 2,400 citizens. Led by Neska5036 under a Communist government, all resources are shared equally among citizens. The Rand currency symbolises its South African-inspired identity.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},{label:'Fast Growing',style:'background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'Open'}]},
+    {id:'okpemon',name:'Okpemon',icon:'💧',iconBg:'rgba(17,17,17,.3)',iconBorder:'rgba(239,68,68,.3)',accentColor:'#ef4444',colors:['#111111','#ef4444'],est:'Est. 24.4.26',founded:'24 Apr 2026',leader:'bubbler2009',population:'0',capital:'N/A',currency:'Bubbles',currencyColor:'#ef4444',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'Okpemon was founded by bubbler2009 as a communist nation. Currently with 0 citizens.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'None'}]},
+    {id:'wancerville',name:'Wancerville',icon:'👑',iconBg:'rgba(245,200,66,.08)',iconBorder:'rgba(248,113,113,.3)',accentColor:'#F5C842',colors:['#F5C842','#f87171'],est:'Est. 10.4.26',founded:'10 Apr 2026',leader:'Wancerr',population:'0',capital:'N/A',currency:'Gold',currencyColor:'#F5C842',government:'Dictatorship',govStyle:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171',description:"Wancerville is a fresh Dictatorship founded by Wancerr. The only nation on the server operating under authoritarian rule — Wancerr's word is law. Currently with no registered population, this gold-backed nation is recruiting. Those who join will thrive under strong, decisive leadership.",tags:[{label:'Dictatorship',style:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
+    {id:'waterland',name:'Waterland',icon:'🌊',iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,140,0,.3)',accentColor:'#1E90FF',colors:['#1E90FF','#FF8C00'],est:'Est. 13.4.26',founded:'13 Apr 2026',leader:'Gooner5342',population:'128',capital:'N/A',currency:'British Pounds',currencyColor:'#1E90FF',government:'Reform',govStyle:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF',description:'Waterland is one of the newer nations on the server, founded by Gooner5342 under a Reform government. With 128 citizens and growing, Waterland operates with British Pounds as its currency and is steadily carving out its place on the world map.',tags:[{label:'Reform',style:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'}]},
+    {id:'corexia',name:'Corexia',icon:'💾',iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',leader:'RealO75',population:'14',capital:'N/A',currency:'Credits',currencyColor:'#00FFFF',government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',description:'Corexia is a recently founded nation established by RealO75 under a Technocracy — governance by technical experts. Operating a fully digital economy where all transactions are conducted via cards and chips, Corexia represents a vision of a high-tech future on the server.',tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'}]},
+    {id:'smogtowne',name:'Smogtowne',icon:'🌫️',iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',leader:'RT2345678',population:'0',capital:'N/A',currency:'Smucks',currencyColor:'#888888',government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',description:'Smogtowne is one of the newest nations on the server, founded by RT2345678 under a Smog government — a unique form of Communism. Shrouded in mystery, this grey nation is in its earliest days with no registered citizens yet, but its distinct ideology and aesthetic set it apart from every other nation on the map.',tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
   ];
 
-  // ─── RENDER NATIONS GRID ─────────────────────────────────────────────────────
-  // CHANGE 2: Cards show only Population, Founded (date), Government
-  // CHANGE 3: Okpemon has no "Newest Nation" tag (handled in data above)
   function renderNationsGrid() {
     const grid = document.getElementById('nations-grid');
     if (!grid) return;
-
-    // populate count pills
     const countRow = document.getElementById('nationsCountRow');
     if (countRow && !countRow.children.length) {
       const total = NATIONS.length;
       const govCounts = {};
       NATIONS.forEach(n => { govCounts[n.government] = (govCounts[n.government]||0)+1; });
       const totalPop = NATIONS.reduce((s,n)=>s+parseInt(n.population.replace(/,/g,'')||0),0);
-      countRow.innerHTML = `
-        <span class="nc-pill"><span class="nc-pill-dot" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.6)"></span><strong>${total}</strong>&nbsp;Nations</span>
-        <span class="nc-pill"><strong>${totalPop.toLocaleString()}</strong>&nbsp;Total Citizens</span>
-        <span class="nc-pill"><strong>${Object.keys(govCounts).length}</strong>&nbsp;Gov. Types</span>
-      `;
+      countRow.innerHTML = `<span class="nc-pill"><span class="nc-pill-dot" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.6)"></span><strong>${total}</strong>&nbsp;Nations</span><span class="nc-pill"><strong>${totalPop.toLocaleString()}</strong>&nbsp;Total Citizens</span><span class="nc-pill"><strong>${Object.keys(govCounts).length}</strong>&nbsp;Gov. Types</span>`;
     }
-
     grid.innerHTML = NATIONS.map((n, i) => {
-      // build stripe gradient from nation colours
-      const stripe = n.colors && n.colors.length > 1
-        ? `linear-gradient(90deg,${n.colors.join(',')})`
-        : (n.colors && n.colors[0]) || n.accentColor;
-      // first colour drives the card hover glow
+      const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
       const firstCol = (n.colors && n.colors[0]) || n.accentColor;
-      // derive rgba for icon bg/border from first colour
-      const iconBgStyle = n.iconBg;
-      const iconBorderStyle = n.iconBorder;
-      return `
-      <div class="nation-card" onclick="openNation('${n.id}')"
-           style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both">
-        <div class="nation-body">
-          <div class="nation-top">
-            <div class="nation-ico" style="background:${iconBgStyle};border:1px solid ${iconBorderStyle};">${n.icon}</div>
-            <div>
-              <div class="nation-name">${n.name}</div>
-              <div class="nation-est">${n.est}</div>
-            </div>
-          </div>
-          <div class="nation-divider"></div>
-          <div class="nation-row">
-            <span class="nation-lbl">Population</span>
-            <span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span>
-          </div>
-          <div class="nation-row">
-            <span class="nation-lbl">Founded</span>
-            <span class="nation-val">${n.founded}</span>
-          </div>
-          <div class="nation-row" style="margin-top:2px">
-            <span class="nation-lbl">Government</span>
-            <span class="nation-gov" style="${n.govStyle}">${n.government}</span>
-          </div>
-        </div>
-        <div class="nation-footer">
-          <div class="nation-leader-row">👤 <span>${n.leader}</span></div>
-          <span class="nation-arrow">↗</span>
-        </div>
-      </div>`;
+      return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both"><div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">Population</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">Founded</span><span class="nation-val">${n.founded}</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">Government</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
     }).join('');
   }
 
-  // ─── NATION MODAL ─────────────────────────────────────────────────────────────
   function openNation(id) {
     const n = NATIONS.find(x => x.id === id);
     if (!n) return;
     const tagsHtml = n.tags.map(t => `<span class="nm-tag" style="${t.style}">${t.label}</span>`).join('');
     const factsHtml = n.facts.map(f => `<div class="nm-fact-row"><span class="nm-fact-lbl">${f.label}</span><span class="nm-fact-val">${f.val}</span></div>`).join('');
     const colorsHtml = n.colors ? `<div class="nm-fact-row"><span class="nm-fact-lbl">Nation Colours</span><span style="display:flex;gap:5px;align-items:center">${n.colors.map(c=>`<span title="${c}" style="display:inline-block;width:18px;height:18px;border-radius:4px;background:${c};border:1px solid rgba(255,255,255,${c==='#ffffff'?'.4':'.15'});box-shadow:0 2px 6px rgba(0,0,0,.4)"></span>`).join('')}</span></div>` : '';
-    document.getElementById('nmc').innerHTML = `
-      <div class="nm-banner" style="background:linear-gradient(135deg,${(n.colors&&n.colors[0])||n.accentColor}20 0%,${n.colors&&n.colors.length>1?n.colors[n.colors.length-1]+'10':n.accentColor+'06'} 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div>
-      <div class="nm-body">
-        <div class="nm-header">
-          <div class="nm-ico-wrap" style="background:${n.iconBg};border-color:${n.iconBorder};">${n.icon}</div>
-          <div class="nm-title-wrap"><div class="nm-name">${n.name}</div><div class="nm-est">${n.est}</div></div>
-        </div>
-        <p class="nm-desc">${n.description}</p>
-        <div class="nm-stats">
-          <div class="nm-stat"><div class="nm-stat-lbl">Leader</div><div class="nm-stat-val">${n.leader}</div></div>
-          <div class="nm-stat"><div class="nm-stat-lbl">Population</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</div></div>
-          <div class="nm-stat"><div class="nm-stat-lbl">Currency</div><div class="nm-stat-val" style="color:${n.currencyColor}">${n.currency}</div></div>
-          <div class="nm-stat"><div class="nm-stat-lbl">Capital</div><div class="nm-stat-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</div></div>
-        </div>
-        <div class="nm-tag-row">${tagsHtml}</div>
-        <div class="nm-sec-h">Nation Details</div>
-        <div>${factsHtml}</div>
-        <div class="nm-sec-h" style="margin-top:20px">Government</div>
-        <div class="nm-fact-row">
-          <span class="nm-fact-lbl">System</span>
-          <span style="font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;${n.govStyle}">${n.government}</span>
-        </div>
-        <div class="nm-fact-row"><span class="nm-fact-lbl">Founded</span><span class="nm-fact-val">${n.founded}</span></div>
-        ${colorsHtml}
-      </div>`;
+    document.getElementById('nmc').innerHTML = `<div class="nm-banner" style="background:linear-gradient(135deg,${(n.colors&&n.colors[0])||n.accentColor}20 0%,${n.colors&&n.colors.length>1?n.colors[n.colors.length-1]+'10':n.accentColor+'06'} 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div><div class="nm-body"><div class="nm-header"><div class="nm-ico-wrap" style="background:${n.iconBg};border-color:${n.iconBorder};">${n.icon}</div><div class="nm-title-wrap"><div class="nm-name">${n.name}</div><div class="nm-est">${n.est}</div></div></div><p class="nm-desc">${n.description}</p><div class="nm-stats"><div class="nm-stat"><div class="nm-stat-lbl">Leader</div><div class="nm-stat-val">${n.leader}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Population</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Currency</div><div class="nm-stat-val" style="color:${n.currencyColor}">${n.currency}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Capital</div><div class="nm-stat-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</div></div></div><div class="nm-tag-row">${tagsHtml}</div><div class="nm-sec-h">Nation Details</div><div>${factsHtml}</div><div class="nm-sec-h" style="margin-top:20px">Government</div><div class="nm-fact-row"><span class="nm-fact-lbl">System</span><span style="font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;${n.govStyle}">${n.government}</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Founded</span><span class="nm-fact-val">${n.founded}</span></div>${colorsHtml}</div>`;
     const m = document.getElementById('nm');
     m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
     requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
@@ -1277,7 +1079,6 @@
     setTimeout(() => { m.classList.remove('open','closing'); m.style.display = 'none'; document.body.style.overflow = ''; document.body.style.paddingRight = ''; }, 280);
   }
 
-  // ─── NAVIGATION ──────────────────────────────────────────────────────────────
   let mono = false;
   const tth = document.getElementById('tth');
   document.getElementById('navLogo').addEventListener('click', function(e) { e.stopPropagation(); window.location.reload(); });
@@ -1285,62 +1086,20 @@
     document.getElementById('nlHome').classList.toggle('active', home);
     document.getElementById('nlRanked').classList.toggle('active', ranked);
   }
-  function goHome() {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('homePage').classList.add('active');
-    setNavActive(true, false);
-    document.getElementById('navSub').textContent = 'Minigames Server';
-    document.getElementById('tierBtn').style.display = 'none';
-    document.getElementById('shortcutBtn').style.display = 'none';
-    document.body.classList.remove('on-ranked');
-    window.scrollTo({top:0,behavior:'smooth'});
-    setTimeout(setupReveal, 50);
-  }
-  function goRanked() {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('rankedPage').classList.add('active');
-    setNavActive(false, true);
-    document.getElementById('navSub').textContent = 'Ranked Battle Arena';
-    document.getElementById('tierBtn').style.display = '';
-    document.getElementById('shortcutBtn').style.display = '';
-    document.body.classList.add('on-ranked');
-    window.scrollTo({top:0,behavior:'instant'});
-    showRankedMain();
-    const am = document.querySelector('.lbm.active');
-    if (am && !am.children.length) createPlayers(am.id);
-  }
-  function goRankedMode(mode) {
-    goRanked();
-    setTimeout(() => {
-      const mMap = {overall:0,sword:1,axe:2,uhc:3,mace:4,spear:5};
-      const tabs = document.querySelectorAll('.rtabs .tab');
-      if (tabs[mMap[mode]]) tabs[mMap[mode]].click();
-    }, 80);
-  }
+  function goHome() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('homePage').classList.add('active'); setNavActive(true,false); document.getElementById('navSub').textContent='Minigames Server'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(setupReveal,50); }
+  function goRanked() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('rankedPage').classList.add('active'); setNavActive(false,true); document.getElementById('navSub').textContent='Ranked Battle Arena'; document.getElementById('tierBtn').style.display=''; document.getElementById('shortcutBtn').style.display=''; document.body.classList.add('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); showRankedMain(); const am=document.querySelector('.lbm.active'); if(am&&!am.children.length)createPlayers(am.id); }
+  function goRankedMode(mode) { goRanked(); setTimeout(()=>{ const mMap={overall:0,sword:1,axe:2,uhc:3,mace:4,spear:5}; const tabs=document.querySelectorAll('.rtabs .tab'); if(tabs[mMap[mode]])tabs[mMap[mode]].click(); },80); }
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
   function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function showRankedMain() {
-    document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display='';
-    const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show');
-    const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show');
-    const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show');
-  }
-  function toggleTheme() {
-    mono=!mono; document.body.classList.toggle('mono',mono);
-    tth.style.transform=mono?'translateX(20px)':''; tth.style.background=mono?'#fff':'';
-    if(showRet){const b=document.getElementById('rt');b.style.color=mono?'#fff':'var(--pink)';b.style.borderColor=mono?'rgba(255,255,255,.3)':'var(--pink-line)';}
-  }
-  function setupReveal() {
-    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el));
-  }
+  function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
+  function toggleTheme() { mono=!mono; document.body.classList.toggle('mono',mono); tth.style.transform=mono?'translateX(20px)':''; tth.style.background=mono?'#fff':''; if(showRet){const b=document.getElementById('rt');b.style.color=mono?'#fff':'var(--pink)';b.style.borderColor=mono?'rgba(255,255,255,.3)':'var(--pink-line)';} }
+  function setupReveal() { const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'}); document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el)); }
   document.addEventListener('DOMContentLoaded', setupReveal);
   let showRet=false;
   const retired=['Jai_B37','Aftlow','TerrorBoy123619'];
 
-  // ─── PLAYER STATS ────────────────────────────────────────────────────────────
   const PS = {
     sword:{RealO75:{wins:30,kills:92,deaths:26},Jai_B37:{wins:1,kills:3,deaths:1},skull_shredder30:{wins:1,kills:3,deaths:1},Killedbycrab:{wins:3,kills:11,deaths:12},Knoxy5316:{wins:3,kills:14,deaths:36},ItsEggybruh:{wins:1,kills:4,deaths:3},Aftlow:{wins:4,kills:16,deaths:17},Ushindo:{wins:4,kills:15,deaths:13},LiamTheLemur:{wins:0,kills:0,deaths:3},SadInFusIOns:{wins:1,kills:4,deaths:8},Cocotime15:{wins:1,kills:5,deaths:12},gfunkdfunk82:{wins:0,kills:0,deaths:3},"WARDY B33":{wins:5,kills:15,deaths:14},Neska5036:{wins:2,kills:4,deaths:4},bubbler2009:{wins:2,kills:7,deaths:18},TerrorBoy123619:{wins:0,kills:0,deaths:3},w85544534:{wins:6,kills:16,deaths:1},Terroralex10:{wins:0,kills:0,deaths:3},Mason20539:{wins:6,kills:19,deaths:4},Theopitt:{wins:1,kills:3,deaths:12},Cobio29:{wins:0,kills:0,deaths:6},MagicBooch5510:{wins:0,kills:0,deaths:6},mack29702:{wins:2,kills:4,deaths:8},"Nxthxn Tier":{wins:0,kills:0,deaths:1},Aobyte:{wins:1,kills:3,deaths:1},LukeGamer2109:{wins:0,kills:0,deaths:3},Steelcorbyo9008:{wins:0,kills:0,deaths:1},Wancerr:{wins:1,kills:4,deaths:11},Redpanda2013:{wins:0,kills:0,deaths:3},Wvqtz:{wins:0,kills:0,deaths:3}},
     axe:{RealO75:{wins:11,kills:30,deaths:25},Killedbycrab:{wins:8,kills:20,deaths:20},Jai_B37:{wins:1,kills:5,deaths:3},skull_shredder30:{wins:0,kills:1,deaths:3},"Yearly-scuff81":{wins:0,kills:0,deaths:3},Knoxy5316:{wins:2,kills:7,deaths:10},Ushindo:{wins:0,kills:1,deaths:3},Aftlow:{wins:6,kills:18,deaths:2},bubbler2009:{wins:2,kills:7,deaths:19},"God flow 3":{wins:0,kills:2,deaths:2},"WARDY B33":{wins:4,kills:9,deaths:14},Cocotime15:{wins:0,kills:1,deaths:1},w85544534:{wins:6,kills:20,deaths:3},Terroralex10:{wins:0,kills:1,deaths:3},SadInFusIOns:{wins:0,kills:0,deaths:3},Mason20539:{wins:6,kills:20,deaths:10},ItsEggybruh:{wins:0,kills:1,deaths:3},Neska5036:{wins:3,kills:14,deaths:10},Redpanda2013:{wins:0,kills:2,deaths:0},Theopitt:{wins:0,kills:0,deaths:3},Cobio29:{wins:0,kills:0,deaths:6},MagicBooch5510:{wins:0,kills:0,deaths:3},mack29702:{wins:1,kills:3,deaths:18},Aobyte:{wins:1,kills:3,deaths:2},LukeGamer2109:{wins:1,kills:3,deaths:2},Wancerr:{wins:3,kills:15,deaths:11},Penguiin1156:{wins:0,kills:1,deaths:3},Wvqtz:{wins:0,kills:0,deaths:3}},
@@ -1370,7 +1129,7 @@
   function getOrdered(mode){if(mode==='overall')updateOverall();const d=PS[mode]||{};const c=Object.entries(d).map(([n,s])=>{const tier=CT[mode]?.[n]||'Unranked';const kd=s.deaths===0?s.kills:s.kills/s.deaths;return{n,s,tier,score:s.wins*10+s.kills+kd*5};});c.sort((a,b)=>{const td=(TP[b.tier]||0)-(TP[a.tier]||0);if(td)return td;if(b.score!==a.score)return b.score-a.score;if(b.s.wins!==a.s.wins)return b.s.wins-a.s.wins;if(b.s.kills!==a.s.kills)return b.s.kills-a.s.kills;return a.s.deaths-b.s.deaths;});return c.map(x=>x.n);}
   function kdc(kd){return(kd===Infinity||kd>=2)?'#4ade80':kd>=1?'#facc15':'#f87171';}
   function sc(v,all,lo=false){if(all.length<=1)return'var(--text)';const s=[...all].sort((a,b)=>a-b),r=s.lastIndexOf(v),p=r/(s.length-1);if(lo){if(p<=.33)return'#4ade80';if(p<=.66)return'#facc15';return'#f87171';}else{if(p>=.67)return'#4ade80';if(p>=.34)return'#facc15';return'#f87171';}}
-  function createPlayers(mode){if(mode==='overall')updateOverall();const con=document.getElementById(mode);if(!con)return;const pl=getOrdered(mode).filter(n=>showRet||!retired.includes(n));con.innerHTML='';const aW=pl.map(n=>((PS[mode]||{})[n]||{}).wins||0);const aK=pl.map(n=>((PS[mode]||{})[n]||{}).kills||0);const aD=pl.map(n=>((PS[mode]||{})[n]||{}).deaths||0);const cnt=document.createElement('div');cnt.className='pc';cnt.textContent=pl.length+' player'+(pl.length!==1?'s':'');con.appendChild(cnt);pl.forEach((name,i)=>{let rc='',pc2='',crn='';const isR=retired.includes(name);const ar=pl.slice(0,i).filter(n=>!retired.includes(n)).length;if(!isR&&ar===0){rc='g';pc2='top1';crn='<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>';}else if(!isR&&ar===1){rc='s';pc2='top2';}else if(!isR&&ar===2){rc='b';pc2='top3';}else if(isR){rc='ret';}const tier=CT[mode]?.[name]||'Unranked';const stats=(PS[mode]||{})[name]||{wins:0,kills:0,deaths:0};const kd=stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;const kdStr=kd===Infinity?'∞':kd===0?'0.00':kd.toFixed(2);const tc=TC[tier]||'#444';const wc=isR?'var(--text-dim)':sc(stats.wins,aW);const kc2=isR?'var(--text-dim)':sc(stats.kills,aK);const dc=isR?'var(--text-dim)':sc(stats.deaths,aD,true);const card=document.createElement('div');card.className=`player ${pc2}`;card.style.animation=`fadeUp .38s ${i*.04}s ease both`;card.dataset.player=name;if(isR)card.style.opacity='.4';card.onclick=()=>openProfile(name,mode);const bh=tier&&tier!=='Unranked'?`<span class="tbadge" style="color:${tc};border-color:${tc}20;background:${tc}12">${tier}</span>`:'';const fh=PC[name]?flag(PC[name]):'';const rb=isR?`<span class="retbadge">Retired</span>`:'';const fire=(kd===Infinity||kd>=2)?`<span class="fire">🔥</span>`:'';card.innerHTML=`<div class="rcol"><span class="rnum ${rc}">#${i+1}</span></div><div class="acol"><img src="${av(name)}" alt="${name}" class="phead"></div><div class="icol"><div class="nrow"><span class="pname">${name}</span>${fh}${fire}${crn}${bh}${rb}</div><div class="strow"><span class="spill"><b style="color:${wc}">${stats.wins}</b> <span style="color:var(--text-dim)">W</span></span><div class="ssep"></div><span class="spill"><b style="color:${kc2}">${stats.kills}</b> <span style="color:var(--text-dim)">K</span></span><div class="ssep"></div><span class="spill"><b style="color:${dc}">${stats.deaths}</b> <span style="color:var(--text-dim)">D</span></span></div></div><div class="kcol"><span class="kdv${kd===Infinity?' inf':''}" style="color:${kdc(kd)}">${kdStr}</span><span class="kdl">K / D</span></div>`;con.appendChild(card);attachTT(card,mode,stats,aW,aK,aD);});if(!pl.length){const d=document.createElement('div');d.className='noplayers';d.textContent='No players found';con.appendChild(d);}}
+  function createPlayers(mode){if(mode==='overall')updateOverall();const con=document.getElementById(mode);if(!con)return;const pl=getOrdered(mode).filter(n=>showRet||!retired.includes(n));con.innerHTML='';const aW=pl.map(n=>((PS[mode]||{})[n]||{}).wins||0);const aK=pl.map(n=>((PS[mode]||{})[n]||{}).kills||0);const aD=pl.map(n=>((PS[mode]||{})[n]||{}).deaths||0);const cnt=document.createElement('div');cnt.className='pc';cnt.textContent=pl.length+' player'+(pl.length!==1?'s':'');con.appendChild(cnt);pl.forEach((name,i)=>{let rc='',pc2='',crn='';const isR=retired.includes(name);const ar=pl.slice(0,i).filter(n=>!retired.includes(n)).length;if(!isR&&ar===0){rc='g';pc2='top1';crn='<svg class="crown" viewBox="0 0 24 24"><path fill="#F5C842" d="M2 7l3 9h14l3-9-6 3-4-5-4 5-6-3z"/></svg>';}else if(!isR&&ar===1){rc='s';pc2='top2';}else if(!isR&&ar===2){rc='b';pc2='top3';}else if(isR){rc='ret';}const tier=CT[mode]?.[name]||'Unranked';const stats=(PS[mode]||{})[name]||{wins:0,kills:0,deaths:0};const kd=stats.deaths===0?(stats.kills>0?Infinity:0):stats.kills/stats.deaths;const kdStr=kd===Infinity?'∞':kd===0?'0.00':kd.toFixed(2);const tc=TC[tier]||'#444';const wc=isR?'var(--text-dim)':sc(stats.wins,aW);const kc2=isR?'var(--text-dim)':sc(stats.kills,aK);const dc=isR?'var(--text-dim)':sc(stats.deaths,aD,true);const card=document.createElement('div');card.className=`player ${pc2}`;card.style.animation=`fadeUp .38s ${i*.04}s ease both`;card.dataset.player=name;if(isR)card.style.opacity='.4';card.onclick=()=>openProfile(name,mode);const bh=tier&&tier!=='Unranked'?`<span class="tbadge" style="color:${tc};border-color:${tc}20;background:${tc}12">${tier}</span>`:'';const fh=PC[name]?flag(PC[name]):'';const rb=isR?`<span class="retbadge">Retired</span>`:'';const fire=(kd===Infinity||kd>=2)?`<span class="fire">🔥</span>`:'';card.innerHTML=`<div class="rcol"><span class="rnum ${rc}">#${i+1}</span></div><div class="acol"><img src="${av(name)}" alt="${name}" class="phead"></div><div class="icol"><div class="nrow"><span class="pname">${name}</span>${fh}${fire}${crn}${bh}${rb}</div><div class="strow"><span class="spill"><b style="color:${wc}">${stats.wins}</b> <span style="color:var(--text-dim)">W</span></span><div class="ssep"></div><span class="spill"><b style="color:${kc2}">${stats.kills}</b> <span style="color:var(--text-dim)">K</span></span><div class="ssep"></div><span class="spill"><b style="color:${dc}">${stats.deaths}</b> <span style="color:var(--text-dim)">D</span></span></div></div><div class="kcol"><span class="kdv${kd===Infinity?' inf':''}" style="color:${kdc(kd)}">${kdStr}</span><span class="kdl">K / D</span></div>`;con.appendChild(card);attachTT(card,mode,stats,aW,aK,aD);});}
   function surpriseMe(){const am=document.querySelector('.lbm.active');if(!am)return;const mode=am.id;if(mode==='overall')updateOverall();const players=getOrdered(mode).filter(n=>showRet||!retired.includes(n));if(!players.length)return;const btn=document.getElementById('srp');btn.classList.remove('rolling');void btn.offsetWidth;btn.classList.add('rolling');setTimeout(()=>btn.classList.remove('rolling'),400);const pick=players[Math.floor(Math.random()*players.length)];const card=am.querySelector(`[data-player="${CSS.escape(pick)}"]`);if(card){card.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{card.classList.add('surprise-flash');setTimeout(()=>card.classList.remove('surprise-flash'),700);setTimeout(()=>openProfile(pick,mode),380);},300);}else{openProfile(pick,mode);}}
   const SHORTCUTS=[{section:'Navigation',items:[{keys:['1'],desc:'Overall leaderboard'},{keys:['2'],desc:'Sword leaderboard'},{keys:['3'],desc:'Axe leaderboard'},{keys:['4'],desc:'UHC leaderboard'},{keys:['5'],desc:'Mace leaderboard'},{keys:['6'],desc:'Spear leaderboard'},{keys:['7'],desc:'Open Compare tab'}]},{section:'Actions',items:[{keys:['/'],desc:'Focus search box'},{keys:['Esc'],desc:'Go back / close modal / clear search'},{keys:['?'],desc:'Open this shortcuts panel'}]},{section:'Surprise',items:[{keys:['R'],desc:"Open a random player's profile"}]}];
   function openShortcuts(){const list=document.getElementById('skl');list.innerHTML='';let delay=0.06;SHORTCUTS.forEach(section=>{const sh=document.createElement('div');sh.className='sk-section';sh.innerHTML=`<div class="sk-section-title">${section.section}</div>`;section.items.forEach(item=>{const row=document.createElement('div');row.className='sk-row';row.style.transitionDelay=delay+'s';delay+=0.04;const keysHtml=item.keys.map(k=>`<span class="sk-kbd">${k}</span>`).join(`<span class="sk-plus">+</span>`);row.innerHTML=`<div class="sk-desc">${item.desc}</div><div class="sk-keys">${keysHtml}</div>`;sh.appendChild(row);});list.appendChild(sh);});const m=document.getElementById('sm');m.classList.remove('closing');m.style.display='flex';m.getBoundingClientRect();requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('open')));document.body.style.paddingRight=(window.innerWidth-document.documentElement.clientWidth)+'px';document.body.style.overflow='hidden';}
@@ -1405,7 +1164,7 @@
   document.getElementById('cr').innerHTML=`<div class="co-grid">${mkCard(p1,s1,t1,c1,kd1,r1,w1w,w1k,w1d,w1kd,1)}${mkCard(p2,s2,t2,c2,kd2,r2,w2w,w2k,w2d,w2kd,2)}</div>`;setTimeout(()=>{['cc1','cc2'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('visible'),i*80));setTimeout(()=>{document.getElementById('b1w').style.width=Math.round(s1.wins/mxW*100)+'%';document.getElementById('b2w').style.width=Math.round(s2.wins/mxW*100)+'%';document.getElementById('b1k').style.width=Math.round(s1.kills/mxK*100)+'%';document.getElementById('b2k').style.width=Math.round(s2.kills/mxK*100)+'%';document.getElementById('b1d').style.width=Math.round(s1.deaths/mxD*100)+'%';document.getElementById('b2d').style.width=Math.round(s2.deaths/mxD*100)+'%';},200);const dur=2500,fps=60,steps=Math.round(dur/(1000/fps));function eOut(t){return 1-Math.pow(1-t,3);}[{id:'cv1w',t:s1.wins,kd:false},{id:'cv1k',t:s1.kills,kd:false},{id:'cv1d',t:s1.deaths,kd:false},{id:'cv1kd',t:kd1,kd:true},{id:'cv2w',t:s2.wins,kd:false},{id:'cv2k',t:s2.kills,kd:false},{id:'cv2d',t:s2.deaths,kd:false},{id:'cv2kd',t:kd2,kd:true}].forEach((s,si)=>{const el=document.getElementById(s.id);if(!el)return;setTimeout(()=>{let step=0;const ti=setInterval(()=>{step++;const p=eOut(Math.min(step/steps,1));if(s.t===Infinity){el.textContent=step>=steps?'∞':Math.round(p*99)+'';}else if(s.kd){el.textContent=(p*s.t).toFixed(2);}else{el.textContent=Math.round(p*s.t);}if(step>=steps)clearInterval(ti);},1000/fps);},si*40);});},30);}
   function showHOF(btn){document.querySelectorAll('.rtabs .tab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');document.querySelector('.lbc').style.display='none';document.querySelector('.srow').style.display='none';const pp=document.getElementById('pp');if(pp.style.display!=='none'){pp.classList.remove('show');pp.style.display='none';}hideCo();const hof=document.getElementById('hofp');hof.style.display='block';renderHOF();setTimeout(()=>{hof.classList.add('show');hof.setAttribute('aria-hidden','false');},10);}
   function hideHof(){const h=document.getElementById('hofp');h.classList.remove('show');h.setAttribute('aria-hidden','true');setTimeout(()=>{h.style.display='none';},260);}
-  function renderHOF(){updateOverall();const modeImgs={sword:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_sword.png',axe:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_axe.png',uhc:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png',mace:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png',spear:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png'};const hofP=retired.filter(n=>n!=='Jai_B37'&&n!=='TerrorBoy123619');const cards=hofP.map(name=>{const ov=PS.overall[name]||{wins:0,kills:0,deaths:0};const kd=ov.deaths===0?(ov.kills>0?Infinity:0):ov.kills/ov.deaths;const kdStr=kd===Infinity?'∞':kd.toFixed(2);const peak=PT[name]||{};const modes=['sword','axe','uhc','mace','spear'];const best=modes.reduce((b,m)=>(TP[peak[m]]||0)>(TP[peak[b]]||0)?m:b,modes[0]);const chips=Object.entries(peak).filter(([,t])=>t&&(TP[t]||0)>=4).sort((a,b2)=>(TP[b2[1]]||0)-(TP[a[1]]||0)).map(([m,t])=>`<span class="hof-chip" style="color:${TC[t]};border-color:${TC[t]}40;display:inline-flex;align-items:center;gap:4px"><img src="${modeImgs[m]}" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle"> ${t}</span>`).join('');const hofSeen=new Map();for(const m of modes){for(const a of compAch(name,m)){if(!hofSeen.has(a.id))hofSeen.set(a.id,{a,ms:[]});hofSeen.get(a.id).ms.push(m);}}for(const a of compAch(name,'overall')){if(!hofSeen.has(a.id))hofSeen.set(a.id,{a,ms:['overall']});}const achH=hofSeen.size?[...hofSeen.values()].map(({a,ms})=>bh(a,`<b>${a.name}</b><span class="tp">${ms.map(m=>MIT[m]+mn(m)).join(', ')}</span>`)).join(''):'<span class="noach">—</span>';return`<div class="hof-card" style="animation:fadeUp .4s ease both"><div class="hof-banner"><div class="hof-rlbl">RETIRED LEGEND</div></div><div class="hof-body"><div class="hof-prow"><img src="${av(name,120)}" class="hof-av" alt="${name}"><div><div class="hof-nm">${name} ${PC[name]?flag(PC[name],13):''}</div><div class="hof-meta" style="display:flex;align-items:center;gap:5px">Best mode: <img src="${modeImgs[best]}" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle"> ${mn(best).toUpperCase()} · Career stats</div></div></div><div class="hof-srow"><div class="hof-sb"><div class="hof-sv" style="color:#4ade80">${ov.wins}</div><div class="hof-sl">Career Wins</div></div><div class="hof-sb"><div class="hof-sv" style="color:#facc15">${ov.kills}</div><div class="hof-sl">Career Kills</div></div><div class="hof-sb"><div class="hof-sv" style="color:#f87171">${ov.deaths}</div><div class="hof-sl">Career Deaths</div></div><div class="hof-sb"><div class="hof-sv" style="color:${kdc(kd)}">${kdStr}</div><div class="hof-sl">Career K/D</div></div></div>${chips?`<div class="hof-prow2">${chips}</div>`:''}<div class="ach-grid">${achH}</div></div></div>`;}).join('');document.getElementById('hofp').innerHTML=`<div class="hof-hdr"><div class="hof-title">🏅 Hall of Fame</div><div class="hof-sub">Legends who shaped the arena</div></div>${cards}`;}
+  function renderHOF(){updateOverall();const modeImgs={sword:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_sword.png',axe:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_axe.png',uhc:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/gui/sprites/hud/heart/full.png',mace:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/mace.png',spear:'https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_spear.png'};const hofP=retired.filter(n=>n!=='Jai_B37'&&n!=='TerrorBoy123619');const cards=hofP.map(name=>{const ov=PS.overall[name]||{wins:0,kills:0,deaths:0};const kd=ov.deaths===0?(ov.kills>0?Infinity:0):ov.kills/ov.deaths;const kdStr=kd===Infinity?'∞':kd.toFixed(2);const peak=PT[name]||{};const modes=['sword','axe','uhc','mace','spear'];const best=modes.reduce((b,m)=>(TP[peak[m]]||0)>(TP[peak[b]]||0)?m:b,modes[0]);const chips=Object.entries(peak).filter(([,t])=>t&&(TP[t]||0)>=4).sort((a,b2)=>(TP[b2[1]]||0)-(TP[a[1]]||0)).map(([m,t])=>`<span class="hof-chip" style="color:${TC[t]};border-color:${TC[t]}40;display:inline-flex;align-items:center;gap:4px"><img src="${modeImgs[m]}" style="width:11px;height:11px;image-rendering:pixelated;vertical-align:middle"> ${t}</span>`).join('');const hofSeen=new Map();for(const m of modes){for(const a of compAch(name,m)){if(!hofSeen.has(a.id))hofSeen.set(a.id,{a,ms:[]});hofSeen.get(a.id).ms.push(m);}}for(const a of compAch(name,'overall')){if(!hofSeen.has(a.id))hofSeen.set(a.id,{a,ms:['overall']});}const achH=hofSeen.size?[...hofSeen.values()].map(({a,ms})=>bh(a,`<b>${a.name}</b><span class="tp">${ms.map(m=>MIT[m]+mn(m)).join(', ')}</span>`)).join(''):'<span class="noach">—</span>';return`<div class="hof-card" style="animation:fadeUp .4s ease both"><div class="hof-banner"><div class="hof-rlbl">RETIRED LEGEND</div></div><div class="hof-body"><div class="hof-prow"><img src="${av(name,120)}" class="hof-av" alt="${name}"><div><div class="hof-nm">${name} ${PC[name]?flag(PC[name],13):''}</div><div class="hof-meta" style="display:flex;align-items:center;gap:5px">Best mode: <img src="${modeImgs[best]}" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:middle"> ${mn(best).toUpperCase()} · Career stats</div></div></div><div class="hof-srow"><div class="hof-sb"><div class="hof-sv" style="color:#4ade80">${ov.wins}</div><div class="hof-sl">Career Wins</div></div><div class="hof-sb"><div class="hof-sv" style="color:#facc15">${ov.kills}</div><div class="hof-sl">Career Kills</div></div><div class="hof-sb"><div class="hof-sb"><div class="hof-sv" style="color:#f87171">${ov.deaths}</div><div class="hof-sl">Career Deaths</div></div><div class="hof-sb"><div class="hof-sv" style="color:${kdc(kd)}">${kdStr}</div><div class="hof-sl">Career K/D</div></div></div>${chips?`<div class="hof-prow2">${chips}</div>`:''}<div class="ach-grid">${achH}</div></div></div>`;}).join('');document.getElementById('hofp').innerHTML=`<div class="hof-hdr"><div class="hof-title">🏅 Hall of Fame</div><div class="hof-sub">Legends who shaped the arena</div></div>${cards}`;}
   const TGD=[{name:'Netherite',color:'#6b6b78',desc:'Elite level; the highest standard.'},{name:'Diamond',color:'#00BFFF',desc:'Very advanced, exceptional proficiency.'},{name:'Emerald',color:'#50C878',desc:'Highly skilled with strong consistency.'},{name:'Gold',color:'#F5C842',desc:'Competent and reliable performance.'},{name:'Iron',color:'#8b8b8b',desc:'Showing improvement, below expected level.'},{name:'Copper',color:'#B87333',desc:'Familiar with mechanics but inconsistent.'},{name:'Coal',color:'#555',desc:'No demonstrated understanding of core mechanics.'}];
   function openTier(){const list=document.getElementById('tml');list.innerHTML='';TGD.forEach((t,i)=>{const r=document.createElement('div');r.className='tr';r.style.transitionDelay=(0.06+i*.055)+'s';r.innerHTML=`<div class="tdot" style="background:${t.color};box-shadow:0 0 6px ${t.color}"></div><div class="tname" style="color:${t.color}">${t.name}</div><div class="tdesc">${t.desc}</div>`;list.appendChild(r);});const m=document.getElementById('tm');m.classList.remove('closing');m.style.display='flex';m.getBoundingClientRect();requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('open')));document.body.style.paddingRight=(window.innerWidth-document.documentElement.clientWidth)+'px';document.body.style.overflow='hidden';}
   function closeTier(){const m=document.getElementById('tm');m.classList.add('closing');m.querySelectorAll('.tr').forEach(r=>r.style.transitionDelay='0s');setTimeout(()=>{m.classList.remove('open','closing');m.style.display='none';document.body.style.overflow='';document.body.style.paddingRight='';},300);}
