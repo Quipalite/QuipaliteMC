@@ -668,12 +668,14 @@
     body.mono .news-item:hover{border-color:rgba(255,255,255,.18);}
     body.mono .news-expand{border-color:#222;}
     /* Nations sort bar */
-    .nations-sort-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:0 24px 24px;max-width:1080px;margin:0 auto;}
-    .nations-sort-lbl{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-right:4px;}
-    .nations-sort-btn{font-family:var(--font-m);font-size:10px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;transition:all .18s;}
-    .nations-sort-btn:hover{border-color:rgba(255,255,255,.18);color:var(--text);background:rgba(255,255,255,.07);}
-    .nations-sort-btn.active{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
-    body.mono .nations-sort-btn{background:rgba(255,255,255,.025);border-color:#111;}
+    .nations-sort-bar{display:flex;align-items:center;gap:12px;padding:0 0 28px;flex-wrap:wrap;}
+    .nations-sort-lbl{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;}
+    .nations-sort-pills{display:flex;align-items:center;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap;}
+    .nations-sort-btn{font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:6px 14px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;transition:all .18s cubic-bezier(.22,1,.36,1);letter-spacing:.3px;white-space:nowrap;}
+    .nations-sort-btn:hover{color:var(--text);background:rgba(255,255,255,.07);}
+    .nations-sort-btn.active{background:var(--pink);color:#fff;box-shadow:0 2px 12px rgba(255,26,109,.35);}
+    body.mono .nations-sort-pills{background:rgba(255,255,255,.02);border-color:#222;}
+    body.mono .nations-sort-btn.active{box-shadow:none;}
     .wc-match{cursor:pointer;}
     #mm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
     #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
@@ -1040,15 +1042,17 @@
             </div>
           </div>
         </div>
+        <div class="nations-sort-bar">
+          <span class="nations-sort-lbl">Sort by</span>
+          <div class="nations-sort-pills">
+            <button class="nations-sort-btn active" onclick="sortNations('default',this)">Default</button>
+            <button class="nations-sort-btn" onclick="sortNations('population',this)">Population</button>
+            <button class="nations-sort-btn" onclick="sortNations('founded',this)">Founded</button>
+            <button class="nations-sort-btn" onclick="sortNations('name',this)">Name A–Z</button>
+            <button class="nations-sort-btn" onclick="sortNations('government',this)">Government</button>
+          </div>
+        </div>
         <div id="nations-grid"></div>
-      </div>
-      <div class="nations-sort-bar">
-        <span class="nations-sort-lbl">Sort by</span>
-        <button class="nations-sort-btn active" onclick="sortNations('default',this)">Default</button>
-        <button class="nations-sort-btn" onclick="sortNations('population',this)">Population ↓</button>
-        <button class="nations-sort-btn" onclick="sortNations('founded',this)">Founded ↑</button>
-        <button class="nations-sort-btn" onclick="sortNations('name',this)">Name A–Z</button>
-        <button class="nations-sort-btn" onclick="sortNations('government',this)">Government</button>
       </div>
     </div>
 
