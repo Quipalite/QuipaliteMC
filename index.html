@@ -630,6 +630,37 @@
     body.mono .wc-match.final-match{background:#050505;border-color:rgba(245,200,66,.25);}
     body.mono .wc-header{background:#050505;border-color:#222;}
     @media(max-width:720px){.wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}}
+    /* Champion Banner */
+    .wc-champion-banner{margin:0 24px 32px;border-radius:16px;border:1px solid rgba(245,200,66,.4);background:linear-gradient(135deg,rgba(245,200,66,.13) 0%,rgba(255,140,0,.07) 40%,rgba(245,200,66,.05) 70%,transparent 100%);box-shadow:0 0 40px rgba(245,200,66,.1),inset 0 1px 0 rgba(255,255,255,.07);overflow:hidden;position:relative;text-align:center;}
+    .wc-champ-confetti{display:flex;justify-content:space-around;padding:14px 20px 0;font-size:18px;opacity:.5;pointer-events:none;}
+    .wc-champ-inner{padding:8px 24px 28px;}
+    .wc-champ-label{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(245,200,66,.7);margin-bottom:12px;}
+    .wc-champ-name{font-family:var(--font-d);font-size:clamp(28px,5vw,48px);font-weight:800;color:var(--gold);filter:drop-shadow(0 0 20px rgba(245,200,66,.4));line-height:1.1;margin-bottom:10px;}
+    .wc-champ-nation{font-family:var(--font-m);font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;}
+    .wc-champ-stars{font-size:20px;color:var(--gold);margin-top:12px;letter-spacing:8px;filter:drop-shadow(0 0 8px rgba(245,200,66,.5));}
+    body.mono .wc-champion-banner{background:#050505;border-color:rgba(245,200,66,.3);}
+    /* News Feed */
+    .news-list{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+    .news-item{display:flex;gap:16px;padding:16px 20px;border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);transition:border-color .2s,transform .2s,box-shadow .2s;cursor:default;}
+    .news-item:hover{border-color:rgba(255,255,255,.15);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+    .news-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;padding-top:4px;flex-shrink:0;}
+    .news-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .news-dot.gold{background:var(--gold);box-shadow:0 0 8px rgba(245,200,66,.6);}
+    .news-dot.pink{background:var(--pink);box-shadow:0 0 8px rgba(255,26,109,.5);}
+    .news-dot.green{background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.5);}
+    .news-dot.blue{background:#60a5fa;box-shadow:0 0 8px rgba(96,165,250,.5);}
+    .news-body{flex:1;min-width:0;}
+    .news-tag-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;}
+    .news-tag{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border-radius:4px;}
+    .news-tag.gold{color:var(--gold);background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.25);}
+    .news-tag.pink{color:var(--pink);background:var(--pink-glow);border:1px solid var(--pink-line);}
+    .news-tag.green{color:var(--green);background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}
+    .news-tag.blue{color:#60a5fa;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);}
+    .news-date{font-family:var(--font-m);font-size:9px;font-weight:600;color:var(--text-dim);letter-spacing:1px;}
+    .news-title{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px;line-height:1.2;}
+    .news-desc{font-size:13px;line-height:1.65;color:var(--text-muted);}
+    body.mono .news-item{background:rgba(255,255,255,.025);border-color:#111;}
+    body.mono .news-item:hover{border-color:rgba(255,255,255,.18);}
     .wc-match{cursor:pointer;}
     #mm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
     #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
@@ -727,6 +758,39 @@
       <div class="stat-item rv rd2"><div class="stat-num sn-white">7</div><div class="stat-lbl">Tier Ranks</div></div>
       <div class="stat-item rv rd3"><div class="stat-num sn-green">Live</div><div class="stat-lbl">Leaderboards</div></div>
     </div>
+
+    <section class="hsec" id="news">
+      <div class="sinner">
+        <div class="rv"><div class="stag">Latest News</div><h2 class="stitle">What's <em>New</em></h2><p class="ssub">Stay up to date with the latest server updates, events, and announcements.</p></div>
+        <div class="news-list rv rd1">
+          <div class="news-item">
+            <div class="news-dot-col"><div class="news-dot green"></div></div>
+            <div class="news-body">
+              <div class="news-tag-row"><span class="news-tag green">🌐 Server</span><span class="news-date">25 JUN 2026</span></div>
+              <div class="news-title">Quipalite MC relaunches!</div>
+              <p class="news-desc">Quipalite MC is back! After a break, the server has officially relaunched today. Jump back in, reconnect with the community, and see what's new — we're glad to have everyone back.</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-dot-col"><div class="news-dot pink"></div></div>
+            <div class="news-body">
+              <div class="news-tag-row"><span class="news-tag pink">⚔️ Ranked</span><span class="news-date">6 APR 2026</span></div>
+              <div class="news-title">Ranked leaderboards updated</div>
+              <p class="news-desc">Player stats and tier rankings have been refreshed. Check the leaderboard to see the latest standings across all five weapon modes.</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-dot-col"><div class="news-dot green"></div></div>
+            <div class="news-body">
+              <div class="news-tag-row"><span class="news-tag green">🌍 Nations</span><span class="news-date">24 APR 2026</span></div>
+              <div class="news-title">Two new nations founded: Okpemon & Smogtowne</div>
+              <p class="news-desc">Okpemon, led by bubbler2009, and Smogtowne, led by RT2345678, have both been officially founded — bringing the total nation count to 11. Welcome to the map!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
     <section class="hsec" id="games">
       <div class="sinner">
@@ -914,7 +978,7 @@
       </div>
     </div>
     <div id="hofp" aria-hidden="true"></div>
-    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 6 Apr 2026</footer>
+    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: <span id="lastUpdated"></span></footer>
   </div>
 
   <!-- ISLAND PAGE -->
@@ -953,6 +1017,17 @@
         <div class="wc-sub">Nations Edition &nbsp;·&nbsp; Spring Tournament</div>
         <div style="margin-top:10px;display:flex;justify-content:center">
           <span class="wc-stadium-note">🏟️ All matches — SmegTopia Stadium</span>
+        </div>
+      </div>
+      <div class="wc-champion-banner">
+        <div class="wc-champ-confetti" aria-hidden="true">
+          <span>🎊</span><span>⭐</span><span>🎉</span><span>✨</span><span>🎊</span><span>⭐</span><span>🎉</span><span>✨</span><span>🎊</span>
+        </div>
+        <div class="wc-champ-inner">
+          <div class="wc-champ-label">🏆 Club World Cup 2026 Champions</div>
+          <div class="wc-champ-name">Smeg City FC</div>
+          <div class="wc-champ-nation">🏛️ Smegtopia &nbsp;·&nbsp; Final: 0 – <span style="color:var(--gold)">1</span> vs Crainetown FC</div>
+          <div class="wc-champ-stars">★ ★ ★</div>
         </div>
       </div>
       <div id="wc-bracket"></div>
@@ -1409,6 +1484,12 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     renderBracket();
+    // Last updated: set to today's date dynamically
+    const el = document.getElementById('lastUpdated');
+    if (el) {
+      const d = new Date();
+      el.textContent = d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+    }
   });
 
   window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));createPlayers('overall');setupReveal();document.getElementById('navBrand').addEventListener('click',()=>{if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);});});
