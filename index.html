@@ -641,7 +641,7 @@
     body.mono .wc-champion-banner{background:#050505;border-color:rgba(245,200,66,.3);}
     /* News Feed */
     .news-list{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
-    .news-item{display:flex;gap:16px;padding:16px 20px;border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);transition:border-color .2s,transform .2s,box-shadow .2s;cursor:default;}
+    .news-item{display:flex;gap:16px;padding:16px 20px;border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);transition:border-color .2s,transform .2s,box-shadow .2s;cursor:pointer;}
     .news-item:hover{border-color:rgba(255,255,255,.15);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3);}
     .news-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;padding-top:4px;flex-shrink:0;}
     .news-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
@@ -659,8 +659,21 @@
     .news-date{font-family:var(--font-m);font-size:9px;font-weight:600;color:var(--text-dim);letter-spacing:1px;}
     .news-title{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px;line-height:1.2;}
     .news-desc{font-size:13px;line-height:1.65;color:var(--text-muted);}
+    .news-expand{font-size:13px;line-height:1.7;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:none;}
+    .news-item.open .news-expand{display:block;}
+    .news-chevron{font-size:20px;color:var(--text-dim);flex-shrink:0;align-self:center;transition:transform .25s cubic-bezier(.22,1,.36,1);padding-left:8px;line-height:1;}
+    .news-item.open .news-chevron{transform:rotate(90deg);color:var(--text-muted);}
+    .news-item{cursor:pointer;}
     body.mono .news-item{background:rgba(255,255,255,.025);border-color:#111;}
     body.mono .news-item:hover{border-color:rgba(255,255,255,.18);}
+    body.mono .news-expand{border-color:#222;}
+    /* Nations sort bar */
+    .nations-sort-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:0 24px 24px;max-width:1080px;margin:0 auto;}
+    .nations-sort-lbl{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-right:4px;}
+    .nations-sort-btn{font-family:var(--font-m);font-size:10px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;transition:all .18s;}
+    .nations-sort-btn:hover{border-color:rgba(255,255,255,.18);color:var(--text);background:rgba(255,255,255,.07);}
+    .nations-sort-btn.active{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
+    body.mono .nations-sort-btn{background:rgba(255,255,255,.025);border-color:#111;}
     .wc-match{cursor:pointer;}
     #mm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
     #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
@@ -717,6 +730,7 @@
       <div class="nav-links">
         <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
         <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
+        <button class="nav-link" id="nlNews" onclick="goHome();setTimeout(()=>{document.getElementById('news').scrollIntoView({behavior:'smooth'})},80)">News</button>
         <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
       </div>
       <div class="nav-div"></div>
@@ -743,7 +757,7 @@
       <h1 class="hero-title">QUIPA<em>LITE</em> MC</h1>
       <p class="hero-sub">A fun, competitive Minecraft server with custom minigames and a <strong>friendly community</strong>. Whether you're here to grind ranked or just hang out — you'll fit right in. 👋</p>
       <div class="hero-actions">
-        <button class="btn-primary disabled" disabled title="Coming Soon">Explore Games — Coming Soon</button>
+        <button class="btn-primary" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Explore Games ↓</button>
         <button class="btn-secondary" onclick="goRanked()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           View Leaderboard
@@ -763,29 +777,49 @@
       <div class="sinner">
         <div class="rv"><div class="stag">Latest News</div><h2 class="stitle">What's <em>New</em></h2><p class="ssub">Stay up to date with the latest server updates, events, and announcements.</p></div>
         <div class="news-list rv rd1">
-          <div class="news-item">
+
+          <div class="news-item" onclick="toggleNews(this)">
             <div class="news-dot-col"><div class="news-dot green"></div></div>
             <div class="news-body">
               <div class="news-tag-row"><span class="news-tag green">🌐 Server</span><span class="news-date">25 JUN 2026</span></div>
               <div class="news-title">Quipalite MC relaunches!</div>
               <p class="news-desc">Quipalite MC is back! After a break, the server has officially relaunched today. Jump back in, reconnect with the community, and see what's new — we're glad to have everyone back.</p>
+              <div class="news-expand">Following a hiatus, the staff team has decided to bring Quipalite MC back online with a fresh start. Ranked seasons will resume, nations are active again, and new events are being planned. Whether you're a returning player or brand new — now is the perfect time to join. Keep an eye on Discord for upcoming announcements.</div>
             </div>
+            <div class="news-chevron">›</div>
           </div>
-          <div class="news-item">
+
+          <div class="news-item" onclick="toggleNews(this)">
             <div class="news-dot-col"><div class="news-dot pink"></div></div>
             <div class="news-body">
               <div class="news-tag-row"><span class="news-tag pink">⚔️ Ranked</span><span class="news-date">6 APR 2026</span></div>
               <div class="news-title">Ranked leaderboards updated</div>
               <p class="news-desc">Player stats and tier rankings have been refreshed. Check the leaderboard to see the latest standings across all five weapon modes.</p>
+              <div class="news-expand">This update includes the latest win, kill, and death counts across Sword, Axe, UHC, Mace, and Spear. Several players have moved up or down in tier following recent matches. Head to the Ranked page to see where you stand — and remember, reranks can be requested within 2 days of your initial ranking.</div>
             </div>
+            <div class="news-chevron">›</div>
           </div>
-          <div class="news-item">
+
+          <div class="news-item" onclick="toggleNews(this)">
+            <div class="news-dot-col"><div class="news-dot gold"></div></div>
+            <div class="news-body">
+              <div class="news-tag-row"><span class="news-tag gold">🏆 Tournament</span><span class="news-date">25 APR 2026</span></div>
+              <div class="news-title">Smeg City FC win the Club World Cup 2026!</div>
+              <p class="news-desc">In a tightly contested final at SmegTopia Stadium, Smeg City FC defeated Crainetown FC 1–0 to claim the inaugural Club World Cup title.</p>
+              <div class="news-expand">The Club World Cup 2026 concluded with a dramatic 1–0 victory for Smeg City FC over Crainetown FC. Crainetown had reached the final via a forfeit win over Keem Town United in the semis, while Smeg City FC beat Crabville Breezers 3–2 in a hard-fought semifinal. Smegtopia celebrates their first major tournament honour. Full results are available in the Nations section.</div>
+            </div>
+            <div class="news-chevron">›</div>
+          </div>
+
+          <div class="news-item" onclick="toggleNews(this)">
             <div class="news-dot-col"><div class="news-dot green"></div></div>
             <div class="news-body">
               <div class="news-tag-row"><span class="news-tag green">🌍 Nations</span><span class="news-date">24 APR 2026</span></div>
-              <div class="news-title">Two new nations founded: Okpemon & Smogtowne</div>
-              <p class="news-desc">Okpemon, led by bubbler2009, and Smogtowne, led by RT2345678, have both been officially founded — bringing the total nation count to 11. Welcome to the map!</p>
+              <div class="news-title">Okpemon relaunches after the Crabville War</div>
+              <p class="news-desc">Following the conclusion of the Crabville War, Okpemon has officially relaunched under the leadership of bubbler2009. Smogtowne, led by RT2345678, was also founded around the same time.</p>
+              <div class="news-expand">Okpemon's relaunch marks a significant moment in the server's political history. The nation had been in turmoil during the Crabville War, but with peace restored, bubbler2009 has rebuilt from the ground up under a Communist government. Smogtowne also emerged in this period, adopting the unique Smog ideology. Both nations are in their early days but are expected to grow quickly now that stability has returned to the region.</div>
             </div>
+            <div class="news-chevron">›</div>
           </div>
 
         </div>
@@ -978,7 +1012,7 @@
       </div>
     </div>
     <div id="hofp" aria-hidden="true"></div>
-    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: <span id="lastUpdated"></span></footer>
+    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: <span id="lastUpdated">25 Jun 2026</span></footer>
   </div>
 
   <!-- ISLAND PAGE -->
@@ -1007,6 +1041,14 @@
           </div>
         </div>
         <div id="nations-grid"></div>
+      </div>
+      <div class="nations-sort-bar">
+        <span class="nations-sort-lbl">Sort by</span>
+        <button class="nations-sort-btn active" onclick="sortNations('default',this)">Default</button>
+        <button class="nations-sort-btn" onclick="sortNations('population',this)">Population ↓</button>
+        <button class="nations-sort-btn" onclick="sortNations('founded',this)">Founded ↑</button>
+        <button class="nations-sort-btn" onclick="sortNations('name',this)">Name A–Z</button>
+        <button class="nations-sort-btn" onclick="sortNations('government',this)">Government</button>
       </div>
     </div>
 
@@ -1117,6 +1159,30 @@
     {id:'smogtowne',name:'Smogtowne',icon:'🌫️',iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',leader:'RT2345678',population:'0',capital:'N/A',currency:'Smucks',currencyColor:'#888888',government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',description:'Smogtowne is one of the newest nations on the server, founded by RT2345678 under a Smog government — a unique form of Communism. Shrouded in mystery, this grey nation is in its earliest days with no registered citizens yet, but its distinct ideology and aesthetic set it apart from every other nation on the map.',tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
   ];
 
+  let _nationsSort = 'default';
+  const TERRITORY_ORDER = {'Very Large':5,'Large':4,'Medium':3,'Small':2,'Very Small':1};
+
+  function getSortedNations() {
+    const ns = [...NATIONS];
+    if (_nationsSort === 'population') {
+      ns.sort((a,b) => parseInt(b.population.replace(/,/g,'')||0) - parseInt(a.population.replace(/,/g,'')||0));
+    } else if (_nationsSort === 'founded') {
+      ns.sort((a,b) => new Date(a.founded) - new Date(b.founded));
+    } else if (_nationsSort === 'name') {
+      ns.sort((a,b) => a.name.localeCompare(b.name));
+    } else if (_nationsSort === 'government') {
+      ns.sort((a,b) => a.government.localeCompare(b.government));
+    }
+    return ns;
+  }
+
+  function sortNations(key, btn) {
+    _nationsSort = key;
+    document.querySelectorAll('.nations-sort-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderNationsGrid();
+  }
+
   function renderNationsGrid() {
     const grid = document.getElementById('nations-grid');
     if (!grid) return;
@@ -1128,7 +1194,8 @@
       const totalPop = NATIONS.reduce((s,n)=>s+parseInt(n.population.replace(/,/g,'')||0),0);
       countRow.innerHTML = `<span class="nc-pill"><span class="nc-pill-dot" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.6)"></span><strong>${total}</strong>&nbsp;Nations</span><span class="nc-pill"><strong>${totalPop.toLocaleString()}</strong>&nbsp;Total Citizens</span><span class="nc-pill"><strong>${Object.keys(govCounts).length}</strong>&nbsp;Gov. Types</span>`;
     }
-    grid.innerHTML = NATIONS.map((n, i) => {
+    const sorted = getSortedNations();
+    grid.innerHTML = sorted.map((n, i) => {
       const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
       const firstCol = (n.colors && n.colors[0]) || n.accentColor;
       return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both"><div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">Population</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">Founded</span><span class="nation-val">${n.founded}</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">Government</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
@@ -1482,14 +1549,12 @@
     }
   });
 
+  function toggleNews(el) {
+    el.classList.toggle('open');
+  }
+
   window.addEventListener('DOMContentLoaded', () => {
     renderBracket();
-    // Last updated: set to today's date dynamically
-    const el = document.getElementById('lastUpdated');
-    if (el) {
-      const d = new Date();
-      el.textContent = d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
-    }
   });
 
   window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));createPlayers('overall');setupReveal();document.getElementById('navBrand').addEventListener('click',()=>{if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);});});
