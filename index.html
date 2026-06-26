@@ -875,7 +875,7 @@
           <div class="contact-body">
             <div class="contact-title">Send us an Email</div>
             <p class="contact-desc">For general enquiries, player reports, or anything else — we're happy to help. Expect a reply within a day or two.</p>
-            <a class="contact-link" href="mailto:quipalitemc@gmail.com">quipalitemc@gmail.com ↗</a>
+            <a class="contact-link" href="mailto:realomcserver@gmail.com">realomcserver@gmail.com ↗</a>
           </div>
         </div>
       </div>
@@ -1199,18 +1199,12 @@
     }
   });
   document.addEventListener('DOMContentLoaded', setupReveal);
+  // Update this manually whenever you want to refresh the displayed count.
+  const DISCORD_MEMBERS = 33;
   function loadDiscordWidget() {
     const el = document.getElementById('dcStats');
     if (!el) return;
-    fetch('https://discord.com/api/v10/invites/pnMRQsqUtA?with_counts=true&with_expiration=true')
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(d => {
-        const online = d.approximate_presence_count, total = d.approximate_member_count;
-        if (typeof online === 'number' && typeof total === 'number') {
-          el.innerHTML = `<span><span class="dc-dot"></span><strong>${online.toLocaleString()}</strong> Online</span><span><strong>${total.toLocaleString()}</strong> Members</span>`;
-        } else { el.innerHTML = ''; }
-      })
-      .catch(() => { el.innerHTML = ''; });
+    el.innerHTML = `<span><span class="dc-dot"></span><strong>${DISCORD_MEMBERS.toLocaleString()}</strong> Members</span>`;
   }
   document.addEventListener('DOMContentLoaded', loadDiscordWidget);
   // Update these manually whenever you want to refresh the displayed counts.
