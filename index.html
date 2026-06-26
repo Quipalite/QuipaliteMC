@@ -3,9 +3,17 @@
 <head>
   <meta charset="utf-8"/>
   <title>Quipalite MC</title>
-  <meta name="description" content="A Bedrock Minecraft minigame server where you can play a bunch of games, such as Island Evolution, Ranked Battle Arena, Current Nations and Parkour.">
-  <meta name="keywords" content="Quipalite, Minecraft, PVP, Ranked, Island Evolution, Aftlow">
+  <meta name="description" content="A Bedrock Minecraft minigame server with custom games including Ranked Battle Arena, Island Evolution, Party Games, and Current Nations. Join the community today!">
+  <meta name="keywords" content="Quipalite, Minecraft, Bedrock, PVP, Ranked, Island Evolution, Current Nations, Party Games, minigame server">
   <meta name="author" content="Quipalite">
+  <meta property="og:title" content="Quipalite MC — Bedrock Minigames Server">
+  <meta property="og:description" content="A fun, competitive Minecraft server with custom minigames and a friendly community. Play Ranked Battle Arena, Island Evolution, and more!">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Quipalite MC — Bedrock Minigames Server">
+  <meta name="twitter:description" content="A fun, competitive Minecraft server with custom minigames and a friendly community. Play Ranked Battle Arena, Island Evolution, and more!">
+  <meta name="twitter:image" content="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="aEAiVKnvhohTWaDwSA-phFTKZhqp6mo3pC7rNrMbvG8" />
   <link rel="icon" href="https://yt3.googleusercontent.com/71g321HWP1axLSjFPqSfgtcAI0FVNWoh61WHv4ZA-bCBMiCjIookbp_Xk-nfx8ubiS-lIvm_3Q=s160-c-k-c0x00ffffff-no-rj" type="image/png">
@@ -705,6 +713,7 @@
       <div class="nav-links">
         <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
         <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
+        <button class="nav-link" id="nlNations" onclick="goCurrentNations()">Nations</button>
         <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
       </div>
       <div class="nav-div"></div>
@@ -721,7 +730,6 @@
       <button class="ibtn hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" title="Menu" style="display:none">
         <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="1"/><line x1="1" y1="9" x2="23" y2="9"/><line x1="1" y1="17" x2="23" y2="17"/></svg>
       </button>
-      <div class="nav-div"></div>
     </div>
     <div class="nav-glow"></div>
   </nav>
@@ -730,8 +738,10 @@
     <button class="mnav-link" onclick="goHome();closeMobileNav()">🏠 Home</button>
     <button class="mnav-link" onclick="goRanked();closeMobileNav()">🏆 Ranked</button>
     <button class="mnav-link" onclick="goCurrentNations();closeMobileNav()">🌍 Current Nations</button>
-    <button class="mnav-link" onclick="goMatchHistory();closeMobileNav()">📜 Match History</button>
     <button class="mnav-link" onclick="goHome();closeMobileNav();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">💬 Feedback</button>
+    <div class="mnav-div" id="mnavRankedDiv" style="display:none"></div>
+    <button class="mnav-link" id="mnavTierBtn" onclick="openTier();closeMobileNav()" style="display:none">📊 Tier Guide</button>
+    <button class="mnav-link" id="mnavShortcutBtn" onclick="openShortcuts();closeMobileNav()" style="display:none">⌨️ Keyboard Shortcuts</button>
     <div class="mnav-div"></div>
     <a class="mnav-link" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
     <a class="mnav-link" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
@@ -744,7 +754,10 @@
       <h1 class="hero-title">QUIPA<em>LITE</em> MC</h1>
       <p class="hero-sub">A fun, competitive Minecraft server with custom minigames and a <strong>friendly community</strong>. Whether you're here to grind ranked or just hang out — you'll fit right in. 👋</p>
       <div class="hero-actions">
-        <button class="btn-primary disabled" disabled title="Coming Soon">Explore Games — Coming Soon</button>
+        <button class="btn-primary" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z"/></svg>
+          Explore Games
+        </button>
         <button class="btn-secondary" onclick="goRanked()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           View Leaderboard
@@ -941,6 +954,7 @@
           <span class="co-vs">VS</span>
           <div class="co-sw"><input type="text" id="cs2" class="co-si" placeholder="Search player…" autocomplete="off" oninput="filterDD(2)" onfocus="showDD(2)" onblur="hideDD(2)"></div>
           <button class="co-btn" onclick="runCompare()">Compare</button>
+          <button class="co-btn" onclick="resetCompare()" style="background:rgba(255,255,255,.07);border:1px solid var(--border-card);color:var(--text-muted);" onmouseover="this.style.background='rgba(255,255,255,.12)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">Reset</button>
         </div>
         <div id="cr"></div>
       </div>
@@ -997,32 +1011,14 @@
         <span class="wc-trophy">🏆</span>
         <div class="wc-title">Club World Cup 2026</div>
         <div class="wc-sub">Nations Edition &nbsp;·&nbsp; Spring Tournament</div>
-        <div style="margin-top:10px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+        <div style="margin-top:10px;display:flex;justify-content:center">
           <span class="wc-stadium-note">🏟️ All matches — SmegTopia Stadium</span>
-          <span class="wc-stadium-note" style="cursor:pointer;color:var(--pink);border-color:var(--pink-line);background:var(--pink-glow);" onclick="goMatchHistory()">📜 Full Match History ↗</span>
         </div>
       </div>
       <div id="wc-bracket"></div>
     </div>
 
     <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
-  </div>
-
-  <!-- MATCH HISTORY PAGE -->
-  <div id="matchHistoryPage" class="page">
-    <div class="nations-header">
-      <div class="nations-inner">
-        <div class="nations-hero">
-          <div class="nations-hero-left">
-            <div class="stag">Club World Cup Archive</div>
-            <h2 class="stitle">Match <em>History</em></h2>
-            <p class="ssub">Every Club World Cup result so far, most recent first. Click any match for full details.</p>
-          </div>
-        </div>
-        <div id="match-history-list" class="wc-matches" style="grid-template-columns:1fr;max-width:760px;margin:0 auto;"></div>
-      </div>
-    </div>
-    <footer style="margin-top:60px;">© Quipalite MC &nbsp;·&nbsp; Match History &nbsp;·&nbsp; 2026</footer>
   </div>
 
   <!-- PARKOUR PAGE -->
@@ -1192,18 +1188,22 @@
   let mono = false;
   const tth = document.getElementById('tth');
   document.getElementById('navLogo').addEventListener('click', function(e) { e.stopPropagation(); window.location.reload(); });
-  function setNavActive(home, ranked) {
-    document.getElementById('nlHome').classList.toggle('active', home);
-    document.getElementById('nlRanked').classList.toggle('active', ranked);
+  function setNavActive(home, ranked, nations) {
+    document.getElementById('nlHome').classList.toggle('active', !!home);
+    document.getElementById('nlRanked').classList.toggle('active', !!ranked);
+    document.getElementById('nlNations').classList.toggle('active', !!nations);
+    const showRankedMobile = !!ranked;
+    document.getElementById('mnavTierBtn').style.display = showRankedMobile ? '' : 'none';
+    document.getElementById('mnavShortcutBtn').style.display = showRankedMobile ? '' : 'none';
+    document.getElementById('mnavRankedDiv').style.display = showRankedMobile ? '' : 'none';
   }
-  function goHome() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('homePage').classList.add('active'); setNavActive(true,false); document.getElementById('navSub').textContent='Minigames Server'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(setupReveal,50); }
-  function goRanked() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('rankedPage').classList.add('active'); setNavActive(false,true); document.getElementById('navSub').textContent='Ranked Battle Arena'; document.getElementById('tierBtn').style.display=''; document.getElementById('shortcutBtn').style.display=''; document.body.classList.add('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); showRankedMain(); const am=document.querySelector('.lbm.active'); if(am&&!am.children.length)createPlayers(am.id); }
+  function goHome() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('homePage').classList.add('active'); setNavActive(true,false,false); document.getElementById('navSub').textContent='Minigames Server'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(setupReveal,50); }
+  function goRanked() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('rankedPage').classList.add('active'); setNavActive(false,true,false); document.getElementById('navSub').textContent='Ranked Battle Arena'; document.getElementById('tierBtn').style.display=''; document.getElementById('shortcutBtn').style.display=''; document.body.classList.add('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); showRankedMain(); const am=document.querySelector('.lbm.active'); if(am&&!am.children.length)createPlayers(am.id); }
   function goRankedMode(mode) { goRanked(); setTimeout(()=>{ const mMap={overall:0,sword:1,axe:2,uhc:3,mace:4,spear:5}; const tabs=document.querySelectorAll('.rtabs .tab'); if(tabs[mMap[mode]])tabs[mMap[mode]].click(); },80); }
-  function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
-  function goMatchHistory() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('matchHistoryPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Match History'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderMatchHistory(); }
-  function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
+  function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
+  function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
+  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
+  function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
   function setupReveal() { const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'}); document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el)); }
   function toggleMobileNav() {
@@ -1221,21 +1221,19 @@
   document.addEventListener('DOMContentLoaded', setupReveal);
   // Update this manually whenever you want to refresh the displayed count.
   const DISCORD_MEMBERS = 33;
-  const DISCORD_UPDATED = '26 Jun 2026';
   function loadDiscordWidget() {
     const el = document.getElementById('dcStats');
     if (!el) return;
-    el.innerHTML = `<span><span class="dc-dot"></span><strong>${DISCORD_MEMBERS.toLocaleString()}</strong> Members</span><span class="dc-updated">Updated ${DISCORD_UPDATED}</span>`;
+    el.innerHTML = `<span><span class="dc-dot"></span><strong>${DISCORD_MEMBERS.toLocaleString()}</strong> Members</span>`;
   }
   document.addEventListener('DOMContentLoaded', loadDiscordWidget);
   // Update these manually whenever you want to refresh the displayed counts.
   const YOUTUBE_SUBSCRIBERS = 15;
   const YOUTUBE_VIEWS = 263;
-  const YOUTUBE_UPDATED = '26 Jun 2026';
   function loadYoutubeWidget() {
     const el = document.getElementById('ytStats');
     if (!el) return;
-    el.innerHTML = `<span><span class="dc-dot" style="background:#ff5555;box-shadow:0 0 6px rgba(255,85,85,.7)"></span><strong>${YOUTUBE_SUBSCRIBERS.toLocaleString()}</strong> Subscribers</span><span><strong>${YOUTUBE_VIEWS.toLocaleString()}</strong> Views</span><span class="dc-updated">Updated ${YOUTUBE_UPDATED}</span>`;
+    el.innerHTML = `<span><span class="dc-dot" style="background:#ff5555;box-shadow:0 0 6px rgba(255,85,85,.7)"></span><strong>${YOUTUBE_SUBSCRIBERS.toLocaleString()}</strong> Subscribers</span><span><strong>${YOUTUBE_VIEWS.toLocaleString()}</strong> Views</span>`;
   }
   document.addEventListener('DOMContentLoaded', loadYoutubeWidget);
   let showRet=false;
@@ -1296,6 +1294,7 @@
   function hideCo(){const c=document.getElementById('cop');c.classList.remove('show');c.setAttribute('aria-hidden','true');setTimeout(()=>{c.style.display='none';},260);}
   function setCMode(mode,btn){cmode=mode;document.querySelectorAll('#cmr button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('cr').innerHTML='';popCoSel();}
   function popCoSel(){if(cmode==='overall')updateOverall();cpl=Object.keys(PS[cmode]||{}).filter(p=>showRet||!retired.includes(p));cpl.sort();cp1='';cp2='';document.getElementById('cs1').value='';document.getElementById('cs2').value='';buildDD(1,cpl);buildDD(2,cpl);}
+  function resetCompare(){document.getElementById('cr').innerHTML='';popCoSel();}
   function buildDD(num,players){const dd=document.getElementById('dd'+num),inp=document.getElementById('cs'+num);const search=inp.value.toLowerCase(),filtered=players.filter(p=>p.toLowerCase().includes(search));dd.innerHTML='';if(!filtered.length){dd.innerHTML=`<div class="cde">No players found</div>`;return;}filtered.forEach(p=>{const item=document.createElement('div');item.className='cdi'+((num===1&&p===cp1)||(num===2&&p===cp2)?' sel':'');const fl=PC[p]?`<img src="https://flagcdn.com/w40/${PC[p]}.png" class="rf" alt="">`:'';item.innerHTML=`<img src="${av(p,24)}" alt="${p}">${fl}<span>${p}</span>`;item.addEventListener('mousedown',e=>{e.preventDefault();if(num===1){cp1=p;document.getElementById('cs1').value=p;}else{cp2=p;document.getElementById('cs2').value=p;}dd.classList.remove('open');});dd.appendChild(item);});}
   function filterDD(num){buildDD(num,cpl);posDD(num);document.getElementById('dd'+num).classList.add('open');if(num===1)cp1='';else cp2='';}
   function posDD(num){const inp=document.getElementById('cs'+num),dd=document.getElementById('dd'+num),r=inp.getBoundingClientRect();dd.style.top=(r.bottom+4)+'px';dd.style.left=r.left+'px';dd.style.width=r.width+'px';}
@@ -1360,20 +1359,6 @@
     return null;
   }
 
-  function renderMatchHistory() {
-    const list = document.getElementById('match-history-list');
-    if (!list) return;
-    const played = WC_MATCHES.filter(m => m.status !== 'UPCOMING').slice().sort((a, b) => new Date(b.date) - new Date(a.date));
-    if (!played.length) {
-      list.innerHTML = `<p style="text-align:center;color:var(--text-muted);font-family:var(--font-m);font-size:11px;padding:40px 0">No matches played yet.</p>`;
-      return;
-    }
-    list.innerHTML = played.map(m => `
-      <div style="margin-bottom:4px">
-        <div style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;padding-left:2px;">${m.round}</div>
-        ${renderMatchCard(m)}
-      </div>`).join('');
-  }
   function renderBracket() {
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
