@@ -676,7 +676,7 @@
     .cq-start{display:none;padding:12px 36px;border-radius:40px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .22s;box-shadow:0 8px 32px rgba(139,92,246,.4);}
     .cq-start.show{display:inline-block;}
     .cq-start:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(139,92,246,.55);filter:brightness(1.1);}
-    .cq-arena{display:none;padding:28px 32px;}
+    .cq-arena{display:none;padding:28px 32px;max-height:80vh;overflow-y:auto;}
     .cq-arena.show{display:block;}
     .cq-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
     .cq-prog-wrap{flex:1;margin-right:16px;}
@@ -714,7 +714,7 @@
     .cq-next{width:100%;padding:13px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .2s;display:none;box-shadow:0 6px 24px rgba(139,92,246,.3);}
     .cq-next.show{display:block;}
     .cq-next:hover{filter:brightness(1.1);transform:translateY(-1px);}
-    .cq-results{display:none;padding:36px 32px;text-align:center;}
+    .cq-results{display:none;padding:36px 32px;text-align:center;max-height:80vh;overflow-y:auto;}
     .cq-results.show{display:block;animation:fadeUp .32s ease both;}
     .cq-res-emoji{font-size:60px;margin-bottom:14px;}
     .cq-res-title{font-family:var(--font-d);font-size:30px;font-weight:800;color:#fff;margin-bottom:6px;}
@@ -1118,7 +1118,7 @@
         <div class="cq-lobby" id="cqLobby">
           <div class="cq-lobby-badge">🌍 &nbsp;Guess the Nation</div>
           <div class="cq-lobby-title">How well do you know<br><span>Current Nations?</span></div>
-          <p class="cq-lobby-sub">You'll be given clues about a nation one at a time — guess it from all nations on the server. 5 questions per round.</p>
+          <p class="cq-lobby-sub">You'll be given clues about a nation one at a time — guess it from all nations on the server. Easy: 5 questions · Medium: 7 · Hard: 10.</p>
           <div class="cq-diff-row">
             <button class="cq-diff easy" onclick="cqSelectDiff('easy')">🟢 Easy</button>
             <button class="cq-diff med" onclick="cqSelectDiff('med')">🟡 Medium</button>
@@ -1752,7 +1752,7 @@
 
   // ── CN NATION QUIZ ──
   (function(){
-    let cqDiff=null,cqQs=[],cqIdx=0,cqScore=0,cqHints=[],cqHintIdx=0,cqAnswered=false,cqLog=[],cqIconRevealed=false;
+    let cqDiff=null,cqQs=[],cqIdx=0,cqScore=0,cqHints=[],cqHintIdx=0,cqAnswered=false,cqLog=[];
 
     function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
 
@@ -1774,14 +1774,31 @@
 
     // ── Build question pool ──
     function cqGenQuestions(diff){
-      const pool=shuffle(NATIONS).slice(0,5);
+      const count=diff==='easy'?5:diff==='med'?7:10;
+      const pool=shuffle(NATIONS).slice(0,count);
       const usedTypes=new Set();
       return pool.map(n=>{
-        const qs=shuffle(cqAllQuestions(n,diff)).filter(q=>!usedTypes.has(q.type));
-        const q=qs[0]||cqAllQuestions(n,diff)[0];
+        const nameLC=n.name.toLowerCase();
+        // A question is safe if:
+        // 1. Its type hasn't been used this round
+        // 2. The answer nation's name doesn't appear in the question text
+        // 3. The clue value is UNIQUE across all nations (no ambiguous answers)
+        const safe=q=>{
+          if(usedTypes.has(q.type))return false;
+          const plainQ=(q.question||'').replace(/<[^>]*>/g,'');
+          if(plainQ.toLowerCase().includes(nameLC))return false;
+          if(q._ambiguous)return false;
+          return true;
+        };
+        const qs=shuffle(cqAllQuestions(n,diff)).filter(safe);
+        // Fallback: relax type-reuse constraint but keep name + ambiguity checks
+        const q=qs[0]||shuffle(cqAllQuestions(n,diff)).find(q=>{
+          const plainQ=(q.question||'').replace(/<[^>]*>/g,'');
+          return !plainQ.toLowerCase().includes(nameLC)&&!q._ambiguous;
+        })||null;
         if(q)usedTypes.add(q.type);
         return q;
-      });
+      }).filter(Boolean);
     }
 
     function cqAllQuestions(n,diff){
@@ -1803,85 +1820,209 @@
       // Accent colour hex
       const accentHex=n.accentColor||'#fff';
 
-      // Currency colour name
-      const currColor=n.currencyColor||'';
-
       // Tags
       const tagLabels=(n.tags||[]).map(t=>t.label);
 
-      // Nation that share the same gov
-      const sameGov=NATIONS.filter(x=>x.id!==n.id&&x.government===n.government).map(x=>x.name);
-      const diffGov=NATIONS.filter(x=>x.id!==n.id&&x.government!==n.government).map(x=>x.name);
-
-      // Founded month/year
+      // Nations sharing the same gov/territory/alliance/currency/founded-day/founded-month/founded-year
+      const isUnique=(key,val)=>NATIONS.filter(x=>x.id!==n.id&&x[key]===val).length===0;
+      const isUniqueVal=(val,list)=>list.filter(v=>v===val).length===0;
+      const sameGov=NATIONS.filter(x=>x.id!==n.id&&x.government===n.government);
+      const sameTerr=NATIONS.filter(x=>x.id!==n.id&&(x.facts||[]).find(f=>f.label==='Territory')?.val===territory);
+      const sameAlliance=NATIONS.filter(x=>x.id!==n.id&&(x.facts||[]).find(f=>f.label==='Alliance')?.val===alliance);
+      const sameCurr=NATIONS.filter(x=>x.id!==n.id&&x.currency===n.currency);
       const foundedParts=n.founded.split(' ');
       const foundedMonth=foundedParts[1]||'';
       const foundedYear=foundedParts[2]||'2026';
       const foundedDay=foundedParts[0]||'';
+      const sameFounded=NATIONS.filter(x=>x.id!==n.id&&x.founded===n.founded);
+      const sameFoundedDay=NATIONS.filter(x=>x.id!==n.id&&x.founded.split(' ')[0]===foundedDay);
+      const sameAccent=NATIONS.filter(x=>x.id!==n.id&&x.accentColor===n.accentColor);
+      const sameLeader=NATIONS.filter(x=>x.id!==n.id&&x.leader===n.leader);
 
+      // sameGov nations for the "shared gov" question
+      const sameGovNames=NATIONS.filter(x=>x.id!==n.id&&x.government===n.government).map(x=>x.name);
+
+      // Hints: always provide exactly 3 — the diff controls how many show upfront
       const all=[
         // ── EASY ──
-        {type:'icon',     label:'ICON',          question:`Which nation uses the <em>${n.icon}</em> icon?`,
-          answer:n.id, hints:[`Founded in ${foundedYear}`,`Leader: ${n.leader}`,`Government: ${n.government}`], showIcon:true},
+        {type:'leader',   label:'LEADER',
+          question:`Which nation is led by <em>${n.leader}</em>?`,
+          answer:n.id,
+          hints:[`Founded: ${n.founded}`,`Currency: ${n.currency}`,`Government: ${n.government}`],
+          _ambiguous:sameLeader.length>0},
 
-        {type:'leader',   label:'LEADER',         question:`Which nation is led by <em>${n.leader}</em>?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Currency: ${n.currency}`], showIcon:false},
-
-        {type:'currency', label:'CURRENCY',       question:`Which nation uses <em>${n.currency}</em> as its currency?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`], showIcon:false},
+        {type:'currency', label:'CURRENCY',
+          question:`Which nation uses <em>${n.currency}</em> as its currency?`,
+          answer:n.id,
+          hints:[`Leader: ${n.leader}`,`Founded: ${n.founded}`,`Government: ${n.government}`],
+          _ambiguous:sameCurr.length>0},
 
         // ── MEDIUM ──
-        {type:'gov',      label:'GOVERNMENT',     question:`Which nation is governed by a <em>${n.government}</em>?`,
-          answer:n.id, hints:[`Territory: ${territory}`,`Population: ${n.population}`,`Alliance: ${alliance}`], showIcon:false},
+        {type:'gov',      label:'GOVERNMENT',
+          question:`Which nation is governed by a <em>${n.government}</em>?`,
+          answer:n.id,
+          hints:[`Territory: ${territory}`,`Population: ${n.population}`,`Alliance: ${alliance}`],
+          _ambiguous:sameGov.length>0},
 
-        {type:'founded',  label:'FOUNDED',        question:`Which nation was founded on <em>${n.founded}</em>?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Territory: ${territory}`], showIcon:false},
+        {type:'founded',  label:'FOUNDED',
+          question:`Which nation was founded on <em>${n.founded}</em>?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Territory: ${territory}`],
+          _ambiguous:sameFounded.length>0},
 
-        {type:'poprank',  label:'POPULATION RANK',question:`Which nation ranks <em>${ordinal(popRank)}</em> by population on the server?`,
-          answer:n.id, hints:[`Population: ${n.population}`,`Government: ${n.government}`,`Founded: ${n.founded}`], showIcon:false},
+        {type:'poprank',  label:'POPULATION RANK',
+          question:`Which nation ranks <em>${ordinal(popRank)}</em> by population on the server?`,
+          answer:n.id,
+          hints:[`Population: ${n.population}`,`Government: ${n.government}`,`Founded: ${n.founded}`],
+          _ambiguous:false},
 
-        {type:'territory',label:'TERRITORY SIZE', question:`Which nation has a <em>${territory}</em> territory?`,
-          answer:n.id, hints:[`Alliance: ${alliance}`,`Government: ${n.government}`,`Leader: ${n.leader}`], showIcon:false},
+        {type:'territory',label:'TERRITORY SIZE',
+          question:`Which nation has a <em>${territory}</em> territory?`,
+          answer:n.id,
+          hints:[`Alliance: ${alliance}`,`Government: ${n.government}`,`Leader: ${n.leader}`],
+          _ambiguous:sameTerr.length>0},
 
-        {type:'alliance', label:'ALLIANCE',       question:`Which nation is a member of <em>${alliance}</em>?`,
-          answer:n.id, hints:[`Territory: ${territory}`,`Government: ${n.government}`,`Founded: ${n.founded}`], showIcon:false},
+        {type:'alliance', label:'ALLIANCE',
+          question:`Which nation is a member of <em>${alliance}</em>?`,
+          answer:n.id,
+          hints:[`Territory: ${territory}`,`Government: ${n.government}`,`Founded: ${n.founded}`],
+          _ambiguous:sameAlliance.length>0},
 
         // ── HARD ──
-        {type:'foundrank',label:'FOUNDING ORDER', question:`Which nation was the <em>${ordinal(foundRank)}</em> to be founded on the entire server?`,
-          answer:n.id, hints:[`It was founded in ${foundedMonth} ${foundedYear}`,`Government: ${n.government}`,`Leader: ${n.leader}`], showIcon:false},
+        {type:'foundrank',label:'FOUNDING ORDER',
+          question:`Which nation was the <em>${ordinal(foundRank)}</em> to be founded on the entire server?`,
+          answer:n.id,
+          hints:[`It was founded in ${foundedMonth} ${foundedYear}`,`Government: ${n.government}`,`Leader: ${n.leader}`],
+          _ambiguous:false},
 
-        {type:'mid_desc', label:'LORE FRAGMENT',  question:`<em>"${midSentence}."</em> — Which nation does this describe?`,
-          answer:n.id, hints:[`Founded: ${n.founded}`,`Territory: ${territory}`,`Alliance: ${alliance}`], showIcon:false},
+        {type:'mid_desc', label:'LORE FRAGMENT',
+          question:`<em>"${midSentence}."</em> — Which nation does this describe?`,
+          answer:n.id,
+          hints:[`Founded: ${n.founded}`,`Territory: ${territory}`,`Alliance: ${alliance}`],
+          _ambiguous:false},
 
-        {type:'last_desc',label:'LORE ENDING',    question:`A nation's description ends with: <em>"${lastSentence}."</em> — Which nation is it?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`], showIcon:false},
+        {type:'last_desc',label:'LORE ENDING',
+          question:`A nation's description ends with: <em>"${lastSentence}."</em> — Which nation is it?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`],
+          _ambiguous:false},
 
-        {type:'accentcol',label:'NATION COLOUR',  question:`Which nation's accent colour is <em style="color:${accentHex};filter:drop-shadow(0 0 6px ${accentHex}66)">${accentHex}</em>?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Territory: ${territory}`], showIcon:false},
+        {type:'accentcol',label:'NATION COLOUR',
+          question:`Which nation's accent colour is <em style="color:${accentHex};filter:drop-shadow(0 0 6px ${accentHex}66)">${accentHex}</em>?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Territory: ${territory}`],
+          _ambiguous:sameAccent.length>0},
 
-        {type:'foundday', label:'FOUNDING DAY',   question:`Which nation was founded on day <em>${foundedDay}</em> of a month?`,
-          answer:n.id, hints:[`Month: ${foundedMonth}`,`Government: ${n.government}`,`Currency: ${n.currency}`], showIcon:false},
+        {type:'foundday', label:'FOUNDING DAY',
+          question:`Which nation was founded on day <em>${foundedDay}</em> of a month?`,
+          answer:n.id,
+          hints:[`Month: ${foundedMonth}`,`Government: ${n.government}`,`Currency: ${n.currency}`],
+          _ambiguous:sameFoundedDay.length>0},
 
-        {type:'tag0',     label:'NATION TAG',     question:tagLabels.length?`Which nation carries the <em>"${tagLabels[0]}"</em> tag?`:`Which nation has ${n.government} as its government?`,
-          answer:n.id, hints:[`Founded: ${n.founded}`,`Leader: ${n.leader}`,`Territory: ${territory}`], showIcon:false},
+        {type:'tag0',     label:'NATION TAG',
+          question:tagLabels.length?`Which nation carries the <em>"${tagLabels[0]}"</em> tag?`:`Which nation has a <em>${n.government}</em> government?`,
+          answer:n.id,
+          hints:[`Founded: ${n.founded}`,`Leader: ${n.leader}`,`Territory: ${territory}`],
+          _ambiguous:tagLabels.length?NATIONS.filter(x=>x.id!==n.id&&(x.tags||[]).some(t=>t.label===tagLabels[0])).length>0:sameGov.length>0},
 
-        {type:'negpop',   label:'ZERO POPULATION',question:`Which nation currently has a population of exactly <em>zero</em>?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`], showIcon:false,
-          _valid:parseInt(n.population.replace(/,/g,'')||0)===0},
+        {type:'negpop',   label:'ZERO POPULATION',
+          question:`Which nation currently has a population of exactly <em>zero</em>?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`],
+          _valid:parseInt(n.population.replace(/,/g,'')||0)===0,
+          _ambiguous:NATIONS.filter(x=>x.id!==n.id&&parseInt(x.population.replace(/,/g,'')||0)===0).length>0},
 
-        {type:'samegov',  label:'SHARED GOVERNMENT', question:sameGov.length?`<em>${sameGov.join(' and ')}</em> share a government type with which other nation?`:`Which nation is the only one with a <em>${n.government}</em> government?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`], showIcon:false},
+        {type:'samegov',  label:'SHARED GOVERNMENT',
+          question:sameGovNames.length?`<em>${sameGovNames.join(' and ')}</em> share a government type with which other nation?`:`Which nation is the only one with a <em>${n.government}</em> government?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`],
+          _ambiguous:false},
       ];
 
       // Add capital question only if the nation has one
       if(capital){
-        all.push({type:'capital',label:'CAPITAL CITY',question:`Which nation has a capital city named <em>${capital}</em>?`,
-          answer:n.id, hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`], showIcon:false});
+        all.push({type:'capital',label:'CAPITAL CITY',
+          question:`Which nation has a capital city named <em>${capital}</em>?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:NATIONS.filter(x=>x.id!==n.id&&(x.facts||[]).find(f=>f.label==='Capital City')?.val===capital).length>0});
       }
 
-      const easyTypes=['icon','leader','currency'];
+      // ── LORE QUESTIONS (hard only, nation-specific, conditionally added) ──
+
+      // Smegtopia lore
+      if(n.id==='smegtopia'){
+        all.push({type:'lore_stadium',label:'LORE',
+          question:`Which nation is home to a <em>national stadium</em> and a large <em>military base</em>?`,
+          answer:'smegtopia',
+          hints:[`This is a founding nation`,`Leader: ${n.leader}`,`Government: ${n.government}`],
+          _ambiguous:false});
+        all.push({type:'lore_tensions',label:'LORE',
+          question:`Which nation has had tensions with <em>Okpemon, Waterland, Corexia, and Springbuck</em>?`,
+          answer:'smegtopia',
+          hints:[`This is a founding nation`,`Currency: ${n.currency}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+        all.push({type:'lore_crab_tensions',label:'LORE',
+          question:`Which nation has had the <em>most direct rivalry</em> with Crabville?`,
+          answer:'smegtopia',
+          hints:[`Both are in the same alliance`,`This is a founding nation`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Crabville lore
+      if(n.id==='crabville'){
+        all.push({type:'lore_invasion',label:'LORE',
+          question:`Which nation <em>invaded Okpemon</em>?`,
+          answer:'crabville',
+          hints:[`This nation is the most populous on the server`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Craineun lore
+      if(n.id==='craineun'){
+        all.push({type:'lore_robot',label:'LORE',
+          question:`Which nation is known for having a <em>robot military</em>?`,
+          answer:'craineun',
+          hints:[`This nation has the only named capital city`,`Leader: ${n.leader}`,`Government: ${n.government}`],
+          _ambiguous:false});
+        all.push({type:'lore_springfield',label:'LORE',
+          question:`Which nation contains the settlements of <em>Craintown</em> and <em>Springfield</em>?`,
+          answer:'craineun',
+          hints:[`This nation has a named capital`,`Founded: ${n.founded}`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Springbuck lore
+      if(n.id==='springbuck'){
+        all.push({type:'lore_oils',label:'LORE',
+          question:`Which nation is known for its <em>significant military presence</em> and rich <em>natural oils</em>?`,
+          answer:'springbuck',
+          hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Corexia lore
+      if(n.id==='corexia'){
+        all.push({type:'lore_tech',label:'LORE',
+          question:`Which nation is considered the most <em>technologically advanced</em> on the server and is owned by the <em>server owner</em>?`,
+          answer:'corexia',
+          hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Okpemon lore
+      if(n.id==='okpemon'){
+        all.push({type:'lore_invaded',label:'LORE',
+          question:`Which nation has been <em>invaded by Crabville</em>?`,
+          answer:'okpemon',
+          hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      const easyTypes=['leader','currency'];
       const medTypes=['gov','founded','poprank','territory','alliance'];
-      const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday','tag0','negpop','samegov','capital'];
+      const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday','tag0','negpop','samegov','capital',
+        'lore_stadium','lore_tensions','lore_crab_tensions','lore_invasion','lore_robot','lore_springfield','lore_oils','lore_tech','lore_invaded'];
 
       let filtered;
       if(diff==='easy')  filtered=all.filter(q=>easyTypes.includes(q.type));
@@ -1900,7 +2041,9 @@
       document.getElementById('cqStartBtn').classList.add('show');
     };
 
+    let cqTotal=5;
     window.cqStart=function(){
+      cqTotal=cqDiff==='easy'?5:cqDiff==='med'?7:10;
       cqQs=cqGenQuestions(cqDiff);
       cqIdx=0;cqScore=0;cqLog=[];
       document.getElementById('cqLobby').style.display='none';
@@ -1918,14 +2061,13 @@
 
     function cqLoadQ(){
       cqAnswered=false;
-      cqIconRevealed=false;
       const q=cqQs[cqIdx];
       cqHints=q.hints||[];
       // easy: show 2 hints upfront; med: 1; hard: 0
       cqHintIdx=cqDiff==='easy'?2:cqDiff==='med'?1:0;
 
-      document.getElementById('cqProgFill').style.width=(cqIdx/5*100)+'%';
-      document.getElementById('cqQPill').textContent=`Q${cqIdx+1}/5`;
+      document.getElementById('cqProgFill').style.width=(cqIdx/cqTotal*100)+'%';
+      document.getElementById('cqQPill').textContent=`Q${cqIdx+1}/${cqTotal}`;
       document.getElementById('cqScorePill').textContent=`${cqScore} pts`;
       document.getElementById('cqQType').textContent=q.label;
       document.getElementById('cqQuestion').innerHTML=q.question;
@@ -1944,37 +2086,12 @@
         btn.onclick=cqRevealHint;hr.appendChild(btn);
       }
 
-      // Determine if icons should be visible:
-      // - showIcon:true on easy icon question = always show
-      // - hard: always hide until "reveal icon" hint (treated as first hint on hard)
-      // - easy/med non-icon questions: show icons
-      const hideIcons = cqDiff==='hard' && !q.showIcon;
-
-      // nation grid – ALL nations
+      // nation grid – ALL nations, icons always visible
       const grid=document.getElementById('cqNationGrid');
       grid.innerHTML=NATIONS.map(nation=>`
-        <button class="cq-nopt${hideIcons?' icon-hidden':''}" onclick="cqAnswer('${nation.id}')" id="cqopt_${nation.id}">
-          <span class="nopt-icon">${hideIcons?'❓':nation.icon}</span>${nation.name}
+        <button class="cq-nopt" onclick="cqAnswer('${nation.id}')" id="cqopt_${nation.id}">
+          <span class="nopt-icon">${nation.icon}</span>${nation.name}
         </button>`).join('');
-
-      // On hard, add "🔍 Reveal icons" as a special first hint if not already showing
-      if(hideIcons){
-        const revIconBtn=document.createElement('button');
-        revIconBtn.className='cq-hint-btn';revIconBtn.id='cqRevIconBtn';
-        revIconBtn.textContent='🔍 Reveal Icons';
-        revIconBtn.onclick=function(){
-          cqIconRevealed=true;
-          NATIONS.forEach(nation=>{
-            const btn=document.getElementById('cqopt_'+nation.id);
-            if(btn){btn.querySelector('.nopt-icon').textContent=nation.icon;btn.classList.remove('icon-hidden');}
-          });
-          this.remove();
-        };
-        // insert before the hint button or append
-        const hintBtn=document.getElementById('cqHintBtn');
-        if(hintBtn)hr.insertBefore(revIconBtn,hintBtn);
-        else hr.appendChild(revIconBtn);
-      }
     }
 
     function cqRevealHint(){
@@ -1997,13 +2114,11 @@
       const correct=id===q.answer;
       if(correct)cqScore++;
 
-      // Reveal all icons after answering
+      // Highlight correct/wrong after answering
       NATIONS.forEach(nation=>{
         const btn=document.getElementById('cqopt_'+nation.id);
         if(!btn)return;
         btn.disabled=true;
-        btn.classList.remove('icon-hidden');
-        btn.querySelector('.nopt-icon').textContent=nation.icon;
         if(nation.id===q.answer)btn.classList.add(correct?'correct':'reveal-correct');
         if(nation.id===id&&!correct)btn.classList.add('wrong');
       });
@@ -2017,14 +2132,14 @@
 
       cqLog.push({q,correct,answeredId:id});
       document.getElementById('cqScorePill').textContent=`${cqScore} pts`;
-      document.getElementById('cqNextBtn').textContent=cqIdx===4?'See Results 🏁':'Next Question →';
+      document.getElementById('cqNextBtn').textContent=cqIdx===cqTotal-1?'See Results 🏁':'Next Question →';
       document.getElementById('cqNextBtn').classList.add('show');
-      document.getElementById('cqHintRow').querySelectorAll('.cq-hint-btn,#cqRevIconBtn').forEach(b=>b.disabled=true);
+      document.getElementById('cqHintRow').querySelectorAll('.cq-hint-btn').forEach(b=>b.disabled=true);
     };
 
     window.cqNext=function(){
       cqIdx++;
-      if(cqIdx>=5){cqShowResults();return;}
+      if(cqIdx>=cqTotal){cqShowResults();return;}
       cqLoadQ();
     };
 
@@ -2034,7 +2149,7 @@
       document.getElementById('cqProgFill').style.width='100%';
       const res=document.getElementById('cqResults');
       res.style.display='block';setTimeout(()=>res.classList.add('show'),10);
-      const pct=cqScore/5;
+      const pct=cqScore/cqTotal;
       const data=pct===1?{e:'🏆',t:'Perfect Score!',s:'You know these nations better than most.',stars:'⭐⭐⭐⭐⭐'}:
                  pct>=.8?{e:'😎',t:'Sharp!',s:'Excellent knowledge of the server.',stars:'⭐⭐⭐⭐'}:
                  pct>=.6?{e:'🙂',t:'Pretty Good!',s:"You know your way around.",stars:'⭐⭐⭐'}:
@@ -2042,7 +2157,7 @@
                          {e:'😢',t:'Keep at it!',s:'Read those nation cards!',stars:'⭐'};
       document.getElementById('cqResEmoji').textContent=data.e;
       document.getElementById('cqResTitle').textContent=data.t;
-      document.getElementById('cqResSub').textContent=`${cqScore}/5 correct · ${data.s}`;
+      document.getElementById('cqResSub').textContent=`${cqScore}/${cqTotal} correct · ${data.s}`;
       document.getElementById('cqResStars').textContent=data.stars;
       document.getElementById('cqBreakdown').innerHTML=cqLog.map(l=>{
         const correct=NATIONS.find(n=>n.id===l.q.answer);
@@ -2055,7 +2170,7 @@
     }
 
     window.cqReset=function(){
-      cqDiff=null;cqIdx=0;cqScore=0;cqLog=[];
+      cqDiff=null;cqIdx=0;cqScore=0;cqLog=[];cqTotal=5;
       document.querySelectorAll('.cq-diff').forEach(b=>b.classList.remove('sel'));
       document.getElementById('cqStartBtn').classList.remove('show');
       document.getElementById('cqArena').classList.remove('show');
