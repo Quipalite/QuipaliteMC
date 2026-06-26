@@ -79,9 +79,6 @@
     .ibtn.tier:hover{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
     .ibtn.sk:hover{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);}
     .ibtn.sk{font-family:var(--font-m);font-size:13px;font-weight:800;}
-    .ttoggle{width:42px;height:22px;border-radius:11px;background:var(--surface);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;padding:2px;transition:border-color .2s;}
-    .ttoggle:hover{border-color:rgba(255,255,255,.18);}
-    .tthumb{width:16px;height:16px;border-radius:50%;background:var(--text-muted);transition:transform .25s cubic-bezier(.22,1,.36,1),background .25s;}
     .hero{min-height:72vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 48px;position:relative;}
     .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.08);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:22px;animation:fadeDown .6s .1s ease both;}
     .hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.7);animation:pulse 2s ease-in-out infinite;}
@@ -725,7 +722,6 @@
         <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="1"/><line x1="1" y1="9" x2="23" y2="9"/><line x1="1" y1="17" x2="23" y2="17"/></svg>
       </button>
       <div class="nav-div"></div>
-      <div class="ttoggle" onclick="toggleTheme()" title="Toggle theme"><div class="tthumb" id="tth"></div></div>
     </div>
     <div class="nav-glow"></div>
   </nav>
@@ -830,7 +826,7 @@
             <div class="cbanner cb-yt">
               <svg width="52" height="36" viewBox="0 0 24 17" fill="#ff5555" opacity=".9" style="position:relative;z-index:1"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
             </div>
-            <div class="cbody"><div class="cname">YouTube</div><p class="cdesc">Watch server highlights, updates, and more. Subscribe to stay in the loop!</p><div class="caction">Watch Now ↗</div></div>
+            <div class="cbody"><div class="cname">YouTube</div><p class="cdesc">Watch server highlights, updates, and more. Subscribe to stay in the loop!</p><div id="ytStats" class="dc-stats">&nbsp;</div><div class="caction">Watch Now ↗</div></div>
           </div>
           <div class="ccard dc rv rd1" onclick="window.open('https://discord.gg/pnMRQsqUtA','_blank')">
             <div class="cbanner cb-dc">
@@ -1087,14 +1083,15 @@
     {id:'springbuck',name:'Springbuck',icon:'🦌',iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(250,204,21,.25)',accentColor:'#22c55e',colors:['#22c55e','#facc15'],est:'Est. 8.4.26',founded:'8 Apr 2026',leader:'Neska5036',population:'2,400',capital:'N/A',currency:'Rand',currencyColor:'#facc15',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'One of the newer nations, Springbuck has exploded onto the scene with an impressive 2,400 citizens. Led by Neska5036 under a Communist government, all resources are shared equally among citizens. The Rand currency symbolises its South African-inspired identity.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},{label:'Fast Growing',style:'background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'Open'}]},
     {id:'okpemon',name:'Okpemon',icon:'💧',iconBg:'rgba(17,17,17,.3)',iconBorder:'rgba(239,68,68,.3)',accentColor:'#ef4444',colors:['#111111','#ef4444'],est:'Est. 24.4.26',founded:'24 Apr 2026',leader:'bubbler2009',population:'0',capital:'N/A',currency:'Bubbles',currencyColor:'#ef4444',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'Okpemon was founded by bubbler2009 as a communist nation. Currently with 0 citizens.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'None'}]},
     {id:'wancerville',name:'Wancerville',icon:'👑',iconBg:'rgba(245,200,66,.08)',iconBorder:'rgba(248,113,113,.3)',accentColor:'#F5C842',colors:['#F5C842','#f87171'],est:'Est. 10.4.26',founded:'10 Apr 2026',leader:'Wancerr',population:'0',capital:'N/A',currency:'Gold',currencyColor:'#F5C842',government:'Dictatorship',govStyle:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171',description:"Wancerville is a fresh Dictatorship founded by Wancerr. The only nation on the server operating under authoritarian rule — Wancerr's word is law. Currently with no registered population, this gold-backed nation is recruiting. Those who join will thrive under strong, decisive leadership.",tags:[{label:'Dictatorship',style:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
-    {id:'waterland',name:'Waterland',icon:'🌊',iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,140,0,.3)',accentColor:'#1E90FF',colors:['#1E90FF','#FF8C00'],est:'Est. 13.4.26',founded:'13 Apr 2026',leader:'Gooner5342',population:'128',capital:'N/A',currency:'British Pounds',currencyColor:'#1E90FF',government:'Reform',govStyle:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF',description:'Waterland is one of the newer nations on the server, founded by Gooner5342 under a Reform government. With 128 citizens and growing, Waterland operates with British Pounds as its currency and is steadily carving out its place on the world map.',tags:[{label:'Reform',style:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'}]},
+    {id:'waterland',name:'Waterland',icon:'🌊',iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,140,0,.3)',accentColor:'#1E90FF',colors:['#1E90FF','#FF8C00'],est:'Est. 13.4.26',founded:'13 Apr 2026',leader:'Gooner5342',population:'128',capital:'N/A',currency:'British Pounds',currencyColor:'#1E90FF',government:'Reform',govStyle:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF',description:'Waterland is one of the newer nations on the server, founded by Gooner5342 under a Reform government. With 128 citizens and growing, Waterland operates with British Pounds as its currency and is steadily carving out its place on the world map.',tags:[{label:'Reform',style:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
     {id:'corexia',name:'Corexia',icon:'💾',iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',leader:'RealO75',population:'14',capital:'N/A',currency:'Credits',currencyColor:'#00FFFF',government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',description:'Corexia is a recently founded nation established by RealO75 under a Technocracy — governance by technical experts. Operating a fully digital economy where all transactions are conducted via cards and chips, Corexia represents a vision of a high-tech future on the server.',tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'}]},
     {id:'smogtowne',name:'Smogtowne',icon:'🌫️',iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',leader:'RT2345678',population:'0',capital:'N/A',currency:'Smucks',currencyColor:'#888888',government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',description:'Smogtowne is one of the newest nations on the server, founded by RT2345678 under a Smog government — a unique form of Communism. Shrouded in mystery, this grey nation is in its earliest days with no registered citizens yet, but its distinct ideology and aesthetic set it apart from every other nation on the map.',tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
   ];
 
   function nationAlliance(n) {
     const f = (n.facts || []).find(x => x.label === 'Alliance');
-    return f ? f.val : 'None';
+    const val = f ? f.val : 'None';
+    return (val === 'Neutral' || val === 'Open') ? 'None' : val;
   }
   function nationCardHtml(n, i, foundingRank) {
     const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
@@ -1188,7 +1185,6 @@
   function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
   function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
-  function toggleTheme() { mono=!mono; document.body.classList.toggle('mono',mono); tth.style.transform=mono?'translateX(20px)':''; tth.style.background=mono?'#fff':''; if(showRet){const b=document.getElementById('rt');b.style.color=mono?'#fff':'var(--pink)';b.style.borderColor=mono?'rgba(255,255,255,.3)':'var(--pink-line)';} }
   function setupReveal() { const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'}); document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el)); }
   function toggleMobileNav() {
     document.getElementById('mobileNav').classList.toggle('open');
@@ -1217,6 +1213,15 @@
       .catch(() => { el.innerHTML = ''; });
   }
   document.addEventListener('DOMContentLoaded', loadDiscordWidget);
+  // Update these manually whenever you want to refresh the displayed counts.
+  const YOUTUBE_SUBSCRIBERS = 15;
+  const YOUTUBE_VIEWS = 263;
+  function loadYoutubeWidget() {
+    const el = document.getElementById('ytStats');
+    if (!el) return;
+    el.innerHTML = `<span><span class="dc-dot" style="background:#ff5555;box-shadow:0 0 6px rgba(255,85,85,.7)"></span><strong>${YOUTUBE_SUBSCRIBERS.toLocaleString()}</strong> Subscribers</span><span><strong>${YOUTUBE_VIEWS.toLocaleString()}</strong> Views</span>`;
+  }
+  document.addEventListener('DOMContentLoaded', loadYoutubeWidget);
   let showRet=false;
   const retired=['Jai_B37','Aftlow','TerrorBoy123619'];
 
