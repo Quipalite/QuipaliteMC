@@ -172,7 +172,7 @@
     .htj-desc{font-size:13.5px;line-height:1.65;color:var(--text-muted);flex:1;}
     .htj-btn{display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:8px 14px;border-radius:var(--rs);background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.25);color:#7b8ff7;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:background .18s,border-color .18s;align-self:flex-start;}
     .htj-btn:hover{background:rgba(88,101,242,.18);border-color:rgba(88,101,242,.4);}
-    .htj-platform{display:flex;align-items:center;gap:7px;margin-top:4px;padding:8px 12px;border-radius:var(--rs);background:var(--surface2);border:1px solid var(--border);font-family:var(--font-m);font-size:10.5px;font-weight:600;color:var(--text-muted);}
+    .htj-platform{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:4px;padding:8px 12px;border-radius:var(--rs);background:var(--surface2);border:1px solid var(--border);font-family:var(--font-m);font-size:10.5px;font-weight:600;color:var(--text-muted);}
     .htj-platform span{color:var(--text);font-weight:700;}
     .contact-box{max-width:560px;margin:40px auto 0;border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);padding:32px 30px;display:flex;align-items:center;gap:24px;transition:border-color .2s,box-shadow .2s;}
     .contact-box:hover{border-color:rgba(255,255,255,.15);box-shadow:0 16px 48px rgba(0,0,0,.4);}
@@ -420,6 +420,12 @@
     #tt.v{opacity:1;}
     #tt .tp{display:block;font-size:9px;color:var(--text-muted);margin-top:2px;letter-spacing:1px;}
     footer{text-align:center;padding:28px 20px;font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);border-top:1px solid var(--border);}
+    .footer-links{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:10px;flex-wrap:wrap;}
+    .footer-links a{color:var(--text-dim);text-decoration:none;font-size:8.5px;letter-spacing:2px;transition:color .15s;display:inline-flex;align-items:center;gap:5px;}
+    .footer-links a:hover{color:var(--text);}
+    .copy-btn{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-dim);font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1.4;}
+    .copy-btn:hover{border-color:rgba(255,255,255,.16);color:var(--text);background:rgba(255,255,255,.08);}
+    .copy-btn.copied{border-color:rgba(74,222,128,.4);color:#4ade80;background:rgba(74,222,128,.08);}
     .fb-wrap{border-radius:var(--r);border:1px solid var(--border-card);background:var(--surface);overflow:hidden;position:relative;margin-top:40px;}
     .fb-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,26,109,.4),rgba(255,80,0,.2),transparent);z-index:2;pointer-events:none;}
     .fb-wrap iframe{display:block;width:100%;height:640px;border:none;filter:invert(1) hue-rotate(180deg) brightness(0.86) contrast(0.95);}
@@ -868,8 +874,8 @@
             <div class="htj-icon">🎮</div>
             <div class="htj-title">Add Us on Console</div>
             <p class="htj-desc">Add the right account depending on your platform and you'll get access to the server.</p>
-            <div class="htj-platform">Xbox &nbsp;·&nbsp; <span>RealO75</span></div>
-            <div class="htj-platform">PlayStation &nbsp;·&nbsp; <span>Quipalite</span></div>
+            <div class="htj-platform">Xbox &nbsp;·&nbsp; <span>RealO75</span> <button class="copy-btn" onclick="copyText('RealO75',this)">Copy</button></div>
+            <div class="htj-platform">PlayStation &nbsp;·&nbsp; <span>Quipalite</span> <button class="copy-btn" onclick="copyText('Quipalite',this)">Copy</button></div>
           </div>
           <div class="htj-card rv rd2">
             <div class="htj-num">STEP 03</div>
@@ -908,7 +914,13 @@
       </div>
     </section>
 
-    <footer>© Quipalite MC &nbsp;·&nbsp; Minigames Server &nbsp;·&nbsp; 2026</footer>
+    <footer>© Quipalite MC &nbsp;·&nbsp; 2026
+      <div class="footer-links">
+        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
+      </div>
+    </footer>
   </div>
 
   <!-- RANKED PAGE -->
@@ -960,17 +972,35 @@
       </div>
     </div>
     <div id="hofp" aria-hidden="true"></div>
-    <footer>© Quipalite MC — PvP Leaderboards &nbsp;·&nbsp; Last updated: 6 Apr 2026</footer>
+    <footer>© Quipalite MC &nbsp;·&nbsp; PvP Leaderboards &nbsp;·&nbsp; Last updated: 6 Apr 2026
+      <div class="footer-links">
+        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
+      </div>
+    </footer>
   </div>
 
   <!-- ISLAND PAGE -->
   <div id="islandPage" class="page">
-    <footer>© Quipalite MC &nbsp;·&nbsp; Island Evolution &nbsp;·&nbsp; 2026</footer>
+    <footer>© Quipalite MC &nbsp;·&nbsp; Island Evolution &nbsp;·&nbsp; 2026
+      <div class="footer-links">
+        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
+      </div>
+    </footer>
   </div>
 
   <!-- PARTY GAMES PAGE -->
   <div id="partyGamesPage" class="page">
-    <footer>© Quipalite MC &nbsp;·&nbsp; Party Games &nbsp;·&nbsp; 2026</footer>
+    <footer>© Quipalite MC &nbsp;·&nbsp; Party Games &nbsp;·&nbsp; 2026
+      <div class="footer-links">
+        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
+      </div>
+    </footer>
   </div>
 
   <!-- CURRENT NATIONS PAGE -->
@@ -1018,12 +1048,24 @@
       <div id="wc-bracket"></div>
     </div>
 
-    <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
+    <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026
+      <div class="footer-links">
+        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
+      </div>
+    </footer>
   </div>
 
   <!-- PARKOUR PAGE -->
   <div id="parkourPage" class="page">
-    <footer>© Quipalite MC &nbsp;·&nbsp; Parkour &nbsp;·&nbsp; 2026</footer>
+    <footer>© Quipalite MC &nbsp;·&nbsp; Parkour &nbsp;·&nbsp; 2026
+      <div class="footer-links">
+        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
+      </div>
+    </footer>
   </div>
 
   <div id="tt"></div>
@@ -1089,6 +1131,15 @@
 
   <script>
   let nationViewMode = 'grid';
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 1800);
+    }).catch(() => {
+      btn.textContent = 'Failed'; setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+    });
+  }
   const NATIONS = [
     {id:'smegtopia',name:'Smegtopia',icon:'🏛️',iconBg:'rgba(255,140,0,.12)',iconBorder:'rgba(255,140,0,.25)',accentColor:'#FF8C00',colors:['#FF8C00'],est:'Est. 1.1.26',founded:'1 Jan 2026',leader:'SadInFusIOns',population:'977',capital:'N/A',currency:'Smegbucks',currencyColor:'#FF8C00',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Smegtopia is one of the original founding nations of the server. Built on democratic principles, it has grown steadily since day one under the steady leadership of SadInFusIOns. Known for its unique Smegbucks economy, citizens enjoy a fair and community-driven experience.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Founding Nation',style:'background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:#FF8C00'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
     {id:'crabville',name:'Crabville',icon:'🦀',iconBg:'rgba(147,51,234,.1)',iconBorder:'rgba(147,51,234,.25)',accentColor:'#9333ea',colors:['#9333ea'],est:'Est. 17.2.26',founded:'17 Feb 2026',leader:'Killedbycrab',population:'3,370',capital:'N/A',currency:'Iron',currencyColor:'#8b8b8b',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Crabville is the most populous nation on the server, boasting an impressive 3,370 citizens. Led by the formidable Killedbycrab, this democratic powerhouse has rapidly expanded since its founding. Its iron-based economy reflects the no-nonsense, industrious spirit of its people.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Most Populated',style:'background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.3);color:#9333ea'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
