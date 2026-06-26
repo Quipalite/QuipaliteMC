@@ -54,6 +54,19 @@
     .nav-brand-text em{color:var(--pink);font-style:normal;filter:drop-shadow(0 0 8px rgba(255,26,109,.5));}
     .nav-brand-sub{font-family:var(--font-m);font-size:8px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
     .nav-right{display:flex;align-items:center;gap:6px;}
+    .mobile-nav{display:none;flex-direction:column;position:fixed!important;top:0;left:0;right:0;background:rgba(8,8,12,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:99;padding:8px 14px 14px;transform:translateY(-100%);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s;}
+    .mobile-nav.open{transform:translateY(0);opacity:1;}
+    .mnav-link{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:13px 10px;border-radius:var(--rs);font-family:var(--font-b);font-size:14.5px;font-weight:600;color:var(--text);background:none;border:none;cursor:pointer;text-decoration:none;}
+    .mnav-link:hover{background:rgba(255,255,255,.05);}
+    .mnav-div{height:1px;background:var(--border);margin:6px 4px;}
+    @media(max-width:900px){
+      .mobile-nav{display:flex;}
+      .hamburger{display:flex!important;}
+      nav.nav-open{position:relative;}
+    }
+    .dc-stats{display:flex;align-items:center;gap:14px;margin:10px 0 2px;font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-muted);min-height:14px;}
+    .dc-stats .dc-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(74,222,128,.7);margin-right:5px;animation:pulse 2s ease-in-out infinite;}
+    .dc-stats strong{color:var(--text);}
     .nav-links{display:flex;align-items:center;gap:2px;margin-right:4px;}
     .nav-link{padding:7px 13px;border-radius:var(--rs);font-family:var(--font-b);font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:color .18s,background .18s;}
     .nav-link:hover{color:var(--text);background:rgba(255,255,255,.05);}
@@ -447,6 +460,15 @@
     .nc-pill strong{color:var(--text);}
     .nc-pill-dot{width:7px;height:7px;border-radius:50%;}
     #nations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:0;}
+    #nations-grid.is-grouped{display:block;}
+    .alliance-group{margin-bottom:32px;}
+    .alliance-group:last-child{margin-bottom:0;}
+    .alliance-group-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+    .alliance-group-name{font-family:var(--font-d);font-size:15px;font-weight:800;color:var(--text);}
+    .alliance-group-count{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;}
+    .alliance-group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    .nation-rank{position:absolute;top:10px;right:12px;z-index:2;font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text-dim);background:rgba(0,0,0,.35);border:1px solid var(--border);padding:3px 7px;border-radius:20px;backdrop-filter:blur(4px);}
+    #nvGridBtn.active,#nvAllianceBtn.active{background:var(--pink-glow)!important;color:var(--pink)!important;}
     .nation-card{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:0;cursor:pointer;color:var(--text);transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s,background .3s;}
     .nation-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--nc-stripe,var(--border));opacity:.8;transition:opacity .3s;}
     .nation-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);top:3px;}
@@ -577,7 +599,7 @@
       .cgrid{grid-template-columns:1fr;}
       .htj-grid{grid-template-columns:1fr;}
       .contact-box{flex-direction:column;text-align:center;}
-      #nations-grid{grid-template-columns:repeat(2,1fr);}
+      #nations-grid,.alliance-group-grid{grid-template-columns:repeat(2,1fr);}
     }
     @media(max-width:720px){
       .player{grid-template-columns:40px 48px 1fr auto;}
@@ -588,7 +610,7 @@
       .lbc{padding:0 12px 40px;}
     }
     @media(max-width:600px){
-      #nations-grid{grid-template-columns:1fr;}
+      #nations-grid,.alliance-group-grid{grid-template-columns:1fr;}
       #currentNationsPage .nations-header{padding:36px 16px 0;}
       .nm-stats{grid-template-columns:repeat(2,1fr);}
       .nm-body{padding:0 18px 24px;}
@@ -699,11 +721,24 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </button>
       <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)" style="display:none">?</button>
+      <button class="ibtn hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" title="Menu" style="display:none">
+        <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="1"/><line x1="1" y1="9" x2="23" y2="9"/><line x1="1" y1="17" x2="23" y2="17"/></svg>
+      </button>
       <div class="nav-div"></div>
       <div class="ttoggle" onclick="toggleTheme()" title="Toggle theme"><div class="tthumb" id="tth"></div></div>
     </div>
     <div class="nav-glow"></div>
   </nav>
+
+  <div id="mobileNav" class="mobile-nav cdd">
+    <button class="mnav-link" onclick="goHome();closeMobileNav()">🏠 Home</button>
+    <button class="mnav-link" onclick="goRanked();closeMobileNav()">🏆 Ranked</button>
+    <button class="mnav-link" onclick="goCurrentNations();closeMobileNav()">🌍 Current Nations</button>
+    <button class="mnav-link" onclick="goHome();closeMobileNav();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">💬 Feedback</button>
+    <div class="mnav-div"></div>
+    <a class="mnav-link" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
+    <a class="mnav-link" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
+  </div>
 
   <!-- HOME PAGE -->
   <div id="homePage" class="page active">
@@ -801,7 +836,7 @@
             <div class="cbanner cb-dc">
               <svg width="52" height="40" viewBox="0 0 71 55" fill="#7b8ff7" opacity=".9" style="position:relative;z-index:1"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.492 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.684 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.239C31.6816 49.2576 43.8966 49.2576 55.1126 44.239C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.637 45.2625C56.7654 45.5576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.258 53.9884 68.0638 50.7185 75.0918 45.5576C75.145 45.5182 75.1786 45.459 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1436C17.3451 26.1735 20.1717 22.9618 23.7259 22.9618C27.308 22.9618 30.1626 26.2014 30.1066 30.1436C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1436C40.9371 26.1735 43.7636 22.9618 47.3178 22.9618C50.9 22.9618 53.7545 26.2014 53.6986 30.1436C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/></svg>
             </div>
-            <div class="cbody"><div class="cname">Discord</div><p class="cdesc">Hang out, make friends, and stay up to date. Our community is active and always welcoming new faces!</p><div class="caction">Join Server ↗</div></div>
+            <div class="cbody"><div class="cname">Discord</div><p class="cdesc">Hang out, make friends, and stay up to date. Our community is active and always welcoming new faces!</p><div id="dcStats" class="dc-stats">&nbsp;</div><div class="caction">Join Server ↗</div></div>
           </div>
         </div>
       </div>
@@ -939,6 +974,10 @@
             <div class="nations-count-row" id="nationsCountRow"></div>
             <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
               <button onclick="document.getElementById('wcSection').scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);color:var(--gold);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .18s;" onmouseover="this.style.background='rgba(245,200,66,.18)'" onmouseout="this.style.background='rgba(245,200,66,.1)'">🏆 Club World Cup ↓</button>
+              <div style="display:inline-flex;border-radius:var(--rs);background:var(--surface);border:1px solid var(--border-card);overflow:hidden;">
+                <button id="nvGridBtn" class="active" onclick="setNationView('grid')" style="padding:8px 14px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;">▦ Grid</button>
+                <button id="nvAllianceBtn" onclick="setNationView('alliance')" style="padding:8px 14px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;border-left:1px solid var(--border-card);">🤝 By Alliance</button>
+              </div>
               <label style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:var(--rs);background:var(--surface);border:1px solid var(--border-card);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-muted);">
                 Sort
                 <select id="nationSortSelect" onchange="renderNationsGrid()" style="background:#0c0c10;border:none;color:var(--text);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;outline:none;">
@@ -1038,6 +1077,7 @@
   </div>
 
   <script>
+  let nationViewMode = 'grid';
   const NATIONS = [
     {id:'smegtopia',name:'Smegtopia',icon:'🏛️',iconBg:'rgba(255,140,0,.12)',iconBorder:'rgba(255,140,0,.25)',accentColor:'#FF8C00',colors:['#FF8C00'],est:'Est. 1.1.26',founded:'1 Jan 2026',leader:'SadInFusIOns',population:'977',capital:'N/A',currency:'Smegbucks',currencyColor:'#FF8C00',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Smegtopia is one of the original founding nations of the server. Built on democratic principles, it has grown steadily since day one under the steady leadership of SadInFusIOns. Known for its unique Smegbucks economy, citizens enjoy a fair and community-driven experience.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Founding Nation',style:'background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:#FF8C00'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
     {id:'crabville',name:'Crabville',icon:'🦀',iconBg:'rgba(147,51,234,.1)',iconBorder:'rgba(147,51,234,.25)',accentColor:'#9333ea',colors:['#9333ea'],est:'Est. 17.2.26',founded:'17 Feb 2026',leader:'Killedbycrab',population:'3,370',capital:'N/A',currency:'Iron',currencyColor:'#8b8b8b',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Crabville is the most populous nation on the server, boasting an impressive 3,370 citizens. Led by the formidable Killedbycrab, this democratic powerhouse has rapidly expanded since its founding. Its iron-based economy reflects the no-nonsense, industrious spirit of its people.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Most Populated',style:'background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.3);color:#9333ea'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Best Buddies & Crab Alliance'}]},
@@ -1052,6 +1092,25 @@
     {id:'smogtowne',name:'Smogtowne',icon:'🌫️',iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',leader:'RT2345678',population:'0',capital:'N/A',currency:'Smucks',currencyColor:'#888888',government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',description:'Smogtowne is one of the newest nations on the server, founded by RT2345678 under a Smog government — a unique form of Communism. Shrouded in mystery, this grey nation is in its earliest days with no registered citizens yet, but its distinct ideology and aesthetic set it apart from every other nation on the map.',tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'}]},
   ];
 
+  function nationAlliance(n) {
+    const f = (n.facts || []).find(x => x.label === 'Alliance');
+    return f ? f.val : 'None';
+  }
+  function nationCardHtml(n, i, foundingRank) {
+    const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
+    const firstCol = (n.colors && n.colors[0]) || n.accentColor;
+    const rankBadge = foundingRank ? `<div class="nation-rank" title="${foundingRank===1?'1st':foundingRank===2?'2nd':foundingRank===3?'3rd':foundingRank+'th'} nation founded">#${foundingRank} FOUNDED</div>` : '';
+    return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both">${rankBadge}<div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">Population</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">Founded</span><span class="nation-val">${n.founded}</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">Government</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
+  }
+  function setNationView(mode) {
+    nationViewMode = mode;
+    const gb = document.getElementById('nvGridBtn'), ab = document.getElementById('nvAllianceBtn');
+    if (gb && ab) {
+      gb.classList.toggle('active', mode === 'grid');
+      ab.classList.toggle('active', mode === 'alliance');
+    }
+    renderNationsGrid();
+  }
   function renderNationsGrid() {
     const grid = document.getElementById('nations-grid');
     if (!grid) return;
@@ -1063,31 +1122,36 @@
       const totalPop = NATIONS.reduce((s,n)=>s+parseInt(n.population.replace(/,/g,'')||0),0);
       countRow.innerHTML = `<span class="nc-pill"><span class="nc-pill-dot" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.6)"></span><strong>${total}</strong>&nbsp;Nations</span><span class="nc-pill"><strong>${totalPop.toLocaleString()}</strong>&nbsp;Total Citizens</span><span class="nc-pill"><strong>${Object.keys(govCounts).length}</strong>&nbsp;Gov. Types</span>`;
     }
-    function nationAlliance(n) {
-      const f = (n.facts || []).find(x => x.label === 'Alliance');
-      return f ? f.val : 'zzz';
-    }
+    const founderOrder = NATIONS.slice().sort((a,b)=>new Date(a.founded)-new Date(b.founded));
+    const rankMap = {};
+    founderOrder.forEach((n,idx)=>{ rankMap[n.id] = idx+1; });
     const sortBy = (document.getElementById('nationSortSelect') || {}).value || 'founded';
-    const sorted = NATIONS.slice().sort((a, b) => {
-      if (sortBy === 'population') {
-        return parseInt(b.population.replace(/,/g,'')||0) - parseInt(a.population.replace(/,/g,'')||0);
-      }
-      if (sortBy === 'az') {
-        return a.name.localeCompare(b.name);
-      }
-      if (sortBy === 'government') {
-        return a.government.localeCompare(b.government) || a.name.localeCompare(b.name);
-      }
-      if (sortBy === 'alliance') {
-        return nationAlliance(a).localeCompare(nationAlliance(b)) || a.name.localeCompare(b.name);
-      }
+    const sortFn = (a, b) => {
+      if (sortBy === 'population') return parseInt(b.population.replace(/,/g,'')||0) - parseInt(a.population.replace(/,/g,'')||0);
+      if (sortBy === 'az') return a.name.localeCompare(b.name);
+      if (sortBy === 'government') return a.government.localeCompare(b.government) || a.name.localeCompare(b.name);
+      if (sortBy === 'alliance') return nationAlliance(a).localeCompare(nationAlliance(b)) || a.name.localeCompare(b.name);
       return new Date(a.founded) - new Date(b.founded);
-    });
-    grid.innerHTML = sorted.map((n, i) => {
-      const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
-      const firstCol = (n.colors && n.colors[0]) || n.accentColor;
-      return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both"><div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">Population</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">Founded</span><span class="nation-val">${n.founded}</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">Government</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
-    }).join('');
+    };
+    if (nationViewMode === 'alliance') {
+      grid.classList.add('is-grouped');
+      const groups = {};
+      NATIONS.forEach(n => { const a = nationAlliance(n); (groups[a] = groups[a] || []).push(n); });
+      const groupNames = Object.keys(groups).sort((a,b) => {
+        if (a === 'None') return 1;
+        if (b === 'None') return -1;
+        return a.localeCompare(b);
+      });
+      grid.innerHTML = groupNames.map(gname => {
+        const members = groups[gname].slice().sort(sortFn);
+        const cards = members.map((n,i) => nationCardHtml(n, i, rankMap[n.id])).join('');
+        return `<div class="alliance-group"><div class="alliance-group-head"><span class="alliance-group-name">${gname === 'None' ? '🚫 No Alliance' : '🤝 ' + gname}</span><span class="alliance-group-count">${members.length} Nation${members.length===1?'':'s'}</span></div><div class="alliance-group-grid">${cards}</div></div>`;
+      }).join('');
+    } else {
+      grid.classList.remove('is-grouped');
+      const sorted = NATIONS.slice().sort(sortFn);
+      grid.innerHTML = sorted.map((n, i) => nationCardHtml(n, i, rankMap[n.id])).join('');
+    }
   }
 
   function openNation(id) {
@@ -1126,7 +1190,33 @@
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
   function toggleTheme() { mono=!mono; document.body.classList.toggle('mono',mono); tth.style.transform=mono?'translateX(20px)':''; tth.style.background=mono?'#fff':''; if(showRet){const b=document.getElementById('rt');b.style.color=mono?'#fff':'var(--pink)';b.style.borderColor=mono?'rgba(255,255,255,.3)':'var(--pink-line)';} }
   function setupReveal() { const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'}); document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el)); }
+  function toggleMobileNav() {
+    document.getElementById('mobileNav').classList.toggle('open');
+  }
+  function closeMobileNav() {
+    document.getElementById('mobileNav').classList.remove('open');
+  }
+  document.addEventListener('click', e => {
+    const mnav = document.getElementById('mobileNav'), ham = document.getElementById('hamburgerBtn');
+    if (mnav && mnav.classList.contains('open') && !mnav.contains(e.target) && e.target !== ham && !ham.contains(e.target)) {
+      mnav.classList.remove('open');
+    }
+  });
   document.addEventListener('DOMContentLoaded', setupReveal);
+  function loadDiscordWidget() {
+    const el = document.getElementById('dcStats');
+    if (!el) return;
+    fetch('https://discord.com/api/v10/invites/pnMRQsqUtA?with_counts=true&with_expiration=true')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => {
+        const online = d.approximate_presence_count, total = d.approximate_member_count;
+        if (typeof online === 'number' && typeof total === 'number') {
+          el.innerHTML = `<span><span class="dc-dot"></span><strong>${online.toLocaleString()}</strong> Online</span><span><strong>${total.toLocaleString()}</strong> Members</span>`;
+        } else { el.innerHTML = ''; }
+      })
+      .catch(() => { el.innerHTML = ''; });
+  }
+  document.addEventListener('DOMContentLoaded', loadDiscordWidget);
   let showRet=false;
   const retired=['Jai_B37','Aftlow','TerrorBoy123619'];
 
@@ -1204,7 +1294,7 @@
   function getPctLabel(v,all,lo=false){if(!all.length)return'';const s=[...all].filter(x=>x>0).sort((a,b)=>a-b);if(!s.length)return v===0?'None recorded':'';if(lo){const bt=Math.round((s.filter(x=>x>v).length/s.length)*100);if(bt>=80)return`Top ${100-bt}% fewest`;if(bt>=50)return`Better than ${bt}%`;return'Below average';}else{const pos=s.filter(x=>x<v).length,pct=Math.round(pos/s.length*100);if(pct>=80)return`Top ${100-pct}%`;if(pct>=50)return'Above average';if(pct>=20)return'Below average';return`Bottom ${pct+1}%`;}}
   function attachTT(card,mode,stats,aW,aK,aD){const pills=card.querySelectorAll('.spill');if(pills.length<3)return;const labels=[`<b>${stats.wins} Wins</b><span class="tp">${getPctLabel(stats.wins,aW)}</span>`,`<b>${stats.kills} Kills</b><span class="tp">${getPctLabel(stats.kills,aK)}</span>`,`<b>${stats.deaths} Deaths</b><span class="tp">${getPctLabel(stats.deaths,aD,true)}</span>`];pills.forEach((p,i)=>{if(labels[i])p.dataset.tt=labels[i];});}
   (function initTT(){const el=document.getElementById('tt');document.addEventListener('mouseover',e=>{const t=e.target.closest('[data-tt],[data-tid]');if(!t)return;const c=t.dataset.tid?TTS.get(t.dataset.tid):t.dataset.tt;if(!c)return;el.innerHTML=c;el.classList.add('v');});document.addEventListener('mousemove',e=>{if(!el.classList.contains('v'))return;el.style.left=Math.min(e.clientX+14,window.innerWidth-220)+'px';el.style.top=Math.max(e.clientY-36,8)+'px';});document.addEventListener('mouseout',e=>{if(e.target.closest('[data-tt],[data-tid]'))el.classList.remove('v');});})();
-  document.addEventListener('keydown',e=>{const tag=document.activeElement.tagName.toLowerCase(),typing=tag==='input'||tag==='textarea';const onRanked=document.getElementById('rankedPage').classList.contains('active');if(e.key==='Escape'){if(document.getElementById('nm').classList.contains('open')){closeNation();return;}if(document.getElementById('sm').classList.contains('open')){closeShortcuts();return;}if(document.getElementById('tm').classList.contains('open')){closeTier();return;}if(document.getElementById('am').classList.contains('open')){closeAch();return;}const pp=document.getElementById('pp'),cop=document.getElementById('cop');if(pp&&pp.style.display!=='none'){backFromProfile();return;}if(cop&&cop.classList.contains('show')){const t=document.querySelector('.rtabs .tab');showMode('overall',t);return;}if(!typing){const s=document.getElementById('si');if(s&&s.value){s.value='';searchPlayers();}}else document.activeElement.blur();}if(e.key==='/'&&!typing){e.preventDefault();const s=document.getElementById('si');if(s&&document.querySelector('.srow').style.display!=='none'){s.focus();s.select();}}if(e.key==='?'&&!typing){e.preventDefault();openShortcuts();return;}if(!typing&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&onRanked){const mMap={'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};if(mMap[e.key]){const tabs=document.querySelectorAll('.rtabs .tab');const idx=Object.keys(mMap).indexOf(e.key);if(tabs[idx])tabs[idx].click();}if(e.key==='7'){const t=document.querySelector('.rtabs .tab:last-child');if(t)t.click();}if(e.key==='r'||e.key==='R'){const srow=document.querySelector('.srow');if(srow&&srow.style.display!=='none')surpriseMe();}}});
+  document.addEventListener('keydown',e=>{const tag=document.activeElement.tagName.toLowerCase(),typing=tag==='input'||tag==='textarea';const onRanked=document.getElementById('rankedPage').classList.contains('active');if(e.key==='Escape'){const mnav=document.getElementById('mobileNav');if(mnav&&mnav.classList.contains('open')){closeMobileNav();return;}if(document.getElementById('nm').classList.contains('open')){closeNation();return;}if(document.getElementById('sm').classList.contains('open')){closeShortcuts();return;}if(document.getElementById('tm').classList.contains('open')){closeTier();return;}if(document.getElementById('am').classList.contains('open')){closeAch();return;}const pp=document.getElementById('pp'),cop=document.getElementById('cop');if(pp&&pp.style.display!=='none'){backFromProfile();return;}if(cop&&cop.classList.contains('show')){const t=document.querySelector('.rtabs .tab');showMode('overall',t);return;}if(!typing){const s=document.getElementById('si');if(s&&s.value){s.value='';searchPlayers();}}else document.activeElement.blur();}if(e.key==='/'&&!typing){e.preventDefault();const s=document.getElementById('si');if(s&&document.querySelector('.srow').style.display!=='none'){s.focus();s.select();}}if(e.key==='?'&&!typing){e.preventDefault();openShortcuts();return;}if(!typing&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&onRanked){const mMap={'1':'overall','2':'sword','3':'axe','4':'uhc','5':'mace','6':'spear'};if(mMap[e.key]){const tabs=document.querySelectorAll('.rtabs .tab');const idx=Object.keys(mMap).indexOf(e.key);if(tabs[idx])tabs[idx].click();}if(e.key==='7'){const t=document.querySelector('.rtabs .tab:last-child');if(t)t.click();}if(e.key==='r'||e.key==='R'){const srow=document.querySelector('.srow');if(srow&&srow.style.display!=='none')surpriseMe();}}});
   // ─── CLUB WORLD CUP DATA ─────────────────────────────────────────────────────
   const WC_MATCHES = [
     // Quarter Finals
