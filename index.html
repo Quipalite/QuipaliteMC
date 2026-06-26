@@ -730,6 +730,7 @@
     <button class="mnav-link" onclick="goHome();closeMobileNav()">🏠 Home</button>
     <button class="mnav-link" onclick="goRanked();closeMobileNav()">🏆 Ranked</button>
     <button class="mnav-link" onclick="goCurrentNations();closeMobileNav()">🌍 Current Nations</button>
+    <button class="mnav-link" onclick="goMatchHistory();closeMobileNav()">📜 Match History</button>
     <button class="mnav-link" onclick="goHome();closeMobileNav();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">💬 Feedback</button>
     <div class="mnav-div"></div>
     <a class="mnav-link" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
@@ -996,14 +997,32 @@
         <span class="wc-trophy">🏆</span>
         <div class="wc-title">Club World Cup 2026</div>
         <div class="wc-sub">Nations Edition &nbsp;·&nbsp; Spring Tournament</div>
-        <div style="margin-top:10px;display:flex;justify-content:center">
+        <div style="margin-top:10px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
           <span class="wc-stadium-note">🏟️ All matches — SmegTopia Stadium</span>
+          <span class="wc-stadium-note" style="cursor:pointer;color:var(--pink);border-color:var(--pink-line);background:var(--pink-glow);" onclick="goMatchHistory()">📜 Full Match History ↗</span>
         </div>
       </div>
       <div id="wc-bracket"></div>
     </div>
 
     <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026</footer>
+  </div>
+
+  <!-- MATCH HISTORY PAGE -->
+  <div id="matchHistoryPage" class="page">
+    <div class="nations-header">
+      <div class="nations-inner">
+        <div class="nations-hero">
+          <div class="nations-hero-left">
+            <div class="stag">Club World Cup Archive</div>
+            <h2 class="stitle">Match <em>History</em></h2>
+            <p class="ssub">Every Club World Cup result so far, most recent first. Click any match for full details.</p>
+          </div>
+        </div>
+        <div id="match-history-list" class="wc-matches" style="grid-template-columns:1fr;max-width:760px;margin:0 auto;"></div>
+      </div>
+    </div>
+    <footer style="margin-top:60px;">© Quipalite MC &nbsp;·&nbsp; Match History &nbsp;·&nbsp; 2026</footer>
   </div>
 
   <!-- PARKOUR PAGE -->
@@ -1183,6 +1202,7 @@
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
+  function goMatchHistory() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('matchHistoryPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Match History'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderMatchHistory(); }
   function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
   function setupReveal() { const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'}); document.querySelectorAll('#homePage .rv:not(.visible)').forEach(el=>obs.observe(el)); }
@@ -1201,19 +1221,21 @@
   document.addEventListener('DOMContentLoaded', setupReveal);
   // Update this manually whenever you want to refresh the displayed count.
   const DISCORD_MEMBERS = 33;
+  const DISCORD_UPDATED = '26 Jun 2026';
   function loadDiscordWidget() {
     const el = document.getElementById('dcStats');
     if (!el) return;
-    el.innerHTML = `<span><span class="dc-dot"></span><strong>${DISCORD_MEMBERS.toLocaleString()}</strong> Members</span>`;
+    el.innerHTML = `<span><span class="dc-dot"></span><strong>${DISCORD_MEMBERS.toLocaleString()}</strong> Members</span><span class="dc-updated">Updated ${DISCORD_UPDATED}</span>`;
   }
   document.addEventListener('DOMContentLoaded', loadDiscordWidget);
   // Update these manually whenever you want to refresh the displayed counts.
   const YOUTUBE_SUBSCRIBERS = 15;
   const YOUTUBE_VIEWS = 263;
+  const YOUTUBE_UPDATED = '26 Jun 2026';
   function loadYoutubeWidget() {
     const el = document.getElementById('ytStats');
     if (!el) return;
-    el.innerHTML = `<span><span class="dc-dot" style="background:#ff5555;box-shadow:0 0 6px rgba(255,85,85,.7)"></span><strong>${YOUTUBE_SUBSCRIBERS.toLocaleString()}</strong> Subscribers</span><span><strong>${YOUTUBE_VIEWS.toLocaleString()}</strong> Views</span>`;
+    el.innerHTML = `<span><span class="dc-dot" style="background:#ff5555;box-shadow:0 0 6px rgba(255,85,85,.7)"></span><strong>${YOUTUBE_SUBSCRIBERS.toLocaleString()}</strong> Subscribers</span><span><strong>${YOUTUBE_VIEWS.toLocaleString()}</strong> Views</span><span class="dc-updated">Updated ${YOUTUBE_UPDATED}</span>`;
   }
   document.addEventListener('DOMContentLoaded', loadYoutubeWidget);
   let showRet=false;
@@ -1338,6 +1360,20 @@
     return null;
   }
 
+  function renderMatchHistory() {
+    const list = document.getElementById('match-history-list');
+    if (!list) return;
+    const played = WC_MATCHES.filter(m => m.status !== 'UPCOMING').slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (!played.length) {
+      list.innerHTML = `<p style="text-align:center;color:var(--text-muted);font-family:var(--font-m);font-size:11px;padding:40px 0">No matches played yet.</p>`;
+      return;
+    }
+    list.innerHTML = played.map(m => `
+      <div style="margin-bottom:4px">
+        <div style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;padding-left:2px;">${m.round}</div>
+        ${renderMatchCard(m)}
+      </div>`).join('');
+  }
   function renderBracket() {
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
