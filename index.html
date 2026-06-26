@@ -658,6 +658,75 @@
       .wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}
       .wc-team-name{font-size:12px;}.wc-score{font-size:20px;}
     }
+    /* ── NATION QUIZ (inline in CN) ── */
+    .cn-quiz-section{padding:0 24px 70px;max-width:1080px;margin:0 auto;}
+    .cn-quiz-shell{border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#0d0620 0%,#120818 40%,#0a0f1e 100%);border:1px solid rgba(139,92,246,.25);box-shadow:0 0 60px rgba(139,92,246,.08),0 40px 80px rgba(0,0,0,.6);position:relative;}
+    .cn-quiz-shell::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(139,92,246,.05) 1px,transparent 1px);background-size:24px 24px;pointer-events:none;}
+    .cq-lobby{padding:36px 32px;text-align:center;position:relative;}
+    .cq-lobby-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border-radius:100px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.35);font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#a78bfa;margin-bottom:18px;}
+    .cq-lobby-title{font-family:var(--font-d);font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-0.5px;color:#fff;margin-bottom:8px;}
+    .cq-lobby-title span{color:#a78bfa;filter:drop-shadow(0 0 14px rgba(139,92,246,.5));}
+    .cq-lobby-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:380px;margin:0 auto 26px;line-height:1.65;}
+    .cq-diff-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+    .cq-diff{padding:10px 24px;border-radius:40px;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid transparent;cursor:pointer;transition:all .22s;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);}
+    .cq-diff:hover{color:#fff;background:rgba(255,255,255,.1);}
+    .cq-diff.sel.easy{background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.5);color:#34d399;box-shadow:0 0 20px rgba(52,211,153,.2);}
+    .cq-diff.sel.med{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.5);color:#fbbf24;box-shadow:0 0 20px rgba(251,191,36,.2);}
+    .cq-diff.sel.hard{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.5);color:#ef4444;box-shadow:0 0 20px rgba(239,68,68,.2);}
+    .cq-start{display:none;padding:12px 36px;border-radius:40px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .22s;box-shadow:0 8px 32px rgba(139,92,246,.4);}
+    .cq-start.show{display:inline-block;}
+    .cq-start:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(139,92,246,.55);filter:brightness(1.1);}
+    .cq-arena{display:none;padding:28px 32px;}
+    .cq-arena.show{display:block;}
+    .cq-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+    .cq-prog-wrap{flex:1;margin-right:16px;}
+    .cq-prog-track{height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden;}
+    .cq-prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#7c3aed,#a855f7,#ec4899);transition:width .5s cubic-bezier(.22,1,.36,1);}
+    .cq-pills{display:flex;gap:8px;}
+    .cq-pill{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1.5px;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);}
+    .cq-pill.score{color:#a78bfa;border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.12);}
+    .cq-qbox{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px 22px;margin-bottom:16px;}
+    .cq-qtype{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(139,92,246,.7);margin-bottom:12px;}
+    .cq-question{font-size:17px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:0;}
+    .cq-question em{color:#a78bfa;font-style:normal;}
+    .cq-hint-row{margin-top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .cq-hint-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.55);opacity:0;transform:translateY(4px);transition:opacity .28s,transform .28s;}
+    .cq-hint-chip.show{opacity:1;transform:none;}
+    .cq-hint-btn{padding:5px 14px;border-radius:8px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:#a78bfa;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .18s;}
+    .cq-hint-btn:hover{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.45);}
+    .cq-hint-btn:disabled{opacity:.3;cursor:not-allowed;}
+    .cq-answers{margin-bottom:14px;}
+    .cq-ans-label{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;}
+    .cq-nation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+    @media(max-width:640px){.cq-nation-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:380px){.cq-nation-grid{grid-template-columns:1fr;}}
+    .cq-nopt{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:10px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;text-align:left;}
+    .cq-nopt:hover:not(:disabled){background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.35);color:#fff;transform:translateY(-1px);}
+    .cq-nopt:disabled{cursor:default;}
+    .cq-nopt .nopt-icon{font-size:18px;flex-shrink:0;}
+    .cq-nopt.correct{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.45);color:#34d399;}
+    .cq-nopt.wrong{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.35);color:#f87171;}
+    .cq-nopt.reveal-correct{background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.25);color:#34d399;}
+    .cq-feedback{border-radius:10px;padding:11px 16px;font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.5px;text-align:center;margin-bottom:10px;display:none;}
+    .cq-feedback.show{display:block;animation:fadeUp .2s ease both;}
+    .cq-feedback.correct{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:#34d399;}
+    .cq-feedback.wrong{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#f87171;}
+    .cq-next{width:100%;padding:13px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .2s;display:none;box-shadow:0 6px 24px rgba(139,92,246,.3);}
+    .cq-next.show{display:block;}
+    .cq-next:hover{filter:brightness(1.1);transform:translateY(-1px);}
+    .cq-results{display:none;padding:36px 32px;text-align:center;}
+    .cq-results.show{display:block;animation:fadeUp .32s ease both;}
+    .cq-res-emoji{font-size:60px;margin-bottom:14px;}
+    .cq-res-title{font-family:var(--font-d);font-size:30px;font-weight:800;color:#fff;margin-bottom:6px;}
+    .cq-res-sub{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.4);margin-bottom:24px;}
+    .cq-stars{font-size:28px;margin-bottom:20px;letter-spacing:4px;}
+    .cq-breakdown{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 18px;margin-bottom:22px;text-align:left;}
+    .cq-bd-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12.5px;}
+    .cq-bd-row:last-child{border-bottom:none;}
+    .cq-bd-nation{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.7);font-weight:600;}
+    .cq-bd-q{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px;}
+    .cq-again{padding:12px 36px;border-radius:40px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .22s;box-shadow:0 8px 32px rgba(139,92,246,.4);}
+    .cq-again:hover{transform:translateY(-2px);filter:brightness(1.1);}
     body.mono .wc-match{background:rgba(255,255,255,.025);border-color:#111;}
     body.mono .wc-match.upcoming{background:rgba(74,222,128,.03);border-color:rgba(74,222,128,.2);}
     body.mono .wc-match.final-match{background:#050505;border-color:rgba(245,200,66,.25);}
@@ -1033,6 +1102,65 @@
           </div>
         </div>
         <div id="nations-grid"></div>
+      </div>
+    </div>
+
+    <!-- NATION QUIZ -->
+    <div class="cn-quiz-section">
+      <div style="margin-bottom:16px;">
+        <div class="stag">Test Your Knowledge</div>
+        <h2 class="stitle">Nation <em>Quiz</em></h2>
+        <p class="ssub">How well do you know the nations? Pick a difficulty and find out — every nation is a possible answer.</p>
+      </div>
+      <div class="cn-quiz-shell">
+
+        <!-- LOBBY -->
+        <div class="cq-lobby" id="cqLobby">
+          <div class="cq-lobby-badge">🌍 &nbsp;Guess the Nation</div>
+          <div class="cq-lobby-title">How well do you know<br><span>Current Nations?</span></div>
+          <p class="cq-lobby-sub">You'll be given clues about a nation one at a time — guess it from all nations on the server. 5 questions per round.</p>
+          <div class="cq-diff-row">
+            <button class="cq-diff easy" onclick="cqSelectDiff('easy')">🟢 Easy</button>
+            <button class="cq-diff med" onclick="cqSelectDiff('med')">🟡 Medium</button>
+            <button class="cq-diff hard" onclick="cqSelectDiff('hard')">🔴 Hard</button>
+          </div>
+          <button class="cq-start" id="cqStartBtn" onclick="cqStart()">Start Quiz ✦</button>
+        </div>
+
+        <!-- ARENA -->
+        <div class="cq-arena" id="cqArena">
+          <div class="cq-topbar">
+            <div class="cq-prog-wrap">
+              <div class="cq-prog-track"><div class="cq-prog-fill" id="cqProgFill" style="width:0%"></div></div>
+            </div>
+            <div class="cq-pills">
+              <span class="cq-pill" id="cqQPill">Q1/5</span>
+              <span class="cq-pill score" id="cqScorePill">0 pts</span>
+            </div>
+          </div>
+          <div class="cq-qbox">
+            <div class="cq-qtype" id="cqQType">QUESTION TYPE</div>
+            <div class="cq-question" id="cqQuestion">…</div>
+            <div class="cq-hint-row" id="cqHintRow"></div>
+          </div>
+          <div class="cq-answers">
+            <div class="cq-ans-label">— Select the correct nation —</div>
+            <div class="cq-nation-grid" id="cqNationGrid"></div>
+          </div>
+          <div class="cq-feedback" id="cqFeedback"></div>
+          <button class="cq-next" id="cqNextBtn" onclick="cqNext()">Next →</button>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="cq-results" id="cqResults">
+          <div class="cq-res-emoji" id="cqResEmoji"></div>
+          <div class="cq-stars" id="cqResStars"></div>
+          <div class="cq-res-title" id="cqResTitle"></div>
+          <div class="cq-res-sub" id="cqResSub"></div>
+          <div class="cq-breakdown" id="cqBreakdown"></div>
+          <button class="cq-again" onclick="cqReset()">🔄 Play Again</button>
+        </div>
+
       </div>
     </div>
 
@@ -1621,6 +1749,323 @@
   });
 
   window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));createPlayers('overall');setupReveal();document.getElementById('navBrand').addEventListener('click',()=>{if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);});});
+
+  // ── CN NATION QUIZ ──
+  (function(){
+    let cqDiff=null,cqQs=[],cqIdx=0,cqScore=0,cqHints=[],cqHintIdx=0,cqAnswered=false,cqLog=[],cqIconRevealed=false;
+
+    function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
+
+    // ── Scroll lock: prevent scrolling outside the quiz shell when arena is open ──
+    let _scrollY=0;
+    function lockScroll(){
+      _scrollY=window.scrollY;
+      document.body.style.position='fixed';
+      document.body.style.top=-_scrollY+'px';
+      document.body.style.left='0';document.body.style.right='0';
+      document.body.style.overflow='hidden';
+    }
+    function unlockScroll(){
+      document.body.style.position='';document.body.style.top='';
+      document.body.style.left='';document.body.style.right='';
+      document.body.style.overflow='';
+      window.scrollTo(0,_scrollY);
+    }
+
+    // ── Build question pool ──
+    function cqGenQuestions(diff){
+      const pool=shuffle(NATIONS).slice(0,5);
+      const usedTypes=new Set();
+      return pool.map(n=>{
+        const qs=shuffle(cqAllQuestions(n,diff)).filter(q=>!usedTypes.has(q.type));
+        const q=qs[0]||cqAllQuestions(n,diff)[0];
+        if(q)usedTypes.add(q.type);
+        return q;
+      });
+    }
+
+    function cqAllQuestions(n,diff){
+      const alliance=(n.facts||[]).find(f=>f.label==='Alliance')?.val||'Unknown';
+      const territory=(n.facts||[]).find(f=>f.label==='Territory')?.val||'Unknown';
+      const capital=(n.facts||[]).find(f=>f.label==='Capital City')?.val||null;
+
+      const sortedByPop=NATIONS.slice().sort((a,b)=>parseInt(b.population.replace(/,/g,'')||0)-parseInt(a.population.replace(/,/g,'')||0));
+      const popRank=sortedByPop.findIndex(x=>x.id===n.id)+1;
+      const founderOrder=NATIONS.slice().sort((a,b)=>new Date(a.founded)-new Date(b.founded));
+      const foundRank=founderOrder.findIndex(x=>x.id===n.id)+1;
+      const ordinal=r=>r===1?'1st':r===2?'2nd':r===3?'3rd':`${r}th`;
+
+      // Description sentences
+      const sentences=n.description.split('.').map(s=>s.trim()).filter(s=>s.length>15);
+      const midSentence=sentences[1]||sentences[0]||'';
+      const lastSentence=sentences[sentences.length-1]||sentences[0]||'';
+
+      // Accent colour hex
+      const accentHex=n.accentColor||'#fff';
+
+      // Currency colour name
+      const currColor=n.currencyColor||'';
+
+      // Tags
+      const tagLabels=(n.tags||[]).map(t=>t.label);
+
+      // Nation that share the same gov
+      const sameGov=NATIONS.filter(x=>x.id!==n.id&&x.government===n.government).map(x=>x.name);
+      const diffGov=NATIONS.filter(x=>x.id!==n.id&&x.government!==n.government).map(x=>x.name);
+
+      // Founded month/year
+      const foundedParts=n.founded.split(' ');
+      const foundedMonth=foundedParts[1]||'';
+      const foundedYear=foundedParts[2]||'2026';
+      const foundedDay=foundedParts[0]||'';
+
+      const all=[
+        // ── EASY ──
+        {type:'icon',     label:'ICON',          question:`Which nation uses the <em>${n.icon}</em> icon?`,
+          answer:n.id, hints:[`Founded in ${foundedYear}`,`Leader: ${n.leader}`,`Government: ${n.government}`], showIcon:true},
+
+        {type:'leader',   label:'LEADER',         question:`Which nation is led by <em>${n.leader}</em>?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Currency: ${n.currency}`], showIcon:false},
+
+        {type:'currency', label:'CURRENCY',       question:`Which nation uses <em>${n.currency}</em> as its currency?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`], showIcon:false},
+
+        // ── MEDIUM ──
+        {type:'gov',      label:'GOVERNMENT',     question:`Which nation is governed by a <em>${n.government}</em>?`,
+          answer:n.id, hints:[`Territory: ${territory}`,`Population: ${n.population}`,`Alliance: ${alliance}`], showIcon:false},
+
+        {type:'founded',  label:'FOUNDED',        question:`Which nation was founded on <em>${n.founded}</em>?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Territory: ${territory}`], showIcon:false},
+
+        {type:'poprank',  label:'POPULATION RANK',question:`Which nation ranks <em>${ordinal(popRank)}</em> by population on the server?`,
+          answer:n.id, hints:[`Population: ${n.population}`,`Government: ${n.government}`,`Founded: ${n.founded}`], showIcon:false},
+
+        {type:'territory',label:'TERRITORY SIZE', question:`Which nation has a <em>${territory}</em> territory?`,
+          answer:n.id, hints:[`Alliance: ${alliance}`,`Government: ${n.government}`,`Leader: ${n.leader}`], showIcon:false},
+
+        {type:'alliance', label:'ALLIANCE',       question:`Which nation is a member of <em>${alliance}</em>?`,
+          answer:n.id, hints:[`Territory: ${territory}`,`Government: ${n.government}`,`Founded: ${n.founded}`], showIcon:false},
+
+        // ── HARD ──
+        {type:'foundrank',label:'FOUNDING ORDER', question:`Which nation was the <em>${ordinal(foundRank)}</em> to be founded on the entire server?`,
+          answer:n.id, hints:[`It was founded in ${foundedMonth} ${foundedYear}`,`Government: ${n.government}`,`Leader: ${n.leader}`], showIcon:false},
+
+        {type:'mid_desc', label:'LORE FRAGMENT',  question:`<em>"${midSentence}."</em> — Which nation does this describe?`,
+          answer:n.id, hints:[`Founded: ${n.founded}`,`Territory: ${territory}`,`Alliance: ${alliance}`], showIcon:false},
+
+        {type:'last_desc',label:'LORE ENDING',    question:`A nation's description ends with: <em>"${lastSentence}."</em> — Which nation is it?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`], showIcon:false},
+
+        {type:'accentcol',label:'NATION COLOUR',  question:`Which nation's accent colour is <em style="color:${accentHex};filter:drop-shadow(0 0 6px ${accentHex}66)">${accentHex}</em>?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Territory: ${territory}`], showIcon:false},
+
+        {type:'foundday', label:'FOUNDING DAY',   question:`Which nation was founded on day <em>${foundedDay}</em> of a month?`,
+          answer:n.id, hints:[`Month: ${foundedMonth}`,`Government: ${n.government}`,`Currency: ${n.currency}`], showIcon:false},
+
+        {type:'tag0',     label:'NATION TAG',     question:tagLabels.length?`Which nation carries the <em>"${tagLabels[0]}"</em> tag?`:`Which nation has ${n.government} as its government?`,
+          answer:n.id, hints:[`Founded: ${n.founded}`,`Leader: ${n.leader}`,`Territory: ${territory}`], showIcon:false},
+
+        {type:'negpop',   label:'ZERO POPULATION',question:`Which nation currently has a population of exactly <em>zero</em>?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`], showIcon:false,
+          _valid:parseInt(n.population.replace(/,/g,'')||0)===0},
+
+        {type:'samegov',  label:'SHARED GOVERNMENT', question:sameGov.length?`<em>${sameGov.join(' and ')}</em> share a government type with which other nation?`:`Which nation is the only one with a <em>${n.government}</em> government?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Founded: ${n.founded}`,`Leader: ${n.leader}`], showIcon:false},
+      ];
+
+      // Add capital question only if the nation has one
+      if(capital){
+        all.push({type:'capital',label:'CAPITAL CITY',question:`Which nation has a capital city named <em>${capital}</em>?`,
+          answer:n.id, hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`], showIcon:false});
+      }
+
+      const easyTypes=['icon','leader','currency'];
+      const medTypes=['gov','founded','poprank','territory','alliance'];
+      const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday','tag0','negpop','samegov','capital'];
+
+      let filtered;
+      if(diff==='easy')  filtered=all.filter(q=>easyTypes.includes(q.type));
+      else if(diff==='med')   filtered=all.filter(q=>medTypes.includes(q.type));
+      else               filtered=all.filter(q=>hardTypes.includes(q.type));
+
+      // Remove conditionally invalid questions (e.g. negpop for nations with pop > 0)
+      return filtered.filter(q=>q._valid!==false);
+    }
+
+    // expose needed by onclick attrs
+    window.cqSelectDiff=function(d){
+      cqDiff=d;
+      document.querySelectorAll('.cq-diff').forEach(b=>b.classList.remove('sel'));
+      document.querySelector('.cq-diff.'+d).classList.add('sel');
+      document.getElementById('cqStartBtn').classList.add('show');
+    };
+
+    window.cqStart=function(){
+      cqQs=cqGenQuestions(cqDiff);
+      cqIdx=0;cqScore=0;cqLog=[];
+      document.getElementById('cqLobby').style.display='none';
+      document.getElementById('cqResults').classList.remove('show');
+      document.getElementById('cqResults').style.display='none';
+      document.getElementById('cqArena').classList.add('show');
+      lockScroll();
+      // Scroll quiz shell into view
+      setTimeout(()=>{
+        const shell=document.querySelector('.cn-quiz-shell');
+        if(shell)shell.scrollIntoView({behavior:'smooth',block:'start'});
+      },80);
+      cqLoadQ();
+    };
+
+    function cqLoadQ(){
+      cqAnswered=false;
+      cqIconRevealed=false;
+      const q=cqQs[cqIdx];
+      cqHints=q.hints||[];
+      // easy: show 2 hints upfront; med: 1; hard: 0
+      cqHintIdx=cqDiff==='easy'?2:cqDiff==='med'?1:0;
+
+      document.getElementById('cqProgFill').style.width=(cqIdx/5*100)+'%';
+      document.getElementById('cqQPill').textContent=`Q${cqIdx+1}/5`;
+      document.getElementById('cqScorePill').textContent=`${cqScore} pts`;
+      document.getElementById('cqQType').textContent=q.label;
+      document.getElementById('cqQuestion').innerHTML=q.question;
+      document.getElementById('cqFeedback').className='cq-feedback';
+      document.getElementById('cqNextBtn').classList.remove('show');
+
+      // hints row
+      const hr=document.getElementById('cqHintRow');
+      hr.innerHTML='';
+      cqHints.slice(0,cqHintIdx).forEach(h=>{
+        const c=document.createElement('span');c.className='cq-hint-chip show';c.textContent=h;hr.appendChild(c);
+      });
+      if(cqHintIdx<cqHints.length){
+        const btn=document.createElement('button');btn.className='cq-hint-btn';btn.id='cqHintBtn';
+        btn.textContent=`💡 Hint (${cqHints.length-cqHintIdx} left)`;
+        btn.onclick=cqRevealHint;hr.appendChild(btn);
+      }
+
+      // Determine if icons should be visible:
+      // - showIcon:true on easy icon question = always show
+      // - hard: always hide until "reveal icon" hint (treated as first hint on hard)
+      // - easy/med non-icon questions: show icons
+      const hideIcons = cqDiff==='hard' && !q.showIcon;
+
+      // nation grid – ALL nations
+      const grid=document.getElementById('cqNationGrid');
+      grid.innerHTML=NATIONS.map(nation=>`
+        <button class="cq-nopt${hideIcons?' icon-hidden':''}" onclick="cqAnswer('${nation.id}')" id="cqopt_${nation.id}">
+          <span class="nopt-icon">${hideIcons?'❓':nation.icon}</span>${nation.name}
+        </button>`).join('');
+
+      // On hard, add "🔍 Reveal icons" as a special first hint if not already showing
+      if(hideIcons){
+        const revIconBtn=document.createElement('button');
+        revIconBtn.className='cq-hint-btn';revIconBtn.id='cqRevIconBtn';
+        revIconBtn.textContent='🔍 Reveal Icons';
+        revIconBtn.onclick=function(){
+          cqIconRevealed=true;
+          NATIONS.forEach(nation=>{
+            const btn=document.getElementById('cqopt_'+nation.id);
+            if(btn){btn.querySelector('.nopt-icon').textContent=nation.icon;btn.classList.remove('icon-hidden');}
+          });
+          this.remove();
+        };
+        // insert before the hint button or append
+        const hintBtn=document.getElementById('cqHintBtn');
+        if(hintBtn)hr.insertBefore(revIconBtn,hintBtn);
+        else hr.appendChild(revIconBtn);
+      }
+    }
+
+    function cqRevealHint(){
+      if(cqHintIdx>=cqHints.length)return;
+      const c=document.createElement('span');c.className='cq-hint-chip';
+      c.textContent=cqHints[cqHintIdx];
+      const hr=document.getElementById('cqHintRow');
+      const btn=document.getElementById('cqHintBtn');
+      hr.insertBefore(c,btn);
+      setTimeout(()=>c.classList.add('show'),20);
+      cqHintIdx++;
+      if(cqHintIdx>=cqHints.length)btn.remove();
+      else btn.textContent=`💡 Hint (${cqHints.length-cqHintIdx} left)`;
+    }
+
+    window.cqAnswer=function(id){
+      if(cqAnswered)return;
+      cqAnswered=true;
+      const q=cqQs[cqIdx];
+      const correct=id===q.answer;
+      if(correct)cqScore++;
+
+      // Reveal all icons after answering
+      NATIONS.forEach(nation=>{
+        const btn=document.getElementById('cqopt_'+nation.id);
+        if(!btn)return;
+        btn.disabled=true;
+        btn.classList.remove('icon-hidden');
+        btn.querySelector('.nopt-icon').textContent=nation.icon;
+        if(nation.id===q.answer)btn.classList.add(correct?'correct':'reveal-correct');
+        if(nation.id===id&&!correct)btn.classList.add('wrong');
+      });
+
+      const ansNation=NATIONS.find(n=>n.id===q.answer);
+      const fb=document.getElementById('cqFeedback');
+      fb.className='cq-feedback show '+(correct?'correct':'wrong');
+      fb.textContent=correct
+        ?`✅ Correct! That's ${ansNation?.icon} ${ansNation?.name}!`
+        :`❌ Nope! The answer was ${ansNation?.icon} ${ansNation?.name}`;
+
+      cqLog.push({q,correct,answeredId:id});
+      document.getElementById('cqScorePill').textContent=`${cqScore} pts`;
+      document.getElementById('cqNextBtn').textContent=cqIdx===4?'See Results 🏁':'Next Question →';
+      document.getElementById('cqNextBtn').classList.add('show');
+      document.getElementById('cqHintRow').querySelectorAll('.cq-hint-btn,#cqRevIconBtn').forEach(b=>b.disabled=true);
+    };
+
+    window.cqNext=function(){
+      cqIdx++;
+      if(cqIdx>=5){cqShowResults();return;}
+      cqLoadQ();
+    };
+
+    function cqShowResults(){
+      document.getElementById('cqArena').classList.remove('show');
+      unlockScroll();
+      document.getElementById('cqProgFill').style.width='100%';
+      const res=document.getElementById('cqResults');
+      res.style.display='block';setTimeout(()=>res.classList.add('show'),10);
+      const pct=cqScore/5;
+      const data=pct===1?{e:'🏆',t:'Perfect Score!',s:'You know these nations better than most.',stars:'⭐⭐⭐⭐⭐'}:
+                 pct>=.8?{e:'😎',t:'Sharp!',s:'Excellent knowledge of the server.',stars:'⭐⭐⭐⭐'}:
+                 pct>=.6?{e:'🙂',t:'Pretty Good!',s:"You know your way around.",stars:'⭐⭐⭐'}:
+                 pct>=.4?{e:'😅',t:'Getting There!',s:'A bit more exploring needed.',stars:'⭐⭐'}:
+                         {e:'😢',t:'Keep at it!',s:'Read those nation cards!',stars:'⭐'};
+      document.getElementById('cqResEmoji').textContent=data.e;
+      document.getElementById('cqResTitle').textContent=data.t;
+      document.getElementById('cqResSub').textContent=`${cqScore}/5 correct · ${data.s}`;
+      document.getElementById('cqResStars').textContent=data.stars;
+      document.getElementById('cqBreakdown').innerHTML=cqLog.map(l=>{
+        const correct=NATIONS.find(n=>n.id===l.q.answer);
+        return `<div class="cq-bd-row">
+          <div><div class="cq-bd-nation">${correct.icon} ${correct.name}</div>
+          <div class="cq-bd-q" style="padding-left:24px">${l.q.label}</div></div>
+          <span style="font-size:16px">${l.correct?'✅':'❌'}</span>
+        </div>`;
+      }).join('');
+    }
+
+    window.cqReset=function(){
+      cqDiff=null;cqIdx=0;cqScore=0;cqLog=[];
+      document.querySelectorAll('.cq-diff').forEach(b=>b.classList.remove('sel'));
+      document.getElementById('cqStartBtn').classList.remove('show');
+      document.getElementById('cqArena').classList.remove('show');
+      document.getElementById('cqResults').classList.remove('show');
+      document.getElementById('cqResults').style.display='none';
+      document.getElementById('cqLobby').style.display='';
+      document.getElementById('cqProgFill').style.width='0%';
+      unlockScroll();
+    };
+  })();
   </script>
 </body>
 </html>
