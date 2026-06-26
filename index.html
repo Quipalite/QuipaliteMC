@@ -2019,10 +2019,53 @@
           _ambiguous:false});
       }
 
+      // Waterland lore
+      if(n.id==='waterland'){
+        all.push({type:'lore_globe_removed',label:'LORE',
+          question:`Which nation was <em>removed from the Globe Alliance</em> by Corexia?`,
+          answer:'waterland',
+          hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Keem lore
+      if(n.id==='keem'){
+        all.push({type:'lore_biggest',label:'LORE',
+          question:`Which nation was <em>formerly the biggest</em> on the server before falling to zero population?`,
+          answer:'keem',
+          hints:[`Government: ${n.government}`,`Currency: ${n.currency}`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+        all.push({type:'lore_gotham',label:'LORE',
+          question:`When the nation of <em>Gotham</em> was disbanded, which nation claimed part of its land — alongside Smegtopia and Craineun?`,
+          answer:'keem',
+          hints:[`This nation currently has zero population`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Smogtowne lore
+      if(n.id==='smogtowne'){
+        all.push({type:'lore_smog_relations',label:'LORE',
+          question:`Which nation has notably <em>good relations</em> with both Craineun and Smegtopia despite being one of the newest nations?`,
+          answer:'smogtowne',
+          hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Gotham question — applies to Smegtopia and Craineun too (already has Keem above)
+      if(n.id==='smegtopia'||n.id==='craineun'){
+        all.push({type:'lore_gotham_shared',label:'LORE',
+          question:n.id==='smegtopia'
+            ?`The disbanded nation of <em>Gotham</em> had its land split between Keem, Craineun, and which other nation?`
+            :`The disbanded nation of <em>Gotham</em> had its land split between Keem, Smegtopia, and which other nation?`,
+          answer:n.id,
+          hints:[`This is a founding nation`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
       const easyTypes=['leader','currency'];
       const medTypes=['gov','founded','poprank','territory','alliance'];
       const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday','tag0','negpop','samegov','capital',
-        'lore_stadium','lore_tensions','lore_crab_tensions','lore_invasion','lore_robot','lore_springfield','lore_oils','lore_tech','lore_invaded'];
+        'lore_stadium','lore_tensions','lore_crab_tensions','lore_invasion','lore_robot','lore_springfield','lore_oils','lore_tech','lore_invaded',
+        'lore_globe_removed','lore_biggest','lore_gotham','lore_smog_relations','lore_gotham_shared'];
 
       let filtered;
       if(diff==='easy')  filtered=all.filter(q=>easyTypes.includes(q.type));
