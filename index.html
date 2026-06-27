@@ -87,15 +87,15 @@
     .ibtn.tier:hover{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
     .ibtn.sk:hover{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);}
     .ibtn.sk{font-family:var(--font-m);font-size:13px;font-weight:800;}
-    .hero{min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px 32px;position:relative;}
-    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.08);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:14px;animation:fadeDown .6s .1s ease both;}
+    .hero{min-height:68vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 24px 48px;position:relative;}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.08);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:20px;animation:fadeDown .6s .1s ease both;}
     .hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.7);animation:pulse 2s ease-in-out infinite;}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
-    .hero-title{font-family:var(--font-d);font-weight:800;font-size:clamp(32px,6vw,64px);line-height:1;letter-spacing:-1.5px;color:var(--text);margin-bottom:12px;animation:fadeDown .6s .2s ease both;}
+    .hero-title{font-family:var(--font-d);font-weight:800;font-size:clamp(34px,6.6vw,72px);line-height:1;letter-spacing:-1.5px;color:var(--text);margin-bottom:18px;animation:fadeDown .6s .2s ease both;}
     .hero-title em{font-style:normal;color:var(--pink);filter:drop-shadow(0 0 20px rgba(255,26,109,.35));}
-    .hero-sub{max-width:480px;margin:0 auto 24px;font-size:15px;line-height:1.65;color:var(--text-muted);animation:fadeDown .6s .3s ease both;}
+    .hero-sub{max-width:520px;margin:0 auto 32px;font-size:16px;line-height:1.7;color:var(--text-muted);animation:fadeDown .6s .3s ease both;}
     .hero-sub strong{color:var(--text);font-weight:600;}
-    .hero-actions{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeDown .6s .4s ease both;}
+    .hero-actions{display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeDown .6s .4s ease both;}
     @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
     .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;background:var(--pink);color:#fff;border:none;cursor:pointer;font-family:var(--font-m);font-size:11.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:filter .2s,transform .2s,box-shadow .2s;}
     .btn-primary:hover{filter:brightness(1.12);transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,26,109,.4);}
@@ -480,6 +480,7 @@
     .alliance-group-count{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;}
     .alliance-group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
     .nation-rank{position:absolute;top:10px;right:12px;z-index:2;font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;color:var(--text-dim);background:rgba(0,0,0,.35);border:1px solid var(--border);padding:3px 7px;border-radius:20px;backdrop-filter:blur(4px);}
+    .nation-champ-badge{position:absolute;top:10px;left:12px;z-index:2;font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;color:var(--gold);background:rgba(245,200,66,.14);border:1px solid rgba(245,200,66,.4);padding:3px 7px;border-radius:20px;backdrop-filter:blur(4px);}
     #nvGridBtn.active,#nvAllianceBtn.active{background:var(--pink-glow)!important;color:var(--pink)!important;}
     .nation-card{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:0;cursor:pointer;color:var(--text);transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s,background .3s;}
     .nation-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--nc-stripe,var(--border));opacity:.8;transition:opacity .3s;}
@@ -513,6 +514,13 @@
     .wc-title{font-family:var(--font-d);font-size:clamp(22px,3.5vw,34px);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-shadow:0 0 30px rgba(245,200,66,.35);position:relative;}
     .wc-sub{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:6px;position:relative;}
     .wc-stadium-note{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-muted);position:relative;}
+    .wc-champion-banner{max-width:480px;margin:0 auto 28px;text-align:center;padding:30px 32px;border-radius:20px;background:linear-gradient(135deg,rgba(245,200,66,.16) 0%,rgba(245,200,66,.05) 55%,transparent 100%);border:1px solid rgba(245,200,66,.4);position:relative;overflow:hidden;box-shadow:0 0 50px rgba(245,200,66,.08);}
+    .wc-champion-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(245,200,66,.1) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;}
+    .wc-champion-trophy{font-size:44px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 0 18px rgba(245,200,66,.5));animation:wcTrophy 3s ease-in-out infinite;display:block;position:relative;}
+    .wc-champion-label{font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);position:relative;}
+    .wc-champion-club{font-family:var(--font-d);font-size:28px;font-weight:800;color:var(--text);margin-top:8px;position:relative;text-shadow:0 0 24px rgba(245,200,66,.25);}
+    .wc-champion-nation{font-family:var(--font-m);font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text-muted);margin-top:4px;position:relative;}
+    .wc-champion-score{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 14px;border-radius:100px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--gold);position:relative;}
     .wc-round{margin-bottom:28px;}
     .wc-round-label{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
     .wc-round-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);}
@@ -1198,6 +1206,7 @@
           <span class="wc-stadium-note">🏟️ All matches — SmegTopia Stadium</span>
         </div>
       </div>
+      <div class="wc-champion-banner" id="wcChampionBanner" style="display:none;"></div>
       <div id="wc-bracket"></div>
     </div>
 
@@ -1319,7 +1328,9 @@
     const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
     const firstCol = (n.colors && n.colors[0]) || n.accentColor;
     const rankBadge = foundingRank ? `<div class="nation-rank" title="${foundingRank===1?'1st':foundingRank===2?'2nd':foundingRank===3?'3rd':foundingRank+'th'} nation founded">#${foundingRank} FOUNDED</div>` : '';
-    return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both">${rankBadge}<div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">Population</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">Founded</span><span class="nation-val">${n.founded}</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">Government</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
+    const champ = getWcChampion();
+    const champBadge = (champ && champ.nation === n.name) ? `<div class="nation-champ-badge" title="${champ.club} won the Club World Cup 2026">🏆 WC CHAMPIONS</div>` : '';
+    return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both">${rankBadge}${champBadge}<div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">Population</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">Founded</span><span class="nation-val">${n.founded}</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">Government</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
   }
   function setNationView(mode) {
     nationViewMode = mode;
@@ -1573,7 +1584,7 @@
     {id:'final',round:'Final',roundShort:'FINAL',date:'25 Apr 2026',time:'6:00 PM',stadium:'SmegTopia Stadium',
      home:'Crainetown FC',homeNation:'Craineun',homeAccent:'#50C878',
      away:'Smeg City FC',awayNation:'Smegtopia',awayAccent:'#FF8C00',
-     homeScore:null,awayScore:null,status:'UPCOMING',pens:null,forfeit:false,note:''},
+     homeScore:0,awayScore:1,status:'FT',pens:null,forfeit:false,note:'🏆 Smeg City FC are crowned Club World Cup 2026 Champions!'},
   ];
 
   function getWinner(m) {
@@ -1584,9 +1595,25 @@
     return null;
   }
 
+  // Derives the Club World Cup champion + runner-up from the Final match data.
+  // Returns null if the final hasn't been played yet.
+  function getWcChampion() {
+    const final = WC_MATCHES.find(m => m.roundShort === 'FINAL');
+    if (!final) return null;
+    const winner = getWinner(final);
+    if (!winner) return null;
+    const loser = winner === 'home' ? 'away' : 'home';
+    return {
+      club: final[winner], nation: final[winner + 'Nation'], score: final[winner + 'Score'],
+      runnerUpClub: final[loser], runnerUpNation: final[loser + 'Nation'], runnerUpScore: final[loser + 'Score'],
+    };
+  }
+
   function renderBracket() {
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
+
+    renderWcChampionBanner();
 
     const rounds = [
       {label:'Quarter Finals', short:'QF', matches:WC_MATCHES.filter(m=>m.roundShort==='QF'),
@@ -1609,6 +1636,21 @@
         </div>
       </div>
     `).join('');
+  }
+
+  function renderWcChampionBanner() {
+    const host = document.getElementById('wcChampionBanner');
+    if (!host) return;
+    const champ = getWcChampion();
+    if (!champ) { host.style.display = 'none'; host.innerHTML = ''; return; }
+    host.style.display = '';
+    host.innerHTML = `
+      <span class="wc-champion-trophy">🏆</span>
+      <div class="wc-champion-label">Club World Cup 2026 Champions</div>
+      <div class="wc-champion-club">${champ.club}</div>
+      <div class="wc-champion-nation">${champ.nation}</div>
+      <div class="wc-champion-score">Beat ${champ.runnerUpClub} ${champ.score} – ${champ.runnerUpScore} in the Final</div>
+    `;
   }
 
   function renderMatchCard(m) {
@@ -2089,11 +2131,28 @@
           hints:[`This is a founding nation`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
           _ambiguous:false});
       }
+      // Club World Cup Final result — conditionally added for the champion & runner-up nations
+      const wcChamp = getWcChampion();
+      if (wcChamp && n.name === wcChamp.nation) {
+        all.push({type:'wc_champion',label:'CLUB WORLD CUP',
+          question:`Which nation's club, <em>${wcChamp.club}</em>, won the Club World Cup 2026?`,
+          answer:n.id,
+          hints:[`They won the final ${wcChamp.score} – ${wcChamp.runnerUpScore}`,`Leader: ${n.leader}`,`Government: ${n.government}`],
+          _ambiguous:false});
+      }
+      if (wcChamp && n.name === wcChamp.runnerUpNation) {
+        all.push({type:'wc_runnerup',label:'CLUB WORLD CUP',
+          question:`Which nation's club, <em>${wcChamp.runnerUpClub}</em>, lost the Club World Cup 2026 Final?`,
+          answer:n.id,
+          hints:[`They lost the final ${wcChamp.runnerUpScore} – ${wcChamp.score}`,`Leader: ${n.leader}`,`Government: ${n.government}`],
+          _ambiguous:false});
+      }
+
       const easyTypes=['leader','currency'];
       const medTypes=['gov','founded','poprank','territory','alliance'];
       const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday','tag0','negpop','samegov','capital',
         'lore_stadium','lore_tensions','lore_crab_tensions','lore_invasion','lore_robot','lore_springfield','lore_oils','lore_tech','lore_invaded',
-        'lore_globe_removed','lore_biggest','lore_gotham','lore_smog_relations','lore_gotham_shared'];
+        'lore_globe_removed','lore_biggest','lore_gotham','lore_smog_relations','lore_gotham_shared','wc_champion','wc_runnerup'];
 
       let filtered;
       if(diff==='easy')  filtered=all.filter(q=>easyTypes.includes(q.type));
