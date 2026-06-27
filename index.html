@@ -514,13 +514,25 @@
     .wc-title{font-family:var(--font-d);font-size:clamp(22px,3.5vw,34px);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-shadow:0 0 30px rgba(245,200,66,.35);position:relative;}
     .wc-sub{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:6px;position:relative;}
     .wc-stadium-note{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-muted);position:relative;}
-    .wc-champion-banner{max-width:480px;margin:0 auto 28px;text-align:center;padding:30px 32px;border-radius:20px;background:linear-gradient(135deg,rgba(245,200,66,.16) 0%,rgba(245,200,66,.05) 55%,transparent 100%);border:1px solid rgba(245,200,66,.4);position:relative;overflow:hidden;box-shadow:0 0 50px rgba(245,200,66,.08);}
-    .wc-champion-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(245,200,66,.1) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;}
-    .wc-champion-trophy{font-size:44px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 0 18px rgba(245,200,66,.5));animation:wcTrophy 3s ease-in-out infinite;display:block;position:relative;}
-    .wc-champion-label{font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);position:relative;}
-    .wc-champion-club{font-family:var(--font-d);font-size:28px;font-weight:800;color:var(--text);margin-top:8px;position:relative;text-shadow:0 0 24px rgba(245,200,66,.25);}
-    .wc-champion-nation{font-family:var(--font-m);font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text-muted);margin-top:4px;position:relative;}
-    .wc-champion-score{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 14px;border-radius:100px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--gold);position:relative;}
+    .wc-champion-banner{max-width:760px;margin:0 auto 32px;text-align:center;padding:48px 40px;border-radius:24px;background:linear-gradient(135deg,rgba(245,200,66,.2) 0%,rgba(255,26,109,.07) 45%,rgba(245,200,66,.05) 75%,transparent 100%);border:1px solid rgba(245,200,66,.45);position:relative;overflow:hidden;animation:wcGlowPulse 4s ease-in-out infinite;}
+    @keyframes wcGlowPulse{0%,100%{box-shadow:0 0 60px rgba(245,200,66,.12),inset 0 0 60px rgba(245,200,66,.04);}50%{box-shadow:0 0 95px rgba(245,200,66,.24),inset 0 0 70px rgba(245,200,66,.08);}}
+    .wc-champion-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(245,200,66,.12) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;}
+    .wc-champion-confetti{position:absolute;font-size:22px;opacity:.6;pointer-events:none;z-index:0;filter:drop-shadow(0 0 8px rgba(245,200,66,.4));animation:wcConfettiFloat 3.6s ease-in-out infinite;}
+    .wc-champion-confetti.c1{top:16px;left:7%;font-size:20px;animation-delay:0s;}
+    .wc-champion-confetti.c2{top:38px;right:9%;font-size:26px;animation-delay:.5s;}
+    .wc-champion-confetti.c3{bottom:20px;left:12%;font-size:24px;animation-delay:1.1s;}
+    .wc-champion-confetti.c4{bottom:30px;right:14%;font-size:18px;animation-delay:1.7s;}
+    .wc-champion-confetti.c5{top:50%;left:3%;font-size:20px;animation-delay:.8s;}
+    .wc-champion-confetti.c6{top:45%;right:4%;font-size:22px;animation-delay:2.2s;}
+    @keyframes wcConfettiFloat{0%,100%{transform:translateY(0) rotate(0deg);opacity:.35;}50%{transform:translateY(-10px) rotate(14deg);opacity:.85;}}
+    .wc-champion-inner{position:relative;z-index:1;}
+    .wc-champion-trophy{font-size:60px;line-height:1;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(245,200,66,.6));animation:wcTrophyBig 2.6s ease-in-out infinite;display:block;position:relative;}
+    @keyframes wcTrophyBig{0%,100%{transform:translateY(0) rotate(-4deg) scale(1);}50%{transform:translateY(-9px) rotate(4deg) scale(1.06);}}
+    .wc-champion-label{font-family:var(--font-m);font-size:11.5px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);position:relative;}
+    .wc-champion-club{font-family:var(--font-d);font-size:38px;font-weight:800;margin-top:12px;position:relative;background:linear-gradient(90deg,var(--gold) 0%,#fff6da 25%,var(--gold) 50%,#fff6da 75%,var(--gold) 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold);text-shadow:0 0 36px rgba(245,200,66,.3);animation:wcShimmer 3.2s linear infinite;}
+    @keyframes wcShimmer{0%{background-position:0% center;}100%{background-position:200% center;}}
+    .wc-champion-nation{font-family:var(--font-m);font-size:13px;font-weight:600;letter-spacing:1.5px;color:var(--text-muted);margin-top:6px;position:relative;}
+    .wc-champion-score{display:inline-flex;align-items:center;gap:6px;margin-top:20px;padding:8px 20px;border-radius:100px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--gold);position:relative;}
     .wc-round{margin-bottom:28px;}
     .wc-round-label{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
     .wc-round-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);}
@@ -1645,11 +1657,19 @@
     if (!champ) { host.style.display = 'none'; host.innerHTML = ''; return; }
     host.style.display = '';
     host.innerHTML = `
-      <span class="wc-champion-trophy">🏆</span>
-      <div class="wc-champion-label">Club World Cup 2026 Champions</div>
-      <div class="wc-champion-club">${champ.club}</div>
-      <div class="wc-champion-nation">${champ.nation}</div>
-      <div class="wc-champion-score">Beat ${champ.runnerUpClub} ${champ.score} – ${champ.runnerUpScore} in the Final</div>
+      <span class="wc-champion-confetti c1">🎉</span>
+      <span class="wc-champion-confetti c2">✨</span>
+      <span class="wc-champion-confetti c3">🎊</span>
+      <span class="wc-champion-confetti c4">✨</span>
+      <span class="wc-champion-confetti c5">🎉</span>
+      <span class="wc-champion-confetti c6">🎊</span>
+      <div class="wc-champion-inner">
+        <span class="wc-champion-trophy">🏆</span>
+        <div class="wc-champion-label">🎉 Club World Cup 2026 Champions 🎉</div>
+        <div class="wc-champion-club">${champ.club}</div>
+        <div class="wc-champion-nation">${champ.nation}</div>
+        <div class="wc-champion-score">🏟️ Beat ${champ.runnerUpClub} ${champ.score} – ${champ.runnerUpScore} in the Final</div>
+      </div>
     `;
   }
 
