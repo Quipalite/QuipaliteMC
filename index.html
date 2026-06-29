@@ -2546,17 +2546,118 @@
           _ambiguous:false});
       }
 
-      const easyTypes=['leader','currency','lore_oldest','lore_monarchy','lore_dictatorship','lore_first_war','lore_invaded','lore_smegcream','lore_cwc_host','lore_founded_globe','lore_stadium','lore_sylvian_castle','lore_smog_factory'];
+      // Condemned the Okpemon bombing — Sylvian
+      if(n.id==='sylvian'){
+        all.push({type:'lore_condemned_sylvian',label:'LORE',
+          question:`Which nation condemned the Crabville bombing of Okpemon, alongside Craineun?`,
+          answer:n.id,
+          hints:[`This is the only Monarchy on the server`,`Leader: ${n.leader}`,`Home to Sylvian Castle`],
+          _ambiguous:false});
+      }
+
+      // Condemned the Okpemon bombing — Craineun
+      if(n.id==='craineun'){
+        all.push({type:'lore_condemned_craineun',label:'LORE',
+          question:`Which nation condemned the Crabville bombing of Okpemon, alongside Sylvian?`,
+          answer:n.id,
+          hints:[`This is the biggest nation by territory`,`Capital: Craintown`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // UN stopped Crabville
+      if(n.id==='crabville'){
+        all.push({type:'lore_un_stopped',label:'LORE',
+          question:`Which nation was stopped by the <em>United Nations</em> from invading Smegtopia?`,
+          answer:n.id,
+          hints:[`This is the most populated nation`,`Also initiated the server's first war`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Keem has both White House and UN Building
+      if(n.id==='keem'){
+        all.push({type:'lore_keem_buildings',label:'LORE',
+          question:`Which nation is home to both a <em>White House</em> and the <em>United Nations Building</em>?`,
+          answer:n.id,
+          hints:[`This nation was once the biggest on the server`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Craineun has two stadiums
+      if(n.id==='craineun'){
+        all.push({type:'lore_two_stadiums',label:'LORE',
+          question:`Which nation is home to <em>two stadiums</em>, including an underground one?`,
+          answer:n.id,
+          hints:[`This nation also has the world's first airport`,`Capital: Craintown`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Waterland field of bombs
+      if(n.id==='waterland'){
+        all.push({type:'lore_field_of_bombs',label:'LORE',
+          question:`Which nation is home to a <em>field of bombs</em>?`,
+          answer:n.id,
+          hints:[`This nation also has the server's first McDonald's`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // SmegCream branch in Corexia
+      if(n.id==='corexia'){
+        all.push({type:'lore_smegcream_corexia',label:'LORE',
+          question:`Which nation has a <em>SmegCream</em> branch on its soil, alongside Craineun?`,
+          answer:n.id,
+          hints:[`This nation founded the Globe Alliance`,`Leader: ${n.leader}`,`Technologically advanced`],
+          _ambiguous:false});
+      }
+
+      // SmegCream branch in Craineun
+      if(n.id==='craineun'){
+        all.push({type:'lore_smegcream_craineun',label:'LORE',
+          question:`Which nation has a <em>SmegCream</em> branch on its soil, alongside Corexia?`,
+          answer:n.id,
+          hints:[`This is the biggest nation by territory`,`Capital: Craintown`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Springbuck built in Corexia
+      if(n.id==='springbuck'){
+        all.push({type:'lore_built_corexia',label:'LORE',
+          question:`Which nation <em>assisted in building</em> within Corexia?`,
+          answer:n.id,
+          hints:[`This nation also gifted apartments to Crabville`,`Member of the Globe Alliance`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Crabville most CWC clubs
+      if(n.id==='crabville'){
+        all.push({type:'lore_most_cwc_clubs',label:'CLUB WORLD CUP',
+          question:`Which nation entered the <em>most clubs</em> in the Club World Cup 2026?`,
+          answer:n.id,
+          hints:[`This nation entered two clubs`,`Most populated nation`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Smog government
+      if(n.id==='smogtowne'){
+        all.push({type:'lore_smog_gov',label:'LORE',
+          question:`Which nation is governed by a unique <em>Smog</em> government?`,
+          answer:n.id,
+          hints:[`This government is a distinct form of Communism`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      const easyTypes=['leader','currency','lore_oldest','lore_monarchy','lore_dictatorship','lore_first_war','lore_invaded','lore_smegcream','lore_cwc_host','lore_founded_globe','lore_stadium','lore_sylvian_castle','lore_smog_factory','lore_un_stopped','lore_smog_gov'];
       const medTypes=['gov','founded','poprank','territory','alliance','capital','tag0','negpop','samegov',
         'lore_tensions','lore_crab_tensions','lore_invasion','lore_tech','lore_globe_removed','lore_removed_alliance','lore_war_vote',
         'lore_first_airport','lore_first_mcdonalds','lore_bombed','lore_un_building','lore_springfield',
-        'lore_smog_relations','wc_champion','lore_first_hospital','lore_cwc_forfeit','lore_cwc_okpemon'];
+        'lore_smog_relations','wc_champion','lore_first_hospital','lore_cwc_forfeit','lore_cwc_okpemon',
+        'lore_condemned_sylvian','lore_condemned_craineun','lore_keem_buildings','lore_field_of_bombs',
+        'lore_smegcream_corexia','lore_smegcream_craineun','lore_most_cwc_clubs','lore_built_corexia'];
       const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday',
         'lore_oils',
         'lore_biggest','lore_gotham','lore_gotham_shared','wc_runnerup',
         'lore_first_oilrig','lore_first_train','lore_first_school',
         'lore_megatank','lore_gifted_apartments','lore_peace_treaty',
-        'lore_bbac','lore_two_alliances',
+        'lore_bbac','lore_two_alliances','lore_two_stadiums',
         'lore_first_mountain','lore_cwc_forfeit','lore_cwc_okpemon'];
 
       let filtered;
