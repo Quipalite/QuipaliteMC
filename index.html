@@ -398,7 +398,13 @@
     .wc2-group-grid>.wc2-group-card:nth-child(1){animation-delay:.05s;}
     .wc2-group-grid>.wc2-group-card:nth-child(2){animation-delay:.15s;}
     .wc2-group-grid>.wc2-group-card:nth-child(3){animation-delay:.25s;}
-    .wc2-group-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .wc2-group-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
+    .wc2-group-title:hover{color:#ffe08a;}
+    .wc2-group-caret{font-size:11px;transition:transform .25s cubic-bezier(.22,1,.36,1);color:var(--text-dim);}
+    .wc2-group-card.expanded .wc2-group-caret{transform:rotate(180deg);}
+    .wc2-group-card{transition:transform .32s cubic-bezier(.22,1,.36,1),box-shadow .32s,border-color .32s,z-index 0s;transform-origin:center center;}
+    .wc2-group-card.expanded{transform:scale(1.06);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px var(--pink-line);border-color:var(--pink-line);position:relative;z-index:5;}
+    .wc2-group-card.expanded .wc2-group-title{color:var(--pink);}
     .wc2-group-table{width:100%;border-collapse:collapse;font-family:var(--font-m);}
     .wc2-group-table th{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:center;padding:4px 3px;border-bottom:1px solid var(--border);}
     .wc2-group-table th:first-child{text-align:left;}
@@ -407,6 +413,12 @@
     .wc2-group-table tr.qualified td{color:var(--text);}
     .wc2-group-table tr.qualified td:first-child{color:#4ade80;}
     .wc2-group-table tr.best-third td:first-child{color:var(--gold);}
+    .wc2-group-table tbody tr{cursor:pointer;transition:background .15s;}
+    .wc2-group-table tbody tr:hover{background:rgba(255,255,255,.045);}
+    .wc2-group-table tbody tr:hover .wc2-nation-link{text-decoration:underline;}
+    .wc2-nation-link{cursor:pointer;}
+    .wc2-fixture-team.linkable,.wc2-fixture-team{cursor:pointer;}
+    .wc2-fixture-team:hover{text-decoration:underline;}
     .wc2-group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
     .wc2-predict-btn-wrap{text-align:center;margin:8px 0 32px;}
     .wc2-predict-btn{font-family:var(--font-m);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:14px 34px;border-radius:100px;background:linear-gradient(135deg,var(--gold),#e0a92e);border:none;color:#141005;cursor:pointer;box-shadow:0 10px 30px rgba(245,200,66,.25);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s;}
@@ -430,7 +442,8 @@
     .wc2-subtab{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:9px 18px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all .2s;}
     .wc2-subtab:hover{background:rgba(255,255,255,.08);color:var(--text);}
     .wc2-subtab.active{background:rgba(245,200,66,.14);border-color:rgba(245,200,66,.4);color:var(--gold);}
-    .wc2-schedule-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;}
+    .wc2-schedule-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;cursor:pointer;transition:background .15s;border-radius:6px;}
+    .wc2-schedule-row:hover{background:rgba(255,255,255,.035);}
     .wc2-schedule-row:last-child{border-bottom:none;}
     .wc2-schedule-vs{font-family:var(--font-m);font-size:9px;font-weight:700;color:var(--text-dim);flex-shrink:0;}
     .wc2-schedule-status{width:100%;font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);text-align:center;margin-top:2px;}
@@ -443,7 +456,8 @@
     .wc2-path-vs{color:var(--text-dim);font-weight:500;font-size:10px;margin:0 5px;}
     .wc2-path-date{display:block;font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.3px;color:var(--text-muted);margin-top:2px;}
     .wc2-rank-list{display:flex;flex-direction:column;gap:8px;max-width:640px;margin:0 auto;}
-    .wc2-rank-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--border-card);opacity:0;animation:fadeUp .4s cubic-bezier(.22,1,.36,1) forwards;}
+    .wc2-rank-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--border-card);opacity:0;animation:fadeUp .4s cubic-bezier(.22,1,.36,1) forwards;cursor:pointer;transition:background .18s,border-color .18s,transform .18s;}
+    .wc2-rank-row:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05);transform:translateY(-1px);}
     .wc2-rank-list .wc2-rank-row:nth-child(1){animation-delay:.02s;}
     .wc2-rank-list .wc2-rank-row:nth-child(2){animation-delay:.05s;}
     .wc2-rank-list .wc2-rank-row:nth-child(3){animation-delay:.08s;}
@@ -1439,15 +1453,15 @@
     });
   }
   const NATIONS = [
-    {id:'smegtopia',name:'Smegtopia',icon:'🏛️',iconBg:'rgba(255,140,0,.12)',iconBorder:'rgba(255,140,0,.25)',accentColor:'#FF8C00',colors:['#FF8C00','#FFD700'],est:'Est. 1.1.26',founded:'1 Jan 2026',leader:'SadInFusIOns',population:'983',capital:'SmegTropolis',currency:'Smegbucks',currencyColor:'#FF8C00',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'The oldest and original founding nation of the server, Smegtopia has been at the heart of server history since day one. Flying banners of orange and yellow, and led by SadInFusIOns under a democratic government, its capital SmegTropolis is home to iconic builds including SmegTopia Stadium, The White House and SmegTopia Bank. Smegtopia was also the first nation on the server to establish healthcare, and later launched SmegCream, a popular ice cream chain with branches in Corexia and Craineun. Formerly a member of the Best Friends Alliance alongside Craineun and Crabville, Smegtopia went through a turbulent history with Crabville that saw tensions boil over into a near war involving Crabville, Waterland, Springbuck and Corexia, with Smegtopia playing a key role in helping bring the conflict to an end. Smegtopia and Crabville have since patched things up, and Smegtopia joined the Globe Alliance run by Corexia in the war\'s aftermath. Smegtopia have also claimed land from Gotham, a former nation that disbanded. The proud host of the Club World Cup 2026, Smeg City FC went on to win the tournament, beating Crainetown FC 1-0 in the final. Smegtopia remains in the Best Friends Alliance with Craineun and is also part of the Globe Alliance, though tensions with Waterland remain to this day.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Founding Nation',style:'background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:#FF8C00'},{label:'Has Capital',style:'background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.2);color:#FF8C00'},{label:'Healthcare Pioneer',style:'background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.2);color:#FF8C00'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Capital City',val:'SmegTropolis'},{label:'Alliance',val:'Globe Alliance & Best Friends Alliance'},{label:'Language',val:'Crainic (English also spoken)'}]},
+    {id:'smegtopia',name:'Smegtopia',icon:'🏛️',iconBg:'rgba(255,140,0,.12)',iconBorder:'rgba(255,140,0,.25)',accentColor:'#FF8C00',colors:['#FF8C00','#FFD700'],est:'Est. 1.1.26',founded:'1 Jan 2026',leader:'SadInFusIOns',population:'983',capital:'SmegTropolis',currency:'Smegbucks',currencyColor:'#FF8C00',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'The oldest and original founding nation of the server, Smegtopia has been at the heart of server history since day one. Flying banners of orange and yellow, and led by SadInFusIOns under a democratic government, its capital SmegTropolis is home to iconic builds including SmegTopia Stadium, The White House and SmegTopia Bank. Smegtopia was also the first nation on the server to establish healthcare, and later launched SmegCream, a popular ice cream chain with branches in Corexia and Craineun. Formerly a member of the Best Friends Alliance alongside Craineun and Crabville, Smegtopia went through a turbulent history with Crabville that saw tensions boil over into a near war involving Crabville, Waterland, Springbuck and Corexia, with Smegtopia playing a key role in helping bring the conflict to an end. Smegtopia and Crabville have since patched things up, and Smegtopia joined the Globe Alliance run by Corexia in the war\'s aftermath. Smegtopia have also claimed land from Gotham, a former nation that disbanded. The proud host of the Club World Cup 2026, Smeg City FC went on to win the tournament, beating Crainetown FC 1-0 in the final. Smegtopia also runs a joint domestic football league with Corexia, the Fusion League, featuring 5 Smegtopia teams and 3 Corexia teams. Smegtopia remains in the Best Friends Alliance with Craineun and is also part of the Globe Alliance, though tensions with Waterland remain to this day.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Founding Nation',style:'background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:#FF8C00'},{label:'Has Capital',style:'background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.2);color:#FF8C00'},{label:'Healthcare Pioneer',style:'background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.2);color:#FF8C00'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Capital City',val:'SmegTropolis'},{label:'Alliance',val:'Globe Alliance & Best Friends Alliance'},{label:'Language',val:'Crainic (English also spoken)'}]},
     {id:'crabville',name:'Crabville',icon:'🦀',iconBg:'rgba(147,51,234,.1)',iconBorder:'rgba(147,51,234,.25)',accentColor:'#9333ea',colors:['#9333ea'],est:'Est. 17.2.26',founded:'17 Feb 2026',leader:'Killedbycrab',population:'3,370',capital:'N/A',currency:'Iron',currencyColor:'#8b8b8b',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'The most populated nation on the server with 3,370 citizens, Crabville is a formidable force led by Killedbycrab and was formerly a member of the Best Friends Alliance alongside Smegtopia and Craineun. Known for its huge apartment blocks and military base, it also received gifted apartment blocks from both Springbuck and Craineun. Crabville has a militaristic history. It initiated the server\'s first ever war by invading Okpemon, dropping a bomb that killed all citizens who had not evacuated, an act condemned by Sylvian and Craineun. Crabville later attempted to invade Smegtopia before the United Nations stepped in. In the Club World Cup 2026, Crabville Breezers reached the semi finals before losing to Smeg City FC, while Crabville Creepers fell in the quarter finals. Crabville has since patched things up with Smegtopia but is no longer part of the Globe Alliance.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Most Populated',style:'background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.3);color:#9333ea'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
     {id:'keem',name:'Keem',icon:'⚔️',iconBg:'rgba(250,204,21,.08)',iconBorder:'rgba(250,204,21,.2)',accentColor:'#facc15',colors:['#facc15'],est:'Est. 12.1.26',founded:'12 Jan 2026',leader:'WARDY B33',population:'0',capital:'N/A',currency:'Diamonds',currencyColor:'#00BFFF',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Keem is one of the server\'s early nations, founded shortly after launch by WARDY B33. Home to the United Nations Building and its own White House, Keem once held the title of the biggest country on the server. It has claimed land from Gotham, a former nation that disbanded, as did Smegtopia and Craineun. In the Club World Cup 2026, Keem Town United reached the semi finals but were eliminated by forfeit after fielding ineligible players. Currently with no registered population, Keem is in a rebuilding phase, maintaining good relations with Sylvian and minor tensions with Smegtopia.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Rebuilding',style:'background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.25);color:#facc15'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Large'},{label:'Alliance',val:'Neutral'},{label:'Language',val:'English'}]},
-    {id:'craineun',name:'Craineun',icon:'🌿',iconBg:'rgba(239,68,68,.1)',iconBorder:'rgba(239,68,68,.25)',accentColor:'#ef4444',colors:['#ef4444','#ffffff','#3b82f6'],est:'Est. 12.1.26',founded:'12 Jan 2026',leader:'Aftlow',population:'3,025',capital:'Craintown',currency:'Emeralds',currencyColor:'#50C878',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:"Craineun is one of the largest and most historically significant nations on the server, founded by the legendary Aftlow, a builder and former ranked player. The biggest country by territory and formerly the most populous, it is home to a remarkable collection of server firsts: the world's first airport, the world's first train station and the world's first school, alongside NewLife Stadium, Springfield Factory and an underground stadium. With its named capital city Craintown, Craineun is also one of the most forested nations on the server, and runs its own domestic football league featuring 5 teams. It has claimed land from Gotham alongside Smegtopia and Keem, and gifted apartment blocks to Crabville alongside Springbuck. Formerly a member of the Best Friends Alliance alongside Smegtopia and Crabville, Craineun also played a role in helping stop the near war involving Smegtopia, Crabville, Waterland, Springbuck and Corexia. In the Club World Cup 2026, Crainetown FC reached the final but fell to Smeg City FC 1-0. Craineun remains in the Best Friends Alliance with Smegtopia and is now also a proud member of the Globe Alliance, enjoying strong relations with Corexia, Smegtopia, Okpemon and Smogtowne.",tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Has Capital',style:'background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.3);color:#50C878'},{label:'Founding Nation',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Large'},{label:'Capital City',val:'Craintown'},{label:'Alliance',val:'Globe Alliance & Best Friends Alliance'},{label:'Language',val:'Crainic (English also spoken)'},{label:'Domestic League',val:'5 teams'}]},
+    {id:'craineun',name:'Craineun',icon:'🌿',iconBg:'rgba(239,68,68,.1)',iconBorder:'rgba(239,68,68,.25)',accentColor:'#ef4444',colors:['#ef4444','#ffffff','#3b82f6'],est:'Est. 12.1.26',founded:'12 Jan 2026',leader:'Aftlow',population:'3,025',capital:'Craintown',currency:'Emeralds',currencyColor:'#50C878',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:"Craineun is one of the largest and most historically significant nations on the server, founded by the legendary Aftlow, a builder and former ranked player. The biggest country by territory and formerly the most populous, it is home to a remarkable collection of server firsts: the world's first airport, the world's first train station and the world's first school, alongside NewLife Stadium, Springfield Factory and an underground stadium. With its named capital city Craintown, Craineun is also one of the most forested nations on the server, and runs its own domestic football league, the Craineun Premier League, featuring 5 teams. It has claimed land from Gotham alongside Smegtopia and Keem, and gifted apartment blocks to Crabville alongside Springbuck. Formerly a member of the Best Friends Alliance alongside Smegtopia and Crabville, Craineun also played a role in helping stop the near war involving Smegtopia, Crabville, Waterland, Springbuck and Corexia. In the Club World Cup 2026, Crainetown FC reached the final but fell to Smeg City FC 1-0. Craineun remains in the Best Friends Alliance with Smegtopia and is now also a proud member of the Globe Alliance, enjoying strong relations with Corexia, Smegtopia, Okpemon and Smogtowne.",tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Has Capital',style:'background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.3);color:#50C878'},{label:'Founding Nation',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Large'},{label:'Capital City',val:'Craintown'},{label:'Alliance',val:'Globe Alliance & Best Friends Alliance'},{label:'Language',val:'Crainic (English also spoken)'}]},
     {id:'springbuck',name:'Springbuck',icon:'🦌',iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(250,204,21,.25)',accentColor:'#22c55e',colors:['#22c55e','#facc15'],est:'Est. 8.4.26',founded:'8 Apr 2026',leader:'Neska5036',population:'2,400',capital:'N/A',currency:'Rand',currencyColor:'#facc15',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'One of the newer nations, Springbuck has made a massive impact in a short time. Rich in natural resources, it is home to the world\'s first hospital and the world\'s first oil rig, alongside large apartment blocks and a military base. Springbuck has gifted apartment blocks to Crabville and assisted in building within Corexia, showing a generous and cooperative spirit. Springbuck also held a physically written peace treaty with Sylvian, and gained land from Sylvian following its disbandment. Formerly a member of the Globe Alliance run by Corexia, Springbuck is no longer part of the alliance, though it enjoys good relations with Corexia, Waterland and Crabville, with some tension towards Smegtopia and Okpemon. Springbuck have confirmed their participation in World Cup 2026.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},{label:'Fast Growing',style:'background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
     {id:'okpemon',name:'Okpemon',icon:'💧',iconBg:'rgba(17,17,17,.3)',iconBorder:'rgba(239,68,68,.3)',accentColor:'#ef4444',colors:['#111111','#ef4444'],est:'Est. 24.4.26',founded:'24 Apr 2026',leader:'bubbler2009',population:'100',capital:'N/A',currency:'Bubbles',currencyColor:'#ef4444',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'Okpemon has one of the most turbulent histories on the server. Founded by bubbler2009, it was the target of the server\'s first war when Crabville invaded and, in a devastating act condemned by both Sylvian and Craineun, the Crabville government dropped a bomb that killed all citizens who had not evacuated, destroying Okpemon\'s famed mega tank in the process. Okpemon FC were knocked out 0-9 in the quarter finals of the Club World Cup 2026. The nation is now in a rebuilding stage with 100 citizens and counting, maintaining strong relations with Craineun as it works to recover.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
     {id:'wancerville',name:'Wancerville',icon:'👑',iconBg:'rgba(245,200,66,.08)',iconBorder:'rgba(248,113,113,.3)',accentColor:'#F5C842',colors:['#F5C842','#f87171'],est:'Est. 10.4.26',founded:'10 Apr 2026',leader:'Wancerr',population:'0',capital:'N/A',currency:'Gold',currencyColor:'#F5C842',government:'Dictatorship',govStyle:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171',description:"Wancerville is the server's only Dictatorship, founded by Wancerr. Wancerr's word is law. Despite its small size and currently no registered population, the nation boasts a unique landmark: The First Mountain. Wancerville maintains good relations with Crabville and has confirmed its place in World Cup 2026, ready to make its mark on the international stage.",tags:[{label:'Dictatorship',style:'background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:#f87171'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
     {id:'waterland',name:'Waterland',icon:'🌊',iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,140,0,.3)',accentColor:'#1E90FF',colors:['#1E90FF','#FF8C00'],est:'Est. 13.4.26',founded:'13 Apr 2026',leader:'Gooner5342',population:'128',capital:'N/A',currency:'British Pounds',currencyColor:'#1E90FF',government:'Reform',govStyle:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF',description:'Waterland is a notable newer nation founded by Gooner5342, home to the server\'s first McDonald\'s, apartment blocks and a field of bombs. When tensions between Smegtopia and Crabville nearly boiled over into war, Waterland sided with Crabville, Springbuck and Corexia. Waterland was formerly a member of the Globe Alliance before being removed. It has good relations with Corexia and Springbuck, though tensions with Smegtopia persist. Waterland have confirmed their participation in World Cup 2026.',tags:[{label:'Reform',style:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
-    {id:'corexia',name:'Corexia',icon:'💾',iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',leader:'RealO75',population:'56',capital:'N/A',currency:'Credits',currencyColor:'#00FFFF',government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',description:'Corexia is the technologically advanced founder and runner of the Globe Alliance, established by RealO75 in the aftermath of the near war between Smegtopia and Crabville, Waterland, Springbuck and Corexia. Home to the Globe Alliance Building, a SmegCream branch and modern housing, Corexia operates a fully digital economy. It enjoys broad good relations across the server with Smegtopia, Craineun, Crabville, Springbuck, Waterland and Okpemon, with only tensions towards Smogtowne. Crabville and Springbuck have since left the Globe Alliance, while Stormland has newly joined, strengthening the bloc. Corexia have confirmed their place in World Cup 2026 as the alliance\'s founding nation.',tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'},{label:'Language',val:'English'}]},
+    {id:'corexia',name:'Corexia',icon:'💾',iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',leader:'RealO75',population:'56',capital:'N/A',currency:'Credits',currencyColor:'#00FFFF',government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',description:'Corexia is the technologically advanced founder and runner of the Globe Alliance, established by RealO75 in the aftermath of the near war between Smegtopia and Crabville, Waterland, Springbuck and Corexia. Home to the Globe Alliance Building, a SmegCream branch and modern housing, Corexia operates a fully digital economy. It enjoys broad good relations across the server with Smegtopia, Craineun, Crabville, Springbuck, Waterland and Okpemon, with only tensions towards Smogtowne. Crabville and Springbuck have since left the Globe Alliance, while Stormland has newly joined, strengthening the bloc. Corexia also runs a joint domestic football league with Smegtopia, the Fusion League, featuring 3 Corexia teams and 5 Smegtopia teams. Corexia have confirmed their place in World Cup 2026 as the alliance\'s founding nation.',tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance'},{label:'Language',val:'English'}]},
     {id:'smogtowne',name:'Smogtowne',icon:'🌫️',iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',leader:'RT2345678',population:'29',capital:'N/A',currency:'Smucks',currencyColor:'#888888',government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',description:'Smogtowne is one of the newest and most mysterious nations on the server, founded by RT2345678 under its unique Smog government, a distinct form of Communism. Its defining landmark is the Smog Factory, which looms over the grey nation. With 29 citizens, Smogtowne maintains good relations with Smegtopia and Craineun, though tensions with Waterland and Corexia cloud its diplomatic outlook. A confirmed participant in World Cup 2026, it remains an enigmatic presence on the map.',tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
     {id:'caderville',name:'Caderville',icon:'🏰',iconBg:'rgba(255,26,109,.1)',iconBorder:'rgba(255,26,109,.25)',accentColor:'#FF1A6D',colors:['#FF1A6D'],est:'Est. 5.7.26',founded:'5 Jul 2026',leader:'mack29702',population:'0',capital:'N/A',currency:'Crystals',currencyColor:'#FF1A6D',government:'Monarchy',govStyle:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D',description:'Caderville is the server\'s newest nation, founded by mack29702 under a Monarchy. A small territory currently with no registered population, Caderville has yet to establish a capital city as it begins to carve out its place on the server. Caderville have confirmed their participation in World Cup 2026.',tags:[{label:'Monarchy',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
     {id:'stormland',name:'Stormland',icon:'🌩️',iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,215,0,.3)',accentColor:'#1E90FF',colors:['#1E90FF','#FFD700'],est:'Est. 5.7.26',founded:'5 Jul 2026',leader:'Terroralex10',population:'100',capital:'N/A',currency:'Gold',currencyColor:'#FFD700',government:'Monarchy',govStyle:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D',description:'Stormland is a brand new nation founded by Terroralex10 under a Monarchy, flying banners of blue and yellow. With 100 citizens and no capital city yet, Stormland has joined the Globe Alliance from day one, enjoying strong relations with the alliance and aligning itself with Corexia and its fellow member nations. Stormland have confirmed their participation in World Cup 2026.',tags:[{label:'Monarchy',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Alliance',val:'Globe Alliance'},{label:'Language',val:'English'}]},
@@ -1751,8 +1765,8 @@
   const WC2_FOOTBALL_HISTORY = {
     'Craineun': "Craineun enters the World Cup era off the back of strong club form. Crainetown FC reached the Club World Cup 2026 final but fell to Smeg City FC 1-0. The nation's deep squad and their capital Craintown give them confidence as a confirmed participant.",
     'Okpemon': "Okpemon's club, Okpemon FC, had a rough Club World Cup 2026, knocked out 0-9 in the quarter finals. The nation will be looking for the senior side to put in a far stronger showing now that they have confirmed their World Cup 2026 spot.",
-    'Corexia': "Corexia is a newer nation on the football scene, with no Club World Cup pedigree yet. Their confirmed entry into World Cup 2026 marks their first major step into competitive nations football.",
-    'Smegtopia': "Smegtopia has strong club football history. Smeg City FC are the reigning Club World Cup 2026 Champions, beating Crainetown FC 1-0 in the final. As the host nation of the Club World Cup 2026, Smegtopia have confirmed participation in World Cup 2026.",
+    'Corexia': "Corexia is a newer nation on the football scene, with no Club World Cup pedigree yet, though it runs a joint domestic football league with Smegtopia, the Fusion League, featuring 3 Corexia teams and 5 Smegtopia teams. Their confirmed entry into World Cup 2026 marks their first major step into competitive nations football.",
+    'Smegtopia': "Smegtopia has strong club football history. Smeg City FC are the reigning Club World Cup 2026 Champions, beating Crainetown FC 1-0 in the final. Smegtopia also runs a joint domestic football league with Corexia, the Fusion League, featuring 5 Smegtopia teams and 3 Corexia teams. As the host nation of the Club World Cup 2026, Smegtopia have confirmed participation in World Cup 2026.",
     'Crabville': "Crabville fielded two clubs in the Club World Cup 2026. Crabville Breezers reached the semi finals before losing to Smeg City FC, while Crabville Creepers fell in the quarter finals. Crabville have confirmed participation in World Cup 2026.",
     'Keem': "Keem Town United reached the Club World Cup 2026 semi finals but lost by forfeit after fielding ineligible players. Keem have declined to participate in World Cup 2026.",
     'Springbuck': "Springbuck is one of the newer nations and has no Club World Cup history yet. Formerly a member of the Globe Alliance run by Corexia, Springbuck have confirmed their participation in World Cup 2026.",
@@ -1876,23 +1890,33 @@
     return result;
   }
 
+  function wc2NameToId(name){
+    return name.toLowerCase().replace(/\s+/g,'');
+  }
+
+  function wc2ToggleGroup(el){
+    el.closest('.wc2-group-card').classList.toggle('expanded');
+  }
+
   function wc2RenderGroupTables(standingsByGroup){
     const groupCards = Object.keys(standingsByGroup).map((gname) => {
       const standings = standingsByGroup[gname];
       const rows = standings.map((t, idx) => {
         const cls = idx < 2 ? 'qualified' : '';
-        return `<tr class="${cls}">
-          <td><span class="wc2-group-dot" style="background:${wc2Accent(t.name)}"></span>${t.name}</td>
+        return `<tr class="${cls}" onclick="openNation('${wc2NameToId(t.name)}')">
+          <td><span class="wc2-group-dot" style="background:${wc2Accent(t.name)}"></span><span class="wc2-nation-link">${t.name}</span></td>
           <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
           <td>${t.gf}-${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td><strong>${t.pts}</strong></td>
         </tr>`;
       }).join('');
       return `<div class="wc2-group-card">
-        <div class="wc2-group-title">${gname}</div>
+        <div class="wc2-group-title" onclick="wc2ToggleGroup(this)">${gname}<span class="wc2-group-caret">▼</span></div>
+        <div class="wc2-group-content">
         <table class="wc2-group-table">
           <thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF-GA</th><th>GD</th><th>Pts</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
+        </div>
       </div>`;
     }).join('');
     return `<div class="wc2-group-grid">${groupCards}</div>`;
@@ -1902,16 +1926,18 @@
     const groupBlocks = Object.keys(WC2_GROUPS).map(gname => {
       const rows = wc2State.groupFixtures[gname].map((f, idx) => `
         <div class="wc2-fixture-row" style="flex-wrap:wrap;">
-          <span class="wc2-fixture-team">${f.home}</span>
+          <span class="wc2-fixture-team" onclick="openNation('${wc2NameToId(f.home)}')">${f.home}</span>
           <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-h" value="${f.hs===null?'':f.hs}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
           <span class="wc2-fixture-dash">–</span>
           <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-a" value="${f.as===null?'':f.as}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
-          <span class="wc2-fixture-team right">${f.away}</span>
+          <span class="wc2-fixture-team right" onclick="openNation('${wc2NameToId(f.away)}')">${f.away}</span>
           <span class="wc2-schedule-status">${wc2FixtureDate(f.home, f.away)}</span>
         </div>`).join('');
       return `<div class="wc2-group-card">
-        <div class="wc2-group-title">${gname}</div>
+        <div class="wc2-group-title" onclick="wc2ToggleGroup(this)">${gname}<span class="wc2-group-caret">▼</span></div>
+        <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows}</div>
+        </div>
       </div>`;
     }).join('');
     return `<div class="wc2-group-grid">${groupBlocks}</div>`;
@@ -2075,6 +2101,7 @@
       <button class="wc2-subtab${wc2SubView==='standings'?' active':''}" onclick="wc2SwitchSubView('standings')">📊 Standings &amp; Schedule</button>
       <button class="wc2-subtab${wc2SubView==='predictor'?' active':''}" onclick="wc2SwitchSubView('predictor')">🔮 Predictor</button>
       <button class="wc2-subtab${wc2SubView==='rankings'?' active':''}" onclick="wc2SwitchSubView('rankings')">🏅 Power Rankings</button>
+      <button class="wc2-subtab${wc2SubView==='leagues'?' active':''}" onclick="wc2SwitchSubView('leagues')">⚽ League Power Rankings</button>
     </div>`;
   }
 
@@ -2093,13 +2120,74 @@
     {rank:12, name:'Seirin', rating:4.00},
   ];
 
+  function openWc2Fixture(gname, home, away){
+    const homeAccent = wc2Accent(home);
+    const awayAccent = wc2Accent(away);
+    document.getElementById('mmc').innerHTML = `
+      <div class="mm-banner" style="background:linear-gradient(135deg,${homeAccent}20 0%,transparent 70%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="mm-body">
+        <span class="mm-round-tag" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)">${gname.toUpperCase()} · GROUP STAGE</span>
+        <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
+          <div style="display:flex;align-items:center;gap:24px;width:100%">
+            <div class="mm-team-block"><div class="mm-club" style="color:${homeAccent};cursor:pointer" onclick="openNation('${wc2NameToId(home)}')">${home}</div></div>
+            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            <div class="mm-team-block away"><div class="mm-club" style="color:${awayAccent};cursor:pointer" onclick="openNation('${wc2NameToId(away)}')">${away}</div></div>
+          </div>
+        </div>
+        <div class="mm-divider"></div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${wc2FixtureDate(home, away)}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Stadium</div><div class="mm-fact-val">Crainetown Stadium</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Group</div><div class="mm-fact-val">${gname}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">🟢 Upcoming</div></div>
+        </div>
+      </div>`;
+    wc2OpenModal();
+  }
+
+  function openWc2Rank(name, rating, rank, isLeague){
+    const accent = isLeague ? (WC2_LEAGUE_POWER_RANKINGS.find(r=>r.name===name)||{}).accent : wc2Accent(name);
+    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#'+rank;
+    document.getElementById('mmc').innerHTML = `
+      <div class="mm-banner" style="background:linear-gradient(135deg,${accent}20 0%,transparent 70%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="mm-body">
+        <span class="mm-round-tag" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)">${isLeague ? 'LEAGUE' : 'NATION'} POWER RANKING</span>
+        <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
+          <div style="display:flex;align-items:center;gap:16px;width:100%;justify-content:center">
+            <span style="font-size:26px">${medal}</span>
+            <div class="mm-club" style="color:${accent};font-size:20px">${name}</div>
+          </div>
+        </div>
+        <div class="mm-divider"></div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">Rank</div><div class="mm-fact-val">#${rank}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Rating</div><div class="mm-fact-val">${rating.toFixed(2)}/10</div></div>
+        </div>
+      </div>`;
+    wc2OpenModal();
+  }
+
+  function wc2OpenModal(){
+    const modal = document.getElementById('mm');
+    modal.classList.remove('closing');
+    modal.style.display = 'flex';
+    modal.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
+  }
+
   function wc2RenderPowerRankings(){
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
     const rows = WC2_POWER_RANKINGS.map(r => {
       const pct = (r.rating / 10 * 100).toFixed(1);
       const medal = r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '';
-      return `<div class="wc2-rank-row">
+      return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},false)">
         <span class="wc2-rank-num">${medal || '#'+r.rank}</span>
         <span class="wc2-rank-dot" style="background:${wc2Accent(r.name)}"></span>
         <span class="wc2-rank-name">${r.name}</span>
@@ -2114,6 +2202,34 @@
         <div class="wc2-rank-list">${rows}</div>
       </div>`;
   }
+
+  const WC2_LEAGUE_POWER_RANKINGS = [
+    {rank:1, name:'Fusion League', accent:'#FF8C00', rating:8.00},
+    {rank:2, name:'Craineun Premier League', accent:'#50C878', rating:7.60},
+  ];
+
+  function wc2RenderLeaguePowerRankings(){
+    const bracket = document.getElementById('wc-bracket');
+    if (!bracket) return;
+    const rows = WC2_LEAGUE_POWER_RANKINGS.map(r => {
+      const pct = (r.rating / 10 * 100).toFixed(1);
+      const medal = r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '';
+      return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},true)">
+        <span class="wc2-rank-num">${medal || '#'+r.rank}</span>
+        <span class="wc2-rank-dot" style="background:${r.accent}"></span>
+        <span class="wc2-rank-name">${r.name}</span>
+        <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${r.accent}"></div></div>
+        <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
+      </div>`;
+    }).join('');
+
+    bracket.innerHTML = `${wc2RenderSubTabs()}
+      <div class="wc2-groups-wrap">
+        <div class="wc2-stadium-note">⚽ League Power Rankings — Domestic Football Leagues</div>
+        <div class="wc2-rank-list">${rows}</div>
+      </div>`;
+  }
+
 
   function wc2RenderPathToFinal(){
     return `<div class="wc2-knockout-title" style="font-size:12px;">🗺️ Path to the Final</div>
@@ -2152,17 +2268,19 @@
       const rows = [];
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
-          rows.push(`<div class="wc2-schedule-row">
-            <span class="wc2-fixture-team">${teams[i]}</span>
+          rows.push(`<div class="wc2-schedule-row" onclick="openWc2Fixture('${gname}','${teams[i]}','${teams[j]}')">
+            <span class="wc2-fixture-team" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[i])}')">${teams[i]}</span>
             <span class="wc2-schedule-vs">vs</span>
-            <span class="wc2-fixture-team right">${teams[j]}</span>
+            <span class="wc2-fixture-team right" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[j])}')">${teams[j]}</span>
             <span class="wc2-schedule-status">${wc2FixtureDate(teams[i], teams[j])}</span>
           </div>`);
         }
       }
       return `<div class="wc2-group-card">
-        <div class="wc2-group-title">${gname}</div>
+        <div class="wc2-group-title" onclick="wc2ToggleGroup(this)">${gname}<span class="wc2-group-caret">▼</span></div>
+        <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows.join('')}</div>
+        </div>
       </div>`;
     }).join('');
 
@@ -2191,6 +2309,11 @@
 
     if(wc2SubView === 'rankings'){
       wc2RenderPowerRankings();
+      return;
+    }
+
+    if(wc2SubView === 'leagues'){
+      wc2RenderLeaguePowerRankings();
       return;
     }
 
@@ -2414,12 +2537,12 @@
         <div class="wc-match-body"${isFinal?' style="padding:18px 20px 14px"':''}>
           <div class="wc-team">
             <div class="wc-team-name${winner==='home'?' winner':''}" style="${nameSize}">${m.home}</div>
-            <div class="wc-team-nation">${m.homeNation}</div>
+            <div class="wc-team-nation" style="cursor:pointer" onclick="event.stopPropagation();openNation('${wc2NameToId(m.homeNation)}')">${m.homeNation}</div>
           </div>
           <div class="wc-score-block">${scoreHtml}</div>
           <div class="wc-team away">
             <div class="wc-team-name${winner==='away'?' winner':''}" style="${nameSize}">${m.away}</div>
-            <div class="wc-team-nation">${m.awayNation}</div>
+            <div class="wc-team-nation" style="cursor:pointer" onclick="event.stopPropagation();openNation('${wc2NameToId(m.awayNation)}')">${m.awayNation}</div>
           </div>
         </div>
         <div class="wc-match-footer">
@@ -2444,9 +2567,9 @@
       scoreSectionHtml = `
         <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
           <div style="display:flex;align-items:center;gap:24px;width:100%">
-            <div class="mm-team-block"><div class="mm-club">${m.home}</div><div class="mm-nation">${m.homeNation}</div></div>
+            <div class="mm-team-block"><div class="mm-club">${m.home}</div><div class="mm-nation" style="cursor:pointer" onclick="openNation('${wc2NameToId(m.homeNation)}')">${m.homeNation}</div></div>
             <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
-            <div class="mm-team-block away"><div class="mm-club">${m.away}</div><div class="mm-nation">${m.awayNation}</div></div>
+            <div class="mm-team-block away"><div class="mm-club">${m.away}</div><div class="mm-nation" style="cursor:pointer" onclick="openNation('${wc2NameToId(m.awayNation)}')">${m.awayNation}</div></div>
           </div>
         </div>`;
     } else {
@@ -2456,7 +2579,7 @@
         <div class="mm-scoreline">
           <div class="mm-team-block">
             <div class="mm-club${winner==='home'?' winner':''}">${m.home}</div>
-            <div class="mm-nation">${m.homeNation}</div>
+            <div class="mm-nation" style="cursor:pointer" onclick="openNation('${wc2NameToId(m.homeNation)}')">${m.homeNation}</div>
           </div>
           <div class="mm-score-centre">
             <div class="mm-big-score">
@@ -2468,7 +2591,7 @@
           </div>
           <div class="mm-team-block away">
             <div class="mm-club${winner==='away'?' winner':''}">${m.away}</div>
-            <div class="mm-nation">${m.awayNation}</div>
+            <div class="mm-nation" style="cursor:pointer" onclick="openNation('${wc2NameToId(m.awayNation)}')">${m.awayNation}</div>
           </div>
         </div>`;
     }
