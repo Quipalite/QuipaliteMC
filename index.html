@@ -391,6 +391,41 @@
     #fhm.closing #fhmi{opacity:0;transform:translateY(12px) scale(.97);transition:opacity .2s,transform .2s;}
     .wc2-country-card{cursor:pointer;transition:background .18s,border-color .18s,transform .22s cubic-bezier(.22,1,.36,1);}
     .wc2-country-card:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(245,200,66,.3)!important;transform:translateY(-3px) scale(1.015);}
+    .wc2-groups-wrap{max-width:920px;margin:0 auto;}
+    .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
+    .wc2-group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;}
+    .wc2-group-card{border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:16px 16px 8px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
+    .wc2-group-grid>.wc2-group-card:nth-child(1){animation-delay:.05s;}
+    .wc2-group-grid>.wc2-group-card:nth-child(2){animation-delay:.15s;}
+    .wc2-group-grid>.wc2-group-card:nth-child(3){animation-delay:.25s;}
+    .wc2-group-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .wc2-group-table{width:100%;border-collapse:collapse;font-family:var(--font-m);}
+    .wc2-group-table th{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:center;padding:4px 3px;border-bottom:1px solid var(--border);}
+    .wc2-group-table th:first-child{text-align:left;}
+    .wc2-group-table td{font-size:10.5px;font-weight:600;color:var(--text-muted);text-align:center;padding:6px 3px;border-bottom:1px solid rgba(255,255,255,.04);}
+    .wc2-group-table td:first-child{text-align:left;display:flex;align-items:center;gap:6px;color:var(--text);font-weight:700;}
+    .wc2-group-table tr.qualified td{color:var(--text);}
+    .wc2-group-table tr.qualified td:first-child{color:#4ade80;}
+    .wc2-group-table tr.best-third td:first-child{color:var(--gold);}
+    .wc2-group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .wc2-predict-btn-wrap{text-align:center;margin:8px 0 32px;}
+    .wc2-predict-btn{font-family:var(--font-m);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:14px 34px;border-radius:100px;background:linear-gradient(135deg,var(--gold),#e0a92e);border:none;color:#141005;cursor:pointer;box-shadow:0 10px 30px rgba(245,200,66,.25);transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s;}
+    .wc2-predict-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 14px 40px rgba(245,200,66,.4);}
+    .wc2-predict-btn:active{transform:translateY(0) scale(.98);}
+    .wc2-knockout-title{text-align:center;font-family:var(--font-d);font-size:15px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);margin:6px 0 22px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
+    .wc2-fixture-list{display:flex;flex-direction:column;gap:8px;}
+    .wc2-fixture-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .wc2-fixture-row:last-child{border-bottom:none;}
+    .wc2-fixture-team{flex:1;min-width:0;font-family:var(--font-d);font-size:11.5px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .wc2-fixture-team.right{text-align:right;}
+    .wc2-score-input{width:36px;height:30px;text-align:center;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:var(--font-d);font-size:13px;font-weight:700;flex-shrink:0;-moz-appearance:textfield;}
+    .wc2-score-input.small{width:30px;height:26px;font-size:11px;}
+    .wc2-score-input:focus{outline:none;border-color:rgba(245,200,66,.5);background:rgba(245,200,66,.08);}
+    .wc2-score-input::-webkit-outer-spin-button,.wc2-score-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+    .wc2-fixture-dash{color:var(--text-dim);font-weight:700;flex-shrink:0;}
+    .wc2-ko-inputs{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+    .wc2-predict-btn.secondary{background:rgba(255,255,255,.06);color:var(--text-dim);box-shadow:none;}
+    .wc2-predict-btn.secondary:hover{background:rgba(255,255,255,.1);color:var(--text);box-shadow:none;}
     #tmi h2{font-family:var(--font-d);font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;}
     #tmc{background:none;border:none;font-size:18px;color:var(--text-muted);cursor:pointer;transition:color .15s,transform .2s;line-height:1;}
     #tmc:hover{color:var(--text);transform:rotate(90deg);}
@@ -1697,34 +1732,315 @@
     setTimeout(()=>{m.classList.remove('open','closing');m.style.display='none';document.body.style.overflow='';document.body.style.paddingRight='';},300);
   }
 
-  function renderWc2List(){
+  // ─── WORLD CUP 2026 GROUP STAGE + PREDICTOR (USER-ENTERED SCORES) ───────────
+  const WC2_GROUPS = {
+    'Group A': ['Caderville', 'Corexia', 'Stormland', 'Crabville'],
+    'Group B': ['Waterland', 'Springbuck', 'Wancerville', 'Smegtopia'],
+    'Group C': ['Seirin', 'Smogtowne', 'Okpemon', 'Craineun']
+  };
+
+  function wc2Accent(name){
+    const c = WC2_COUNTRIES.find(x=>x.name===name);
+    return c ? c.accent : '#888888';
+  }
+
+  // wc2State drives the whole predictor: which stage we're on, and the score
+  // inputs the user has typed in so far for that stage.
+  let wc2State = null;
+
+  function wc2FreshFixtures(){
+    const fixtures = {};
+    Object.keys(WC2_GROUPS).forEach(gname => {
+      const teams = WC2_GROUPS[gname];
+      const list = [];
+      for(let i=0;i<teams.length;i++){
+        for(let j=i+1;j<teams.length;j++){
+          list.push({home:teams[i], away:teams[j], hs:null, as:null});
+        }
+      }
+      fixtures[gname] = list;
+    });
+    return fixtures;
+  }
+
+  function wc2InitState(){
+    wc2State = {
+      stage: 'groups',
+      groupFixtures: wc2FreshFixtures(),
+      qf: null, sf: null, final: null
+    };
+  }
+
+  function wc2ComputeStandings(fixtures){
+    Object.keys(WC2_GROUPS).forEach(()=>{});
+    const result = {};
+    Object.keys(WC2_GROUPS).forEach(gname => {
+      const teams = WC2_GROUPS[gname];
+      const table = {};
+      teams.forEach(t => table[t] = {name:t, p:0, w:0, d:0, l:0, gf:0, ga:0, pts:0});
+      fixtures[gname].forEach(f => {
+        if(f.hs === null || f.as === null || f.hs === '' || f.as === '') return;
+        const hs = Number(f.hs), as = Number(f.as);
+        table[f.home].p++; table[f.away].p++;
+        table[f.home].gf += hs; table[f.home].ga += as;
+        table[f.away].gf += as; table[f.away].ga += hs;
+        if(hs > as){ table[f.home].w++; table[f.home].pts+=3; table[f.away].l++; }
+        else if(as > hs){ table[f.away].w++; table[f.away].pts+=3; table[f.home].l++; }
+        else { table[f.home].d++; table[f.away].d++; table[f.home].pts++; table[f.away].pts++; }
+      });
+      const standings = Object.values(table).sort((a,b) => (b.pts-a.pts) || ((b.gf-b.ga)-(a.gf-a.ga)) || (b.gf-a.gf) || a.name.localeCompare(b.name));
+      result[gname] = standings;
+    });
+    return result;
+  }
+
+  function wc2RenderGroupTables(standingsByGroup){
+    const groupCards = Object.keys(standingsByGroup).map((gname) => {
+      const standings = standingsByGroup[gname];
+      const rows = standings.map((t, idx) => {
+        const cls = idx < 2 ? 'qualified' : '';
+        return `<tr class="${cls}">
+          <td><span class="wc2-group-dot" style="background:${wc2Accent(t.name)}"></span>${t.name}</td>
+          <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
+          <td>${t.gf}-${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td><strong>${t.pts}</strong></td>
+        </tr>`;
+      }).join('');
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title">${gname}</div>
+        <table class="wc2-group-table">
+          <thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF-GA</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-group-grid">${groupCards}</div>`;
+  }
+
+  function wc2RenderGroupFixtures(){
+    const groupBlocks = Object.keys(WC2_GROUPS).map(gname => {
+      const rows = wc2State.groupFixtures[gname].map((f, idx) => `
+        <div class="wc2-fixture-row">
+          <span class="wc2-fixture-team">${f.home}</span>
+          <input type="number" min="0" max="20" class="wc2-score-input" id="wc2gf-${gname}-${idx}-h" value="${f.hs===null?'':f.hs}" oninput="wc2OnGroupScoreChange('${gname}',${idx})">
+          <span class="wc2-fixture-dash">–</span>
+          <input type="number" min="0" max="20" class="wc2-score-input" id="wc2gf-${gname}-${idx}-a" value="${f.as===null?'':f.as}" oninput="wc2OnGroupScoreChange('${gname}',${idx})">
+          <span class="wc2-fixture-team right">${f.away}</span>
+        </div>`).join('');
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title">${gname}</div>
+        <div class="wc2-fixture-list">${rows}</div>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-group-grid">${groupBlocks}</div>`;
+  }
+
+  function wc2OnGroupScoreChange(gname, idx){
+    const h = document.getElementById(`wc2gf-${gname}-${idx}-h`).value;
+    const a = document.getElementById(`wc2gf-${gname}-${idx}-a`).value;
+    wc2State.groupFixtures[gname][idx].hs = h === '' ? null : Number(h);
+    wc2State.groupFixtures[gname][idx].as = a === '' ? null : Number(a);
+    wc2RenderPredictor();
+  }
+
+  function wc2AllGroupsComplete(){
+    return Object.keys(WC2_GROUPS).every(gname =>
+      wc2State.groupFixtures[gname].every(f => f.hs !== null && f.as !== null)
+    );
+  }
+
+  function wc2ConfirmGroups(){
+    if(!wc2AllGroupsComplete()){
+      alert('Enter a score for every group match before generating the knockout bracket.');
+      return;
+    }
+    const standingsByGroup = wc2ComputeStandings(wc2State.groupFixtures);
+    const winners = [], runnersUp = [], thirds = [];
+    Object.keys(standingsByGroup).forEach(gname => {
+      const s = standingsByGroup[gname];
+      winners.push(s[0]); runnersUp.push(s[1]); thirds.push(s[2]);
+    });
+    thirds.sort((a,b) => (b.pts-a.pts) || ((b.gf-b.ga)-(a.gf-a.ga)) || (b.gf-a.gf));
+    const bestThirds = thirds.slice(0,2);
+
+    const pairs = [
+      [winners[0].name, runnersUp[1].name],
+      [winners[1].name, runnersUp[0].name],
+      [winners[2].name, bestThirds[0].name],
+      [runnersUp[2].name, bestThirds[1].name],
+    ];
+    wc2State.stage = 'qf';
+    wc2State.qf = pairs.map(([home,away]) => ({home, away, hs:null, as:null, ph:null, pa:null}));
+    wc2RenderPredictor();
+  }
+
+  function wc2RenderKnockoutInputs(stageKey, matches, label){
+    const rows = matches.map((m, idx) => `
+      <div class="wc-match">
+        <div class="wc-match-meta"><span class="wc-date">${label}</span></div>
+        <div class="wc-match-body">
+          <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
+          <div class="wc2-ko-inputs">
+            <input type="number" min="0" max="20" class="wc2-score-input" id="wc2ko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+            <span class="wc-dash">–</span>
+            <input type="number" min="0" max="20" class="wc2-score-input" id="wc2ko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+          </div>
+          <div class="wc-team away"><div class="wc-team-name">${m.away}</div></div>
+        </div>
+        ${m.hs !== null && m.as !== null && Number(m.hs) === Number(m.as) ? `
+        <div class="wc-match-footer" style="flex-wrap:wrap;gap:8px;">
+          <span class="wc-note">Scores level — enter a penalty shoot-out result</span>
+          <div class="wc2-ko-inputs">
+            <input type="number" min="0" max="20" class="wc2-score-input small" id="wc2ko-${stageKey}-${idx}-ph" value="${m.ph===null?'':m.ph}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+            <span class="wc-dash">–</span>
+            <input type="number" min="0" max="20" class="wc2-score-input small" id="wc2ko-${stageKey}-${idx}-pa" value="${m.pa===null?'':m.pa}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+          </div>
+        </div>` : ''}
+      </div>`).join('');
+    const cols = matches.length === 1 ? 'final' : (matches.length === 2 ? 'sf' : 'qf');
+    return `<div class="wc-round">
+      <div class="wc-round-label"><span class="wc-round-title">${label}</span><div class="wc-round-line"></div></div>
+      <div class="wc-matches ${cols}">${rows}</div>
+    </div>`;
+  }
+
+  function wc2OnKoScoreChange(stageKey, idx){
+    const m = wc2State[stageKey][idx];
+    const h = document.getElementById(`wc2ko-${stageKey}-${idx}-h`).value;
+    const a = document.getElementById(`wc2ko-${stageKey}-${idx}-a`).value;
+    m.hs = h === '' ? null : Number(h);
+    m.as = a === '' ? null : Number(a);
+    const phEl = document.getElementById(`wc2ko-${stageKey}-${idx}-ph`);
+    const paEl = document.getElementById(`wc2ko-${stageKey}-${idx}-pa`);
+    m.ph = phEl && phEl.value !== '' ? Number(phEl.value) : null;
+    m.pa = paEl && paEl.value !== '' ? Number(paEl.value) : null;
+    wc2RenderPredictor();
+  }
+
+  function wc2KoWinner(m){
+    if(m.hs === null || m.as === null) return null;
+    if(m.hs > m.as) return m.home;
+    if(m.as > m.hs) return m.away;
+    if(m.ph !== null && m.pa !== null && m.ph !== m.pa) return m.ph > m.pa ? m.home : m.away;
+    return null;
+  }
+
+  function wc2StageComplete(matches){
+    return matches.every(m => wc2KoWinner(m) !== null);
+  }
+
+  function wc2ConfirmQf(){
+    if(!wc2StageComplete(wc2State.qf)){
+      alert('Enter a result (with penalties if drawn) for every Quarter-Final before continuing.');
+      return;
+    }
+    const w = wc2State.qf.map(wc2KoWinner);
+    wc2State.stage = 'sf';
+    wc2State.sf = [
+      {home:w[0], away:w[2], hs:null, as:null, ph:null, pa:null},
+      {home:w[1], away:w[3], hs:null, as:null, ph:null, pa:null},
+    ];
+    wc2RenderPredictor();
+  }
+
+  function wc2ConfirmSf(){
+    if(!wc2StageComplete(wc2State.sf)){
+      alert('Enter a result (with penalties if drawn) for every Semi-Final before continuing.');
+      return;
+    }
+    const w = wc2State.sf.map(wc2KoWinner);
+    wc2State.stage = 'final';
+    wc2State.final = [{home:w[0], away:w[1], hs:null, as:null, ph:null, pa:null}];
+    wc2RenderPredictor();
+  }
+
+  function wc2ConfirmFinal(){
+    const winner = wc2KoWinner(wc2State.final[0]);
+    if(!winner){
+      alert('Enter a result (with penalties if drawn) for the Final to crown a champion.');
+      return;
+    }
+    wc2State.stage = 'done';
+    wc2RenderPredictor();
+  }
+
+  function wc2ResetPredictor(){
+    wc2InitState();
+    wc2RenderPredictor();
+  }
+
+  function wc2RenderPredictor(){
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
-    const confirmed = WC2_COUNTRIES.filter(c=>c.confirmed);
-    const declined = WC2_COUNTRIES.filter(c=>c.declined);
-    const unconfirmed = WC2_COUNTRIES.filter(c=>!c.confirmed && !c.declined);
-    const card = (c) => `
-      <div class="wc2-country-card" onclick="openFootballHistory('${c.name}')" style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--rs);background:rgba(255,255,255,.04);border:1px solid var(--border);">
-        <span style="width:10px;height:10px;border-radius:50%;background:${c.accent};flex-shrink:0;"></span>
-        <span style="font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--text);">${c.name}</span>
-        ${c.confirmed
-          ? `<span style="margin-left:auto;font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);border-radius:6px;padding:3px 8px;">✓ Confirmed</span>`
-          : c.declined
-          ? `<span style="margin-left:auto;font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#f87171;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);border-radius:6px;padding:3px 8px;">✗ Declined</span>`
-          : `<span style="margin-left:auto;font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:3px 8px;">Unconfirmed</span>`}
-      </div>`;
-    bracket.innerHTML = `
-      <div style="max-width:520px;margin:0 auto;">
-        <div style="font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4ade80;margin-bottom:10px;">Confirmed Countries (${confirmed.length})</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:26px;">
-          ${confirmed.map(card).join('')}
-        </div>
-        ${declined.length ? `<div style="font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f87171;margin-bottom:10px;">Declined (${declined.length})</div><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:26px;">${declined.map(card).join('')}</div>` : ''}
-        <div style="font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Not Yet Confirmed (${unconfirmed.length})</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          ${unconfirmed.map(card).join('')}
-        </div>
-      </div>`;
+    if(!wc2State) wc2InitState();
+
+    const stadiumNote = `<div class="wc2-stadium-note">🏟️ Group Stage — Crainetown Stadium &nbsp;·&nbsp; Knockouts — NewLife Stadium &nbsp;·&nbsp; Keem have declined to participate</div>`;
+    const resetBtn = `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn secondary" onclick="wc2ResetPredictor()">↺ Reset Predictor</button></div>`;
+
+    let html = `<div class="wc2-groups-wrap">${stadiumNote}`;
+
+    if(wc2State.stage === 'groups'){
+      html += `${wc2RenderGroupFixtures()}
+        <div class="wc2-predict-btn-wrap">
+          <button class="wc2-predict-btn" onclick="wc2ConfirmGroups()">⚽ Confirm Groups &amp; Generate Bracket</button>
+        </div>`;
+      bracket.innerHTML = html + `</div>`;
+      return;
+    }
+
+    // Groups are locked in once we've moved past the 'groups' stage — show final standings.
+    const standings = wc2ComputeStandings(wc2State.groupFixtures);
+    html += wc2RenderGroupTables(standings) + `</div>`;
+    html += `<div class="wc2-knockout-title">🌍 Road to the World Cup 2026 Final</div>`;
+    html += wc2RenderKnockoutInputs('qf', wc2State.qf, 'QUARTER-FINALS');
+
+    if(wc2State.stage === 'qf'){
+      html += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="wc2ConfirmQf()">➡️ Confirm Quarter-Finals</button></div>`;
+      bracket.innerHTML = html + resetBtn;
+      return;
+    }
+
+    html += wc2RenderKnockoutInputs('sf', wc2State.sf, 'SEMI-FINALS');
+    if(wc2State.stage === 'sf'){
+      html += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="wc2ConfirmSf()">➡️ Confirm Semi-Finals</button></div>`;
+      bracket.innerHTML = html + resetBtn;
+      return;
+    }
+
+    html += wc2RenderKnockoutInputs('final', wc2State.final, 'FINAL');
+
+    if(wc2State.stage === 'final'){
+      html += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="wc2ConfirmFinal()">🏆 Confirm Final &amp; Crown Champion</button></div>`;
+      bracket.innerHTML = html + resetBtn;
+      return;
+    }
+
+    // stage === 'done'
+    const f = wc2State.final[0];
+    const winner = wc2KoWinner(f);
+    const loser = winner === f.home ? f.away : f.home;
+    const wScore = winner === f.home ? f.hs : f.as;
+    const lScore = winner === f.home ? f.as : f.hs;
+    const pensNote = (f.ph !== null && f.pa !== null) ? ` (${winner===f.home?f.ph:f.pa}-${winner===f.home?f.pa:f.ph} on pens)` : '';
+    html += `<div class="wc-champion-banner" style="display:block;position:relative;margin-top:20px;">
+      <span class="wc-champion-confetti c1">🎉</span>
+      <span class="wc-champion-confetti c2">✨</span>
+      <span class="wc-champion-confetti c3">🎊</span>
+      <span class="wc-champion-confetti c4">✨</span>
+      <span class="wc-champion-confetti c5">🎉</span>
+      <span class="wc-champion-confetti c6">🎊</span>
+      <div class="wc-champion-inner">
+        <span class="wc-champion-trophy">🏆</span>
+        <div class="wc-champion-label">🎉 World Cup 2026 Champions 🎉</div>
+        <div class="wc-champion-club">${winner}</div>
+        <div class="wc-champion-score">🏟️ Beat ${loser} ${wScore}${pensNote} – ${lScore} in the Final</div>
+      </div>
+    </div>`;
+    bracket.innerHTML = html + resetBtn;
+  }
+
+  function renderWc2List(){
+    wc2InitState();
+    wc2RenderPredictor();
   }
 
   let wcActiveTournament = 'club';
