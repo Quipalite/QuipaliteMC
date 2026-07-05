@@ -400,11 +400,8 @@
     .wc2-group-grid>.wc2-group-card:nth-child(3){animation-delay:.25s;}
     .wc2-group-title{font-family:var(--font-d);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
     .wc2-group-title:hover{color:#ffe08a;}
-    .wc2-group-caret{font-size:11px;transition:transform .25s cubic-bezier(.22,1,.36,1);color:var(--text-dim);}
-    .wc2-group-card.expanded .wc2-group-caret{transform:rotate(180deg);}
-    .wc2-group-card{transition:transform .32s cubic-bezier(.22,1,.36,1),box-shadow .32s,border-color .32s,z-index 0s;transform-origin:center center;}
-    .wc2-group-card.expanded{transform:scale(1.06);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px var(--pink-line);border-color:var(--pink-line);position:relative;z-index:5;}
-    .wc2-group-card.expanded .wc2-group-title{color:var(--pink);}
+    .wc2-group-title:hover .wc2-group-caret{transform:translateX(3px);color:var(--gold);}
+    .wc2-group-caret{font-size:12px;transition:transform .2s,color .2s;color:var(--text-dim);}
     .wc2-group-table{width:100%;border-collapse:collapse;font-family:var(--font-m);}
     .wc2-group-table th{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:center;padding:4px 3px;border-bottom:1px solid var(--border);}
     .wc2-group-table th:first-child{text-align:left;}
@@ -426,10 +423,12 @@
     .wc2-predict-btn:active{transform:translateY(0) scale(.98);}
     .wc2-knockout-title{text-align:center;font-family:var(--font-d);font-size:15px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);margin:6px 0 22px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
     .wc2-fixture-list{display:flex;flex-direction:column;gap:8px;}
-    .wc2-fixture-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .wc2-fixture-row{display:flex;flex-direction:column;gap:3px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);}
     .wc2-fixture-row:last-child{border-bottom:none;}
-    .wc2-fixture-team{flex:1;min-width:0;font-family:var(--font-d);font-size:11.5px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .wc2-fixture-main{display:flex;align-items:center;gap:8px;width:100%;}
+    .wc2-fixture-team{flex:1;min-width:0;font-family:var(--font-d);font-size:11.5px;font-weight:700;color:var(--text);white-space:normal;line-height:1.2;}
     .wc2-fixture-team.right{text-align:right;}
+    .wc2-fixture-date-sub{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);text-align:center;}
     .wc2-score-input{width:36px;height:30px;text-align:center;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:var(--font-d);font-size:13px;font-weight:700;flex-shrink:0;-moz-appearance:textfield;}
     .wc2-score-input.small{width:30px;height:26px;font-size:11px;}
     .wc2-score-input:focus{outline:none;border-color:rgba(245,200,66,.5);background:rgba(245,200,66,.08);}
@@ -442,7 +441,7 @@
     .wc2-subtab{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:9px 18px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all .2s;}
     .wc2-subtab:hover{background:rgba(255,255,255,.08);color:var(--text);}
     .wc2-subtab.active{background:rgba(245,200,66,.14);border-color:rgba(245,200,66,.4);color:var(--gold);}
-    .wc2-schedule-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;cursor:pointer;transition:background .15s;border-radius:6px;}
+    .wc2-schedule-row{display:flex;flex-direction:column;gap:3px;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s;border-radius:6px;}
     .wc2-schedule-row:hover{background:rgba(255,255,255,.035);}
     .wc2-schedule-row:last-child{border-bottom:none;}
     .wc2-schedule-vs{font-family:var(--font-m);font-size:9px;font-weight:700;color:var(--text-dim);flex-shrink:0;}
@@ -1894,8 +1893,45 @@
     return name.toLowerCase().replace(/\s+/g,'');
   }
 
-  function wc2ToggleGroup(el){
-    el.closest('.wc2-group-card').classList.toggle('expanded');
+  function openWc2Group(gname){
+    const teams = WC2_GROUPS[gname];
+    const teamsHtml = teams.map(name => {
+      const country = WC2_COUNTRIES.find(c=>c.name===name) || {};
+      const accent = wc2Accent(name);
+      return `<div class="nm-fact-row" style="cursor:pointer" onclick="closeNation();setTimeout(()=>openNation('${wc2NameToId(name)}'),260)">
+        <span class="nm-fact-lbl" style="display:flex;align-items:center;gap:8px;color:var(--text)"><span style="width:9px;height:9px;border-radius:50%;background:${accent};display:inline-block;flex-shrink:0"></span>${name}</span>
+        <span class="nm-fact-val" style="color:${country.confirmed===false?'#f87171':'#4ade80'}">${country.confirmed===false?'Declined':'Confirmed'}</span>
+      </div>`;
+    }).join('');
+
+    const fixtureRows = [];
+    for(let i=0;i<teams.length;i++){
+      for(let j=i+1;j<teams.length;j++){
+        fixtureRows.push(`<div class="nm-fact-row">
+          <span class="nm-fact-lbl">${teams[i]} vs ${teams[j]}</span>
+          <span class="nm-fact-val">${wc2FixtureDate(teams[i], teams[j])}</span>
+        </div>`);
+      }
+    }
+
+    document.getElementById('nmc').innerHTML = `
+      <div class="nm-banner" style="background:linear-gradient(135deg,${wc2Accent(teams[0])}20 0%,${wc2Accent(teams[teams.length-1])}10 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div>
+      <div class="nm-body">
+        <div class="nm-header">
+          <div class="nm-ico-wrap" style="background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);">🏆</div>
+          <div class="nm-title-wrap"><div class="nm-name">${gname}</div><div class="nm-est">World Cup 2026 · Group Stage</div></div>
+        </div>
+        <p class="nm-desc">${teams.length} nations go head-to-head in ${gname}, with the top two automatically through to the knockouts and the best two third-placed teams across all groups also progressing.</p>
+        <div class="nm-sec-h">Teams</div>
+        <div>${teamsHtml}</div>
+        <div class="nm-sec-h" style="margin-top:20px">Fixtures</div>
+        <div>${fixtureRows.join('')}</div>
+      </div>`;
+    const m = document.getElementById('nm');
+    m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
   }
 
   function wc2RenderGroupTables(standingsByGroup){
@@ -1910,7 +1946,7 @@
         </tr>`;
       }).join('');
       return `<div class="wc2-group-card">
-        <div class="wc2-group-title" onclick="wc2ToggleGroup(this)">${gname}<span class="wc2-group-caret">▼</span></div>
+        <div class="wc2-group-title" onclick="openWc2Group('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <table class="wc2-group-table">
           <thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF-GA</th><th>GD</th><th>Pts</th></tr></thead>
@@ -1925,16 +1961,18 @@
   function wc2RenderGroupFixtures(){
     const groupBlocks = Object.keys(WC2_GROUPS).map(gname => {
       const rows = wc2State.groupFixtures[gname].map((f, idx) => `
-        <div class="wc2-fixture-row" style="flex-wrap:wrap;">
-          <span class="wc2-fixture-team" onclick="openNation('${wc2NameToId(f.home)}')">${f.home}</span>
-          <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-h" value="${f.hs===null?'':f.hs}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
-          <span class="wc2-fixture-dash">–</span>
-          <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-a" value="${f.as===null?'':f.as}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
-          <span class="wc2-fixture-team right" onclick="openNation('${wc2NameToId(f.away)}')">${f.away}</span>
-          <span class="wc2-schedule-status">${wc2FixtureDate(f.home, f.away)}</span>
+        <div class="wc2-fixture-row">
+          <div class="wc2-fixture-main">
+            <span class="wc2-fixture-team" onclick="openNation('${wc2NameToId(f.home)}')">${f.home}</span>
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-h" value="${f.hs===null?'':f.hs}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
+            <span class="wc2-fixture-dash">–</span>
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-a" value="${f.as===null?'':f.as}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
+            <span class="wc2-fixture-team right" onclick="openNation('${wc2NameToId(f.away)}')">${f.away}</span>
+          </div>
+          <div class="wc2-fixture-date-sub">${wc2FixtureDate(f.home, f.away)}</div>
         </div>`).join('');
       return `<div class="wc2-group-card">
-        <div class="wc2-group-title" onclick="wc2ToggleGroup(this)">${gname}<span class="wc2-group-caret">▼</span></div>
+        <div class="wc2-group-title" onclick="openWc2Group('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows}</div>
         </div>
@@ -2269,15 +2307,17 @@
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
           rows.push(`<div class="wc2-schedule-row" onclick="openWc2Fixture('${gname}','${teams[i]}','${teams[j]}')">
-            <span class="wc2-fixture-team" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[i])}')">${teams[i]}</span>
-            <span class="wc2-schedule-vs">vs</span>
-            <span class="wc2-fixture-team right" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[j])}')">${teams[j]}</span>
-            <span class="wc2-schedule-status">${wc2FixtureDate(teams[i], teams[j])}</span>
+            <div class="wc2-fixture-main">
+              <span class="wc2-fixture-team" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[i])}')">${teams[i]}</span>
+              <span class="wc2-schedule-vs">vs</span>
+              <span class="wc2-fixture-team right" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[j])}')">${teams[j]}</span>
+            </div>
+            <div class="wc2-fixture-date-sub">${wc2FixtureDate(teams[i], teams[j])}</div>
           </div>`);
         }
       }
       return `<div class="wc2-group-card">
-        <div class="wc2-group-title" onclick="wc2ToggleGroup(this)">${gname}<span class="wc2-group-caret">▼</span></div>
+        <div class="wc2-group-title" onclick="openWc2Group('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows.join('')}</div>
         </div>
