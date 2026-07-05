@@ -2419,12 +2419,6 @@
           answer:n.id,
           hints:[`This nation also helped build in Corexia`,`Member of the Globe Alliance`,`Leader: ${n.leader}`],
           _ambiguous:false});
-        all.push({type:'lore_peace_treaty',label:'LORE',
-          question:`Springbuck and which other nation have a <em>physically written peace treaty</em>?`,
-          answer:'sylvian',
-          hints:[`This nation is the only Monarchy on the server`,`Known for its castle and forests`,`Good relations with Keem`],
-          _valid: n.id==='springbuck',
-          _ambiguous:false});
       }
 
       // Founded Globe Alliance
@@ -2773,7 +2767,21 @@
           _ambiguous:false});
       }
 
-['leader','currency','lore_oldest','lore_monarchy','lore_dictatorship','lore_first_war','lore_invaded','lore_smegcream','lore_cwc_host','lore_founded_globe','lore_stadium','lore_sylvian_castle','lore_smog_factory','lore_un_stopped','lore_smog_gov'];
+      // Caderville - newest nation
+      if(n.id==='caderville'){
+        all.push({type:'lore_newest_nation',label:'LORE',
+          question:`Which nation is the <em>newest</em> to be founded on the server?`,
+          answer:n.id,
+          hints:[`Founded: ${n.founded}`,`Government: ${n.government}`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+        all.push({type:'lore_caderville_monarchy',label:'LORE',
+          question:`Which nation is governed by a <em>Monarchy</em> under the rule of mack29702?`,
+          answer:n.id,
+          hints:[`Currency: ${n.currency}`,`Territory: Small`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      const easyTypes=['leader','currency','lore_oldest','lore_monarchy','lore_dictatorship','lore_first_war','lore_invaded','lore_smegcream','lore_cwc_host','lore_founded_globe','lore_stadium','lore_sylvian_castle','lore_smog_factory','lore_un_stopped','lore_smog_gov'];
       const medTypes=['gov','founded','poprank','territory','alliance','capital','tag0','negpop','samegov',
         'lore_tensions','lore_crab_tensions','lore_invasion','lore_tech','lore_globe_removed','lore_removed_alliance','lore_war_vote',
         'lore_first_airport','lore_first_mcdonalds','lore_bombed','lore_un_building','lore_springfield',
@@ -2789,7 +2797,8 @@
         'lore_megatank','lore_gifted_apartments','lore_peace_treaty',
         'lore_bbac','lore_two_alliances','lore_two_stadiums',
         'lore_flag_smeg','lore_flag_crab','lore_flag_sylvian','lore_flag_keem','lore_flag_okpemon','lore_flag_smog','lore_flag_craineun','lore_flag_corexia','lore_flag_waterland',
-        'lore_first_mountain','lore_cwc_forfeit','lore_cwc_okpemon'];
+        'lore_first_mountain','lore_cwc_forfeit','lore_cwc_okpemon',
+        'lore_newest_nation','lore_caderville_monarchy'];
 
       let filtered;
       if(diff==='easy')  filtered=all.filter(q=>easyTypes.includes(q.type));
