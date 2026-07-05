@@ -426,6 +426,23 @@
     .wc2-ko-inputs{display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .wc2-predict-btn.secondary{background:rgba(255,255,255,.06);color:var(--text-dim);box-shadow:none;}
     .wc2-predict-btn.secondary:hover{background:rgba(255,255,255,.1);color:var(--text);box-shadow:none;}
+    .wc2-subtabs{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+    .wc2-subtab{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:9px 18px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all .2s;}
+    .wc2-subtab:hover{background:rgba(255,255,255,.08);color:var(--text);}
+    .wc2-subtab.active{background:rgba(245,200,66,.14);border-color:rgba(245,200,66,.4);color:var(--gold);}
+    .wc2-schedule-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;}
+    .wc2-schedule-row:last-child{border-bottom:none;}
+    .wc2-schedule-vs{font-family:var(--font-m);font-size:9px;font-weight:700;color:var(--text-dim);flex-shrink:0;}
+    .wc2-schedule-status{width:100%;font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);text-align:center;margin-top:2px;}
+    @media(min-width:600px){.wc2-schedule-status{width:auto;margin-left:auto;margin-top:0;}}
+    .wc2-path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+    .wc2-path-card{border-radius:12px;border:1px solid var(--border-card);background:var(--surface);padding:14px 16px;}
+    .wc2-path-round{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .wc2-path-line{font-family:var(--font-d);font-size:12px;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .wc2-path-line:last-child{border-bottom:none;}
+    .wc2-path-vs{color:var(--text-dim);font-weight:500;font-size:10px;margin:0 5px;}
+    .wc2-path-note{text-align:center;font-family:var(--font-m);font-size:8.5px;color:var(--text-muted);line-height:1.5;max-width:560px;margin:0 auto 20px;}
+    @media(max-width:760px){.wc2-path-grid{grid-template-columns:1fr;}}
     #tmi h2{font-family:var(--font-d);font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;}
     #tmc{background:none;border:none;font-size:18px;color:var(--text-muted);cursor:pointer;transition:color .15s,transform .2s;line-height:1;}
     #tmc:hover{color:var(--text);transform:rotate(90deg);}
@@ -831,6 +848,14 @@
     body.mono .wc-match.final-match{background:#050505;border-color:rgba(245,200,66,.25);}
     body.mono .wc-header{background:#050505;border-color:#222;}
     @media(max-width:720px){.wc-matches.qf,.wc-matches.sf{grid-template-columns:1fr;}}
+    @media(max-width:760px){
+      .wc2-group-grid{grid-template-columns:1fr;gap:14px;}
+      .wc2-fixture-team{font-size:12.5px;}
+      .wc2-score-input{width:42px;height:36px;font-size:15px;}
+      .wc2-score-input.small{width:34px;height:30px;font-size:12px;}
+      .wc2-predict-btn{width:100%;padding:14px 20px;}
+      .wc2-group-table th,.wc2-group-table td{padding:5px 2px;font-size:9.5px;}
+    }
     .wc-match{cursor:pointer;}
     #mm{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:16px;}
     #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
@@ -1821,9 +1846,9 @@
       const rows = wc2State.groupFixtures[gname].map((f, idx) => `
         <div class="wc2-fixture-row">
           <span class="wc2-fixture-team">${f.home}</span>
-          <input type="number" min="0" max="20" class="wc2-score-input" id="wc2gf-${gname}-${idx}-h" value="${f.hs===null?'':f.hs}" oninput="wc2OnGroupScoreChange('${gname}',${idx})">
+          <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-h" value="${f.hs===null?'':f.hs}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
           <span class="wc2-fixture-dash">–</span>
-          <input type="number" min="0" max="20" class="wc2-score-input" id="wc2gf-${gname}-${idx}-a" value="${f.as===null?'':f.as}" oninput="wc2OnGroupScoreChange('${gname}',${idx})">
+          <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2gf-${gname}-${idx}-a" value="${f.as===null?'':f.as}" onchange="wc2OnGroupScoreChange('${gname}',${idx})">
           <span class="wc2-fixture-team right">${f.away}</span>
         </div>`).join('');
       return `<div class="wc2-group-card">
@@ -1880,9 +1905,9 @@
         <div class="wc-match-body">
           <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
           <div class="wc2-ko-inputs">
-            <input type="number" min="0" max="20" class="wc2-score-input" id="wc2ko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2ko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" onchange="wc2OnKoScoreChange('${stageKey}',${idx})">
             <span class="wc-dash">–</span>
-            <input type="number" min="0" max="20" class="wc2-score-input" id="wc2ko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="wc2ko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" onchange="wc2OnKoScoreChange('${stageKey}',${idx})">
           </div>
           <div class="wc-team away"><div class="wc-team-name">${m.away}</div></div>
         </div>
@@ -1890,9 +1915,9 @@
         <div class="wc-match-footer" style="flex-wrap:wrap;gap:8px;">
           <span class="wc-note">Scores level — enter a penalty shoot-out result</span>
           <div class="wc2-ko-inputs">
-            <input type="number" min="0" max="20" class="wc2-score-input small" id="wc2ko-${stageKey}-${idx}-ph" value="${m.ph===null?'':m.ph}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input small" id="wc2ko-${stageKey}-${idx}-ph" value="${m.ph===null?'':m.ph}" onchange="wc2OnKoScoreChange('${stageKey}',${idx})">
             <span class="wc-dash">–</span>
-            <input type="number" min="0" max="20" class="wc2-score-input small" id="wc2ko-${stageKey}-${idx}-pa" value="${m.pa===null?'':m.pa}" oninput="wc2OnKoScoreChange('${stageKey}',${idx})">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input small" id="wc2ko-${stageKey}-${idx}-pa" value="${m.pa===null?'':m.pa}" onchange="wc2OnKoScoreChange('${stageKey}',${idx})">
           </div>
         </div>` : ''}
       </div>`).join('');
@@ -1968,21 +1993,104 @@
     wc2RenderPredictor();
   }
 
+  let wc2SubView = 'standings';
+
+  function wc2SwitchSubView(view){
+    wc2SubView = view;
+    wc2RenderPredictor();
+  }
+
+  function wc2RenderSubTabs(){
+    return `<div class="wc2-subtabs">
+      <button class="wc2-subtab${wc2SubView==='standings'?' active':''}" onclick="wc2SwitchSubView('standings')">📊 Standings &amp; Schedule</button>
+      <button class="wc2-subtab${wc2SubView==='predictor'?' active':''}" onclick="wc2SwitchSubView('predictor')">🔮 Predictor</button>
+    </div>`;
+  }
+
+  function wc2RenderPathToFinal(){
+    return `<div class="wc2-knockout-title" style="font-size:12px;">🗺️ Path to the Final</div>
+      <div class="wc2-path-grid">
+        <div class="wc2-path-card">
+          <div class="wc2-path-round">Quarter-Finals</div>
+          <div class="wc2-path-line">A1 <span class="wc2-path-vs">vs</span> B2</div>
+          <div class="wc2-path-line">B1 <span class="wc2-path-vs">vs</span> A2</div>
+          <div class="wc2-path-line">C1 <span class="wc2-path-vs">vs</span> Best 3rd #1</div>
+          <div class="wc2-path-line">C2 <span class="wc2-path-vs">vs</span> Best 3rd #2</div>
+        </div>
+        <div class="wc2-path-card">
+          <div class="wc2-path-round">Semi-Finals</div>
+          <div class="wc2-path-line">Winner QF1 <span class="wc2-path-vs">vs</span> Winner QF3</div>
+          <div class="wc2-path-line">Winner QF2 <span class="wc2-path-vs">vs</span> Winner QF4</div>
+        </div>
+        <div class="wc2-path-card">
+          <div class="wc2-path-round">Final</div>
+          <div class="wc2-path-line">Winner SF1 <span class="wc2-path-vs">vs</span> Winner SF2</div>
+        </div>
+      </div>
+      <div class="wc2-path-note">Top 2 from each group qualify automatically, plus the 2 best third-placed teams across all groups (A/B/C = group position, e.g. A1 = Group A winner)</div>`;
+  }
+
+  function wc2RenderStandingsSchedule(){
+    const bracket = document.getElementById('wc-bracket');
+    if (!bracket) return;
+    const emptyStandings = {};
+    Object.keys(WC2_GROUPS).forEach(gname => {
+      emptyStandings[gname] = WC2_GROUPS[gname].map(n => ({name:n, p:0, w:0, d:0, l:0, gf:0, ga:0, pts:0}));
+    });
+
+    const scheduleBlocks = Object.keys(WC2_GROUPS).map(gname => {
+      const teams = WC2_GROUPS[gname];
+      const rows = [];
+      for(let i=0;i<teams.length;i++){
+        for(let j=i+1;j<teams.length;j++){
+          rows.push(`<div class="wc2-schedule-row">
+            <span class="wc2-fixture-team">${teams[i]}</span>
+            <span class="wc2-schedule-vs">vs</span>
+            <span class="wc2-fixture-team right">${teams[j]}</span>
+            <span class="wc2-schedule-status">Not yet played</span>
+          </div>`);
+        }
+      }
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title">${gname}</div>
+        <div class="wc2-fixture-list">${rows.join('')}</div>
+      </div>`;
+    }).join('');
+
+    const stadiumNote = `<div class="wc2-stadium-note">🏟️ Group Stage — Crainetown Stadium &nbsp;·&nbsp; Knockouts — NewLife Stadium</div>`;
+
+    bracket.innerHTML = `${wc2RenderSubTabs()}
+      <div class="wc2-groups-wrap">
+        ${stadiumNote}
+        <div style="text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:-10px 0 14px;">Current Standings — No matches played yet</div>
+        ${wc2RenderGroupTables(emptyStandings)}
+        <div class="wc2-knockout-title" style="font-size:12px;">📅 Match Schedule</div>
+        <div class="wc2-group-grid">${scheduleBlocks}</div>
+        ${wc2RenderPathToFinal()}
+      </div>`;
+  }
+
   function wc2RenderPredictor(){
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
     if(!wc2State) wc2InitState();
 
-    const stadiumNote = `<div class="wc2-stadium-note">🏟️ Group Stage — Crainetown Stadium &nbsp;·&nbsp; Knockouts — NewLife Stadium &nbsp;·&nbsp; Keem have declined to participate</div>`;
+    if(wc2SubView === 'standings'){
+      wc2RenderStandingsSchedule();
+      return;
+    }
+
+    const stadiumNote = `<div class="wc2-stadium-note">🏟️ Group Stage — Crainetown Stadium &nbsp;·&nbsp; Knockouts — NewLife Stadium</div>`;
     const resetBtn = `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn secondary" onclick="wc2ResetPredictor()">↺ Reset Predictor</button></div>`;
 
-    let html = `<div class="wc2-groups-wrap">${stadiumNote}`;
+    let html = `${wc2RenderSubTabs()}<div class="wc2-groups-wrap">${stadiumNote}`;
 
     if(wc2State.stage === 'groups'){
       html += `${wc2RenderGroupFixtures()}
         <div class="wc2-predict-btn-wrap">
           <button class="wc2-predict-btn" onclick="wc2ConfirmGroups()">⚽ Confirm Groups &amp; Generate Bracket</button>
-        </div>`;
+        </div>
+        ${wc2RenderPathToFinal()}`;
       bracket.innerHTML = html + `</div>`;
       return;
     }
