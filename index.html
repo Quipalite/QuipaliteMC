@@ -927,6 +927,7 @@
     body.mono #mmi{background:#050505;border-color:#222;}
     body.mono .mm-fact{background:#000;border-color:#111;}
   </style>
+  <script src="https://w.soundcloud.com/player/api.js" async></script>
 </head>
 <body>
   <div class="bg-canvas" aria-hidden="true">
@@ -1342,6 +1343,7 @@
       <div class="wc-tournament-tabs">
         <button class="wc-t-tab active" id="wcTabClub" onclick="switchWcTournament('club')">🏆 Club World Cup 2026</button>
         <button class="wc-t-tab" id="wcTabCountry" onclick="switchWcTournament('country')">🌍 World Cup 2026</button>
+        <button class="wc-t-tab" id="wc2MuteBtn" style="flex:0 0 auto;padding:8px 12px;" onclick="event.stopPropagation();wc2ToggleMute(this)" title="Mute/unmute World Cup 2026 soundtrack">🔊</button>
       </div>
       <div class="wc-champion-banner" id="wcChampionBanner" style="display:none;"></div>
       <div id="wc-bracket"></div>
@@ -1375,6 +1377,7 @@
   <div id="cqFsModal"></div>
 
   <!-- MATCH MODAL -->
+  <iframe id="wc2ScFrame" style="position:absolute;width:0;height:0;border:0;visibility:hidden;pointer-events:none;" allow="autoplay"></iframe>
   <div id="mm" onclick="if(event.target===this||event.target===document.getElementById('mmb'))closeMatch()">
     <div id="mmb"></div>
     <div id="mmi">
@@ -1611,6 +1614,19 @@
     }
   });
   document.addEventListener('DOMContentLoaded', setupReveal);
+  document.addEventListener('DOMContentLoaded', () => {
+    wc2StartSoundtrack();
+    const wc2RetryOnInteract = () => {
+      if (wc2Widget) wc2Widget.play();
+      else wc2StartSoundtrack();
+      document.removeEventListener('click', wc2RetryOnInteract);
+      document.removeEventListener('keydown', wc2RetryOnInteract);
+      document.removeEventListener('touchstart', wc2RetryOnInteract);
+    };
+    document.addEventListener('click', wc2RetryOnInteract, {once:true, capture:true});
+    document.addEventListener('keydown', wc2RetryOnInteract, {once:true, capture:true});
+    document.addEventListener('touchstart', wc2RetryOnInteract, {once:true, capture:true});
+  });
   // Update this manually whenever you want to refresh the displayed count.
   const DISCORD_MEMBERS = 33;
   function loadDiscordWidget() {
@@ -2437,6 +2453,71 @@
   }
 
   let wcActiveTournament = 'club';
+
+  const WC2_SOUNDTRACK = [
+    'https://soundcloud.com/deftemusic/esmelrenders-ft-gibibi-s-3x?in=deftemusic/sets/combination-successfully-added',
+    'https://soundcloud.com/bobatl/airplanes-pt-ii-feat-eminem-hayley-williams-of-paramore',
+    'https://soundcloud.com/m83/midnight-city',
+    'https://soundcloud.com/user-931337164/moves-like-jagger',
+    'https://soundcloud.com/jerbeary/mrsaxobeat',
+    'https://soundcloud.com/themusicstudioofficial/jason-derulo-savage-love-prod-jawsh-685',
+    'https://soundcloud.com/crescent731/clean-bandit-symphony-10',
+    'https://soundcloud.com/parismusicmusic/hall-of-fame-feat-will-i-am-1',
+    'https://soundcloud.com/tony-hoffer/the-kooks-naive',
+    'https://soundcloud.com/gleethemusic/best-day-of-my-life',
+    'https://soundcloud.com/oz93-2/wiz-khalifa-the-thrill'
+  ];
+  let wc2TrackIdx = 0;
+  let wc2Widget = null;
+  let wc2SoundtrackStarted = false;
+  let wc2Muted = false;
+
+  function wc2BuildPlayerUrl(url){
+    return 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url) +
+      '&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&visual=false&buying=false&liking=false&download=false&sharing=false';
+  }
+
+  function wc2BindWidget(frame, onReady){
+    if (typeof SC === 'undefined' || !SC.Widget) {
+      setTimeout(() => wc2BindWidget(frame, onReady), 300);
+      return;
+    }
+    wc2Widget = SC.Widget(frame);
+    wc2Widget.bind(SC.Widget.Events.READY, () => {
+      if (wc2Muted) wc2Widget.setVolume(0);
+      wc2Widget.play();
+      if (onReady) onReady();
+    });
+    wc2Widget.bind(SC.Widget.Events.FINISH, wc2PlayNextTrack);
+  }
+
+  function wc2StartSoundtrack(){
+    const frame = document.getElementById('wc2ScFrame');
+    if (wc2SoundtrackStarted) {
+      if (wc2Widget) wc2Widget.play();
+      return;
+    }
+    wc2SoundtrackStarted = true;
+    frame.src = wc2BuildPlayerUrl(WC2_SOUNDTRACK[wc2TrackIdx]);
+    wc2BindWidget(frame);
+  }
+
+  function wc2PlayNextTrack(){
+    wc2TrackIdx = (wc2TrackIdx + 1) % WC2_SOUNDTRACK.length;
+    const frame = document.getElementById('wc2ScFrame');
+    frame.src = wc2BuildPlayerUrl(WC2_SOUNDTRACK[wc2TrackIdx]);
+    wc2BindWidget(frame);
+  }
+
+  function wc2PauseSoundtrack(){
+    if (wc2Widget) wc2Widget.pause();
+  }
+
+  function wc2ToggleMute(btn){
+    wc2Muted = !wc2Muted;
+    if (wc2Widget) wc2Widget.setVolume(wc2Muted ? 0 : 100);
+    if (btn) btn.textContent = wc2Muted ? '🔇' : '🔊';
+  }
 
   function switchWcTournament(key){
     if(wcActiveTournament === key) return;
