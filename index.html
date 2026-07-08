@@ -466,6 +466,13 @@
     .wc2-discipline-table td{font-size:12px;text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text);}
     .wc2-discipline-table td:first-child{text-align:left;font-weight:700;cursor:pointer;}
     .wc2-discipline-table tr:hover td{background:rgba(255,255,255,.02);}
+    .wc2-club-row{cursor:pointer;transition:background .15s;}
+    .wc2-club-row:hover{background:rgba(255,255,255,.03);}
+    .wc2-club-row::after{content:'▸';font-size:10px;color:var(--text-dim);margin-left:4px;transition:transform .2s;flex-shrink:0;}
+    .wc2-club-row.expanded::after{transform:rotate(90deg);}
+    .wc2-club-detail{display:flex;flex-direction:column;gap:4px;padding:6px 12px 10px 26px;}
+    .wc2-club-detail .wc2-detail-line{display:flex;justify-content:space-between;gap:8px;font-family:var(--font-d);font-size:11.5px;color:var(--text);}
+    .wc2-club-detail .wc2-detail-lbl{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-dim);width:auto;}
     .wc2-schedule-row{display:flex;flex-direction:column;gap:3px;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s;border-radius:6px;}
     .wc2-schedule-row:hover{background:rgba(255,255,255,.035);}
     .wc2-schedule-row:last-child{border-bottom:none;}
@@ -2292,18 +2299,18 @@
   }
 
   const WC2_POWER_RANKINGS = [
-    {rank:1, name:'Craineun', rating:9.17},
+    {rank:1, name:'Craineun', rating:9.20},
     {rank:2, name:'Smegtopia', rating:9.13},
-    {rank:3, name:'Crabville', rating:8.11},
-    {rank:4, name:'Stormland', rating:7.26},
-    {rank:5, name:'Corexia', rating:7.20},
-    {rank:6, name:'Okpemon', rating:7.05},
-    {rank:7, name:'Springbuck', rating:6.00},
+    {rank:3, name:'Crabville', rating:8.19},
+    {rank:4, name:'Corexia', rating:7.35},
+    {rank:5, name:'Springbuck', rating:7.30},
+    {rank:6, name:'Stormland', rating:7.26},
+    {rank:7, name:'Okpemon', rating:7.00},
     {rank:8, name:'Waterland', rating:5.45},
     {rank:9, name:'Smogtowne', rating:5.15},
     {rank:10, name:'Caderville', rating:4.00},
-    {rank:11, name:'Wancerville', rating:4.00},
-    {rank:12, name:'Seirin', rating:4.00},
+    {rank:11, name:'Wancerville', rating:2.00},
+    {rank:12, name:'Seirin', rating:2.00},
   ];
 
   function openWc2Fixture(gname, home, away){
@@ -2334,8 +2341,23 @@
   }
 
   function openWc2Rank(name, rating, rank, isLeague){
-    const accent = isLeague ? (WC2_LEAGUE_POWER_RANKINGS.find(r=>r.name===name)||{}).accent : wc2Accent(name);
+    const league = isLeague ? WC2_LEAGUE_POWER_RANKINGS.find(r=>r.name===name) : null;
+    const accent = isLeague ? (league||{}).accent : wc2Accent(name);
     const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#'+rank;
+    const teamsHtml = (league && league.teams && league.teams.length) ? `
+        <div class="mm-divider"></div>
+        <div class="wc2-stadium-note" style="margin:0 0 8px">⚽ Clubs in this League</div>
+        <div class="wc2-rank-list">${league.teams.map(t => `<div>
+          <div class="wc2-rank-row wc2-club-row" onclick="wc2ToggleClub(this)">
+            <span class="wc2-rank-dot" style="background:${accent}"></span>
+            <span class="wc2-rank-name" style="width:auto;flex:1;">${t.name}</span>
+            <span class="wc2-rank-score">${t.rating.toFixed(1)}<span class="wc2-rank-score-max">/10</span></span>
+          </div>
+          <div class="wc2-club-detail" style="display:none;">
+            <div class="wc2-detail-line"><span class="wc2-detail-lbl">Founded</span><span>${t.founded}</span></div>
+            <div class="wc2-detail-line"><span class="wc2-detail-lbl">Club Rating</span><span>${t.rating.toFixed(1)}/10</span></div>
+          </div>
+        </div>`).join('')}</div>` : '';
     document.getElementById('mmc').innerHTML = `
       <div class="mm-banner" style="background:linear-gradient(135deg,${accent}20 0%,transparent 70%);">
         <div class="nm-banner-pattern"></div>
@@ -2347,12 +2369,14 @@
             <span style="font-size:26px">${medal}</span>
             <div class="mm-club" style="color:${accent};font-size:20px">${name}</div>
           </div>
+          ${league && league.note ? `<div style="font-family:var(--font-m);font-size:10px;color:var(--text-dim);letter-spacing:.3px">${league.note}</div>` : ''}
         </div>
         <div class="mm-divider"></div>
         <div class="mm-facts">
           <div class="mm-fact"><div class="mm-fact-lbl">Rank</div><div class="mm-fact-val">#${rank}</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">Rating</div><div class="mm-fact-val">${rating.toFixed(2)}/10</div></div>
         </div>
+        ${teamsHtml}
       </div>`;
     wc2OpenModal();
   }
@@ -2390,9 +2414,36 @@
   }
 
   const WC2_LEAGUE_POWER_RANKINGS = [
-    {rank:1, name:'Fusion League', accent:'#FF8C00', rating:8.00},
-    {rank:2, name:'Craineun Premier League', accent:'#50C878', rating:7.60},
+    {rank:1, name:'Craineun Premier League', accent:'#50C878', rating:8.35, note:'Joint league — Craineun &amp; Crabville', teams:[
+      {name:'Crainetown FC', founded:'2026', rating:8.9},
+      {name:'Crabville Creepers', founded:'2026', rating:8.0},
+      {name:'Crabville Breezers', founded:'2026', rating:8.0},
+      {name:'Springfield United', founded:'2026', rating:7.5},
+      {name:'Niche Town FC', founded:'2026', rating:5.0},
+      {name:'Los Perlos CF', founded:'2026', rating:5.0},
+      {name:'Rural FC', founded:'2026', rating:5.0},
+      {name:'Old Slyvian FC', founded:'2026', rating:5.0},
+      {name:'AFC Crabville', founded:'2026', rating:5.0},
+      {name:'AFC Coolbox', founded:'2026', rating:5.0},
+    ]},
+    {rank:2, name:'Fusion League', accent:'#FF8C00', rating:8.00, note:'Joint league — Smegtopia &amp; Corexia', teams:[
+      {name:'Smeg City FC', founded:'2026', rating:9.0},
+      {name:'Smeggers FC', founded:'2026', rating:8.5},
+      {name:'Smeg Union FC', founded:'2026', rating:5.0},
+      {name:'Smegion Eagles FC', founded:'2026', rating:5.0},
+      {name:'Quipalite MC Corexian Club', founded:'2026', rating:5.0},
+      {name:'Corexian Federation', founded:'2026', rating:5.0},
+      {name:'Corex FC', founded:'2026', rating:5.0},
+    ]},
   ];
+
+  function wc2ToggleClub(el){
+    const detail = el.nextElementSibling;
+    if(!detail) return;
+    const open = detail.style.display === 'block';
+    detail.style.display = open ? 'none' : 'block';
+    el.classList.toggle('expanded', !open);
+  }
 
   function wc2RenderLeaguePowerRankings(){
     const bracket = document.getElementById('wc-bracket');
@@ -2400,10 +2451,10 @@
     const rows = WC2_LEAGUE_POWER_RANKINGS.map(r => {
       const pct = (r.rating / 10 * 100).toFixed(1);
       const medal = r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '';
-      return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},true)">
+      return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},true)" style="cursor:pointer">
         <span class="wc2-rank-num">${medal || '#'+r.rank}</span>
         <span class="wc2-rank-dot" style="background:${r.accent}"></span>
-        <span class="wc2-rank-name">${r.name}</span>
+        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${r.name}<span style="display:block;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:2px;white-space:nowrap;">${r.teams.length} clubs · tap for roster</span></span>
         <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${r.accent}"></div></div>
         <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
       </div>`;
@@ -3358,24 +3409,6 @@
           _ambiguous:false});
       }
 
-      // Sylvian Castle
-      if(n.id==='sylvian'){
-        all.push({type:'lore_sylvian_castle',label:'LORE',
-          question:`Which nation is home to the iconic <em>Sylvian Castle</em>?`,
-          answer:n.id,
-          hints:[`This is the only Monarchy on the server`,`Known for lakes and forests`,`Leader: ${n.leader}`],
-          _ambiguous:false});
-      }
-
-      // Only monarchy
-      if(n.id==='sylvian'){
-        all.push({type:'lore_monarchy',label:'LORE',
-          question:`Which nation is the only <em>Monarchy</em> on the server?`,
-          answer:n.id,
-          hints:[`This nation is very nature focused`,`Leader: ${n.leader}`,`Home to a famous castle`],
-          _ambiguous:false});
-      }
-
       // Only dictatorship
       if(n.id==='wancerville'){
         all.push({type:'lore_dictatorship',label:'LORE',
@@ -3409,15 +3442,6 @@
           question:`Which nation's club was knocked out of the Club World Cup 2026 quarter finals by a score of <em>0-9</em>?`,
           answer:n.id,
           hints:[`This nation was invaded by Crabville`,`Leader: ${n.leader}`,`Currently rebuilding with 100 citizens`],
-          _ambiguous:false});
-      }
-
-      // Condemned the Okpemon bombing — Sylvian
-      if(n.id==='sylvian'){
-        all.push({type:'lore_condemned_sylvian',label:'LORE',
-          question:`Which nation condemned the Crabville bombing of Okpemon, alongside Craineun?`,
-          answer:n.id,
-          hints:[`This is the only Monarchy on the server`,`Leader: ${n.leader}`,`Home to Sylvian Castle`],
           _ambiguous:false});
       }
 
@@ -3524,13 +3548,6 @@
           question:`Which nation's flag features a <em>crab</em> in the middle?`,
           answer:n.id,
           hints:[`This is the most populated nation`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
-          _ambiguous:false});
-      }
-      if(n.id==='sylvian'){
-        all.push({type:'lore_flag_sylvian',label:'LORE',
-          question:`Which nation's flag features a small <em>fish</em> in the middle?`,
-          answer:n.id,
-          hints:[`This is the only Monarchy on the server`,`Leader: ${n.leader}`,`Home to Sylvian Castle`],
           _ambiguous:false});
       }
       if(n.id==='keem'){
@@ -3684,27 +3701,100 @@
           answer:n.id,
           hints:[`Currency: ${n.currency}`,`Territory: Very Small`,`Member of the Globe Alliance`],
           _ambiguous:false});
+        all.push({type:'lore_stormland_alliance',label:'LORE',
+          question:`Which nation joined the <em>Globe Alliance</em> from day one of its founding?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
       }
 
-      const easyTypes=['leader','currency','lore_oldest','lore_monarchy','lore_dictatorship','lore_first_war','lore_invaded','lore_smegcream','lore_cwc_host','lore_founded_globe','lore_stadium','lore_sylvian_castle','lore_smog_factory','lore_un_stopped','lore_smog_gov'];
+      // Seirin - unique government
+      if(n.id==='seirin'){
+        all.push({type:'lore_seirin_matriarchy',label:'LORE',
+          question:`Which nation is governed as a <em>Parliamentary Democratic / Constitutional Matriarchy</em>?`,
+          answer:n.id,
+          hints:[`Currency: ${n.currency}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Caderville - currency
+      if(n.id==='caderville'){
+        all.push({type:'lore_caderville_currency',label:'LORE',
+          question:`Which nation uses <em>Crystals</em> as its currency?`,
+          answer:n.id,
+          hints:[`Government: ${n.government}`,`Leader: ${n.leader}`,`Founded: ${n.founded}`],
+          _ambiguous:false});
+      }
+
+      // Fusion League — joint Smegtopia & Corexia domestic football league
+      if(n.id==='smegtopia'){
+        all.push({type:'lore_fusion_league_smeg',label:'FOOTBALL LEAGUES',
+          question:`Which nation runs the <em>Fusion League</em> jointly with Corexia?`,
+          answer:n.id,
+          hints:[`This is the oldest nation on the server`,`Home to Smeg City FC`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+        all.push({type:'lore_top_fusion_club',label:'FOOTBALL LEAGUES',
+          question:`Which nation is home to <em>Smeg City FC</em>, the top-rated club in the Fusion League?`,
+          answer:n.id,
+          hints:[`Smeg City FC are rated 9.0/10`,`Capital: SmegTropolis`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+      if(n.id==='corexia'){
+        all.push({type:'lore_fusion_league_corexia',label:'FOOTBALL LEAGUES',
+          question:`Which nation runs the <em>Fusion League</em> jointly with Smegtopia?`,
+          answer:n.id,
+          hints:[`This nation founded the Globe Alliance`,`Technologically advanced`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      // Craineun Premier League — joint Craineun & Crabville domestic football league
+      if(n.id==='craineun'){
+        all.push({type:'lore_cpl_craineun',label:'FOOTBALL LEAGUES',
+          question:`Which nation runs the <em>Craineun Premier League</em> jointly with Crabville?`,
+          answer:n.id,
+          hints:[`This is the biggest nation by territory`,`Capital: Craintown`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+        all.push({type:'lore_top_cpl_club',label:'FOOTBALL LEAGUES',
+          question:`Which nation is home to <em>Crainetown FC</em>, the top-rated club in the Craineun Premier League?`,
+          answer:n.id,
+          hints:[`Crainetown FC are rated 8.9/10`,`Capital: Craintown`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+        all.push({type:'lore_power_top',label:'FOOTBALL LEAGUES',
+          question:`Which nation currently tops the World Cup 2026 football power rankings?`,
+          answer:n.id,
+          hints:[`Rated 9.20/10, the highest of any nation`,`Capital: Craintown`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+      if(n.id==='crabville'){
+        all.push({type:'lore_cpl_crabville',label:'FOOTBALL LEAGUES',
+          question:`Which nation runs the <em>Craineun Premier League</em> jointly with Craineun?`,
+          answer:n.id,
+          hints:[`This is the most populated nation`,`Home to Crabville Creepers and Crabville Breezers`,`Leader: ${n.leader}`],
+          _ambiguous:false});
+      }
+
+      const easyTypes=['leader','currency','lore_oldest','lore_dictatorship','lore_first_war','lore_invaded','lore_smegcream','lore_cwc_host','lore_founded_globe','lore_stadium','lore_smog_factory','lore_un_stopped','lore_smog_gov'];
       const medTypes=['gov','founded','poprank','territory','alliance','capital','tag0','negpop','samegov',
         'lore_tensions','lore_crab_tensions','lore_invasion','lore_tech','lore_globe_removed','lore_removed_alliance','lore_war_vote',
         'lore_first_airport','lore_first_mcdonalds','lore_bombed','lore_un_building','lore_springfield',
         'lore_smog_relations','wc_champion','lore_first_hospital','lore_cwc_forfeit','lore_cwc_okpemon',
-        'lore_condemned_sylvian','lore_condemned_craineun','lore_keem_buildings','lore_field_of_bombs',
+        'lore_condemned_craineun','lore_keem_buildings','lore_field_of_bombs',
         'lore_smegcream_corexia','lore_smegcream_craineun','lore_most_cwc_clubs','lore_built_corexia',
         'lore_airforce_crab','lore_airforce_craineun','lore_airforce_smeg','lore_trade_deal',
-        'lore_newspaper','lore_prison','lore_reformed','lore_no_flag'];
+        'lore_newspaper','lore_prison','lore_reformed','lore_no_flag',
+        'lore_fusion_league_smeg','lore_fusion_league_corexia','lore_cpl_craineun','lore_cpl_crabville',
+        'lore_stormland_alliance'];
       const hardTypes=['foundrank','mid_desc','last_desc','accentcol','foundday',
         'lore_oils',
         'lore_biggest','lore_gotham','lore_gotham_shared','wc_runnerup',
         'lore_first_oilrig','lore_first_train','lore_first_school',
-        'lore_megatank','lore_gifted_apartments','lore_peace_treaty',
+        'lore_megatank','lore_gifted_apartments',
         'lore_bbac','lore_two_alliances','lore_two_stadiums',
-        'lore_flag_smeg','lore_flag_crab','lore_flag_sylvian','lore_flag_keem','lore_flag_okpemon','lore_flag_smog','lore_flag_craineun','lore_flag_corexia','lore_flag_waterland',
+        'lore_flag_smeg','lore_flag_crab','lore_flag_keem','lore_flag_okpemon','lore_flag_smog','lore_flag_craineun','lore_flag_corexia','lore_flag_waterland',
         'lore_first_mountain','lore_cwc_forfeit','lore_cwc_okpemon',
-        'lore_newest_nation','lore_caderville_monarchy','lore_stormland_monarchy',
-        'lore_wancerville_crab','lore_wancerville_law','lore_seirin_flag','lore_seirin_past'];
+        'lore_caderville_monarchy','lore_stormland_monarchy',
+        'lore_wancerville_crab','lore_wancerville_law','lore_seirin_flag','lore_seirin_past',
+        'lore_top_fusion_club','lore_top_cpl_club','lore_power_top','lore_seirin_matriarchy','lore_caderville_currency'];
 
       let filtered;
       if(diff==='easy')  filtered=all.filter(q=>easyTypes.includes(q.type));
