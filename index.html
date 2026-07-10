@@ -393,6 +393,17 @@
     .wc2-country-card:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(245,200,66,.3)!important;transform:translateY(-3px) scale(1.015);}
     .wc2-groups-wrap{max-width:920px;margin:0 auto;}
     .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
+    .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
+    .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
+    .wc2-official-note{text-align:center;font-family:var(--font-b);font-size:11px;color:var(--text-dim);margin-top:18px;padding:0 20px;line-height:1.5;}
+    .official-theme .wc2-group-title,.official-theme .wc2-knockout-title{color:#facc15;}
+    .official-theme .wc2-group-card{border-color:rgba(250,204,21,.18);}
+    .predictor-theme .wc2-group-title,.predictor-theme .wc2-knockout-title{color:#c084fc;}
+    .predictor-theme .wc2-group-card{border-color:rgba(192,132,252,.18);}
+    .wc2-schedule-score{display:inline-flex;align-items:center;justify-content:center;min-width:28px;font-family:var(--font-m);font-size:10px;font-weight:700;color:var(--text-dim);letter-spacing:.5px;}
+    .wc2-countdown{font-weight:700;color:var(--text-dim);}
+    .wc2-countdown.live{color:#f87171;animation:pulse 2s ease-in-out infinite;}
+    .wc2-countdown.past{color:var(--text-dim);opacity:.6;}
     .wc2-group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;}
     .wc2-group-card{border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:16px 16px 8px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
     .wc2-group-grid>.wc2-group-card:nth-child(1){animation-delay:.05s;}
@@ -1774,7 +1785,7 @@
   ];
 
   // ─── WORLD CUP 2026 DATA (Nations) ───────────────────────────────────────────
-  // Simple participation list — confirmed countries so far, plus everyone else as unconfirmed.
+  // Every active nation on the server is a confirmed participant in World Cup 2026.
   const WC2_COUNTRIES = [
     {name:'Craineun', accent:'#50C878', confirmed:true},
     {name:'Okpemon', accent:'#ef4444', confirmed:true},
@@ -1853,6 +1864,32 @@
 
   function wc2FixtureDate(home, away){
     return WC2_FIXTURE_DATES[`${home}_${away}`] || WC2_FIXTURE_DATES[`${away}_${home}`] || 'TBC';
+  }
+
+  const WC2_MONTHS = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+
+  // Parses strings like "Sat 18 Jul, 18:00" into a Date, assuming 2026 (tournament year).
+  function wc2ParseFixtureDate(str){
+    if(!str || str === 'TBC') return null;
+    const m = str.match(/(\d{1,2})\s+([A-Za-z]{3}),\s*(\d{1,2}):(\d{2})/);
+    if(!m) return null;
+    const [, day, mon, hh, mm] = m;
+    if(!(mon in WC2_MONTHS)) return null;
+    return new Date(2026, WC2_MONTHS[mon], Number(day), Number(hh), Number(mm));
+  }
+
+  function wc2KickoffCountdown(dateStr){
+    const d = wc2ParseFixtureDate(dateStr);
+    if(!d) return '';
+    const now = new Date();
+    const diffMs = d - now;
+    if(diffMs <= 0 && diffMs > -1000*60*60*3) return `<span class="wc2-countdown live">🔴 Kicking off now</span>`;
+    if(diffMs <= 0) return `<span class="wc2-countdown past">⏱️ Kicked off</span>`;
+    if(diffMs > (1000*60*60*24)){
+      const days = Math.floor(diffMs / (1000*60*60*24));
+      return `<span class="wc2-countdown">⏳ Kicks off in ${days}d</span>`;
+    }
+    return `<span class="wc2-countdown">⏳ Kicks off in &lt;24h</span>`;
   }
 
   // Scheduled dates for the knockout rounds.
@@ -2064,20 +2101,29 @@
       table[name].red += (r||0);
     };
     const bumpOff = (name, off) => { if(name && off){ if(!table[name]) table[name] = {name, yellow:0, red:0, offside:0}; table[name].offside += off; } };
-    if(wc2State){
+    // Only count stages that have actually been confirmed/locked in — not scores still being
+    // typed into an unconfirmed predictor stage. "stage" tells us how far confirmation has gone.
+    const stageOrder = ['groups','qf','sf','final','done'];
+    const currentIdx = wc2State ? stageOrder.indexOf(wc2State.stage) : -1;
+    if(wc2State && currentIdx > stageOrder.indexOf('groups')){
+      // groups are confirmed once we've moved past the 'groups' stage
       Object.keys(WC2_GROUPS).forEach(gname => {
         wc2State.groupFixtures[gname].forEach(f => {
           bump(f.home, f.hy, f.hr); bump(f.away, f.ay, f.ar);
           bumpOff(f.home, f.hOff); bumpOff(f.away, f.aOff);
         });
       });
-      ['qf','sf','thirdPlace','final'].forEach(stageKey => {
+    }
+    const stageKeyFor = {qf:'qf', sf:'sf', thirdPlace:'final', final:'final'};
+    ['qf','sf','thirdPlace','final'].forEach(stageKey => {
+      const gateStage = stageKeyFor[stageKey];
+      if(wc2State && currentIdx > stageOrder.indexOf(gateStage)){
         (wc2State[stageKey]||[]).forEach(m => {
           bump(m.home, m.hy, m.hr); bump(m.away, m.ay, m.ar);
           bumpOff(m.home, m.hOff); bumpOff(m.away, m.aOff);
         });
-      });
-    }
+      }
+    });
     return Object.values(table).sort((a,b) => (b.yellow + b.red*2) - (a.yellow + a.red*2) || b.red-a.red || a.name.localeCompare(b.name));
   }
 
@@ -2101,6 +2147,30 @@
         </div>
       </div>
     </div>`;
+  }
+
+  function wc2RenderGroupResultsList(){
+    const groupBlocks = Object.keys(WC2_GROUPS).map(gname => {
+      const rows = wc2State.groupFixtures[gname].map((f, idx) => `
+        <div class="wc2-fixture-row">
+          <div class="wc2-fixture-main">
+            <span class="wc2-fixture-team" onclick="openNation('${wc2NameToId(f.home)}')">${f.home}</span>
+            <span class="wc2-score-input" style="display:inline-flex;align-items:center;justify-content:center">${f.hs}</span>
+            <span class="wc2-fixture-dash">–</span>
+            <span class="wc2-score-input" style="display:inline-flex;align-items:center;justify-content:center">${f.as}</span>
+            <span class="wc2-fixture-team right" onclick="openNation('${wc2NameToId(f.away)}')">${f.away}</span>
+          </div>
+          <div class="wc2-fixture-date-sub">${wc2FixtureDate(f.home, f.away)}</div>
+          ${wc2FixtureBadges(f)}
+        </div>`).join('');
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title" onclick="openWc2Group('${gname}')">${gname} — Results<span class="wc2-group-caret">↗</span></div>
+        <div class="wc2-group-content">
+        <div class="wc2-fixture-list">${rows}</div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-knockout-title">📋 Group Stage — All Results</div><div class="wc2-group-grid">${groupBlocks}</div>`;
   }
 
   function wc2RenderGroupFixtures(){
@@ -2290,7 +2360,6 @@
       <button class="wc2-subtab${wc2SubView==='standings'?' active':''}" onclick="wc2SwitchSubView('standings')">📊 Standings &amp; Schedule</button>
       <button class="wc2-subtab${wc2SubView==='predictor'?' active':''}" onclick="wc2SwitchSubView('predictor')">🔮 Predictor</button>
       <button class="wc2-subtab${wc2SubView==='rankings'?' active':''}" onclick="wc2SwitchSubView('rankings')">🏅 Power Rankings</button>
-      <button class="wc2-subtab${wc2SubView==='leagues'?' active':''}" onclick="wc2SwitchSubView('leagues')">⚽ League Power Rankings</button>
       <button class="wc2-subtab${wc2SubView==='discipline'?' active':''}" onclick="wc2SwitchSubView('discipline')">🟨 Discipline</button>
     </div>`;
   }
@@ -2457,7 +2526,7 @@
       </div>`;
     }).join('');
 
-    bracket.innerHTML = `${wc2RenderSubTabs()}
+    bracket.innerHTML = `${wcClubRenderSubTabs()}
       <div class="wc2-groups-wrap">
         <div class="wc2-stadium-note">⚽ League Power Rankings — Domestic Football Leagues</div>
         <div class="wc2-rank-list">${rows}</div>
@@ -2502,13 +2571,16 @@
       const rows = [];
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
+          const dateStr = wc2FixtureDate(teams[i], teams[j]);
           rows.push(`<div class="wc2-schedule-row" onclick="openWc2Fixture('${gname}','${teams[i]}','${teams[j]}')">
             <div class="wc2-fixture-main">
               <span class="wc2-fixture-team" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[i])}')">${teams[i]}</span>
-              <span class="wc2-schedule-vs">vs</span>
+              <span class="wc2-schedule-score">TBD</span>
+              <span class="wc2-schedule-vs">–</span>
+              <span class="wc2-schedule-score">TBD</span>
               <span class="wc2-fixture-team right" onclick="event.stopPropagation();openNation('${wc2NameToId(teams[j])}')">${teams[j]}</span>
             </div>
-            <div class="wc2-fixture-date-sub">${wc2FixtureDate(teams[i], teams[j])}</div>
+            <div class="wc2-fixture-date-sub">${dateStr}${wc2KickoffCountdown(dateStr) ? ` &nbsp;·&nbsp; ${wc2KickoffCountdown(dateStr)}` : ''}</div>
           </div>`);
         }
       }
@@ -2521,15 +2593,18 @@
     }).join('');
 
     const stadiumNote = `<div class="wc2-stadium-note">🏟️ Group Stage — Crainetown Stadium &nbsp;·&nbsp; Knockouts — NewLife Stadium</div>`;
+    const officialBadge = `<div class="wc2-official-badge">🔒 Official Fixtures — Confirmed Schedule, Not Yet Played</div>`;
 
     bracket.innerHTML = `${wc2RenderSubTabs()}
-      <div class="wc2-groups-wrap">
+      <div class="wc2-groups-wrap official-theme">
+        ${officialBadge}
         ${stadiumNote}
         <div style="text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin:-10px 0 14px;">Current Standings — No matches played yet</div>
         ${wc2RenderGroupTables(emptyStandings)}
         <div class="wc2-knockout-title" style="font-size:12px;">📅 Match Schedule</div>
         <div class="wc2-group-grid">${scheduleBlocks}</div>
         ${wc2RenderPathToFinal()}
+        <div class="wc2-official-note">Standings will update automatically once real results are confirmed. For hypothetical outcomes, head to the 🔮 Predictor tab.</div>
       </div>`;
   }
 
@@ -2548,20 +2623,16 @@
       return;
     }
 
-    if(wc2SubView === 'leagues'){
-      wc2RenderLeaguePowerRankings();
-      return;
-    }
-
     if(wc2SubView === 'discipline'){
       wc2RenderDiscipline();
       return;
     }
 
     const stadiumNote = `<div class="wc2-stadium-note">🏟️ Group Stage — Crainetown Stadium &nbsp;·&nbsp; Knockouts — NewLife Stadium</div>`;
+    const predictorBadge = `<div class="wc2-predictor-badge">🔮 Your Prediction — Hypothetical, Not Official Results</div>`;
     const resetBtn = `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn secondary" onclick="wc2ResetPredictor()">↺ Reset Predictor</button></div>`;
 
-    let html = `${wc2RenderSubTabs()}<div class="wc2-groups-wrap">${stadiumNote}`;
+    let html = `${wc2RenderSubTabs()}<div class="wc2-groups-wrap predictor-theme">${predictorBadge}${stadiumNote}`;
 
     if(wc2State.stage === 'groups'){
       html += `${wc2RenderGroupFixtures()}
@@ -2573,9 +2644,10 @@
       return;
     }
 
-    // Groups are locked in once we've moved past the 'groups' stage — show final standings.
+    // Groups are locked in once we've moved past the 'groups' stage — show final standings + full results.
     const standings = wc2ComputeStandings(wc2State.groupFixtures);
     html += wc2RenderGroupTables(standings) + `</div>`;
+    html += wc2RenderGroupResultsList();
     html += `<div class="wc2-knockout-title">🌍 Road to the World Cup 2026 Final</div>`;
     html += wc2RenderKnockoutInputs('qf', wc2State.qf, 'QUARTER-FINALS', WC2_KO_DATES.qf);
 
@@ -2638,6 +2710,23 @@
   }
 
   let wcActiveTournament = 'club';
+  let wcClubSubView = 'bracket';
+
+  function wcClubRenderSubTabs(){
+    return `<div class="wc2-subtabs">
+      <button class="wc2-subtab${wcClubSubView==='bracket'?' active':''}" onclick="wcClubSwitchSubView('bracket')">🏆 Bracket</button>
+      <button class="wc2-subtab${wcClubSubView==='leagues'?' active':''}" onclick="wcClubSwitchSubView('leagues')">⚽ League Power Rankings</button>
+    </div>`;
+  }
+
+  function wcClubSwitchSubView(view){
+    wcClubSubView = view;
+    if(view === 'leagues'){
+      wc2RenderLeaguePowerRankings();
+    } else {
+      renderBracket();
+    }
+  }
 
 
   function switchWcTournament(key){
@@ -2652,7 +2741,7 @@
       renderBracket();
     } else {
       document.getElementById('wcTitle').textContent = 'World Cup 2026';
-      document.getElementById('wcSub').textContent = 'Countries Edition · Participants TBC';
+      document.getElementById('wcSub').textContent = 'Countries Edition · All 12 Nations Confirmed';
       document.getElementById('wcStadiumNote').style.display = 'none';
       document.getElementById('wcChampionBanner').style.display = 'none';
       document.getElementById('wcChampionBanner').innerHTML = '';
@@ -2703,7 +2792,7 @@
        badgeStyle:'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)', cols:'final'},
     ];
 
-    bracket.innerHTML = rounds.map(r => `
+    bracket.innerHTML = wcClubRenderSubTabs() + rounds.map(r => `
       <div class="wc-round">
         <div class="wc-round-label">
           <span class="wc-round-title">${r.label}</span>
