@@ -2135,7 +2135,7 @@
   }
 
   function wc2RenderDiscipline(){
-    const rows = wc2ComputeDiscipline();
+    const rows = wc2ComputeOfficialDiscipline();
     const bracket = document.getElementById('wc-bracket');
     if(!bracket) return;
     const body = rows.length ? rows.map(r => `
