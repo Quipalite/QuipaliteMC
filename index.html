@@ -943,7 +943,7 @@
     #mmb{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;}
     #mm.open #mmb{opacity:1;}
     #mm.closing #mmb{opacity:0;}
-    #mmi{position:relative;z-index:1;background:#0b0b10;border:1px solid var(--border-card);border-radius:18px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,.9);opacity:0;transform:translateY(24px) scale(.96);transition:opacity .32s cubic-bezier(.22,1,.36,1),transform .32s cubic-bezier(.22,1,.36,1);}
+    #mmi{position:relative;z-index:1;background:#0b0b10;border:1px solid var(--border-card);border-radius:18px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 40px 80px rgba(0,0,0,.9);opacity:0;transform:translateY(24px) scale(.96);transition:opacity .32s cubic-bezier(.22,1,.36,1),transform .32s cubic-bezier(.22,1,.36,1);}
     #mm.open #mmi{opacity:1;transform:none;transition-delay:.05s;}
     #mm.closing #mmi{opacity:0;transform:translateY(16px) scale(.97);transition:opacity .22s,transform .22s;}
     .mm-banner{height:76px;position:relative;overflow:hidden;border-radius:18px 18px 0 0;}
@@ -957,7 +957,7 @@
     .mm-club.winner{color:var(--gold);}
     .mm-nation{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1px;color:var(--text-dim);margin-top:3px;}
     .mm-score-centre{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 14px;flex-shrink:0;}
-    .mm-big-score{font-family:var(--font-d);font-size:46px;font-weight:800;line-height:1;display:flex;align-items:center;gap:8px;}
+    .mm-big-score{font-family:var(--font-d);font-size:38px;font-weight:800;line-height:1;display:flex;align-items:center;gap:6px;white-space:nowrap;}
     .mm-big-score .w{color:var(--gold);}
     .mm-big-score .l{color:var(--text-dim);opacity:.4;}
     .mm-big-score .d{color:var(--text-muted);}
@@ -2416,10 +2416,10 @@
       <div class="mm-body">
         <span class="mm-round-tag" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)">${gname.toUpperCase()} · GROUP STAGE</span>
         <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
-          <div style="display:flex;align-items:center;gap:24px;width:100%">
-            <div class="mm-team-block"><div class="mm-club" style="color:${homeAccent};cursor:pointer" onclick="openNation('${wc2NameToId(home)}')">${home}</div></div>
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
+            <div class="mm-team-block" style="min-width:0"><div class="mm-club" style="color:${homeAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openNation('${wc2NameToId(home)}')">${home}</div></div>
             ${scoreCentre}
-            <div class="mm-team-block away"><div class="mm-club" style="color:${awayAccent};cursor:pointer" onclick="openNation('${wc2NameToId(away)}')">${away}</div></div>
+            <div class="mm-team-block away" style="min-width:0"><div class="mm-club" style="color:${awayAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openNation('${wc2NameToId(away)}')">${away}</div></div>
           </div>
         </div>
         <div class="mm-divider"></div>
