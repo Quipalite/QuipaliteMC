@@ -592,6 +592,16 @@
     .nm-name{font-family:var(--font-d);font-size:26px;font-weight:800;line-height:1;color:var(--text);}
     .nm-est{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:5px;}
     .nm-close{position:absolute;top:14px;right:14px;z-index:2;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--text-muted);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;}
+    @media(max-width:600px){
+      .nm-close{width:40px;height:40px;font-size:18px;top:10px;right:10px;}
+      .wc2-fixture-team{font-size:12px;}
+      .mm-club{font-size:14px!important;}
+      .mm-facts{gap:6px;}
+      .mm-fact{padding:8px 10px;}
+      .mm-fact-val{font-size:11px;}
+      .wc2-schedule-row{padding:11px 10px;}
+      .wc2-fixture-row{padding:11px 4px;}
+    }
     .nm-close:hover{background:rgba(255,255,255,.12);color:var(--text);transform:rotate(90deg);}
     .nm-desc{font-size:13.5px;line-height:1.7;color:var(--text-muted);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
     .nm-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px;}
