@@ -496,10 +496,13 @@
     .wc2-path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
     .wc2-path-card{border-radius:12px;border:1px solid var(--border-card);background:var(--surface);padding:14px 16px;}
     .wc2-path-round{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-    .wc2-path-line{font-family:var(--font-d);font-size:12px;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);}
-    .wc2-path-line:last-child{border-bottom:none;}
+    .wc2-path-line{font-family:var(--font-d);font-size:12px;font-weight:700;color:var(--text);padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.04);border-radius:8px;transition:background .15s,transform .15s;}
+    .wc2-path-line.clickable{cursor:pointer;}
+    .wc2-path-line.clickable:hover{background:rgba(255,215,0,.06);transform:translateX(2px);}
+    .wc2-path-team{font-weight:800;}
     .wc2-path-vs{color:var(--text-dim);font-weight:500;font-size:10px;margin:0 5px;}
-    .wc2-path-date{display:block;font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.3px;color:var(--text-muted);margin-top:2px;}
+    .wc2-path-date{display:block;font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.3px;color:var(--text-muted);margin-top:3px;}
+    .wc2-path-line:last-child{border-bottom:none;}
     .wc2-rank-list{display:flex;flex-direction:column;gap:8px;max-width:640px;margin:0 auto;}
     .wc2-rank-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--border-card);opacity:0;animation:fadeUp .4s cubic-bezier(.22,1,.36,1) forwards;cursor:pointer;transition:background .18s,border-color .18s,transform .18s;}
     .wc2-rank-row:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05);transform:translateY(-1px);}
@@ -2599,15 +2602,42 @@
   }
 
 
+  function openWc2Knockout(round, home, away, dateStr){
+    const homeAccent = wc2Accent(home);
+    const awayAccent = wc2Accent(away);
+    document.getElementById('mmc').innerHTML = `
+      <div class="mm-banner" style="background:linear-gradient(135deg,${homeAccent}20 0%,transparent 70%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="mm-body">
+        <span class="mm-round-tag" style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(--gold)">${round.toUpperCase()} · KNOCKOUT</span>
+        <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
+            <div class="mm-team-block" style="min-width:0"><div class="mm-club" style="color:${homeAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openNation('${wc2NameToId(home)}')">${home}</div></div>
+            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            <div class="mm-team-block away" style="min-width:0"><div class="mm-club" style="color:${awayAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openNation('${wc2NameToId(away)}')">${away}</div></div>
+          </div>
+        </div>
+        <div class="mm-divider"></div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${dateStr}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Stadium</div><div class="mm-fact-val">NewLife Stadium</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Round</div><div class="mm-fact-val">${round}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">🟢 Upcoming</div></div>
+        </div>
+      </div>`;
+    wc2OpenModal();
+  }
+
   function wc2RenderPathToFinal(){
     return `<div class="wc2-knockout-title" style="font-size:12px;">🗺️ Path to the Final</div>
       <div class="wc2-path-grid">
         <div class="wc2-path-card">
           <div class="wc2-path-round">Quarter-Finals</div>
-          <div class="wc2-path-line">A1 <span class="wc2-path-vs">vs</span> B2<span class="wc2-path-date">${WC2_KO_DATES.qf[0]}</span></div>
-          <div class="wc2-path-line">B1 <span class="wc2-path-vs">vs</span> A2<span class="wc2-path-date">${WC2_KO_DATES.qf[1]}</span></div>
-          <div class="wc2-path-line">C1 <span class="wc2-path-vs">vs</span> Best 3rd #1<span class="wc2-path-date">${WC2_KO_DATES.qf[2]}</span></div>
-          <div class="wc2-path-line">C2 <span class="wc2-path-vs">vs</span> Best 3rd #2<span class="wc2-path-date">${WC2_KO_DATES.qf[3]}</span></div>
+          <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Corexia','Springbuck','${WC2_KO_DATES.qf[0]}')"><span class="wc2-path-team" style="color:${wc2Accent('Corexia')}">Corexia</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Springbuck')}">Springbuck</span><span class="wc2-path-date">${WC2_KO_DATES.qf[0]}</span></div>
+          <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Smegtopia','Crabville','${WC2_KO_DATES.qf[1]}')"><span class="wc2-path-team" style="color:${wc2Accent('Smegtopia')}">Smegtopia</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Crabville')}">Crabville</span><span class="wc2-path-date">${WC2_KO_DATES.qf[1]}</span></div>
+          <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Okpemon','Stormland','${WC2_KO_DATES.qf[2]}')"><span class="wc2-path-team" style="color:${wc2Accent('Okpemon')}">Okpemon</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Stormland')}">Stormland</span><span class="wc2-path-date">${WC2_KO_DATES.qf[2]}</span></div>
+          <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Craineun','Waterland','${WC2_KO_DATES.qf[3]}')"><span class="wc2-path-team" style="color:${wc2Accent('Craineun')}">Craineun</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Waterland')}">Waterland</span><span class="wc2-path-date">${WC2_KO_DATES.qf[3]}</span></div>
         </div>
         <div class="wc2-path-card">
           <div class="wc2-path-round">Semi-Finals</div>
@@ -2620,7 +2650,7 @@
           <div class="wc2-path-line">Winner SF1 <span class="wc2-path-vs">vs</span> Winner SF2<span class="wc2-path-date">${WC2_KO_DATES.final}</span></div>
         </div>
       </div>
-      <div class="wc2-path-note">Top 2 from each group qualify automatically, plus the 2 best third-placed teams across all groups (A/B/C = group position, e.g. A1 = Group A winner)</div>`;
+      <div class="wc2-path-note">Final 8: Corexia &amp; Crabville (Group A) · Smegtopia &amp; Springbuck (Group B) · Okpemon &amp; Craineun (Group C) · Stormland &amp; Waterland (best 3rd-placed teams)</div>`;
   }
 
   // Official confirmed real-world results (NOT the user predictor). Keyed by "Home_Away".
