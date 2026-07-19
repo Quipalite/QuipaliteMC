@@ -2144,10 +2144,31 @@
     return Object.values(table).sort((a,b) => (b.yellow + b.red*2) - (a.yellow + a.red*2) || b.red-a.red || a.name.localeCompare(b.name));
   }
 
+  let wc2DisciplineSort = {key:'yellow', dir:'desc'};
+
+  function wc2SortDiscipline(key){
+    if(wc2DisciplineSort.key === key){
+      wc2DisciplineSort.dir = wc2DisciplineSort.dir === 'desc' ? 'asc' : 'desc';
+    } else {
+      wc2DisciplineSort = {key, dir:'desc'};
+    }
+    wc2RenderDiscipline();
+  }
+
   function wc2RenderDiscipline(){
-    const rows = wc2ComputeOfficialDiscipline();
+    let rows = wc2ComputeOfficialDiscipline();
+    const {key, dir} = wc2DisciplineSort;
+    rows = rows.slice().sort((a,b) => {
+      const av = key === 'name' ? a.name.toLowerCase() : a[key];
+      const bv = key === 'name' ? b.name.toLowerCase() : b[key];
+      let cmp;
+      if(key === 'name') cmp = av.localeCompare(bv);
+      else cmp = av - bv;
+      return dir === 'desc' ? -cmp : cmp;
+    });
     const bracket = document.getElementById('wc-bracket');
     if(!bracket) return;
+    const arrow = k => wc2DisciplineSort.key === k ? (wc2DisciplineSort.dir === 'desc' ? ' ▼' : ' ▲') : '';
     const body = rows.length ? rows.map(r => `
       <tr onclick="openNation('${wc2NameToId(r.name)}')">
         <td><span class="wc2-group-dot" style="background:${wc2Accent(r.name)}"></span><span class="wc2-nation-link">${r.name}</span></td>
@@ -2158,7 +2179,12 @@
         <div class="wc2-group-title" style="cursor:default">🟨 Discipline &amp; Offsides</div>
         <div class="wc2-group-content">
         <table class="wc2-discipline-table">
-          <thead><tr><th>Nation</th><th>🟨</th><th>🟥</th><th>🚫 Off.</th></tr></thead>
+          <thead><tr>
+            <th style="cursor:pointer" onclick="wc2SortDiscipline('name')">Nation${arrow('name')}</th>
+            <th style="cursor:pointer" onclick="wc2SortDiscipline('yellow')">🟨${arrow('yellow')}</th>
+            <th style="cursor:pointer" onclick="wc2SortDiscipline('red')">🟥${arrow('red')}</th>
+            <th style="cursor:pointer" onclick="wc2SortDiscipline('offside')">🚫 Off.${arrow('offside')}</th>
+          </tr></thead>
           <tbody>${body}</tbody>
         </table>
         </div>
