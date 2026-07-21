@@ -1303,6 +1303,7 @@
             <div class="nations-count-row" id="nationsCountRow"></div>
             <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
               <button onclick="document.getElementById('wcSection').scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);color:var(--gold);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .18s;" onmouseover="this.style.background='rgba(245,200,66,.18)'" onmouseout="this.style.background='rgba(245,200,66,.1)'">🏆 Club World Cup ↓</button>
+              <button onclick="document.getElementById('militarySection').scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .18s;" onmouseover="this.style.background='rgba(239,68,68,.18)'" onmouseout="this.style.background='rgba(239,68,68,.1)'">☢️ Military Power ↓</button>
               <div style="display:inline-flex;border-radius:var(--rs);background:var(--surface);border:1px solid var(--border-card);overflow:hidden;">
                 <button id="nvGridBtn" class="active" onclick="setNationView('grid')" style="padding:8px 14px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;">▦ Grid</button>
                 <button id="nvAllianceBtn" onclick="setNationView('alliance')" style="padding:8px 14px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;border-left:1px solid var(--border-card);">🤝 By Alliance</button>
@@ -1321,6 +1322,16 @@
           </div>
         </div>
         <div id="nations-grid"></div>
+      </div>
+    </div>
+
+    <!-- MILITARY POWER -->
+    <div id="militarySection" style="padding:48px 24px 0;">
+      <div class="nations-inner" style="max-width:1100px;margin:0 auto;">
+        <div class="stag">Overall Strength</div>
+        <h2 class="stitle">Military <em>Power</em></h2>
+        <p class="ssub">Nations ranked by overall military score out of 1000. Click a nation to see its full breakdown.</p>
+        <div id="military-list" style="margin-top:20px;display:flex;flex-direction:column;gap:10px;"></div>
       </div>
     </div>
 
@@ -1525,6 +1536,122 @@
     {id:'seirin',name:'Seirin',icon:'⛩️',iconBg:'rgba(59,130,246,.1)',iconBorder:'rgba(59,130,246,.25)',accentColor:'#3b82f6',colors:['#3b82f6','#22c55e','#ffffff','#ef4444'],est:'Est. 5.7.26',founded:'5 Jul 2026',leader:'Ushindo',population:'22',capital:'N/A',currency:'Ryō',currencyColor:'#FFD700',government:'Parliamentary Democratic / Constitutional Matriarchy',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'Seirin is one of the server\'s newest nations, founded by Ushindo. Flying a flag of blue, green, white and red, Seirin is governed as a Parliamentary Democratic / Constitutional Matriarchy and has a small registered population of 22, though it has yet to establish a capital city as it takes its first steps on the server. Ushindo previously led a nation of her own before it fell into decline and was ultimately disbanded, and she now arrives in Seirin determined to build something lasting from the ground up, carrying the lessons of that earlier venture with her. With Seirin still building up its own population, the entire national football squad is made up of players from Corexia, several of whom hold dual citizenship — though a handful of dual nationals were not called up. Seirin have confirmed their participation in World Cup 2026. Their tournament was a difficult one, losing all three group games including a 0-5 defeat to Craineun, and finishing bottom of Group C with the worst goal difference in the competition, eliminated at the group stage without a single point.',tags:[{label:'Parliamentary Democratic / Constitutional Matriarchy',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'}]},
   ];
 
+  const NUKE_WEIGHTS = {small:5, medium:8, big:20, huge:60};
+  const NUKE_LABELS = {small:'Small Nukes', medium:'Nuclear Launchers', big:'Big Nukes', huge:'Huge Nuke'};
+  const NUKE_ICONS = {small:'🔸', medium:'☢️', big:'🔴', huge:'💥'};
+  const NUKES = {
+    crabville:{small:80},
+    craineun:{small:16, big:1},
+    smegtopia:{big:10, huge:1},
+    springbuck:{medium:9},
+  };
+  const EQUIP_WEIGHTS = {
+    'Soldiers':0.1,
+    'Robot Soldiers':0.1,
+    'T-90A Tanks':3,
+    'Big Tanks':3,
+    'Medium Tanks':3,
+    'BMD-4 IFVs':2,
+    'Armoured Vehicles':2,
+    'Ural-4320 Trucks':0.5,
+    'Supply Trucks':0.5,
+    'Mi-24VM Helicopters':4,
+    'MAZ Anti-Air Missile Launchers':3,
+    'Nuke Diverter':30,
+    'Big Turrets':3,
+    'Fighter Jets':6,
+    'Smaller Jets':3,
+    'Small Planes':3,
+    'Weapon Tents':1,
+  };
+  const CONSCRIPTION = {smegtopia:1.0, craineun:0.4};
+  const MIL_EQUIP = {
+    corexia:[
+      {label:'Supply Trucks',val:1,icon:'🚚'},
+    ],
+    crabville:[
+      {label:'Soldiers',val:2373,icon:'🪖'},
+      {label:'Medium Tanks',val:27,icon:'🛡️'},
+      {label:'Small Planes',val:6,icon:'🛩️'},
+      {label:'Nuke Diverter',val:1,icon:'🛰️'},
+      {label:'Armoured Vehicles',val:2,icon:'🚙'},
+    ],
+    springbuck:[
+      {label:'Soldiers',val:600,icon:'🪖'},
+      {label:'T-90A Tanks',val:31,icon:'🛡️'},
+      {label:'BMD-4 IFVs',val:8,icon:'🚚'},
+      {label:'Ural-4320 Trucks',val:14,icon:'🚛'},
+      {label:'Mi-24VM Helicopters',val:7,icon:'🚁'},
+      {label:'MAZ Anti-Air Missile Launchers',val:6,icon:'🎯'},
+    ],
+    smegtopia:[
+      {label:'Soldiers',val:562,icon:'🪖'},
+      {label:'Supply Trucks',val:2,icon:'🚚'},
+      {label:'Nuke Diverter',val:1,icon:'🛰️'},
+      {label:'Big Turrets',val:7,icon:'🗼'},
+      {label:'Fighter Jets',val:5,icon:'✈️'},
+      {label:'Smaller Jets',val:6,icon:'🛩️'},
+      {label:'Big Tanks',val:23,icon:'🛡️'},
+      {label:'Weapon Tents',val:3,icon:'⛺'},
+    ],
+    craineun:[
+      {label:'Robot Soldiers',val:250,icon:'🤖'},
+    ],
+  };
+  function nukeTotal(n) {
+    const nk = NUKES[n.id] || {};
+    return Object.values(nk).reduce((s,v) => s+v, 0);
+  }
+  function nationPop(n) { return parseInt((n.population||'0').replace(/,/g,'')) || 0; }
+  function milScore(n) {
+    const nk = NUKES[n.id] || {};
+    const e = MIL_EQUIP[n.id] || [];
+    let score = 0;
+    Object.keys(nk).forEach(type => { score += (nk[type] || 0) * (NUKE_WEIGHTS[type] || 0); });
+    e.forEach(item => { score += item.val * (EQUIP_WEIGHTS[item.label] || 1); });
+    const consc = CONSCRIPTION[n.id];
+    if (consc) {
+      const curSoldiers = e.filter(x => x.label==='Soldiers'||x.label==='Robot Soldiers').reduce((s,x)=>s+x.val,0);
+      const potential = Math.max(nationPop(n) * consc - curSoldiers, 0);
+      score += potential * 0.05;
+    }
+    return Math.min(Math.round(score), 1000);
+  }
+  function toggleMilDetail(id) {
+    const el = document.getElementById('mil-detail-'+id);
+    if (!el) return;
+    const open = el.style.display !== 'none';
+    el.style.display = open ? 'none' : 'grid';
+    const arrow = document.getElementById('mil-arrow-'+id);
+    if (arrow) arrow.textContent = open ? '▸' : '▾';
+  }
+  function renderMilitaryList() {
+    const list = document.getElementById('military-list');
+    if (!list) return;
+    const rows = NATIONS.map(n => ({n, score: milScore(n), w: nukeTotal(n)})).sort((a,b) => b.score - a.score);
+    list.innerHTML = rows.map((r,i) => {
+      const pct = Math.max((r.score / 1000) * 100, r.score > 0 ? 2 : 0);
+      const barColor = r.score === 0 ? 'var(--border-card)' : '#ef4444';
+      const equip = MIL_EQUIP[r.n.id] || [];
+      const nukeItems = Object.entries(NUKES[r.n.id] || {}).map(([type,val]) => ({label:NUKE_LABELS[type],val,icon:NUKE_ICONS[type]}));
+      const allDetail = [...equip, ...nukeItems].filter(e => e.val > 0);
+      const detail = allDetail.length ? `<div id="mil-detail-${r.n.id}" style="display:none;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:12px 16px 14px 62px;">${allDetail.map(e => `<div style="background:rgba(255,255,255,.03);border:1px solid var(--border-card);border-radius:8px;padding:8px 10px;"><div style="font-family:var(--font-m);font-size:9px;color:var(--text-muted);letter-spacing:.5px;">${e.icon} ${e.label.toUpperCase()}</div><div style="font-family:var(--font-m);font-size:15px;font-weight:700;color:var(--text);margin-top:2px;">${e.val.toLocaleString()}</div></div>`).join('')}</div>` : `<div id="mil-detail-${r.n.id}" style="display:none;padding:6px 16px 14px 62px;font-family:var(--font-m);font-size:11px;color:var(--text-muted);">No military equipment data on record.</div>`;
+      return `<div style="background:var(--surface);border:1px solid var(--border-card);border-radius:var(--rs);overflow:hidden;">
+        <div onclick="toggleMilDetail('${r.n.id}')" style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:12px 16px;">
+          <div id="mil-arrow-${r.n.id}" style="width:10px;font-size:10px;color:var(--text-muted);">▸</div>
+          <div style="width:22px;text-align:center;font-family:var(--font-m);font-size:11px;color:var(--text-muted);font-weight:700;">${i+1}</div>
+          <div style="font-size:20px;width:26px;text-align:center;">${r.n.icon}</div>
+          <div style="width:120px;font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text);flex-shrink:0;">${r.n.name}</div>
+          <div style="flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:${barColor};border-radius:4px;"></div>
+          </div>
+          <div style="width:110px;text-align:right;font-family:var(--font-m);font-size:12px;font-weight:700;color:${r.score>0?'#ef4444':'var(--text-muted)'};flex-shrink:0;">${r.score} / 1000</div>
+        </div>
+        ${detail}
+      </div>`;
+    }).join('');
+  }
+
   function nationAlliance(n) {
     const f = (n.facts || []).find(x => x.label === 'Alliance');
     const val = f ? f.val : 'None';
@@ -1634,7 +1761,7 @@
   function goRankedMode(mode) { goRanked(); setTimeout(()=>{ const mMap={overall:0,sword:1,axe:2,uhc:3,mace:4,spear:5}; const tabs=document.querySelectorAll('.rtabs .tab'); if(tabs[mMap[mode]])tabs[mMap[mode]].click(); },80); }
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); }
+  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); renderMilitaryList(); }
   function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
   function animStatCounter(el) {
