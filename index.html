@@ -2608,6 +2608,29 @@
   function openWc2Knockout(round, home, away, dateStr){
     const homeAccent = wc2Accent(home);
     const awayAccent = wc2Accent(away);
+    const r = wc2OfficialKoResult(home, away);
+    const played = !!r;
+
+    const scoreCentre = played
+      ? `<div class="mm-score-centre"><div class="mm-big-score">${r.hs} <span style="opacity:.4">–</span> ${r.as}</div></div>`
+      : `<div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>`;
+
+    const pensRow = played && r.ph !== undefined && r.ph !== null ? `
+        <div class="mm-fact"><div class="mm-fact-lbl">Penalties</div><div class="mm-fact-val">${r.ph} – ${r.pa}</div></div>` : '';
+
+    const cardsRows = played ? `
+        <div class="mm-divider"></div>
+        <div class="wc2-stadium-note" style="margin:0 0 8px">📋 Match Details</div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${home})</div><div class="mm-fact-val">${r.hy||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${away})</div><div class="mm-fact-val">${r.ay||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${home})</div><div class="mm-fact-val">${r.hr||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${away})</div><div class="mm-fact-val">${r.ar||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🚫 Offside Goals (${home})</div><div class="mm-fact-val">${r.hOff||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🚫 Offside Goals (${away})</div><div class="mm-fact-val">${r.aOff||0}</div></div>
+        </div>
+        ${r.note ? `<div class="wc2-official-note" style="margin-top:-6px">${r.note}</div>` : ''}` : '';
+
     document.getElementById('mmc').innerHTML = `
       <div class="mm-banner" style="background:linear-gradient(135deg,${homeAccent}20 0%,transparent 70%);">
         <div class="nm-banner-pattern"></div>
@@ -2617,7 +2640,7 @@
         <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
           <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
             <div class="mm-team-block" style="min-width:0"><div class="mm-club" style="color:${homeAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openNation('${wc2NameToId(home)}')">${home}</div></div>
-            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            ${scoreCentre}
             <div class="mm-team-block away" style="min-width:0"><div class="mm-club" style="color:${awayAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openNation('${wc2NameToId(away)}')">${away}</div></div>
           </div>
         </div>
@@ -2626,10 +2649,20 @@
           <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${dateStr}</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">Stadium</div><div class="mm-fact-val">NewLife Stadium</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">Round</div><div class="mm-fact-val">${round}</div></div>
-          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">🟢 Upcoming</div></div>
+          ${pensRow}
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">${played?'🔒 Full Time':'🟢 Upcoming'}</div></div>
         </div>
+        ${cardsRows}
       </div>`;
     wc2OpenModal();
+  }
+
+  const WC2_OFFICIAL_KO_RESULTS = {
+    'Corexia_Springbuck': {hs:2, as:2, ph:5, pa:4, hy:3, ay:3, hr:1, ar:0, hOff:1, aOff:0, note:'Corexia win 5-4 on penalties · one Corexia goal came via an offside call'}
+  };
+
+  function wc2OfficialKoResult(home, away){
+    return WC2_OFFICIAL_KO_RESULTS[`${home}_${away}`] || null;
   }
 
   function wc2RenderPathToFinal(){
@@ -2637,7 +2670,7 @@
       <div class="wc2-path-grid">
         <div class="wc2-path-card">
           <div class="wc2-path-round">Quarter-Finals</div>
-          <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Corexia','Springbuck','${WC2_KO_DATES.qf[0]}')"><span class="wc2-path-team" style="color:${wc2Accent('Corexia')}">Corexia</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Springbuck')}">Springbuck</span><span class="wc2-path-date">${WC2_KO_DATES.qf[0]}</span></div>
+          <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Corexia','Springbuck','${WC2_KO_DATES.qf[0]}')"><span class="wc2-path-team" style="color:${wc2Accent('Corexia')}">Corexia</span> <span class="wc2-path-vs">${wc2OfficialKoResult('Corexia','Springbuck') ? `${wc2OfficialKoResult('Corexia','Springbuck').hs}-${wc2OfficialKoResult('Corexia','Springbuck').as} (${wc2OfficialKoResult('Corexia','Springbuck').ph}-${wc2OfficialKoResult('Corexia','Springbuck').pa} pens)` : 'vs'}</span> <span class="wc2-path-team" style="color:${wc2Accent('Springbuck')}">Springbuck</span><span class="wc2-path-date">${wc2OfficialKoResult('Corexia','Springbuck') ? 'FT' : WC2_KO_DATES.qf[0]}</span></div>
           <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Smegtopia','Crabville','${WC2_KO_DATES.qf[1]}')"><span class="wc2-path-team" style="color:${wc2Accent('Smegtopia')}">Smegtopia</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Crabville')}">Crabville</span><span class="wc2-path-date">${WC2_KO_DATES.qf[1]}</span></div>
           <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Okpemon','Stormland','${WC2_KO_DATES.qf[2]}')"><span class="wc2-path-team" style="color:${wc2Accent('Okpemon')}">Okpemon</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Stormland')}">Stormland</span><span class="wc2-path-date">${WC2_KO_DATES.qf[2]}</span></div>
           <div class="wc2-path-line clickable" onclick="openWc2Knockout('Quarter-Final','Craineun','Waterland','${WC2_KO_DATES.qf[3]}')"><span class="wc2-path-team" style="color:${wc2Accent('Craineun')}">Craineun</span> <span class="wc2-path-vs">vs</span> <span class="wc2-path-team" style="color:${wc2Accent('Waterland')}">Waterland</span><span class="wc2-path-date">${WC2_KO_DATES.qf[3]}</span></div>
