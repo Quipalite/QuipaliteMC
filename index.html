@@ -47,6 +47,50 @@
     .page{display:none;}
     .page.active{display:block;animation:fadeUp .32s ease both;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+    /* ── SITE-WIDE ANIMATION ENHANCEMENTS ── */
+    @keyframes siteFadeIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+    @keyframes siteFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    @keyframes siteShimmerBg{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes siteGlowIn{from{opacity:0;box-shadow:0 0 0 rgba(245,200,66,0)}to{opacity:1;box-shadow:0 0 0 rgba(245,200,66,0)}}
+    @keyframes siteBounceIn{0%{opacity:0;transform:scale(.9)}55%{opacity:1;transform:scale(1.03)}100%{transform:scale(1)}}
+    @media (prefers-reduced-motion: no-preference){
+      a,button,.nation-card,.wc2-country-card,.wc2-group-card,.wc-t-tab,.stat-card,.tag,select,input{
+        transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease,background .22s ease,color .18s ease,opacity .22s ease;
+      }
+      button:not(:disabled):hover, .wc-t-tab:not(.active):hover, .cq-diff:hover{
+        transform:translateY(-2px);
+      }
+      button:not(:disabled):active{
+        transform:translateY(0) scale(.97);
+      }
+      nav{animation:fadeDown .45s cubic-bezier(.22,1,.36,1) both;}
+      .stag,.stitle,.ssub{animation:siteFadeIn .5s cubic-bezier(.22,1,.36,1) both;}
+      .stitle{animation-delay:.06s;}
+      .ssub{animation-delay:.12s;}
+      #nations-grid>*, .wc2-group-grid>*, #military-list>*{
+        opacity:0;
+        animation:siteFadeIn .5s cubic-bezier(.22,1,.36,1) forwards;
+      }
+      #nations-grid>*:nth-child(1),.wc2-group-grid>*:nth-child(1),#military-list>*:nth-child(1){animation-delay:.03s;}
+      #nations-grid>*:nth-child(2),.wc2-group-grid>*:nth-child(2),#military-list>*:nth-child(2){animation-delay:.08s;}
+      #nations-grid>*:nth-child(3),.wc2-group-grid>*:nth-child(3),#military-list>*:nth-child(3){animation-delay:.13s;}
+      #nations-grid>*:nth-child(4),#military-list>*:nth-child(4){animation-delay:.18s;}
+      #nations-grid>*:nth-child(5),#military-list>*:nth-child(5){animation-delay:.23s;}
+      #nations-grid>*:nth-child(6),#military-list>*:nth-child(6){animation-delay:.28s;}
+      #nations-grid>*:nth-child(7),#military-list>*:nth-child(7){animation-delay:.33s;}
+      #nations-grid>*:nth-child(8),#military-list>*:nth-child(8){animation-delay:.38s;}
+      #nations-grid>*:nth-child(9),#military-list>*:nth-child(9){animation-delay:.43s;}
+      #nations-grid>*:nth-child(10),#military-list>*:nth-child(10){animation-delay:.48s;}
+      #nations-grid>*:nth-child(11),#military-list>*:nth-child(11){animation-delay:.53s;}
+      #nations-grid>*:nth-child(12),#military-list>*:nth-child(12){animation-delay:.58s;}
+      .nation-card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 16px 40px rgba(0,0,0,.35);}
+      .wc-trophy{display:inline-block;animation:wcTrophy 3s ease-in-out infinite;}
+      .wc-title{animation:siteFadeIn .5s cubic-bezier(.22,1,.36,1) both;}
+      .gold,[style*="color:var(--gold)"]{}
+      #military-list>div>div[style*="cursor:pointer"]:hover{background:rgba(255,255,255,.03);}
+      #military-list [style*="border-radius:4px"] > div{transition:width .6s cubic-bezier(.22,1,.36,1);}
+    }
     nav{display:flex;align-items:center;justify-content:space-between;padding:13px 32px;background:linear-gradient(90deg,rgba(140,0,180,.17) 0%,rgba(5,5,7,.74) 28%,rgba(5,5,7,.74) 72%,rgba(70,0,220,.13) 100%);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.07);position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(255,26,109,.13),0 8px 32px rgba(0,0,0,.4);}
     .nav-glow{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(140,0,200,.5),var(--pink) 32%,rgba(255,140,0,.4) 58%,rgba(60,0,220,.45) 84%,transparent);opacity:.65;}
     .nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
@@ -1251,15 +1295,15 @@
       <div class="wc-header">
         <button class="wc-toggle-btn" id="wcToggleBtn" onclick="toggleWcSection()"><span class="wc-tg-icon">▾</span><span id="wcToggleLabel">Hide</span></button>
         <span class="wc-trophy">🏆</span>
-        <div class="wc-title" id="wcTitle">Club World Cup 2026</div>
-        <div class="wc-sub" id="wcSub">Nations Edition &nbsp;·&nbsp; Spring Tournament</div>
+        <div class="wc-title" id="wcTitle">World Cup 2026</div>
+        <div class="wc-sub" id="wcSub">Countries Edition &nbsp;·&nbsp; All 12 Nations Confirmed</div>
         <div style="margin-top:10px;display:flex;justify-content:center">
-          <span class="wc-stadium-note" id="wcStadiumNote">🏟️ All matches — SmegTopia Stadium</span>
+          <span class="wc-stadium-note" id="wcStadiumNote" style="display:none;">🏟️ All matches — SmegTopia Stadium</span>
         </div>
       </div>
       <div class="wc-tournament-tabs">
-        <button class="wc-t-tab active" id="wcTabClub" onclick="switchWcTournament('club')">🏆 Club World Cup 2026</button>
-        <button class="wc-t-tab" id="wcTabCountry" onclick="switchWcTournament('country')">🌍 World Cup 2026</button>
+        <button class="wc-t-tab" id="wcTabClub" onclick="switchWcTournament('club')">🏆 Club World Cup 2026</button>
+        <button class="wc-t-tab active" id="wcTabCountry" onclick="switchWcTournament('country')">🌍 World Cup 2026</button>
       </div>
       <div class="wc-champion-banner" id="wcChampionBanner" style="display:none;"></div>
       <div id="wc-bracket"></div>
@@ -1622,7 +1666,7 @@
   function goRankedMode(mode) { goRanked(); setTimeout(()=>{ const mMap={overall:0,sword:1,axe:2,uhc:3,mace:4,spear:5}; const tabs=document.querySelectorAll('.rtabs .tab'); if(tabs[mMap[mode]])tabs[mMap[mode]].click(); },80); }
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
-  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); renderBracket(); renderMilitaryList(); }
+  function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); if(wcActiveTournament==='country'){renderWc2List();}else{renderBracket();} renderMilitaryList(); }
   function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
   function animStatCounter(el) {
@@ -2872,7 +2916,7 @@
     wc2RenderPredictor();
   }
 
-  let wcActiveTournament = 'club';
+  let wcActiveTournament = 'country';
   let wcClubSubView = 'bracket';
 
   function wcClubRenderSubTabs(){
@@ -3154,7 +3198,7 @@
   });
 
   window.addEventListener('DOMContentLoaded', () => {
-    renderBracket();
+    if(wcActiveTournament==='country'){renderWc2List();}else{renderBracket();}
   });
 
   window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));createPlayers('overall');setupReveal();document.getElementById('navBrand').addEventListener('click',()=>{if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);});});
