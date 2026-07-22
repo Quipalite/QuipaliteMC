@@ -730,6 +730,7 @@
     .wc-match:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.45);}
     .wc-match.played{border-color:rgba(255,255,255,.1);}
     .wc-match.upcoming{border-color:rgba(74,222,128,.25);background:linear-gradient(135deg,rgba(74,222,128,.04) 0%,var(--surface) 60%);}
+    .wc-match.wc2-bracket-tbd{border-style:dashed;pointer-events:none;}
     .wc-match.final-match{border-color:rgba(245,200,66,.3);background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,26,109,.04) 50%,var(--surface) 80%);box-shadow:0 0 0 1px rgba(245,200,66,.08);}
     .wc-match.final-match:hover{border-color:rgba(245,200,66,.5);box-shadow:0 16px 40px rgba(0,0,0,.5),0 0 30px rgba(245,200,66,.12);}
     .wc-match.forfeit{border-color:rgba(248,113,113,.2);background:linear-gradient(135deg,rgba(248,113,113,.04) 0%,var(--surface) 60%);}
@@ -2664,6 +2665,89 @@
     return WC2_OFFICIAL_KO_RESULTS[`${home}_${away}`] || null;
   }
 
+  function wc2KoWinnerName(home, away){
+    const r = wc2OfficialKoResult(home, away);
+    if(!r) return null;
+    if(r.hs > r.as) return home;
+    if(r.as > r.hs) return away;
+    if(r.ph !== undefined && r.ph !== null && r.pa !== undefined && r.pa !== null) return r.ph > r.pa ? home : away;
+    return null;
+  }
+
+  function wc2BracketMatchCard(roundLabel, home, away, dateStr){
+    const homeTBD = !home || home.startsWith('Winner');
+    const awayTBD = !away || away.startsWith('Winner');
+    const r = (!homeTBD && !awayTBD) ? wc2OfficialKoResult(home, away) : null;
+    const played = !!r;
+    const clickable = !homeTBD && !awayTBD;
+    const homeAccent = homeTBD ? 'var(--text-dim)' : wc2Accent(home);
+    const awayAccent = awayTBD ? 'var(--text-dim)' : wc2Accent(away);
+    const winner = played ? wc2KoWinnerName(home, away) : null;
+
+    const cardClass = ['wc-match', played ? 'played' : (clickable ? 'upcoming' : ''), !clickable ? 'wc2-bracket-tbd' : ''].filter(Boolean).join(' ');
+    const onclick = clickable ? `onclick="openWc2Knockout('${roundLabel}','${home}','${away}','${dateStr}')"` : '';
+
+    let scoreHtml;
+    if(played){
+      const hClass = winner === home ? 'win' : winner === away ? 'lose' : 'draw';
+      const aClass = winner === away ? 'win' : winner === home ? 'lose' : 'draw';
+      scoreHtml = `<span class="wc-score ${hClass}">${r.hs}</span><span class="wc-dash">–</span><span class="wc-score ${aClass}">${r.as}</span>`;
+    } else {
+      scoreHtml = `<span class="wc-score-tbd">VS</span>`;
+    }
+
+    const statusBadge = played
+      ? `<span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span>`
+      : clickable
+        ? `<span class="wc-status-badge" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80">🟢 UPCOMING</span>`
+        : `<span class="wc-status-badge" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text-dim)">TBD</span>`;
+
+    const footer = played
+      ? (r.ph !== undefined && r.ph !== null ? `<span class="wc-pens">${r.ph} – ${r.pa} pens</span>` : '<span></span>')
+      : clickable
+        ? `<span class="wc-note" style="font-style:normal;color:var(--text-muted)">🏟️ NewLife Stadium</span>`
+        : '<span class="wc-note" style="font-style:italic;">Awaiting previous round</span>';
+
+    return `<div class="${cardClass}" ${onclick} style="${clickable?'cursor:pointer;':'cursor:default;opacity:.55;'}">
+      <div class="wc-match-meta"><span class="wc-date">${roundLabel}${!homeTBD||!awayTBD?'':''}${clickable?` · ${dateStr}`:''}</span>${statusBadge}</div>
+      <div class="wc-match-body">
+        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${home||'TBD'}</div></div>
+        <div class="wc-score-block">${scoreHtml}</div>
+        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${away||'TBD'}</div></div>
+      </div>
+      <div class="wc-match-footer">${footer}</div>
+    </div>`;
+  }
+
+  function wc2RenderKnockoutBracket(){
+    const qfPairs = [['Corexia','Springbuck'],['Smegtopia','Crabville'],['Okpemon','Stormland'],['Craineun','Waterland']];
+    const qfWinners = qfPairs.map(([h,a]) => wc2KoWinnerName(h,a));
+    const sfPairs = [
+      [qfWinners[0] || 'Winner QF1', qfWinners[2] || 'Winner QF3'],
+      [qfWinners[1] || 'Winner QF2', qfWinners[3] || 'Winner QF4'],
+    ];
+    const sfWinners = sfPairs.map(([h,a]) => wc2KoWinnerName(h,a));
+    const finalPair = [sfWinners[0] || 'Winner SF1', sfWinners[1] || 'Winner SF2'];
+
+    const qfCards = qfPairs.map(([h,a],i) => wc2BracketMatchCard('Quarter-Final', h, a, WC2_KO_DATES.qf[i])).join('');
+    const sfCards = sfPairs.map(([h,a],i) => wc2BracketMatchCard('Semi-Final', h, a, WC2_KO_DATES.sf[i])).join('');
+    const finalCard = wc2BracketMatchCard('Final', finalPair[0], finalPair[1], WC2_KO_DATES.final);
+
+    return `<div class="wc-round">
+        <div class="wc-round-label"><span class="wc-round-title">Quarter-Finals</span><div class="wc-round-line"></div></div>
+        <div class="wc-matches qf">${qfCards}</div>
+      </div>
+      <div class="wc-round">
+        <div class="wc-round-label"><span class="wc-round-title">Semi-Finals</span><div class="wc-round-line"></div></div>
+        <div class="wc-matches sf">${sfCards}</div>
+      </div>
+      <div class="wc-round">
+        <div class="wc-round-label"><span class="wc-round-title">Final</span><div class="wc-round-line"></div><span class="wc-round-badge final-badge" style="background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)">🏆 FINAL</span></div>
+        <div class="wc-matches final">${finalCard}</div>
+      </div>
+      <div class="wc2-path-note">Final 8: Corexia &amp; Crabville (Group A) · Smegtopia &amp; Springbuck (Group B) · Okpemon &amp; Craineun (Group C) · Stormland &amp; Waterland (best 3rd-placed teams)</div>`;
+  }
+
   function wc2RenderPathToFinal(){
     return `<div class="wc2-knockout-title" style="font-size:12px;">🗺️ Path to the Final</div>
       <div class="wc2-path-grid">
@@ -2813,7 +2897,8 @@
         ${wc2RenderGroupTables(officialStandings)}
         <div class="wc2-knockout-title" style="font-size:12px;">📅 Match Schedule</div>
         <div class="wc2-group-grid">${scheduleBlocks}</div>
-        ${wc2RenderPathToFinal()}
+        <div class="wc2-knockout-title" style="font-size:12px;">🏆 Knockout Bracket</div>
+        ${wc2RenderKnockoutBracket()}
         <div class="wc2-official-note">Standings update automatically as real results are confirmed. For hypothetical outcomes, head to the 🔮 Predictor tab.</div>
       </div>`;
   }
