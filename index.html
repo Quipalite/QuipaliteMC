@@ -1070,14 +1070,6 @@
             </div>
             <p class="gdesc">Pick your nation, claim territory, and work together to rise to the top of a shared world map.</p>
           </div>
-          <div class="gcard rv rd2" onclick="goParkour()">
-            <div class="gcard-top">
-              <div class="gicon"><img src="https://minecraft.wiki/images/Feather_JE3_BE2.png" style="width:28px;height:28px;image-rendering:pixelated" alt="" onerror="this.replaceWith(document.createTextNode('🪶'))"></div>
-              <div class="ginfo"><div class="gname" style="font-size:18px">Parkour</div><span class="gtag" style="color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">Live</span></div>
-              <div class="garrow">↗</div>
-            </div>
-            <p class="gdesc">Test your movement skills across challenging courses. Jump, sprint, and push your limits to the top of the leaderboard.</p>
-          </div>
         </div>
       </div>
     </section>
@@ -1310,17 +1302,6 @@
     </div>
 
     <footer style="margin-top:0;">© Quipalite MC &nbsp;·&nbsp; Current Nations &nbsp;·&nbsp; 2026
-      <div class="footer-links">
-        <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
-        <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
-        <a href="mailto:realomcserver@gmail.com">✉️ Contact</a>
-      </div>
-    </footer>
-  </div>
-
-  <!-- PARKOUR PAGE -->
-  <div id="parkourPage" class="page">
-    <footer>© Quipalite MC &nbsp;·&nbsp; Parkour &nbsp;·&nbsp; 2026
       <div class="footer-links">
         <a href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener">🎮 Discord</a>
         <a href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener">▶️ YouTube</a>
@@ -1667,7 +1648,6 @@
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); if(wcActiveTournament==='country'){renderWc2List();}else{renderBracket();} renderMilitaryList(); }
-  function goParkour() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('parkourPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Parkour'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); window.scrollTo({top:0,behavior:'instant'}); }
   function showRankedMain() { document.querySelector('.rtabs').style.display=''; document.querySelector('.lbc').style.display=''; document.querySelector('.srow').style.display=''; const pp=document.getElementById('pp'); pp.style.display='none'; pp.classList.remove('show'); const cop=document.getElementById('cop'); cop.style.display='none'; cop.classList.remove('show'); const hof=document.getElementById('hofp'); hof.style.display='none'; hof.classList.remove('show'); }
   function animStatCounter(el) {
     if (el.dataset.animated) return;
