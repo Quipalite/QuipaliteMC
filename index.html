@@ -59,7 +59,7 @@
       }
     }
     }
-    nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:24px;padding:28px 44px 60px;min-height:128px;box-sizing:border-box;background:linear-gradient(90deg,rgba(140,0,180,.17) 0%,rgba(5,5,7,.74) 28%,rgba(5,5,7,.74) 72%,rgba(70,0,220,.13) 100%);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.07);position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(255,26,109,.13),0 8px 32px rgba(0,0,0,.4);}
+    nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:24px;padding:28px 44px 72px;min-height:140px;box-sizing:border-box;background:linear-gradient(90deg,rgba(140,0,180,.17) 0%,rgba(5,5,7,.74) 28%,rgba(5,5,7,.74) 72%,rgba(70,0,220,.13) 100%);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.07);position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(255,26,109,.13),0 8px 32px rgba(0,0,0,.4);}
     .nav-glow{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(140,0,200,.5),var(--pink) 32%,rgba(255,140,0,.4) 58%,rgba(60,0,220,.45) 84%,transparent);opacity:.65;}
     .nav-left{display:flex;align-items:center;gap:14px;flex:1 1 auto;min-width:0;overflow:hidden;box-sizing:border-box;}
     .nav-brand{display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;min-width:0;overflow:hidden;}
@@ -741,9 +741,9 @@
     .wc-match-meta{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 6px;border-bottom:1px solid rgba(255,255,255,.05);}
     .wc-date{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:1px;color:var(--text-dim);}
     .wc-status-badge{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:3px;text-transform:uppercase;}
-    .wc-match-body{padding:14px 16px 12px;display:flex;align-items:center;gap:10px;}
+    .wc-match-body{padding:12px 12px 10px;display:flex;align-items:center;gap:8px;}
     .wc-team{flex:1;min-width:0;}
-    .wc-team-name{font-family:var(--font-d);font-size:13.5px;font-weight:800;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .wc-team-name{font-family:var(--font-d);font-size:13.5px;font-weight:800;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px;}
     .wc-team-name.winner{color:var(--gold);}
     .wc-team-nation{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);margin-top:2px;}
     .wc-team.away{text-align:right;}
@@ -758,6 +758,26 @@
     .wc-note{font-family:var(--font-m);font-size:8.5px;font-weight:600;color:var(--text-dim);font-style:italic;}
     .wc-note.red{color:#f87171;}
     .wc-pens{font-family:var(--font-m);font-size:8.5px;font-weight:700;color:var(--text-muted);background:rgba(255,255,255,.05);border:1px solid var(--border);padding:2px 7px;border-radius:4px;}
+
+    /* True tournament bracket tree */
+    .wc-bracket-scroll{overflow-x:auto;padding:8px 4px 26px;-webkit-overflow-scrolling:touch;}
+    .wc-bracket-tree{display:flex;align-items:stretch;gap:52px;min-width:920px;padding:6px 2px;}
+    .wc-bracket-col{display:flex;flex-direction:column;flex:1 1 0;min-width:220px;}
+    .wc-bracket-col-label{text-align:center;font-family:var(--font-d);font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;}
+    .wc-bracket-col.champ-col .wc-bracket-col-label{color:var(--gold);}
+    .wc-bracket-pair{display:flex;flex-direction:column;justify-content:space-around;flex:1;position:relative;gap:14px;}
+    .wc-bracket-col > .wc-bracket-pair:not(:last-child){margin-bottom:0;}
+    .wc-bracket-pair::after{content:'';position:absolute;top:25%;bottom:25%;right:-27px;width:26px;border:1.5px solid rgba(255,255,255,.16);border-left:none;border-radius:0 10px 10px 0;pointer-events:none;}
+    .wc-bracket-col.final-col .wc-bracket-pair::after,.wc-bracket-col.champ-col .wc-bracket-pair::after{display:none;}
+    .wc-bracket-pair.has-winner::after{border-color:rgba(245,200,66,.4);}
+    .wc-bracket-slot{flex:0 0 auto;}
+    .wc-bracket-col.final-col{justify-content:center;}
+    .wc-bracket-col.final-col .wc-bracket-pair{justify-content:center;}
+    .wc-champ-slot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;border-radius:14px;border:1px solid rgba(245,200,66,.22);background:linear-gradient(160deg,rgba(245,200,66,.08) 0%,transparent 70%);padding:20px 14px;min-height:110px;}
+    .wc-champ-slot .wc-champ-trophy{font-size:26px;filter:drop-shadow(0 0 10px rgba(245,200,66,.4));}
+    .wc-champ-slot .wc-champ-name{font-family:var(--font-d);font-size:15px;font-weight:800;color:var(--gold);}
+    .wc-champ-slot .wc-champ-tbd{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;}
+    @media(max-width:900px){.wc-bracket-tree{min-width:1000px;}}
     body.mono nav{background:rgba(0,0,0,.95);border-bottom-color:#111;}
     body.mono .nav-glow{display:none;}
     body.mono .tab.active{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);box-shadow:none;}
@@ -2681,6 +2701,12 @@
     return null;
   }
 
+  const WC2_ABBR = {'Corexia':'COR','Springbuck':'SPR','Smegtopia':'SMG','Crabville':'CBV','Okpemon':'OKE','Stormland':'STM','Craineun':'CRA','Waterland':'WAT'};
+  function wc2AbbrName(name){
+    if(!name || name.startsWith('Winner')) return name;
+    return WC2_ABBR[name] || name;
+  }
+
   function wc2BracketMatchCard(roundLabel, home, away, dateStr){
     const homeTBD = !home || home.startsWith('Winner');
     const awayTBD = !away || away.startsWith('Winner');
@@ -2718,9 +2744,9 @@
     return `<div class="${cardClass}" ${onclick} style="${clickable?'cursor:pointer;':'cursor:default;opacity:.55;'}">
       <div class="wc-match-meta"><span class="wc-date">${roundLabel}${!homeTBD||!awayTBD?'':''}${clickable?` · ${dateStr}`:''}</span>${statusBadge}</div>
       <div class="wc-match-body">
-        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${home||'TBD'}</div></div>
+        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" title="${home||''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${wc2AbbrName(home)||'TBD'}</div></div>
         <div class="wc-score-block">${scoreHtml}</div>
-        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${away||'TBD'}</div></div>
+        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" title="${away||''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${wc2AbbrName(away)||'TBD'}</div></div>
       </div>
       <div class="wc-match-footer">${footer}</div>
     </div>`;
@@ -2735,23 +2761,46 @@
     ];
     const sfWinners = sfPairs.map(([h,a]) => wc2KoWinnerName(h,a));
     const finalPair = [sfWinners[0] || 'Winner SF1', sfWinners[1] || 'Winner SF2'];
+    const champion = wc2KoWinnerName(finalPair[0], finalPair[1]);
 
-    const qfCards = qfPairs.map(([h,a],i) => wc2BracketMatchCard('Quarter-Final', h, a, WC2_KO_DATES.qf[i])).join('');
-    const sfCards = sfPairs.map(([h,a],i) => wc2BracketMatchCard('Semi-Final', h, a, WC2_KO_DATES.sf[i])).join('');
+    const qfCards = qfPairs.map(([h,a],i) => wc2BracketMatchCard('Quarter-Final', h, a, WC2_KO_DATES.qf[i]));
+    const sfCards = sfPairs.map(([h,a],i) => wc2BracketMatchCard('Semi-Final', h, a, WC2_KO_DATES.sf[i]));
     const finalCard = wc2BracketMatchCard('Final', finalPair[0], finalPair[1], WC2_KO_DATES.final);
 
-    return `<div class="wc-round">
-        <div class="wc-round-label"><span class="wc-round-title">Quarter-Finals</span><div class="wc-round-line"></div></div>
-        <div class="wc-matches qf">${qfCards}</div>
-      </div>
-      <div class="wc-round">
-        <div class="wc-round-label"><span class="wc-round-title">Semi-Finals</span><div class="wc-round-line"></div></div>
-        <div class="wc-matches sf">${sfCards}</div>
-      </div>
-      <div class="wc-round">
-        <div class="wc-round-label"><span class="wc-round-title">Final</span><div class="wc-round-line"></div><span class="wc-round-badge final-badge" style="background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)">🏆 FINAL</span></div>
-        <div class="wc-matches final">${finalCard}</div>
-      </div>
+    const qfPairHtml = (i) => `<div class="wc-bracket-pair${qfWinners[i]?' has-winner':''}">
+        <div class="wc-bracket-slot">${qfCards[i*2]}</div>
+        <div class="wc-bracket-slot">${qfCards[i*2+1]}</div>
+      </div>`;
+    const sfPairHtml = `<div class="wc-bracket-pair${sfWinners[0]&&sfWinners[1]?' has-winner':''}">
+        <div class="wc-bracket-slot">${sfCards[0]}</div>
+        <div class="wc-bracket-slot">${sfCards[1]}</div>
+      </div>`;
+
+    const champHtml = champion
+      ? `<div class="wc-champ-slot"><span class="wc-champ-trophy">🏆</span><span class="wc-champ-name">${champion}</span><span class="wc-champ-tbd">WC2 Champions</span></div>`
+      : `<div class="wc-champ-slot"><span class="wc-champ-trophy" style="filter:none;opacity:.35">🏆</span><span class="wc-champ-tbd">Awaiting Final</span></div>`;
+
+    return `<div class="wc-bracket-scroll"><div class="wc-bracket-tree">
+        <div class="wc-bracket-col">
+          <div class="wc-bracket-col-label">Quarter-Finals</div>
+          ${qfPairHtml(0)}
+          ${qfPairHtml(1)}
+        </div>
+        <div class="wc-bracket-col">
+          <div class="wc-bracket-col-label">Semi-Finals</div>
+          ${sfPairHtml}
+        </div>
+        <div class="wc-bracket-col final-col">
+          <div class="wc-bracket-col-label">Final</div>
+          <div class="wc-bracket-pair">
+            <div class="wc-bracket-slot" style="flex:1">${finalCard}</div>
+          </div>
+        </div>
+        <div class="wc-bracket-col champ-col">
+          <div class="wc-bracket-col-label">Champion</div>
+          ${champHtml}
+        </div>
+      </div></div>
       <div class="wc2-path-note">Final 8: Corexia &amp; Crabville (Group A) · Smegtopia &amp; Springbuck (Group B) · Okpemon &amp; Craineun (Group C) · Stormland &amp; Waterland (best 3rd-placed teams)</div>`;
   }
 
