@@ -75,7 +75,7 @@
     .nav-brand-text{font-family:var(--font-d);font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;line-height:1;}
     .nav-brand-text em{color:var(--pink);font-style:normal;filter:drop-shadow(0 0 8px rgba(255,26,109,.5));}
     .nav-brand-sub{font-family:var(--font-m);font-size:8px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .nav-right{display:flex;align-items:center;gap:10px;flex:0 0 auto;flex-shrink:0;min-width:max-content;}
+    .nav-right{display:flex;align-items:center;gap:12px;flex:0 0 auto;flex-shrink:0;min-width:max-content;}
     .mobile-nav{display:none;flex-direction:column;position:fixed!important;top:0;left:0;right:0;background:rgba(8,8,12,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:99;padding:8px 14px 14px;transform:translateY(-100%);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s;}
     .mobile-nav.open{transform:translateY(0);opacity:1;}
     .mnav-link{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:13px 10px;border-radius:var(--rs);font-family:var(--font-b);font-size:14.5px;font-weight:600;color:var(--text);background:none;border:none;cursor:pointer;text-decoration:none;}
@@ -95,9 +95,10 @@
     .nav-link:active{transform:translateY(0);}
     .nav-link.active{color:var(--text);background:linear-gradient(135deg,rgba(255,26,109,.16),rgba(255,140,0,.1));box-shadow:inset 0 0 0 1px rgba(255,26,109,.28),0 2px 10px rgba(255,26,109,.15);}
     .nav-div{width:1px;height:22px;background:var(--border);margin:0 10px;}
-    .ibtn{width:38px;height:38px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);cursor:pointer;text-decoration:none;color:var(--text-muted);transition:all .2s cubic-bezier(.22,1,.36,1);flex-shrink:0;box-shadow:0 1px 0 rgba(255,255,255,.03) inset;}
-    .ibtn:active{transform:translateY(0) scale(.94);}
-    .ibtn:hover{border-color:rgba(255,255,255,.15);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);}
+    .nav-icons{display:flex;align-items:center;gap:4px;padding:4px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:calc(var(--rs) + 4px);}
+    .ibtn{width:34px;height:34px;border-radius:calc(var(--rs) - 2px);display:flex;align-items:center;justify-content:center;border:1px solid transparent;background:none;cursor:pointer;text-decoration:none;color:var(--text-muted);transition:all .2s cubic-bezier(.22,1,.36,1);flex-shrink:0;}
+    .ibtn:active{transform:scale(.92);}
+    .ibtn:hover{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);}
     .ibtn.yt:hover{border-color:rgba(204,0,0,.4);background:rgba(204,0,0,.1);color:#ff5555;}
     .ibtn.dc:hover{border-color:rgba(88,101,242,.4);background:rgba(88,101,242,.1);color:#7b8ff7;}
     .ibtn.tier:hover{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
@@ -935,19 +936,21 @@
       </div>
     </div>
     <div class="nav-right" style="display:flex !important;align-items:center !important;flex:0 0 auto !important;width:auto !important;margin-left:auto !important;">
-      <a class="ibtn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
-        <svg width="14" height="10" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
-      </a>
-      <a class="ibtn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
-        <svg width="16" height="12" viewBox="0 0 71 55" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.492 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.684 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.239C31.6816 49.2576 43.8966 49.2576 55.1126 44.239C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.637 45.2625C56.7654 45.5576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.258 53.9884 68.0638 50.7185 75.0918 45.5576C75.145 45.5182 75.1786 45.459 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1436C17.3451 26.1735 20.1717 22.9618 23.7259 22.9618C27.308 22.9618 30.1626 26.2014 30.1066 30.1436C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1436C40.9371 26.1735 43.7636 22.9618 47.3178 22.9618C50.9 22.9618 53.7545 26.2014 53.6986 30.1436C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/></svg>
-      </a>
-      <button class="ibtn tier" id="tierBtn" onclick="openTier()" title="Tier Guide" style="display:none">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      </button>
-      <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)" style="display:none">?</button>
-      <button class="ibtn hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" title="Menu" style="display:none">
-        <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="1"/><line x1="1" y1="9" x2="23" y2="9"/><line x1="1" y1="17" x2="23" y2="17"/></svg>
-      </button>
+      <div class="nav-icons">
+        <a class="ibtn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
+          <svg width="14" height="10" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
+        </a>
+        <a class="ibtn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
+          <svg width="16" height="12" viewBox="0 0 71 55" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.492 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.684 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.239C31.6816 49.2576 43.8966 49.2576 55.1126 44.239C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.637 45.2625C56.7654 45.5576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.258 53.9884 68.0638 50.7185 75.0918 45.5576C75.145 45.5182 75.1786 45.459 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1436C17.3451 26.1735 20.1717 22.9618 23.7259 22.9618C27.308 22.9618 30.1626 26.2014 30.1066 30.1436C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1436C40.9371 26.1735 43.7636 22.9618 47.3178 22.9618C50.9 22.9618 53.7545 26.2014 53.6986 30.1436C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/></svg>
+        </a>
+        <button class="ibtn tier" id="tierBtn" onclick="openTier()" title="Tier Guide" style="display:none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </button>
+        <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)" style="display:none">?</button>
+        <button class="ibtn hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" title="Menu" style="display:none">
+          <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="1"/><line x1="1" y1="9" x2="23" y2="9"/><line x1="1" y1="17" x2="23" y2="17"/></svg>
+        </button>
+      </div>
       <div class="nav-div"></div>
       <div class="nav-links">
         <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
