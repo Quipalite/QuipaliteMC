@@ -408,7 +408,7 @@
     #fhm.closing #fhmi{opacity:0;transform:translateY(12px) scale(.97);transition:opacity .2s,transform .2s;}
     .wc2-country-card{cursor:pointer;transition:background .18s,border-color .18s,transform .22s cubic-bezier(.22,1,.36,1);}
     .wc2-country-card:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(245,200,66,.3)!important;transform:translateY(-3px) scale(1.015);}
-    .wc2-groups-wrap{max-width:920px;margin:0 auto;}
+    .wc2-groups-wrap{max-width:1100px;margin:0 auto;}
     .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
     .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
@@ -764,20 +764,24 @@
     .wc-bracket-tree{display:flex;align-items:stretch;gap:clamp(14px,3vw,52px);width:100%;padding:6px 2px;}
     .wc-bracket-col{display:flex;flex-direction:column;flex:1 1 0;min-width:150px;}
     .wc-bracket-col-label{text-align:center;font-family:var(--font-d);font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;}
-    .wc-bracket-col.champ-col .wc-bracket-col-label{color:var(--gold);}
+    .wc-bracket-col.final-col .wc-bracket-col-label{color:var(--gold);}
     .wc-bracket-pair{display:flex;flex-direction:column;justify-content:space-around;flex:1;position:relative;gap:14px;}
     .wc-bracket-col > .wc-bracket-pair:not(:last-child){margin-bottom:0;}
     .wc-bracket-pair::after{content:'';position:absolute;top:25%;bottom:25%;right:calc(clamp(14px,3vw,52px) / -2);width:calc(clamp(14px,3vw,52px) / 2);border:1.5px solid rgba(255,255,255,.16);border-left:none;border-radius:0 10px 10px 0;pointer-events:none;}
-    .wc-bracket-col.final-col .wc-bracket-pair::after,.wc-bracket-col.champ-col .wc-bracket-pair::after{display:none;}
+    .wc-bracket-col.final-col .wc-bracket-pair::after{display:none;}
     .wc-bracket-pair.has-winner::after{border-color:rgba(245,200,66,.4);}
-    .wc-bracket-slot{flex:0 0 auto;}
-    .wc-bracket-col.final-col{justify-content:center;}
-    .wc-bracket-col.final-col .wc-bracket-pair{justify-content:center;}
-    .wc-champ-slot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;border-radius:14px;border:1px solid rgba(245,200,66,.22);background:linear-gradient(160deg,rgba(245,200,66,.08) 0%,transparent 70%);padding:20px 14px;min-height:110px;}
-    .wc-champ-slot .wc-champ-trophy{font-size:26px;filter:drop-shadow(0 0 10px rgba(245,200,66,.4));}
-    .wc-champ-slot .wc-champ-name{font-family:var(--font-d);font-size:15px;font-weight:800;color:var(--gold);}
-    .wc-champ-slot .wc-champ-tbd{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;}
-    @media(max-width:820px){.wc-bracket-col-label{font-size:9px;letter-spacing:1.5px;}.wc-team-name{font-size:11.5px;}.wc-score{font-size:20px;}.wc-match-body{padding:9px 8px;gap:5px;}.wc-match-meta{padding:6px 8px 4px;}.wc-match-footer{padding:4px 8px 7px;}.wc-status-badge{font-size:7px;padding:2px 5px;}.wc-date{font-size:7.5px;}.wc-champ-slot{padding:12px 6px;min-height:80px;gap:6px;}.wc-champ-slot .wc-champ-name{font-size:12px;}.wc-champ-slot .wc-champ-trophy{font-size:20px;}}
+    .wc-bracket-pair.conn-stub-r::after{top:50%;bottom:auto;height:1.5px;border:none;border-top:1.5px solid rgba(255,255,255,.16);border-radius:0;transform:translateY(-50%);}
+    .wc-bracket-pair.conn-stub-r.has-winner::after{border-color:rgba(245,200,66,.4);}
+    .wc-bracket-col.mirror .wc-bracket-pair::after{right:auto;left:calc(clamp(14px,3vw,52px) / -2);border-left:1.5px solid rgba(255,255,255,.16);border-right:none;border-radius:10px 0 0 10px;}
+    .wc-bracket-col.mirror .wc-bracket-pair.conn-stub-l::after{top:50%;bottom:auto;height:1.5px;border:none;border-top:1.5px solid rgba(255,255,255,.16);border-radius:0;transform:translateY(-50%);}
+    .wc-bracket-col.mirror .wc-bracket-pair.has-winner::after{border-color:rgba(245,200,66,.4);}
+    .wc-bracket-col.final-col{justify-content:center;gap:18px;}
+    .wc-bracket-col.final-col .wc-bracket-pair{justify-content:center;flex:0 0 auto;}
+    .wc-champ-slot{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;border-radius:14px;border:1px solid rgba(245,200,66,.22);background:linear-gradient(160deg,rgba(245,200,66,.08) 0%,transparent 70%);padding:16px 14px;}
+    .wc-champ-slot .wc-champ-trophy{font-size:24px;filter:drop-shadow(0 0 10px rgba(245,200,66,.4));}
+    .wc-champ-slot .wc-champ-name{font-family:var(--font-d);font-size:14px;font-weight:800;color:var(--gold);}
+    .wc-champ-slot .wc-champ-tbd{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;}
+    @media(max-width:820px){.wc-bracket-col-label{font-size:9px;letter-spacing:1.5px;}.wc-team-name{font-size:11.5px;}.wc-score{font-size:20px;}.wc-match-body{padding:9px 8px;gap:5px;}.wc-match-meta{padding:6px 8px 4px;}.wc-match-footer{padding:4px 8px 7px;}.wc-status-badge{font-size:7px;padding:2px 5px;}.wc-date{font-size:7.5px;}.wc-champ-slot{padding:12px 6px;gap:6px;}.wc-champ-slot .wc-champ-name{font-size:12px;}.wc-champ-slot .wc-champ-trophy{font-size:20px;}}
     body.mono nav{background:rgba(0,0,0,.95);border-bottom-color:#111;}
     body.mono .nav-glow{display:none;}
     body.mono .tab.active{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);box-shadow:none;}
@@ -2753,28 +2757,24 @@
   }
 
   function wc2RenderKnockoutBracket(){
-    const qfPairs = [['Corexia','Springbuck'],['Smegtopia','Crabville'],['Okpemon','Stormland'],['Craineun','Waterland']];
-    const qfWinners = qfPairs.map(([h,a]) => wc2KoWinnerName(h,a));
-    const sfPairs = [
-      [qfWinners[0] || 'Winner QF1', qfWinners[2] || 'Winner QF3'],
-      [qfWinners[1] || 'Winner QF2', qfWinners[3] || 'Winner QF4'],
-    ];
-    const sfWinners = sfPairs.map(([h,a]) => wc2KoWinnerName(h,a));
-    const finalPair = [sfWinners[0] || 'Winner SF1', sfWinners[1] || 'Winner SF2'];
+    // Left side: QF1 & QF3 feed SF1. Right side: QF2 & QF4 feed SF2. Final sits in the middle.
+    const qf1 = ['Corexia','Springbuck'], qf3 = ['Okpemon','Stormland'];
+    const qf2 = ['Smegtopia','Crabville'], qf4 = ['Craineun','Waterland'];
+    const wQ1 = wc2KoWinnerName(...qf1), wQ2 = wc2KoWinnerName(...qf2), wQ3 = wc2KoWinnerName(...qf3), wQ4 = wc2KoWinnerName(...qf4);
+
+    const sf1 = [wQ1 || 'Winner QF1', wQ3 || 'Winner QF3'];
+    const sf2 = [wQ2 || 'Winner QF2', wQ4 || 'Winner QF4'];
+    const wS1 = wc2KoWinnerName(...sf1), wS2 = wc2KoWinnerName(...sf2);
+    const finalPair = [wS1 || 'Winner SF1', wS2 || 'Winner SF2'];
     const champion = wc2KoWinnerName(finalPair[0], finalPair[1]);
 
-    const qfCards = qfPairs.map(([h,a],i) => wc2BracketMatchCard('Quarter-Final', h, a, WC2_KO_DATES.qf[i]));
-    const sfCards = sfPairs.map(([h,a],i) => wc2BracketMatchCard('Semi-Final', h, a, WC2_KO_DATES.sf[i]));
-    const finalCard = wc2BracketMatchCard('Final', finalPair[0], finalPair[1], WC2_KO_DATES.final);
-
-    const qfPairHtml = (i) => `<div class="wc-bracket-pair${qfWinners[i]?' has-winner':''}">
-        <div class="wc-bracket-slot">${qfCards[i*2]}</div>
-        <div class="wc-bracket-slot">${qfCards[i*2+1]}</div>
-      </div>`;
-    const sfPairHtml = `<div class="wc-bracket-pair${sfWinners[0]&&sfWinners[1]?' has-winner':''}">
-        <div class="wc-bracket-slot">${sfCards[0]}</div>
-        <div class="wc-bracket-slot">${sfCards[1]}</div>
-      </div>`;
+    const cQF1 = wc2BracketMatchCard('Quarter-Final', qf1[0], qf1[1], WC2_KO_DATES.qf[0]);
+    const cQF2 = wc2BracketMatchCard('Quarter-Final', qf2[0], qf2[1], WC2_KO_DATES.qf[1]);
+    const cQF3 = wc2BracketMatchCard('Quarter-Final', qf3[0], qf3[1], WC2_KO_DATES.qf[2]);
+    const cQF4 = wc2BracketMatchCard('Quarter-Final', qf4[0], qf4[1], WC2_KO_DATES.qf[3]);
+    const cSF1 = wc2BracketMatchCard('Semi-Final', sf1[0], sf1[1], WC2_KO_DATES.sf[0]);
+    const cSF2 = wc2BracketMatchCard('Semi-Final', sf2[0], sf2[1], WC2_KO_DATES.sf[1]);
+    const cFinal = wc2BracketMatchCard('Final', finalPair[0], finalPair[1], WC2_KO_DATES.final);
 
     const champHtml = champion
       ? `<div class="wc-champ-slot"><span class="wc-champ-trophy">🏆</span><span class="wc-champ-name" title="${champion}">${wc2AbbrName(champion)}</span><span class="wc-champ-tbd">WC2 Champions</span></div>`
@@ -2783,22 +2783,36 @@
     return `<div class="wc-bracket-scroll"><div class="wc-bracket-tree">
         <div class="wc-bracket-col">
           <div class="wc-bracket-col-label">Quarter-Finals</div>
-          ${qfPairHtml(0)}
-          ${qfPairHtml(1)}
+          <div class="wc-bracket-pair${wQ1?' has-winner':''}">
+            <div class="wc-bracket-slot">${cQF1}</div>
+            <div class="wc-bracket-slot">${cQF3}</div>
+          </div>
         </div>
         <div class="wc-bracket-col">
           <div class="wc-bracket-col-label">Semi-Finals</div>
-          ${sfPairHtml}
+          <div class="wc-bracket-pair conn-stub-r${wQ1&&wQ3?' has-winner':''}">
+            <div class="wc-bracket-slot" style="flex:1">${cSF1}</div>
+          </div>
         </div>
         <div class="wc-bracket-col final-col">
           <div class="wc-bracket-col-label">Final</div>
           <div class="wc-bracket-pair">
-            <div class="wc-bracket-slot" style="flex:1">${finalCard}</div>
+            <div class="wc-bracket-slot" style="flex:1">${cFinal}</div>
+          </div>
+          ${champHtml}
+        </div>
+        <div class="wc-bracket-col mirror">
+          <div class="wc-bracket-col-label">Semi-Finals</div>
+          <div class="wc-bracket-pair conn-stub-l${wQ2&&wQ4?' has-winner':''}">
+            <div class="wc-bracket-slot" style="flex:1">${cSF2}</div>
           </div>
         </div>
-        <div class="wc-bracket-col champ-col">
-          <div class="wc-bracket-col-label">Champion</div>
-          ${champHtml}
+        <div class="wc-bracket-col mirror">
+          <div class="wc-bracket-col-label">Quarter-Finals</div>
+          <div class="wc-bracket-pair${wQ2?' has-winner':''}">
+            <div class="wc-bracket-slot">${cQF2}</div>
+            <div class="wc-bracket-slot">${cQF4}</div>
+          </div>
         </div>
       </div></div>
       <div class="wc2-path-note">Final 8: Corexia &amp; Crabville (Group A) · Smegtopia &amp; Springbuck (Group B) · Okpemon &amp; Craineun (Group C) · Stormland &amp; Waterland (best 3rd-placed teams)</div>`;
