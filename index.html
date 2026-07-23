@@ -89,12 +89,14 @@
     .dc-stats{display:flex;align-items:center;gap:14px;margin:10px 0 2px;font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-muted);min-height:14px;}
     .dc-stats .dc-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(74,222,128,.7);margin-right:5px;animation:pulse 2s ease-in-out infinite;}
     .dc-stats strong{color:var(--text);}
-    .nav-links{display:flex;align-items:center;gap:2px;margin-right:4px;}
-    .nav-link{padding:7px 13px;border-radius:var(--rs);font-family:var(--font-b);font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:color .18s,background .18s;}
-    .nav-link:hover{color:var(--text);background:rgba(255,255,255,.05);}
-    .nav-link.active{color:var(--text);}
-    .nav-div{width:1px;height:18px;background:var(--border);margin:0 3px;}
-    .ibtn{width:36px;height:36px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);cursor:pointer;text-decoration:none;color:var(--text-muted);transition:all .2s cubic-bezier(.22,1,.36,1);flex-shrink:0;}
+    .nav-links{display:flex;align-items:center;gap:3px;margin-right:4px;padding:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:calc(var(--rs) + 4px);}
+    .nav-link{position:relative;padding:7px 15px;border-radius:var(--rs);font-family:var(--font-b);font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:color .2s ease,background .2s ease,transform .2s cubic-bezier(.22,1,.36,1);}
+    .nav-link:hover{color:var(--text);background:rgba(255,255,255,.07);transform:translateY(-1px);}
+    .nav-link:active{transform:translateY(0);}
+    .nav-link.active{color:var(--text);background:linear-gradient(135deg,rgba(255,26,109,.16),rgba(255,140,0,.1));box-shadow:inset 0 0 0 1px rgba(255,26,109,.28),0 2px 10px rgba(255,26,109,.15);}
+    .nav-div{width:1px;height:18px;background:var(--border);margin:0 6px;}
+    .ibtn{width:36px;height:36px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);cursor:pointer;text-decoration:none;color:var(--text-muted);transition:all .2s cubic-bezier(.22,1,.36,1);flex-shrink:0;box-shadow:0 1px 0 rgba(255,255,255,.03) inset;}
+    .ibtn:active{transform:translateY(0) scale(.94);}
     .ibtn:hover{border-color:rgba(255,255,255,.15);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3);}
     .ibtn.yt:hover{border-color:rgba(204,0,0,.4);background:rgba(204,0,0,.1);color:#ff5555;}
     .ibtn.dc:hover{border-color:rgba(88,101,242,.4);background:rgba(88,101,242,.1);color:#7b8ff7;}
@@ -2659,7 +2661,8 @@
   }
 
   const WC2_OFFICIAL_KO_RESULTS = {
-    'Corexia_Springbuck': {hs:2, as:2, ph:5, pa:4, hy:3, ay:3, hr:1, ar:0, hOff:1, aOff:0, note:'Corexia win 5-4 on penalties · one Corexia goal came via an offside call'}
+    'Corexia_Springbuck': {hs:2, as:2, ph:5, pa:4, hy:3, ay:3, hr:1, ar:0, hOff:1, aOff:0, note:'Corexia win 5-4 on penalties · one Corexia goal came via an offside call'},
+    'Smegtopia_Crabville': {hs:1, as:2, hy:1, ay:1, hr:0, ar:1, hOff:1, aOff:0, note:'🟥 Crabville red card · Smegtopia\'s goal came via an offside call'}
   };
 
   function wc2OfficialKoResult(home, away){
