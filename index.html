@@ -743,7 +743,7 @@
     .wc-status-badge{font-family:var(--font-m);font-size:8px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:3px;text-transform:uppercase;}
     .wc-match-body{padding:12px 12px 10px;display:flex;align-items:center;gap:8px;}
     .wc-team{flex:1;min-width:32px;}
-    .wc-team-name{font-family:var(--font-d);font-size:13.5px;font-weight:800;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px;}
+    .wc-team-name{font-family:var(--font-d);font-size:13.5px;font-weight:800;color:var(--text);line-height:1.2;white-space:normal;overflow-wrap:break-word;letter-spacing:.5px;}
     .wc-team-name.winner{color:var(--gold);}
     .wc-team-nation{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);margin-top:2px;}
     .wc-team.away{text-align:right;}
@@ -762,7 +762,7 @@
     /* True tournament bracket tree */
     .wc-bracket-scroll{overflow-x:auto;padding:8px 4px 26px;-webkit-overflow-scrolling:touch;}
     .wc-bracket-tree{display:flex;align-items:stretch;gap:clamp(14px,3vw,52px);width:100%;padding:6px 2px;}
-    .wc-bracket-col{display:flex;flex-direction:column;flex:1 1 0;min-width:150px;}
+    .wc-bracket-col{display:flex;flex-direction:column;flex:1 1 0;min-width:180px;}
     .wc-bracket-col-label{text-align:center;font-family:var(--font-d);font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;}
     .wc-bracket-col.final-col .wc-bracket-col-label{color:var(--gold);}
     .wc-bracket-pair{display:flex;flex-direction:column;justify-content:space-around;flex:1;position:relative;gap:14px;}
@@ -2750,9 +2750,9 @@
     return `<div class="${cardClass}" ${onclick} style="${clickable?'cursor:pointer;':'cursor:default;opacity:.55;'}">
       <div class="wc-match-meta"><span class="wc-date">${roundLabel}${!homeTBD||!awayTBD?'':''}${clickable?` · ${dateStr}`:''}</span>${statusBadge}</div>
       <div class="wc-match-body">
-        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" title="${home||''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${wc2AbbrName(home)||'TBD'}</div></div>
+        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" title="${home||''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${home||'TBD'}</div></div>
         <div class="wc-score-block">${scoreHtml}</div>
-        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" title="${away||''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${wc2AbbrName(away)||'TBD'}</div></div>
+        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" title="${away||''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${away||'TBD'}</div></div>
       </div>
       <div class="wc-match-footer">${footer}</div>
     </div>`;
@@ -2779,7 +2779,7 @@
     const cFinal = wc2BracketMatchCard('Final', finalPair[0], finalPair[1], WC2_KO_DATES.final);
 
     const champHtml = champion
-      ? `<div class="wc-champ-slot"><span class="wc-champ-trophy">🏆</span><span class="wc-champ-name" title="${champion}">${wc2AbbrName(champion)}</span><span class="wc-champ-tbd">WC2 Champions</span></div>`
+      ? `<div class="wc-champ-slot"><span class="wc-champ-trophy">🏆</span><span class="wc-champ-name" title="${champion}">${champion}</span><span class="wc-champ-tbd">WC2 Champions</span></div>`
       : `<div class="wc-champ-slot"><span class="wc-champ-trophy" style="filter:none;opacity:.35">🏆</span><span class="wc-champ-tbd">Awaiting Final</span></div>`;
 
     return `<div class="wc-bracket-scroll"><div class="wc-bracket-tree">
