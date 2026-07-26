@@ -1555,7 +1555,7 @@
           <div id="mil-arrow-${r.n.id}" style="width:10px;font-size:10px;color:var(--text-muted);">▸</div>
           <div style="width:22px;text-align:center;font-family:var(--font-m);font-size:11px;color:var(--text-muted);font-weight:700;">${i+1}</div>
           <div style="font-size:20px;width:26px;text-align:center;">${r.n.icon}</div>
-          <div style="width:120px;font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text);flex-shrink:0;">${r.n.name}</div>
+          <div style="width:120px;font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation();openNation('${r.n.id}')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${r.n.name}</div>
           <div style="flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;">
             <div style="height:100%;width:${pct}%;background:${barColor};border-radius:4px;"></div>
           </div>
