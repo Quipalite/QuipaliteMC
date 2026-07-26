@@ -2446,19 +2446,20 @@
   }
 
   const WC2_POWER_RANKINGS = [
-    {rank:1, name:'Craineun', rating:9.23},
-    {rank:2, name:'Smegtopia', rating:9.16},
-    {rank:3, name:'Crabville', rating:8.19},
-    {rank:4, name:'Corexia', rating:7.35},
-    {rank:5, name:'Springbuck', rating:7.30},
-    {rank:6, name:'Stormland', rating:7.26},
-    {rank:7, name:'Okpemon', rating:7.00},
-    {rank:8, name:'Waterland', rating:6.35},
-    {rank:9, name:'Smogtowne', rating:5.65},
-    {rank:10, name:'Seirin', rating:5.35},
-    {rank:11, name:'Caderville', rating:4.00},
-    {rank:12, name:'Wancerville', rating:2.00},
+    {rank:1, name:'Craineun', rating:9.23, trend:'same'},
+    {rank:2, name:'Smegtopia', rating:9.19, trend:'up'},
+    {rank:3, name:'Crabville', rating:8.09, trend:'down'},
+    {rank:4, name:'Corexia', rating:7.40, trend:'up'},
+    {rank:5, name:'Okpemon', rating:7.33, trend:'up'},
+    {rank:6, name:'Springbuck', rating:7.31, trend:'up'},
+    {rank:7, name:'Stormland', rating:7.22, trend:'down'},
+    {rank:8, name:'Waterland', rating:6.40, trend:'up'},
+    {rank:9, name:'Smogtowne', rating:5.60, trend:'down'},
+    {rank:10, name:'Caderville', rating:4.82, trend:'up'},
+    {rank:11, name:'Seirin', rating:4.80, trend:'down'},
+    {rank:12, name:'Wancerville', rating:1.50, trend:'down'},
   ];
+  const WC2_TREND_ICON = {up:'<span style="color:#4ade80">▲</span>', down:'<span style="color:#f87171">▼</span>', same:'<span style="color:var(--text-dim)">▬</span>'};
 
   function openWc2Fixture(gname, home, away){
     const homeAccent = wc2Accent(home);
@@ -2570,7 +2571,7 @@
         <span class="wc2-rank-dot" style="background:${wc2Accent(r.name)}"></span>
         <span class="wc2-rank-name">${r.name}</span>
         <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${wc2Accent(r.name)}"></div></div>
-        <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
+        <span class="wc2-rank-score">${WC2_TREND_ICON[r.trend]||''} ${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
       </div>`;
     }).join('');
 
