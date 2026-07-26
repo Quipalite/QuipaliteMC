@@ -1434,7 +1434,7 @@
   const NUKES = {
     crabville:{small:80},
     craineun:{small:16, big:3},
-    smegtopia:{big:10, huge:1},
+    smegtopia:{small:240, big:10, huge:1},
     springbuck:{medium:9, big:10},
   };
   const EQUIP_WEIGHTS = {
@@ -2314,12 +2314,40 @@
       [runnersUp[2].name, bestThirds[1].name],
     ];
     wc2State.stage = 'qf';
-    wc2State.qf = pairs.map(([home,away]) => ({home, away, hs:null, as:null, ph:null, pa:null, hy:null, ay:null, hr:null, ar:null, hOff:null, aOff:null}));
+    wc2State.qf = pairs.map(([home,away]) => {
+      const r = wc2OfficialKoResult(home, away);
+      if(r){
+        return {home, away, hs:r.hs, as:r.as, ph:r.ph!=null?r.ph:null, pa:r.pa!=null?r.pa:null, hy:r.hy||null, ay:r.ay||null, hr:r.hr||null, ar:r.ar||null, hOff:r.hOff||null, aOff:r.aOff||null, locked:true, note:r.note||''};
+      }
+      const rSwap = wc2OfficialKoResult(away, home);
+      if(rSwap){
+        return {home, away, hs:rSwap.as, as:rSwap.hs, ph:rSwap.pa!=null?rSwap.pa:null, pa:rSwap.ph!=null?rSwap.ph:null, hy:rSwap.ay||null, ay:rSwap.hy||null, hr:rSwap.ar||null, ar:rSwap.hr||null, hOff:rSwap.aOff||null, aOff:rSwap.hOff||null, locked:true, note:rSwap.note||''};
+      }
+      return {home, away, hs:null, as:null, ph:null, pa:null, hy:null, ay:null, hr:null, ar:null, hOff:null, aOff:null};
+    });
     wc2RenderPredictor();
   }
 
   function wc2RenderKnockoutInputs(stageKey, matches, label, dates){
-    const rows = matches.map((m, idx) => `
+    const rows = matches.map((m, idx) => {
+      if(m.locked){
+        const pensLine = (m.ph !== null && m.ph !== undefined) ? `<span class="wc-pens">${m.ph} – ${m.pa} pens</span>` : '<span></span>';
+        return `
+      <div class="wc-match played">
+        <div class="wc-match-meta"><span class="wc-date">${label}${dates && dates[idx] ? ' · '+dates[idx] : ''}</span><span class="wc-status-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80">FT</span></div>
+        <div class="wc-match-body">
+          <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
+          <div class="wc-score-block"><span class="wc-score">${m.hs}</span><span class="wc-dash">–</span><span class="wc-score">${m.as}</span></div>
+          <div class="wc-team away"><div class="wc-team-name">${m.away}</div></div>
+        </div>
+        <div class="wc-match-footer">${pensLine}</div>
+        <div class="wc-match-footer" style="flex-direction:column;align-items:stretch;gap:2px;">
+          ${wc2FixtureBadges(m)}
+          ${m.note ? `<span class="wc-note">${m.note}</span>` : ''}
+        </div>
+      </div>`;
+      }
+      return `
       <div class="wc-match">
         <div class="wc-match-meta"><span class="wc-date">${label}${dates && dates[idx] ? ' · '+dates[idx] : ''}</span></div>
         <div class="wc-match-body">
@@ -2344,7 +2372,8 @@
           ${wc2FixtureBadges(m)}
           ${wc2DetailsPanel(m, `wc2ko-${stageKey}-${idx}`, `wc2OnKoDetailChange('${stageKey}',${idx})`)}
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
     const cols = matches.length === 1 ? 'final' : (matches.length === 2 ? 'sf' : 'qf');
     return `<div class="wc-round">
       <div class="wc-round-label"><span class="wc-round-title">${label}</span><div class="wc-round-line"></div></div>
@@ -2908,6 +2937,12 @@
     Object.keys(WC2_OFFICIAL_RESULTS).forEach(key => {
       const [home, away] = key.split('_');
       const r = WC2_OFFICIAL_RESULTS[key];
+      bump(home, r.hy, r.hr); bump(away, r.ay, r.ar);
+      bumpOff(home, r.hOff); bumpOff(away, r.aOff);
+    });
+    Object.keys(WC2_OFFICIAL_KO_RESULTS).forEach(key => {
+      const [home, away] = key.split('_');
+      const r = WC2_OFFICIAL_KO_RESULTS[key];
       bump(home, r.hy, r.hr); bump(away, r.ay, r.ar);
       bumpOff(home, r.hOff); bumpOff(away, r.aOff);
     });
