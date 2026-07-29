@@ -2798,9 +2798,9 @@
     return `<div class="${cardClass}" ${onclick} style="${clickable?'cursor:pointer;':'cursor:default;opacity:.55;'}">
       <div class="wc-match-meta"><span class="wc-date">${roundLabel}${!homeTBD||!awayTBD?'':''}${clickable?` · ${dateStr}`:''}</span>${statusBadge}</div>
       <div class="wc-match-body">
-        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" title="${home||''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${wc2AbbrName(home)||'TBD'}</div></div>
+        <div class="wc-team"><div class="wc-team-name${winner===home?' winner':''}" title="${home||''}" style="${homeTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':'cursor:pointer;'}" ${homeTBD?'':`onclick="event.stopPropagation();openWc2TeamStats('${home}')"`}>${wc2AbbrName(home)||'TBD'}</div></div>
         <div class="wc-score-block">${scoreHtml}</div>
-        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" title="${away||''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':''}">${wc2AbbrName(away)||'TBD'}</div></div>
+        <div class="wc-team away"><div class="wc-team-name${winner===away?' winner':''}" title="${away||''}" style="${awayTBD?'color:var(--text-dim);font-style:italic;font-size:11.5px;':'cursor:pointer;'}" ${awayTBD?'':`onclick="event.stopPropagation();openWc2TeamStats('${away}')"`}>${wc2AbbrName(away)||'TBD'}</div></div>
       </div>
       <div class="wc-match-footer">${footer}</div>
     </div>`;
