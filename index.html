@@ -2430,6 +2430,14 @@
     return matches.every(m => wc2KoWinner(m) !== null);
   }
 
+  function wc2SfPrefill(home, away){
+    const r = wc2OfficialKoResult(home, away);
+    if(r) return {home, away, hs:r.hs, as:r.as, ph:r.ph ?? null, pa:r.pa ?? null, hy:r.hy ?? null, ay:r.ay ?? null, hr:r.hr ?? null, ar:r.ar ?? null, hOff:r.hOff ?? null, aOff:r.aOff ?? null};
+    const rSwap = wc2OfficialKoResult(away, home);
+    if(rSwap) return {home, away, hs:rSwap.as, as:rSwap.hs, ph:rSwap.pa ?? null, pa:rSwap.ph ?? null, hy:rSwap.ay ?? null, ay:rSwap.hy ?? null, hr:rSwap.ar ?? null, ar:rSwap.hr ?? null, hOff:rSwap.aOff ?? null, aOff:rSwap.hOff ?? null};
+    return {home, away, hs:null, as:null, ph:null, pa:null, hy:null, ay:null, hr:null, ar:null, hOff:null, aOff:null};
+  }
+
   function wc2ConfirmQf(){
     if(!wc2StageComplete(wc2State.qf)){
       alert('Enter a result (with penalties if drawn) for every Quarter-Final before continuing.');
@@ -2438,8 +2446,8 @@
     const w = wc2State.qf.map(wc2KoWinner);
     wc2State.stage = 'sf';
     wc2State.sf = [
-      {home:w[0], away:w[2], hs:null, as:null, ph:null, pa:null, hy:null, ay:null, hr:null, ar:null, hOff:null, aOff:null},
-      {home:w[1], away:w[3], hs:null, as:null, ph:null, pa:null, hy:null, ay:null, hr:null, ar:null, hOff:null, aOff:null},
+      wc2SfPrefill(w[0], w[2]),
+      wc2SfPrefill(w[1], w[3]),
     ];
     wc2RenderPredictor();
   }
@@ -2818,7 +2826,10 @@
     const sf1 = [wQ1 || 'Winner QF1', wQ3 || 'Winner QF3'];
     const sf2 = [wQ2 || 'Winner QF2', wQ4 || 'Winner QF4'];
     const wS1 = wc2KoWinnerName(...sf1), wS2 = wc2KoWinnerName(...sf2);
+    const lS1 = wS1 ? (wS1 === sf1[0] ? sf1[1] : sf1[0]) : null;
+    const lS2 = wS2 ? (wS2 === sf2[0] ? sf2[1] : sf2[0]) : null;
     const finalPair = [wS1 || 'Winner SF1', wS2 || 'Winner SF2'];
+    const thirdPair = [lS1 || 'Loser SF1', lS2 || 'Loser SF2'];
     const champion = wc2KoWinnerName(finalPair[0], finalPair[1]);
 
     const cQF1 = wc2BracketMatchCard('Quarter-Final', qf1[0], qf1[1], WC2_KO_DATES.qf[0]);
@@ -2828,6 +2839,7 @@
     const cSF1 = wc2BracketMatchCard('Semi-Final', sf1[0], sf1[1], WC2_KO_DATES.sf[0]);
     const cSF2 = wc2BracketMatchCard('Semi-Final', sf2[0], sf2[1], WC2_KO_DATES.sf[1]);
     const cFinal = wc2BracketMatchCard('Final', finalPair[0], finalPair[1], WC2_KO_DATES.final);
+    const cThirdPlace = wc2BracketMatchCard('3rd Place Playoff', thirdPair[0], thirdPair[1], WC2_KO_DATES.thirdPlace);
 
     const champHtml = champion
       ? `<div class="wc-champ-slot"><span class="wc-champ-trophy">🏆</span><span class="wc-champ-name" title="${champion}">${wc2AbbrName(champion)}</span><span class="wc-champ-tbd">WC2 Champions</span></div>`
@@ -2853,6 +2865,10 @@
             <div class="wc-bracket-slot" style="flex:1">${cFinal}</div>
           </div>
           ${champHtml}
+          <div class="wc-bracket-col-label" style="margin-top:18px;">3rd Place Playoff</div>
+          <div class="wc-bracket-pair">
+            <div class="wc-bracket-slot" style="flex:1">${cThirdPlace}</div>
+          </div>
         </div>
         <div class="wc-bracket-col mirror">
           <div class="wc-bracket-col-label">Semi-Finals</div>
