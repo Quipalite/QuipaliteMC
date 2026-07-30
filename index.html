@@ -1540,6 +1540,7 @@
     const arrow = document.getElementById('mil-arrow-'+id);
     if (arrow) arrow.textContent = open ? '▸' : '▾';
   }
+  const MIL_STATUS_UNKNOWN = new Set(['springbuck','waterland']);
   function renderMilitaryList() {
     const list = document.getElementById('military-list');
     if (!list) return;
@@ -1547,12 +1548,13 @@
     const maxRaw = Math.max(...raw.map(r => r.raw), 1);
     const rows = raw.map(r => ({...r, score: r.raw <= 5 ? r.raw : Math.round(Math.pow(r.raw / maxRaw, 0.25) * 1000)})).sort((a,b) => b.score - a.score);
     list.innerHTML = rows.map((r,i) => {
-      const pct = Math.max((r.score / 1000) * 100, r.score > 0 ? 2 : 0);
-      const barColor = r.score === 0 ? 'var(--border-card)' : '#ef4444';
+      const unknown = MIL_STATUS_UNKNOWN.has(r.n.id);
+      const pct = unknown ? 0 : Math.max((r.score / 1000) * 100, r.score > 0 ? 2 : 0);
+      const barColor = unknown ? 'var(--border-card)' : (r.score === 0 ? 'var(--border-card)' : '#ef4444');
       const equip = MIL_EQUIP[r.n.id] || [];
       const nukeItems = Object.entries(NUKES[r.n.id] || {}).map(([type,val]) => ({label:NUKE_LABELS[type],val,icon:NUKE_ICONS[type]}));
       const allDetail = [...equip, ...nukeItems].filter(e => e.val > 0);
-      const detail = allDetail.length ? `<div id="mil-detail-${r.n.id}" style="display:none;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:12px 16px 14px 62px;">${allDetail.map(e => `<div style="background:rgba(255,255,255,.03);border:1px solid var(--border-card);border-radius:8px;padding:8px 10px;"><div style="font-family:var(--font-m);font-size:9px;color:var(--text-muted);letter-spacing:.5px;">${e.icon} ${e.label.toUpperCase()}</div><div style="font-family:var(--font-m);font-size:15px;font-weight:700;color:var(--text);margin-top:2px;">${e.val.toLocaleString()}</div></div>`).join('')}</div>` : `<div id="mil-detail-${r.n.id}" style="display:none;padding:6px 16px 14px 62px;font-family:var(--font-m);font-size:11px;color:var(--text-muted);">No military equipment data on record.</div>`;
+      const detail = unknown ? `<div id="mil-detail-${r.n.id}" style="display:none;padding:6px 16px 14px 62px;font-family:var(--font-m);font-size:11px;color:var(--text-muted);">⚠️ Military status currently unclear following recent conflict losses — figures not yet available.</div>` : (allDetail.length ? `<div id="mil-detail-${r.n.id}" style="display:none;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:12px 16px 14px 62px;">${allDetail.map(e => `<div style="background:rgba(255,255,255,.03);border:1px solid var(--border-card);border-radius:8px;padding:8px 10px;"><div style="font-family:var(--font-m);font-size:9px;color:var(--text-muted);letter-spacing:.5px;">${e.icon} ${e.label.toUpperCase()}</div><div style="font-family:var(--font-m);font-size:15px;font-weight:700;color:var(--text);margin-top:2px;">${e.val.toLocaleString()}</div></div>`).join('')}</div>` : `<div id="mil-detail-${r.n.id}" style="display:none;padding:6px 16px 14px 62px;font-family:var(--font-m);font-size:11px;color:var(--text-muted);">No military equipment data on record.</div>`);
       return `<div style="background:var(--surface);border:1px solid var(--border-card);border-radius:var(--rs);overflow:hidden;">
         <div onclick="toggleMilDetail('${r.n.id}')" style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:12px 16px;">
           <div id="mil-arrow-${r.n.id}" style="width:10px;font-size:10px;color:var(--text-muted);">▸</div>
@@ -1562,7 +1564,7 @@
           <div style="flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;">
             <div style="height:100%;width:${pct}%;background:${barColor};border-radius:4px;"></div>
           </div>
-          <div style="width:110px;text-align:right;font-family:var(--font-m);font-size:12px;font-weight:700;color:${r.score>0?'#ef4444':'var(--text-muted)'};flex-shrink:0;">${r.score} / 1000</div>
+          <div style="width:110px;text-align:right;font-family:var(--font-m);font-size:12px;font-weight:700;color:${unknown?'var(--text-dim)':(r.score>0?'#ef4444':'var(--text-muted)')};flex-shrink:0;">${unknown?'N/A':r.score+' / 1000'}</div>
         </div>
         ${detail}
       </div>`;
@@ -2739,7 +2741,8 @@
     'Smegtopia_Crabville': {hs:2, as:1, hy:1, ay:1, hr:0, ar:1, hOff:1, aOff:0, note:'🟥 Crabville red card · one Smegtopia goal came via an offside call'},
     'Okpemon_Stormland': {hs:1, as:1, ph:6, pa:5, hy:2, ay:1, hr:0, ar:0, hOff:0, aOff:1, note:'Okpemon win 6-5 on penalties · one Stormland goal came via an offside call'},
     'Craineun_Waterland': {hs:1, as:2, hy:4, ay:3, hr:1, ar:0, hOff:0, aOff:2, note:'🟥 Craineun red card · Waterland cause a shock, knocking out tournament favourites Craineun · two Waterland goals came via offside calls'},
-    'Corexia_Okpemon': {hs:5, as:2, hr:1, ar:0, note:'🟥 Corexia red card · Corexia advance to the Final in style, ending Okpemon\'s perfect run through the tournament'}
+    'Corexia_Okpemon': {hs:5, as:2, hr:1, ar:0, note:'🟥 Corexia red card · Corexia advance to the Final in style, ending Okpemon\'s perfect run through the tournament'},
+    'Smegtopia_Waterland': {hs:3, as:3, ph:5, pa:4, hy:4, ay:4, hr:1, ar:1, hOff:0, aOff:1, note:'🟥 One red card each · Smegtopia win 5-4 on penalties · one Waterland goal came via an offside call'}
   };
 
   function wc2OfficialKoResult(home, away){
