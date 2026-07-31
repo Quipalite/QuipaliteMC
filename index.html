@@ -761,26 +761,43 @@
 
     /* True tournament bracket tree */
     .wc-bracket-scroll{overflow-x:visible;padding:8px 4px 26px;}
-    .wc-bracket-tree{display:flex;align-items:stretch;gap:clamp(8px,1.8vw,32px);width:100%;padding:6px 2px;}
+    .wc-bracket-tree{--wc-gap:clamp(14px,2.2vw,40px);display:flex;align-items:stretch;gap:var(--wc-gap);width:100%;padding:6px 2px;position:relative;background:
+        repeating-linear-gradient(90deg,rgba(74,222,128,.025) 0 2px,transparent 2px 46px),
+        radial-gradient(ellipse at 50% 50%,rgba(245,200,66,.05) 0%,transparent 60%);
+      border-radius:16px;}
     .wc-bracket-col{display:flex;flex-direction:column;flex:1 1 0;min-width:110px;}
     .wc-bracket-col-label{text-align:center;font-family:var(--font-d);font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;}
-    .wc-bracket-col.final-col .wc-bracket-col-label{color:var(--gold);}
+    .wc-bracket-col.final-col .wc-bracket-col-label{color:var(--gold);text-shadow:0 0 16px rgba(245,200,66,.3);}
     .wc-bracket-pair{display:flex;flex-direction:column;justify-content:space-around;flex:1;position:relative;gap:14px;}
-    .wc-bracket-col > .wc-bracket-pair:not(:last-child){margin-bottom:0;}
-    .wc-bracket-pair::after{content:'';position:absolute;top:25%;bottom:25%;right:calc(clamp(14px,3vw,52px) / -2);width:calc(clamp(14px,3vw,52px) / 2);border:1.5px solid rgba(255,255,255,.16);border-left:none;border-radius:0 10px 10px 0;pointer-events:none;}
-    .wc-bracket-col.final-col .wc-bracket-pair::after{display:none;}
-    .wc-bracket-pair.has-winner::after{border-color:rgba(245,200,66,.4);}
-    .wc-bracket-pair.conn-stub-r::after{top:50%;bottom:auto;height:1.5px;border:none;border-top:1.5px solid rgba(255,255,255,.16);border-radius:0;transform:translateY(-50%);}
-    .wc-bracket-pair.conn-stub-r.has-winner::after{border-color:rgba(245,200,66,.4);}
-    .wc-bracket-col.mirror .wc-bracket-pair::after{right:auto;left:calc(clamp(14px,3vw,52px) / -2);border-left:1.5px solid rgba(255,255,255,.16);border-right:none;border-radius:10px 0 0 10px;}
-    .wc-bracket-col.mirror .wc-bracket-pair.conn-stub-l::after{top:50%;bottom:auto;height:1.5px;border:none;border-top:1.5px solid rgba(255,255,255,.16);border-radius:0;transform:translateY(-50%);}
-    .wc-bracket-col.mirror .wc-bracket-pair.has-winner::after{border-color:rgba(245,200,66,.4);}
+    .wc-bracket-slot{position:relative;}
+    .wc-conn-line{position:absolute;height:2px;background:rgba(255,255,255,.16);}
+    .wc-conn-line.gold{background:linear-gradient(90deg,rgba(245,200,66,.35),rgba(245,200,66,.75));box-shadow:0 0 6px rgba(245,200,66,.3);}
+    .wc-conn-vert{position:absolute;width:2px;background:rgba(255,255,255,.16);}
+    .wc-conn-vert.gold{background:linear-gradient(rgba(245,200,66,.35),rgba(245,200,66,.75));box-shadow:0 0 6px rgba(245,200,66,.3);}
+    /* QF source pairs -> stub out from each slot + vertical merge bar */
+    .qf-pair-l > .wc-bracket-slot::after{content:'';position:absolute;top:50%;right:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .qf-pair-r > .wc-bracket-slot::before{content:'';position:absolute;top:50%;left:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .qf-pair-l::before{content:'';position:absolute;top:25%;bottom:25%;right:calc(var(--wc-gap) / -2);width:2px;background:rgba(255,255,255,.16);}
+    .qf-pair-r::after{content:'';position:absolute;top:25%;bottom:25%;left:calc(var(--wc-gap) / -2);width:2px;background:rgba(255,255,255,.16);}
+    .qf-pair-l.done > .wc-bracket-slot::after,.qf-pair-l.done::before{background:linear-gradient(rgba(245,200,66,.6),rgba(245,200,66,.6));box-shadow:0 0 5px rgba(245,200,66,.25);}
+    .qf-pair-r.done > .wc-bracket-slot::before,.qf-pair-r.done::after{background:linear-gradient(rgba(245,200,66,.6),rgba(245,200,66,.6));box-shadow:0 0 5px rgba(245,200,66,.25);}
+    /* SF pairs -> incoming stub (from QF) + outgoing stub (to Final) */
+    .sf-pair-l::before{content:'';position:absolute;top:50%;left:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .sf-pair-l::after{content:'';position:absolute;top:50%;right:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .sf-pair-r::before{content:'';position:absolute;top:50%;right:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .sf-pair-r::after{content:'';position:absolute;top:50%;left:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .sf-pair-l.in-done::before,.sf-pair-r.in-done::before{background:rgba(245,200,66,.6);box-shadow:0 0 5px rgba(245,200,66,.25);}
+    .sf-pair-l.out-done::after,.sf-pair-r.out-done::after{background:rgba(245,200,66,.6);box-shadow:0 0 5px rgba(245,200,66,.25);}
+    /* Final pair -> incoming from both sides */
+    .final-pair::before{content:'';position:absolute;top:50%;left:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .final-pair::after{content:'';position:absolute;top:50%;right:calc(var(--wc-gap) / -2);width:calc(var(--wc-gap) / 2);height:2px;background:rgba(255,255,255,.16);transform:translateY(-50%);}
+    .final-pair.in-l::before{background:rgba(245,200,66,.6);box-shadow:0 0 5px rgba(245,200,66,.25);}
+    .final-pair.in-r::after{background:rgba(245,200,66,.6);box-shadow:0 0 5px rgba(245,200,66,.25);}
     .wc-bracket-col.final-col{justify-content:center;gap:18px;}
     .wc-bracket-col.final-col .wc-bracket-pair{justify-content:center;flex:0 0 auto;}
-    .wc-bracket-third-divider{display:flex;align-items:center;gap:10px;margin:22px 0 14px;}
-    .wc-bracket-third-divider::before,.wc-bracket-third-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(205,127,50,.35),transparent);}
-    .wc-bracket-col-label.bronze-label{color:var(--bronze);margin-bottom:0;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;}
-    .wc-bracket-third-wrap{border-radius:14px;padding:2px;background:linear-gradient(160deg,rgba(205,127,50,.14) 0%,transparent 65%);}
+    .wc-bracket-col.final-col .wc-bracket-slot{border-radius:16px;}
+    .wc-bracket-third-strip{max-width:420px;margin:26px auto 0;padding-top:20px;border-top:1px dashed rgba(205,127,50,.35);text-align:center;}
+    .wc-bracket-third-strip .wc-bracket-col-label{color:var(--bronze);margin-bottom:10px;}
     .wc-match.third-place-match{border-color:rgba(205,127,50,.28);}
     .wc-match.third-place-match:hover{border-color:rgba(205,127,50,.5);box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 24px rgba(205,127,50,.1);}
     .wc-match.third-place-match .wc-team-name.winner{color:var(--bronze);}
@@ -2854,45 +2871,49 @@
       ? `<div class="wc-champ-slot"><span class="wc-champ-trophy">🏆</span><span class="wc-champ-name" title="${champion}">${wc2AbbrName(champion)}</span><span class="wc-champ-tbd">WC2 Champions</span></div>`
       : `<div class="wc-champ-slot"><span class="wc-champ-trophy" style="filter:none;opacity:.35">🏆</span><span class="wc-champ-tbd">Awaiting Final</span></div>`;
 
+    const qfL = wQ1 && wQ3, qfR = wQ2 && wQ4;
+    const sfLin = qfL, sfLout = !!wS1, sfRin = qfR, sfRout = !!wS2;
+
     return `<div class="wc-bracket-scroll"><div class="wc-bracket-tree">
         <div class="wc-bracket-col">
           <div class="wc-bracket-col-label">Quarter-Finals</div>
-          <div class="wc-bracket-pair${wQ1?' has-winner':''}">
+          <div class="wc-bracket-pair qf-pair-l${qfL?' done':''}">
             <div class="wc-bracket-slot">${cQF1}</div>
             <div class="wc-bracket-slot">${cQF3}</div>
           </div>
         </div>
         <div class="wc-bracket-col">
           <div class="wc-bracket-col-label">Semi-Finals</div>
-          <div class="wc-bracket-pair conn-stub-r${wQ1&&wQ3?' has-winner':''}">
+          <div class="wc-bracket-pair sf-pair-l${sfLin?' in-done':''}${sfLout?' out-done':''}">
             <div class="wc-bracket-slot" style="flex:1">${cSF1}</div>
           </div>
         </div>
         <div class="wc-bracket-col final-col">
-          <div class="wc-bracket-col-label">Final</div>
-          <div class="wc-bracket-pair">
+          <div class="wc-bracket-col-label">🏆 Final</div>
+          <div class="wc-bracket-pair final-pair${sfLout?' in-l':''}${sfRout?' in-r':''}">
             <div class="wc-bracket-slot" style="flex:1">${cFinal}</div>
           </div>
           ${champHtml}
-          <div class="wc-bracket-third-divider"><span class="wc-bracket-col-label bronze-label">🥉 3rd Place Playoff</span></div>
-          <div class="wc-bracket-pair">
-            <div class="wc-bracket-slot wc-bracket-third-wrap" style="flex:1">${cThirdPlace}</div>
-          </div>
         </div>
         <div class="wc-bracket-col mirror">
           <div class="wc-bracket-col-label">Semi-Finals</div>
-          <div class="wc-bracket-pair conn-stub-l${wQ2&&wQ4?' has-winner':''}">
+          <div class="wc-bracket-pair sf-pair-r${sfRin?' in-done':''}${sfRout?' out-done':''}">
             <div class="wc-bracket-slot" style="flex:1">${cSF2}</div>
           </div>
         </div>
         <div class="wc-bracket-col mirror">
           <div class="wc-bracket-col-label">Quarter-Finals</div>
-          <div class="wc-bracket-pair${wQ2?' has-winner':''}">
+          <div class="wc-bracket-pair qf-pair-r${qfR?' done':''}">
             <div class="wc-bracket-slot">${cQF2}</div>
             <div class="wc-bracket-slot">${cQF4}</div>
           </div>
         </div>
-      </div></div>
+      </div>
+      <div class="wc-bracket-third-strip">
+        <div class="wc-bracket-col-label">🥉 3rd Place Playoff</div>
+        ${cThirdPlace}
+      </div>
+      </div>
       <div class="wc2-path-note">Final 8: Corexia &amp; Crabville (Group A) · Smegtopia &amp; Springbuck (Group B) · Okpemon &amp; Craineun (Group C) · Stormland &amp; Waterland (best 3rd-placed teams)</div>`;
   }
 
