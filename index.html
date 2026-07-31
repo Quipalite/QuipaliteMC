@@ -777,6 +777,14 @@
     .wc-bracket-col.mirror .wc-bracket-pair.has-winner::after{border-color:rgba(245,200,66,.4);}
     .wc-bracket-col.final-col{justify-content:center;gap:18px;}
     .wc-bracket-col.final-col .wc-bracket-pair{justify-content:center;flex:0 0 auto;}
+    .wc-bracket-third-divider{display:flex;align-items:center;gap:10px;margin:22px 0 14px;}
+    .wc-bracket-third-divider::before,.wc-bracket-third-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(205,127,50,.35),transparent);}
+    .wc-bracket-col-label.bronze-label{color:var(--bronze);margin-bottom:0;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;}
+    .wc-bracket-third-wrap{border-radius:14px;padding:2px;background:linear-gradient(160deg,rgba(205,127,50,.14) 0%,transparent 65%);}
+    .wc-match.third-place-match{border-color:rgba(205,127,50,.28);}
+    .wc-match.third-place-match:hover{border-color:rgba(205,127,50,.5);box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 24px rgba(205,127,50,.1);}
+    .wc-match.third-place-match .wc-team-name.winner{color:var(--bronze);}
+    .wc-match.third-place-match .wc-score.win{color:var(--bronze);}
     .wc-champ-slot{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;border-radius:14px;border:1px solid rgba(245,200,66,.22);background:linear-gradient(160deg,rgba(245,200,66,.08) 0%,transparent 70%);padding:16px 14px;}
     .wc-champ-slot .wc-champ-trophy{font-size:24px;filter:drop-shadow(0 0 10px rgba(245,200,66,.4));}
     .wc-champ-slot .wc-champ-name{font-family:var(--font-d);font-size:14px;font-weight:800;color:var(--gold);}
@@ -2783,7 +2791,7 @@
     const awayAccent = awayTBD ? 'var(--text-dim)' : wc2Accent(away);
     const winner = played ? wc2KoWinnerName(home, away) : null;
 
-    const cardClass = ['wc-match', played ? 'played' : (clickable ? 'upcoming' : ''), !clickable ? 'wc2-bracket-tbd' : ''].filter(Boolean).join(' ');
+    const cardClass = ['wc-match', played ? 'played' : (clickable ? 'upcoming' : ''), !clickable ? 'wc2-bracket-tbd' : '', roundLabel==='3rd Place Playoff' ? 'third-place-match' : ''].filter(Boolean).join(' ');
     const onclick = clickable ? `onclick="openWc2Knockout('${roundLabel}','${home}','${away}','${dateStr}')"` : '';
 
     let scoreHtml;
@@ -2866,9 +2874,9 @@
             <div class="wc-bracket-slot" style="flex:1">${cFinal}</div>
           </div>
           ${champHtml}
-          <div class="wc-bracket-col-label" style="margin-top:18px;">3rd Place Playoff</div>
+          <div class="wc-bracket-third-divider"><span class="wc-bracket-col-label bronze-label">🥉 3rd Place Playoff</span></div>
           <div class="wc-bracket-pair">
-            <div class="wc-bracket-slot" style="flex:1">${cThirdPlace}</div>
+            <div class="wc-bracket-slot wc-bracket-third-wrap" style="flex:1">${cThirdPlace}</div>
           </div>
         </div>
         <div class="wc-bracket-col mirror">
