@@ -2432,9 +2432,9 @@
 
   function wc2SfPrefill(home, away){
     const r = wc2OfficialKoResult(home, away);
-    if(r) return {home, away, hs:r.hs, as:r.as, ph:r.ph ?? null, pa:r.pa ?? null, hy:r.hy ?? null, ay:r.ay ?? null, hr:r.hr ?? null, ar:r.ar ?? null, hOff:r.hOff ?? null, aOff:r.aOff ?? null};
+    if(r) return {home, away, hs:r.hs, as:r.as, ph:r.ph ?? null, pa:r.pa ?? null, hy:r.hy ?? null, ay:r.ay ?? null, hr:r.hr ?? null, ar:r.ar ?? null, hOff:r.hOff ?? null, aOff:r.aOff ?? null, note:r.note, locked:true};
     const rSwap = wc2OfficialKoResult(away, home);
-    if(rSwap) return {home, away, hs:rSwap.as, as:rSwap.hs, ph:rSwap.pa ?? null, pa:rSwap.ph ?? null, hy:rSwap.ay ?? null, ay:rSwap.hy ?? null, hr:rSwap.ar ?? null, ar:rSwap.hr ?? null, hOff:rSwap.aOff ?? null, aOff:rSwap.hOff ?? null};
+    if(rSwap) return {home, away, hs:rSwap.as, as:rSwap.hs, ph:rSwap.pa ?? null, pa:rSwap.ph ?? null, hy:rSwap.ay ?? null, ay:rSwap.hy ?? null, hr:rSwap.ar ?? null, ar:rSwap.hr ?? null, hOff:rSwap.aOff ?? null, aOff:rSwap.hOff ?? null, note:rSwap.note, locked:true};
     return {home, away, hs:null, as:null, ph:null, pa:null, hy:null, ay:null, hr:null, ar:null, hOff:null, aOff:null};
   }
 
@@ -2750,7 +2750,8 @@
     'Okpemon_Stormland': {hs:1, as:1, ph:6, pa:5, hy:2, ay:1, hr:0, ar:0, hOff:0, aOff:1, note:'Okpemon win 6-5 on penalties · one Stormland goal came via an offside call'},
     'Craineun_Waterland': {hs:1, as:2, hy:4, ay:3, hr:1, ar:0, hOff:0, aOff:2, note:'🟥 Craineun red card · Waterland cause a shock, knocking out tournament favourites Craineun · two Waterland goals came via offside calls'},
     'Corexia_Okpemon': {hs:5, as:2, hr:1, ar:0, note:'🟥 Corexia red card · Corexia advance to the Final in style, ending Okpemon\'s perfect run through the tournament'},
-    'Smegtopia_Waterland': {hs:3, as:3, ph:5, pa:4, hy:4, ay:4, hr:1, ar:1, hOff:0, aOff:1, note:'🟥 One red card each · Smegtopia win 5-4 on penalties · one Waterland goal came via an offside call'}
+    'Smegtopia_Waterland': {hs:3, as:3, ph:5, pa:4, hy:4, ay:4, hr:1, ar:1, hOff:0, aOff:1, note:'🟥 One red card each · Smegtopia win 5-4 on penalties · one Waterland goal came via an offside call'},
+    'Okpemon_Waterland': {hs:4, as:1, aOff:1, note:'Okpemon claim 3rd place · one Waterland goal came via an offside call'}
   };
 
   function wc2OfficialKoResult(home, away){
