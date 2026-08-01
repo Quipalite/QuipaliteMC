@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2519,7 +2520,6 @@
   function wc2RenderSubTabs(){
     return `<div class="wc2-subtabs">
       <button class="wc2-subtab${wc2SubView==='standings'?' active':''}" onclick="wc2SwitchSubView('standings')">📊 Standings &amp; Schedule</button>
-      <button class="wc2-subtab${wc2SubView==='predictor'?' active':''}" onclick="wc2SwitchSubView('predictor')">🔮 Predictor</button>
       <button class="wc2-subtab${wc2SubView==='rankings'?' active':''}" onclick="wc2SwitchSubView('rankings')">🏅 Power Rankings</button>
       <button class="wc2-subtab${wc2SubView==='discipline'?' active':''}" onclick="wc2SwitchSubView('discipline')">🟨 Discipline</button>
     </div>`;
@@ -3230,7 +3230,7 @@
     if (!bracket) return;
     if(!wc2State) wc2InitState();
 
-    if(wc2SubView === 'standings'){
+    if(wc2SubView === 'standings' || wc2SubView === 'predictor'){
       wc2RenderStandingsSchedule();
       return;
     }
