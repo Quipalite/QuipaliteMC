@@ -2986,19 +2986,17 @@
     const mdKeys = Object.keys(byMd).map(Number).sort((a,b)=>a-b);
     const rows = mdKeys.map(md => {
       const matches = byMd[md].map(f => `
-        <div class="wc2-fixture-row">
-          <div class="wc2-fixture-main">
-            <span class="wc2-fixture-team linkable" style="text-align:right" onclick="openWc2Team('${esc(leagueName)}','${esc(f.home)}')">${f.home}</span>
-            <span class="wc2-fixture-dash">vs</span>
-            <span class="wc2-fixture-team linkable" onclick="openWc2Team('${esc(leagueName)}','${esc(f.away)}')">${f.away}</span>
-          </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid var(--border-card);border-radius:10px;margin-bottom:6px;">
+          <span class="wc2-fixture-team linkable" style="text-align:right;flex:1;" onclick="openWc2Team('${esc(leagueName)}','${esc(f.home)}')">${f.home}</span>
+          <span style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--text-dim);flex-shrink:0;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.04);">vs</span>
+          <span class="wc2-fixture-team linkable" style="flex:1;" onclick="openWc2Team('${esc(leagueName)}','${esc(f.away)}')">${f.away}</span>
         </div>`).join('');
       return `
-        <div style="display:flex;align-items:center;gap:8px;margin:16px 0 6px;">
+        <div style="display:flex;align-items:center;gap:8px;margin:18px 0 8px;">
           <span style="font-family:var(--font-m);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:${accent};padding:3px 9px;border-radius:100px;background:${accent}15;border:1px solid ${accent}30;flex-shrink:0;">MD ${md}</span>
           <div style="flex:1;height:1px;background:var(--border-card);"></div>
         </div>
-        <div class="wc2-fixture-list">${matches}</div>`;
+        <div>${matches}</div>`;
     }).join('');
     document.getElementById('mmc').innerHTML = `
       <div class="mm-banner" style="background:linear-gradient(135deg,${accent}20 0%,transparent 70%);">
@@ -3011,7 +3009,7 @@
         </div>
         <div style="font-family:var(--font-m);font-size:9px;color:var(--text-dim);text-align:center;letter-spacing:.4px;margin-bottom:6px">${fixtures.length} fixtures · ${mdKeys.length} matchdays · every team home &amp; away</div>
         <div class="mm-divider"></div>
-        <div style="max-height:440px;overflow-y:auto;padding:0 2px 4px">${rows}</div>
+        <div style="padding:0 2px 4px">${rows}</div>
       </div>`;
     wc2OpenModal();
   }
