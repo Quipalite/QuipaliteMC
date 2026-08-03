@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);</script>
   <meta charset="utf-8"/>
   <title>Quipalite MC</title>
   <meta name="description" content="A Bedrock Minecraft minigame server with custom games including Ranked Battle Arena, Island Evolution, Party Games, and Current Nations. Join the community today!">
@@ -2701,7 +2702,7 @@
       {name:'AFC Crabville', founded:'2026', rating:5.0, desc:'The third and most modest of Crabville\'s clubs, currently anchored near the foot of the table.'},
       {name:'AFC Coolbox', founded:'2026', rating:5.0, desc:'A newly formed Craineun side still building its identity in the league\'s lower reaches.'},
     ]},
-    {rank:2, name:'Fusion League', accent:'#FF8C00', rating:8.34, note:'Joint league — Smegtopia &amp; Corexia · Top 3 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: Corexia Live — £800,000 · MTN Radio (Springbuck) hold partial rights — £300,000 · SmegLive have free access', teams:[
+    {rank:2, name:'Fusion League', accent:'#FF8C00', rating:8.23, note:'Joint league — Smegtopia &amp; Corexia · Top 3 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: Corexia Live — £800,000 · MTN Radio (Springbuck) hold partial rights — £300,000 · SmegLive have free access', teams:[
       {name:'Smeg City FC', founded:'2026', rating:9.0, qualifies:true, desc:'Reigning Spring Club World Cup 2026 champions and the Fusion League\'s dominant force, carrying Smegtopia\'s proudest football tradition.'},
       {name:'Smeggers FC', founded:'2026', rating:8.5, qualifies:true, desc:'Smegtopia\'s second club and Smeg City FC\'s closest rival, battling for the league\'s other Autumn Club World Cup spot.'},
       {name:'Quipalite MC Corexian Club', founded:'2026', rating:8.3, qualifies:true, desc:'Corexia\'s flagship entry in the Fusion League, now sitting 3rd in the table and into Club World Cup contention.'},
@@ -3713,6 +3714,9 @@
   });
 
   window.addEventListener('DOMContentLoaded',()=>{['sword','axe','uhc','mace','spear'].forEach(m=>createPlayers(m));createPlayers('overall');setupReveal();document.getElementById('navBrand').addEventListener('click',()=>{if(document.getElementById('rankedPage').classList.contains('active'))showHOF(null);});});
+
+  window.addEventListener('load', () => { if (document.getElementById('homePage').classList.contains('active')) window.scrollTo(0,0); });
+  window.addEventListener('pageshow', () => { if (document.getElementById('homePage').classList.contains('active')) window.scrollTo(0,0); });
 
   </script>
 </body>
