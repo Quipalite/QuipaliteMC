@@ -3789,17 +3789,37 @@
     </div>`;
   }
 
+  function wcComputeLeagueStandings(league){
+    const fixtures = LEAGUE_FIXTURES[league.name] || [];
+    const table = {};
+    league.teams.forEach(t => table[t.name] = {name:t.name, qualifies:t.qualifies, p:0, w:0, d:0, l:0, gf:0, ga:0, pts:0});
+    fixtures.forEach(f => {
+      if(f.hs === undefined || f.as === undefined || f.hs === null || f.as === null) return;
+      if(!table[f.home] || !table[f.away]) return;
+      const hs = Number(f.hs), as = Number(f.as);
+      table[f.home].p++; table[f.away].p++;
+      table[f.home].gf += hs; table[f.home].ga += as;
+      table[f.away].gf += as; table[f.away].ga += hs;
+      if(hs > as){ table[f.home].w++; table[f.home].pts+=3; table[f.away].l++; }
+      else if(as > hs){ table[f.away].w++; table[f.away].pts+=3; table[f.home].l++; }
+      else { table[f.home].d++; table[f.away].d++; table[f.home].pts++; table[f.away].pts++; }
+    });
+    return Object.values(table).sort((a,b) => (b.pts-a.pts) || ((b.gf-b.ga)-(a.gf-a.ga)) || (b.gf-a.gf) || a.name.localeCompare(b.name));
+  }
+
   function wcRenderLeagueTables(){
     const bracket = document.getElementById('wc-bracket');
     if (!bracket) return;
+    const anyPlayed = Object.values(LEAGUE_FIXTURES).some(fx => fx.some(f => f.hs !== undefined && f.hs !== null));
     const tablesHtml = WC2_LEAGUE_POWER_RANKINGS.map(league => {
-      const rows = league.teams.map((t, i) => `
+      const standings = wcComputeLeagueStandings(league);
+      const rows = standings.map((t, i) => `
         <tr class="wc2-lt-row" onclick="openWc2Team('${league.name}','${t.name.replace(/'/g,"\\'")}')" style="animation-delay:${(i*0.03).toFixed(2)}s">
           <td style="color:var(--text-dim);font-weight:700;">${i+1}</td>
           <td style="text-align:left;">
             <span class="wc2-lt-dot" style="background:${league.accent}"></span><span style="color:${league.accent};font-weight:600;">${t.name}</span>${t.qualifies?' <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);">🌍 CWC</span>':''}
           </td>
-          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td style="font-weight:800;color:var(--text);">0</td>
+          <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td style="font-weight:800;color:var(--text);">${t.pts}</td>
         </tr>`).join('');
       return `
         <div class="wc2-lt-card">
@@ -3825,7 +3845,7 @@
     }).join('');
     bracket.innerHTML = `${wcClubRenderSubTabs()}
       <div class="wc2-groups-wrap">
-        <div class="wc2-stadium-note" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);color:var(--gold);padding:10px 14px;border-radius:10px;">🗓️ The 2026 domestic season has not started yet — fixtures and standings will populate here once the season kicks off, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.</div>
+        <div class="wc2-stadium-note" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);color:var(--gold);padding:10px 14px;border-radius:10px;">${anyPlayed ? '🗓️ The 2026 domestic season is now underway — tables update as results come in, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.' : '🗓️ The 2026 domestic season has not started yet — fixtures and standings will populate here once the season kicks off, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.'}</div>
         ${tablesHtml}
       </div>`;
   }
