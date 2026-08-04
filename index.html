@@ -2740,10 +2740,10 @@
 
   const LEAGUE_FIXTURES = {
     'Fusion League': [
-      {md:1, home:'Smeg City FC', away:'Smegness'},
-      {md:1, home:'Smeggers FC', away:'Smegion Eagles FC'},
-      {md:1, home:'Quipalite MC Corexian Club', away:'Smeg Union FC'},
-      {md:1, home:'Corexian Federation', away:'Corex FC'},
+      {md:1, home:'Smeg City FC', away:'Smegness', hs:3, as:1},
+      {md:1, home:'Smeggers FC', away:'Smegion Eagles FC', hs:2, as:0},
+      {md:1, home:'Quipalite MC Corexian Club', away:'Smeg Union FC', hs:3, as:1},
+      {md:1, home:'Corexian Federation', away:'Corex FC', hs:1, as:1},
       {md:2, home:'Smegion Eagles FC', away:'Smeg City FC'},
       {md:2, home:'Smeg Union FC', away:'Smegness'},
       {md:2, home:'Corex FC', away:'Smeggers FC'},
@@ -2798,11 +2798,11 @@
       {md:14, home:'Smeg Union FC', away:'Corex FC'},
     ],
     'Craineun Premier League': [
-      {md:1, home:'Crainetown FC', away:'AFC Coolbox'},
-      {md:1, home:'Los Perlos CF', away:'AFC Crabville'},
-      {md:1, home:'Keem Town United', away:'Rural FC'},
-      {md:1, home:'Springfield United', away:'Niche Town FC'},
-      {md:1, home:'Crabville Creepers', away:'Crabville Breezers'},
+      {md:1, home:'Crainetown FC', away:'AFC Coolbox', hs:6, as:0},
+      {md:1, home:'Los Perlos CF', away:'AFC Crabville', hs:4, as:1},
+      {md:1, home:'Keem Town United', away:'Rural FC', hs:4, as:0},
+      {md:1, home:'Springfield United', away:'Niche Town FC', hs:3, as:0},
+      {md:1, home:'Crabville Creepers', away:'Crabville Breezers', hs:3, as:4},
       {md:2, home:'AFC Crabville', away:'Crainetown FC'},
       {md:2, home:'Rural FC', away:'AFC Coolbox'},
       {md:2, home:'Niche Town FC', away:'Los Perlos CF'},
@@ -2890,9 +2890,9 @@
       {md:18, home:'Niche Town FC', away:'Crabville Breezers'},
     ],
     'Stormland National League': [
-      {md:1, home:'Okpemon FC', away:'MiraHB'},
-      {md:1, home:'Stormland United', away:'MiraHX'},
-      {md:1, home:'Stormland City FC', away:'MiraHQ'},
+      {md:1, home:'Okpemon FC', away:'MiraHB', hs:3, as:0},
+      {md:1, home:'Stormland United', away:'MiraHX', hs:0, as:0},
+      {md:1, home:'Stormland City FC', away:'MiraHQ', hs:0, as:3},
       {md:2, home:'MiraHX', away:'Okpemon FC'},
       {md:2, home:'MiraHQ', away:'MiraHB'},
       {md:2, home:'Stormland City FC', away:'Stormland United'},
@@ -2922,8 +2922,8 @@
       {md:10, home:'MiraHX', away:'MiraHQ'},
     ],
     'Waterland Championship': [
-      {md:1, home:'Waterland AFC', away:'Mudrud Old Boys'},
-      {md:1, home:'Waterland & Borough', away:'Waterland City'},
+      {md:1, home:'Waterland AFC', away:'Mudrud Old Boys', hs:2, as:2},
+      {md:1, home:'Waterland & Borough', away:'Waterland City', hs:0, as:3},
       {md:2, home:'Mudrud Old Boys', away:'Waterland United'},
       {md:2, home:'Waterland & Borough', away:'Waterland AFC'},
       {md:3, home:'Waterland United', away:'Waterland City'},
@@ -2944,9 +2944,9 @@
       {md:10, home:'Mudrud Old Boys', away:'Waterland City'},
     ],
     'Springbuck Premiership': [
-      {md:1, home:'Springbuck United', away:'Springbuck Strikers'},
-      {md:1, home:'Springbuck City', away:'Pluggers FC'},
-      {md:1, home:'The Stoners Club', away:'Stormers'},
+      {md:1, home:'Springbuck United', away:'Springbuck Strikers', hs:0, as:1},
+      {md:1, home:'Springbuck City', away:'Pluggers FC', hs:2, as:0},
+      {md:1, home:'The Stoners Club', away:'Stormers', hs:3, as:3},
       {md:2, home:'Pluggers FC', away:'Springbuck United'},
       {md:2, home:'Stormers', away:'Springbuck Strikers'},
       {md:2, home:'The Stoners Club', away:'Springbuck City'},
@@ -2986,12 +2986,18 @@
     fixtures.forEach(f => { (byMd[f.md] = byMd[f.md] || []).push(f); });
     const mdKeys = Object.keys(byMd).map(Number).sort((a,b)=>a-b);
     const rows = mdKeys.map(md => {
-      const matches = byMd[md].map(f => `
+      const matches = byMd[md].map(f => {
+        const played = f.hs !== undefined && f.as !== undefined && f.hs !== null && f.as !== null;
+        const mid = played
+          ? `<span style="font-family:var(--font-m);font-size:11px;font-weight:800;letter-spacing:.5px;color:${accent};flex-shrink:0;padding:2px 9px;border-radius:5px;background:${accent}15;border:1px solid ${accent}30;">${f.hs} – ${f.as}</span>`
+          : `<span style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--text-dim);flex-shrink:0;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.04);">vs</span>`;
+        return `
         <div class="wc2-fixturecard" onclick="openLeagueFixtureMatch('${esc(leagueName)}','${esc(f.home)}','${esc(f.away)}',${md})" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid var(--border-card);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:background .15s,border-color .15s;">
           <span class="wc2-fixture-team linkable" style="text-align:right;flex:1;" onclick="event.stopPropagation();openWc2Team('${esc(leagueName)}','${esc(f.home)}')">${f.home}</span>
-          <span style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--text-dim);flex-shrink:0;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.04);">vs</span>
+          ${mid}
           <span class="wc2-fixture-team linkable" style="flex:1;" onclick="event.stopPropagation();openWc2Team('${esc(leagueName)}','${esc(f.away)}')">${f.away}</span>
-        </div>`).join('');
+        </div>`;
+      }).join('');
       return `
         <div style="display:flex;align-items:center;gap:8px;margin:18px 0 8px;">
           <span style="font-family:var(--font-m);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:${accent};padding:3px 9px;border-radius:100px;background:${accent}15;border:1px solid ${accent}30;flex-shrink:0;">MD ${md}</span>
@@ -3021,8 +3027,14 @@
     const home = league.teams.find(t => t.name === homeName);
     const away = league.teams.find(t => t.name === awayName);
     const accent = league.accent;
-    const totalMd = (LEAGUE_FIXTURES[leagueName]||[]).reduce((m,f)=>Math.max(m,f.md),0);
+    const fixtureList = LEAGUE_FIXTURES[leagueName] || [];
+    const fx = fixtureList.find(f => f.md === md && f.home === homeName && f.away === awayName);
+    const played = fx && fx.hs !== undefined && fx.as !== undefined && fx.hs !== null && fx.as !== null;
+    const totalMd = fixtureList.reduce((m,f)=>Math.max(m,f.md),0);
     const leg = md > totalMd/2 ? 'Second Leg' : 'First Leg';
+    const scoreHtml = played
+      ? `<div class="mm-score-centre"><div class="mm-big-score">${fx.hs} <span style="opacity:.4">–</span> ${fx.as}</div></div>`
+      : `<div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>`;
     document.getElementById('mmc').innerHTML = `
       <div class="mm-banner" style="background:linear-gradient(135deg,${accent}20 0%,transparent 70%);">
         <div class="nm-banner-pattern"></div>
@@ -3032,7 +3044,7 @@
         <div class="mm-scoreline" style="justify-content:center;padding:12px 0 6px">
           <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
             <div class="mm-team-block" style="min-width:0"><div class="mm-club linkable" style="color:${accent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal;text-align:right" onclick="openWc2Team('${leagueName.replace(/'/g,"\\'")}','${homeName.replace(/'/g,"\\'")}')">${homeName}</div></div>
-            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            ${scoreHtml}
             <div class="mm-team-block away" style="min-width:0"><div class="mm-club linkable" style="color:${accent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="openWc2Team('${leagueName.replace(/'/g,"\\'")}','${awayName.replace(/'/g,"\\'")}')">${awayName}</div></div>
           </div>
         </div>
@@ -3041,7 +3053,7 @@
         <div class="mm-facts">
           <div class="mm-fact"><div class="mm-fact-lbl">Home Rating</div><div class="mm-fact-val">${home?home.rating.toFixed(1):'—'}/10</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">Away Rating</div><div class="mm-fact-val">${away?away.rating.toFixed(1):'—'}/10</div></div>
-          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:var(--gold)">🟢 Upcoming</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:${played?'#4ade80':'var(--gold)'}">${played?'⚪ Full-Time':'🟢 Upcoming'}</div></div>
         </div>
       </div>`;
     wc2OpenModal();
