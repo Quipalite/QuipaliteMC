@@ -678,6 +678,9 @@
     .nm-elect-city-btn{background:rgba(255,255,255,.045)!important;}
     .nm-elect-lead{font-family:var(--font-m);font-size:10.5px;color:var(--text-dim);padding:2px 2px 10px;letter-spacing:.2px;}
     .nm-elect-leading{border-color:rgba(255,255,255,.16);}
+    .nm-elect-deceased{border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.04);}
+    .nm-elect-breaking{display:flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.4px;color:#f87171;background:rgba(248,113,113,.1);border-bottom:1px solid rgba(248,113,113,.25);padding:7px 13px;animation:nmBreakingPulse 2s ease-in-out infinite;}
+    @keyframes nmBreakingPulse{0%,100%{opacity:1;}50%{opacity:.7;}}
     .nm-fact-lbl{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);}
     .nm-fact-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
     #currentNationsPage .nations-header{padding:36px 24px 0;}
@@ -1549,7 +1552,7 @@
         { name: 'Daniel Brooks', party: "Smegtopia's National Party", policies: 'Cutting back SmegCorp funding within the city, expanding green areas, investing in education, and boosting population growth.', vote: '24%' },
         { name: 'Sophie Bennett', party: 'Independent', policies: 'Increasing SmegCorp funding, expanding public transport, growing the population, and strengthening ties with other cities.', vote: '30%' },
         { name: 'Benji Collins', party: 'Smegworkers Party', policies: 'Creating more jobs, boosting population growth, strengthening defence, investing in education, restricting the football league to purely Smegtopian clubs, and expanding investment in sports.', vote: '20%' },
-        { name: 'Maggie Foster', party: 'Independent', policies: 'Cutting back SmegCorp funding, expanding green areas, investing in education and a new hospital, lowering rent, and making the streets safer.', vote: '26%' },
+        { name: 'Maggie Foster', party: 'Independent', policies: 'Cutting back SmegCorp funding, expanding green areas, investing in education and a new hospital, lowering rent, and making the streets safer.', vote: '26%', status: 'deceased', statusNote: 'Assassinated by the Smegtopian government' },
       ] },
     ],
     crabville: [
@@ -1830,13 +1833,21 @@
     const rbHtml = rb ? `<div class="nm-sec-h" style="margin-top:20px">Stats</div><button class="nm-rb-btn" onclick="toggleRB(this)">📊 Stats<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel"><div class="nm-fact-row"><span class="nm-fact-lbl">HDI</span><span class="nm-fact-val" style="color:${hdiColor(rb.hdiLabel)}">${rb.hdi} (${rb.hdiLabel})</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Population Growth</span><span class="nm-fact-val" style="color:${n.accentColor}">${rb.popGrowth}</span></div><div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;"><span class="nm-fact-lbl">Recommended Builds</span></div><div class="nm-rb-list">${rb.recommendations.map(r=>`<span class="nm-rb-chip" style="border-color:${n.accentColor}55;color:${n.accentColor}">${r}</span>`).join('')}</div>${smegHtml}</div>` : '';
     const el = ELECTIONS[n.id];
     const electionsHtml = el ? `<div class="nm-sec-h" style="margin-top:20px">Elections</div><button class="nm-rb-btn" onclick="toggleRB(this)">🗳️ Elections<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${[...el].sort((a,b)=>a.city.localeCompare(b.city)).map(cityObj=>{
-      const sorted = [...cityObj.candidates].sort((a,b)=>voteNum(b.vote)-voteNum(a.vote));
-      const top = sorted[0];
+      const sorted = [...cityObj.candidates].sort((a,b)=>{
+        if (a.status==='deceased' && b.status!=='deceased') return 1;
+        if (b.status==='deceased' && a.status!=='deceased') return -1;
+        return voteNum(b.vote)-voteNum(a.vote);
+      });
+      const active = sorted.filter(c=>c.status!=='deceased');
+      const top = active[0] || sorted[0];
       const topVal = voteNum(top.vote);
       const leadSummary = topVal >= 0 ? `<div class="nm-elect-lead">👑 <b style="color:${n.accentColor}">${top.name}</b> leads with <b style="color:${n.accentColor}">${top.vote}</b></div>` : `<div class="nm-elect-lead" style="color:var(--text-muted)">Results not yet in</div>`;
       return `<div class="nm-elect-city-wrap"><button class="nm-rb-btn nm-elect-city-btn" onclick="toggleRB(this)">🏙️ ${cityObj.city} — ${cityObj.office}<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${leadSummary}${sorted.map((c,idx)=>{
         const v = voteNum(c.vote);
         const barWidth = v >= 0 ? Math.max(v,3) : 0;
+        if (c.status === 'deceased') {
+          return `<div class="nm-elect-card nm-elect-deceased"><div class="nm-elect-breaking">🚨 BREAKING: <b>${c.name}</b> — ${c.statusNote}</div><button class="nm-rb-btn" onclick="toggleRB(this)" style="opacity:.55;"><span class="nm-elect-name" style="text-decoration:line-through;">${c.name}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:var(--text-muted);border-color:rgba(248,113,113,.4);">WITHDRAWN</span><span class="nm-rb-chevron">▾</span></span></button><div class="nm-rb-panel"><div class="nm-elect-meta"><span class="nm-elect-meta-item"><b>Party:</b> ${c.party}</span></div><div class="nm-elect-meta-item" style="margin-top:6px;display:block;line-height:1.5;"><b>Policies:</b> ${c.policies}</div><div class="nm-elect-meta-item" style="margin-top:8px;display:block;color:#f87171;"><b>Last recorded polling:</b> ${c.vote} (before withdrawal)</div></div></div>`;
+        }
         return `<div class="nm-elect-card ${idx===0 && v>=0 ? 'nm-elect-leading' : ''}"><button class="nm-rb-btn" onclick="toggleRB(this)" style="background:linear-gradient(to right, ${n.accentColor}${idx===0?'22':'14'} 0%, ${n.accentColor}${idx===0?'22':'14'} ${barWidth}%, transparent ${barWidth}%, transparent 100%);"><span class="nm-elect-name">${idx===0 && v>=0 ? '👑 ' : ''}${c.name}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:${n.accentColor};${idx===0 && v>=0 ? `background:${n.accentColor}18;border-color:${n.accentColor}55;` : ''}">${c.vote}</span><span class="nm-rb-chevron">▾</span></span></button><div class="nm-rb-panel"><div class="nm-elect-meta"><span class="nm-elect-meta-item"><b>Party:</b> ${c.party}</span></div><div class="nm-elect-meta-item" style="margin-top:6px;display:block;line-height:1.5;"><b>Policies:</b> ${c.policies}</div></div></div>`;
       }).join('')}</div></div>`;
     }).join('')}</div>` : '';
