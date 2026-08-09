@@ -676,6 +676,10 @@
     .nm-elect-meta-item b{color:var(--text-dim);font-weight:700;}
     .nm-elect-city-wrap{margin-top:10px;}
     .nm-elect-city-btn{background:rgba(255,255,255,.045)!important;}
+    .nm-elect-lead{font-family:var(--font-m);font-size:10.5px;color:var(--text-dim);padding:2px 2px 10px;letter-spacing:.2px;}
+    .nm-elect-leading{border-color:rgba(255,255,255,.16);}
+    .nm-elect-bar-track{height:4px;background:rgba(255,255,255,.06);margin:0 13px;border-radius:3px;overflow:hidden;}
+    .nm-elect-bar-fill{height:100%;border-radius:3px;transition:width .4s ease;}
     .nm-fact-lbl{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--text-muted);}
     .nm-fact-val{font-family:var(--font-m);font-size:11px;font-weight:700;color:var(--text);}
     #currentNationsPage .nations-header{padding:36px 24px 0;}
@@ -1706,6 +1710,11 @@
     if (val === 'Globe Alliance & Best Friends Alliance') return 'Globe Alliance & Best Friends Alliance';
     return val;
   }
+  function voteNum(v) {
+    const n = parseFloat(String(v).replace('%',''));
+    return isNaN(n) ? -1 : n;
+  }
+
   function hdiColor(label) {
     if (!label) return '#9ca3af';
     const l = label.toLowerCase();
@@ -1822,7 +1831,17 @@
     const smegHtml = rb && rb.smegcorp ? `<div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;margin-top:16px;"><span class="nm-fact-lbl">SmegCorp Valuation</span><span class="nm-sc-growth" style="color:#4ade80;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);">▲ ${rb.smegcorp.growth}</span></div><div class="nm-sc-timeline">${rb.smegcorp.history.map((h,idx)=>`<div class="nm-sc-point"><div class="nm-sc-date">${h.date}</div><div class="nm-sc-val" style="color:${n.accentColor}">${h.value}</div></div>${idx<rb.smegcorp.history.length-1?'<div class="nm-sc-arrow">→</div>':''}`).join('')}</div><div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;margin-top:14px;"><span class="nm-fact-lbl">Investor Profits</span></div><div class="nm-rb-list">${rb.smegcorp.profits.map(p=>`<span class="nm-rb-chip" style="border-color:${n.accentColor}55;color:${n.accentColor}">${p.nation}: ${p.val}</span>`).join('')}</div>` : '';
     const rbHtml = rb ? `<div class="nm-sec-h" style="margin-top:20px">Stats</div><button class="nm-rb-btn" onclick="toggleRB(this)">📊 Stats<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel"><div class="nm-fact-row"><span class="nm-fact-lbl">HDI</span><span class="nm-fact-val" style="color:${hdiColor(rb.hdiLabel)}">${rb.hdi} (${rb.hdiLabel})</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Population Growth</span><span class="nm-fact-val" style="color:${n.accentColor}">${rb.popGrowth}</span></div><div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;"><span class="nm-fact-lbl">Recommended Builds</span></div><div class="nm-rb-list">${rb.recommendations.map(r=>`<span class="nm-rb-chip" style="border-color:${n.accentColor}55;color:${n.accentColor}">${r}</span>`).join('')}</div>${smegHtml}</div>` : '';
     const el = ELECTIONS[n.id];
-    const electionsHtml = el ? `<div class="nm-sec-h" style="margin-top:20px">Elections</div><button class="nm-rb-btn" onclick="toggleRB(this)">🗳️ Elections<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${[...el].sort((a,b)=>a.city.localeCompare(b.city)).map(cityObj=>`<div class="nm-elect-city-wrap"><button class="nm-rb-btn nm-elect-city-btn" onclick="toggleRB(this)">🏙️ ${cityObj.city} — ${cityObj.office}<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${cityObj.candidates.map(c=>`<div class="nm-elect-card"><button class="nm-rb-btn" onclick="toggleRB(this)"><span class="nm-elect-name">${c.name}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:${n.accentColor}">${c.vote}</span><span class="nm-rb-chevron">▾</span></span></button><div class="nm-rb-panel"><div class="nm-elect-meta"><span class="nm-elect-meta-item"><b>Party:</b> ${c.party}</span><span class="nm-elect-meta-item"><b>Policies:</b> ${c.policies}</span></div></div></div>`).join('')}</div></div>`).join('')}</div>` : '';
+    const electionsHtml = el ? `<div class="nm-sec-h" style="margin-top:20px">Elections</div><button class="nm-rb-btn" onclick="toggleRB(this)">🗳️ Elections<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${[...el].sort((a,b)=>a.city.localeCompare(b.city)).map(cityObj=>{
+      const sorted = [...cityObj.candidates].sort((a,b)=>voteNum(b.vote)-voteNum(a.vote));
+      const top = sorted[0];
+      const topVal = voteNum(top.vote);
+      const leadSummary = topVal >= 0 ? `<div class="nm-elect-lead">👑 <b style="color:${n.accentColor}">${top.name}</b> leads with <b style="color:${n.accentColor}">${top.vote}</b></div>` : `<div class="nm-elect-lead" style="color:var(--text-muted)">Results not yet in</div>`;
+      return `<div class="nm-elect-city-wrap"><button class="nm-rb-btn nm-elect-city-btn" onclick="toggleRB(this)">🏙️ ${cityObj.city} — ${cityObj.office}<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${leadSummary}${sorted.map((c,idx)=>{
+        const v = voteNum(c.vote);
+        const barWidth = v >= 0 ? Math.max(v,3) : 0;
+        return `<div class="nm-elect-card ${idx===0 && v>=0 ? 'nm-elect-leading' : ''}"><button class="nm-rb-btn" onclick="toggleRB(this)"><span class="nm-elect-name">${idx===0 && v>=0 ? '👑 ' : ''}${c.name}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:${n.accentColor};${idx===0 && v>=0 ? `background:${n.accentColor}18;border-color:${n.accentColor}55;` : ''}">${c.vote}</span><span class="nm-rb-chevron">▾</span></span></button><div class="nm-elect-bar-track"><div class="nm-elect-bar-fill" style="width:${barWidth}%;background:${n.accentColor};opacity:${idx===0 ? '1' : '.55'}"></div></div><div class="nm-rb-panel"><div class="nm-elect-meta"><span class="nm-elect-meta-item"><b>Party:</b> ${c.party}</span></div><div class="nm-elect-meta-item" style="margin-top:6px;display:block;line-height:1.5;"><b>Policies:</b> ${c.policies}</div></div></div>`;
+      }).join('')}</div></div>`;
+    }).join('')}</div>` : '';
     document.getElementById('nmc').innerHTML = `<div class="nm-banner" style="background:linear-gradient(135deg,${(n.colors&&n.colors[0])||n.accentColor}20 0%,${n.colors&&n.colors.length>1?n.colors[n.colors.length-1]+'10':n.accentColor+'06'} 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div><div class="nm-body"><div class="nm-header"><div class="nm-ico-wrap" style="background:${n.iconBg};border-color:${n.iconBorder};">${n.icon}</div><div class="nm-title-wrap"><div class="nm-name">${n.name}</div><div class="nm-est">${n.est}</div></div></div><p class="nm-desc">${n.description}</p><div class="nm-stats"><div class="nm-stat"><div class="nm-stat-lbl">Leader</div><div class="nm-stat-val">${n.leader}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Population</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Currency</div><div class="nm-stat-val" style="color:${n.currencyColor}">${n.currency}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Capital</div><div class="nm-stat-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</div></div></div><div class="nm-tag-row">${tagsHtml}</div><div class="nm-sec-h">Nation Details</div><div>${factsHtml}</div><div class="nm-sec-h" style="margin-top:20px">Government</div><div class="nm-fact-row"><span class="nm-fact-lbl">System</span><span style="font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;${n.govStyle}">${n.government}</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Founded</span><span class="nm-fact-val">${n.founded}</span></div>${colorsHtml}${rbHtml}${electionsHtml}</div>`;
     const m = document.getElementById('nm');
     m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
