@@ -1711,6 +1711,7 @@
     const val = f ? f.val : 'None';
     if (val === 'Neutral' || val === 'Open') return 'None';
     if (val === 'Globe Alliance & Best Friends Alliance') return 'Globe Alliance & Best Friends Alliance';
+    if (val === 'Globe Alliance & SBOR Pact') return 'Globe Alliance & SBOR Pact';
     return val;
   }
   function voteNum(v) {
@@ -1786,6 +1787,8 @@
         const val = ((n.facts||[]).find(x=>x.label==='Alliance')||{}).val || 'None';
         const alliances = val === 'Globe Alliance & Best Friends Alliance'
           ? ['Globe Alliance','Best Friends Alliance']
+          : val === 'Globe Alliance & SBOR Pact'
+          ? ['Globe Alliance','SBOR Pact']
           : [(val==='Neutral'||val==='Open')?'None':val];
         alliances.forEach(a => { (groups[a]=groups[a]||[]).push(n); });
       });
