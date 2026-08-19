@@ -1486,76 +1486,168 @@
         <div class="ie-section-lbl">
           <div class="n" style="background:rgba(217,119,87,.18);color:#d97757;">2</div>
           <h2>Quests</h2>
-          <div class="sub">Optional side objectives</div>
+          <div class="sub">Optional side objectives — click a quest to expand it</div>
         </div>
         <div class="ie-quest-grid">
-          <div class="ie-quest">
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
             <div class="ie-quest-head">
               <div class="ie-quest-emoji">🪓</div>
               <div class="qtxt"><div class="qnum">QUEST 1</div><h3>The Lumberjack</h3></div>
+              <div class="ie-quest-chevron">▾</div>
             </div>
-            <div class="ie-quest-list">
-              <div class="qrow"><span>Fill a chest completely with <b>logs</b></span></div>
-              <div class="qrow"><span>Every log must be <b>the same wood type</b> you've chosen</span></div>
-              <div class="qrow"><span>All logs must come from <b>a single chest</b></span></div>
-              <div class="qrow"><span>Each of the <b>27 slots</b> needs a full stack of <b>64</b></span></div>
-            </div>
-            <div class="ie-quest-reqbar">
-              <span class="ie-quest-chip">🪵 Single Chest</span>
-              <span class="ie-quest-chip">📦 27 Slots</span>
-              <span class="ie-quest-chip">🔢 64 Per Slot</span>
-            </div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Fill a chest completely with <b>logs</b></span></div>
+                <div class="qrow"><span>Every log must be <b>the same wood type</b> you've chosen</span></div>
+                <div class="qrow"><span>All logs must come from <b>a single chest</b></span></div>
+                <div class="qrow"><span>Each of the <b>27 slots</b> needs a full stack of <b>64</b></span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">🪵 Single Chest</span>
+                <span class="ie-quest-chip">📦 27 Slots</span>
+                <span class="ie-quest-chip">🔢 64 Per Slot</span>
+              </div>
+            </div></div>
           </div>
-          <div class="ie-quest">
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
             <div class="ie-quest-head">
               <div class="ie-quest-emoji">🌾</div>
               <div class="qtxt"><div class="qnum">QUEST 2</div><h3>The Variety Vegetator</h3></div>
+              <div class="ie-quest-chevron">▾</div>
             </div>
-            <div class="ie-quest-list">
-              <div class="qrow"><span>Plant <b>3 different types</b> of crops</span></div>
-              <div class="qrow"><span>Collect <b>64</b> of whatever each crop produces — e.g. wheat gives <b>bread</b></span></div>
-              <div class="qrow"><span>Build a <b>small storage area</b> to hold everything you've grown</span></div>
-            </div>
-            <div class="ie-quest-reqbar">
-              <span class="ie-quest-chip">🌱 3 Crop Types</span>
-              <span class="ie-quest-chip">🔢 64 Per Product</span>
-              <span class="ie-quest-chip">📦 Dedicated Storage</span>
-            </div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Plant <b>3 different types</b> of crops</span></div>
+                <div class="qrow"><span>Collect <b>64</b> of whatever each crop produces — e.g. wheat gives <b>bread</b></span></div>
+                <div class="qrow"><span>Build a <b>small storage area</b> to hold everything you've grown</span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">🌱 3 Crop Types</span>
+                <span class="ie-quest-chip">🔢 64 Per Product</span>
+                <span class="ie-quest-chip">📦 Dedicated Storage</span>
+              </div>
+            </div></div>
           </div>
-          <div class="ie-quest">
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
             <div class="ie-quest-head">
               <div class="ie-quest-emoji">🟫</div>
               <div class="qtxt"><div class="qnum">QUEST 3</div><h3>The Island Innovator</h3></div>
+              <div class="ie-quest-chevron">▾</div>
             </div>
-            <div class="ie-quest-list">
-              <div class="qrow"><span>Expand your island by <b>100 blocks</b></span></div>
-              <div class="qrow"><span>Must extend <b>100 blocks in every direction</b></span></div>
-              <div class="qrow"><span>The expansion must be built entirely out of <b>dirt</b></span></div>
-            </div>
-            <div class="ie-quest-reqbar">
-              <span class="ie-quest-chip">📐 +100 Blocks</span>
-              <span class="ie-quest-chip">🧭 All Directions</span>
-              <span class="ie-quest-chip">🟫 Dirt Only</span>
-            </div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Expand your island by <b>100 blocks</b></span></div>
+                <div class="qrow"><span>Must extend <b>100 blocks in every direction</b></span></div>
+                <div class="qrow"><span>The expansion must be built entirely out of <b>dirt</b></span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">📐 +100 Blocks</span>
+                <span class="ie-quest-chip">🧭 All Directions</span>
+                <span class="ie-quest-chip">🟫 Dirt Only</span>
+              </div>
+            </div></div>
           </div>
-          <div class="ie-quest">
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
             <div class="ie-quest-head">
               <div class="ie-quest-emoji">🗡️</div>
               <div class="qtxt"><div class="qnum">QUEST 4</div><h3>The Assassin</h3></div>
+              <div class="ie-quest-chevron">▾</div>
             </div>
-            <div class="ie-quest-list">
-              <div class="qrow"><span>Legally kill <b>10 players</b></span></div>
-              <div class="qrow"><span>You may teleport to a player's island <b>with their consent</b>, or have them teleport to yours</span></div>
-              <div class="qrow"><span>Dying in any way <b>resets the quest</b></span></div>
-              <div class="qrow"><span>The same player can count toward multiple kills, but <b>never twice in a row</b></span></div>
-              <div class="qrow"><span>Your <b>final kill</b> must be a player you haven't killed before</span></div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Legally kill <b>10 players</b></span></div>
+                <div class="qrow"><span>You may teleport to a player's island <b>with their consent</b>, or have them teleport to yours</span></div>
+                <div class="qrow"><span>Dying in any way <b>resets the quest</b></span></div>
+                <div class="qrow"><span>The same player can count toward multiple kills, but <b>never twice in a row</b></span></div>
+                <div class="qrow"><span>Your <b>final kill</b> must be a player you haven't killed before</span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">💀 10 Kills</span>
+                <span class="ie-quest-chip">🤝 Consent to TP</span>
+                <span class="ie-quest-chip">⚠️ Death Resets It</span>
+                <span class="ie-quest-chip">✳️ Unique Final Kill</span>
+              </div>
+            </div></div>
+          </div>
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
+            <div class="ie-quest-head">
+              <div class="ie-quest-emoji">🏙️</div>
+              <div class="qtxt"><div class="qnum">QUEST 5</div><h3>The City Complex</h3></div>
+              <div class="ie-quest-chevron">▾</div>
             </div>
-            <div class="ie-quest-reqbar">
-              <span class="ie-quest-chip">💀 10 Kills</span>
-              <span class="ie-quest-chip">🤝 Consent to TP</span>
-              <span class="ie-quest-chip">⚠️ Death Resets It</span>
-              <span class="ie-quest-chip">✳️ Unique Final Kill</span>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Construct <b>5 specific builds</b> on your island</span></div>
+                <div class="qrow"><span>They must be a <b>house</b>, <b>restaurant</b>, <b>barn</b>, <b>farm</b> and <b>hotel</b></span></div>
+                <div class="qrow"><span>Every build must be <b>fully functional</b>, not just for show</span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">🏗️ 5 Builds</span>
+                <span class="ie-quest-chip">🏠🍽️🌾🐄🏨 Set Types</span>
+                <span class="ie-quest-chip">⚙️ Must Be Functional</span>
+              </div>
+            </div></div>
+          </div>
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
+            <div class="ie-quest-head">
+              <div class="ie-quest-emoji">🏘️</div>
+              <div class="qtxt"><div class="qnum">QUEST 6</div><h3>The Sky Village</h3></div>
+              <div class="ie-quest-chevron">▾</div>
             </div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Build a separate island for <b>villagers</b> to live on</span></div>
+                <div class="qrow"><span>Build <b>3 houses</b> on the villager island</span></div>
+                <div class="qrow"><span>Connect it to your island with a <b>bridge</b></span></div>
+                <div class="qrow"><span>The 3 houses must house <b>7 villagers</b> between them</span></div>
+                <div class="qrow"><span>Add a <b>farm</b> to the village as well</span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">🏝️ Villager Island</span>
+                <span class="ie-quest-chip">🏠 3 Houses</span>
+                <span class="ie-quest-chip">🌉 Bridge Connection</span>
+                <span class="ie-quest-chip">🧑‍🌾 7 Villagers</span>
+                <span class="ie-quest-chip">🌾 Farm Included</span>
+              </div>
+            </div></div>
+          </div>
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
+            <div class="ie-quest-head">
+              <div class="ie-quest-emoji">🌳</div>
+              <div class="qtxt"><div class="qnum">QUEST 7</div><h3>The Tree Treasurer</h3></div>
+              <div class="ie-quest-chevron">▾</div>
+            </div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Plant <b>5 different types</b> of tree on your island</span></div>
+                <div class="qrow"><span>The trees you <b>started with</b> count toward the total</span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">🌲 5 Tree Types</span>
+                <span class="ie-quest-chip">🌱 Starting Trees Count</span>
+              </div>
+            </div></div>
+          </div>
+          <div class="ie-quest" onclick="this.classList.toggle('open')">
+            <div class="ie-quest-head">
+              <div class="ie-quest-emoji">🔐</div>
+              <div class="qtxt"><div class="qnum">QUEST 8</div><h3>The Vault</h3></div>
+              <div class="ie-quest-chevron">▾</div>
+            </div>
+            <div class="ie-quest-body"><div class="ie-quest-body-inner">
+              <div class="ie-quest-list">
+                <div class="qrow"><span>Build a <b>vault underneath</b> your island</span></div>
+                <div class="qrow"><span>It must have <b>security</b> and <b>valuables</b> stored inside</span></div>
+                <div class="qrow"><span>The walls must be built from <b>iron blocks</b></span></div>
+                <div class="qrow"><span>Include a <b>single chest</b> completely full of items</span></div>
+              </div>
+              <div class="ie-quest-reqbar">
+                <span class="ie-quest-chip">🕳️ Underground</span>
+                <span class="ie-quest-chip">🛡️ Security + Valuables</span>
+                <span class="ie-quest-chip">🧱 Iron Block Walls</span>
+                <span class="ie-quest-chip">📦 1 Full Chest</span>
+              </div>
+            </div></div>
           </div>
           <div class="ie-quest-more">More quests coming soon</div>
         </div>
