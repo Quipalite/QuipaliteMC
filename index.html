@@ -2544,7 +2544,7 @@
     'Smegtopia': "Smegtopia has strong club football history. Smeg City FC are the reigning Spring Club World Cup 2026 Champions, beating Crainetown FC 1-0 in the final. Smegtopia also runs a joint domestic football league with Corexia, the Fusion League, featuring 4 Smegtopia teams and 3 Corexia teams. As the host nation of the Spring Club World Cup 2026, Smegtopia have confirmed participation in World Cup 2026.",
     'Crabville': "Crabville fielded two clubs in the Spring Club World Cup 2026. Crabville Breezers reached the semi finals before losing to Smeg City FC, while Crabville Creepers fell in the quarter finals. Crabville have confirmed participation in World Cup 2026.",
     'Springbuck': "Springbuck, founded in April 2026, has no Club World Cup history yet. Formerly a member of the Globe Alliance run by Corexia, Springbuck have confirmed their participation in World Cup 2026.",
-    'Wancerville': "Wancerville has no Club World Cup history recorded so far. Wancerville have confirmed participation in World Cup 2026.",
+    'Wancerville': "Wancerville's national team has been re-established, now fielded under Smegtopia's ownership after the invasion and dissolution of the nation left Smegtopia in control of its former territory. The side retains its Wancerville identity on the pitch despite the change in sovereignty. Wancerville have confirmed participation in World Cup 2026.",
     'Waterland': "Waterland has no Club World Cup history recorded so far. Waterland have confirmed their participation in World Cup 2026.",
     'Smogtowne': "Smogtowne has no Club World Cup history recorded so far. Smogtowne have confirmed participation in World Cup 2026.",
     'Caderville': "Caderville, founded in July 2026, has no Club World Cup history yet. Under the rule of mack29702, Caderville have confirmed their participation in World Cup 2026.",
@@ -2694,7 +2694,7 @@
     return result;
   }
 
-  const WC2_STATE_TO_COUNTRY = {'okpemon':'craineun','seirin':'corexia'};
+  const WC2_STATE_TO_COUNTRY = {'okpemon':'craineun','seirin':'corexia','wancerville':'smegtopia'};
   function wc2NameToId(name){
     const id = name.toLowerCase().replace(/\s+/g,'');
     return WC2_STATE_TO_COUNTRY[id] || id;
@@ -3182,6 +3182,7 @@
     {rank:10, name:'Caderville', rating:4.85, trend:'up'},
     {rank:11, name:'Seirin', rating:2.00, trend:'down'},
     {rank:12, name:'Keem', rating:2.00, trend:'same'},
+    {rank:13, name:'Wancerville', rating:2.00, trend:'same'},
   ];
   const WC2_TREND_ICON = {up:'<span style="color:#4ade80">▲</span>', down:'<span style="color:#f87171">▼</span>', same:'<span style="color:var(--text-dim)">▬</span>'};
 
