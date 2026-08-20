@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2431,7 +2432,7 @@
   const _avt=Date.now();
   function av(u,s=48){return `https://tabavatars.net/avatar/?username=${encodeURIComponent(u)}&size=${s}&type=head&t=${_avt}`;}
   function updateOverall(){const o={};for(const m in PS){if(m==='overall')continue;for(const p in PS[m]){if(!o[p])o[p]={wins:0,kills:0,deaths:0};const s=PS[m][p];o[p].wins+=s.wins||0;o[p].kills+=s.kills||0;o[p].deaths+=s.deaths||0;}}PS.overall=o;renderServerTotals();}
-  function renderServerTotals(){const el=document.getElementById('serverTotals');if(!el)return;let w=0,k=0,d=0;for(const p in PS.overall){w+=PS.overall[p].wins||0;k+=PS.overall[p].kills||0;d+=PS.overall[p].deaths||0;}el.innerHTML=`<span style="color:#4ade80">🏆 <b>${w.toLocaleString()}</b> Wins</span><span style="color:#facc15">⚔️ <b>${k.toLocaleString()}</b> Kills</span><span style="color:#f87171">💀 <b>${d.toLocaleString()}</b> Deaths</span>`;}
+  function renderServerTotals(){const el=document.getElementById('serverTotals');if(!el)return;let w=0,k=0,d=0;for(const p in PS.overall){w+=PS.overall[p].wins||0;k+=PS.overall[p].kills||0;d+=PS.overall[p].deaths||0;}const kd=d===0?(k>0?Infinity:0):k/d;const kdStr=kd===Infinity?'∞':kd.toFixed(2);el.innerHTML=`<span style="color:#4ade80">🏆 <b>${w.toLocaleString()}</b> Wins</span><span style="color:#facc15">⚔️ <b>${k.toLocaleString()}</b> Kills</span><span style="color:#f87171">💀 <b>${d.toLocaleString()}</b> Deaths</span><span style="color:#60a5fa">📊 <b>${kdStr}</b> K/D</span>`;}
   function getOrdered(mode){if(mode==='overall')updateOverall();const d=PS[mode]||{};const c=Object.entries(d).map(([n,s])=>{const tier=CT[mode]?.[n]||'Unranked';const kd=s.deaths===0?s.kills:s.kills/s.deaths;return{n,s,tier,score:s.wins*10+s.kills+kd*5};});c.sort((a,b)=>{const td=(TP[b.tier]||0)-(TP[a.tier]||0);if(td)return td;if(b.score!==a.score)return b.score-a.score;if(b.s.wins!==a.s.wins)return b.s.wins-a.s.wins;if(b.s.kills!==a.s.kills)return b.s.kills-a.s.kills;return a.s.deaths-b.s.deaths;});return c.map(x=>x.n);}
   function kdc(kd){return(kd===Infinity||kd>=2)?'#4ade80':kd>=1?'#facc15':'#f87171';}
   function sc(v,all,lo=false){if(all.length<=1)return'var(--text)';const s=[...all].sort((a,b)=>a-b),r=s.lastIndexOf(v),p=r/(s.length-1);if(lo){if(p<=.33)return'#4ade80';if(p<=.66)return'#facc15';return'#f87171';}else{if(p>=.67)return'#4ade80';if(p>=.34)return'#facc15';return'#f87171';}}
