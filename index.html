@@ -205,6 +205,13 @@
     .rv.visible{opacity:1;transform:none;}
     .rd1{transition-delay:.1s;} .rd2{transition-delay:.2s;} .rd3{transition-delay:.3s;}
     .rtabs{display:flex;justify-content:center;align-items:center;gap:3px;padding:12px 20px;flex-wrap:wrap;}
+    .server-totals{position:absolute;top:14px;right:20px;display:flex;gap:10px;padding:6px 12px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-family:var(--font-m);font-size:11px;z-index:5;}
+    .server-totals span{display:flex;align-items:center;gap:4px;white-space:nowrap;}
+    .server-totals b{font-weight:700;}
+    #rankedPage{position:relative;}
+    @media(max-width:640px){
+      .server-totals{position:static;justify-content:center;flex-wrap:wrap;margin:10px auto 0;width:fit-content;}
+    }
     .tab{display:flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--rs);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);font-family:var(--font-b);font-weight:600;font-size:12.5px;color:var(--text-muted);cursor:pointer;transition:all .2s cubic-bezier(.22,1,.36,1);}
     .tab:hover{color:var(--text);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);}
     .tab.active{color:var(--text);background:rgba(255,26,109,.1);border-color:var(--pink-line);box-shadow:0 0 20px rgba(255,26,109,.08),inset 0 1px 0 rgba(255,255,255,.06);}
@@ -1241,6 +1248,7 @@
 
   <!-- RANKED PAGE -->
   <div id="rankedPage" class="page">
+    <div id="serverTotals" class="server-totals" aria-label="Server-wide stats"></div>
     <div class="rtabs" role="tablist">
       <button class="tab active" onclick="showMode('overall',this)">🏆 Overall</button>
       <button class="tab" onclick="showMode('sword',this)"><img src="https://raw.githubusercontent.com/PixiGeko/Minecraft-default-assets/latest/assets/minecraft/textures/item/netherite_sword.png" width="13" height="13" alt=""> Sword</button>
@@ -2441,7 +2449,8 @@
   function flag(c,s=11){return `<img src="https://flagcdn.com/w40/${c}.png" class="flag" alt="${CN[c]||c}" title="${CN[c]||c}" style="height:${s}px">`;}
   const _avt=Date.now();
   function av(u,s=48){return `https://tabavatars.net/avatar/?username=${encodeURIComponent(u)}&size=${s}&type=head&t=${_avt}`;}
-  function updateOverall(){const o={};for(const m in PS){if(m==='overall')continue;for(const p in PS[m]){if(!o[p])o[p]={wins:0,kills:0,deaths:0};const s=PS[m][p];o[p].wins+=s.wins||0;o[p].kills+=s.kills||0;o[p].deaths+=s.deaths||0;}}PS.overall=o;}
+  function updateOverall(){const o={};for(const m in PS){if(m==='overall')continue;for(const p in PS[m]){if(!o[p])o[p]={wins:0,kills:0,deaths:0};const s=PS[m][p];o[p].wins+=s.wins||0;o[p].kills+=s.kills||0;o[p].deaths+=s.deaths||0;}}PS.overall=o;renderServerTotals();}
+  function renderServerTotals(){const el=document.getElementById('serverTotals');if(!el)return;let w=0,k=0,d=0;for(const p in PS.overall){w+=PS.overall[p].wins||0;k+=PS.overall[p].kills||0;d+=PS.overall[p].deaths||0;}el.innerHTML=`<span style="color:#4ade80">🏆 <b>${w.toLocaleString()}</b> Wins</span><span style="color:#facc15">⚔️ <b>${k.toLocaleString()}</b> Kills</span><span style="color:#f87171">💀 <b>${d.toLocaleString()}</b> Deaths</span>`;}
   function getOrdered(mode){if(mode==='overall')updateOverall();const d=PS[mode]||{};const c=Object.entries(d).map(([n,s])=>{const tier=CT[mode]?.[n]||'Unranked';const kd=s.deaths===0?s.kills:s.kills/s.deaths;return{n,s,tier,score:s.wins*10+s.kills+kd*5};});c.sort((a,b)=>{const td=(TP[b.tier]||0)-(TP[a.tier]||0);if(td)return td;if(b.score!==a.score)return b.score-a.score;if(b.s.wins!==a.s.wins)return b.s.wins-a.s.wins;if(b.s.kills!==a.s.kills)return b.s.kills-a.s.kills;return a.s.deaths-b.s.deaths;});return c.map(x=>x.n);}
   function kdc(kd){return(kd===Infinity||kd>=2)?'#4ade80':kd>=1?'#facc15':'#f87171';}
   function sc(v,all,lo=false){if(all.length<=1)return'var(--text)';const s=[...all].sort((a,b)=>a-b),r=s.lastIndexOf(v),p=r/(s.length-1);if(lo){if(p<=.33)return'#4ade80';if(p<=.66)return'#facc15';return'#f87171';}else{if(p>=.67)return'#4ade80';if(p>=.34)return'#facc15';return'#f87171';}}
