@@ -3588,11 +3588,12 @@
     ],
   };
 
+  function esc(s){ return String(s).replace(/'/g,"\\'"); }
+
   function openLeagueFixtures(leagueName){
     const fixtures = LEAGUE_FIXTURES[leagueName] || [];
     const league = WC2_LEAGUE_POWER_RANKINGS.find(r => r.name === leagueName);
     const accent = league ? league.accent : '#fff';
-    const esc = s => s.replace(/'/g,"\\'");
     const byMd = {};
     fixtures.forEach(f => { (byMd[f.md] = byMd[f.md] || []).push(f); });
     const mdKeys = Object.keys(byMd).map(Number).sort((a,b)=>a-b);
