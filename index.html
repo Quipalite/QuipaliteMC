@@ -2411,14 +2411,48 @@
     awardsPeriod = period;
     document.querySelectorAll('#awardsSubtabs .wc2-subtab').forEach(b=>b.classList.remove('active'));
     if (btn) btn.classList.add('active');
-    renderAwards();
+    const el = document.getElementById('awardsContent');
+    if (el) { el.style.transition = 'opacity .15s ease'; el.style.opacity = '0'; setTimeout(() => { renderAwards(); el.style.opacity = '1'; }, 150); }
+    else renderAwards();
+  }
+  function hasRankedProfile(name){return !!((PS.sword&&PS.sword[name])||(PS.axe&&PS.axe[name])||(PS.uhc&&PS.uhc[name])||(PS.mace&&PS.mace[name])||(PS.spear&&PS.spear[name]));}
+  function openAwardPlayerProfile(name){if(!hasRankedProfile(name))return;closeAwardCategory();goRanked();setTimeout(()=>openProfile(name,'overall'),90);}
+  function closeAwardCategory(){closeNation();}
+  function openAwardCategory(period, idx){
+    const data = AWARDS[period];
+    const cat = data && data.categories[idx];
+    if (!cat) return;
+    const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
+    const rows = cat.nominees.map(n => {
+      const isWinner = winners.includes(n);
+      const clickable = hasRankedProfile(n);
+      return `<div class="nm-fact-row" style="${clickable?'cursor:pointer':''}" ${clickable?`onclick="openAwardPlayerProfile('${n.replace(/'/g,"\\'")}')"`:''}>
+        <span class="nm-fact-lbl" style="${clickable?'text-decoration:underline;text-decoration-color:rgba(255,26,109,.3)':''}">${isWinner?'🏆 ':''}${n}${clickable?' <span style=\"font-size:9px;color:var(--text-dim)\">↗ view profile</span>':''}</span>
+        <span class="nm-fact-val" style="${isWinner?'color:var(--gold)':''}">${isWinner?'Winner':'Nominee'}</span>
+      </div>`;
+    }).join('');
+    document.getElementById('nmc').innerHTML = `
+      <div class="nm-banner" style="background:linear-gradient(135deg,rgba(245,200,66,.16) 0%,transparent 70%);"><div class="nm-banner-pattern"></div></div>
+      <div class="nm-body">
+        <div class="nm-header">
+          <div class="nm-ico-wrap" style="background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);">${cat.icon}</div>
+          <div class="nm-title-wrap"><div class="nm-name" style="font-size:20px">${cat.title}</div><div class="nm-est">${data.label}</div></div>
+        </div>
+        <div class="nm-sec-h">Nominees</div>
+        <div>${rows}</div>
+      </div>`;
+    const m = document.getElementById('nm');
+    m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
   }
   function renderAwards() {
     const el = document.getElementById('awardsContent');
     if (!el) return;
     const data = AWARDS[awardsPeriod];
     if (!data || !data.categories.length) {
-      el.innerHTML = `<div class="gcard" style="cursor:default;margin-top:8px">
+      el.innerHTML = `<div class="gcard" style="cursor:default;margin-top:8px;opacity:0;animation:fadeUp .45s ease forwards">
         <div class="gcard-top">
           <div class="gicon">\ud83c\udfc5</div>
           <div class="ginfo">
@@ -2434,16 +2468,22 @@
       const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
       const winnerTag = winners.length ? `<span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">🏆 ${winners.join(' & ')}</span>` : `<span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">TBD</span>`;
       return `
-      <div class="gcard" style="cursor:default">
+      <div class="gcard" style="cursor:pointer;opacity:0;animation:fadeUp .45s ${(i*0.05).toFixed(2)}s cubic-bezier(.22,1,.36,1) forwards" onclick="openAwardCategory('${awardsPeriod}',${i})">
         <div class="gcard-top">
           <div class="gicon">${cat.icon}</div>
           <div class="ginfo">
             <div class="gname" style="font-size:17px">${cat.title}</div>
             ${winnerTag}
           </div>
+          <div class="garrow">↗</div>
         </div>
         <div class="mode-pills" style="margin-top:6px">
-          ${cat.nominees.map(n => `<span class="mpill${winners.includes(n)?' special':''}">${winners.includes(n)?'🏆 ':''}${n}</span>`).join('')}
+          ${cat.nominees.map(n => {
+            const isWinner = winners.includes(n);
+            const clickable = hasRankedProfile(n);
+            const handler = clickable ? `onclick="event.stopPropagation();openAwardPlayerProfile('${n.replace(/'/g,"\\'")}')"` : '';
+            return `<span class="mpill${isWinner?' special':''}${clickable?' click':''}" ${handler} title="${clickable?'View ranked profile':''}">${isWinner?'🏆 ':''}${n}</span>`;
+          }).join('')}
         </div>
       </div>`;
     }).join('')}</div>`;
