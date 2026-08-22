@@ -88,6 +88,9 @@
       .hamburger{display:flex!important;}
       nav.nav-open{position:relative;}
     }
+    .nav-links,.nav-div,.nav-icons .ibtn.yt,.nav-icons .ibtn.dc{display:none!important;}
+    .hamburger{display:flex!important;}
+    .mobile-nav{display:flex;}
     .dc-stats{display:flex;align-items:center;gap:14px;margin:10px 0 2px;font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-muted);min-height:14px;}
     .dc-stats .dc-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(74,222,128,.7);margin-right:5px;animation:pulse 2s ease-in-out infinite;}
     .dc-stats strong{color:var(--text);}
@@ -1043,6 +1046,14 @@
       </div>
     </div>
     <div class="nav-right" style="display:flex !important;align-items:center !important;flex:0 0 auto !important;width:auto !important;margin-left:auto !important;">
+      <div class="nav-links">
+        <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
+        <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
+        <button class="nav-link" id="nlNations" onclick="goCurrentNations()">Nations</button>
+        <button class="nav-link" id="nlAwards" onclick="goAwards()">Awards</button>
+        <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
+      </div>
+      <div class="nav-div"></div>
       <div class="nav-icons">
         <a class="ibtn yt" href="https://www.youtube.com/@QuipaliteMC" target="_blank" rel="noopener" title="YouTube">
           <svg width="14" height="10" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.127-2.138C19.505 0 12 0 12 0S4.505 0 2.632.067A3.02 3.02 0 0 0 .505 2.205 31.247 31.247 0 0 0 0 8.5a31.247 31.247 0 0 0 .505 6.295 3.02 3.02 0 0 0 2.127 2.138C4.505 17 12 17 12 17s7.505 0 9.368-.067a3.02 3.02 0 0 0 2.127-2.138A31.247 31.247 0 0 0 24 8.5a31.247 31.247 0 0 0-.505-6.295zM9.609 12.107V4.893l6.264 3.607-6.264 3.607z"/></svg>
@@ -1054,17 +1065,9 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         </button>
         <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)" style="display:none">?</button>
-        <button class="ibtn hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" title="Menu" style="display:none">
+        <button class="ibtn hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" title="Menu">
           <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="1"/><line x1="1" y1="9" x2="23" y2="9"/><line x1="1" y1="17" x2="23" y2="17"/></svg>
         </button>
-      </div>
-      <div class="nav-div"></div>
-      <div class="nav-links">
-        <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
-        <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
-        <button class="nav-link" id="nlNations" onclick="goCurrentNations()">Nations</button>
-        <button class="nav-link" id="nlAwards" onclick="goAwards()">Awards</button>
-        <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
       </div>
     </div>
     <div class="nav-glow"></div>
