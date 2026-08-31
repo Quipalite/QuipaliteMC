@@ -421,6 +421,10 @@
     .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
     .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
+    .wc2-intro-card{max-width:720px;margin:0 auto 22px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(245,200,66,.18);display:flex;align-items:flex-start;gap:12px;text-align:left;}
+    .wc2-intro-card .wc2-intro-ico{font-size:20px;line-height:1;flex-shrink:0;margin-top:1px;filter:drop-shadow(0 0 8px rgba(245,200,66,.35));}
+    .wc2-intro-card p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text-muted);}
+    .wc2-intro-card p strong{color:var(--text);font-weight:700;}
     .wc2-official-note{text-align:center;font-family:var(--font-b);font-size:11px;color:var(--text-dim);margin-top:18px;padding:0 20px;line-height:1.5;}
     .official-theme .wc2-group-title,.official-theme .wc2-knockout-title{color:#facc15;}
     .official-theme .wc2-group-card{border-color:rgba(250,204,21,.18);}
@@ -431,7 +435,13 @@
     .wc2-countdown.live{color:#f87171;animation:pulse 2s ease-in-out infinite;}
     .wc2-countdown.past{color:var(--text-dim);opacity:.6;}
     .wc2-group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;}
-    .wc2-group-card{border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:16px 16px 8px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
+    .wc2-group-card{border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:16px 16px 8px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .25s,box-shadow .25s;}
+    .wc2-group-card:hover{transform:translateY(-3px);border-color:rgba(245,200,66,.3);box-shadow:0 14px 36px rgba(0,0,0,.4);}
+    @media(min-width:761px){ .wc2-group-card.wc2-group-center{grid-column:2;} }
+    .wc2-fixture-row-clickable{position:relative;cursor:pointer;border-radius:9px;transition:background .18s,transform .18s;padding-left:8px;padding-right:26px;margin:0 -8px;}
+    .wc2-fixture-row-clickable:hover{background:rgba(245,200,66,.06);transform:translateX(2px);}
+    .wc2-fixture-row-clickable::after{content:'🔍';position:absolute;right:4px;top:50%;transform:translateY(-50%) scale(.8);font-size:11px;opacity:0;transition:opacity .18s,transform .18s;}
+    .wc2-fixture-row-clickable:hover::after{opacity:.7;transform:translateY(-50%) scale(1);}
     .wc2-group-grid>.wc2-group-card:nth-child(1){animation-delay:.05s;}
     .wc2-group-grid>.wc2-group-card:nth-child(2){animation-delay:.15s;}
     .wc2-group-grid>.wc2-group-card:nth-child(3){animation-delay:.25s;}
@@ -1789,8 +1799,8 @@
       <div class="wc-header">
         <button class="wc-toggle-btn" id="wcToggleBtn" onclick="toggleWcSection()"><span class="wc-tg-icon">▾</span><span id="wcToggleLabel">Hide</span></button>
         <span class="wc-trophy">🏆</span>
-        <div class="wc-title" id="wcTitle">World Cup 2026</div>
-        <div class="wc-sub" id="wcSub">Countries Edition &nbsp;·&nbsp; Semi-Finals Underway</div>
+        <div class="wc-title" id="wcTitle">National Football</div>
+        <div class="wc-sub" id="wcSub">World Cup 2026 · Countries Edition &nbsp;·&nbsp; Semi-Finals Underway</div>
         <div style="margin-top:10px;display:flex;justify-content:center">
           <span class="wc-stadium-note" id="wcStadiumNote" style="display:none;">🏟️ All matches — SmegTopia Stadium</span>
         </div>
@@ -2826,7 +2836,8 @@
 
   function cwcRenderGroupTables(fixtures){
     const standingsByGroup = cwcComputeStandings(fixtures);
-    const groupCards = Object.keys(standingsByGroup).map(gname => {
+    const gnames = Object.keys(standingsByGroup);
+    const groupCards = gnames.map((gname, gi) => {
       const standings = standingsByGroup[gname];
       const rows = standings.map((t, idx) => {
         const cls = idx < 2 ? 'qualified' : '';
@@ -2836,7 +2847,8 @@
           <td>${t.gf}-${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td><strong>${t.pts}</strong></td>
         </tr>`;
       }).join('');
-      return `<div class="wc2-group-card">
+      const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
+      return `<div class="wc2-group-card${centerCls}">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <table class="wc2-group-table">
@@ -2851,12 +2863,13 @@
 
   // Read-only confirmed schedule — dates only, no score entry.
   function cwcRenderConfirmedSchedule(){
-    const groupBlocks = Object.keys(CWC_GROUPS_OCT26).map(gname => {
+    const gnames = Object.keys(CWC_GROUPS_OCT26);
+    const groupBlocks = gnames.map((gname, gi) => {
       const teams = CWC_GROUPS_OCT26[gname];
       const rows = [];
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
-          rows.push(`<div class="wc2-fixture-row" style="cursor:pointer" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
+          rows.push(`<div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
             <div class="wc2-fixture-main">
               <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${teams[i]}</span>
               <span class="wc2-schedule-score">TBD</span>
@@ -2868,7 +2881,8 @@
           </div>`);
         }
       }
-      return `<div class="wc2-group-card">
+      const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
+      return `<div class="wc2-group-card${centerCls}">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows.join('')}</div>
@@ -2882,10 +2896,11 @@
   // Editable prediction inputs — feeds cwcOct26State and the live standings.
   function cwcRenderPredictorFixtures(){
     const fixtures = cwcOct26State.fixtures;
-    const groupBlocks = Object.keys(CWC_GROUPS_OCT26).map(gname => {
+    const gnames = Object.keys(CWC_GROUPS_OCT26);
+    const groupBlocks = gnames.map((gname, gi) => {
       const gid = gname.replace(/\s+/g,'');
       const rows = fixtures[gname].map((f, idx) => `
-        <div class="wc2-fixture-row" style="cursor:pointer" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
+        <div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
           <div class="wc2-fixture-main">
             <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${f.home}</span>
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-h" value="${f.hs===null?'':f.hs}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
@@ -2895,7 +2910,8 @@
           </div>
           <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
         </div>`).join('');
-      return `<div class="wc2-group-card">
+      const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
+      return `<div class="wc2-group-card${centerCls}">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows}</div>
@@ -5008,15 +5024,15 @@
     document.getElementById('wcTabClub').classList.toggle('active', key==='club');
     document.getElementById('wcTabCountry').classList.toggle('active', key==='country');
     if(key === 'club'){
-      document.getElementById('wcTitle').textContent = 'Club World Cup 2026';
-      document.getElementById('wcSub').textContent = 'Two Editions · April & October';
+      document.getElementById('wcTitle').textContent = 'Domestic Football';
+      document.getElementById('wcSub').textContent = 'Club World Cup 2026 · Two Editions · April & October';
       document.getElementById('wcStadiumNote').style.display = 'none';
       document.getElementById('wcChampionBanner').style.display = 'none';
       document.getElementById('wcChampionBanner').innerHTML = '';
       renderBracket();
     } else {
-      document.getElementById('wcTitle').textContent = 'World Cup 2026';
-      document.getElementById('wcSub').textContent = 'Countries Edition · Semi-Finals Underway';
+      document.getElementById('wcTitle').textContent = 'National Football';
+      document.getElementById('wcSub').textContent = 'World Cup 2026 · Countries Edition · Semi-Finals Underway';
       document.getElementById('wcStadiumNote').style.display = 'none';
       document.getElementById('wcChampionBanner').style.display = 'none';
       document.getElementById('wcChampionBanner').innerHTML = '';
