@@ -2310,7 +2310,7 @@
       const profitsHtml = rb.smegcorp.profits.length ? `<div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;margin-top:14px;"><span class="nm-fact-lbl">Investor Profits</span></div><div class="nm-rb-list">${rb.smegcorp.profits.map(p=>`<span class="nm-rb-chip" style="border-color:${n.accentColor}55;color:${n.accentColor}">${p.nation}: ${p.val}</span>`).join('')}</div>` : `<div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;margin-top:14px;"><span class="nm-fact-lbl">Investor Profits</span><span class="nm-fact-val" style="color:var(--text-muted)">None</span></div>`;
       return `<div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;margin-top:16px;"><span class="nm-fact-lbl">SmegCorp Valuation</span><span class="nm-sc-growth" style="color:${gColor};background:${gBg};border:1px solid ${gBorder};">${rb.smegcorp.collapsed ? '☠️ COLLAPSED' : `${arrow} ${rb.smegcorp.growth}`}</span></div><div class="nm-sc-timeline">${rb.smegcorp.history.map((h,idx)=>`<div class="nm-sc-point" style="${h.value==='BANKRUPT' ? 'border-color:rgba(248,113,113,.4);' : ''}"><div class="nm-sc-date">${h.date}</div><div class="nm-sc-val" style="color:${h.value==='BANKRUPT' ? '#f87171' : n.accentColor}">${h.value}</div></div>${idx<rb.smegcorp.history.length-1?'<div class="nm-sc-arrow">→</div>':''}`).join('')}</div>${profitsHtml}${rb.smegcorp.boycott ? `<div class="nm-elect-lead" style="color:#f87171;margin-top:10px;padding-top:0;">${rb.smegcorp.collapsed ? '☠️' : '⚠️'} ${rb.smegcorp.boycott}</div>` : ''}`;
     })() : '';
-    const rbHtml = rb ? `<div class="nm-sec-h" style="margin-top:20px">Stats</div><button class="nm-rb-btn" onclick="toggleRB(this)">📊 Stats<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel"><div class="nm-fact-row"><span class="nm-fact-lbl">HDI</span><span class="nm-fact-val" style="color:${hdiColor(rb.hdiLabel)}">${rb.hdi} (${rb.hdiLabel})</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Population Growth</span><span class="nm-fact-val" style="color:${n.accentColor}">${rb.popGrowth}</span></div><div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;"><span class="nm-fact-lbl">Recommended Builds</span></div><div class="nm-rb-list">${rb.recommendations.map(r=>`<span class="nm-rb-chip" style="border-color:${n.accentColor}55;color:${n.accentColor}">${r}</span>`).join('')}</div>${smegHtml}</div>` : '';
+    const rbHtml = rb ? `<div class="nm-sec-h" style="margin-top:20px">Stats</div><button class="nm-rb-btn" onclick="toggleRB(this)">📊 Stats<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel"><div class="nm-fact-row"><span class="nm-fact-lbl">HDI</span><span class="nm-fact-val" style="color:${hdiColor(rb.hdiLabel)}">${rb.hdi} (${rb.hdiLabel})</span></div><div class="nm-fact-row" style="border-bottom:none;padding-bottom:0;"><span class="nm-fact-lbl">Population Growth</span><span class="nm-fact-val" style="color:${n.accentColor}">${rb.popGrowth}</span></div>${smegHtml}</div>` : '';
     const el = ELECTIONS[n.id];
     const electionsHtml = el ? `<div class="nm-sec-h" style="margin-top:20px">Elections</div><button class="nm-rb-btn" onclick="toggleRB(this)">🗳️ Elections<span class="nm-rb-chevron">▾</span></button><div class="nm-rb-panel">${[...el].sort((a,b)=>a.city.localeCompare(b.city)).map(cityObj=>{
       const sorted = [...cityObj.candidates].sort((a,b)=>{
@@ -2649,6 +2649,342 @@
      away:'Smeg City FC',awayNation:'Smegtopia',awayAccent:'#FF8C00',
      homeScore:0,awayScore:1,status:'FT',pens:null,forfeit:false,note:'🏆 Smeg City FC are crowned Spring Club World Cup 2026 Champions!'},
   ];
+
+  // ─── CLUB WORLD CUP — TWO EDITIONS ───────────────────────────────────────────
+  // April 2026: the completed Spring edition — a straight knockout, no groups.
+  // Smeg City FC beat Crainetown FC 1-0 in the Final. This is historic record
+  // and never changes (see WC_MATCHES above).
+  // October 2026: the upcoming edition — group stage. Group draw confirmed;
+  // kick-off dates are still to be announced.
+  const CWC_CLUB_NATION = {
+    'Smeggers FC':'Smegtopia','Quipalite MC Corexian Club':'Corexia','Crainetown FC':'Craineun','Okpemon FC':'Okpemon',
+    'Crabville Creepers':'Crabville','Waterland City':'Waterland','Los Perlos CF':'Craineun','Smogtowne':'Smogtowne',
+    'Keem Town United':'Keem','AFC Crabville':'Crabville','Springbuck United':'Springbuck','MiraHQ':'Stormland',
+    'Smeg City FC':'Smegtopia','Springbuck Strikers':'Springbuck','Crabville Breezers':'Crabville','Springfield United':'Craineun',
+  };
+  const CWC_NATION_ACCENT = {
+    'Smegtopia':'#FF8C00','Corexia':'#00FFFF','Craineun':'#50C878','Okpemon':'#ef4444','Crabville':'#9333ea',
+    'Waterland':'#1E90FF','Smogtowne':'#888888','Keem':'#facc15','Springbuck':'#22c55e','Stormland':'#1E90FF',
+  };
+  // October 2026 group draw.
+  const CWC_GROUPS_OCT26 = {
+    'Group A': ['Smeggers FC','Quipalite MC Corexian Club','Crainetown FC','Okpemon FC'],
+    'Group B': ['Crabville Creepers','Waterland City','Los Perlos CF','Smogtowne'],
+    'Group C': ['Keem Town United','AFC Crabville','Springbuck United','MiraHQ'],
+    'Group D': ['Smeg City FC','Springbuck Strikers','Crabville Breezers','Springfield United'],
+  };
+  // Kick-off dates for the October 2026 group fixtures are not yet confirmed.
+  const CWC_OCT26_FIXTURE_DATES = {};
+  function cwcFixtureDate(home, away){
+    return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
+  }
+  // Maps a Nation display name (as used in CWC_CLUB_NATION) to its NATIONS id,
+  // so club names in the Club World Cup can link through to a nation profile.
+  const CWC_NATION_NAME_TO_ID = {'Keem':'keem'};
+  NATIONS.forEach(n => { CWC_NATION_NAME_TO_ID[n.name] = n.id; });
+  // Finds a club's domestic league entry (name + rating + description) by name,
+  // searching every league roster. Used so CWC team links open a club profile
+  // rather than a nation profile.
+  function cwcFindClub(teamName){
+    for (const league of WC2_LEAGUE_POWER_RANKINGS) {
+      const team = league.teams.find(t => t.name === teamName);
+      if (team) return {leagueName: league.name, team};
+    }
+    return null;
+  }
+  // Opens the right profile for a Club World Cup team: a club profile for
+  // actual clubs, or the nation profile for Smogtowne, who enter as an
+  // invited national team rather than a domestic club.
+  function cwcOpenTeam(teamName){
+    if (teamName === 'Smogtowne') { openNation('smogtowne'); return; }
+    const found = cwcFindClub(teamName);
+    if (found) { openWc2Team(found.leagueName, found.team.name); return; }
+    // Fallback: if a team can't be matched to a club, fall back to its nation.
+    const nationName = CWC_CLUB_NATION[teamName];
+    const id = nationName && CWC_NATION_NAME_TO_ID[nationName];
+    if (id) openNation(id);
+  }
+  // Opens a match modal for a Club World Cup group fixture.
+  function cwcOpenFixture(gname, home, away){
+    const homeAccent = cwcAccent(home);
+    const awayAccent = cwcAccent(away);
+    document.getElementById('mmc').innerHTML = `
+      <div class="mm-banner" style="background:linear-gradient(135deg,${homeAccent}20 0%,transparent 70%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="mm-body">
+        <span class="mm-round-tag" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)">${gname.toUpperCase()} · GROUP STAGE</span>
+        <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
+            <div class="mm-team-block" style="min-width:0"><div class="mm-club" style="color:${homeAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="cwcOpenTeam('${home.replace(/'/g,"\\'")}')">${home}</div></div>
+            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            <div class="mm-team-block away" style="min-width:0"><div class="mm-club" style="color:${awayAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="cwcOpenTeam('${away.replace(/'/g,"\\'")}')">${away}</div></div>
+          </div>
+        </div>
+        <div class="mm-divider"></div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${cwcFixtureDate(home, away)}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Group</div><div class="mm-fact-val">${gname}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">🟢 Upcoming</div></div>
+        </div>
+      </div>`;
+    wc2OpenModal();
+  }
+  // Opens a group overview modal for a Club World Cup group — teams and fixtures.
+  function cwcOpenGroup(gname){
+    const teams = CWC_GROUPS_OCT26[gname];
+    if (!teams) return;
+    const teamsHtml = teams.map(name => `<div class="nm-fact-row" style="cursor:pointer" onclick="closeNation();setTimeout(()=>cwcOpenTeam('${name.replace(/'/g,"\\'")}'),260)">
+        <span class="nm-fact-lbl" style="display:flex;align-items:center;gap:8px;color:var(--text)"><span style="width:9px;height:9px;border-radius:50%;background:${cwcAccent(name)};display:inline-block;flex-shrink:0"></span>${name}</span>
+        <span class="nm-fact-val" style="color:var(--text-dim)">Confirmed</span>
+      </div>`).join('');
+    const fixtureRows = [];
+    for(let i=0;i<teams.length;i++){
+      for(let j=i+1;j<teams.length;j++){
+        fixtureRows.push(`<div class="nm-fact-row" style="cursor:pointer" onclick="closeNation();setTimeout(()=>cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}'),260)">
+          <span class="nm-fact-lbl">${teams[i]} vs ${teams[j]}</span>
+          <span class="nm-fact-val">${cwcFixtureDate(teams[i], teams[j])}</span>
+        </div>`);
+      }
+    }
+    document.getElementById('nmc').innerHTML = `
+      <div class="nm-banner" style="background:linear-gradient(135deg,${cwcAccent(teams[0])}20 0%,${cwcAccent(teams[teams.length-1])}10 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div>
+      <div class="nm-body">
+        <div class="nm-header">
+          <div class="nm-ico-wrap" style="background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);">🏆</div>
+          <div class="nm-title-wrap"><div class="nm-name">${gname}</div><div class="nm-est">Club World Cup — October 2026 · Group Stage</div></div>
+        </div>
+        <p class="nm-desc">${teams.length} clubs go head-to-head in ${gname}, with kick-off dates to be announced.</p>
+        <div class="nm-sec-h">Teams</div>
+        <div>${teamsHtml}</div>
+        <div class="nm-sec-h" style="margin-top:20px">Fixtures</div>
+        <div>${fixtureRows.join('')}</div>
+      </div>`;
+    const m = document.getElementById('nm');
+    m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
+    requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+    document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
+    document.body.style.overflow = 'hidden';
+  }
+
+  let cwcActiveEdition = 'apr26';
+  let cwcOct26State = null;
+  let cwcOctSubView = 'schedule'; // 'schedule' (confirmed fixtures + standings) or 'predictor' (editable)
+
+  function cwcAccent(name){
+    return CWC_NATION_ACCENT[CWC_CLUB_NATION[name]] || '#888888';
+  }
+
+  function cwcFreshFixtures(){
+    const fixtures = {};
+    Object.keys(CWC_GROUPS_OCT26).forEach(gname => {
+      const teams = CWC_GROUPS_OCT26[gname];
+      const list = [];
+      for(let i=0;i<teams.length;i++){
+        for(let j=i+1;j<teams.length;j++){
+          list.push({home:teams[i], away:teams[j], hs:null, as:null});
+        }
+      }
+      fixtures[gname] = list;
+    });
+    return fixtures;
+  }
+
+  function cwcInitOct(){
+    if(!cwcOct26State) cwcOct26State = {fixtures: cwcFreshFixtures()};
+  }
+
+  function cwcComputeStandings(fixtures){
+    const result = {};
+    Object.keys(CWC_GROUPS_OCT26).forEach(gname => {
+      const teams = CWC_GROUPS_OCT26[gname];
+      const table = {};
+      teams.forEach(t => table[t] = {name:t, p:0, w:0, d:0, l:0, gf:0, ga:0, pts:0});
+      fixtures[gname].forEach(f => {
+        if(f.hs === null || f.as === null || f.hs === '' || f.as === '') return;
+        const hs = Number(f.hs), as = Number(f.as);
+        table[f.home].p++; table[f.away].p++;
+        table[f.home].gf += hs; table[f.home].ga += as;
+        table[f.away].gf += as; table[f.away].ga += hs;
+        if(hs > as){ table[f.home].w++; table[f.home].pts+=3; table[f.away].l++; }
+        else if(as > hs){ table[f.away].w++; table[f.away].pts+=3; table[f.home].l++; }
+        else { table[f.home].d++; table[f.away].d++; table[f.home].pts++; table[f.away].pts++; }
+      });
+      result[gname] = Object.values(table).sort((a,b) => (b.pts-a.pts) || ((b.gf-b.ga)-(a.gf-a.ga)) || (b.gf-a.gf) || a.name.localeCompare(b.name));
+    });
+    return result;
+  }
+
+  function cwcOnScoreChange(gname, idx){
+    const gid = gname.replace(/\s+/g,'');
+    const h = document.getElementById(`cwcgf-${gid}-${idx}-h`).value;
+    const a = document.getElementById(`cwcgf-${gid}-${idx}-a`).value;
+    cwcOct26State.fixtures[gname][idx].hs = h === '' ? null : Number(h);
+    cwcOct26State.fixtures[gname][idx].as = a === '' ? null : Number(a);
+    cwcRenderOct();
+  }
+
+  function cwcRenderGroupTables(fixtures){
+    const standingsByGroup = cwcComputeStandings(fixtures);
+    const groupCards = Object.keys(standingsByGroup).map(gname => {
+      const standings = standingsByGroup[gname];
+      const rows = standings.map((t, idx) => {
+        const cls = idx < 2 ? 'qualified' : '';
+        return `<tr class="${cls}" onclick="cwcOpenTeam('${t.name.replace(/'/g,"\\'")}')">
+          <td><span class="wc2-group-dot" style="background:${cwcAccent(t.name)}"></span><span class="wc2-nation-link">${t.name}</span></td>
+          <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
+          <td>${t.gf}-${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td><strong>${t.pts}</strong></td>
+        </tr>`;
+      }).join('');
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
+        <div class="wc2-group-content">
+        <table class="wc2-group-table">
+          <thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF-GA</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-group-grid">${groupCards}</div>`;
+  }
+
+  // Read-only confirmed schedule — dates only, no score entry.
+  function cwcRenderConfirmedSchedule(){
+    const groupBlocks = Object.keys(CWC_GROUPS_OCT26).map(gname => {
+      const teams = CWC_GROUPS_OCT26[gname];
+      const rows = [];
+      for(let i=0;i<teams.length;i++){
+        for(let j=i+1;j<teams.length;j++){
+          rows.push(`<div class="wc2-fixture-row" style="cursor:pointer" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
+            <div class="wc2-fixture-main">
+              <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${teams[i]}</span>
+              <span class="wc2-schedule-score">TBD</span>
+              <span class="wc2-schedule-vs">–</span>
+              <span class="wc2-schedule-score">TBD</span>
+              <span class="wc2-fixture-team right linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${teams[j]}</span>
+            </div>
+            <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
+          </div>`);
+        }
+      }
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
+        <div class="wc2-group-content">
+        <div class="wc2-fixture-list">${rows.join('')}</div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off Dates To Be Announced</div>
+      <div class="wc2-group-grid">${groupBlocks}</div>`;
+  }
+
+  // Editable prediction inputs — feeds cwcOct26State and the live standings.
+  function cwcRenderPredictorFixtures(){
+    const fixtures = cwcOct26State.fixtures;
+    const groupBlocks = Object.keys(CWC_GROUPS_OCT26).map(gname => {
+      const gid = gname.replace(/\s+/g,'');
+      const rows = fixtures[gname].map((f, idx) => `
+        <div class="wc2-fixture-row" style="cursor:pointer" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
+          <div class="wc2-fixture-main">
+            <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${f.home}</span>
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-h" value="${f.hs===null?'':f.hs}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
+            <span class="wc2-fixture-dash">–</span>
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
+            <span class="wc2-fixture-team right linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${f.away}</span>
+          </div>
+          <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
+        </div>`).join('');
+      return `<div class="wc2-group-card">
+        <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
+        <div class="wc2-group-content">
+        <div class="wc2-fixture-list">${rows}</div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-group-grid">${groupBlocks}</div>`;
+  }
+
+  function cwcOctSubTabs(){
+    return `<div class="wc2-subtabs">
+      <button class="wc2-subtab${cwcOctSubView==='schedule'?' active':''}" onclick="cwcSwitchOctSubView('schedule')">📋 Fixtures</button>
+      <button class="wc2-subtab${cwcOctSubView==='predictor'?' active':''}" onclick="cwcSwitchOctSubView('predictor')">🔮 Predictor</button>
+    </div>`;
+  }
+
+  function cwcSwitchOctSubView(view){
+    cwcOctSubView = view;
+    cwcRenderOct();
+  }
+
+  function cwcRenderOct(){
+    cwcInitOct();
+    const host = document.getElementById('cwc-content');
+    if(!host) return;
+    if(cwcOctSubView === 'schedule'){
+      host.innerHTML = `
+        <div class="wc2-predictor-badge" style="max-width:700px;margin:0 auto 14px;">🏆 Group Draw Confirmed — Kick-Off Dates To Be Announced</div>
+        <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;line-height:1.7;">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</p>
+        ${cwcOctSubTabs()}
+        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Current Standings — No Matches Played Yet</div>
+        ${cwcRenderGroupTables(cwcOct26State.fixtures)}
+        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Fixtures</div>
+        ${cwcRenderConfirmedSchedule()}
+      `;
+    } else {
+      host.innerHTML = `
+        <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;line-height:1.7;">Enter your predicted scores below — the standings update live as you go.</p>
+        ${cwcOctSubTabs()}
+        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Enter Predictions</div>
+        ${cwcRenderPredictorFixtures()}
+        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Predicted Standings</div>
+        ${cwcRenderGroupTables(cwcOct26State.fixtures)}
+      `;
+    }
+  }
+
+  // April 2026 — restores the original Spring Club World Cup knockout bracket.
+  function cwcRenderApr(){
+    const host = document.getElementById('cwc-content');
+    if(!host) return;
+    const champ = getWcChampion();
+    const rounds = [
+      {label:'Quarter Finals', short:'QF', matches:WC_MATCHES.filter(m=>m.roundShort==='QF'),
+       badgeStyle:'background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)', cols:'qf'},
+      {label:'Semi Finals', short:'SF', matches:WC_MATCHES.filter(m=>m.roundShort==='SF'),
+       badgeStyle:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.25);color:var(--pink)', cols:'sf'},
+      {label:'Final', short:'FINAL', matches:WC_MATCHES.filter(m=>m.roundShort==='FINAL'),
+       badgeStyle:'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)', cols:'final'},
+    ];
+    const banner = champ ? `<div class="wc2-official-badge" style="margin-bottom:16px;">🏆 ${champ.club} are Club World Cup Champions — beat ${champ.runnerUpClub} ${champ.score}-${champ.runnerUpScore} in the Final</div>` : '';
+    host.innerHTML = `
+      <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;">The completed Spring 2026 edition — a straight knockout with no group stage. This is historic record and won't change.</p>
+      ${banner}
+      ${rounds.map(r => `
+      <div class="wc-round">
+        <div class="wc-round-label">
+          <span class="wc-round-title">${r.label}</span>
+          <div class="wc-round-line"></div>
+          <span class="wc-round-badge${r.short === 'FINAL' ? ' final-badge' : ''}" style="${r.badgeStyle}">${r.short === 'FINAL' ? '🏆 FINAL' : r.short}</span>
+        </div>
+        <div class="wc-matches ${r.cols}">
+          ${r.matches.map(m => renderMatchCard(m)).join('')}
+        </div>
+      </div>
+    `).join('')}`;
+  }
+
+  function cwcRenderEdition(edKey){
+    if(edKey === 'apr26') cwcRenderApr(); else cwcRenderOct();
+  }
+
+  function switchCwcEdition(edKey){
+    cwcActiveEdition = edKey;
+    document.getElementById('cwcTabApr').classList.toggle('active', edKey==='apr26');
+    document.getElementById('cwcTabOct').classList.toggle('active', edKey==='oct26');
+    cwcRenderEdition(edKey);
+  }
+
 
   // ─── WORLD CUP 2026 DATA (Nations) ───────────────────────────────────────────
   // Every active nation on the server is a confirmed participant in World Cup 2026.
@@ -4576,7 +4912,7 @@
 
   function wcClubRenderSubTabs(){
     return `<div class="wc2-subtabs">
-      <button class="wc2-subtab${wcClubSubView==='bracket'?' active':''}" onclick="wcClubSwitchSubView('bracket')">🏆 Bracket</button>
+      <button class="wc2-subtab${wcClubSubView==='bracket'?' active':''}" onclick="wcClubSwitchSubView('bracket')">🏆 Groups</button>
       <button class="wc2-subtab${wcClubSubView==='leagues'?' active':''}" onclick="wcClubSwitchSubView('leagues')">⚽ League Power Rankings</button>
       <button class="wc2-subtab${wcClubSubView==='tables'?' active':''}" onclick="wcClubSwitchSubView('tables')">📋 Leagues</button>
     </div>`;
@@ -4672,9 +5008,11 @@
     document.getElementById('wcTabClub').classList.toggle('active', key==='club');
     document.getElementById('wcTabCountry').classList.toggle('active', key==='country');
     if(key === 'club'){
-      document.getElementById('wcTitle').textContent = 'Spring Club World Cup 2026';
-      document.getElementById('wcSub').textContent = 'Nations Edition · Spring Tournament';
-      document.getElementById('wcStadiumNote').style.display = '';
+      document.getElementById('wcTitle').textContent = 'Club World Cup 2026';
+      document.getElementById('wcSub').textContent = 'Two Editions · April & October';
+      document.getElementById('wcStadiumNote').style.display = 'none';
+      document.getElementById('wcChampionBanner').style.display = 'none';
+      document.getElementById('wcChampionBanner').innerHTML = '';
       renderBracket();
     } else {
       document.getElementById('wcTitle').textContent = 'World Cup 2026';
@@ -4719,28 +5057,15 @@
 
     renderWcChampionBanner();
 
-    const activeMatches = WC_MATCHES;
-    const rounds = [
-      {label:'Quarter Finals', short:'QF', matches:activeMatches.filter(m=>m.roundShort==='QF'),
-       badgeStyle:'background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-muted)', cols:'qf'},
-      {label:'Semi Finals', short:'SF', matches:activeMatches.filter(m=>m.roundShort==='SF'),
-       badgeStyle:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.25);color:var(--pink)', cols:'sf'},
-      {label:'Final', short:'FINAL', matches:activeMatches.filter(m=>m.roundShort==='FINAL'),
-       badgeStyle:'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)', cols:'final'},
-    ];
-
-    bracket.innerHTML = wcClubRenderSubTabs() + rounds.map(r => `
-      <div class="wc-round">
-        <div class="wc-round-label">
-          <span class="wc-round-title">${r.label}</span>
-          <div class="wc-round-line"></div>
-          <span class="wc-round-badge${r.short === 'FINAL' ? ' final-badge' : ''}" style="${r.badgeStyle}">${r.short === 'FINAL' ? '🏆 FINAL' : r.short}</span>
+    bracket.innerHTML = `${wcClubRenderSubTabs()}
+      <div class="wc2-groups-wrap">
+        <div class="wc-tournament-tabs" style="margin-bottom:16px;">
+          <button class="wc-t-tab${cwcActiveEdition==='apr26'?' active':''}" id="cwcTabApr" onclick="switchCwcEdition('apr26')">🌸 CWC Apr 26</button>
+          <button class="wc-t-tab${cwcActiveEdition==='oct26'?' active':''}" id="cwcTabOct" onclick="switchCwcEdition('oct26')">🍂 CWC Oct 26</button>
         </div>
-        <div class="wc-matches ${r.cols}">
-          ${r.matches.map(m => renderMatchCard(m)).join('')}
-        </div>
-      </div>
-    `).join('');
+        <div id="cwc-content"></div>
+      </div>`;
+    cwcRenderEdition(cwcActiveEdition);
   }
 
   function renderWcChampionBanner() {
