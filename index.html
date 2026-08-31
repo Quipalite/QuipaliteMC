@@ -421,6 +421,15 @@
     .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
     .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
+    .cwc-oct-hero{position:relative;overflow:hidden;width:100%;box-sizing:border-box;border-radius:16px;padding:22px 26px;margin:0 0 20px;background:linear-gradient(115deg,rgba(147,51,234,.28) 0%,rgba(192,132,252,.14) 55%,rgba(147,51,234,.06) 100%);border:1px solid rgba(192,132,252,.35);box-shadow:0 8px 28px -12px rgba(147,51,234,.35);display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+    .cwc-oct-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;}
+    .cwc-oct-hero::after{content:'';position:absolute;top:-40%;right:-8%;width:220px;height:220px;background:radial-gradient(circle,rgba(192,132,252,.25) 0%,transparent 70%);pointer-events:none;}
+    .cwc-oct-hero-icon{font-size:34px;flex-shrink:0;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(192,132,252,.55));}
+    .cwc-oct-hero-text{flex:1;min-width:220px;position:relative;z-index:1;}
+    .cwc-oct-hero-title{font-family:var(--font-d);font-size:16px;font-weight:800;letter-spacing:.4px;color:#f3e8ff;margin-bottom:5px;}
+    .cwc-oct-hero-sub{display:inline-block;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);border-radius:6px;padding:4px 9px;margin-bottom:9px;}
+    .cwc-oct-hero-desc{font-size:12.5px;color:var(--text-dim);line-height:1.65;max-width:640px;}
+    @media(max-width:640px){.cwc-oct-hero{padding:18px 18px;gap:12px;}.cwc-oct-hero-icon{font-size:26px;}.cwc-oct-hero-title{font-size:14px;}}
     .wc2-intro-card{max-width:720px;margin:0 auto 22px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(245,200,66,.18);display:flex;align-items:flex-start;gap:12px;text-align:left;}
     .wc2-intro-card .wc2-intro-ico{font-size:20px;line-height:1;flex-shrink:0;margin-top:1px;filter:drop-shadow(0 0 8px rgba(245,200,66,.35));}
     .wc2-intro-card p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text-muted);}
@@ -2939,8 +2948,14 @@
     if(!host) return;
     if(cwcOctSubView === 'schedule'){
       host.innerHTML = `
-        <div class="wc2-predictor-badge" style="max-width:700px;margin:0 auto 14px;">🏆 Group Draw Confirmed — Kick-Off Dates To Be Announced</div>
-        <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;line-height:1.7;">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</p>
+        <div class="cwc-oct-hero">
+          <div class="cwc-oct-hero-icon">🍂</div>
+          <div class="cwc-oct-hero-text">
+            <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
+            <div class="cwc-oct-hero-sub">🏆 Group Draw Confirmed · Kick-Off Dates TBA</div>
+            <div class="cwc-oct-hero-desc">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</div>
+          </div>
+        </div>
         ${cwcOctSubTabs()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Current Standings — No Matches Played Yet</div>
         ${cwcRenderGroupTables(cwcOct26State.fixtures)}
@@ -2949,7 +2964,14 @@
       `;
     } else {
       host.innerHTML = `
-        <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;line-height:1.7;">Enter your predicted scores below — the standings update live as you go.</p>
+        <div class="cwc-oct-hero">
+          <div class="cwc-oct-hero-icon">🔮</div>
+          <div class="cwc-oct-hero-text">
+            <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
+            <div class="cwc-oct-hero-sub">Your Prediction · Hypothetical, Not Official</div>
+            <div class="cwc-oct-hero-desc">Enter your predicted scores below — the standings update live as you go.</div>
+          </div>
+        </div>
         ${cwcOctSubTabs()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Enter Predictions</div>
         ${cwcRenderPredictorFixtures()}
