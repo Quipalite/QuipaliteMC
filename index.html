@@ -430,6 +430,11 @@
     .cwc-oct-hero-sub{display:inline-block;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);border-radius:6px;padding:4px 9px;margin-bottom:9px;}
     .cwc-oct-hero-desc{font-size:12.5px;color:var(--text-dim);line-height:1.65;max-width:640px;}
     @media(max-width:640px){.cwc-oct-hero{padding:18px 18px;gap:12px;}.cwc-oct-hero-icon{font-size:26px;}.cwc-oct-hero-title{font-size:14px;}}
+    .cwc-oct-hero.gold{background:linear-gradient(115deg,rgba(245,200,66,.28) 0%,rgba(250,204,21,.14) 55%,rgba(245,200,66,.06) 100%);border-color:rgba(250,204,21,.35);box-shadow:0 8px 28px -12px rgba(245,200,66,.35);}
+    .cwc-oct-hero.gold::after{background:radial-gradient(circle,rgba(250,204,21,.25) 0%,transparent 70%);}
+    .cwc-oct-hero.gold .cwc-oct-hero-icon{filter:drop-shadow(0 0 14px rgba(250,204,21,.55));}
+    .cwc-oct-hero.gold .cwc-oct-hero-title{color:#fef3c7;}
+    .cwc-oct-hero.gold .cwc-oct-hero-sub{color:#facc15;background:rgba(250,204,21,.12);border-color:rgba(250,204,21,.3);}
     .wc2-intro-card{max-width:720px;margin:0 auto 22px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(245,200,66,.18);display:flex;align-items:flex-start;gap:12px;text-align:left;}
     .wc2-intro-card .wc2-intro-ico{font-size:20px;line-height:1;flex-shrink:0;margin-top:1px;filter:drop-shadow(0 0 8px rgba(245,200,66,.35));}
     .wc2-intro-card p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text-muted);}
@@ -2994,10 +2999,18 @@
       {label:'Final', short:'FINAL', matches:WC_MATCHES.filter(m=>m.roundShort==='FINAL'),
        badgeStyle:'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)', cols:'final'},
     ];
-    const banner = champ ? `<div class="wc2-official-badge" style="margin-bottom:16px;">🏆 ${champ.club} are Club World Cup Champions — beat ${champ.runnerUpClub} ${champ.score}-${champ.runnerUpScore} in the Final</div>` : '';
+    const heroSub = champ ? `🏆 ${champ.club} Are Champions — Beat ${champ.runnerUpClub} ${champ.score}-${champ.runnerUpScore}` : '🏁 Completed Edition';
+    const hero = `
+      <div class="cwc-oct-hero gold">
+        <div class="cwc-oct-hero-icon">🌸</div>
+        <div class="cwc-oct-hero-text">
+          <div class="cwc-oct-hero-title">Club World Cup — April 2026</div>
+          <div class="cwc-oct-hero-sub">${heroSub}</div>
+          <div class="cwc-oct-hero-desc">The completed Spring 2026 edition — a straight knockout with no group stage. This is historic record and won't change.</div>
+        </div>
+      </div>`;
     host.innerHTML = `
-      <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;">The completed Spring 2026 edition — a straight knockout with no group stage. This is historic record and won't change.</p>
-      ${banner}
+      ${hero}
       ${rounds.map(r => `
       <div class="wc-round">
         <div class="wc-round-label">
