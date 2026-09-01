@@ -2832,7 +2832,7 @@
   }
 
   function cwcInitOct(){
-    if(!cwcOct26State) cwcOct26State = {fixtures: cwcFreshFixtures()};
+    if(!cwcOct26State) cwcOct26State = {fixtures: cwcFreshFixtures(), stage:'groups', qf:[], sf:[], final:[]};
   }
 
   function cwcComputeStandings(fixtures){
@@ -2952,10 +2952,189 @@
     return `<div class="wc2-group-grid cwc-fixtures-grid">${groupBlocks}</div>`;
   }
 
+  // ---- Road to Final (CWC Oct26 predictor knockout bracket) ----
+  function cwcAllGroupsComplete(){
+    return Object.keys(CWC_GROUPS_OCT26).every(gname =>
+      cwcOct26State.fixtures[gname].every(f => f.hs !== null && f.as !== null)
+    );
+  }
+
+  function cwcGenerateBracket(){
+    if(!cwcAllGroupsComplete()){
+      alert('Enter a score for every group match before generating the knockout bracket.');
+      return;
+    }
+    const standingsByGroup = cwcComputeStandings(cwcOct26State.fixtures);
+    const gnames = Object.keys(standingsByGroup);
+    const w = gnames.map(g => standingsByGroup[g][0].name);
+    const r = gnames.map(g => standingsByGroup[g][1].name);
+    const pairs = [ [w[0], r[1]], [w[1], r[0]], [w[2], r[3]], [w[3], r[2]] ];
+    cwcOct26State.stage = 'qf';
+    cwcOct26State.qf = pairs.map(([home, away]) => ({home, away, hs:null, as:null, ph:null, pa:null}));
+    cwcRenderOct();
+  }
+
+  function cwcOnKoScoreChange(stageKey, idx){
+    const m = cwcOct26State[stageKey][idx];
+    const h = document.getElementById(`cwcko-${stageKey}-${idx}-h`).value;
+    const a = document.getElementById(`cwcko-${stageKey}-${idx}-a`).value;
+    m.hs = h === '' ? null : Number(h);
+    m.as = a === '' ? null : Number(a);
+    const phEl = document.getElementById(`cwcko-${stageKey}-${idx}-ph`);
+    const paEl = document.getElementById(`cwcko-${stageKey}-${idx}-pa`);
+    m.ph = phEl && phEl.value !== '' ? Number(phEl.value) : null;
+    m.pa = paEl && paEl.value !== '' ? Number(paEl.value) : null;
+    cwcRenderOct();
+  }
+
+  function cwcConfirmQf(){
+    if(!wc2StageComplete(cwcOct26State.qf)){
+      alert('Enter a result (with penalties if drawn) for every Quarter-Final before continuing.');
+      return;
+    }
+    const w = cwcOct26State.qf.map(wc2KoWinner);
+    cwcOct26State.stage = 'sf';
+    cwcOct26State.sf = [
+      {home:w[0], away:w[2], hs:null, as:null, ph:null, pa:null},
+      {home:w[1], away:w[3], hs:null, as:null, ph:null, pa:null},
+    ];
+    cwcRenderOct();
+  }
+
+  function cwcConfirmSf(){
+    if(!wc2StageComplete(cwcOct26State.sf)){
+      alert('Enter a result (with penalties if drawn) for every Semi-Final before continuing.');
+      return;
+    }
+    const w = cwcOct26State.sf.map(wc2KoWinner);
+    cwcOct26State.stage = 'final';
+    cwcOct26State.final = [{home:w[0], away:w[1], hs:null, as:null, ph:null, pa:null}];
+    cwcRenderOct();
+  }
+
+  function cwcConfirmFinal(){
+    const champ = wc2KoWinner(cwcOct26State.final[0]);
+    if(!champ){
+      alert('Enter a result (with penalties if drawn) for the Final to crown a champion.');
+      return;
+    }
+    cwcOct26State.stage = 'done';
+    cwcRenderOct();
+  }
+
+  function cwcResetBracket(){
+    cwcOct26State.stage = 'groups';
+    cwcOct26State.qf = []; cwcOct26State.sf = []; cwcOct26State.final = [];
+    cwcRenderOct();
+  }
+
+  function cwcRenderKoRound(stageKey, matches, label){
+    const rows = matches.map((m, idx) => {
+      const drawn = m.hs !== null && m.as !== null && Number(m.hs) === Number(m.as);
+      return `
+      <div class="wc-match">
+        <div class="wc-match-meta"><span class="wc-date">${label}</span></div>
+        <div class="wc-match-body">
+          <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
+          <div class="wc2-ko-inputs">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
+            <span class="wc-dash">–</span>
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
+          </div>
+          <div class="wc-team away"><div class="wc-team-name">${m.away}</div></div>
+        </div>
+        ${drawn ? `
+        <div class="wc-match-footer" style="flex-wrap:wrap;gap:8px;">
+          <span class="wc-note">Scores level — enter a penalty shoot-out result</span>
+          <div class="wc2-ko-inputs">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input small" id="cwcko-${stageKey}-${idx}-ph" value="${m.ph===null?'':m.ph}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
+            <span class="wc-dash">–</span>
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input small" id="cwcko-${stageKey}-${idx}-pa" value="${m.pa===null?'':m.pa}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
+          </div>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+    const cols = matches.length === 1 ? 'final' : (matches.length === 2 ? 'sf' : 'qf');
+    return `<div class="wc-round">
+      <div class="wc-round-label"><span class="wc-round-title">${label}</span><div class="wc-round-line"></div></div>
+      <div class="wc-matches ${cols}">${rows}</div>
+    </div>`;
+  }
+
+  function cwcRenderRoadToFinal(){
+    const stage = cwcOct26State.stage;
+    if(stage === 'groups'){
+      const ready = cwcAllGroupsComplete();
+      return `<div class="wc2-predict-btn-wrap">
+        ${ready
+          ? `<button class="wc2-predict-btn" onclick="cwcGenerateBracket()">🏆 Generate Road to Final</button>`
+          : `<div class="wc2-official-note">Enter a score for every group match above to unlock the knockout bracket.</div>`}
+      </div>`;
+    }
+    let out = cwcRenderKoRound('qf', cwcOct26State.qf, 'Quarter-Finals');
+    if(stage === 'qf'){
+      out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="cwcConfirmQf()">Confirm Quarter-Finals →</button></div>`;
+    }
+    if(cwcOct26State.sf.length){
+      out += cwcRenderKoRound('sf', cwcOct26State.sf, 'Semi-Finals');
+      if(stage === 'sf'){
+        out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="cwcConfirmSf()">Confirm Semi-Finals →</button></div>`;
+      }
+    }
+    if(cwcOct26State.final.length){
+      out += cwcRenderKoRound('final', cwcOct26State.final, 'Final');
+      if(stage === 'final'){
+        out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="cwcConfirmFinal()">Crown Champion 🏆</button></div>`;
+      }
+      if(stage === 'done'){
+        const champ = wc2KoWinner(cwcOct26State.final[0]);
+        out += `<div class="wc2-official-badge" style="display:block;text-align:center;margin-top:10px;">🏆 ${champ} — Your Predicted Champion</div>`;
+      }
+    }
+    out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" style="background:linear-gradient(135deg,#c084fc,#9333ea);box-shadow:0 10px 30px rgba(147,51,234,.25);" onclick="cwcResetBracket()">↺ Redo Bracket</button></div>`;
+    return out;
+  }
+
+  function cwcAllTeams(){
+    const teams = [];
+    Object.values(CWC_GROUPS_OCT26).forEach(list => list.forEach(t => teams.push(t)));
+    return teams;
+  }
+
+  function cwcTeamRating(teamName){
+    if(teamName === 'Smogtowne'){
+      const nat = WC2_POWER_RANKINGS.find(r => r.name === 'Smogtowne');
+      return nat ? nat.rating : 5.0;
+    }
+    const found = cwcFindClub(teamName);
+    return found ? found.team.rating : 5.0;
+  }
+
+  function cwcRenderPowerRankings(){
+    const ranked = cwcAllTeams()
+      .map(name => ({name, rating: cwcTeamRating(name)}))
+      .sort((a,b) => b.rating - a.rating);
+    const rows = ranked.map((r, idx) => {
+      const rank = idx + 1;
+      const pct = (r.rating / 10 * 100).toFixed(1);
+      const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+      return `<div class="wc2-rank-row" onclick="cwcOpenTeam('${r.name.replace(/'/g,"\\'")}')">
+        <span class="wc2-rank-num">${medal || '#'+rank}</span>
+        <span class="wc2-rank-dot" style="background:${cwcAccent(r.name)}"></span>
+        <span class="wc2-rank-name">${r.name}</span>
+        <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${cwcAccent(r.name)}"></div></div>
+        <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
+      </div>`;
+    }).join('');
+    return `<div class="wc2-stadium-note">🏅 Club World Cup Power Rankings — October 2026</div>
+      <div class="wc2-rank-list">${rows}</div>`;
+  }
+
   function cwcOctSubTabs(){
     return `<div class="wc2-subtabs">
       <button class="wc2-subtab${cwcOctSubView==='schedule'?' active':''}" onclick="cwcSwitchOctSubView('schedule')">📋 Fixtures</button>
       <button class="wc2-subtab${cwcOctSubView==='predictor'?' active':''}" onclick="cwcSwitchOctSubView('predictor')">🔮 Predictor</button>
+      <button class="wc2-subtab${cwcOctSubView==='rankings'?' active':''}" onclick="cwcSwitchOctSubView('rankings')">🏅 Power Rankings</button>
     </div>`;
   }
 
@@ -2984,6 +3163,19 @@
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Fixtures</div>
         ${cwcRenderConfirmedSchedule()}
       `;
+    } else if(cwcOctSubView === 'rankings'){
+      host.innerHTML = `
+        <div class="cwc-oct-hero">
+          <div class="cwc-oct-hero-icon">🏅</div>
+          <div class="cwc-oct-hero-text">
+            <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
+            <div class="cwc-oct-hero-sub">Power Rankings · All 16 Teams</div>
+            <div class="cwc-oct-hero-desc">How the field stacks up heading into the tournament, ranked by club rating.</div>
+          </div>
+        </div>
+        ${cwcOctSubTabs()}
+        ${cwcRenderPowerRankings()}
+      `;
     } else {
       host.innerHTML = `
         <div class="cwc-oct-hero">
@@ -2999,6 +3191,8 @@
         ${cwcRenderPredictorFixtures()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Predicted Standings</div>
         ${cwcRenderGroupTables(cwcOct26State.fixtures)}
+        <div class="wc2-knockout-title">🏆 Road to Final</div>
+        ${cwcRenderRoadToFinal()}
       `;
     }
   }
@@ -3842,9 +4036,9 @@
 
   const WC2_LEAGUE_POWER_RANKINGS = [
     {rank:1, name:'Fusion League', accent:'#FF8C00', rating:8.23, qualifyCount:3, note:'Joint league — Smegtopia &amp; Corexia · Top 3 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: Corexia Live — £800,000 · MTN Radio (Springbuck) hold partial rights — £300,000 · SmegLive — £300,000 · Home stadiums: SmegTopia Stadium &amp; Corexaium', teams:[
-      {name:'Smeg City FC', founded:'2026', rating:9.0, desc:'Based in SmegTropolis, the capital Smegtopia has called home since the server\'s very first days, Smeg City FC play out of SmegTopia Stadium and are widely seen as the standard-bearers of the nation\'s football tradition.', nation:'Smegtopia'},
-      {name:'Smeggers FC', founded:'2026', rating:8.5, desc:'Smegtopia\'s second club, formed to give the founding nation a genuine local rivalry, with a scrappier identity than their more storied neighbours across the capital.', nation:'Smegtopia'},
-      {name:'Quipalite MC Corexian Club', founded:'2026', rating:8.3, desc:'The football arm of Corexia, the technocratic nation built by RealO75 on a fully digital economy, this club carries the sleek, modern identity of its homeland onto the pitch.', nation:'Corexia'},
+      {name:'Smeg City FC', founded:'2026', rating:9.4, desc:'Based in SmegTropolis, the capital Smegtopia has called home since the server\'s very first days, Smeg City FC play out of SmegTopia Stadium and are widely seen as the standard-bearers of the nation\'s football tradition.', nation:'Smegtopia'},
+      {name:'Smeggers FC', founded:'2026', rating:8.8, desc:'Smegtopia\'s second club, formed to give the founding nation a genuine local rivalry, with a scrappier identity than their more storied neighbours across the capital.', nation:'Smegtopia'},
+      {name:'Quipalite MC Corexian Club', founded:'2026', rating:8.5, desc:'The football arm of Corexia, the technocratic nation built by RealO75 on a fully digital economy, this club carries the sleek, modern identity of its homeland onto the pitch.', nation:'Corexia'},
       {name:'Corexian Federation', founded:'2026', rating:8.3, desc:'One of Corexia\'s footballing exports, reflecting the nation\'s reputation as the founder and runner of the Globe Alliance.', nation:'Corexia'},
       {name:'Corex FC', founded:'2026', rating:8.3, desc:'A Corexia club named for the nation itself, drawing support from the digital economy hub that plays host to the Corexaium stadium.', nation:'Corexia'},
       {name:'Smeg Union FC', founded:'2026', rating:7.8, desc:'A Smegtopia side known for a well-drilled, disciplined style, reflecting a nation that prides itself on being first to establish server healthcare.', nation:'Smegtopia'},
@@ -3852,22 +4046,22 @@
       {name:'Smegness', founded:'2026', rating:7.8, desc:'A dependable Smegtopia outfit carrying the orange and gold of the server\'s oldest nation into the Fusion League.', nation:'Smegtopia'},
     ]},
     {rank:2, name:'Craineun Premier League', accent:'#50C878', rating:7.08, qualifyCount:4, note:'Joint league — Craineun &amp; Crabville · Top 4 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: KKCT (radio) &amp; CBC (TV) — £1,000,000 · Home stadiums: NewLife Stadium &amp; Crainetown Stadium', teams:[
-      {name:'Crainetown FC', founded:'2026', rating:9.4, desc:'Named for Craineun\'s capital, home to the world\'s first airport, train station and school, Crainetown FC carry the biggest footballing pedigree of Aftlow\'s sprawling, forested nation.', nation:'Craineun'},
-      {name:'Los Perlos CF', founded:'2024', rating:8.75, desc:'A side with roots stretching back to 2024, when they were a World Cup team in that year\'s Current Nations, putting together mediocre runs. Back then they were a state of Aftlow-run La Cocina, before breaking away to independence — a move that went down badly with the La Cocina government at the time — ahead of their eventual arrival in Craineun colours.', nation:'Craineun'},
-      {name:'Keem Town United', founded:'2026', rating:8.3, desc:'Named for the disbanded nation of Keem, whose land was absorbed by Craineun and Smegtopia, this club keeps that vanished nation\'s heritage alive on the pitch.', nation:'Craineun'},
-      {name:'Springfield United', founded:'2026', rating:8.3, desc:'Based out of Craineun\'s Springfield Factory district, an industrious and well-organised outfit reflecting the industrial heart of the nation.', nation:'Craineun'},
+      {name:'Crainetown FC', founded:'2026', rating:9.5, desc:'Named for Craineun\'s capital, home to the world\'s first airport, train station and school, Crainetown FC carry the biggest footballing pedigree of Aftlow\'s sprawling, forested nation.', nation:'Craineun'},
+      {name:'Los Perlos CF', founded:'2024', rating:9.15, desc:'A side with roots stretching back to 2024, when they were a World Cup team in that year\'s Current Nations, putting together mediocre runs. Back then they were a state of Aftlow-run La Cocina, before breaking away to independence — a move that went down badly with the La Cocina government at the time — ahead of their eventual arrival in Craineun colours.', nation:'Craineun'},
+      {name:'Keem Town United', founded:'2026', rating:8.5, desc:'Named for the disbanded nation of Keem, whose land was absorbed by Craineun and Smegtopia, this club keeps that vanished nation\'s heritage alive on the pitch.', nation:'Craineun'},
+      {name:'Springfield United', founded:'2026', rating:8.5, desc:'Based out of Craineun\'s Springfield Factory district, an industrious and well-organised outfit reflecting the industrial heart of the nation.', nation:'Craineun'},
       {name:'Crabville Creepers', founded:'2026', rating:8.0, desc:'One of Crabville\'s two representatives in the joint league, known for a stubborn, physical style of play in keeping with the nation\'s militaristic reputation.', nation:'Crabville'},
-      {name:'Crabville Breezers', founded:'2026', rating:8.0, desc:'Crabville\'s second club in the league, a breezy attacking side offering a different identity from their more combative city rivals.', nation:'Crabville'},
+      {name:'Crabville Breezers', founded:'2026', rating:8.35, desc:'Crabville\'s second club in the league, a breezy attacking side offering a different identity from their more combative city rivals.', nation:'Crabville'},
       {name:'Niche Town FC', founded:'2026', rating:8.2, desc:'A smaller Craineun outfit representing one of the many townships scattered across the nation\'s vast, heavily forested territory.', nation:'Craineun'},
       {name:'Rural FC', founded:'2026', rating:5.0, desc:'Representing Craineun\'s countryside communities away from the bustle of Crainetown, a scrappy underdog side built on local pride.', nation:'Craineun'},
-      {name:'AFC Crabville', founded:'2026', rating:5.0, desc:'The third of Crabville\'s clubs, drawing support from the most populated nation on the server.', nation:'Crabville'},
+      {name:'AFC Crabville', founded:'2026', rating:5.1, desc:'The third of Crabville\'s clubs, drawing support from the most populated nation on the server.', nation:'Crabville'},
       {name:'AFC Coolbox', founded:'2026', rating:5.0, desc:'A newly formed Crabville side still building its own identity within the shadow of the nation\'s huge apartment blocks and military base.', nation:'Crabville'},
     ]},
     {rank:3, name:'Stormland National League', accent:'#1E90FF', rating:5.18, qualifyCount:2, note:'Stormland &amp; a guest club from Okpemon · Top 2 qualify for the Club World Cup · Broadcast rights: Crabville Radio — £1,500,000 · Home stadium: NewLife Stadium', teams:[
       {name:'Okpemon FC', founded:'2022', rating:6.1, desc:'Okpemon\'s sole representative, a club with a genuinely decorated past — as a country and club side in Countries SMP under bubbler2009, they won 9 Countries SMP titles, 1 World Cup, 1 Super World Cup and 7 Champions Leagues, and later added a World Cup on a separate Current Nations server in 2024, beating former side Tete De Pounce 1-0 in the final. That pedigree sits alongside a battle-hardened identity forged by Okpemon enduring the server\'s first war, including the loss of its famed mega tank.', nation:'Okpemon'},
       {name:'Stormland United', founded:'2026', rating:5.0, desc:'Stormland\'s flagship club, representing the nation founded by Terroralex10 in July 2026 and its blue-and-yellow banners.', nation:'Stormland'},
       {name:'Stormland City FC', founded:'2026', rating:5.0, desc:'A fellow Stormland club still establishing its identity as the young nation grows from its founding population.', nation:'Stormland'},
-      {name:'MiraHQ', founded:'2022', rating:5.0, desc:'One of the most decorated names in the game\'s history, MiraHQ existed as both a country and a club side in the old Countries SMP era under manager Terroralex10, amassing 3 World Cups, 1 Super World Cup, 18 Countries SMP titles and 10 Champions Leagues before making the move into the Current Nations era.', nation:'Stormland'},
+      {name:'MiraHQ', founded:'2022', rating:6.65, desc:'One of the most decorated names in the game\'s history, MiraHQ existed as both a country and a club side in the old Countries SMP era under manager Terroralex10, amassing 3 World Cups, 1 Super World Cup, 18 Countries SMP titles and 10 Champions Leagues before making the move into the Current Nations era.', nation:'Stormland'},
       {name:'MiraHX', founded:'2022', rating:5.0, desc:'A second Mira club, also a country and club side back in Countries SMP, where it claimed 2 Countries SMP 2nd Division titles before joining its sister clubs in the present day.', nation:'Stormland'},
       {name:'MiraHB', founded:'2022', rating:5.0, desc:'The third Mira club, a smaller side back in the Countries SMP days that nonetheless picked up a Countries SMP 3rd Division title, and has carried that heritage through into the current league.', nation:'Stormland'},
     ]},
@@ -3875,16 +4069,16 @@
       {name:'Waterland United', founded:'2026', rating:5.0, desc:'Waterland\'s flagship club, representing the nation founded by Gooner5342 and home to the server\'s first McDonald\'s.', nation:'Waterland'},
       {name:'Waterland AFC', founded:'2026', rating:5.0, desc:'A Waterland club competing in the Championship\'s opening season, part of a young footballing nation still finding its feet.', nation:'Waterland'},
       {name:'Waterland & Borough', founded:'2026', rating:5.0, desc:'A Waterland club drawing on local borough support around the nation\'s apartment blocks.', nation:'Waterland'},
-      {name:'Waterland City', founded:'2026', rating:5.0, desc:'Waterland City\'s representative in the new Championship, flying the nation\'s blue and orange.', nation:'Waterland'},
+      {name:'Waterland City', founded:'2026', rating:8.1, desc:'Waterland City\'s representative in the new Championship, flying the nation\'s blue and orange.', nation:'Waterland'},
       {name:'Mudrud Old Boys', founded:'2024', rating:5.0, desc:'A Waterland club dating back to 2024, formerly a national side in that year\'s Current Nations with a reputation for struggling on the pitch, now carrying that proudly local, underdog identity into the Championship.', nation:'Waterland'},
     ]},
     {rank:5, name:'Springbuck Premiership', accent:'#8B4513', rating:5.0, qualifyCount:2, note:'Springbuck\'s domestic football league · Top 2 qualify for the Club World Cup · Broadcast rights: SmegLive — £300,000 · Home stadium: SmegTopia Stadium', teams:[
-      {name:'Springbuck United', founded:'2026', rating:5.0, desc:'Springbuck\'s flagship club, representing the resource-rich nation home to the world\'s first hospital and first oil rig.', nation:'Springbuck'},
+      {name:'Springbuck United', founded:'2026', rating:6.4, desc:'Springbuck\'s flagship club, representing the resource-rich nation home to the world\'s first hospital and first oil rig.', nation:'Springbuck'},
       {name:'Springbuck City', founded:'2026', rating:5.0, desc:'A Springbuck club competing in the Premiership\'s opening season, based near the capital Pretoria.', nation:'Springbuck'},
       {name:'The Stoners Club', founded:'2026', rating:5.0, desc:'One of Springbuck\'s clubs in the new domestic league, carrying an unmistakably local identity.', nation:'Springbuck'},
       {name:'Stormers', founded:'2026', rating:5.0, desc:'A Springbuck side named in homage to the nation\'s fast growth since its founding.', nation:'Springbuck'},
       {name:'Pluggers FC', founded:'2026', rating:5.0, desc:'A Springbuck club in the Premiership\'s inaugural season, part of the league\'s newly assembled line-up.', nation:'Springbuck'},
-      {name:'Springbuck Strikers', founded:'2026', rating:5.0, desc:'A Springbuck club competing in the new Premiership, flying the nation\'s green and gold.', nation:'Springbuck'},
+      {name:'Springbuck Strikers', founded:'2026', rating:6.15, desc:'A Springbuck club competing in the new Premiership, flying the nation\'s green and gold.', nation:'Springbuck'},
     ]},
   ];
 
