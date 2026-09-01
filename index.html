@@ -2845,6 +2845,18 @@
     return CWC_NATION_ACCENT[CWC_CLUB_NATION[name]] || '#888888';
   }
 
+  // Shorter display names for tight fixture-row layouts. Full name is kept
+  // for links/titles/onclick — only the visible label is abbreviated.
+  const CWC_TEAM_ABBR = {
+    'Quipalite MC Corexian Club': 'QMC Corexian',
+    'Keem Town United': 'Keem Town Utd',
+    'Springbuck United': 'Springbuck Utd',
+    'Springfield United': 'Springfield Utd',
+  };
+  function cwcShortName(name){
+    return CWC_TEAM_ABBR[name] || name;
+  }
+
   function cwcFreshFixtures(){
     const fixtures = {};
     Object.keys(CWC_GROUPS_OCT26).forEach(gname => {
@@ -2931,11 +2943,11 @@
         for(let j=i+1;j<teams.length;j++){
           rows.push(`<div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
             <div class="wc2-fixture-main">
-              <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${teams[i]}</span>
+              <span class="wc2-fixture-team linkable" title="${teams[i]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${cwcShortName(teams[i])}</span>
               <span class="wc2-schedule-score">TBD</span>
               <span class="wc2-schedule-vs">–</span>
               <span class="wc2-schedule-score">TBD</span>
-              <span class="wc2-fixture-team right linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${teams[j]}</span>
+              <span class="wc2-fixture-team right linkable" title="${teams[j]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${cwcShortName(teams[j])}</span>
             </div>
             <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
           </div>`);
@@ -2962,11 +2974,11 @@
       const rows = fixtures[gname].map((f, idx) => `
         <div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
           <div class="wc2-fixture-main">
-            <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${f.home}</span>
+            <span class="wc2-fixture-team linkable" title="${f.home}" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${cwcShortName(f.home)}</span>
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-h" value="${f.hs===null?'':f.hs}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
             <span class="wc2-fixture-dash">–</span>
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
-            <span class="wc2-fixture-team right linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${f.away}</span>
+            <span class="wc2-fixture-team right linkable" title="${f.away}" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${cwcShortName(f.away)}</span>
           </div>
           <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
         </div>`).join('');
