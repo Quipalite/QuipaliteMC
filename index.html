@@ -515,6 +515,17 @@
       .cwc-fixtures-grid .wc2-fixture-row{flex-direction:column;align-items:stretch;gap:6px;padding:12px 14px;}
       .cwc-fixtures-grid .wc2-fixture-date-sub{text-align:center;}
     }
+    .cwc-predictor-grid{gap:22px;}
+    .cwc-predictor-grid .wc2-group-card{padding:18px 18px 16px;}
+    .cwc-predictor-grid .wc2-group-title{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);}
+    .cwc-predictor-grid .wc2-fixture-list{gap:10px;}
+    .cwc-predictor-grid .wc2-fixture-row{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:12px 14px;gap:8px;}
+    .cwc-predictor-grid .wc2-fixture-row-clickable{margin:0;padding-left:14px;padding-right:32px;transition:background .18s,border-color .18s;}
+    .cwc-predictor-grid .wc2-fixture-row-clickable:hover{background:rgba(192,132,252,.08);border-color:rgba(192,132,252,.3);transform:none;}
+    .cwc-predictor-grid .wc2-fixture-row-clickable::after{right:10px;}
+    .cwc-predictor-grid .wc2-fixture-main{gap:8px;}
+    .cwc-predictor-grid .wc2-fixture-date-sub{text-align:center;opacity:.8;margin-top:2px;}
+    .cwc-predictor-grid .wc2-score-input{background:rgba(255,255,255,.06);}
     .wc2-ko-inputs{display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .wc2-predict-btn.secondary{background:rgba(255,255,255,.06);color:var(--text-dim);box-shadow:none;}
     .wc2-predict-btn.secondary:hover{background:rgba(255,255,255,.1);color:var(--text);box-shadow:none;}
@@ -2955,7 +2966,7 @@
         </div>
       </div>`;
     }).join('');
-    return `<div class="wc2-group-grid cwc-fixtures-grid">${groupBlocks}</div>`;
+    return `<div class="wc2-group-grid cwc-predictor-grid">${groupBlocks}</div>`;
   }
 
   // ---- Road to Final (CWC Oct26 predictor knockout bracket) ----
