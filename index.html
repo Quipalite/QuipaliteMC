@@ -420,6 +420,8 @@
     .wc2-groups-wrap{max-width:1100px;margin:0 auto;}
     .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
     .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
+    .cwc-broadcast-note{text-align:center;font-family:var(--font-b);font-size:12px;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:9px 16px;margin:0 0 16px;line-height:1.6;}
+    .cwc-broadcast-note strong{color:var(--text);font-weight:700;}
     .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .cwc-oct-hero{position:relative;overflow:hidden;width:100%;box-sizing:border-box;border-radius:16px;padding:22px 26px;margin:0 0 20px;background:linear-gradient(115deg,rgba(147,51,234,.28) 0%,rgba(192,132,252,.14) 55%,rgba(147,51,234,.06) 100%);border:1px solid rgba(192,132,252,.35);box-shadow:0 8px 28px -12px rgba(147,51,234,.35);display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
     .cwc-oct-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;}
@@ -2962,6 +2964,7 @@
       </div>`;
     }).join('');
     return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off Dates To Be Announced</div>
+      <div class="cwc-broadcast-note">📡 Broadcast rights: <strong>Smeg Live</strong> &amp; <strong>Corexia Live</strong> (Smegtopia &amp; Corexia) · <strong>KKCT</strong> (radio) &amp; <strong>CBC</strong> (TV) in Craineun · <strong>Crabville Radio</strong></div>
       <div class="wc2-group-grid">${groupBlocks}</div>`;
   }
 
