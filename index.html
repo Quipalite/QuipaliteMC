@@ -515,6 +515,10 @@
       .cwc-fixtures-grid .wc2-fixture-row{flex-direction:column;align-items:stretch;gap:6px;padding:12px 14px;}
       .cwc-fixtures-grid .wc2-fixture-date-sub{text-align:center;}
     }
+    @media(max-width:480px){
+      .cwc-fixtures-grid .wc2-fixture-row-clickable{padding-left:10px;padding-right:14px;}
+      .cwc-fixtures-grid .wc2-fixture-main{flex-wrap:wrap;row-gap:6px;}
+    }
     .cwc-predictor-grid{gap:22px;}
     .cwc-predictor-grid .wc2-group-card{padding:18px 18px 16px;}
     .cwc-predictor-grid .wc2-group-title{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);}
@@ -526,6 +530,13 @@
     .cwc-predictor-grid .wc2-fixture-main{gap:8px;}
     .cwc-predictor-grid .wc2-fixture-date-sub{text-align:center;opacity:.8;margin-top:2px;}
     .cwc-predictor-grid .wc2-score-input{background:rgba(255,255,255,.06);}
+    @media(max-width:480px){
+      .cwc-predictor-grid .wc2-fixture-row-clickable{padding-left:10px;padding-right:14px;}
+      .cwc-predictor-grid .wc2-fixture-main{flex-wrap:wrap;justify-content:center;row-gap:8px;}
+      .cwc-predictor-grid .wc2-score-input{width:30px;height:28px;font-size:11px;}
+      .cwc-predictor-grid .wc2-fixture-team{width:100%;text-align:center;}
+      .cwc-predictor-grid .wc2-fixture-team.right{text-align:center;}
+    }
     .wc2-ko-inputs{display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .wc2-predict-btn.secondary{background:rgba(255,255,255,.06);color:var(--text-dim);box-shadow:none;}
     .wc2-predict-btn.secondary:hover{background:rgba(255,255,255,.1);color:var(--text);box-shadow:none;}
