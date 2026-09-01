@@ -609,6 +609,12 @@
     .wc2-rank-score{font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text);flex-shrink:0;width:52px;text-align:right;}
     .wc2-rank-score-max{font-size:9px;color:var(--text-muted);font-weight:600;}
     @media(max-width:600px){.wc2-rank-name{width:80px;font-size:11.5px;}.wc2-rank-num{width:24px;font-size:11px;}}
+    .wc2-rank-row-hidden{cursor:default;border-style:dashed;border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02);}
+    .wc2-rank-row-hidden:hover{transform:none;background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.1);}
+    .wc2-rank-row-hidden .wc2-rank-name{color:var(--text-dim);letter-spacing:2px;}
+    .wc2-rank-row-hidden .wc2-rank-score{color:var(--text-dim);}
+    .wc2-rank-row-reveal{animation:cwcRankPop .45s cubic-bezier(.22,1,.36,1) both;}
+    @keyframes cwcRankPop{0%{opacity:0;transform:scale(.94) translateY(4px);}60%{opacity:1;transform:scale(1.015);}100%{opacity:1;transform:scale(1);}}
     .wc2-path-note{text-align:center;font-family:var(--font-m);font-size:8.5px;color:var(--text-muted);line-height:1.5;max-width:560px;margin:0 auto 20px;}
     @media(max-width:760px){.wc2-path-grid{grid-template-columns:1fr;}}
     #tmi h2{font-family:var(--font-d);font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;}
@@ -3110,15 +3116,54 @@
     return found ? found.team.rating : 5.0;
   }
 
+  let cwcRankReveal = null; // {order:'last'|'first', count:number} or null = show all
+
+  function cwcRankStartReveal(order){
+    cwcRankReveal = {order, count:0};
+    cwcRenderOct();
+  }
+
+  function cwcRankRevealNext(){
+    if(!cwcRankReveal) return;
+    const total = cwcAllTeams().length;
+    if(cwcRankReveal.count < total) cwcRankReveal.count++;
+    cwcRenderOct();
+  }
+
+  function cwcRankResetReveal(){
+    cwcRankReveal = null;
+    cwcRenderOct();
+  }
+
   function cwcRenderPowerRankings(){
     const ranked = cwcAllTeams()
       .map(name => ({name, rating: cwcTeamRating(name)}))
       .sort((a,b) => b.rating - a.rating);
+    const total = ranked.length;
+
+    let revealedRanks = null; // null = everything shown
+    if(cwcRankReveal){
+      revealedRanks = new Set();
+      for(let i=0;i<cwcRankReveal.count;i++){
+        revealedRanks.add(cwcRankReveal.order === 'last' ? (total - i) : (i + 1));
+      }
+    }
+
     const rows = ranked.map((r, idx) => {
       const rank = idx + 1;
+      const shown = !revealedRanks || revealedRanks.has(rank);
+      if(!shown){
+        return `<div class="wc2-rank-row wc2-rank-row-hidden">
+          <span class="wc2-rank-num">#${rank}</span>
+          <span class="wc2-rank-dot" style="background:rgba(255,255,255,.12)"></span>
+          <span class="wc2-rank-name">? ? ?</span>
+          <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:0%"></div></div>
+          <span class="wc2-rank-score">–</span>
+        </div>`;
+      }
       const pct = (r.rating / 10 * 100).toFixed(1);
       const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
-      return `<div class="wc2-rank-row" onclick="cwcOpenTeam('${r.name.replace(/'/g,"\\'")}')">
+      return `<div class="wc2-rank-row wc2-rank-row-reveal" onclick="cwcOpenTeam('${r.name.replace(/'/g,"\\'")}')">
         <span class="wc2-rank-num">${medal || '#'+rank}</span>
         <span class="wc2-rank-dot" style="background:${cwcAccent(r.name)}"></span>
         <span class="wc2-rank-name">${r.name}</span>
@@ -3126,7 +3171,21 @@
         <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
       </div>`;
     }).join('');
+
+    const controls = !cwcRankReveal
+      ? `<div class="wc2-predict-btn-wrap" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;" onclick="cwcRankStartReveal('last')">🔽 Reveal From #${total} (Countdown)</button>
+          <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;background:linear-gradient(135deg,#c084fc,#9333ea);box-shadow:0 10px 30px rgba(147,51,234,.25);" onclick="cwcRankStartReveal('first')">🔼 Reveal From #1</button>
+        </div>`
+      : `<div class="wc2-predict-btn-wrap" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;">
+          ${cwcRankReveal.count < total
+            ? `<button class="wc2-predict-btn" onclick="cwcRankRevealNext()">Reveal Next (${cwcRankReveal.count}/${total}) →</button>`
+            : `<div class="wc2-official-note" style="margin:0;">All ${total} revealed 🏁</div>`}
+          <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;background:rgba(255,255,255,.07);box-shadow:none;" onclick="cwcRankResetReveal()">↺ Show All</button>
+        </div>`;
+
     return `<div class="wc2-stadium-note">🏅 Club World Cup Power Rankings — October 2026</div>
+      ${controls}
       <div class="wc2-rank-list">${rows}</div>`;
   }
 
