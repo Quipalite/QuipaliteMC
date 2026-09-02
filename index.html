@@ -4637,7 +4637,7 @@
       return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},true)" style="cursor:pointer">
         <span class="wc2-rank-num">${medal || '#'+r.rank}</span>
         <span class="wc2-rank-dot" style="background:${r.accent}"></span>
-        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${wc2SeasonBadge()}${r.name}<span style="display:block;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:2px;white-space:nowrap;">${r.teams.length} clubs · tap for roster</span></span>
+        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${wc2SeasonBadge()}${r.name}<span style="display:block;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:2px;white-space:nowrap;">${r.teams.length} clubs · tap for roster${wc2LeagueSeason===2?' · <span style="color:var(--gold);">⏳ CWC status: pending</span>':' · <span style="color:var(--gold);">✅ CWC status: decided</span>'}</span></span>
         <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${r.accent}"></div></div>
         <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
         <span onclick="event.stopPropagation();openLeagueFixtures('${r.name}')" style="margin-left:8px;font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">📅 Fixtures</span>
@@ -5403,7 +5403,10 @@
           <div class="wc2-lt-header" style="border-left:3px solid ${league.accent};">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
               <span class="wc2-lt-title">${wc2SeasonBadge()}${league.name}</span>
-              <span onclick="event.stopPropagation();openLeagueFixtures('${league.name}')" style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">📅 Fixtures</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+                <span style="font-family:var(--font-m);font-size:8.5px;font-weight:800;letter-spacing:.3px;color:var(--gold);white-space:nowrap;">${wc2LeagueSeason===2?'⏳ CWC PENDING':'✅ CWC DECIDED'}</span>
+                <span onclick="event.stopPropagation();openLeagueFixtures('${league.name}')" style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;">📅 Fixtures</span>
+              </div>
             </div>
             <span class="wc2-lt-note">${league.note}</span>
           </div>
