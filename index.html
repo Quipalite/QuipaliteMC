@@ -424,6 +424,7 @@
     .wc2-season-btn span{display:block;font-size:8px;font-weight:700;letter-spacing:.4px;text-transform:none;opacity:.7;margin-top:2px;}
     .wc2-season-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
     .wc2-season-btn.active{color:#c084fc;background:rgba(192,132,252,.1);border-color:rgba(192,132,252,.35);}
+    .wc2-season-badge{display:inline-block;font-family:var(--font-m);font-size:8.5px;font-weight:800;letter-spacing:.4px;color:#c084fc;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);border-radius:5px;padding:2px 5px;margin-right:6px;vertical-align:middle;}
     .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .cwc-oct-hero{position:relative;overflow:hidden;width:100%;box-sizing:border-box;border-radius:16px;padding:22px 26px;margin:0 0 20px;background:linear-gradient(115deg,rgba(147,51,234,.28) 0%,rgba(192,132,252,.14) 55%,rgba(147,51,234,.06) 100%);border:1px solid rgba(192,132,252,.35);box-shadow:0 8px 28px -12px rgba(147,51,234,.35);display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
@@ -4183,14 +4184,28 @@
 
   // Season 2 starts as a fresh copy of Season 1's final ratings — the new
   // season kicks off from where the last one left off, then can diverge.
-  const WC2_LEAGUES_SEASON2 = WC2_LEAGUES_SEASON1.map(l => ({...l, teams: l.teams.map(t => ({...t}))}));
+  // Season 2 is a fresh new season — same clubs/leagues, but ratings reset
+  // to a neutral baseline since nothing has been played yet.
+  const WC2_LEAGUES_SEASON2 = WC2_LEAGUES_SEASON1.map(l => ({
+    ...l,
+    rating: 5.0,
+    teams: l.teams.map(t => ({...t, rating: 5.0})),
+  }));
   let wc2LeagueSeason = 2;
   let WC2_LEAGUE_POWER_RANKINGS = WC2_LEAGUES_SEASON2;
+
+  function wc2SeasonBadge(){
+    return `<span class="wc2-season-badge">S${wc2LeagueSeason}</span>`;
+  }
 
   function wc2SwitchLeagueSeason(n){
     wc2LeagueSeason = n;
     WC2_LEAGUE_POWER_RANKINGS = n === 1 ? WC2_LEAGUES_SEASON1 : WC2_LEAGUES_SEASON2;
-    wc2RenderLeaguePowerRankings();
+    if(typeof wcClubSubView !== 'undefined' && wcClubSubView === 'tables'){
+      wcRenderLeagueTables();
+    } else {
+      wc2RenderLeaguePowerRankings();
+    }
   }
 
   const LEAGUE_FIXTURES = {
@@ -4577,7 +4592,7 @@
       return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},true)" style="cursor:pointer">
         <span class="wc2-rank-num">${medal || '#'+r.rank}</span>
         <span class="wc2-rank-dot" style="background:${r.accent}"></span>
-        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${r.name}<span style="display:block;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:2px;white-space:nowrap;">${r.teams.length} clubs · tap for roster</span></span>
+        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${wc2SeasonBadge()}${r.name}<span style="display:block;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:2px;white-space:nowrap;">${r.teams.length} clubs · tap for roster</span></span>
         <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${r.accent}"></div></div>
         <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
         <span onclick="event.stopPropagation();openLeagueFixtures('${r.name}')" style="margin-left:8px;font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">📅 Fixtures</span>
@@ -5342,7 +5357,7 @@
         <div class="wc2-lt-card">
           <div class="wc2-lt-header" style="border-left:3px solid ${league.accent};">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
-              <span class="wc2-lt-title">${league.name}</span>
+              <span class="wc2-lt-title">${wc2SeasonBadge()}${league.name}</span>
               <span onclick="event.stopPropagation();openLeagueFixtures('${league.name}')" style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">📅 Fixtures</span>
             </div>
             <span class="wc2-lt-note">${league.note}</span>
@@ -5362,6 +5377,10 @@
     }).join('');
     bracket.innerHTML = `${wcClubRenderSubTabs()}
       <div class="wc2-groups-wrap">
+        <div class="wc2-season-toggle">
+          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>Final</span></button>
+          <button class="wc2-season-btn${wc2LeagueSeason===2?' active':''}" onclick="wc2SwitchLeagueSeason(2)">Season 2 <span>New</span></button>
+        </div>
         <div class="wc2-stadium-note" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);color:var(--gold);padding:10px 14px;border-radius:10px;">${anyPlayed ? '🗓️ The 2026 domestic season is now underway — tables update as results come in, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.' : '🗓️ The 2026 domestic season has not started yet — fixtures and standings will populate here once the season kicks off, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.'}</div>
         ${tablesHtml}
       </div>`;
