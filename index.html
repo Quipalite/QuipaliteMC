@@ -4068,14 +4068,14 @@
     const league = isLeague ? WC2_LEAGUE_POWER_RANKINGS.find(r=>r.name===name) : null;
     const accent = isLeague ? (league||{}).accent : wc2Accent(name);
     const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#'+rank;
-    const qualifyingNames = league ? wcQualifyingTeams(league) : new Set();
+    const qualifyingNames = (league && wc2LeagueSeason === 1) ? wcQualifyingTeams(league) : new Set();
     const teamsHtml = (league && league.teams && league.teams.length) ? `
         <div class="mm-divider"></div>
-        <div class="wc2-stadium-note" style="margin:0 0 8px">⚽ Clubs in this League</div>
+        <div class="wc2-stadium-note" style="margin:0 0 8px">⚽ Clubs in this League${league && wc2LeagueSeason===2 ? ' <span style="color:var(--gold);">· ⏳ CWC qualification pending</span>' : ''}</div>
         <div class="wc2-rank-list">${league.teams.map(t => `<div>
           <div class="wc2-rank-row wc2-club-row" onclick="openWc2Team('${league.name}','${t.name.replace(/'/g,"\\'")}')">
             <span class="wc2-rank-dot" style="background:${accent}"></span>
-            <span class="wc2-rank-name" style="width:auto;flex:1;">${t.name}${qualifyingNames.has(t.name)?` <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);letter-spacing:.3px;">🌍 ${wc2LeagueSeason===1?'AUTUMN':'SPRING'} CWC</span>`:''}</span>
+            <span class="wc2-rank-name" style="width:auto;flex:1;">${t.name}${qualifyingNames.has(t.name)?` <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);letter-spacing:.3px;">🌍 AUTUMN CWC</span>`:''}</span>
             <span class="wc2-rank-score">${t.rating.toFixed(1)}<span class="wc2-rank-score-max">/10</span></span>
           </div>
         </div>`).join('')}</div>` : '';
@@ -4183,16 +4183,15 @@
   ];
 
   // Season 2 starts as a fresh copy of Season 1's final ratings — the new
-  // Season 2 is a fresh new season — same clubs/leagues, but ratings reset
-  // to a neutral baseline since nothing has been played yet, and CWC
-  // qualification now points at the Spring Club World Cup 2027 (April).
+  // Season 2 is a new season — same clubs/leagues and the same ratings they
+  // ended Season 1 on, but CWC qualification now points at the Spring Club
+  // World Cup 2027 (April), and nothing has been decided yet.
   const WC2_LEAGUES_SEASON2 = WC2_LEAGUES_SEASON1.map(l => ({
     ...l,
-    rating: 5.0,
     note: l.note
       .replace(/Autumn Club World Cup 2026 \(October\)/g, 'Spring Club World Cup 2027 (April)')
       .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)'),
-    teams: l.teams.map(t => ({...t, rating: 5.0})),
+    teams: l.teams.map(t => ({...t})),
   }));
   let wc2LeagueSeason = 2;
   let WC2_LEAGUE_POWER_RANKINGS = WC2_LEAGUES_SEASON2;
@@ -4451,13 +4450,45 @@
     ],
   };
 
-  // Season 2 reuses the same fixture list (same matchday matchups) but
-  // wipes every result — a genuinely blank slate for the new season.
+  // Season 2 gets a freshly shuffled fixture list — same clubs, same total
+  // number of home-and-away matches per team as Season 1, but the draw is
+  // randomised into new matchups and a new schedule order.
+  function wcShuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function wcGenerateSeasonFixtures(teamNames){
+    let teams = wcShuffle(teamNames);
+    if(teams.length % 2 !== 0) teams.push(null); // bye slot for odd-sized leagues
+    const n = teams.length;
+    const half = n / 2;
+    let arr = teams.slice();
+    const firstLeg = [];
+    for(let r = 0; r < n - 1; r++){
+      const round = [];
+      for(let i = 0; i < half; i++){
+        const t1 = arr[i], t2 = arr[n - 1 - i];
+        if(t1 !== null && t2 !== null) round.push(r % 2 === 0 ? [t1, t2] : [t2, t1]);
+      }
+      firstLeg.push(round);
+      arr = [arr[0], arr[n - 1], ...arr.slice(1, n - 1)];
+    }
+    const secondLeg = firstLeg.map(round => round.map(([h, a]) => [a, h]));
+    const allRounds = wcShuffle([...firstLeg, ...secondLeg]);
+    const fixtures = [];
+    allRounds.forEach((round, idx) => {
+      round.forEach(([home, away]) => fixtures.push({md: idx + 1, home, away, hs: null, as: null}));
+    });
+    return fixtures;
+  }
+
   const LEAGUE_FIXTURES_SEASON2 = Object.fromEntries(
-    Object.entries(LEAGUE_FIXTURES_SEASON1).map(([league, fixtures]) => [
-      league,
-      fixtures.map(f => ({...f, hs:null, as:null})),
-    ])
+    WC2_LEAGUES_SEASON1.map(l => [l.name, wcGenerateSeasonFixtures(l.teams.map(t => t.name))])
   );
   let LEAGUE_FIXTURES = LEAGUE_FIXTURES_SEASON2;
 
@@ -4617,7 +4648,7 @@
       <div class="wc2-groups-wrap">
         <div class="wc2-stadium-note">⚽ League Power Rankings — Domestic Football Leagues</div>
         <div class="wc2-season-toggle">
-          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>Final</span></button>
+          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>History</span></button>
           <button class="wc2-season-btn${wc2LeagueSeason===2?' active':''}" onclick="wc2SwitchLeagueSeason(2)">Season 2 <span>New</span></button>
         </div>
         <div class="wc2-rank-list">${rows}</div>
@@ -5363,7 +5394,7 @@
         <tr class="wc2-lt-row" onclick="openWc2Team('${league.name}','${t.name.replace(/'/g,"\\'")}')" style="animation-delay:${(i*0.03).toFixed(2)}s">
           <td style="color:var(--text-dim);font-weight:700;">${i+1}</td>
           <td style="text-align:left;">
-            <span class="wc2-lt-dot" style="background:${league.accent}"></span><span style="color:${league.accent};font-weight:600;">${t.name}</span>${t.qualifies?` <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);">🌍 ${wc2LeagueSeason===1?'AUTUMN':'SPRING'} CWC</span>`:''}
+            <span class="wc2-lt-dot" style="background:${league.accent}"></span><span style="color:${league.accent};font-weight:600;">${t.name}</span>${(t.qualifies && wc2LeagueSeason===1)?` <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);">🌍 AUTUMN CWC</span>`:''}
           </td>
           <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td style="font-weight:800;color:var(--text);">${t.pts}</td>
         </tr>`).join('');
@@ -5392,12 +5423,12 @@
     bracket.innerHTML = `${wcClubRenderSubTabs()}
       <div class="wc2-groups-wrap">
         <div class="wc2-season-toggle">
-          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>Final</span></button>
+          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>History</span></button>
           <button class="wc2-season-btn${wc2LeagueSeason===2?' active':''}" onclick="wc2SwitchLeagueSeason(2)">Season 2 <span>New</span></button>
         </div>
         <div class="wc2-stadium-note" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);color:var(--gold);padding:10px 14px;border-radius:10px;">${wc2LeagueSeason===1
           ? (anyPlayed ? '🗓️ The 2026 domestic season is complete — final standings ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.' : '🗓️ The 2026 domestic season has not started yet — fixtures and standings will populate here once the season kicks off, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.')
-          : (anyPlayed ? '🗓️ The 2027 domestic season is now underway — tables update as results come in, ahead of the Spring Club World Cup 2027 in April. Tap any club for its profile.' : '🗓️ The new 2027 domestic season has not started yet — fixtures and standings will populate here once it kicks off, ahead of the Spring Club World Cup 2027 in April. Tap any club for its profile.')
+          : (anyPlayed ? '🗓️ The 2027 domestic season is now underway — tables update as results come in. Spring Club World Cup 2027 (April) qualification is ⏳ pending until the season concludes. Tap any club for its profile.' : '🗓️ The new 2027 domestic season has not started yet — fixtures and standings will populate here once it kicks off. Spring Club World Cup 2027 (April) qualification is ⏳ pending. Tap any club for its profile.')
         }</div>
         ${tablesHtml}
       </div>`;
