@@ -4182,7 +4182,23 @@
     ]},
   ];
 
-  // Season 2 starts as a fresh copy of Season 1's final ratings — the new
+  // Clubs debuting in Season 2 only — didn't exist for Season 1, so they're
+  // added to each league's roster after the Season 2 clone is made.
+  const WC2_SEASON2_NEW_TEAMS = {
+    'Fusion League': [
+      {name:'Seirinese Wanderers', founded:'2027', rating:5.0, desc:'A Corexia club carrying the Seirinese name into the Fusion League, part of the nation\'s growing footballing presence.', nation:'Corexia'},
+      {name:'Seirin-by-the-sea', founded:'2027', rating:5.0, desc:'A coastal Corexia side named for its Seirin home, joining the Fusion League as a fresh addition to the nation\'s club scene.', nation:'Corexia'},
+      {name:'Core De Football', founded:'2027', rating:5.0, desc:'One of Corexia\'s newest clubs, its name a nod to the digital-economy nation\'s core industries.', nation:'Corexia'},
+      {name:'Smeggity FC', founded:'2027', rating:5.0, desc:'A new Smegtopia club joining the Fusion League, adding to the founding nation\'s deep footballing roster.', nation:'Smegtopia'},
+      {name:'Smagris', founded:'2027', rating:5.0, desc:'A newly formed Smegtopia side entering the Fusion League, still building its identity within the nation\'s crowded club scene.', nation:'Smegtopia'},
+      {name:'SMG FC', founded:'2027', rating:5.0, desc:'Another fresh Smegtopia entrant to the Fusion League, carrying the nation\'s initials into domestic competition.', nation:'Smegtopia'},
+    ],
+    'Craineun Premier League': [
+      {name:'Royal Town Of Slyvian Athletic', founded:'2027', rating:5.0, desc:'A Craineun club representing the Royal Town of Slyvian, joining the Premier League as a fresh addition to the nation\'s footballing landscape.', nation:'Craineun'},
+      {name:'Anderville Anchors', founded:'2027', rating:5.0, desc:'A new Craineun side named for Anderville, entering the Premier League to build its own identity within the nation\'s forested territory.', nation:'Craineun'},
+    ],
+  };
+
   // Season 2 is a new season — same clubs/leagues and the same ratings they
   // ended Season 1 on, but CWC qualification now points at the Spring Club
   // World Cup 2027 (April), and nothing has been decided yet.
@@ -4191,7 +4207,7 @@
     note: l.note
       .replace(/Autumn Club World Cup 2026 \(October\)/g, 'Spring Club World Cup 2027 (April)')
       .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)'),
-    teams: l.teams.map(t => ({...t})),
+    teams: [...l.teams.map(t => ({...t})), ...(WC2_SEASON2_NEW_TEAMS[l.name] || [])],
   }));
   let wc2LeagueSeason = 2;
   let WC2_LEAGUE_POWER_RANKINGS = WC2_LEAGUES_SEASON2;
@@ -4488,7 +4504,7 @@
   }
 
   const LEAGUE_FIXTURES_SEASON2 = Object.fromEntries(
-    WC2_LEAGUES_SEASON1.map(l => [l.name, wcGenerateSeasonFixtures(l.teams.map(t => t.name))])
+    WC2_LEAGUES_SEASON2.map(l => [l.name, wcGenerateSeasonFixtures(l.teams.map(t => t.name))])
   );
   let LEAGUE_FIXTURES = LEAGUE_FIXTURES_SEASON2;
 
