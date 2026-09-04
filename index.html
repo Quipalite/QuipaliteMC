@@ -2779,7 +2779,10 @@
   // searching every league roster. Used so CWC team links open a club profile
   // rather than a nation profile.
   function cwcFindClub(teamName){
-    for (const league of WC2_LEAGUE_POWER_RANKINGS) {
+    // Always pins to Season 1's ratings — the Autumn Club World Cup 2026
+    // happens right after Season 1 concludes, so it shouldn't shift depending
+    // on whichever domestic season the Leagues tab happens to be showing.
+    for (const league of WC2_LEAGUES_SEASON1) {
       const team = league.teams.find(t => t.name === teamName);
       if (team) return {leagueName: league.name, team};
     }
