@@ -4165,7 +4165,7 @@
     {rank:2, name:'Craineun Premier League', accent:'#50C878', rating:7.08, qualifyCount:4, note:'Joint league — Craineun &amp; Crabville · Top 4 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: KKCT (radio) &amp; CBC (TV) — £1,000,000 · Home stadiums: NewLife Stadium &amp; Crainetown Stadium', teams:[
       {name:'Crainetown FC', founded:'2026', rating:9.5, desc:'Named for Craineun\'s capital, home to the world\'s first airport, train station and school, Crainetown FC carry the biggest footballing pedigree of Aftlow\'s sprawling, forested nation.', nation:'Craineun'},
       {name:'Los Perlos CF', founded:'2024', rating:9.15, desc:'A side with roots stretching back to 2024, when they were a World Cup team in that year\'s Current Nations, putting together mediocre runs. Back then they were a state of Aftlow-run La Cocina, before breaking away to independence — a move that went down badly with the La Cocina government at the time — ahead of their eventual arrival in Craineun colours.', nation:'Craineun'},
-      {name:'Keem Town United', founded:'2026', rating:8.5, desc:'Named for the disbanded nation of Keem, whose land was absorbed by Craineun and Smegtopia, this club keeps that vanished nation\'s heritage alive on the pitch.', nation:'Craineun'},
+      {name:'Keem Town United', founded:'2026', rating:8.5, desc:'Named for the disbanded nation of Keem, whose land was absorbed by Craineun and Smegtopia, this club keeps that vanished nation\'s heritage alive on the pitch.', nation:'Keem'},
       {name:'Springfield United', founded:'2026', rating:8.5, desc:'Based out of Craineun\'s Springfield Factory district, an industrious and well-organised outfit reflecting the industrial heart of the nation.', nation:'Craineun'},
       {name:'Crabville Creepers', founded:'2026', rating:8.0, desc:'One of Crabville\'s two representatives in the joint league, known for a stubborn, physical style of play in keeping with the nation\'s militaristic reputation.', nation:'Crabville'},
       {name:'Crabville Breezers', founded:'2026', rating:8.35, desc:'Crabville\'s second club in the league, a breezy attacking side offering a different identity from their more combative city rivals.', nation:'Crabville'},
@@ -4219,6 +4219,10 @@
       {name:'Royal Town Of Slyvian Athletic', founded:'2027', rating:5.0, desc:'A Craineun club representing the Royal Town of Slyvian, joining the Premier League as a fresh addition to the nation\'s footballing landscape.', nation:'Craineun'},
       {name:'Anderville Anchors', founded:'2027', rating:5.0, desc:'A new Craineun side named for Anderville, entering the Premier League to build its own identity within the nation\'s forested territory.', nation:'Craineun'},
     ],
+    'Stormland National League': [
+      {name:'Smogtowne United', founded:'2027', rating:5.0, desc:'Smogtowne\'s first-ever domestic club, joining the Stormland National League as a guest side and giving the mysterious grey nation a footballing home at last.', nation:'Smogtowne'},
+      {name:'Caderville FC', founded:'2027', rating:5.0, desc:'Caderville\'s debut domestic club, joining the Stormland National League as a guest side as the young monarchy builds out its footballing presence.', nation:'Caderville'},
+    ],
   };
 
   // A handful of clubs have diverging ratings between the two seasons —
@@ -4240,7 +4244,8 @@
       ...l,
       note: l.note
         .replace(/Autumn Club World Cup 2026 \(October\)/g, 'Spring Club World Cup 2027 (April)')
-        .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)'),
+        .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)')
+        .replace('a guest club from Okpemon', 'guest clubs from Okpemon, Smogtowne and Caderville'),
       teams,
       rating: +(teams.reduce((sum, t) => sum + t.rating, 0) / teams.length).toFixed(2),
     };
