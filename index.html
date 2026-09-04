@@ -4175,10 +4175,10 @@
       {name:'AFC Coolbox', founded:'2026', rating:5.0, desc:'A newly formed Crabville side still building its own identity within the shadow of the nation\'s huge apartment blocks and military base.', nation:'Crabville'},
     ]},
     {rank:3, name:'Stormland National League', accent:'#1E90FF', rating:5.18, qualifyCount:2, note:'Stormland &amp; a guest club from Okpemon · Top 2 qualify for the Club World Cup · Broadcast rights: Crabville Radio — £1,500,000 · Home stadium: NewLife Stadium', teams:[
-      {name:'Okpemon FC', founded:'2022', rating:8.0, desc:'Okpemon\'s sole representative, a club with a genuinely decorated past — as a country and club side in Countries SMP under bubbler2009, they won 9 Countries SMP titles, 1 World Cup, 1 Super World Cup and 7 Champions Leagues, and later added a World Cup on a separate Current Nations server in 2024, beating former side Tete De Pounce 1-0 in the final. That pedigree sits alongside a battle-hardened identity forged by Okpemon enduring the server\'s first war, including the loss of its famed mega tank.', nation:'Okpemon'},
+      {name:'Okpemon FC', founded:'2022', rating:6.1, desc:'Okpemon\'s sole representative, a club with a genuinely decorated past — as a country and club side in Countries SMP under bubbler2009, they won 9 Countries SMP titles, 1 World Cup, 1 Super World Cup and 7 Champions Leagues, and later added a World Cup on a separate Current Nations server in 2024, beating former side Tete De Pounce 1-0 in the final. That pedigree sits alongside a battle-hardened identity forged by Okpemon enduring the server\'s first war, including the loss of its famed mega tank.', nation:'Okpemon'},
       {name:'Stormland United', founded:'2026', rating:5.0, desc:'Stormland\'s flagship club, representing the nation founded by Terroralex10 in July 2026 and its blue-and-yellow banners.', nation:'Stormland'},
       {name:'Stormland City FC', founded:'2026', rating:5.0, desc:'A fellow Stormland club still establishing its identity as the young nation grows from its founding population.', nation:'Stormland'},
-      {name:'MiraHQ', founded:'2022', rating:8.40, desc:'One of the most decorated names in the game\'s history, MiraHQ existed as both a country and a club side in the old Countries SMP era under manager Terroralex10, amassing 3 World Cups, 1 Super World Cup, 18 Countries SMP titles and 10 Champions Leagues before making the move into the Current Nations era.', nation:'Stormland'},
+      {name:'MiraHQ', founded:'2022', rating:5.0, desc:'One of the most decorated names in the game\'s history, MiraHQ existed as both a country and a club side in the old Countries SMP era under manager Terroralex10, amassing 3 World Cups, 1 Super World Cup, 18 Countries SMP titles and 10 Champions Leagues before making the move into the Current Nations era.', nation:'Stormland'},
       {name:'MiraHX', founded:'2022', rating:5.0, desc:'A second Mira club, also a country and club side back in Countries SMP, where it claimed 2 Countries SMP 2nd Division titles before joining its sister clubs in the present day.', nation:'Stormland'},
       {name:'MiraHB', founded:'2022', rating:5.0, desc:'The third Mira club, a smaller side back in the Countries SMP days that nonetheless picked up a Countries SMP 3rd Division title, and has carried that heritage through into the current league.', nation:'Stormland'},
     ]},
@@ -4199,6 +4199,11 @@
     ]},
   ];
 
+  // Season 1's overall league rating is the average of its clubs' ratings.
+  WC2_LEAGUES_SEASON1.forEach(l => {
+    l.rating = +(l.teams.reduce((sum, t) => sum + t.rating, 0) / l.teams.length).toFixed(2);
+  });
+
   // Clubs debuting in Season 2 only — didn't exist for Season 1, so they're
   // added to each league's roster after the Season 2 clone is made.
   const WC2_SEASON2_NEW_TEAMS = {
@@ -4216,16 +4221,30 @@
     ],
   };
 
-  // Season 2 is a new season — same clubs/leagues and the same ratings they
-  // ended Season 1 on, but CWC qualification now points at the Spring Club
-  // World Cup 2027 (April), and nothing has been decided yet.
-  const WC2_LEAGUES_SEASON2 = WC2_LEAGUES_SEASON1.map(l => ({
-    ...l,
-    note: l.note
-      .replace(/Autumn Club World Cup 2026 \(October\)/g, 'Spring Club World Cup 2027 (April)')
-      .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)'),
-    teams: [...l.teams.map(t => ({...t})), ...(WC2_SEASON2_NEW_TEAMS[l.name] || [])],
-  }));
+  // A handful of clubs have diverging ratings between the two seasons —
+  // Season 1 keeps its historical number, Season 2 uses the value here.
+  const WC2_SEASON2_RATING_OVERRIDES = {
+    'Okpemon FC': 8.0,
+    'MiraHQ': 8.40,
+  };
+
+  // Season 2 is a new season — same clubs/leagues, but CWC qualification now
+  // points at the Spring Club World Cup 2027 (April), and nothing has been
+  // decided yet. League rating is the average of its Season 2 club ratings.
+  const WC2_LEAGUES_SEASON2 = WC2_LEAGUES_SEASON1.map(l => {
+    const teams = [
+      ...l.teams.map(t => ({...t, rating: WC2_SEASON2_RATING_OVERRIDES[t.name] ?? t.rating})),
+      ...(WC2_SEASON2_NEW_TEAMS[l.name] || []),
+    ];
+    return {
+      ...l,
+      note: l.note
+        .replace(/Autumn Club World Cup 2026 \(October\)/g, 'Spring Club World Cup 2027 (April)')
+        .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)'),
+      teams,
+      rating: +(teams.reduce((sum, t) => sum + t.rating, 0) / teams.length).toFixed(2),
+    };
+  });
   let wc2LeagueSeason = 2;
   let WC2_LEAGUE_POWER_RANKINGS = WC2_LEAGUES_SEASON2;
 
