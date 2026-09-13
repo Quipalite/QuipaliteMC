@@ -2767,19 +2767,42 @@
     'Group D': ['Smeg City FC','Springbuck Strikers','Crabville Breezers','Springfield United'],
   };
   // Kick-off dates for the October 2026 group fixtures.
+  // Each group's 3 rounds are scheduled as proper "matchdays" — the two
+  // fixtures that make up a round (covering all 4 teams in the group once)
+  // are always kept together, e.g. Smeggers vs QMC + Crainetown vs Okpemon.
   const CWC_OCT26_FIXTURE_DATES = {
-    'Crainetown FC_Smeggers FC': 'Oct 3, 3:30pm',
+    // Sat Oct 3 — Group A Round 1 + Group B Round 1
+    'Smeggers FC_Quipalite MC Corexian Club': 'Oct 3, 1:00pm',
+    'Crainetown FC_Okpemon FC': 'Oct 3, 3:00pm',
     'Crabville Creepers_Waterland City': 'Oct 3, 5:00pm',
-    'Keem Town United_AFC Crabville': 'Oct 3, 7:30pm',
-    'Smeg City FC_Springbuck Strikers': 'Oct 3, 9:00pm',
-    'Quipalite MC Corexian Club_Okpemon FC': 'Oct 4, 5:00pm',
-    'Los Perlos CF_Smogtowne': 'Oct 4, 7:00pm',
-    'MiraHQ_Springbuck United': 'Oct 5, 7:00pm',
-    'Crabville Breezers_Springbuck United': 'Oct 6, 6:00pm',
-    'Smeggers FC_Okpemon FC': 'Oct 7, 7:00pm',
-    'Crabville Creepers_Smogtowne': 'Oct 8, 8:00pm',
-    'AFC Crabville_Keem Town United': 'Oct 9, 5:30pm',
-    'Smeg City FC_Crabville Breezers': 'Oct 10, 6:40pm',
+    'Los Perlos CF_Smogtowne': 'Oct 3, 7:00pm',
+    // Sun Oct 4 — Group C Round 1 + Group D Round 1
+    'Keem Town United_AFC Crabville': 'Oct 4, 1:00pm',
+    'Springbuck United_MiraHQ': 'Oct 4, 3:00pm',
+    'Smeg City FC_Springbuck Strikers': 'Oct 4, 5:00pm',
+    'Crabville Breezers_Springfield United': 'Oct 4, 7:00pm',
+    // Tue Oct 6 — Group A Round 2
+    'Smeggers FC_Crainetown FC': 'Oct 6, 6:00pm',
+    'Quipalite MC Corexian Club_Okpemon FC': 'Oct 6, 8:00pm',
+    // Wed Oct 7 — Group B Round 2
+    'Crabville Creepers_Los Perlos CF': 'Oct 7, 6:00pm',
+    'Waterland City_Smogtowne': 'Oct 7, 8:00pm',
+    // Thu Oct 8 — Group C Round 2
+    'Keem Town United_Springbuck United': 'Oct 8, 6:00pm',
+    'AFC Crabville_MiraHQ': 'Oct 8, 8:00pm',
+    // Fri Oct 9 — Group D Round 2
+    'Smeg City FC_Crabville Breezers': 'Oct 9, 6:00pm',
+    'Springbuck Strikers_Springfield United': 'Oct 9, 8:00pm',
+    // Sat Oct 10 — Group A Round 3 + Group B Round 3
+    'Smeggers FC_Okpemon FC': 'Oct 10, 1:00pm',
+    'Quipalite MC Corexian Club_Crainetown FC': 'Oct 10, 3:00pm',
+    'Crabville Creepers_Smogtowne': 'Oct 10, 5:00pm',
+    'Waterland City_Los Perlos CF': 'Oct 10, 7:00pm',
+    // Sun Oct 11 — Group C Round 3 + Group D Round 3
+    'Keem Town United_MiraHQ': 'Oct 11, 1:00pm',
+    'AFC Crabville_Springbuck United': 'Oct 11, 3:00pm',
+    'Smeg City FC_Springfield United': 'Oct 11, 5:00pm',
+    'Springbuck Strikers_Crabville Breezers': 'Oct 11, 7:00pm',
   };
   function cwcFixtureDate(home, away){
     return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
@@ -3285,7 +3308,7 @@
           <div class="cwc-oct-hero-icon">🍂</div>
           <div class="cwc-oct-hero-text">
             <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
-            <div class="cwc-oct-hero-sub">🏆 Group Draw Confirmed · Kick-Off Dates TBA</div>
+            <div class="cwc-oct-hero-sub">🏆 Group Draw Confirmed · Full Fixture Schedule Released</div>
             <div class="cwc-oct-hero-desc">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</div>
           </div>
         </div>
