@@ -2987,7 +2987,7 @@
               <span class="wc2-schedule-score">TBD</span>
               <span class="wc2-fixture-team right linkable" title="${teams[j]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${cwcShortName(teams[j])}</span>
             </div>
-            <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
+            <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(teams[i], teams[j])}</div>
           </div>`);
         }
       }
@@ -2999,7 +2999,7 @@
         </div>
       </div>`;
     }).join('');
-    return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off Dates To Be Announced</div>
+    return `<div class="wc2-official-badge">📋 Fixtures Confirmed</div>
       <div class="wc2-group-grid">${groupBlocks}</div>`;
   }
 
@@ -3018,7 +3018,7 @@
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
             <span class="wc2-fixture-team right linkable" title="${f.away}" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${cwcShortName(f.away)}</span>
           </div>
-          <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
+          <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(f.home, f.away)}</div>
         </div>`).join('');
       const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
       return `<div class="wc2-group-card${centerCls}">
