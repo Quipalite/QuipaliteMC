@@ -2770,42 +2770,52 @@
   // Each group's 3 rounds are scheduled as proper "matchdays" — the two
   // fixtures that make up a round (covering all 4 teams in the group once)
   // are always kept together, e.g. Smeggers vs QMC + Crainetown vs Okpemon.
+  // All kick-offs run within the 5:25pm-8:30pm matchday window.
   const CWC_OCT26_FIXTURE_DATES = {
     // Sat Oct 3 — Group A Round 1 + Group B Round 1
-    'Smeggers FC_Quipalite MC Corexian Club': 'Oct 3, 1:00pm',
-    'Crainetown FC_Okpemon FC': 'Oct 3, 3:00pm',
-    'Crabville Creepers_Waterland City': 'Oct 3, 5:00pm',
-    'Los Perlos CF_Smogtowne': 'Oct 3, 7:00pm',
+    'Smeggers FC_Quipalite MC Corexian Club': 'Oct 3, 5:25pm',
+    'Crainetown FC_Okpemon FC': 'Oct 3, 6:25pm',
+    'Crabville Creepers_Waterland City': 'Oct 3, 7:25pm',
+    'Los Perlos CF_Smogtowne': 'Oct 3, 8:30pm',
     // Sun Oct 4 — Group C Round 1 + Group D Round 1
-    'Keem Town United_AFC Crabville': 'Oct 4, 1:00pm',
-    'Springbuck United_MiraHQ': 'Oct 4, 3:00pm',
-    'Smeg City FC_Springbuck Strikers': 'Oct 4, 5:00pm',
-    'Crabville Breezers_Springfield United': 'Oct 4, 7:00pm',
+    'Keem Town United_AFC Crabville': 'Oct 4, 5:25pm',
+    'Springbuck United_MiraHQ': 'Oct 4, 6:25pm',
+    'Smeg City FC_Springbuck Strikers': 'Oct 4, 7:25pm',
+    'Crabville Breezers_Springfield United': 'Oct 4, 8:30pm',
     // Tue Oct 6 — Group A Round 2
-    'Smeggers FC_Crainetown FC': 'Oct 6, 6:00pm',
-    'Quipalite MC Corexian Club_Okpemon FC': 'Oct 6, 8:00pm',
+    'Smeggers FC_Crainetown FC': 'Oct 6, 5:25pm',
+    'Quipalite MC Corexian Club_Okpemon FC': 'Oct 6, 8:30pm',
     // Wed Oct 7 — Group B Round 2
-    'Crabville Creepers_Los Perlos CF': 'Oct 7, 6:00pm',
-    'Waterland City_Smogtowne': 'Oct 7, 8:00pm',
+    'Crabville Creepers_Los Perlos CF': 'Oct 7, 5:25pm',
+    'Waterland City_Smogtowne': 'Oct 7, 8:30pm',
     // Thu Oct 8 — Group C Round 2
-    'Keem Town United_Springbuck United': 'Oct 8, 6:00pm',
-    'AFC Crabville_MiraHQ': 'Oct 8, 8:00pm',
+    'Keem Town United_Springbuck United': 'Oct 8, 5:25pm',
+    'AFC Crabville_MiraHQ': 'Oct 8, 8:30pm',
     // Fri Oct 9 — Group D Round 2
-    'Smeg City FC_Crabville Breezers': 'Oct 9, 6:00pm',
-    'Springbuck Strikers_Springfield United': 'Oct 9, 8:00pm',
+    'Smeg City FC_Crabville Breezers': 'Oct 9, 5:25pm',
+    'Springbuck Strikers_Springfield United': 'Oct 9, 8:30pm',
     // Sat Oct 10 — Group A Round 3 + Group B Round 3
-    'Smeggers FC_Okpemon FC': 'Oct 10, 1:00pm',
-    'Quipalite MC Corexian Club_Crainetown FC': 'Oct 10, 3:00pm',
-    'Crabville Creepers_Smogtowne': 'Oct 10, 5:00pm',
-    'Waterland City_Los Perlos CF': 'Oct 10, 7:00pm',
+    'Smeggers FC_Okpemon FC': 'Oct 10, 5:25pm',
+    'Quipalite MC Corexian Club_Crainetown FC': 'Oct 10, 6:25pm',
+    'Crabville Creepers_Smogtowne': 'Oct 10, 7:25pm',
+    'Waterland City_Los Perlos CF': 'Oct 10, 8:30pm',
     // Sun Oct 11 — Group C Round 3 + Group D Round 3
-    'Keem Town United_MiraHQ': 'Oct 11, 1:00pm',
-    'AFC Crabville_Springbuck United': 'Oct 11, 3:00pm',
-    'Smeg City FC_Springfield United': 'Oct 11, 5:00pm',
-    'Springbuck Strikers_Crabville Breezers': 'Oct 11, 7:00pm',
+    'Keem Town United_MiraHQ': 'Oct 11, 5:25pm',
+    'AFC Crabville_Springbuck United': 'Oct 11, 6:25pm',
+    'Smeg City FC_Springfield United': 'Oct 11, 7:25pm',
+    'Springbuck Strikers_Crabville Breezers': 'Oct 11, 8:30pm',
   };
   function cwcFixtureDate(home, away){
     return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
+  }
+  // Parses a "Oct D, H:MMam/pm" string into a sortable minute count so
+  // fixture lists can be ordered chronologically. TBC dates sort last.
+  function cwcParseFixtureDate(str){
+    const m = str && str.match(/Oct (\d+), (\d+):(\d+)(am|pm)/i);
+    if(!m) return Infinity;
+    let hour = (+m[2]) % 12;
+    if(m[4].toLowerCase() === 'pm') hour += 12;
+    return (+m[1]) * 1440 + hour * 60 + (+m[3]);
   }
   // Maps a Nation display name (as used in CWC_CLUB_NATION) to its NATIONS id,
   // so club names in the Club World Cup can link through to a nation profile.
@@ -2869,15 +2879,17 @@
         <span class="nm-fact-lbl" style="display:flex;align-items:center;gap:8px;color:var(--text)"><span style="width:9px;height:9px;border-radius:50%;background:${cwcAccent(name)};display:inline-block;flex-shrink:0"></span>${name}</span>
         <span class="nm-fact-val" style="color:var(--text-dim)">Confirmed</span>
       </div>`).join('');
-    const fixtureRows = [];
+    const fixturePairs = [];
     for(let i=0;i<teams.length;i++){
       for(let j=i+1;j<teams.length;j++){
-        fixtureRows.push(`<div class="nm-fact-row" style="cursor:pointer" onclick="closeNation();setTimeout(()=>cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}'),260)">
-          <span class="nm-fact-lbl">${teams[i]} vs ${teams[j]}</span>
-          <span class="nm-fact-val">${cwcFixtureDate(teams[i], teams[j])}</span>
-        </div>`);
+        fixturePairs.push({home: teams[i], away: teams[j], date: cwcFixtureDate(teams[i], teams[j])});
       }
     }
+    fixturePairs.sort((a,b) => cwcParseFixtureDate(a.date) - cwcParseFixtureDate(b.date));
+    const fixtureRows = fixturePairs.map(p => `<div class="nm-fact-row" style="cursor:pointer" onclick="closeNation();setTimeout(()=>cwcOpenFixture('${gname}','${p.home.replace(/'/g,"\\'")}','${p.away.replace(/'/g,"\\'")}'),260)">
+          <span class="nm-fact-lbl">${p.home} vs ${p.away}</span>
+          <span class="nm-fact-val">${p.date}</span>
+        </div>`);
     document.getElementById('nmc').innerHTML = `
       <div class="nm-banner" style="background:linear-gradient(135deg,${cwcAccent(teams[0])}20 0%,${cwcAccent(teams[teams.length-1])}10 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div>
       <div class="nm-body">
@@ -2885,7 +2897,7 @@
           <div class="nm-ico-wrap" style="background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);">🏆</div>
           <div class="nm-title-wrap"><div class="nm-name">${gname}</div><div class="nm-est">Club World Cup — October 2026 · Group Stage</div></div>
         </div>
-        <p class="nm-desc">${teams.length} clubs go head-to-head in ${gname}, with kick-off dates to be announced.</p>
+        <p class="nm-desc">${teams.length} clubs go head-to-head in ${gname}.</p>
         <div class="nm-sec-h">Teams</div>
         <div>${teamsHtml}</div>
         <div class="nm-sec-h" style="margin-top:20px">Fixtures</div>
@@ -2999,21 +3011,23 @@
     const gnames = Object.keys(CWC_GROUPS_OCT26);
     const groupBlocks = gnames.map((gname, gi) => {
       const teams = CWC_GROUPS_OCT26[gname];
-      const rows = [];
+      const pairs = [];
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
-          rows.push(`<div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
+          pairs.push({home: teams[i], away: teams[j], date: cwcFixtureDate(teams[i], teams[j])});
+        }
+      }
+      pairs.sort((a,b) => cwcParseFixtureDate(a.date) - cwcParseFixtureDate(b.date));
+      const rows = pairs.map(p => `<div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${p.home.replace(/'/g,"\\'")}','${p.away.replace(/'/g,"\\'")}')">
             <div class="wc2-fixture-main">
-              <span class="wc2-fixture-team linkable" title="${teams[i]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${cwcShortName(teams[i])}</span>
+              <span class="wc2-fixture-team linkable" title="${p.home}" onclick="event.stopPropagation();cwcOpenTeam('${p.home.replace(/'/g,"\\'")}')">${cwcShortName(p.home)}</span>
               <span class="wc2-schedule-score">TBD</span>
               <span class="wc2-schedule-vs">–</span>
               <span class="wc2-schedule-score">TBD</span>
-              <span class="wc2-fixture-team right linkable" title="${teams[j]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${cwcShortName(teams[j])}</span>
+              <span class="wc2-fixture-team right linkable" title="${p.away}" onclick="event.stopPropagation();cwcOpenTeam('${p.away.replace(/'/g,"\\'")}')">${cwcShortName(p.away)}</span>
             </div>
-            <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(teams[i], teams[j])}</div>
+            <div class="wc2-fixture-date-sub">🗓️ ${p.date}</div>
           </div>`);
-        }
-      }
       const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
       return `<div class="wc2-group-card${centerCls}">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
@@ -3032,7 +3046,10 @@
     const gnames = Object.keys(CWC_GROUPS_OCT26);
     const groupBlocks = gnames.map((gname, gi) => {
       const gid = gname.replace(/\s+/g,'');
-      const rows = fixtures[gname].map((f, idx) => `
+      const ordered = fixtures[gname]
+        .map((f, idx) => ({f, idx, date: cwcFixtureDate(f.home, f.away)}))
+        .sort((a,b) => cwcParseFixtureDate(a.date) - cwcParseFixtureDate(b.date));
+      const rows = ordered.map(({f, idx, date}) => `
         <div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
           <div class="wc2-fixture-main">
             <span class="wc2-fixture-team linkable" title="${f.home}" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${cwcShortName(f.home)}</span>
@@ -3041,7 +3058,7 @@
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
             <span class="wc2-fixture-team right linkable" title="${f.away}" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${cwcShortName(f.away)}</span>
           </div>
-          <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(f.home, f.away)}</div>
+          <div class="wc2-fixture-date-sub">🗓️ ${date}</div>
         </div>`).join('');
       const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
       return `<div class="wc2-group-card${centerCls}">
