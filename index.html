@@ -2766,8 +2766,21 @@
     'Group C': ['Keem Town United','AFC Crabville','Springbuck United','MiraHQ'],
     'Group D': ['Smeg City FC','Springbuck Strikers','Crabville Breezers','Springfield United'],
   };
-  // Kick-off dates for the October 2026 group fixtures are not yet confirmed.
-  const CWC_OCT26_FIXTURE_DATES = {};
+  // Kick-off dates for the October 2026 group fixtures.
+  const CWC_OCT26_FIXTURE_DATES = {
+    'Crainetown FC_Smeggers FC': 'Oct 3, 3:30pm',
+    'Crabville Creepers_Waterland City': 'Oct 3, 5:00pm',
+    'Keem Town United_AFC Crabville': 'Oct 3, 7:30pm',
+    'Smeg City FC_Springbuck Strikers': 'Oct 3, 9:00pm',
+    'Quipalite MC Corexian Club_Okpemon FC': 'Oct 4, 5:00pm',
+    'Los Perlos CF_Smogtowne': 'Oct 4, 7:00pm',
+    'MiraHQ_Springbuck United': 'Oct 5, 7:00pm',
+    'Crabville Breezers_Springbuck United': 'Oct 6, 6:00pm',
+    'Smeggers FC_Okpemon FC': 'Oct 7, 7:00pm',
+    'Crabville Creepers_Smogtowne': 'Oct 8, 8:00pm',
+    'AFC Crabville_Keem Town United': 'Oct 9, 5:30pm',
+    'Smeg City FC_Crabville Breezers': 'Oct 10, 6:40pm',
+  };
   function cwcFixtureDate(home, away){
     return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
   }
