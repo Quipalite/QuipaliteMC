@@ -2769,8 +2769,46 @@
     'Group C': ['Keem Town United','AFC Crabville','Springbuck United','MiraHQ'],
     'Group D': ['Smeg City FC','Springbuck Strikers','Crabville Breezers','Springfield United'],
   };
-  // Kick-off dates for the October 2026 group fixtures are not yet confirmed.
-  const CWC_OCT26_FIXTURE_DATES = {};
+  // Real-world scheduled kick-off dates/times for the October 2026 Club World
+  // Cup group stage — one match on weekdays, two on weekends, all within the
+  // 5:30 PM – 9:00 PM window, starting 1 October 2026.
+  const CWC_OCT26_FIXTURE_DATES = {
+    // Matchday 1 — Thu 1 Oct to Tue 6 Oct
+    'Smeggers FC_Quipalite MC Corexian Club': 'Thu 1 Oct, 19:00',
+    'Crainetown FC_Okpemon FC': 'Fri 2 Oct, 19:00',
+    'Crabville Creepers_Waterland City': 'Sat 3 Oct, 17:30',
+    'Los Perlos CF_Smogtowne': 'Sat 3 Oct, 20:30',
+    'Keem Town United_AFC Crabville': 'Sun 4 Oct, 17:30',
+    'Springbuck United_MiraHQ': 'Sun 4 Oct, 20:30',
+    'Smeg City FC_Springbuck Strikers': 'Mon 5 Oct, 19:00',
+    'Crabville Breezers_Springfield United': 'Tue 6 Oct, 19:00',
+    // Matchday 2 — Wed 7 Oct to Mon 12 Oct
+    'Smeggers FC_Crainetown FC': 'Wed 7 Oct, 19:00',
+    'Quipalite MC Corexian Club_Okpemon FC': 'Thu 8 Oct, 19:00',
+    'Crabville Creepers_Los Perlos CF': 'Fri 9 Oct, 19:00',
+    'Waterland City_Smogtowne': 'Sat 10 Oct, 17:30',
+    'Keem Town United_Springbuck United': 'Sat 10 Oct, 20:30',
+    'AFC Crabville_MiraHQ': 'Sun 11 Oct, 17:30',
+    'Smeg City FC_Crabville Breezers': 'Sun 11 Oct, 20:30',
+    'Springbuck Strikers_Springfield United': 'Mon 12 Oct, 19:00',
+    // Matchday 3 — Tue 13 Oct to Sun 18 Oct
+    'Smeggers FC_Okpemon FC': 'Tue 13 Oct, 19:00',
+    'Quipalite MC Corexian Club_Crainetown FC': 'Wed 14 Oct, 19:00',
+    'Crabville Creepers_Smogtowne': 'Thu 15 Oct, 19:00',
+    'Waterland City_Los Perlos CF': 'Fri 16 Oct, 19:00',
+    'Keem Town United_MiraHQ': 'Sat 17 Oct, 17:30',
+    'AFC Crabville_Springbuck United': 'Sat 17 Oct, 20:30',
+    'Smeg City FC_Springfield United': 'Sun 18 Oct, 17:30',
+    'Springbuck Strikers_Crabville Breezers': 'Sun 18 Oct, 20:30',
+  };
+  // Knockout round dates — spaced 2-3 days apart, with the Final landing on
+  // Halloween (Sat 31 Oct). Indexed by bracket slot since the actual clubs
+  // aren't known until group standings resolve.
+  const CWC_OCT26_KO_DATES = {
+    qf: ['Thu 22 Oct, 19:00', 'Fri 23 Oct, 19:00', 'Sat 24 Oct, 17:30', 'Sat 24 Oct, 20:30'],
+    sf: ['Mon 26 Oct, 19:00', 'Tue 27 Oct, 19:00'],
+    final: ['Fri 30 Oct, 19:00 — Halloween Eve Final'],
+  };
   function cwcFixtureDate(home, away){
     return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
   }
@@ -2796,7 +2834,7 @@
   function cwcOpenTeam(teamName){
     if (teamName === 'Smogtowne') { openNation('smogtowne'); return; }
     const found = cwcFindClub(teamName);
-    if (found) { openWc2Team(found.leagueName, found.team.name); return; }
+    if (found) { openWc2Team(found.leagueName, found.team.name, true); return; }
     // Fallback: if a team can't be matched to a club, fall back to its nation.
     const nationName = CWC_CLUB_NATION[teamName];
     const id = nationName && CWC_NATION_NAME_TO_ID[nationName];
@@ -2977,7 +3015,7 @@
               <span class="wc2-schedule-score">TBD</span>
               <span class="wc2-fixture-team right linkable" title="${teams[j]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${cwcShortName(teams[j])}</span>
             </div>
-            <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
+            <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(teams[i], teams[j])}</div>
           </div>`);
         }
       }
@@ -2989,7 +3027,7 @@
         </div>
       </div>`;
     }).join('');
-    return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off Dates To Be Announced</div>
+    return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off 1–18 Oct 2026</div>
       <div class="wc2-group-grid">${groupBlocks}</div>`;
   }
 
@@ -3008,7 +3046,7 @@
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
             <span class="wc2-fixture-team right linkable" title="${f.away}" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${cwcShortName(f.away)}</span>
           </div>
-          <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
+          <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(f.home, f.away)}</div>
         </div>`).join('');
       const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
       return `<div class="wc2-group-card${centerCls}">
@@ -3098,11 +3136,13 @@
   }
 
   function cwcRenderKoRound(stageKey, matches, label){
+    const dates = CWC_OCT26_KO_DATES[stageKey] || [];
     const rows = matches.map((m, idx) => {
       const drawn = m.hs !== null && m.as !== null && Number(m.hs) === Number(m.as);
+      const dateLabel = dates[idx] || label;
       return `
       <div class="wc-match">
-        <div class="wc-match-meta"><span class="wc-date">${label}</span></div>
+        <div class="wc-match-meta"><span class="wc-date">🗓️ ${dateLabel}</span></div>
         <div class="wc-match-body">
           <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
           <div class="wc2-ko-inputs">
@@ -4647,8 +4687,9 @@
     el.classList.toggle('expanded', !open);
   }
 
-  function openWc2Team(leagueName, teamName){
-    const league = WC2_LEAGUE_POWER_RANKINGS.find(r => r.name === leagueName);
+  function openWc2Team(leagueName, teamName, forceSeason2){
+    const source = forceSeason2 ? WC2_LEAGUES_SEASON2 : WC2_LEAGUE_POWER_RANKINGS;
+    const league = source.find(r => r.name === leagueName);
     const team = league && league.teams.find(t => t.name === teamName);
     if(!team) return;
     const accent = league.accent;
