@@ -419,35 +419,8 @@
     .wc2-country-card:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(245,200,66,.3)!important;transform:translateY(-3px) scale(1.015);}
     .wc2-groups-wrap{max-width:1100px;margin:0 auto;}
     .wc2-stadium-note{text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);letter-spacing:.5px;margin-bottom:24px;}
-    .wc2-season-toggle{display:flex;justify-content:center;gap:8px;margin:-14px auto 20px;max-width:340px;}
-    .wc2-season-btn{flex:1;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--text-dim);background:rgba(255,255,255,.03);border:1px solid var(--border-card);border-radius:9px;padding:9px 10px;cursor:pointer;transition:background .18s,border-color .18s,color .18s;}
-    .wc2-season-btn span{display:block;font-size:8px;font-weight:700;letter-spacing:.4px;text-transform:none;opacity:.7;margin-top:2px;}
-    .wc2-season-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
-    .wc2-season-btn.active{color:#c084fc;background:rgba(192,132,252,.1);border-color:rgba(192,132,252,.35);}
-    .wc2-season-badge{display:inline-block;font-family:var(--font-m);font-size:8.5px;font-weight:800;letter-spacing:.4px;color:#c084fc;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);border-radius:5px;padding:2px 5px;margin-right:6px;vertical-align:middle;}
-    .wc2-cwc-badge{display:inline-flex;align-items:center;gap:3px;font-family:var(--font-m);font-size:8px;font-weight:800;letter-spacing:.3px;border-radius:5px;padding:2px 6px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
-    .wc2-cwc-badge.pending{color:var(--gold);background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.3);}
-    .wc2-cwc-badge.decided{color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);}
     .wc2-official-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#facc15;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
     .wc2-predictor-badge{text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.3);border-radius:8px;padding:9px 14px;margin-bottom:16px;}
-    .cwc-oct-hero{position:relative;overflow:hidden;width:100%;box-sizing:border-box;border-radius:16px;padding:22px 26px;margin:0 0 20px;background:linear-gradient(115deg,rgba(147,51,234,.28) 0%,rgba(192,132,252,.14) 55%,rgba(147,51,234,.06) 100%);border:1px solid rgba(192,132,252,.35);box-shadow:0 8px 28px -12px rgba(147,51,234,.35);display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
-    .cwc-oct-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;}
-    .cwc-oct-hero::after{content:'';position:absolute;top:-40%;right:-8%;width:220px;height:220px;background:radial-gradient(circle,rgba(192,132,252,.25) 0%,transparent 70%);pointer-events:none;}
-    .cwc-oct-hero-icon{font-size:34px;flex-shrink:0;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(192,132,252,.55));}
-    .cwc-oct-hero-text{flex:1;min-width:220px;position:relative;z-index:1;}
-    .cwc-oct-hero-title{font-family:var(--font-d);font-size:16px;font-weight:800;letter-spacing:.4px;color:#f3e8ff;margin-bottom:5px;}
-    .cwc-oct-hero-sub{display:inline-block;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:#c084fc;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);border-radius:6px;padding:4px 9px;margin-bottom:9px;}
-    .cwc-oct-hero-desc{font-size:12.5px;color:var(--text-dim);line-height:1.65;max-width:640px;}
-    @media(max-width:640px){.cwc-oct-hero{padding:18px 18px;gap:12px;}.cwc-oct-hero-icon{font-size:26px;}.cwc-oct-hero-title{font-size:14px;}}
-    .cwc-oct-hero.gold{background:linear-gradient(115deg,rgba(245,200,66,.28) 0%,rgba(250,204,21,.14) 55%,rgba(245,200,66,.06) 100%);border-color:rgba(250,204,21,.35);box-shadow:0 8px 28px -12px rgba(245,200,66,.35);}
-    .cwc-oct-hero.gold::after{background:radial-gradient(circle,rgba(250,204,21,.25) 0%,transparent 70%);}
-    .cwc-oct-hero.gold .cwc-oct-hero-icon{filter:drop-shadow(0 0 14px rgba(250,204,21,.55));}
-    .cwc-oct-hero.gold .cwc-oct-hero-title{color:#fef3c7;}
-    .cwc-oct-hero.gold .cwc-oct-hero-sub{color:#facc15;background:rgba(250,204,21,.12);border-color:rgba(250,204,21,.3);}
-    .wc2-intro-card{max-width:720px;margin:0 auto 22px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,rgba(245,200,66,.07) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(245,200,66,.18);display:flex;align-items:flex-start;gap:12px;text-align:left;}
-    .wc2-intro-card .wc2-intro-ico{font-size:20px;line-height:1;flex-shrink:0;margin-top:1px;filter:drop-shadow(0 0 8px rgba(245,200,66,.35));}
-    .wc2-intro-card p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text-muted);}
-    .wc2-intro-card p strong{color:var(--text);font-weight:700;}
     .wc2-official-note{text-align:center;font-family:var(--font-b);font-size:11px;color:var(--text-dim);margin-top:18px;padding:0 20px;line-height:1.5;}
     .official-theme .wc2-group-title,.official-theme .wc2-knockout-title{color:#facc15;}
     .official-theme .wc2-group-card{border-color:rgba(250,204,21,.18);}
@@ -458,14 +431,7 @@
     .wc2-countdown.live{color:#f87171;animation:pulse 2s ease-in-out infinite;}
     .wc2-countdown.past{color:var(--text-dim);opacity:.6;}
     .wc2-group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;}
-    .wc2-group-grid,.wc2-group-card{min-width:0;}
-    .wc2-group-card{border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:16px 16px 8px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .25s,box-shadow .25s;}
-    .wc2-group-card:hover{transform:translateY(-3px);border-color:rgba(245,200,66,.3);box-shadow:0 14px 36px rgba(0,0,0,.4);}
-    @media(min-width:761px){ .wc2-group-card.wc2-group-center{grid-column:2;} }
-    .wc2-fixture-row-clickable{position:relative;cursor:pointer;border-radius:9px;transition:background .18s,transform .18s;padding-left:8px;padding-right:26px;margin:0 -8px;}
-    .wc2-fixture-row-clickable:hover{background:rgba(245,200,66,.06);transform:translateX(2px);}
-    .wc2-fixture-row-clickable::after{content:'🔍';position:absolute;right:4px;top:50%;transform:translateY(-50%) scale(.8);font-size:11px;opacity:0;transition:opacity .18s,transform .18s;}
-    .wc2-fixture-row-clickable:hover::after{opacity:.7;transform:translateY(-50%) scale(1);}
+    .wc2-group-card{border-radius:14px;border:1px solid var(--border-card);background:var(--surface);padding:16px 16px 8px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
     .wc2-group-grid>.wc2-group-card:nth-child(1){animation-delay:.05s;}
     .wc2-group-grid>.wc2-group-card:nth-child(2){animation-delay:.15s;}
     .wc2-group-grid>.wc2-group-card:nth-child(3){animation-delay:.25s;}
@@ -493,14 +459,14 @@
     .wc2-predict-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 14px 40px rgba(245,200,66,.4);}
     .wc2-predict-btn:active{transform:translateY(0) scale(.98);}
     .wc2-knockout-title{text-align:center;font-family:var(--font-d);font-size:15px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);margin:6px 0 22px;opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards;}
-    .wc2-fixture-list{display:flex;flex-direction:column;gap:8px;min-width:0;}
-    .wc2-fixture-row{display:flex;flex-direction:column;gap:3px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);min-width:0;}
+    .wc2-fixture-list{display:flex;flex-direction:column;gap:8px;}
+    .wc2-fixture-row{display:flex;flex-direction:column;gap:3px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);}
     .wc2-fixture-row.locked{background:rgba(74,222,128,.04);border-radius:8px;padding-left:6px;padding-right:6px;}
     .wc2-fixture-row.locked .wc2-score-input{opacity:.75;cursor:not-allowed;}
     .wc2-fixture-row.locked .wc2-fixture-date-sub{color:var(--green);}
     .wc2-fixture-row:last-child{border-bottom:none;}
-    .wc2-fixture-main{display:flex;align-items:center;gap:8px;width:100%;min-width:0;}
-    .wc2-fixture-team{flex:1;min-width:0;font-family:var(--font-d);font-size:11.5px;font-weight:700;color:var(--text);white-space:normal;line-height:1.2;overflow-wrap:break-word;word-break:break-word;}
+    .wc2-fixture-main{display:flex;align-items:center;gap:8px;width:100%;}
+    .wc2-fixture-team{flex:1;min-width:0;font-family:var(--font-d);font-size:11.5px;font-weight:700;color:var(--text);white-space:normal;line-height:1.2;}
     .wc2-fixture-team.right{text-align:right;}
     .wc2-fixture-date-sub{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);text-align:center;}
     .wc2-score-input{width:36px;height:30px;text-align:center;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:var(--font-d);font-size:13px;font-weight:700;flex-shrink:0;-moz-appearance:textfield;}
@@ -508,45 +474,6 @@
     .wc2-score-input:focus{outline:none;border-color:rgba(245,200,66,.5);background:rgba(245,200,66,.08);}
     .wc2-score-input::-webkit-outer-spin-button,.wc2-score-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
     .wc2-fixture-dash{color:var(--text-dim);font-weight:700;flex-shrink:0;}
-    .cwc-fixtures-grid{gap:22px;}
-    .cwc-fixtures-grid .wc2-group-card{padding:18px 18px 16px;}
-    .cwc-fixtures-grid .wc2-group-title{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);}
-    .cwc-fixtures-grid .wc2-fixture-list{gap:10px;}
-    .cwc-fixtures-grid .wc2-fixture-row{flex-direction:row;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.055);min-width:0;}
-    .cwc-fixtures-grid .wc2-fixture-row-clickable{margin:0;padding-left:14px;padding-right:32px;transition:background .18s,transform .18s,border-color .18s;}
-    .cwc-fixtures-grid .wc2-fixture-row-clickable:hover{background:rgba(192,132,252,.08);border-color:rgba(192,132,252,.3);transform:translateX(2px);}
-    .cwc-fixtures-grid .wc2-fixture-row-clickable::after{right:10px;}
-    .cwc-fixtures-grid .wc2-fixture-main{gap:10px;flex:1;min-width:0;}
-    .cwc-fixtures-grid .wc2-fixture-date-sub{text-align:right;flex-shrink:0;color:var(--text-dim);opacity:.85;white-space:nowrap;}
-    .cwc-fixtures-grid .wc2-schedule-score{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:4px 2px;min-width:32px;}
-    .cwc-fixtures-grid .wc2-schedule-vs{padding:0 1px;opacity:.6;}
-    .cwc-fixtures-grid .wc2-score-input{background:rgba(255,255,255,.06);}
-    @media(max-width:640px){
-      .cwc-fixtures-grid .wc2-fixture-row{flex-direction:column;align-items:stretch;gap:6px;padding:12px 14px;}
-      .cwc-fixtures-grid .wc2-fixture-date-sub{text-align:center;}
-    }
-    @media(max-width:480px){
-      .cwc-fixtures-grid .wc2-fixture-row-clickable{padding-left:10px;padding-right:14px;}
-      .cwc-fixtures-grid .wc2-fixture-main{flex-wrap:wrap;row-gap:6px;}
-    }
-    .cwc-predictor-grid{gap:22px;}
-    .cwc-predictor-grid .wc2-group-card{padding:18px 18px 16px;}
-    .cwc-predictor-grid .wc2-group-title{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);}
-    .cwc-predictor-grid .wc2-fixture-list{gap:10px;}
-    .cwc-predictor-grid .wc2-fixture-row{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:12px 14px;gap:8px;}
-    .cwc-predictor-grid .wc2-fixture-row-clickable{margin:0;padding-left:14px;padding-right:32px;transition:background .18s,border-color .18s;}
-    .cwc-predictor-grid .wc2-fixture-row-clickable:hover{background:rgba(192,132,252,.08);border-color:rgba(192,132,252,.3);transform:none;}
-    .cwc-predictor-grid .wc2-fixture-row-clickable::after{right:10px;}
-    .cwc-predictor-grid .wc2-fixture-main{gap:8px;}
-    .cwc-predictor-grid .wc2-fixture-date-sub{text-align:center;opacity:.8;margin-top:2px;}
-    .cwc-predictor-grid .wc2-score-input{background:rgba(255,255,255,.06);}
-    @media(max-width:480px){
-      .cwc-predictor-grid .wc2-fixture-row-clickable{padding-left:10px;padding-right:14px;}
-      .cwc-predictor-grid .wc2-fixture-main{flex-wrap:wrap;justify-content:center;row-gap:8px;}
-      .cwc-predictor-grid .wc2-score-input{width:30px;height:28px;font-size:11px;}
-      .cwc-predictor-grid .wc2-fixture-team{width:100%;text-align:center;}
-      .cwc-predictor-grid .wc2-fixture-team.right{text-align:center;}
-    }
     .wc2-ko-inputs{display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .wc2-predict-btn.secondary{background:rgba(255,255,255,.06);color:var(--text-dim);box-shadow:none;}
     .wc2-predict-btn.secondary:hover{background:rgba(255,255,255,.1);color:var(--text);box-shadow:none;}
@@ -641,12 +568,6 @@
     .wc2-rank-score{font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text);flex-shrink:0;width:52px;text-align:right;}
     .wc2-rank-score-max{font-size:9px;color:var(--text-muted);font-weight:600;}
     @media(max-width:600px){.wc2-rank-name{width:80px;font-size:11.5px;}.wc2-rank-num{width:24px;font-size:11px;}}
-    .wc2-rank-row-hidden{cursor:default;border-style:dashed;border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02);}
-    .wc2-rank-row-hidden:hover{transform:none;background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.1);}
-    .wc2-rank-row-hidden .wc2-rank-name{color:var(--text-dim);letter-spacing:2px;}
-    .wc2-rank-row-hidden .wc2-rank-score{color:var(--text-dim);}
-    .wc2-rank-row-reveal{animation:cwcRankPop .45s cubic-bezier(.22,1,.36,1) both;}
-    @keyframes cwcRankPop{0%{opacity:0;transform:scale(.94) translateY(4px);}60%{opacity:1;transform:scale(1.015);}100%{opacity:1;transform:scale(1);}}
     .wc2-path-note{text-align:center;font-family:var(--font-m);font-size:8.5px;color:var(--text-muted);line-height:1.5;max-width:560px;margin:0 auto 20px;}
     @media(max-width:760px){.wc2-path-grid{grid-template-columns:1fr;}}
     #tmi h2{font-family:var(--font-d);font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;}
@@ -1868,8 +1789,8 @@
       <div class="wc-header">
         <button class="wc-toggle-btn" id="wcToggleBtn" onclick="toggleWcSection()"><span class="wc-tg-icon">▾</span><span id="wcToggleLabel">Hide</span></button>
         <span class="wc-trophy">🏆</span>
-        <div class="wc-title" id="wcTitle">National Football</div>
-        <div class="wc-sub" id="wcSub">World Cup 2026 · Countries Edition &nbsp;·&nbsp; Semi-Finals Underway</div>
+        <div class="wc-title" id="wcTitle">World Cup 2026</div>
+        <div class="wc-sub" id="wcSub">Countries Edition &nbsp;·&nbsp; Semi-Finals Underway</div>
         <div style="margin-top:10px;display:flex;justify-content:center">
           <span class="wc-stadium-note" id="wcStadiumNote" style="display:none;">🏟️ All matches — SmegTopia Stadium</span>
         </div>
@@ -1992,7 +1913,7 @@
     {id:'crabville',name:'Crabville',icon:'🦀',iconBg:'rgba(147,51,234,.1)',iconBorder:'rgba(147,51,234,.25)',accentColor:'#9333ea',colors:['#9333ea'],est:'Est. 17.2.26',founded:'17 Feb 2026',leader:'Killedbycrab',approval:61,population:'5,200',capital:'Crabwater',currency:'Iron',currencyColor:'#8b8b8b',government:'Democratic',govStyle:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80',description:'The <b style="color:#9333ea">most populated nation on the server</b> with <b style="color:#9333ea">5,198 citizens</b>, Crabville is a formidable force led by <b style="color:#9333ea">Killedbycrab</b> from its capital <b style="color:#9333ea">Crabwater</b> and was formerly a member of the Best Friends Alliance alongside Smegtopia and Craineun. Known for its huge apartment blocks and military base, it also received gifted apartment blocks from both Springbuck and Craineun. <b style="color:#9333ea">Crabville has a militaristic history</b> and now fields <b style="color:#9333ea">the largest standing army of any nation</b>, backed by a sizeable nuclear stockpile. It <b style="color:#9333ea">initiated the server\'s first ever war</b> by invading Okpemon, dropping a bomb that killed all citizens who had not evacuated, an act condemned by Sylvian and Craineun. Crabville later attempted to invade Smegtopia before the United Nations stepped in. In the Spring Club World Cup 2026, Crabville Breezers reached the semi finals before losing to Smeg City FC, while Crabville Creepers fell in the quarter finals. <b style=\"color:#9333ea\">Crabville has also invested into SmegCorp</b>, Smegtopia\'s major business conglomerate. Crabville has since patched things up with Smegtopia, and after being removed from the Globe Alliance, <b style="color:#9333ea">has now officially rejoined the bloc</b>, strengthening ties with Corexia and its fellow member nations once again, and relations with Springbuck have <b style="color:#9333ea">since eased, with Crabville now restoring recognition of Springbuck as a country</b>. Tensions once escalated into open conflict, including a period of renewed hostilities that saw <b style="color:#9333ea">nuclear strikes launched alongside Smegtopia</b>, drawing heavy criticism for reportedly targeting hospitals and civilian buildings in the process, but Crabville has since <b style="color:#9333ea">officially withdrawn its declaration of war on Springbuck</b>, with the two nations now in talks to iron out their remaining differences. More recently, the entire Globe Alliance, Crabville included, <b style="color:#9333ea">declared war on Wancerville, which was subsequently invaded and dissolved entirely, with Smegtopia annexing its territory</b>. In a friendly outside the tournament, <b style="color:#9333ea">Crabville beat Corexia 5-3</b>. In World Cup 2026, Crabville endured a rollercoaster group stage, opening with a shock 1-2 defeat to Caderville that saw their manager sent off, before recovering with a 2-2 draw against Corexia and a decisive 3-1 win over Stormland on the final day to <b style="color:#9333ea">secure 2nd place in Group A</b> and reach the knockout stage. Their tournament ultimately ended in the Quarter-Finals, <b style="color:#9333ea">losing 2-1 to Smegtopia after having a player sent off</b>.',tags:[{label:'Democratic',style:'background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80'},{label:'Most Populated',style:'background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.3);color:#9333ea'},{label:'Has Capital',style:'background:rgba(147,51,234,.08);border:1px solid rgba(147,51,234,.2);color:#9333ea'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Capital City',val:'Crabwater'},{label:'Capital Mayor',val:'Jamal Kingstone'},{label:'Alliance',val:'Globe Alliance'},{label:'Language',val:'English'},{label:'Conscription Rate',val:'N/A'},{label:'UN Status',val:'Member'}]},
     {id:'springbuck',name:'Springbuck',icon:'🦌',iconBg:'rgba(34,197,94,.1)',iconBorder:'rgba(250,204,21,.25)',accentColor:'#22c55e',colors:['#22c55e','#facc15'],est:'Est. 8.4.26',founded:'8 Apr 2026',leader:'Neska5036',approval:47,population:'2,878',capital:'Pretoria',currency:'Rand',currencyColor:'#facc15',government:'Communism',govStyle:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171',description:'Founded in April 2026, Springbuck has made a <b style="color:#22c55e">massive impact</b> since. Its population recently rose to <b style="color:#22c55e">2,889</b>, aided by around 90 people fleeing Smegtopia following the attack on the SmegTropolis capital building. Rich in natural resources, it is home to <b style="color:#22c55e">the world\'s first hospital and the world\'s first oil rig</b>, alongside large apartment blocks and a military base. Springbuck has gifted apartment blocks to Crabville and assisted in building within Corexia, showing a generous and cooperative spirit. Springbuck also held a physically written peace treaty with Sylvian, and gained land from Sylvian following its disbandment. Formerly a member of the Globe Alliance run by Corexia, Springbuck was removed from the alliance, and relations <b style="color:#22c55e">collapsed across much of the server for a time</b>: Springbuck has <b style="color:#22c55e">left the United Nations</b>, though has <b style="color:#22c55e">since rejoined the body</b>, and is now <b style="color:#22c55e">no longer recognised as a country by Waterland</b>, though Craineun, Smegtopia, Corexia and Crabville have since restored recognition, easing much of the isolation. Springbuck and Corexia have also since <b style="color:#22c55e">formed the SBOR Pact together</b>, a fresh alliance between the two nations, and Springbuck has <b style="color:#22c55e">rejoined the Globe Alliance</b>. The earlier war with Crabville was resolved with <b style="color:#22c55e">Crabville officially withdrawing its declaration of war</b>, and the two nations are now in talks over their remaining differences. A subsequent war with Waterland also came to an end with no invasion or change in territory, though the fighting left Springbuck with heavy losses, <b style="color:#22c55e">reported at around 1,000 citizens</b>. Matters escalated further still when <b style="color:#22c55e">Smegtopia and Crabville joined that conflict with nuclear strikes</b>, with Crabville facing heavy criticism, condemned by Corexia, Smegtopia and Craineun, for reportedly targeting hospitals and civilian buildings in the process, and the strikes took a heavy toll on Springbuck\'s military, with <b style="color:#22c55e">around 2,000 soldiers reported killed</b>. That chapter has since closed, with <b style="color:#22c55e">Smegtopia and Springbuck now at peace</b>. Relations with the rest of the server have largely thawed, though <b style="color:#22c55e">Springbuck\'s ties with Waterland and Okpemon remain poor</b>. Springbuck have confirmed their participation in World Cup 2026. With an <b style="color:#22c55e">80% conscription rate</b>, Springbuck fields <b style="color:#22c55e">one of the most well-rounded conventional militaries on the server</b>, combining a sizeable tank corps, air support and anti-air coverage. In the tournament itself, <b style="color:#22c55e">Springbuck were the first nation to secure qualification</b>, going unbeaten through their group stage, drawing 3-3 with Waterland and 1-1 with Smegtopia before rounding it off with a comfortable 3-0 win over Wancerville to progress to the knockout stage. Their run came to an end in the Quarter-Finals, drawing 2-2 with Corexia before <b style="color:#22c55e">losing 5-4 on penalties</b>.',tags:[{label:'Communism',style:'background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#f87171'},{label:'Fast Growing',style:'background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80'},{label:'Has Capital',style:'background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.2);color:#facc15'},{label:'Globe Alliance',style:'background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Very Small'},{label:'Capital City',val:'Pretoria'},{label:'Alliance',val:'Globe Alliance & SBOR Pact'},{label:'UN Status',val:'Member'},{label:'Language',val:'English'},{label:'Conscription Rate',val:'N/A'}]},
     {id:'waterland',name:'Waterland',icon:'🌊',iconBg:'rgba(30,144,255,.12)',iconBorder:'rgba(255,140,0,.3)',accentColor:'#1E90FF',colors:['#1E90FF','#FF8C00'],est:'Est. 13.4.26',founded:'13 Apr 2026',leader:'Gooner5342',approval:38,population:'185',capital:'N/A',currency:'British Pounds',currencyColor:'#1E90FF',government:'Reform',govStyle:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF',description:'Founded in April 2026, Waterland is led by <b style="color:#1E90FF">Gooner5342</b>, home to <b style="color:#1E90FF">the server\'s first McDonald\'s</b>, apartment blocks and a field of bombs. When tensions between Smegtopia and Crabville nearly boiled over into war, <b style="color:#1E90FF">Waterland sided with Crabville, Springbuck and Corexia</b>. Waterland was formerly a member of the Globe Alliance before being removed. It has good relations with Corexia, though tensions with Smegtopia persist, and relations with Springbuck have collapsed entirely: Waterland no longer recognises Springbuck as a country. Tensions escalated into open war, which has since come to an end with <b style="color:#1E90FF">no invasion or change in territory</b>, though the conflict left both sides with major damages. Waterland\'s losses have mounted further still, with <b style="color:#1E90FF">its entire military wiped out and every soldier killed</b>, taking total losses to around 160 citizens. Waterland have confirmed their participation in World Cup 2026. Their group stage campaign was defined by that Smegtopia rivalry boiling over on the pitch, <b style="color:#1E90FF">losing 3-6 in a match that saw three red cards shown to Waterland including their own manager</b>. Despite the setback, <b style="color:#1E90FF">Waterland finished 3rd in Group B and advanced to the knockout stage</b> as one of the two best third-placed teams. They then produced <b style="color:#1E90FF">one of the biggest shocks of the tournament</b>, beating tournament favourites Craineun 2-1 in the Quarter-Finals, a fiery encounter that saw a Craineun player sent off, to reach the Semi-Finals. Waterland then pushed eventual champions Smegtopia all the way, <b style="color:#1E90FF">drawing 3-3 with a red card each before losing 5-4 on penalties</b>, before their tournament ended with a <b style="color:#1E90FF">4-1 defeat to Okpemon in the 3rd Place Playoff</b>.',tags:[{label:'Reform',style:'background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.3);color:#1E90FF'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'},{label:'UN Status',val:'Member'},{label:'Conscription Rate',val:'N/A'}]},
-    {id:'corexia',name:'Corexia',icon:'💾',iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',leader:'RealO75',approval:84,population:'346',capital:'Cyberia',currency:'Credits',currencyColor:'#00FFFF',government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',description:'Corexia is the technologically advanced <b style="color:#00FFFF">founder and runner of the Globe Alliance</b>, established by <b style="color:#00FFFF">RealO75</b> in the aftermath of the near war between Smegtopia and Crabville, Waterland, Springbuck and Corexia. Its population recently grew to <b style="color:#00FFFF">346</b>, boosted by around 10 people fleeing Smegtopia following the attack on the SmegTropolis capital building, and further joined by former Niche Town mayoral candidate <b style="color:#00FFFF">Samuel Leeds</b>, former SmegTropolis mayoral candidate <b style="color:#00FFFF">Vazquez Hernandez Jr.</b>, and former SmegTropolis mayoral candidate <b style="color:#00FFFF">Cassandra Vane</b>, and former SmegTropolis mayoral candidate <b style="color:#00FFFF">Viktor Blackwood</b>, who have all since relocated to Corexia. Home to the Globe Alliance Building, a SmegCream branch, modern housing and the Corexaium stadium — which hosts some Fusion League fixtures — <b style="color:#00FFFF">Corexia operates a fully digital economy</b>. It enjoys broad good relations across the server with Smegtopia, Craineun, Crabville, Waterland and Okpemon, with tensions towards Smogtowne, and relations with Springbuck have <b style="color:#00FFFF">since improved, with Corexia now restoring recognition of Springbuck as a country</b>, though Springbuck remains outside the United Nations. Springbuck and Corexia have since <b style="color:#00FFFF">formed the SBOR Pact together</b>, a fresh alliance sitting alongside Corexia\'s Globe Alliance membership. Springbuck and Waterland were both removed from the Globe Alliance at one stage, though Corexia maintains good relations with Waterland, while Stormland has newly joined, Crabville has officially rejoined, and <b style="color:#00FFFF">Springbuck has since rejoined too</b>, strengthening the bloc. As founder of the Globe Alliance, <b style="color:#00FFFF">Corexia led the bloc in officially declaring war on Wancerville, which was subsequently invaded and dissolved entirely, with Smegtopia annexing its territory</b>. Corexia has also <b style="color:#00FFFF">publicly condemned Crabville\'s mass bombing of hospitals and civilian buildings</b> during its now-resolved conflict with Springbuck. Corexia also runs a joint domestic football league with Smegtopia, the Fusion League, featuring 3 Corexia teams and 4 Smegtopia teams, and have confirmed their place in World Cup 2026. Corexia is also home to <b style=\"color:#00FFFF\">ILOFT (International Legislation of Football Teams)</b>, the server\'s governing body of football. <b style=\"color:#00FFFF\">Corexia has also invested into SmegCorp</b>, Smegtopia\'s major business conglomerate. In a friendly outside the tournament, <b style="color:#00FFFF">Corexia were beaten 5-3 by Crabville</b>. Corexia went <b style="color:#00FFFF">unbeaten through their group stage</b>, opening with a 3-0 win over Caderville before drawing with both Stormland and Crabville, <b style="color:#00FFFF">topping Group A</b> with 5 points to secure their spot in the knockout stage. They kept their momentum going in the last eight, <b style="color:#00FFFF">edging a dramatic 2-2 Quarter-Final draw with Springbuck on penalties, winning 5-4</b>, to reach the Semi-Finals. Corexia then produced their most emphatic performance of the tournament, <b style="color:#00FFFF">beating Okpemon 5-2</b> despite having a player sent off, to reach the Final. Their run ended there, <b style="color:#00FFFF">losing 2-1 to Smegtopia in the Final</b> after having a player sent off, finishing the tournament as runners-up.',tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'},{label:'Globe Alliance',style:'background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e'}],facts:[{label:'Status',val:'Active'},{label:'Capital Mayor',val:'Neska5036'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance & SBOR Pact'},{label:'Language',val:'English'},{label:'UN Status',val:'Member'},{label:'Conscription Rate',val:'N/A'}]},
+    {id:'corexia',name:'Corexia',icon:'💾',iconBg:'rgba(0,255,255,.08)',iconBorder:'rgba(0,255,255,.2)',accentColor:'#00FFFF',colors:['#00FFFF'],est:'Est. 18.4.26',founded:'18 Apr 2026',leader:'RealO75',approval:84,population:'388',capital:'Cyberia',currency:'Credits',currencyColor:'#00FFFF',government:'Technocracy',govStyle:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF',description:'Corexia is the technologically advanced <b style="color:#00FFFF">founder and runner of the Globe Alliance</b>, established by <b style="color:#00FFFF">RealO75</b> in the aftermath of the near war between Smegtopia and Crabville, Waterland, Springbuck and Corexia. Its population recently grew to <b style="color:#00FFFF">388</b>, boosted by around 10 people fleeing Smegtopia following the attack on the SmegTropolis capital building, and further joined by former Niche Town mayoral candidate <b style="color:#00FFFF">Samuel Leeds</b> — who has since died by suicide in Corexia — former SmegTropolis mayoral candidate <b style="color:#00FFFF">Vazquez Hernandez Jr.</b>, and former SmegTropolis mayoral candidate <b style="color:#00FFFF">Cassandra Vane</b>, and former SmegTropolis mayoral candidate <b style="color:#00FFFF">Viktor Blackwood</b>, who have all since relocated to Corexia. Home to the Globe Alliance Building, a SmegCream branch, modern housing and the Corexaium stadium — which hosts some Fusion League fixtures — <b style="color:#00FFFF">Corexia operates a fully digital economy</b>. It enjoys broad good relations across the server with Smegtopia, Craineun, Crabville, Waterland and Okpemon, with tensions towards Smogtowne, and relations with Springbuck have <b style="color:#00FFFF">since improved, with Corexia now restoring recognition of Springbuck as a country</b>, though Springbuck remains outside the United Nations. Springbuck and Corexia have since <b style="color:#00FFFF">formed the SBOR Pact together</b>, a fresh alliance sitting alongside Corexia\'s Globe Alliance membership. Springbuck and Waterland were both removed from the Globe Alliance at one stage, though Corexia maintains good relations with Waterland, while Stormland has newly joined, Crabville has officially rejoined, and <b style="color:#00FFFF">Springbuck has since rejoined too</b>, strengthening the bloc. As founder of the Globe Alliance, <b style="color:#00FFFF">Corexia led the bloc in officially declaring war on Wancerville, which was subsequently invaded and dissolved entirely, with Smegtopia annexing its territory</b>. Corexia has also <b style="color:#00FFFF">publicly condemned Crabville\'s mass bombing of hospitals and civilian buildings</b> during its now-resolved conflict with Springbuck. Corexia also runs a joint domestic football league with Smegtopia, the Fusion League, featuring 3 Corexia teams and 4 Smegtopia teams, and have confirmed their place in World Cup 2026. Corexia is also home to <b style=\"color:#00FFFF\">ILOFT (International Legislation of Football Teams)</b>, the server\'s governing body of football. <b style=\"color:#00FFFF\">Corexia has also invested into SmegCorp</b>, Smegtopia\'s major business conglomerate. In a friendly outside the tournament, <b style="color:#00FFFF">Corexia were beaten 5-3 by Crabville</b>. Corexia went <b style="color:#00FFFF">unbeaten through their group stage</b>, opening with a 3-0 win over Caderville before drawing with both Stormland and Crabville, <b style="color:#00FFFF">topping Group A</b> with 5 points to secure their spot in the knockout stage. They kept their momentum going in the last eight, <b style="color:#00FFFF">edging a dramatic 2-2 Quarter-Final draw with Springbuck on penalties, winning 5-4</b>, to reach the Semi-Finals. Corexia then produced their most emphatic performance of the tournament, <b style="color:#00FFFF">beating Okpemon 5-2</b> despite having a player sent off, to reach the Final. Their run ended there, <b style="color:#00FFFF">losing 2-1 to Smegtopia in the Final</b> after having a player sent off, finishing the tournament as runners-up.',tags:[{label:'Technocracy',style:'background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);color:#00FFFF'},{label:'Digital Economy',style:'background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.2);color:#00FFFF'},{label:'Globe Alliance',style:'background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e'}],facts:[{label:'Status',val:'Active'},{label:'Capital Mayor',val:'Neska5036'},{label:'Territory',val:'Small'},{label:'Alliance',val:'Globe Alliance & SBOR Pact'},{label:'Language',val:'English'},{label:'UN Status',val:'Member'},{label:'Conscription Rate',val:'N/A'}]},
     {id:'smogtowne',name:'Smogtowne',icon:'🌫️',iconBg:'rgba(120,120,120,.12)',iconBorder:'rgba(120,120,120,.25)',accentColor:'#888888',colors:['#888888'],est:'Est. 22.4.26',founded:'22 Apr 2026',leader:'RT2345678',approval:35,population:'51',capital:'N/A',currency:'Smucks',currencyColor:'#888888',government:'Smog',govStyle:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa',description:'Smogtowne is <b style="color:#888888">one of the most mysterious nations on the server</b>, founded by <b style="color:#888888">RT2345678</b> under its unique <b style="color:#888888">Smog government</b>, a distinct form of Communism. Its defining landmark is the <b style="color:#888888">Smog Factory</b>, which looms over the grey nation. With <b style="color:#888888">19 citizens</b>, Smogtowne maintains good relations with Smegtopia and Craineun, though tensions with Waterland and Corexia cloud its diplomatic outlook. A confirmed participant in World Cup 2026, it remains an enigmatic presence on the map. Smogtowne opened with a 2-1 win over Seirin and pushed Okpemon close in a card-strewn 2-3 defeat, but their tournament ended with <b style="color:#888888">a heavy 1-7 loss to Craineun</b>, leaving them <b style="color:#888888">3rd in Group C and eliminated from the competition</b>.',tags:[{label:'Smog',style:'background:rgba(120,120,120,.1);border:1px solid rgba(120,120,120,.3);color:#aaaaaa'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'},{label:'UN Status',val:'Member'},{label:'Conscription Rate',val:'N/A'}]},
     
     {id:'caderville',name:'Caderville',icon:'🏰',iconBg:'rgba(255,26,109,.1)',iconBorder:'rgba(255,26,109,.25)',accentColor:'#FF1A6D',colors:['#FF1A6D'],est:'Est. 5.7.26',founded:'5 Jul 2026',leader:'mack29702',approval:75,population:'86',capital:'N/A',currency:'Crystals',currencyColor:'#FF1A6D',government:'Monarchy',govStyle:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D',description:'Caderville was <b style="color:#FF1A6D">founded in July 2026</b> by <b style="color:#FF1A6D">mack29702</b> under a Monarchy. A small territory currently with a population of <b style="color:#FF1A6D">75</b>, Caderville has yet to establish a capital city as it begins to carve out its place on the server. Caderville have confirmed their participation in World Cup 2026. Their tournament produced <b style="color:#FF1A6D">one of the biggest shocks of the group stage</b>, a 2-1 win over Crabville that saw Crabville\'s manager sent off, despite Caderville having lost their opening two matches 0-3 and 2-4. Ultimately their earlier results proved too costly on goal difference, and <b style="color:#FF1A6D">Caderville were eliminated at the group stage in 4th place</b>.',tags:[{label:'Monarchy',style:'background:rgba(255,26,109,.1);border:1px solid rgba(255,26,109,.3);color:#FF1A6D'}],facts:[{label:'Status',val:'Active'},{label:'Territory',val:'Small'},{label:'Alliance',val:'None'},{label:'Language',val:'English'},{label:'UN Status',val:'Member'},{label:'Conscription Rate',val:'N/A'}]},
@@ -2037,7 +1958,7 @@
         { name: 'Olivia "Nosy" Parker', party: 'Craineun Democratic Party', policies: 'Backing local business, growing the population, improving public transport, and creating more communal spaces for residents to connect.', age: 46, interests: 'Public transport and community events', vote: '30%', approval: 62, actions: ['Built a new park in Niche Town', 'Opened a new car dealership, introduced a driver\'s licence programme, and installed electric car chargers', 'Injured while advocating during the Craineun-Smegtopia riot'] },
         { name: 'William Turner', party: 'Independent', policies: 'Opening more grocery shops, backing local business, growing the population, making more efficient use of the land, and reducing green spaces.', age: 34, interests: 'Retail and land use planning', vote: '25%' },
         { name: 'Gracie Mitchell', party: 'Craineun Socialist Party', policies: 'Improving public safety, growing the population, using space more effectively, attracting foreign investment, and building a new hospital.', age: 29, interests: 'Public safety campaigns', vote: '27%' },
-        { name: 'Samuel Leeds', party: "Craineun's Extremists", policies: 'Making Niche Town the national capital, funding the football club and building a new stadium, growing the population, reducing green areas, strengthening border patrols, restricting citizenship to those born in Craineun, constructing skyscrapers, aiming to make the nation the most populous on the server by October, and banning anyone born in the city from leaving. Was in critical condition following the Craineun-Smegtopia riot; has since relocated to Corexia.', age: 24, interests: 'Urban expansion and stadium construction', vote: '18%' },
+        { name: 'Samuel Leeds', party: "Craineun's Extremists", policies: 'Making Niche Town the national capital, funding the football club and building a new stadium, growing the population, reducing green areas, strengthening border patrols, restricting citizenship to those born in Craineun, constructing skyscrapers, aiming to make the nation the most populous on the server by October, and banning anyone born in the city from leaving. Was in critical condition following the Craineun-Smegtopia riot; relocated to Corexia, where he later died by suicide.', age: 24, interests: 'Urban expansion and stadium construction', vote: '18%', status: 'deceased', statusNote: 'Died by suicide in Corexia — RIP' },
       ] },
       { city: 'Keem Town', office: 'Mayor', concluded: true, candidates: [
         { name: 'Thomas Roberts', party: 'Independent', policies: 'Investing in tourism, building a new airport, expanding housing, growing green areas, targeting 0% carbon emissions, and phasing out cars in favour of minimal public transport.', age: 51, interests: 'Sustainable tourism and aviation', vote: '38%' },
@@ -2479,24 +2400,7 @@
       { title: 'Ranked Spear', icon: '\ud83d\udde1\ufe0f', nominees: ['Aftlow','Killedbycrab','Cobio29','Neska5036'], winner: 'Cobio29' },
       { title: 'Players\u2019 Favourite', icon: '\ud83d\udc96', nominees: ['w85544534','Aftlow'], winner: ['w85544534','Aftlow'] },
     ] },
-    sep26: { label: 'September 2026', categories: [
-      { title: 'Best Island Evolution Player', icon: '\ud83c\udfdd\ufe0f', nominees: ['Terroralex10','Knoxy5316','Theo43837','Gooner5342'] },
-      { title: 'Best Current Nations Player', icon: '\ud83c\udf0d', nominees: ['Gooner5342','Killedbycrab','SadInFusIOns','Aftlow'] },
-      { title: 'Best Builder', icon: '\ud83c\udfd7\ufe0f', nominees: ['Aftlow','Neska5036','SadInFusIOns','Ushindo'] },
-      { title: 'Best Player', icon: '\ud83c\udfc6', nominees: ['Killedbycrab','w85544534','SadInFusIOns','Knoxy5316'] },
-      { title: 'Best New Player', icon: '\ud83c\udf1f', nominees: ['AbleMint9102','KoolLeoXD','Theo43837','ALEXJAY31'] },
-      { title: 'Most Improved Player', icon: '\ud83d\udcc8', nominees: ['Wancerr','Knoxy5316','RT2345678','Gooner5342'] },
-      { title: 'Best Country', icon: '\ud83c\udff3\ufe0f', nominees: ['Corexia','Crabville','Craineun','Smegtopia'] },
-      { title: 'Best Staff Member', icon: '\ud83d\udee1\ufe0f', nominees: ['Killedbycrab','Neska5036','Aftlow','SadInFusIOns'] },
-      { title: 'Best PVP\u2019er', icon: '\u2694\ufe0f', nominees: ['w85544534','Neska5036','Killedbycrab','Wancerr'] },
-      { title: 'Best Overall Ranked Player', icon: '\ud83c\udfc6', nominees: ['w85544534','Wancerr','Knoxy5316','Neska5036'] },
-      { title: 'Best Ranked Sword Player', icon: '\u2694\ufe0f', nominees: ['w85544534','Theo43837','Wancerr','SadInFusIOns'] },
-      { title: 'Best Ranked Axe Player', icon: '\ud83e\ude93', nominees: ['Killedbycrab','Neska5036','Wancerr','w85544534'] },
-      { title: 'Best Ranked UHC Player', icon: '\u2764\ufe0f', nominees: ['w85544534','Wancerr','Killedbycrab','Knoxy5316'] },
-      { title: 'Best Ranked Mace Player', icon: '\ud83d\udd28', nominees: ['Killedbycrab','w85544534','Wancerr','Redpanda2013'] },
-      { title: 'Best Ranked Spear Player', icon: '\ud83d\udde1\ufe0f', nominees: ['Knoxy5316','Neska5036','w85544534','Killedbycrab'] },
-      { title: 'Players\u2019 Favourite', icon: '\ud83d\udc96', nominees: [] },
-    ] },
+    sep26: { label: 'September 2026', categories: [] },
   };
   let awardsPeriod = 'jan26';
   function setAwardsPeriod(period, btn) {
@@ -2769,46 +2673,8 @@
     'Group C': ['Keem Town United','AFC Crabville','Springbuck United','MiraHQ'],
     'Group D': ['Smeg City FC','Springbuck Strikers','Crabville Breezers','Springfield United'],
   };
-  // Real-world scheduled kick-off dates/times for the October 2026 Club World
-  // Cup group stage — one match on weekdays, two on weekends, all within the
-  // 5:30 PM – 9:00 PM window, starting 1 October 2026.
-  const CWC_OCT26_FIXTURE_DATES = {
-    // Matchday 1 — Thu 1 Oct to Tue 6 Oct
-    'Smeggers FC_Quipalite MC Corexian Club': 'Thu 1 Oct, 19:00',
-    'Crainetown FC_Okpemon FC': 'Fri 2 Oct, 19:00',
-    'Crabville Creepers_Waterland City': 'Sat 3 Oct, 17:30',
-    'Los Perlos CF_Smogtowne': 'Sat 3 Oct, 20:30',
-    'Keem Town United_AFC Crabville': 'Sun 4 Oct, 17:30',
-    'Springbuck United_MiraHQ': 'Sun 4 Oct, 20:30',
-    'Smeg City FC_Springbuck Strikers': 'Mon 5 Oct, 19:00',
-    'Crabville Breezers_Springfield United': 'Tue 6 Oct, 19:00',
-    // Matchday 2 — Wed 7 Oct to Mon 12 Oct
-    'Smeggers FC_Crainetown FC': 'Wed 7 Oct, 19:00',
-    'Quipalite MC Corexian Club_Okpemon FC': 'Thu 8 Oct, 19:00',
-    'Crabville Creepers_Los Perlos CF': 'Fri 9 Oct, 19:00',
-    'Waterland City_Smogtowne': 'Sat 10 Oct, 17:30',
-    'Keem Town United_Springbuck United': 'Sat 10 Oct, 20:30',
-    'AFC Crabville_MiraHQ': 'Sun 11 Oct, 17:30',
-    'Smeg City FC_Crabville Breezers': 'Sun 11 Oct, 20:30',
-    'Springbuck Strikers_Springfield United': 'Mon 12 Oct, 19:00',
-    // Matchday 3 — Tue 13 Oct to Sun 18 Oct
-    'Smeggers FC_Okpemon FC': 'Tue 13 Oct, 19:00',
-    'Quipalite MC Corexian Club_Crainetown FC': 'Wed 14 Oct, 19:00',
-    'Crabville Creepers_Smogtowne': 'Thu 15 Oct, 19:00',
-    'Waterland City_Los Perlos CF': 'Fri 16 Oct, 19:00',
-    'Keem Town United_MiraHQ': 'Sat 17 Oct, 17:30',
-    'AFC Crabville_Springbuck United': 'Sat 17 Oct, 20:30',
-    'Smeg City FC_Springfield United': 'Sun 18 Oct, 17:30',
-    'Springbuck Strikers_Crabville Breezers': 'Sun 18 Oct, 20:30',
-  };
-  // Knockout round dates — spaced 2-3 days apart, with the Final landing on
-  // Halloween (Sat 31 Oct). Indexed by bracket slot since the actual clubs
-  // aren't known until group standings resolve.
-  const CWC_OCT26_KO_DATES = {
-    qf: ['Thu 22 Oct, 19:00', 'Fri 23 Oct, 19:00', 'Sat 24 Oct, 17:30', 'Sat 24 Oct, 20:30'],
-    sf: ['Mon 26 Oct, 19:00', 'Tue 27 Oct, 19:00'],
-    final: ['Fri 30 Oct, 19:00 — Halloween Eve Final'],
-  };
+  // Kick-off dates for the October 2026 group fixtures are not yet confirmed.
+  const CWC_OCT26_FIXTURE_DATES = {};
   function cwcFixtureDate(home, away){
     return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
   }
@@ -2820,9 +2686,7 @@
   // searching every league roster. Used so CWC team links open a club profile
   // rather than a nation profile.
   function cwcFindClub(teamName){
-    // The Autumn Club World Cup 2026 happens alongside Season 2, so its
-    // ratings (including any Season 2 overrides) are what should show here.
-    for (const league of WC2_LEAGUES_SEASON2) {
+    for (const league of WC2_LEAGUE_POWER_RANKINGS) {
       const team = league.teams.find(t => t.name === teamName);
       if (team) return {leagueName: league.name, team};
     }
@@ -2834,7 +2698,7 @@
   function cwcOpenTeam(teamName){
     if (teamName === 'Smogtowne') { openNation('smogtowne'); return; }
     const found = cwcFindClub(teamName);
-    if (found) { openWc2Team(found.leagueName, found.team.name, true); return; }
+    if (found) { openWc2Team(found.leagueName, found.team.name); return; }
     // Fallback: if a team can't be matched to a club, fall back to its nation.
     const nationName = CWC_CLUB_NATION[teamName];
     const id = nationName && CWC_NATION_NAME_TO_ID[nationName];
@@ -2911,18 +2775,6 @@
     return CWC_NATION_ACCENT[CWC_CLUB_NATION[name]] || '#888888';
   }
 
-  // Shorter display names for tight fixture-row layouts. Full name is kept
-  // for links/titles/onclick — only the visible label is abbreviated.
-  const CWC_TEAM_ABBR = {
-    'Quipalite MC Corexian Club': 'QMC Corexian',
-    'Keem Town United': 'Keem Town Utd',
-    'Springbuck United': 'Springbuck Utd',
-    'Springfield United': 'Springfield Utd',
-  };
-  function cwcShortName(name){
-    return CWC_TEAM_ABBR[name] || name;
-  }
-
   function cwcFreshFixtures(){
     const fixtures = {};
     Object.keys(CWC_GROUPS_OCT26).forEach(gname => {
@@ -2939,7 +2791,7 @@
   }
 
   function cwcInitOct(){
-    if(!cwcOct26State) cwcOct26State = {fixtures: cwcFreshFixtures(), stage:'groups', qf:[], sf:[], final:[]};
+    if(!cwcOct26State) cwcOct26State = {fixtures: cwcFreshFixtures()};
   }
 
   function cwcComputeStandings(fixtures){
@@ -2974,8 +2826,7 @@
 
   function cwcRenderGroupTables(fixtures){
     const standingsByGroup = cwcComputeStandings(fixtures);
-    const gnames = Object.keys(standingsByGroup);
-    const groupCards = gnames.map((gname, gi) => {
+    const groupCards = Object.keys(standingsByGroup).map(gname => {
       const standings = standingsByGroup[gname];
       const rows = standings.map((t, idx) => {
         const cls = idx < 2 ? 'qualified' : '';
@@ -2985,8 +2836,7 @@
           <td>${t.gf}-${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td><strong>${t.pts}</strong></td>
         </tr>`;
       }).join('');
-      const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
-      return `<div class="wc2-group-card${centerCls}">
+      return `<div class="wc2-group-card">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <table class="wc2-group-table">
@@ -3001,55 +2851,51 @@
 
   // Read-only confirmed schedule — dates only, no score entry.
   function cwcRenderConfirmedSchedule(){
-    const gnames = Object.keys(CWC_GROUPS_OCT26);
-    const groupBlocks = gnames.map((gname, gi) => {
+    const groupBlocks = Object.keys(CWC_GROUPS_OCT26).map(gname => {
       const teams = CWC_GROUPS_OCT26[gname];
       const rows = [];
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
-          rows.push(`<div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
+          rows.push(`<div class="wc2-fixture-row" style="cursor:pointer" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
             <div class="wc2-fixture-main">
-              <span class="wc2-fixture-team linkable" title="${teams[i]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${cwcShortName(teams[i])}</span>
+              <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${teams[i]}</span>
               <span class="wc2-schedule-score">TBD</span>
               <span class="wc2-schedule-vs">–</span>
               <span class="wc2-schedule-score">TBD</span>
-              <span class="wc2-fixture-team right linkable" title="${teams[j]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${cwcShortName(teams[j])}</span>
+              <span class="wc2-fixture-team right linkable" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${teams[j]}</span>
             </div>
-            <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(teams[i], teams[j])}</div>
+            <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
           </div>`);
         }
       }
-      const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
-      return `<div class="wc2-group-card${centerCls}">
+      return `<div class="wc2-group-card">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows.join('')}</div>
         </div>
       </div>`;
     }).join('');
-    return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off 1–18 Oct 2026</div>
+    return `<div class="wc2-official-badge">📋 Fixtures Confirmed — Kick-Off Dates To Be Announced</div>
       <div class="wc2-group-grid">${groupBlocks}</div>`;
   }
 
   // Editable prediction inputs — feeds cwcOct26State and the live standings.
   function cwcRenderPredictorFixtures(){
     const fixtures = cwcOct26State.fixtures;
-    const gnames = Object.keys(CWC_GROUPS_OCT26);
-    const groupBlocks = gnames.map((gname, gi) => {
+    const groupBlocks = Object.keys(CWC_GROUPS_OCT26).map(gname => {
       const gid = gname.replace(/\s+/g,'');
       const rows = fixtures[gname].map((f, idx) => `
-        <div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
+        <div class="wc2-fixture-row" style="cursor:pointer" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
           <div class="wc2-fixture-main">
-            <span class="wc2-fixture-team linkable" title="${f.home}" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${cwcShortName(f.home)}</span>
+            <span class="wc2-fixture-team linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${f.home}</span>
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-h" value="${f.hs===null?'':f.hs}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
             <span class="wc2-fixture-dash">–</span>
             <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
-            <span class="wc2-fixture-team right linkable" title="${f.away}" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${cwcShortName(f.away)}</span>
+            <span class="wc2-fixture-team right linkable" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${f.away}</span>
           </div>
-          <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(f.home, f.away)}</div>
+          <div class="wc2-fixture-date-sub">🗓️ Date TBC</div>
         </div>`).join('');
-      const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
-      return `<div class="wc2-group-card${centerCls}">
+      return `<div class="wc2-group-card">
         <div class="wc2-group-title" onclick="cwcOpenGroup('${gname}')">${gname}<span class="wc2-group-caret">↗</span></div>
         <div class="wc2-group-content">
         <div class="wc2-fixture-list">${rows}</div>
@@ -3059,244 +2905,10 @@
     return `<div class="wc2-group-grid">${groupBlocks}</div>`;
   }
 
-  // ---- Road to Final (CWC Oct26 predictor knockout bracket) ----
-  function cwcAllGroupsComplete(){
-    return Object.keys(CWC_GROUPS_OCT26).every(gname =>
-      cwcOct26State.fixtures[gname].every(f => f.hs !== null && f.as !== null)
-    );
-  }
-
-  function cwcGenerateBracket(){
-    if(!cwcAllGroupsComplete()){
-      alert('Enter a score for every group match before generating the knockout bracket.');
-      return;
-    }
-    const standingsByGroup = cwcComputeStandings(cwcOct26State.fixtures);
-    const gnames = Object.keys(standingsByGroup);
-    const w = gnames.map(g => standingsByGroup[g][0].name);
-    const r = gnames.map(g => standingsByGroup[g][1].name);
-    const pairs = [ [w[0], r[1]], [w[1], r[0]], [w[2], r[3]], [w[3], r[2]] ];
-    cwcOct26State.stage = 'qf';
-    cwcOct26State.qf = pairs.map(([home, away]) => ({home, away, hs:null, as:null, ph:null, pa:null}));
-    cwcRenderOct();
-  }
-
-  function cwcOnKoScoreChange(stageKey, idx){
-    const m = cwcOct26State[stageKey][idx];
-    const h = document.getElementById(`cwcko-${stageKey}-${idx}-h`).value;
-    const a = document.getElementById(`cwcko-${stageKey}-${idx}-a`).value;
-    m.hs = h === '' ? null : Number(h);
-    m.as = a === '' ? null : Number(a);
-    const phEl = document.getElementById(`cwcko-${stageKey}-${idx}-ph`);
-    const paEl = document.getElementById(`cwcko-${stageKey}-${idx}-pa`);
-    m.ph = phEl && phEl.value !== '' ? Number(phEl.value) : null;
-    m.pa = paEl && paEl.value !== '' ? Number(paEl.value) : null;
-    cwcRenderOct();
-  }
-
-  function cwcConfirmQf(){
-    if(!wc2StageComplete(cwcOct26State.qf)){
-      alert('Enter a result (with penalties if drawn) for every Quarter-Final before continuing.');
-      return;
-    }
-    const w = cwcOct26State.qf.map(wc2KoWinner);
-    cwcOct26State.stage = 'sf';
-    cwcOct26State.sf = [
-      {home:w[0], away:w[2], hs:null, as:null, ph:null, pa:null},
-      {home:w[1], away:w[3], hs:null, as:null, ph:null, pa:null},
-    ];
-    cwcRenderOct();
-  }
-
-  function cwcConfirmSf(){
-    if(!wc2StageComplete(cwcOct26State.sf)){
-      alert('Enter a result (with penalties if drawn) for every Semi-Final before continuing.');
-      return;
-    }
-    const w = cwcOct26State.sf.map(wc2KoWinner);
-    cwcOct26State.stage = 'final';
-    cwcOct26State.final = [{home:w[0], away:w[1], hs:null, as:null, ph:null, pa:null}];
-    cwcRenderOct();
-  }
-
-  function cwcConfirmFinal(){
-    const champ = wc2KoWinner(cwcOct26State.final[0]);
-    if(!champ){
-      alert('Enter a result (with penalties if drawn) for the Final to crown a champion.');
-      return;
-    }
-    cwcOct26State.stage = 'done';
-    cwcRenderOct();
-  }
-
-  function cwcResetBracket(){
-    cwcOct26State.stage = 'groups';
-    cwcOct26State.qf = []; cwcOct26State.sf = []; cwcOct26State.final = [];
-    cwcRenderOct();
-  }
-
-  function cwcRenderKoRound(stageKey, matches, label){
-    const dates = CWC_OCT26_KO_DATES[stageKey] || [];
-    const rows = matches.map((m, idx) => {
-      const drawn = m.hs !== null && m.as !== null && Number(m.hs) === Number(m.as);
-      const dateLabel = dates[idx] || label;
-      return `
-      <div class="wc-match">
-        <div class="wc-match-meta"><span class="wc-date">🗓️ ${dateLabel}</span></div>
-        <div class="wc-match-body">
-          <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
-          <div class="wc2-ko-inputs">
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
-            <span class="wc-dash">–</span>
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
-          </div>
-          <div class="wc-team away"><div class="wc-team-name">${m.away}</div></div>
-        </div>
-        ${drawn ? `
-        <div class="wc-match-footer" style="flex-wrap:wrap;gap:8px;">
-          <span class="wc-note">Scores level — enter a penalty shoot-out result</span>
-          <div class="wc2-ko-inputs">
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input small" id="cwcko-${stageKey}-${idx}-ph" value="${m.ph===null?'':m.ph}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
-            <span class="wc-dash">–</span>
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input small" id="cwcko-${stageKey}-${idx}-pa" value="${m.pa===null?'':m.pa}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
-          </div>
-        </div>` : ''}
-      </div>`;
-    }).join('');
-    const cols = matches.length === 1 ? 'final' : (matches.length === 2 ? 'sf' : 'qf');
-    return `<div class="wc-round">
-      <div class="wc-round-label"><span class="wc-round-title">${label}</span><div class="wc-round-line"></div></div>
-      <div class="wc-matches ${cols}">${rows}</div>
-    </div>`;
-  }
-
-  function cwcRenderRoadToFinal(){
-    const stage = cwcOct26State.stage;
-    if(stage === 'groups'){
-      const ready = cwcAllGroupsComplete();
-      return `<div class="wc2-predict-btn-wrap">
-        ${ready
-          ? `<button class="wc2-predict-btn" onclick="cwcGenerateBracket()">🏆 Generate Road to Final</button>`
-          : `<div class="wc2-official-note">Enter a score for every group match above to unlock the knockout bracket.</div>`}
-      </div>`;
-    }
-    let out = cwcRenderKoRound('qf', cwcOct26State.qf, 'Quarter-Finals');
-    if(stage === 'qf'){
-      out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="cwcConfirmQf()">Confirm Quarter-Finals →</button></div>`;
-    }
-    if(cwcOct26State.sf.length){
-      out += cwcRenderKoRound('sf', cwcOct26State.sf, 'Semi-Finals');
-      if(stage === 'sf'){
-        out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="cwcConfirmSf()">Confirm Semi-Finals →</button></div>`;
-      }
-    }
-    if(cwcOct26State.final.length){
-      out += cwcRenderKoRound('final', cwcOct26State.final, 'Final');
-      if(stage === 'final'){
-        out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" onclick="cwcConfirmFinal()">Crown Champion 🏆</button></div>`;
-      }
-      if(stage === 'done'){
-        const champ = wc2KoWinner(cwcOct26State.final[0]);
-        out += `<div class="wc2-official-badge" style="display:block;text-align:center;margin-top:10px;">🏆 ${champ} — Your Predicted Champion</div>`;
-      }
-    }
-    out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" style="background:linear-gradient(135deg,#c084fc,#9333ea);box-shadow:0 10px 30px rgba(147,51,234,.25);" onclick="cwcResetBracket()">↺ Redo Bracket</button></div>`;
-    return out;
-  }
-
-  function cwcAllTeams(){
-    const teams = [];
-    Object.values(CWC_GROUPS_OCT26).forEach(list => list.forEach(t => teams.push(t)));
-    return teams;
-  }
-
-  function cwcTeamRating(teamName){
-    if(teamName === 'Smogtowne'){
-      const nat = WC2_POWER_RANKINGS.find(r => r.name === 'Smogtowne');
-      return nat ? nat.rating : 5.0;
-    }
-    const found = cwcFindClub(teamName);
-    return found ? found.team.rating : 5.0;
-  }
-
-  let cwcRankReveal = null; // {order:'last'|'first', count:number} or null = show all
-
-  function cwcRankStartReveal(order){
-    cwcRankReveal = {order, count:0};
-    cwcRenderOct();
-  }
-
-  function cwcRankRevealNext(){
-    if(!cwcRankReveal) return;
-    const total = cwcAllTeams().length;
-    if(cwcRankReveal.count < total) cwcRankReveal.count++;
-    cwcRenderOct();
-  }
-
-  function cwcRankResetReveal(){
-    cwcRankReveal = null;
-    cwcRenderOct();
-  }
-
-  function cwcRenderPowerRankings(){
-    const ranked = cwcAllTeams()
-      .map(name => ({name, rating: cwcTeamRating(name)}))
-      .sort((a,b) => b.rating - a.rating);
-    const total = ranked.length;
-
-    let revealedRanks = null; // null = everything shown
-    if(cwcRankReveal){
-      revealedRanks = new Set();
-      for(let i=0;i<cwcRankReveal.count;i++){
-        revealedRanks.add(cwcRankReveal.order === 'last' ? (total - i) : (i + 1));
-      }
-    }
-
-    const rows = ranked.map((r, idx) => {
-      const rank = idx + 1;
-      const shown = !revealedRanks || revealedRanks.has(rank);
-      if(!shown){
-        return `<div class="wc2-rank-row wc2-rank-row-hidden">
-          <span class="wc2-rank-num">#${rank}</span>
-          <span class="wc2-rank-dot" style="background:rgba(255,255,255,.12)"></span>
-          <span class="wc2-rank-name">? ? ?</span>
-          <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:0%"></div></div>
-          <span class="wc2-rank-score">–</span>
-        </div>`;
-      }
-      const pct = (r.rating / 10 * 100).toFixed(1);
-      const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
-      return `<div class="wc2-rank-row wc2-rank-row-reveal" onclick="cwcOpenTeam('${r.name.replace(/'/g,"\\'")}')">
-        <span class="wc2-rank-num">${medal || '#'+rank}</span>
-        <span class="wc2-rank-dot" style="background:${cwcAccent(r.name)}"></span>
-        <span class="wc2-rank-name">${r.name}</span>
-        <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${cwcAccent(r.name)}"></div></div>
-        <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
-      </div>`;
-    }).join('');
-
-    const controls = !cwcRankReveal
-      ? `<div class="wc2-predict-btn-wrap" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-          <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;" onclick="cwcRankStartReveal('last')">🔽 Reveal From #${total} (Countdown)</button>
-          <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;background:linear-gradient(135deg,#c084fc,#9333ea);box-shadow:0 10px 30px rgba(147,51,234,.25);" onclick="cwcRankStartReveal('first')">🔼 Reveal From #1</button>
-        </div>`
-      : `<div class="wc2-predict-btn-wrap" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;">
-          ${cwcRankReveal.count < total
-            ? `<button class="wc2-predict-btn" onclick="cwcRankRevealNext()">Reveal Next (${cwcRankReveal.count}/${total}) →</button>`
-            : `<div class="wc2-official-note" style="margin:0;">All ${total} revealed 🏁</div>`}
-          <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;background:rgba(255,255,255,.07);box-shadow:none;" onclick="cwcRankResetReveal()">↺ Show All</button>
-        </div>`;
-
-    return `<div class="wc2-stadium-note">🏅 Club World Cup Power Rankings — October 2026</div>
-      ${controls}
-      <div class="wc2-rank-list">${rows}</div>`;
-  }
-
   function cwcOctSubTabs(){
     return `<div class="wc2-subtabs">
       <button class="wc2-subtab${cwcOctSubView==='schedule'?' active':''}" onclick="cwcSwitchOctSubView('schedule')">📋 Fixtures</button>
       <button class="wc2-subtab${cwcOctSubView==='predictor'?' active':''}" onclick="cwcSwitchOctSubView('predictor')">🔮 Predictor</button>
-      <button class="wc2-subtab${cwcOctSubView==='rankings'?' active':''}" onclick="cwcSwitchOctSubView('rankings')">🏅 Power Rankings</button>
     </div>`;
   }
 
@@ -3311,50 +2923,22 @@
     if(!host) return;
     if(cwcOctSubView === 'schedule'){
       host.innerHTML = `
-        <div class="cwc-oct-hero">
-          <div class="cwc-oct-hero-icon">🍂</div>
-          <div class="cwc-oct-hero-text">
-            <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
-            <div class="cwc-oct-hero-sub">🏆 Group Draw Confirmed · Kick-Off Dates TBA</div>
-            <div class="cwc-oct-hero-desc">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</div>
-          </div>
-        </div>
+        <div class="wc2-predictor-badge" style="max-width:700px;margin:0 auto 14px;">🏆 Group Draw Confirmed — Kick-Off Dates To Be Announced</div>
+        <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;line-height:1.7;">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</p>
         ${cwcOctSubTabs()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Current Standings — No Matches Played Yet</div>
         ${cwcRenderGroupTables(cwcOct26State.fixtures)}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Fixtures</div>
         ${cwcRenderConfirmedSchedule()}
       `;
-    } else if(cwcOctSubView === 'rankings'){
-      host.innerHTML = `
-        <div class="cwc-oct-hero">
-          <div class="cwc-oct-hero-icon">🏅</div>
-          <div class="cwc-oct-hero-text">
-            <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
-            <div class="cwc-oct-hero-sub">Power Rankings · All 16 Teams</div>
-            <div class="cwc-oct-hero-desc">How the field stacks up heading into the tournament, ranked by club rating.</div>
-          </div>
-        </div>
-        ${cwcOctSubTabs()}
-        ${cwcRenderPowerRankings()}
-      `;
     } else {
       host.innerHTML = `
-        <div class="cwc-oct-hero">
-          <div class="cwc-oct-hero-icon">🔮</div>
-          <div class="cwc-oct-hero-text">
-            <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
-            <div class="cwc-oct-hero-sub">Your Prediction · Hypothetical, Not Official</div>
-            <div class="cwc-oct-hero-desc">Enter your predicted scores below — the standings update live as you go.</div>
-          </div>
-        </div>
+        <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;line-height:1.7;">Enter your predicted scores below — the standings update live as you go.</p>
         ${cwcOctSubTabs()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Enter Predictions</div>
         ${cwcRenderPredictorFixtures()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Predicted Standings</div>
         ${cwcRenderGroupTables(cwcOct26State.fixtures)}
-        <div class="wc2-knockout-title">🏆 Road to Final</div>
-        ${cwcRenderRoadToFinal()}
       `;
     }
   }
@@ -3372,18 +2956,10 @@
       {label:'Final', short:'FINAL', matches:WC_MATCHES.filter(m=>m.roundShort==='FINAL'),
        badgeStyle:'background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)', cols:'final'},
     ];
-    const heroSub = champ ? `🏆 ${champ.club} Are Champions — Beat ${champ.runnerUpClub} ${champ.score}-${champ.runnerUpScore}` : '🏁 Completed Edition';
-    const hero = `
-      <div class="cwc-oct-hero gold">
-        <div class="cwc-oct-hero-icon">🌸</div>
-        <div class="cwc-oct-hero-text">
-          <div class="cwc-oct-hero-title">Club World Cup — April 2026</div>
-          <div class="cwc-oct-hero-sub">${heroSub}</div>
-          <div class="cwc-oct-hero-desc">The completed Spring 2026 edition — a straight knockout with no group stage. This is historic record and won't change.</div>
-        </div>
-      </div>`;
+    const banner = champ ? `<div class="wc2-official-badge" style="margin-bottom:16px;">🏆 ${champ.club} are Club World Cup Champions — beat ${champ.runnerUpClub} ${champ.score}-${champ.runnerUpScore} in the Final</div>` : '';
     host.innerHTML = `
-      ${hero}
+      <p class="nm-desc" style="text-align:center;max-width:700px;margin:0 auto 18px;">The completed Spring 2026 edition — a straight knockout with no group stage. This is historic record and won't change.</p>
+      ${banner}
       ${rounds.map(r => `
       <div class="wc-round">
         <div class="wc-round-label">
@@ -4130,14 +3706,14 @@
     const league = isLeague ? WC2_LEAGUE_POWER_RANKINGS.find(r=>r.name===name) : null;
     const accent = isLeague ? (league||{}).accent : wc2Accent(name);
     const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#'+rank;
-    const qualifyingNames = (league && wc2LeagueSeason === 1) ? wcQualifyingTeams(league) : new Set();
+    const qualifyingNames = league ? wcQualifyingTeams(league) : new Set();
     const teamsHtml = (league && league.teams && league.teams.length) ? `
         <div class="mm-divider"></div>
-        <div class="wc2-stadium-note" style="margin:0 0 8px">⚽ Clubs in this League${league && wc2LeagueSeason===2 ? ' <span style="color:var(--gold);">· ⏳ CWC qualification pending</span>' : ''}</div>
+        <div class="wc2-stadium-note" style="margin:0 0 8px">⚽ Clubs in this League</div>
         <div class="wc2-rank-list">${league.teams.map(t => `<div>
           <div class="wc2-rank-row wc2-club-row" onclick="openWc2Team('${league.name}','${t.name.replace(/'/g,"\\'")}')">
             <span class="wc2-rank-dot" style="background:${accent}"></span>
-            <span class="wc2-rank-name" style="width:auto;flex:1;">${t.name}${qualifyingNames.has(t.name)?` <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);letter-spacing:.3px;">🌍 AUTUMN CWC</span>`:''}</span>
+            <span class="wc2-rank-name" style="width:auto;flex:1;">${t.name}${qualifyingNames.has(t.name)?' <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);letter-spacing:.3px;">🌍 AUTUMN CWC</span>':''}</span>
             <span class="wc2-rank-score">${t.rating.toFixed(1)}<span class="wc2-rank-score-max">/10</span></span>
           </div>
         </div>`).join('')}</div>` : '';
@@ -4196,11 +3772,11 @@
       </div>`;
   }
 
-  const WC2_LEAGUES_SEASON1 = [
+  const WC2_LEAGUE_POWER_RANKINGS = [
     {rank:1, name:'Fusion League', accent:'#FF8C00', rating:8.23, qualifyCount:3, note:'Joint league — Smegtopia &amp; Corexia · Top 3 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: Corexia Live — £800,000 · MTN Radio (Springbuck) hold partial rights — £300,000 · SmegLive — £300,000 · Home stadiums: SmegTopia Stadium &amp; Corexaium', teams:[
-      {name:'Smeg City FC', founded:'2026', rating:9.4, desc:'Based in SmegTropolis, the capital Smegtopia has called home since the server\'s very first days, Smeg City FC play out of SmegTopia Stadium and are widely seen as the standard-bearers of the nation\'s football tradition.', nation:'Smegtopia'},
-      {name:'Smeggers FC', founded:'2026', rating:8.8, desc:'Smegtopia\'s second club, formed to give the founding nation a genuine local rivalry, with a scrappier identity than their more storied neighbours across the capital.', nation:'Smegtopia'},
-      {name:'Quipalite MC Corexian Club', founded:'2026', rating:8.5, desc:'The football arm of Corexia, the technocratic nation built by RealO75 on a fully digital economy, this club carries the sleek, modern identity of its homeland onto the pitch.', nation:'Corexia'},
+      {name:'Smeg City FC', founded:'2026', rating:9.0, desc:'Based in SmegTropolis, the capital Smegtopia has called home since the server\'s very first days, Smeg City FC play out of SmegTopia Stadium and are widely seen as the standard-bearers of the nation\'s football tradition.', nation:'Smegtopia'},
+      {name:'Smeggers FC', founded:'2026', rating:8.5, desc:'Smegtopia\'s second club, formed to give the founding nation a genuine local rivalry, with a scrappier identity than their more storied neighbours across the capital.', nation:'Smegtopia'},
+      {name:'Quipalite MC Corexian Club', founded:'2026', rating:8.3, desc:'The football arm of Corexia, the technocratic nation built by RealO75 on a fully digital economy, this club carries the sleek, modern identity of its homeland onto the pitch.', nation:'Corexia'},
       {name:'Corexian Federation', founded:'2026', rating:8.3, desc:'One of Corexia\'s footballing exports, reflecting the nation\'s reputation as the founder and runner of the Globe Alliance.', nation:'Corexia'},
       {name:'Corex FC', founded:'2026', rating:8.3, desc:'A Corexia club named for the nation itself, drawing support from the digital economy hub that plays host to the Corexaium stadium.', nation:'Corexia'},
       {name:'Smeg Union FC', founded:'2026', rating:7.8, desc:'A Smegtopia side known for a well-drilled, disciplined style, reflecting a nation that prides itself on being first to establish server healthcare.', nation:'Smegtopia'},
@@ -4208,15 +3784,15 @@
       {name:'Smegness', founded:'2026', rating:7.8, desc:'A dependable Smegtopia outfit carrying the orange and gold of the server\'s oldest nation into the Fusion League.', nation:'Smegtopia'},
     ]},
     {rank:2, name:'Craineun Premier League', accent:'#50C878', rating:7.08, qualifyCount:4, note:'Joint league — Craineun &amp; Crabville · Top 4 qualify for the Autumn Club World Cup 2026 (October) · Broadcast rights: KKCT (radio) &amp; CBC (TV) — £1,000,000 · Home stadiums: NewLife Stadium &amp; Crainetown Stadium', teams:[
-      {name:'Crainetown FC', founded:'2026', rating:9.5, desc:'Named for Craineun\'s capital, home to the world\'s first airport, train station and school, Crainetown FC carry the biggest footballing pedigree of Aftlow\'s sprawling, forested nation.', nation:'Craineun'},
-      {name:'Los Perlos CF', founded:'2024', rating:9.15, desc:'A side with roots stretching back to 2024, when they were a World Cup team in that year\'s Current Nations, putting together mediocre runs. Back then they were a state of Aftlow-run La Cocina, before breaking away to independence — a move that went down badly with the La Cocina government at the time — ahead of their eventual arrival in Craineun colours.', nation:'Craineun'},
-      {name:'Keem Town United', founded:'2026', rating:8.5, desc:'Named for the disbanded nation of Keem, whose land was absorbed by Craineun and Smegtopia, this club keeps that vanished nation\'s heritage alive on the pitch.', nation:'Keem'},
-      {name:'Springfield United', founded:'2026', rating:8.5, desc:'Based out of Craineun\'s Springfield Factory district, an industrious and well-organised outfit reflecting the industrial heart of the nation.', nation:'Craineun'},
+      {name:'Crainetown FC', founded:'2026', rating:9.4, desc:'Named for Craineun\'s capital, home to the world\'s first airport, train station and school, Crainetown FC carry the biggest footballing pedigree of Aftlow\'s sprawling, forested nation.', nation:'Craineun'},
+      {name:'Los Perlos CF', founded:'2024', rating:8.75, desc:'A side with roots stretching back to 2024, when they were a World Cup team in that year\'s Current Nations, putting together mediocre runs. Back then they were a state of Aftlow-run La Cocina, before breaking away to independence — a move that went down badly with the La Cocina government at the time — ahead of their eventual arrival in Craineun colours.', nation:'Craineun'},
+      {name:'Keem Town United', founded:'2026', rating:8.3, desc:'Named for the disbanded nation of Keem, whose land was absorbed by Craineun and Smegtopia, this club keeps that vanished nation\'s heritage alive on the pitch.', nation:'Craineun'},
+      {name:'Springfield United', founded:'2026', rating:8.3, desc:'Based out of Craineun\'s Springfield Factory district, an industrious and well-organised outfit reflecting the industrial heart of the nation.', nation:'Craineun'},
       {name:'Crabville Creepers', founded:'2026', rating:8.0, desc:'One of Crabville\'s two representatives in the joint league, known for a stubborn, physical style of play in keeping with the nation\'s militaristic reputation.', nation:'Crabville'},
-      {name:'Crabville Breezers', founded:'2026', rating:8.35, desc:'Crabville\'s second club in the league, a breezy attacking side offering a different identity from their more combative city rivals.', nation:'Crabville'},
+      {name:'Crabville Breezers', founded:'2026', rating:8.0, desc:'Crabville\'s second club in the league, a breezy attacking side offering a different identity from their more combative city rivals.', nation:'Crabville'},
       {name:'Niche Town FC', founded:'2026', rating:8.2, desc:'A smaller Craineun outfit representing one of the many townships scattered across the nation\'s vast, heavily forested territory.', nation:'Craineun'},
       {name:'Rural FC', founded:'2026', rating:5.0, desc:'Representing Craineun\'s countryside communities away from the bustle of Crainetown, a scrappy underdog side built on local pride.', nation:'Craineun'},
-      {name:'AFC Crabville', founded:'2026', rating:5.1, desc:'The third of Crabville\'s clubs, drawing support from the most populated nation on the server.', nation:'Crabville'},
+      {name:'AFC Crabville', founded:'2026', rating:5.0, desc:'The third of Crabville\'s clubs, drawing support from the most populated nation on the server.', nation:'Crabville'},
       {name:'AFC Coolbox', founded:'2026', rating:5.0, desc:'A newly formed Crabville side still building its own identity within the shadow of the nation\'s huge apartment blocks and military base.', nation:'Crabville'},
     ]},
     {rank:3, name:'Stormland National League', accent:'#1E90FF', rating:5.18, qualifyCount:2, note:'Stormland &amp; a guest club from Okpemon · Top 2 qualify for the Club World Cup · Broadcast rights: Crabville Radio — £1,500,000 · Home stadium: NewLife Stadium', teams:[
@@ -4231,92 +3807,20 @@
       {name:'Waterland United', founded:'2026', rating:5.0, desc:'Waterland\'s flagship club, representing the nation founded by Gooner5342 and home to the server\'s first McDonald\'s.', nation:'Waterland'},
       {name:'Waterland AFC', founded:'2026', rating:5.0, desc:'A Waterland club competing in the Championship\'s opening season, part of a young footballing nation still finding its feet.', nation:'Waterland'},
       {name:'Waterland & Borough', founded:'2026', rating:5.0, desc:'A Waterland club drawing on local borough support around the nation\'s apartment blocks.', nation:'Waterland'},
-      {name:'Waterland City', founded:'2026', rating:8.1, desc:'Waterland City\'s representative in the new Championship, flying the nation\'s blue and orange.', nation:'Waterland'},
+      {name:'Waterland City', founded:'2026', rating:5.0, desc:'Waterland City\'s representative in the new Championship, flying the nation\'s blue and orange.', nation:'Waterland'},
       {name:'Mudrud Old Boys', founded:'2024', rating:5.0, desc:'A Waterland club dating back to 2024, formerly a national side in that year\'s Current Nations with a reputation for struggling on the pitch, now carrying that proudly local, underdog identity into the Championship.', nation:'Waterland'},
     ]},
     {rank:5, name:'Springbuck Premiership', accent:'#8B4513', rating:5.0, qualifyCount:2, note:'Springbuck\'s domestic football league · Top 2 qualify for the Club World Cup · Broadcast rights: SmegLive — £300,000 · Home stadium: SmegTopia Stadium', teams:[
-      {name:'Springbuck United', founded:'2026', rating:6.4, desc:'Springbuck\'s flagship club, representing the resource-rich nation home to the world\'s first hospital and first oil rig.', nation:'Springbuck'},
+      {name:'Springbuck United', founded:'2026', rating:5.0, desc:'Springbuck\'s flagship club, representing the resource-rich nation home to the world\'s first hospital and first oil rig.', nation:'Springbuck'},
       {name:'Springbuck City', founded:'2026', rating:5.0, desc:'A Springbuck club competing in the Premiership\'s opening season, based near the capital Pretoria.', nation:'Springbuck'},
       {name:'The Stoners Club', founded:'2026', rating:5.0, desc:'One of Springbuck\'s clubs in the new domestic league, carrying an unmistakably local identity.', nation:'Springbuck'},
       {name:'Stormers', founded:'2026', rating:5.0, desc:'A Springbuck side named in homage to the nation\'s fast growth since its founding.', nation:'Springbuck'},
       {name:'Pluggers FC', founded:'2026', rating:5.0, desc:'A Springbuck club in the Premiership\'s inaugural season, part of the league\'s newly assembled line-up.', nation:'Springbuck'},
-      {name:'Springbuck Strikers', founded:'2026', rating:6.15, desc:'A Springbuck club competing in the new Premiership, flying the nation\'s green and gold.', nation:'Springbuck'},
+      {name:'Springbuck Strikers', founded:'2026', rating:5.0, desc:'A Springbuck club competing in the new Premiership, flying the nation\'s green and gold.', nation:'Springbuck'},
     ]},
   ];
 
-  // Season 1's overall league rating is the average of its clubs' ratings.
-  WC2_LEAGUES_SEASON1.forEach(l => {
-    l.rating = +(l.teams.reduce((sum, t) => sum + t.rating, 0) / l.teams.length).toFixed(2);
-  });
-
-  // Clubs debuting in Season 2 only — didn't exist for Season 1, so they're
-  // added to each league's roster after the Season 2 clone is made.
-  const WC2_SEASON2_NEW_TEAMS = {
-    'Fusion League': [
-      {name:'Seirinese Wanderers', founded:'2027', rating:5.0, desc:'A Corexia club carrying the Seirinese name into the Fusion League, part of the nation\'s growing footballing presence.', nation:'Corexia'},
-      {name:'Seirin-by-the-sea', founded:'2027', rating:5.0, desc:'A coastal Corexia side named for its Seirin home, joining the Fusion League as a fresh addition to the nation\'s club scene.', nation:'Corexia'},
-      {name:'Core De Football', founded:'2027', rating:5.0, desc:'One of Corexia\'s newest clubs, its name a nod to the digital-economy nation\'s core industries.', nation:'Corexia'},
-      {name:'Smeggity FC', founded:'2027', rating:5.0, desc:'A new Smegtopia club joining the Fusion League, adding to the founding nation\'s deep footballing roster.', nation:'Smegtopia'},
-      {name:'Smagris', founded:'2027', rating:5.0, desc:'A newly formed Smegtopia side entering the Fusion League, still building its identity within the nation\'s crowded club scene.', nation:'Smegtopia'},
-      {name:'SMG FC', founded:'2027', rating:5.0, desc:'Another fresh Smegtopia entrant to the Fusion League, carrying the nation\'s initials into domestic competition.', nation:'Smegtopia'},
-    ],
-    'Craineun Premier League': [
-      {name:'Royal Town Of Slyvian Athletic', founded:'2027', rating:5.0, desc:'A Craineun club representing the Royal Town of Slyvian, joining the Premier League as a fresh addition to the nation\'s footballing landscape.', nation:'Craineun'},
-      {name:'Anderville Anchors', founded:'2027', rating:5.0, desc:'A new Craineun side named for Anderville, entering the Premier League to build its own identity within the nation\'s forested territory.', nation:'Craineun'},
-    ],
-    'Stormland National League': [
-      {name:'Smogtowne United', founded:'2027', rating:5.0, desc:'Smogtowne\'s first-ever domestic club, joining the Stormland National League as a guest side and giving the mysterious grey nation a footballing home at last.', nation:'Smogtowne'},
-      {name:'Caderville FC', founded:'2027', rating:5.0, desc:'Caderville\'s debut domestic club, joining the Stormland National League as a guest side as the young monarchy builds out its footballing presence.', nation:'Caderville'},
-    ],
-  };
-
-  // A handful of clubs have diverging ratings between the two seasons —
-  // Season 1 keeps its historical number, Season 2 uses the value here.
-  const WC2_SEASON2_RATING_OVERRIDES = {
-    'Okpemon FC': 8.0,
-    'MiraHQ': 8.40,
-    'Crabville Breezers': 8.75,
-    'Crabville Creepers': 8.40,
-    'AFC Crabville': 7.70,
-  };
-
-  // Season 2 is a new season — same clubs/leagues, but CWC qualification now
-  // points at the Spring Club World Cup 2027 (April), and nothing has been
-  // decided yet. League rating is the average of its Season 2 club ratings.
-  const WC2_LEAGUES_SEASON2 = WC2_LEAGUES_SEASON1.map(l => {
-    const teams = [
-      ...l.teams.map(t => ({...t, rating: WC2_SEASON2_RATING_OVERRIDES[t.name] ?? t.rating})),
-      ...(WC2_SEASON2_NEW_TEAMS[l.name] || []),
-    ];
-    return {
-      ...l,
-      note: l.note
-        .replace(/Autumn Club World Cup 2026 \(October\)/g, 'Spring Club World Cup 2027 (April)')
-        .replace(/(qualif(?:y|ies) for the )Club World Cup/g, '$1Spring Club World Cup 2027 (April)')
-        .replace('a guest club from Okpemon', 'guest clubs from Okpemon, Smogtowne and Caderville'),
-      teams,
-      rating: +(teams.reduce((sum, t) => sum + t.rating, 0) / teams.length).toFixed(2),
-    };
-  });
-  let wc2LeagueSeason = 2;
-  let WC2_LEAGUE_POWER_RANKINGS = WC2_LEAGUES_SEASON2;
-
-  function wc2SeasonBadge(){
-    return `<span class="wc2-season-badge">S${wc2LeagueSeason}</span>`;
-  }
-
-  function wc2SwitchLeagueSeason(n){
-    wc2LeagueSeason = n;
-    WC2_LEAGUE_POWER_RANKINGS = n === 1 ? WC2_LEAGUES_SEASON1 : WC2_LEAGUES_SEASON2;
-    LEAGUE_FIXTURES = n === 1 ? LEAGUE_FIXTURES_SEASON1 : LEAGUE_FIXTURES_SEASON2;
-    if(typeof wcClubSubView !== 'undefined' && wcClubSubView === 'tables'){
-      wcRenderLeagueTables();
-    } else {
-      wc2RenderLeaguePowerRankings();
-    }
-  }
-
-  const LEAGUE_FIXTURES_SEASON1 = {
+  const LEAGUE_FIXTURES = {
     'Fusion League': [
       {md:1, home:'Smeg City FC', away:'Smegness', hs:3, as:1},
       {md:1, home:'Smeggers FC', away:'Smegion Eagles FC', hs:2, as:0},
@@ -4555,48 +4059,6 @@
     ],
   };
 
-  // Season 2 gets a freshly shuffled fixture list — same clubs, same total
-  // number of home-and-away matches per team as Season 1, but the draw is
-  // randomised into new matchups and a new schedule order.
-  function wcShuffle(arr){
-    const a = arr.slice();
-    for(let i = a.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-
-  function wcGenerateSeasonFixtures(teamNames){
-    let teams = wcShuffle(teamNames);
-    if(teams.length % 2 !== 0) teams.push(null); // bye slot for odd-sized leagues
-    const n = teams.length;
-    const half = n / 2;
-    let arr = teams.slice();
-    const firstLeg = [];
-    for(let r = 0; r < n - 1; r++){
-      const round = [];
-      for(let i = 0; i < half; i++){
-        const t1 = arr[i], t2 = arr[n - 1 - i];
-        if(t1 !== null && t2 !== null) round.push(r % 2 === 0 ? [t1, t2] : [t2, t1]);
-      }
-      firstLeg.push(round);
-      arr = [arr[0], arr[n - 1], ...arr.slice(1, n - 1)];
-    }
-    const secondLeg = firstLeg.map(round => round.map(([h, a]) => [a, h]));
-    const allRounds = wcShuffle([...firstLeg, ...secondLeg]);
-    const fixtures = [];
-    allRounds.forEach((round, idx) => {
-      round.forEach(([home, away]) => fixtures.push({md: idx + 1, home, away, hs: null, as: null}));
-    });
-    return fixtures;
-  }
-
-  const LEAGUE_FIXTURES_SEASON2 = Object.fromEntries(
-    WC2_LEAGUES_SEASON2.map(l => [l.name, wcGenerateSeasonFixtures(l.teams.map(t => t.name))])
-  );
-  let LEAGUE_FIXTURES = LEAGUE_FIXTURES_SEASON2;
-
   function openLeagueFixtures(leagueName){
     const fixtures = LEAGUE_FIXTURES[leagueName] || [];
     const league = WC2_LEAGUE_POWER_RANKINGS.find(r => r.name === leagueName);
@@ -4687,9 +4149,8 @@
     el.classList.toggle('expanded', !open);
   }
 
-  function openWc2Team(leagueName, teamName, forceSeason2){
-    const source = forceSeason2 ? WC2_LEAGUES_SEASON2 : WC2_LEAGUE_POWER_RANKINGS;
-    const league = source.find(r => r.name === leagueName);
+  function openWc2Team(leagueName, teamName){
+    const league = WC2_LEAGUE_POWER_RANKINGS.find(r => r.name === leagueName);
     const team = league && league.teams.find(t => t.name === teamName);
     if(!team) return;
     const accent = league.accent;
@@ -4743,7 +4204,7 @@
       return `<div class="wc2-rank-row" onclick="openWc2Rank('${r.name}',${r.rating},${r.rank},true)" style="cursor:pointer">
         <span class="wc2-rank-num">${medal || '#'+r.rank}</span>
         <span class="wc2-rank-dot" style="background:${r.accent}"></span>
-        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${wc2SeasonBadge()}${r.name}<span style="display:flex;align-items:center;flex-wrap:wrap;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:3px;">${r.teams.length} clubs · tap for roster<span class="wc2-cwc-badge ${wc2LeagueSeason===2?'pending':'decided'}">${wc2LeagueSeason===2?'⏳ PENDING':'✅ DECIDED'}</span></span></span>
+        <span class="wc2-rank-name" style="white-space:normal;overflow:visible;text-overflow:clip;width:auto;flex:1;min-width:0;">${r.name}<span style="display:block;font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--text-dim);margin-top:2px;white-space:nowrap;">${r.teams.length} clubs · tap for roster</span></span>
         <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${r.accent}"></div></div>
         <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
         <span onclick="event.stopPropagation();openLeagueFixtures('${r.name}')" style="margin-left:8px;font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">📅 Fixtures</span>
@@ -4753,10 +4214,6 @@
     bracket.innerHTML = `${wcClubRenderSubTabs()}
       <div class="wc2-groups-wrap">
         <div class="wc2-stadium-note">⚽ League Power Rankings — Domestic Football Leagues</div>
-        <div class="wc2-season-toggle">
-          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>History</span></button>
-          <button class="wc2-season-btn${wc2LeagueSeason===2?' active':''}" onclick="wc2SwitchLeagueSeason(2)">Season 2 <span>New</span></button>
-        </div>
         <div class="wc2-rank-list">${rows}</div>
       </div>`;
   }
@@ -5500,7 +4957,7 @@
         <tr class="wc2-lt-row" onclick="openWc2Team('${league.name}','${t.name.replace(/'/g,"\\'")}')" style="animation-delay:${(i*0.03).toFixed(2)}s">
           <td style="color:var(--text-dim);font-weight:700;">${i+1}</td>
           <td style="text-align:left;">
-            <span class="wc2-lt-dot" style="background:${league.accent}"></span><span style="color:${league.accent};font-weight:600;">${t.name}</span>${(t.qualifies && wc2LeagueSeason===1)?` <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);">🌍 AUTUMN CWC</span>`:''}
+            <span class="wc2-lt-dot" style="background:${league.accent}"></span><span style="color:${league.accent};font-weight:600;">${t.name}</span>${t.qualifies?' <span style="font-size:9px;color:var(--gold);font-family:var(--font-m);">🌍 CWC</span>':''}
           </td>
           <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td style="font-weight:800;color:var(--text);">${t.pts}</td>
         </tr>`).join('');
@@ -5508,11 +4965,8 @@
         <div class="wc2-lt-card">
           <div class="wc2-lt-header" style="border-left:3px solid ${league.accent};">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
-              <span class="wc2-lt-title">${wc2SeasonBadge()}${league.name}</span>
-              <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-                <span style="font-family:var(--font-m);font-size:8.5px;font-weight:800;letter-spacing:.3px;color:var(--gold);white-space:nowrap;">${wc2LeagueSeason===2?'⏳ CWC PENDING':'✅ CWC DECIDED'}</span>
-                <span onclick="event.stopPropagation();openLeagueFixtures('${league.name}')" style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;">📅 Fixtures</span>
-              </div>
+              <span class="wc2-lt-title">${league.name}</span>
+              <span onclick="event.stopPropagation();openLeagueFixtures('${league.name}')" style="font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.4px;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-card);color:var(--text-muted);cursor:pointer;white-space:nowrap;flex-shrink:0;">📅 Fixtures</span>
             </div>
             <span class="wc2-lt-note">${league.note}</span>
           </div>
@@ -5531,14 +4985,7 @@
     }).join('');
     bracket.innerHTML = `${wcClubRenderSubTabs()}
       <div class="wc2-groups-wrap">
-        <div class="wc2-season-toggle">
-          <button class="wc2-season-btn${wc2LeagueSeason===1?' active':''}" onclick="wc2SwitchLeagueSeason(1)">Season 1 <span>History</span></button>
-          <button class="wc2-season-btn${wc2LeagueSeason===2?' active':''}" onclick="wc2SwitchLeagueSeason(2)">Season 2 <span>New</span></button>
-        </div>
-        <div class="wc2-stadium-note" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);color:var(--gold);padding:10px 14px;border-radius:10px;">${wc2LeagueSeason===1
-          ? (anyPlayed ? '🗓️ The 2026 domestic season is complete — final standings ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.' : '🗓️ The 2026 domestic season has not started yet — fixtures and standings will populate here once the season kicks off, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.')
-          : (anyPlayed ? '🗓️ The 2027 domestic season is now underway — tables update as results come in. Spring Club World Cup 2027 (April) qualification is ⏳ pending until the season concludes. Tap any club for its profile.' : '🗓️ The new 2027 domestic season has not started yet — fixtures and standings will populate here once it kicks off. Spring Club World Cup 2027 (April) qualification is ⏳ pending. Tap any club for its profile.')
-        }</div>
+        <div class="wc2-stadium-note" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);color:var(--gold);padding:10px 14px;border-radius:10px;">${anyPlayed ? '🗓️ The 2026 domestic season is now underway — tables update as results come in, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.' : '🗓️ The 2026 domestic season has not started yet — fixtures and standings will populate here once the season kicks off, ahead of the Autumn Club World Cup 2026 in October. Tap any club for its profile.'}</div>
         ${tablesHtml}
       </div>`;
   }
@@ -5561,15 +5008,15 @@
     document.getElementById('wcTabClub').classList.toggle('active', key==='club');
     document.getElementById('wcTabCountry').classList.toggle('active', key==='country');
     if(key === 'club'){
-      document.getElementById('wcTitle').textContent = 'Domestic Football';
-      document.getElementById('wcSub').textContent = 'Club World Cup 2026 · Two Editions · April & October';
+      document.getElementById('wcTitle').textContent = 'Club World Cup 2026';
+      document.getElementById('wcSub').textContent = 'Two Editions · April & October';
       document.getElementById('wcStadiumNote').style.display = 'none';
       document.getElementById('wcChampionBanner').style.display = 'none';
       document.getElementById('wcChampionBanner').innerHTML = '';
       renderBracket();
     } else {
-      document.getElementById('wcTitle').textContent = 'National Football';
-      document.getElementById('wcSub').textContent = 'World Cup 2026 · Countries Edition · Semi-Finals Underway';
+      document.getElementById('wcTitle').textContent = 'World Cup 2026';
+      document.getElementById('wcSub').textContent = 'Countries Edition · Semi-Finals Underway';
       document.getElementById('wcStadiumNote').style.display = 'none';
       document.getElementById('wcChampionBanner').style.display = 'none';
       document.getElementById('wcChampionBanner').innerHTML = '';
