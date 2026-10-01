@@ -2799,22 +2799,7 @@
     'Smegtopia':'#FF8C00','Corexia':'#00FFFF','Craineun':'#50C878','Okpemon':'#ef4444','Crabville':'#9333ea',
     'Waterland':'#1E90FF','Smogtowne':'#888888','Keem':'#facc15','Springbuck':'#22c55e','Stormland':'#1E90FF',
   };
-  // October 2026 group draw. How all 16 slots were filled:
-  //  - 12 automatic qualifiers by final league position: Fusion League top 3
-  //    (Smeg City FC, Smeggers FC, Quipalite MC Corexian Club), Craineun
-  //    Premier League top 4 (Los Perlos CF, Crainetown FC, Crabville
-  //    Breezers, Springfield United), Stormland National League top 2
-  //    (MiraHQ, Okpemon FC), Waterland Championship top 1 (Waterland City),
-  //    Springbuck Premiership top 2 (Springbuck United, Springbuck Strikers).
-  //  - As hosts, Crabville received 2 bonus spots. Since Crabville Breezers
-  //    had already qualified on merit, the bonus went to the next two best
-  //    Crabville sides instead: Crabville Creepers and AFC Crabville.
-  //  - Because Crabville Breezers' Craineun Premier League slot effectively
-  //    freed up (its qualification is now covered by the host allocation),
-  //    it rolled down to the next side in that table — Keem Town United —
-  //    who qualified automatically as a result.
-  //  - That put the field at 15, so as hosts Crabville invited a 16th team
-  //    to fill the final slot: Smogtowne.
+  // October 2026 group draw.
   const CWC_GROUPS_OCT26 = {
     'Group A': ['Smeggers FC','Quipalite MC Corexian Club','Crainetown FC','Okpemon FC'],
     'Group B': ['Crabville Creepers','Waterland City','Los Perlos CF','Smogtowne'],
@@ -2861,6 +2846,30 @@
     sf: ['Mon 26 Oct, 19:00', 'Tue 27 Oct, 19:00'],
     final: ['Fri 30 Oct, 19:00 — Halloween Eve Final'],
   };
+  // Official October 2026 Club World Cup group results, keyed by 'home_away'
+  // in fixture order. hy/ay = yellows, hr/ar = reds.
+  const CWC_OCT26_RESULTS = {
+    'Smeggers FC_Quipalite MC Corexian Club': {hs:2, as:2, hy:2, ay:1, hr:1, ar:1},
+  };
+  function cwcOctResult(home, away){
+    return CWC_OCT26_RESULTS[`${home}_${away}`] || null;
+  }
+  // Builds the fixtures structure (same shape as the predictor) from official results.
+  function cwcOfficialFixtures(){
+    const fixtures = {};
+    Object.keys(CWC_GROUPS_OCT26).forEach(gname => {
+      const teams = CWC_GROUPS_OCT26[gname];
+      const list = [];
+      for(let i=0;i<teams.length;i++){
+        for(let j=i+1;j<teams.length;j++){
+          const r = cwcOctResult(teams[i], teams[j]);
+          list.push({home:teams[i], away:teams[j], hs: r ? r.hs : null, as: r ? r.as : null});
+        }
+      }
+      fixtures[gname] = list;
+    });
+    return fixtures;
+  }
   function cwcFixtureDate(home, away){
     return CWC_OCT26_FIXTURE_DATES[`${home}_${away}`] || CWC_OCT26_FIXTURE_DATES[`${away}_${home}`] || 'Date TBC';
   }
@@ -2896,6 +2905,21 @@
   function cwcOpenFixture(gname, home, away){
     const homeAccent = cwcAccent(home);
     const awayAccent = cwcAccent(away);
+    const r = cwcOctResult(home, away);
+    const played = !!r;
+    const scoreCentre = played
+      ? `<div class="mm-score-centre"><div class="mm-big-score">${r.hs} <span style="opacity:.4">–</span> ${r.as}</div></div>`
+      : `<div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>`;
+    const cardsRows = played ? `
+        <div class="mm-divider"></div>
+        <div class="wc2-stadium-note" style="margin:0 0 8px">📋 Match Details</div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${home})</div><div class="mm-fact-val">${r.hy||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${away})</div><div class="mm-fact-val">${r.ay||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${home})</div><div class="mm-fact-val">${r.hr||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${away})</div><div class="mm-fact-val">${r.ar||0}</div></div>
+        </div>
+        ${r.note ? `<div class="wc2-official-note" style="margin-top:-6px">${r.note}</div>` : ''}` : '';
     document.getElementById('mmc').innerHTML = `
       <div class="mm-banner" style="background:linear-gradient(135deg,${homeAccent}20 0%,transparent 70%);">
         <div class="nm-banner-pattern"></div>
@@ -2905,7 +2929,7 @@
         <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
           <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
             <div class="mm-team-block" style="min-width:0"><div class="mm-club" style="color:${homeAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="cwcOpenTeam('${home.replace(/'/g,"\\'")}')">${home}</div></div>
-            <div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>
+            ${scoreCentre}
             <div class="mm-team-block away" style="min-width:0"><div class="mm-club" style="color:${awayAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="cwcOpenTeam('${away.replace(/'/g,"\\'")}')">${away}</div></div>
           </div>
         </div>
@@ -2913,8 +2937,9 @@
         <div class="mm-facts">
           <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${cwcFixtureDate(home, away)}</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">Group</div><div class="mm-fact-val">${gname}</div></div>
-          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">🟢 Upcoming</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:#4ade80">${played?'🔒 Full Time':'🟢 Upcoming'}</div></div>
         </div>
+        ${cardsRows}
       </div>`;
     wc2OpenModal();
   }
@@ -3062,12 +3087,12 @@
           rows.push(`<div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${teams[i].replace(/'/g,"\\'")}','${teams[j].replace(/'/g,"\\'")}')">
             <div class="wc2-fixture-main">
               <span class="wc2-fixture-team linkable" title="${teams[i]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[i].replace(/'/g,"\\'")}')">${cwcShortName(teams[i])}</span>
-              <span class="wc2-schedule-score">TBD</span>
+              <span class="wc2-schedule-score">${cwcOctResult(teams[i], teams[j]) ? cwcOctResult(teams[i], teams[j]).hs : 'TBD'}</span>
               <span class="wc2-schedule-vs">–</span>
-              <span class="wc2-schedule-score">TBD</span>
+              <span class="wc2-schedule-score">${cwcOctResult(teams[i], teams[j]) ? cwcOctResult(teams[i], teams[j]).as : 'TBD'}</span>
               <span class="wc2-fixture-team right linkable" title="${teams[j]}" onclick="event.stopPropagation();cwcOpenTeam('${teams[j].replace(/'/g,"\\'")}')">${cwcShortName(teams[j])}</span>
             </div>
-            <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(teams[i], teams[j])}</div>
+            <div class="wc2-fixture-date-sub">${cwcOctResult(teams[i], teams[j]) ? '🔒 Full Time · ' : '🗓️ '}${cwcFixtureDate(teams[i], teams[j])}</div>
           </div>`);
         }
       }
@@ -3290,11 +3315,50 @@
     cwcRenderOct();
   }
 
+  // Monte Carlo title odds for the October 2026 Club World Cup. Seeded so the
+  // numbers are stable between page loads; recalculates from current ratings.
+  let cwcWinOddsCache = null;
+  function cwcWinOdds(){
+    const key = cwcAllTeams().map(t => t + cwcTeamRating(t)).join('|');
+    if(cwcWinOddsCache && cwcWinOddsCache.key === key) return cwcWinOddsCache.odds;
+    let seed = 20261001;
+    const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= rnd(); } while(p > L); return k - 1; };
+    const R = {}; cwcAllTeams().forEach(t => R[t] = cwcTeamRating(t));
+    const play = (a, b) => { const d = R[a] - R[b];
+      return [pois(1.4 * Math.exp(0.25 * d)), pois(1.4 * Math.exp(-0.25 * d))]; };
+    const ko = (a, b) => { const [x, y] = play(a, b); if(x !== y) return x > y ? a : b;
+      const p = 1 / (1 + Math.exp(-0.25 * (R[a] - R[b]))); return rnd() < p ? a : b; };
+    const groups = Object.values(CWC_GROUPS_OCT26);
+    const wins = {}; cwcAllTeams().forEach(t => wins[t] = 0);
+    const N = 20000;
+    for(let s = 0; s < N; s++){
+      const w = [], r = [];
+      groups.forEach(g => {
+        const st = {}; g.forEach(t => st[t] = {t, pts:0, gd:0, gf:0, x:rnd()});
+        for(let i = 0; i < g.length; i++) for(let j = i + 1; j < g.length; j++){
+          const [x, y] = play(g[i], g[j]);
+          st[g[i]].gf += x; st[g[j]].gf += y; st[g[i]].gd += x - y; st[g[j]].gd += y - x;
+          if(x > y) st[g[i]].pts += 3; else if(y > x) st[g[j]].pts += 3; else { st[g[i]].pts++; st[g[j]].pts++; }
+        }
+        const o = Object.values(st).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || b.x - a.x);
+        w.push(o[0].t); r.push(o[1].t);
+      });
+      const q = [ko(w[0], r[1]), ko(w[1], r[0]), ko(w[2], r[3]), ko(w[3], r[2])];
+      wins[ko(ko(q[0], q[1]), ko(q[2], q[3]))]++;
+    }
+    const odds = {}; Object.keys(wins).forEach(t => odds[t] = wins[t] / N * 100);
+    cwcWinOddsCache = {key, odds};
+    return odds;
+  }
+
   function cwcRenderPowerRankings(){
     const ranked = cwcAllTeams()
       .map(name => ({name, rating: cwcTeamRating(name)}))
       .sort((a,b) => b.rating - a.rating);
     const total = ranked.length;
+    const winOdds = cwcWinOdds();
 
     let revealedRanks = null; // null = everything shown
     if(cwcRankReveal){
@@ -3314,6 +3378,7 @@
           <span class="wc2-rank-name">? ? ?</span>
           <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:0%"></div></div>
           <span class="wc2-rank-score">–</span>
+          <span class="wc2-rank-score" style="min-width:64px;text-align:right">–</span>
         </div>`;
       }
       const pct = (r.rating / 10 * 100).toFixed(1);
@@ -3324,6 +3389,7 @@
         <span class="wc2-rank-name">${r.name}</span>
         <div class="wc2-rank-bar-track"><div class="wc2-rank-bar-fill" style="width:${pct}%;background:${cwcAccent(r.name)}"></div></div>
         <span class="wc2-rank-score">${r.rating.toFixed(2)}<span class="wc2-rank-score-max">/10</span></span>
+        <span class="wc2-rank-score" style="min-width:64px;text-align:right;color:#c084fc" title="Chance of winning the Club World Cup">${winOdds[r.name].toFixed(1)}%</span>
       </div>`;
     }).join('');
 
@@ -3339,7 +3405,7 @@
           <button class="wc2-predict-btn" style="padding:11px 22px;font-size:10px;background:rgba(255,255,255,.07);box-shadow:none;" onclick="cwcRankResetReveal()">↺ Show All</button>
         </div>`;
 
-    return `<div class="wc2-stadium-note">🏅 Club World Cup Power Rankings — October 2026</div>
+    return `<div class="wc2-stadium-note">🏅 Club World Cup Power Rankings — October 2026 · Rating / Title Chance</div>
       ${controls}
       <div class="wc2-rank-list">${rows}</div>`;
   }
@@ -3367,13 +3433,13 @@
           <div class="cwc-oct-hero-icon">🍂</div>
           <div class="cwc-oct-hero-text">
             <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
-            <div class="cwc-oct-hero-sub"><span title="How the 16 teams qualified: 12 clubs qualified automatically by final league position (Fusion League top 3, Craineun Premier League top 4, Stormland National League top 2, Waterland Championship winner, Springbuck Premiership top 2). As hosts, Crabville earned 2 bonus spots — since Crabville Breezers had already qualified on merit, those went to the next two best Crabville sides, Crabville Creepers and AFC Crabville. That freed up Breezers' original league slot, which rolled down to Keem Town United. With the field at 15, hosts Crabville invited a final 16th team: Smogtowne." style="cursor:help;border-bottom:1px dotted currentColor;">🏆</span> Group Draw Confirmed · Kick-Off Dates TBA</div>
+            <div class="cwc-oct-hero-sub">🏆 Group Draw Confirmed · Kick-Off Dates TBA</div>
             <div class="cwc-oct-hero-desc">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</div>
           </div>
         </div>
         ${cwcOctSubTabs()}
-        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Current Standings — No Matches Played Yet</div>
-        ${cwcRenderGroupTables(cwcOct26State.fixtures)}
+        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Current Standings${Object.keys(CWC_OCT26_RESULTS).length ? ' — ' + Object.keys(CWC_OCT26_RESULTS).length + ' of 24 Group Matches Played' : ' — No Matches Played Yet'}</div>
+        ${cwcRenderGroupTables(cwcOfficialFixtures())}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Fixtures</div>
         ${cwcRenderConfirmedSchedule()}
       `;
