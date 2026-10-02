@@ -2847,9 +2847,10 @@
     final: ['Fri 30 Oct, 19:00 — Halloween Eve Final'],
   };
   // Official October 2026 Club World Cup group results, keyed by 'home_away'
-  // in fixture order. hy/ay = yellows, hr/ar = reds.
+  // in fixture order. hy/ay = yellows, hr/ar = reds, hOff/aOff = offside goals.
   const CWC_OCT26_RESULTS = {
-    'Smeggers FC_Quipalite MC Corexian Club': {hs:2, as:2, hy:2, ay:1, hr:1, ar:1},
+    'Smeggers FC_Quipalite MC Corexian Club': {hs:2, as:2, hy:2, ay:1, hr:1, ar:1, hOff:0, aOff:0},
+    'Crainetown FC_Okpemon FC': {hs:6, as:1, hy:0, ay:2, hr:0, ar:0, hOff:0, aOff:2},
   };
   function cwcOctResult(home, away){
     return CWC_OCT26_RESULTS[`${home}_${away}`] || null;
@@ -2918,6 +2919,8 @@
           <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${away})</div><div class="mm-fact-val">${r.ay||0}</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${home})</div><div class="mm-fact-val">${r.hr||0}</div></div>
           <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${away})</div><div class="mm-fact-val">${r.ar||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🚫 Offside Goals (${home})</div><div class="mm-fact-val">${r.hOff||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🚫 Offside Goals (${away})</div><div class="mm-fact-val">${r.aOff||0}</div></div>
         </div>
         ${r.note ? `<div class="wc2-official-note" style="margin-top:-6px">${r.note}</div>` : ''}` : '';
     document.getElementById('mmc').innerHTML = `
@@ -3007,7 +3010,8 @@
       const list = [];
       for(let i=0;i<teams.length;i++){
         for(let j=i+1;j<teams.length;j++){
-          list.push({home:teams[i], away:teams[j], hs:null, as:null});
+          const r = cwcOctResult(teams[i], teams[j]);
+          list.push({home:teams[i], away:teams[j], hs: r ? r.hs : null, as: r ? r.as : null, locked: !!r});
         }
       }
       fixtures[gname] = list;
@@ -3118,12 +3122,14 @@
         <div class="wc2-fixture-row wc2-fixture-row-clickable" onclick="cwcOpenFixture('${gname}','${f.home.replace(/'/g,"\\'")}','${f.away.replace(/'/g,"\\'")}')">
           <div class="wc2-fixture-main">
             <span class="wc2-fixture-team linkable" title="${f.home}" onclick="event.stopPropagation();cwcOpenTeam('${f.home.replace(/'/g,"\\'")}')">${cwcShortName(f.home)}</span>
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-h" value="${f.hs===null?'':f.hs}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
+            ${f.locked ? `<span class="wc2-schedule-score">${f.hs}</span>
+            <span class="wc2-schedule-vs">–</span>
+            <span class="wc2-schedule-score">${f.as}</span>` : `<input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-h" value="${f.hs===null?'':f.hs}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
             <span class="wc2-fixture-dash">–</span>
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcgf-${gid}-${idx}-a" value="${f.as===null?'':f.as}" onclick="event.stopPropagation()" onchange="cwcOnScoreChange('${gname}',${idx})">`}
             <span class="wc2-fixture-team right linkable" title="${f.away}" onclick="event.stopPropagation();cwcOpenTeam('${f.away.replace(/'/g,"\\'")}')">${cwcShortName(f.away)}</span>
           </div>
-          <div class="wc2-fixture-date-sub">🗓️ ${cwcFixtureDate(f.home, f.away)}</div>
+          <div class="wc2-fixture-date-sub">${f.locked ? '🔒 Full Time · Official · ' : '🗓️ '}${cwcFixtureDate(f.home, f.away)}</div>
         </div>`).join('');
       const centerCls = (gi === gnames.length - 1 && gnames.length % 3 === 1) ? ' wc2-group-center' : '';
       return `<div class="wc2-group-card${centerCls}">
@@ -3463,11 +3469,11 @@
           <div class="cwc-oct-hero-text">
             <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
             <div class="cwc-oct-hero-sub">Your Prediction · Hypothetical, Not Official</div>
-            <div class="cwc-oct-hero-desc">Enter your predicted scores below — the standings update live as you go.</div>
+            <div class="cwc-oct-hero-desc">Enter your predicted scores below — the standings update live as you go. Matches already played are locked in with their official results.</div>
           </div>
         </div>
         ${cwcOctSubTabs()}
-        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Enter Predictions</div>
+        <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:16px 0 10px;">Enter Predictions${Object.keys(CWC_OCT26_RESULTS).length ? ' — ' + Object.keys(CWC_OCT26_RESULTS).length + ' Official Result' + (Object.keys(CWC_OCT26_RESULTS).length>1?'s':'') + ' Locked' : ''}</div>
         ${cwcRenderPredictorFixtures()}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Predicted Standings</div>
         ${cwcRenderGroupTables(cwcOct26State.fixtures)}
