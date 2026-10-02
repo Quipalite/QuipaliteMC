@@ -2044,14 +2044,14 @@
           "He says he'll be back on the ballot. Springfield should ask him, when he gets there, not why SmegCorp fell — but why he was one of the last people standing still trying to catch it."
         ] } },
       ] },
-      { city: 'Springfield', office: 'Mayor (Snap Election)', concluded: false, candidates: [
-        { name: 'Joe "Diamond" Quimby', party: 'Craineun Democratic Party', policies: 'Investing in entertainment and industrialisation, backing local business, upgrading 18+ venues, growing the population, and improving public transport.', age: 49, interests: 'Nightlife and entertainment venues', vote: '18%' },
-        { name: 'Jackson Matthews', party: 'Independent', policies: "Making the streets safer, investing in education, expanding the city's borders, backing local businesses, and attracting foreign investment.", age: 38, interests: 'Public safety and infrastructure', vote: '15%' },
-        { name: 'Marcus Bellamy', party: "Craineun's People Party", policies: 'Creating more jobs and backing local businesses, growing the population, and investing in entertainment, education and healthcare for working families.', age: 41, interests: 'Local business and job fairs', vote: '14%' },
-        { name: 'Brandon Smith', party: 'Craineun Democratic Party', policies: 'Expanding affordable housing, renovating public transport routes, offering start-up grants to small businesses, and investing in neighbourhood watch programmes to bring crime down.', age: 41, interests: 'Urban renewal and small business', vote: '12%' },
-        { name: 'Nathan Edwards', party: 'Craineun Democratic Party', policies: 'Building a new public hospital wing, funding emergency disaster preparedness after recent unrest, expanding support for veterans of the Craineun-Smegtopia riot, and hardening the city\'s infrastructure.', age: 47, interests: 'Healthcare and emergency services', vote: '11%' },
-        { name: 'Mohammed Al-Saifh', party: 'Independent', policies: 'Diversifying the city\'s economy away from SmegCorp-linked industry, launching a public inquiry into the Rickman contracts, offering tax incentives for new employers, and increasing community outreach programmes.', age: 36, interests: 'Economic diversification and government transparency', vote: '10%' },
-        { name: 'Hugh Rickman', party: "Springfield's First", policies: 'Growing the population, investing in education, attracting foreign investment, expanding factories, and making the city safer.', age: 55, interests: 'Brewing and industry', vote: '20%', bio: 'Running to reclaim the office he resigned from, insisting he was a victim of the SmegCorp collapse rather than a cause of it.' },
+      { city: 'Springfield', office: 'Mayor (Snap Election)', concluded: true, candidates: [
+        { name: 'Joe "Diamond" Quimby', party: 'Craineun Democratic Party', policies: 'Investing in entertainment and industrialisation, backing local business, upgrading 18+ venues, growing the population, and improving public transport.', age: 49, interests: 'Nightlife and entertainment venues', vote: '21%' },
+        { name: 'Jackson Matthews', party: 'Independent', policies: "Making the streets safer, investing in education, expanding the city's borders, backing local businesses, and attracting foreign investment.", age: 38, interests: 'Public safety and infrastructure', vote: '16%' },
+        { name: 'Marcus Bellamy', party: "Craineun's People Party", policies: 'Creating more jobs and backing local businesses, growing the population, and investing in entertainment, education and healthcare for working families.', age: 41, interests: 'Local business and job fairs', vote: '11%' },
+        { name: 'Brandon Smith', party: 'Craineun Democratic Party', policies: 'Expanding affordable housing, renovating public transport routes, offering start-up grants to small businesses, and investing in neighbourhood watch programmes to bring crime down.', age: 41, interests: 'Urban renewal and small business', vote: '9%' },
+        { name: 'Nathan Edwards', party: 'Craineun Democratic Party', policies: 'Building a new public hospital wing, funding emergency disaster preparedness after recent unrest, expanding support for veterans of the Craineun-Smegtopia riot, and hardening the city\'s infrastructure.', age: 47, interests: 'Healthcare and emergency services', vote: '9%' },
+        { name: 'Mohammed Al-Saifh', party: 'Independent', policies: 'Diversifying the city\'s economy away from SmegCorp-linked industry, launching a public inquiry into the Rickman contracts, offering tax incentives for new employers, and increasing community outreach programmes.', age: 36, interests: 'Economic diversification and government transparency', vote: '7%' },
+        { name: 'Hugh Rickman', party: "Springfield's First", policies: 'Growing the population, investing in education, attracting foreign investment, expanding factories, and making the city safer.', age: 55, interests: 'Brewing and industry', vote: '27%', bio: 'Won back the office he resigned from, with voters accepting his claim that he was a victim of the SmegCorp collapse rather than a cause of it. His comeback was the closest-watched result in Craineun, with Joe Quimby finishing a strong second.' },
       ] },
       { city: 'Niche Town', office: 'Mayor', concluded: true, candidates: [
         { name: 'Olivia "Nosy" Parker', party: 'Craineun Democratic Party', policies: 'Backing local business, growing the population, improving public transport, and creating more communal spaces for residents to connect.', age: 46, interests: 'Public transport and community events', vote: '30%', approval: 62, actions: ['Built a new park in Niche Town', 'Opened a new car dealership, introduced a driver\'s licence programme, and installed electric car chargers', 'Injured while advocating during the Craineun-Smegtopia riot'] },
@@ -3352,7 +3352,7 @@
         w.push(o[0].t); r.push(o[1].t);
       });
       const q = [ko(w[0], r[1]), ko(w[1], r[0]), ko(w[2], r[3]), ko(w[3], r[2])];
-      wins[ko(ko(q[0], q[1]), ko(q[2], q[3]))]++;
+      wins[ko(ko(q[0], q[2]), ko(q[1], q[3]))]++;
     }
     const odds = {}; Object.keys(wins).forEach(t => odds[t] = wins[t] / N * 100);
     cwcWinOddsCache = {key, odds};
