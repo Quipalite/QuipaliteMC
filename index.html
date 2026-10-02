@@ -752,6 +752,14 @@
     .nm-sc-val{font-family:var(--font-m);font-size:17px;font-weight:800;margin-top:3px;}
     .nm-sc-arrow{display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:14px;padding:0 2px;}
     .nm-sc-growth{font-family:var(--font-m);font-size:10px;font-weight:700;padding:2px 9px;border-radius:5px;display:inline-flex;align-items:center;gap:3px;}
+    .nm-party-sum{font-family:var(--font-m);font-size:10.5px;color:var(--text-dim);padding:2px 2px 10px;letter-spacing:.2px;line-height:1.5;}
+    .nm-parties .nm-rb-panel.open{max-height:none;}
+    .nm-parties .nm-elect-card .nm-elect-card{background:rgba(255,255,255,.02);}
+    .nm-party-pow{font-family:var(--font-m);font-size:8.5px;font-weight:800;letter-spacing:.4px;padding:2px 7px;border-radius:5px;color:var(--green);background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);margin-left:8px;white-space:nowrap;}
+    .nm-party-pow.lead{color:#60a5fa;background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.3);}
+    body.mono .nm-party-pow,body.mono .nm-party-pow.lead{color:var(--text-dim);background:rgba(255,255,255,.05);border-color:var(--border-card);}
+    .nm-party-tag{font-family:var(--font-m);font-size:8.5px;font-weight:800;letter-spacing:.4px;padding:2px 7px;border-radius:5px;color:#facc15;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.3);margin-left:8px;}
+    body.mono .nm-party-tag{color:var(--text-dim);background:rgba(255,255,255,.05);border-color:var(--border-card);}
     .nm-elect-card{background:rgba(255,255,255,.03);border:1px solid var(--border-card);border-radius:10px;padding:0;margin-top:8px;overflow:hidden;}
     .nm-elect-card .nm-rb-btn{background:transparent;border:none;padding:10px 13px;text-transform:none;letter-spacing:0;justify-content:space-between;}
     .nm-elect-card .nm-rb-btn:hover{filter:brightness(1.25);}
@@ -2415,6 +2423,80 @@
     document.body.style.overflow = 'hidden';
   }
 
+
+  function partyIndex() {
+    const idx = {};
+    Object.keys(ELECTIONS).forEach(nid => {
+      const nat = NATIONS.find(x => x.id === nid);
+      const nname = nat ? nat.name : nid;
+      ELECTIONS[nid].forEach(e => (e.candidates||[]).forEach(c => {
+        (idx[c.name] = idx[c.name] || []).push({nation:nname, nid, city:e.city, office:e.office, party:c.party||'Unknown', status:c.status||''});
+      }));
+    });
+    return idx;
+  }
+  function buildPartiesHtml(n) {
+    const el = ELECTIONS[n.id];
+    const head = `<div class="nm-sec-h" style="margin-top:20px">Parties</div>`;
+    if (!el) return head + `<div class="nm-elect-lead" style="color:var(--text-muted)">No parties on record for ${n.name}</div>`;
+    const idx = partyIndex();
+    const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    const parties = {};
+    el.forEach(e => (e.candidates||[]).forEach(c => {
+      const p = c.party || 'Unknown';
+      const P = parties[p] = parties[p] || {members:{}};
+      const m = P.members[c.name] = P.members[c.name] || {places:[]};
+      m.places.push(e.city + ' \u2014 ' + e.office + (c.status ? ' (' + c.status + ')' : ''));
+    }));
+    const isInd = p => p==='Independent'||p==='Unknown';
+    const names = Object.keys(parties).sort((a,b) => {
+      if (isInd(a) !== isInd(b)) return isInd(a) ? 1 : -1;
+      return Object.keys(parties[b].members).length - Object.keys(parties[a].members).length || a.localeCompare(b);
+    });
+    const inact = c => c.status === 'deceased' || c.status === 'resigned' || c.status === 'withdrawn';
+    const power = {}, roles = {};
+    const addPower = (c, label, kind, where) => {
+      const p = c.party || 'Unknown';
+      (power[p] = power[p] || []).push({name:c.name, label, kind, where});
+      (roles[c.name] = roles[c.name] || []).push({label, kind});
+    };
+    const groups = {};
+    el.forEach(e => { if (e.cancelled) return; const base = e.office.replace(/\s*\(.*$/, ''); (groups[e.city + '|' + base] = groups[e.city + '|' + base] || []).push(e); });
+    const winnerOf = e => { const act = e.candidates.filter(c => !inact(c)).sort((a,b) => voteNum(b.vote) - voteNum(a.vote)); return act[0] && voteNum(act[0].vote) >= 0 ? act[0] : null; };
+    Object.keys(groups).forEach(k => {
+      const list = groups[k], base = k.split('|')[1], city = k.split('|')[0];
+      const conc = [...list].reverse().find(e => e.concluded && winnerOf(e));
+      const live = [...list].reverse().find(e => !e.concluded && winnerOf(e));
+      if (conc) addPower(winnerOf(conc), base + ' of ' + city, 'holds', city);
+      if (live && (!conc || list.indexOf(live) > list.indexOf(conc))) addPower(winnerOf(live), 'Leading ' + base + ' race in ' + city, 'leading', city);
+    });
+    (STATES[n.id] || []).forEach(st => {
+      const hit = el.flatMap(e => e.candidates || []).find(c => c.name === st.leader);
+      if (hit) addPower(hit, 'State Leader of ' + st.name, 'holds', st.name);
+    });
+    const holds = p => (power[p] || []).some(x => x.kind === 'holds');
+    const rank = p => holds(p) ? 0 : (power[p] ? 1 : 2);
+    names.sort((a,b) => rank(a) - rank(b));
+    const maxM = Math.max(...names.map(p => Object.keys(parties[p].members).length));
+    const meta = (label, val) => `<div class="nm-elect-meta-item" style="display:block;margin-top:6px;"><b>${label}:</b> ${val}</div>`;
+    const cards = names.map((p, pi) => {
+      const mems = Object.keys(parties[p].members).sort((a,b)=>a.localeCompare(b));
+      const w = Math.max(Math.round(mems.length / maxM * 100), 3);
+      const cityList = [...new Set(el.filter(e => (e.candidates||[]).some(c => (c.party||'Unknown')===p)).map(e => e.city))];
+      const rows = mems.map(mn => {
+        const here = parties[p].members[mn].places;
+        const all = idx[mn] || [];
+        const same = all.filter(a => a.party === p && !(a.nid === n.id && here.some(h => h.startsWith(a.city + ' \u2014 ' + a.office))));
+        const other = all.filter(a => a.party !== p);
+        const multi = new Set(all.map(a => a.party)).size > 1;
+        const sameTxt = same.length ? [...new Set(same.map(a => esc(a.city) + (a.nid!==n.id ? ' (' + esc(a.nation) + ')' : '')))].join(', ') : 'No \u2014 only in this party here';
+        const otherTxt = other.length ? [...new Set(other.map(a => esc(a.party) + ' in ' + esc(a.city) + (a.nid!==n.id ? ' (' + esc(a.nation) + ')' : '')))].join('; ') : '';
+        return `<div class="nm-elect-card"><button class="nm-rb-btn" onclick="toggleRB(this)"><span class="nm-elect-name">${esc(mn)}${(roles[mn]||[]).map(r => `<span class="nm-party-pow${r.kind==='leading'?' lead':''}">${r.kind==='leading'?'LEADING':'LEADER'}</span>`).join('')}${multi ? '<span class="nm-party-tag">MULTIPLE PARTIES</span>' : ''}</span><span class="nm-rb-chevron">&#9662;</span></button><div class="nm-rb-panel"><div class="nm-elect-meta" style="flex-direction:column;gap:0;">${(roles[mn]||[]).length ? meta('Position', roles[mn].map(r => esc(r.label)).join('; ')) : ''}${meta('Standing in', [...new Set(here)].map(esc).join('; '))}${meta('In this party elsewhere', sameTxt)}${otherTxt ? meta('Other parties', otherTxt) : ''}</div></div></div>`;
+      }).join('');
+      return `<div class="nm-elect-card"><button class="nm-rb-btn" onclick="toggleRB(this)" style="background:linear-gradient(to right, ${n.accentColor}${pi===0&&!isInd(p)?'22':'14'} 0%, ${n.accentColor}${pi===0&&!isInd(p)?'22':'14'} ${w}%, transparent ${w}%, transparent 100%);"><span class="nm-elect-name">${esc(p)}${holds(p) ? '<span class="nm-party-pow">IN POWER</span>' : (power[p] ? '<span class="nm-party-pow lead">LEADING</span>' : '')}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:${n.accentColor};">${mems.length} member${mems.length===1?'':'s'}</span><span class="nm-rb-chevron">&#9662;</span></span></button><div class="nm-rb-panel">${power[p] ? `<div class="nm-elect-lead">${power[p].map(x => `<span class="nm-party-pow${x.kind==='leading'?' lead':''}" style="margin:0 6px 4px 0;display:inline-block;">${esc(x.label)}: ${esc(x.name)}</span>`).join('')}</div>` : ''}<div class="nm-elect-lead">Active in <b style="color:${n.accentColor}">${cityList.map(esc).join(', ')}</b></div>${rows}</div></div>`;
+    }).join('');
+    return head + `<div class="nm-parties"><button class="nm-rb-btn" onclick="toggleRB(this)">Parties (${names.length})<span class="nm-rb-chevron">&#9662;</span></button><div class="nm-rb-panel">${names.some(p => power[p]) ? `<div class="nm-elect-card nm-elect-leading"><div class="nm-elect-lead" style="padding:10px 13px 4px;"><b style="color:${n.accentColor}">Parties with power</b></div><div style="padding:0 13px 10px;">${names.filter(p => power[p]).map(p => `<div class="nm-fact-row"><span class="nm-fact-lbl">${esc(p)}</span><span class="nm-fact-val" style="font-size:10px;text-align:right;">${[...new Set(power[p].map(x => esc(x.name) + (x.kind==='leading' ? ' (leading)' : '')))].join(', ')}</span></div>`).join('')}</div></div>` : '<div class="nm-party-sum">No party currently holds a leadership position here.</div>'}<div class="nm-party-sum" style="margin-top:8px;">Leader = winner of a concluded election, or a state leader. Leading = ahead in a live race. Members come from election candidate lists. Where someone also appears for a party in another city or nation, it's shown under their name.</div>${cards}</div></div>`;
+  }
   function openNation(id) {
     const fallen = FALLEN_NATIONS[id];
     if (fallen) { openFallenNation(fallen); return; }
@@ -2468,7 +2550,7 @@
         return `<div class="nm-elect-card ${showCrown ? 'nm-elect-leading' : ''}"><button class="nm-rb-btn" onclick="toggleRB(this)" style="background:linear-gradient(to right, ${n.accentColor}${idx===0?'22':'14'} 0%, ${n.accentColor}${idx===0?'22':'14'} ${barWidth}%, transparent ${barWidth}%, transparent 100%);"><span class="nm-elect-name">${showCrown ? crownIcon : ''}${c.name}${showCrown && cityObj.concluded ? ' <span style="font-size:9.5px;font-weight:800;letter-spacing:.03em;color:var(--green);">MAYOR-ELECT</span>' : ''}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:${n.accentColor};${showCrown ? `background:${n.accentColor}18;border-color:${n.accentColor}55;` : ''}">${c.vote}</span><span class="nm-rb-chevron">▾</span></span></button><div class="nm-rb-panel"><div class="nm-elect-meta"><span class="nm-elect-meta-item"><b>Party:</b> ${c.party}</span></div>${(c.age||c.interests) ? `<div class="nm-elect-meta-item" style="margin-top:4px;display:block;">${c.age?`<b>Age:</b> ${c.age}`:''}${c.age&&c.interests?' &nbsp;·&nbsp; ':''}${c.interests?`<b>Interests:</b> ${c.interests}`:''}</div>` : ''}${showCrown && cityObj.concluded && c.approval!==undefined ? `<div class="nation-row" style="margin-top:6px"><span class="nation-lbl">Approval</span><span class="nation-val" style="color:${c.approval>=60?'var(--green)':c.approval>=45?'#facc15':'#f87171'}">${c.approval}%</span></div>` : ''}${c.bio ? `<div class="nm-elect-meta-item" style="margin-top:6px;display:block;line-height:1.5;font-style:italic;color:var(--text-dim);">${c.bio}</div>` : ''}<div class="nm-elect-meta-item" style="margin-top:6px;display:block;line-height:1.5;"><b>Policies:</b> ${c.policies}</div>${showCrown && cityObj.concluded && c.actions && c.actions.length ? `<div class="nm-elect-meta-item" style="margin-top:8px;display:block;"><b>In Office:</b><ul style="margin:6px 0 0 18px;padding:0;line-height:1.6;">${c.actions.map(a=>`<li>${a}</li>`).join('')}</ul></div>` : ''}</div></div>`;
       }).join('')}</div></div>`;
     }).join('')}</div>` : '';
-    document.getElementById('nmc').innerHTML = `<div class="nm-banner" style="background:linear-gradient(135deg,${(n.colors&&n.colors[0])||n.accentColor}20 0%,${n.colors&&n.colors.length>1?n.colors[n.colors.length-1]+'10':n.accentColor+'06'} 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div><div class="nm-body"><div class="nm-header"><div class="nm-ico-wrap" style="background:${n.iconBg};border-color:${n.iconBorder};">${n.icon}</div><div class="nm-title-wrap"><div class="nm-name">${n.name}</div><div class="nm-est">${n.est}</div></div></div>${breakingHtml}<p class="nm-desc">${n.description}</p><div class="nm-stats"><div class="nm-stat"><div class="nm-stat-lbl">Leader</div><div class="nm-stat-val">${n.leader}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Approval</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))===0?'var(--text-muted)':n.approval>=60?'var(--green)':n.approval>=45?'#facc15':'#f87171'}">${parseInt(n.population.replace(',',''))===0?0:n.approval}%</div></div><div class="nm-stat"><div class="nm-stat-lbl">Population</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Currency</div><div class="nm-stat-val" style="color:${n.currencyColor}">${n.currency}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Capital</div><div class="nm-stat-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</div></div></div><div class="nm-tag-row">${tagsHtml}</div><div class="nm-sec-h">Nation Details</div><div>${factsHtml}</div><div class="nm-sec-h" style="margin-top:20px">Government</div><div class="nm-fact-row"><span class="nm-fact-lbl">System</span><span style="font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;${n.govStyle}">${n.government}</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Founded</span><span class="nm-fact-val">${n.founded}</span></div>${colorsHtml}${rbHtml}${statesHtml}${electionsHtml}</div>`;
+    document.getElementById('nmc').innerHTML = `<div class="nm-banner" style="background:linear-gradient(135deg,${(n.colors&&n.colors[0])||n.accentColor}20 0%,${n.colors&&n.colors.length>1?n.colors[n.colors.length-1]+'10':n.accentColor+'06'} 60%,transparent 100%);"><div class="nm-banner-pattern"></div></div><div class="nm-body"><div class="nm-header"><div class="nm-ico-wrap" style="background:${n.iconBg};border-color:${n.iconBorder};">${n.icon}</div><div class="nm-title-wrap"><div class="nm-name">${n.name}</div><div class="nm-est">${n.est}</div></div></div>${breakingHtml}<p class="nm-desc">${n.description}</p><div class="nm-stats"><div class="nm-stat"><div class="nm-stat-lbl">Leader</div><div class="nm-stat-val">${n.leader}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Approval</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))===0?'var(--text-muted)':n.approval>=60?'var(--green)':n.approval>=45?'#facc15':'#f87171'}">${parseInt(n.population.replace(',',''))===0?0:n.approval}%</div></div><div class="nm-stat"><div class="nm-stat-lbl">Population</div><div class="nm-stat-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Currency</div><div class="nm-stat-val" style="color:${n.currencyColor}">${n.currency}</div></div><div class="nm-stat"><div class="nm-stat-lbl">Capital</div><div class="nm-stat-val" style="color:${n.capital==='N/A'?'var(--text-muted)':'var(--text)'}">${n.capital}</div></div></div><div class="nm-tag-row">${tagsHtml}</div><div class="nm-sec-h">Nation Details</div><div>${factsHtml}</div><div class="nm-sec-h" style="margin-top:20px">Government</div><div class="nm-fact-row"><span class="nm-fact-lbl">System</span><span style="font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;${n.govStyle}">${n.government}</span></div><div class="nm-fact-row"><span class="nm-fact-lbl">Founded</span><span class="nm-fact-val">${n.founded}</span></div>${colorsHtml}${rbHtml}${statesHtml}${electionsHtml}${buildPartiesHtml(n)}</div>`;
     const m = document.getElementById('nm');
     m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
     requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
