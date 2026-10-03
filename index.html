@@ -1501,33 +1501,70 @@
   </style>
   <style>
     /* ── Wars timeline ── */
-    .wr-sum{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px;}
-    .wr-sum-lbl{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-dim);align-self:center;margin-right:4px;}
-    .wr-wrap{position:relative;margin-top:22px;padding-left:36px;}
-    .wr-wrap::before{content:'';position:absolute;left:10px;top:10px;bottom:10px;width:2px;background:var(--border-card);border-radius:2px;}
-    .wr-item{position:relative;margin-bottom:16px;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1);}
-    .wr-item.in{opacity:1;transform:none;}
-    .wr-dot{position:absolute;left:-33px;top:22px;width:16px;height:16px;border-radius:50%;background:var(--bg,#0a0a0d);border:3px solid var(--wc);box-sizing:border-box;}
-    .wr-card{background:var(--surface);border:1px solid var(--border-card);border-left:3px solid var(--wc);border-radius:14px;padding:18px 20px;}
-    .wr-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;justify-content:space-between;}
-    .wr-title{font-size:17px;font-weight:700;letter-spacing:-.2px;}
-    .wr-pill{font-family:var(--font-m);font-size:9.5px;font-weight:800;letter-spacing:.5px;padding:3px 9px;border-radius:6px;color:var(--wc);background:color-mix(in srgb,var(--wc) 12%,transparent);border:1px solid color-mix(in srgb,var(--wc) 32%,transparent);}
-    .wr-text{font-size:13px;line-height:1.6;color:var(--text-muted);margin:10px 0 14px;}
-    .wr-sides{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    .wr-sides.one{grid-template-columns:1fr;}
-    .wr-side{background:rgba(255,255,255,.025);border:1px solid var(--border-card);border-radius:10px;padding:10px 12px;}
-    .wr-side-lbl{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--text-dim);margin-bottom:8px;}
-    .wr-chips{display:flex;flex-wrap:wrap;gap:6px;}
-    .wr-chip{font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:var(--cc);background:color-mix(in srgb,var(--cc) 10%,transparent);border:1px solid color-mix(in srgb,var(--cc) 35%,transparent);cursor:default;transition:background .18s;}
+    .wr-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:20px 0 4px;}
+    .wr-seg{display:inline-flex;border-radius:var(--rs);background:var(--surface);border:1px solid var(--border-card);overflow:hidden;}
+    .wr-seg button{padding:8px 14px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.6px;cursor:pointer;transition:background .18s,color .18s;}
+    .wr-seg button i{font-style:normal;opacity:.55;margin-left:5px;}
+    .wr-seg button:hover{color:var(--text);}
+    .wr-seg button.on{background:rgba(251,146,60,.14);color:#fb923c;}
+    .wr-tool{padding:8px 14px;border-radius:var(--rs);background:var(--surface);border:1px solid var(--border-card);color:var(--text-muted);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.6px;cursor:pointer;transition:color .18s,border-color .18s;}
+    .wr-tool:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+    .wr-count{margin-left:auto;font-family:var(--font-m);font-size:10px;color:var(--text-dim);}
+    .wr-sum{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 6px;}
+    .wr-sum-lbl{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--text-dim);margin-right:4px;}
+    .wr-chip{font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;color:var(--cc);background:color-mix(in srgb,var(--cc) 10%,transparent);border:1px solid color-mix(in srgb,var(--cc) 35%,transparent);cursor:default;transition:background .18s,transform .18s;}
     .wr-chip.link{cursor:pointer;}
     .wr-chip.link:hover{background:color-mix(in srgb,var(--cc) 20%,transparent);}
+    .wr-chip.pick{cursor:pointer;user-select:none;}
+    .wr-chip.pick:hover{background:color-mix(in srgb,var(--cc) 20%,transparent);}
+    .wr-chip.pick.on{background:var(--cc);color:#0a0a0d;}
+    .wr-wrap{position:relative;margin-top:24px;padding-left:46px;}
+    .wr-wrap::before{content:'';position:absolute;left:14px;top:14px;bottom:14px;width:2px;background:var(--border-card);border-radius:2px;}
+    .wr-fill{position:absolute;left:14px;top:14px;width:2px;height:0;background:linear-gradient(#fb923c,#ef4444);border-radius:2px;transition:height .25s ease-out;max-height:calc(100% - 28px);}
+    .wr-item{position:relative;margin-bottom:14px;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1);}
+    .wr-item.in{opacity:1;transform:none;}
+    .wr-item.wr-hide{display:none;}
+    .wr-dot{position:absolute;left:-46px;top:16px;width:30px;height:30px;border-radius:50%;background:var(--bg,#0a0a0d);border:2px solid var(--wc);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:11px;font-weight:800;color:var(--wc);transition:background .25s,color .25s;}
+    .wr-item.open .wr-dot{background:var(--wc);color:#0a0a0d;}
+    .wr-card{background:var(--surface);border:1px solid var(--border-card);border-left:3px solid var(--wc);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+    .wr-card:hover{border-color:color-mix(in srgb,var(--wc) 45%,var(--border-card));}
+    .wr-head{all:unset;box-sizing:border-box;display:block;width:100%;padding:16px 20px;cursor:pointer;}
+    .wr-head:focus-visible{outline:2px solid var(--wc);outline-offset:-2px;border-radius:12px;}
+    .wr-top{display:flex;align-items:center;gap:10px;}
+    .wr-ico{font-size:17px;line-height:1;}
+    .wr-title{font-size:16px;font-weight:700;letter-spacing:-.2px;flex:1;min-width:0;}
+    .wr-pill{font-family:var(--font-m);font-size:9.5px;font-weight:800;letter-spacing:.4px;padding:3px 9px;border-radius:6px;white-space:nowrap;color:var(--wc);background:color-mix(in srgb,var(--wc) 12%,transparent);border:1px solid color-mix(in srgb,var(--wc) 32%,transparent);}
+    .wr-chev{font-size:12px;color:var(--text-dim);transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
+    .wr-item.open .wr-chev{transform:rotate(180deg);}
+    .wr-vs-line{margin-top:7px;font-family:var(--font-m);font-size:11px;color:var(--text-muted);}
+    .wr-vs-line em{font-style:normal;color:var(--text-dim);margin:0 6px;}
+    .wr-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.22,1,.36,1);}
+    .wr-item.open .wr-body{grid-template-rows:1fr;}
+    .wr-inner{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s .4s;}
+    .wr-item.open .wr-inner{visibility:visible;transition:visibility 0s;}
+    .wr-inner-pad{padding:0 20px 18px;border-top:1px dashed var(--border-card);}
+    .wr-text{font-size:13px;line-height:1.65;color:var(--text-muted);margin:14px 0;}
+    .wr-sides{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch;}
+    .wr-sides.one{grid-template-columns:1fr;}
+    .wr-side{background:rgba(255,255,255,.025);border:1px solid var(--border-card);border-top:2px solid var(--sc,var(--border-card));border-radius:10px;padding:10px 12px;}
+    .wr-side-lbl{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--text-dim);margin-bottom:8px;}
+    .wr-chips{display:flex;flex-wrap:wrap;gap:6px;}
+    .wr-vs{align-self:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--border-card);background:var(--bg,#0a0a0d);display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:9px;font-weight:800;color:var(--text-dim);}
     .wr-rows{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
-    .wr-row{display:flex;gap:10px;font-size:12px;line-height:1.5;}
-    .wr-row b{flex:0 0 96px;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--text-dim);padding-top:2px;}
+    .wr-row{display:flex;gap:10px;font-size:12px;line-height:1.5;padding:7px 10px;border-radius:8px;background:rgba(255,255,255,.02);}
+    .wr-row b{flex:0 0 92px;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--text-dim);padding-top:2px;}
     .wr-row span{color:var(--text-muted);}
-    .wr-note{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin:6px 0 0 36px;line-height:1.6;}
-    @media(max-width:640px){.wr-sides{grid-template-columns:1fr}.wr-wrap{padding-left:30px}.wr-dot{left:-30px}.wr-row{flex-direction:column;gap:2px}.wr-row b{flex:none}.wr-note{margin-left:30px}}
-    @media (prefers-reduced-motion:reduce){.wr-item{opacity:1;transform:none;transition:none}}
+    .wr-row.toll{background:rgba(239,68,68,.07);border-left:2px solid #ef4444;}
+    .wr-row.toll b{color:#f87171;}
+    .wr-empty{display:none;padding:26px;text-align:center;font-family:var(--font-m);font-size:11px;color:var(--text-dim);border:1px dashed var(--border-card);border-radius:12px;}
+    .wr-note{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin:6px 0 0 46px;line-height:1.6;}
+    @media(max-width:640px){
+      .wr-wrap{padding-left:38px}.wr-wrap::before,.wr-fill{left:11px}.wr-dot{left:-38px;width:26px;height:26px;top:15px}
+      .wr-sides{grid-template-columns:1fr}.wr-vs{justify-self:center}
+      .wr-row{flex-direction:column;gap:2px}.wr-row b{flex:none}.wr-note{margin-left:38px}.wr-count{margin-left:0}
+      .wr-pill{display:none}
+    }
+    @media (prefers-reduced-motion:reduce){.wr-item,.wr-body,.wr-chev,.wr-fill{transition:none}.wr-item{opacity:1;transform:none}}
   </style>
   <div id="islandPage" class="page">
     <div class="ie-shell">
@@ -1934,9 +1971,11 @@
       <div class="nations-inner" style="max-width:1100px;margin:0 auto;">
         <div class="stag">Conflict History</div>
         <h2 class="stitle">Wars <em>Timeline</em></h2>
-        <p class="ssub">Every war and near war recorded between nations, in the order they happened. Click a nation to open its profile.</p>
+        <p class="ssub">Every war and near war recorded between nations, in the order they happened. Open a card for the full story, or filter by type and nation.</p>
+        <div class="wr-bar" id="warsBar"></div>
         <div class="wr-sum" id="warsSummary"></div>
         <div class="wr-wrap" id="warsTimeline"></div>
+        <div class="wr-empty" id="warsEmpty">No conflicts match this filter.</div>
         <p class="wr-note">Dates aren't recorded, so the order comes from each nation's history. Near wars that never started aren't counted in the totals.</p>
       </div>
     </div>
@@ -2568,7 +2607,7 @@
       { name:'Invasion of Okpemon', kind:'war', status:'Okpemon devastated', color:'#ef4444',
         text:"Crabville started the server's first war by invading Okpemon and dropping a bomb on it. Sylvian and Craineun condemned the attack, and Okpemon is now merging into Crainetown.",
         sides:[{label:'Attacker',who:['crabville']},{label:'Defender',who:['okpemon']}],
-        rows:[['Toll','Every citizen who had not evacuated was killed'],['Condemned by','Sylvian, Craineun']] },
+        rows:[['Toll','Every citizen who had not evacuated was killed','toll'],['Condemned by','Sylvian, Craineun']] },
       { name:'Smegtopia\u2013Crabville Crisis', kind:'near', status:'Near war, averted', color:'#facc15',
         text:"Tensions between Smegtopia and Crabville nearly became war, and Crabville attempted to invade before the United Nations stepped in. Waterland sided with Crabville, Springbuck and Corexia. Corexia founded the Globe Alliance in the aftermath.",
         sides:[{label:'Crabville side',who:['crabville','waterland','springbuck','corexia']},{label:'Smegtopia',who:['smegtopia']}],
@@ -2576,37 +2615,83 @@
       { name:'Crabville\u2013Springbuck War', kind:'war', status:'Ended, talks ongoing', color:'#ef4444',
         text:"Crabville declared war on Springbuck. Hostilities later renewed, and Crabville and Smegtopia launched nuclear strikes that reportedly hit hospitals and civilian buildings. Smegtopia publicly criticised its own ally over it.",
         sides:[{label:'Attackers',who:['crabville','smegtopia']},{label:'Defender',who:['springbuck']}],
-        rows:[['Toll','About 2,000 Springbuck soldiers killed, 1 Smegtopia citizen and 3 Craineun civilians lost'],['Condemned by','Corexia, Smegtopia, Craineun'],['Outcome','Crabville withdrew its declaration of war']] },
+        rows:[['Toll','About 2,000 Springbuck soldiers killed, 1 Smegtopia citizen and 3 Craineun civilians lost','toll'],['Condemned by','Corexia, Smegtopia, Craineun'],['Outcome','Crabville withdrew its declaration of war']] },
       { name:'Springbuck\u2013Waterland War', kind:'war', status:'Ended, no territory change', color:'#fb923c',
         text:"Open war broke out between Springbuck and Waterland. It ended with no invasion and no change in territory, but both sides took major damage.",
         sides:[{label:'Combatants',who:['springbuck','waterland']}],
-        rows:[['Toll','Springbuck lost about 1,000 citizens. Waterland lost its entire military, taking its total losses to about 160 citizens']] },
+        rows:[['Toll','Springbuck lost about 1,000 citizens. Waterland lost its entire military, taking its total losses to about 160 citizens','toll']] },
       { name:'War on Wancerville', kind:'war', status:'Wancerville dissolved', color:'#4ade80',
         text:"The Globe Alliance declared war on Wancerville, which was invaded and dissolved entirely.",
         sides:[{label:'Globe Alliance',who:['corexia','craineun','smegtopia','crabville','stormland']},{label:'Defender',who:['wancerville']}],
         rows:[['Led by','Corexia'],['Outcome','Smegtopia annexed all of Wancerville\u2019s land']] }
     ];
+    const $ = id => document.getElementById(id);
+    const tl = $('warsTimeline'), sm = $('warsSummary'), bar = $('warsBar'), empty = $('warsEmpty');
+    if (!tl || !sm || !bar) return;
     const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
     const nat = id => NATIONS.find(x => x.id === id);
     const nice = id => id.charAt(0).toUpperCase() + id.slice(1);
-    const chip = id => {
-      const n = nat(id);
-      if (n) return `<span class="wr-chip link" style="--cc:${n.accentColor}" onclick="openNation('${id}')">${esc(n.name)}</span>`;
-      return `<span class="wr-chip" style="--cc:#9ca3af">${nice(id)}</span>`;
-    };
-    const tl = document.getElementById('warsTimeline');
-    const sm = document.getElementById('warsSummary');
-    if (!tl || !sm) return;
+    const nm = id => nat(id) ? nat(id).name : nice(id);
+    const col = id => nat(id) ? nat(id).accentColor : '#9ca3af';
+    const chip = id => nat(id)
+      ? `<span class="wr-chip link" style="--cc:${col(id)}" onclick="event.stopPropagation();openNation('${id}')">${esc(nm(id))}</span>`
+      : `<span class="wr-chip" style="--cc:#9ca3af">${esc(nm(id))}</span>`;
+    const names = ids => ids.map(nm).join(', ');
+    const state = { kind:'all', nation:null };
     const counts = {};
     WARS.filter(w => w.kind === 'war').forEach(w => w.sides.forEach(sd => sd.who.forEach(id => { if (nat(id)) counts[id] = (counts[id]||0) + 1; })));
-    const ranked = Object.keys(counts).sort((a,b) => counts[b] - counts[a] || nat(a).name.localeCompare(nat(b).name));
-    sm.innerHTML = `<span class="wr-sum-lbl">Wars fought</span>` + ranked.map(id => `<span class="wr-chip link" style="--cc:${nat(id).accentColor}" onclick="openNation('${id}')">${esc(nat(id).name)} \u00d7 ${counts[id]}</span>`).join('');
-    tl.innerHTML = WARS.map(w => `<div class="wr-item" style="--wc:${w.color}"><div class="wr-dot"></div><div class="wr-card"><div class="wr-top"><div class="wr-title">${esc(w.name)}</div><span class="wr-pill">${esc(w.status)}</span></div><div class="wr-text">${esc(w.text)}</div><div class="wr-sides${w.sides.length===1?' one':''}">${w.sides.map(sd => `<div class="wr-side"><div class="wr-side-lbl">${esc(sd.label)}</div><div class="wr-chips">${sd.who.map(chip).join('')}</div></div>`).join('')}</div><div class="wr-rows">${w.rows.map(r => `<div class="wr-row"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></div>`).join('')}</div></div></div>`).join('');
-    const items = tl.querySelectorAll('.wr-item');
+    const ranked = Object.keys(counts).sort((a,b) => counts[b] - counts[a] || nm(a).localeCompare(nm(b)));
+    const nWar = WARS.filter(w => w.kind === 'war').length, nNear = WARS.length - nWar;
+
+    bar.innerHTML = `<div class="wr-seg" role="group" aria-label="Filter by type"><button data-k="all" class="on">All<i>${WARS.length}</i></button><button data-k="war">Wars<i>${nWar}</i></button><button data-k="near">Near wars<i>${nNear}</i></button></div><button class="wr-tool" id="wrToggleAll">Expand all</button><span class="wr-count" id="wrCount"></span>`;
+    sm.innerHTML = `<span class="wr-sum-lbl">Wars fought \u2014 tap to filter</span>` + ranked.map(id => `<span class="wr-chip pick" data-n="${id}" style="--cc:${col(id)}">${esc(nm(id))} \u00d7 ${counts[id]}</span>`).join('');
+
+    tl.innerHTML = '<div class="wr-fill" id="wrFill"></div>' + WARS.map((w, i) => {
+      const all = [...new Set(w.sides.flatMap(sd => sd.who))];
+      const vs = w.sides.length === 2 ? `${esc(names(w.sides[0].who))}<em>vs</em>${esc(names(w.sides[1].who))}` : esc(names(w.sides[0].who));
+      const sides = w.sides.map(sd => `<div class="wr-side" style="--sc:${col(sd.who[0])}"><div class="wr-side-lbl">${esc(sd.label)}</div><div class="wr-chips">${sd.who.map(chip).join('')}</div></div>`);
+      const sidesHtml = w.sides.length === 2 ? sides[0] + '<div class="wr-vs">VS</div>' + sides[1] : sides[0];
+      return `<div class="wr-item${i===0?' open':''}" data-kind="${w.kind}" data-who="${all.join(' ')}" style="--wc:${w.color}"><div class="wr-dot">${i+1}</div><div class="wr-card"><button class="wr-head" aria-expanded="${i===0}"><div class="wr-top"><span class="wr-ico">${w.kind==='war'?'\u2694\ufe0f':'\ud83d\udd4a\ufe0f'}</span><span class="wr-title">${esc(w.name)}</span><span class="wr-pill">${esc(w.status)}</span><span class="wr-chev">&#9662;</span></div><div class="wr-vs-line">${vs}</div></button><div class="wr-body"><div class="wr-inner"><div class="wr-inner-pad"><div class="wr-text">${esc(w.text)}</div><div class="wr-sides${w.sides.length===1?' one':''}">${sidesHtml}</div><div class="wr-rows">${w.rows.map(r => `<div class="wr-row${r[2]?' '+r[2]:''}"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></div>`).join('')}</div></div></div></div></div></div>`;
+    }).join('');
+
+    const items = [...tl.querySelectorAll('.wr-item')];
+    const toggleAllBtn = $('wrToggleAll'), countEl = $('wrCount'), fill = $('wrFill');
+    const visible = () => items.filter(el => !el.classList.contains('wr-hide'));
+    const setOpen = (el, on) => { el.classList.toggle('open', on); el.querySelector('.wr-head').setAttribute('aria-expanded', on); };
+    const refresh = () => {
+      items.forEach(el => {
+        const okKind = state.kind === 'all' || el.dataset.kind === state.kind;
+        const okNat = !state.nation || el.dataset.who.split(' ').includes(state.nation);
+        el.classList.toggle('wr-hide', !(okKind && okNat));
+        if (okKind && okNat) el.classList.add('in');
+      });
+      const v = visible();
+      countEl.textContent = `Showing ${v.length} of ${WARS.length}`;
+      empty.style.display = v.length ? 'none' : 'block';
+      toggleAllBtn.textContent = v.length && v.every(el => el.classList.contains('open')) ? 'Collapse all' : 'Expand all';
+      bar.querySelectorAll('.wr-seg button').forEach(b => b.classList.toggle('on', b.dataset.k === state.kind));
+      sm.querySelectorAll('.wr-chip.pick').forEach(c => c.classList.toggle('on', c.dataset.n === state.nation));
+      progress();
+    };
+    bar.querySelector('.wr-seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state.kind = b.dataset.k; refresh(); });
+    sm.addEventListener('click', e => { const c = e.target.closest('.wr-chip.pick'); if (!c) return; state.nation = state.nation === c.dataset.n ? null : c.dataset.n; refresh(); });
+    toggleAllBtn.addEventListener('click', () => { const v = visible(); const allOpen = v.every(el => el.classList.contains('open')); v.forEach(el => setOpen(el, !allOpen)); refresh(); });
+    tl.addEventListener('click', e => { const h = e.target.closest('.wr-head'); if (!h) return; const el = h.closest('.wr-item'); setOpen(el, !el.classList.contains('open')); refresh(); });
+
+    function progress() {
+      const r = tl.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, (window.innerHeight * 0.65 - r.top) / Math.max(r.height, 1)));
+      fill.style.height = (p * 100) + '%';
+    }
+    let tick = false;
+    window.addEventListener('scroll', () => { if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; progress(); }); }, {passive:true});
+    window.addEventListener('resize', progress);
+
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.1});
       items.forEach((el, i) => { el.style.transitionDelay = (i * 60) + 'ms'; io.observe(el); });
     } else items.forEach(el => el.classList.add('in'));
+    refresh();
   }
   try { renderWars(); } catch (e) { console.error('renderWars', e); }
   function openNation(id) {
@@ -3062,6 +3147,7 @@
   const CWC_OCT26_RESULTS = {
     'Smeggers FC_Quipalite MC Corexian Club': {hs:2, as:2, hy:2, ay:1, hr:1, ar:1, hOff:0, aOff:0},
     'Crainetown FC_Okpemon FC': {hs:6, as:1, hy:0, ay:2, hr:0, ar:0, hOff:0, aOff:2},
+    'Crabville Creepers_Waterland City': {hs:2, as:1, hy:1, ay:3, hr:0, ar:0, hOff:0, aOff:1},
   };
   function cwcOctResult(home, away){
     return CWC_OCT26_RESULTS[`${home}_${away}`] || null;
