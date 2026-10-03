@@ -2469,6 +2469,7 @@
     'In this party elsewhere':'Elders in hierdie party','Other parties':'Ander partye',
     'No \u2014 only in this party here':'Nee \u2014 net hier in hierdie party',
     'No party currently holds a leadership position here.':'Geen party beklee tans \u0027n leierskapsposisie hier nie.',
+    'TBD':'NTB',
     'PARTY_NOTE':'Leier = wenner van \u0027n afgehandelde verkiesing, of \u0027n staatsleier. Leidend = voor in \u0027n lopende wedloop. Lede kom uit die verkiesingskandidaatlyste. Waar iemand ook vir \u0027n party in \u0027n ander stad of nasie verskyn, word dit onder hul naam gewys.'
   };
   const AF_PARTY = {
@@ -2476,7 +2477,40 @@
     'Springbuck Democratic Party':'Springbuck Demokratiese Party','Springbuck Green Party':'Springbuck Groenparty',
     "Springbuck's Extremists":'Springbuck se Ekstremiste','Independent':'Onafhanklik'
   };
+  const UI_JA = {
+    'Leader':'指導者','Approval':'支持率','Population':'人口','Currency':'通貨','Capital':'首都',
+    'Nation Details':'国の詳細','Government':'政府','System':'政体','Founded':'建国','FOUNDED':'建国',
+    'Nation Colours':'国のカラー','Stats':'統計','Population Growth':'人口増加率',
+    'Excellent':'非常に優れている','Very Good':'とても良い','Good':'良い','Decent':'まずまず','Bad':'悪い','Terrible':'最悪',
+    'Elections':'選挙','Mayor':'市長','Results not yet in':'結果はまだ出ていません',
+    'wins the election with':'が当選、得票率','leads with':'がリード、得票率','MAYOR-ELECT':'市長当選',
+    'Party':'政党','Age':'年齢','Interests':'興味','Policies':'政策','In Office':'在任中',
+    'Parties':'政党','No parties on record for':'登録された政党はありません \u2014','Parties with power':'与党',
+    'IN POWER':'与党','LEADER':'指導者','LEADING':'リード中','leading':'リード中','MULTIPLE PARTIES':'複数政党',
+    'member':'人','members':'人','Active in':'活動地域','Position':'役職','Standing in':'立候補先',
+    'In this party elsewhere':'他の地域での同党所属','Other parties':'他の政党',
+    'No \u2014 only in this party here':'いいえ \u2014 ここではこの政党のみ',
+    'No party currently holds a leadership position here.':'現在、ここで指導的地位を持つ政党はありません。',
+    'TBD':'未定',
+    'PARTY_NOTE':'リーダー＝確定した選挙の勝者、または州の指導者。リード中＝進行中の選挙で先行。メンバーは選挙の候補者リストに基づきます。他の都市や国の政党にも名前がある場合は、その名前の下に表示されます。'
+  };
+  const UI = {af: UI_AF, ja: UI_JA};
+  const PARTY = {af: AF_PARTY, ja: {}};
   const I18N = {
+    tsukimori: {
+      af: {
+        est:'Gestig 3.10.26', government:'Monargie', currency:'Yume (Goudklont)',
+        tagLabels:['Monargie'],
+        facts:[{label:'Status',val:'Aktief'},{label:'Nasionale Dier',val:'Rooikroonkraanvoël'},{label:'Grondgebied',val:'N/A'},{label:'Alliansie',val:'Geen'},{label:'Taal',val:'Afrikaans, Japannees'},{label:'VN-status',val:'N/A'},{label:'Dienspligkoers',val:'N/A'}],
+        description:`Tsukimori is \u0027n nuwe nasie wat deur <b style="color:#8FA9A5">Ushindo</b> onder \u0027n monargie regeer word. Die geldeenheid is die <b style="color:#8FA9A5">Yume</b>, gerugsteun deur die <b style="color:#8FA9A5">goudklont</b>, en die nasionale dier is die <b style="color:#8FA9A5">rooikroonkraanvoël</b>. Die nasionale kleure is diep woudgroen en sagte maanligrysgroen.`
+      },
+      ja: {
+        name:'ツキモリ', leader:'ウシンドウ', est:'建国 3.10.26', government:'君主制', currency:'ユメ（金塊）',
+        tagLabels:['君主制'],
+        facts:[{label:'状態',val:'活動中'},{label:'国の動物',val:'タンチョウ'},{label:'領土',val:'N/A'},{label:'同盟',val:'なし'},{label:'言語',val:'アフリカーンス語、日本語'},{label:'国連の地位',val:'N/A'},{label:'徴兵率',val:'N/A'}],
+        description:`ツキモリは、<b style="color:#8FA9A5">ウシンドウ</b>が君主として治める新しい国です。通貨は<b style="color:#8FA9A5">ユメ</b>で、<b style="color:#8FA9A5">金塊</b>を裏付けとしており、国の動物は<b style="color:#8FA9A5">タンチョウ</b>です。国のカラーは、深い森の緑と、月光のような柔らかな灰緑色です。`
+      }
+    },
     springbuck: { af: {
       est:'Gestig 8.4.26',
       government:'Kommunisme',
@@ -2485,32 +2519,36 @@
       description:`Gestig in April 2026, het Springbuck sedertdien <b style="color:#22c55e">\u0027n massiewe impak</b> gemaak. Die bevolking staan nou op <b style="color:#22c55e">2,870</b>, nadat sowat 90 mense vroeër uit Smegtopia gevlug het ná die aanval op die SmegTropolis-hoofstadsgebou. Ryk aan natuurlike hulpbronne, is dit die tuiste van <b style="color:#22c55e">die wêreld se eerste hospitaal en die wêreld se eerste oliebron</b>, saam met groot woonstelblokke en \u0027n militêre basis. Die hoofstad is herdoop tot <b style="color:#22c55e">Springfonetein</b> (voorheen Pretoria), en \u0027n nuwe stad, <b style="color:#22c55e">Cape Crown</b>, is oorkant die water gestig. Springbuck het woonstelblokke aan Crabville geskenk en gehelp bou in Corexia, wat \u0027n vrygewige en samewerkende gees toon. Springbuck het ook \u0027n fisiek geskrewe vredesverdrag met Sylvian gehad en grond van Sylvian gekry ná sy ontbinding. Springbuck, voorheen \u0027n lid van die Globe Alliance wat deur Corexia bestuur word, is uit die alliansie verwyder, en verhoudings het <b style="color:#22c55e">vir \u0027n tyd lank oor groot dele van die bediener ineengestort</b>: Springbuck het <b style="color:#22c55e">die Verenigde Nasies verlaat</b>, maar het <b style="color:#22c55e">sedertdien weer by die liggaam aangesluit</b>, en word nou <b style="color:#22c55e">nie meer deur Waterland as \u0027n land erken nie</b>, hoewel Craineun, Smegtopia, Corexia en Crabville erkenning intussen herstel het, wat baie van die isolasie versag. Springbuck en Corexia het ook sedertdien <b style="color:#22c55e">saam die SBOR-verdrag gevorm</b>, \u0027n nuwe alliansie tussen die twee nasies, en Springbuck het <b style="color:#22c55e">weer by die Globe Alliance aangesluit</b>. Die vroeëre oorlog met Crabville is besleg deurdat <b style="color:#22c55e">Crabville sy oorlogsverklaring amptelik teruggetrek het</b>, en die twee nasies is nou in gesprek oor hul oorblywende verskille. \u0027n Daaropvolgende oorlog met Waterland het ook geëindig sonder \u0027n inval of verandering in grondgebied, hoewel die gevegte Springbuck met swaar verliese gelaat het, <b style="color:#22c55e">berig as 3,164 sterftes</b>, waarvan Waterland net vir 254 verantwoordelik was. Sake het verder vererger toe <b style="color:#22c55e">Smegtopia en Crabville met kernaanvalle by daardie konflik aangesluit het</b>, waarna Crabville swaar kritiek moes verduur, veroordeel deur Corexia, Smegtopia en Craineun, omdat hy na bewering hospitale en burgerlike geboue geteiken het, en die bombardement het Springbuck swaar getref, met <b style="color:#22c55e">sowat 2,910 sterftes berig</b>. Daardie hoofstuk is sedertdien afgesluit, met <b style="color:#22c55e">Smegtopia en Springbuck nou in vrede</b>. Verhoudings met die res van die bediener het grootliks ontdooi, hoewel <b style="color:#22c55e">Springbuck se bande met Waterland en Okpemon swak bly</b>. Springbuck het sy deelname aan die Wêreldbeker 2026 bevestig. Met \u0027n <b style="color:#22c55e">dienspligkoers van 80%</b> beskik Springbuck oor <b style="color:#22c55e">een van die mees afgeronde konvensionele weermagte op die bediener</b>, met \u0027n aansienlike tenkkorps, lugsteun en lugafweerdekking. In die toernooi self was <b style="color:#22c55e">Springbuck die eerste nasie wat kwalifiseer het</b>, ongeslaan deur hul groepfase, met \u0027n 3-3-gelykopuitslag teen Waterland en 1-1 teen Smegtopia, voordat hulle dit met \u0027n gemaklike 3-0-oorwinning oor Wancerville afgerond het om na die uitklopfase deur te dring. Hul veldtog het in die kwarteindrondte tot \u0027n einde gekom, met \u0027n 2-2-gelykopuitslag teen Corexia voordat hulle <b style="color:#22c55e">5-4 op strafskoppe verloor het</b>.`
     } }
   };
-  function nlang(id) { return I18N[id] && NATION_LANG[id] === 'af' ? 'af' : 'en'; }
-  function tr(id, s) { return nlang(id) === 'af' && UI_AF[s] ? UI_AF[s] : s; }
+  function nlang(id) { const l = NATION_LANG[id]; return I18N[id] && l && l !== 'en' && I18N[id][l] ? l : 'en'; }
+  function tr(id, s) { const l = nlang(id); return l !== 'en' && UI[l] && UI[l][s] ? UI[l][s] : s; }
   function locNation(n) {
-    if (nlang(n.id) !== 'af') return n;
-    const a = I18N[n.id].af;
+    const l = nlang(n.id);
+    if (l === 'en') return n;
+    const a = I18N[n.id][l];
     const o = Object.assign({}, n, a);
     if (a.tagLabels) o.tags = n.tags.map((t, i) => Object.assign({}, t, {label: a.tagLabels[i] || t.label}));
     return o;
   }
   function locElections(id) {
-    const el = ELECTIONS[id];
-    if (!el || nlang(id) !== 'af') return el;
+    const el = ELECTIONS[id], l = nlang(id);
+    if (!el || l === 'en') return el;
+    const U = UI[l] || {}, P = PARTY[l] || {}, sfx = l === 'af' ? 'Af' : 'Ja';
     return el.map(c => Object.assign({}, c, {
-      office: UI_AF[c.office] || c.office,
+      office: U[c.office] || c.office,
       candidates: c.candidates.map(x => Object.assign({}, x, {
-        party: AF_PARTY[x.party] || x.party,
-        policies: x.policiesAf || x.policies,
-        interests: x.interestsAf || x.interests,
-        vote: x.vote === 'TBD' ? 'NTB' : x.vote
+        party: P[x.party] || x.party,
+        policies: x['policies' + sfx] || x.policies,
+        interests: x['interests' + sfx] || x.interests,
+        vote: x.vote === 'TBD' ? (U.TBD || 'TBD') : x.vote
       }))
     }));
   }
   function langSwitchHtml(id) {
     if (!I18N[id]) return '';
     const L = nlang(id);
-    return `<div class="nm-lang" role="group" aria-label="Language"><button class="${L==='en'?'on':''}" onclick="setNationLang('${id}','en')">EN</button><button class="${L==='af'?'on':''}" onclick="setNationLang('${id}','af')">AF</button></div>`;
+    const labels = {en:'EN', af:'AF', ja:'JA'};
+    const langs = ['en'].concat(Object.keys(I18N[id]));
+    return `<div class="nm-lang" role="group" aria-label="Language">${langs.map(l => `<button class="${L===l?'on':''}" onclick="setNationLang('${id}','${l}')">${labels[l]||l.toUpperCase()}</button>`).join('')}</div>`;
   }
   function setNationLang(id, lang) {
     NATION_LANG[id] = lang;
@@ -2534,7 +2572,7 @@
     const firstCol = (n.colors && n.colors[0]) || n.accentColor;
     const rankBadge = foundingRank ? `<div class="nation-rank" title="${foundingRank===1?'1st':foundingRank===2?'2nd':foundingRank===3?'3rd':foundingRank+'th'} nation founded">#${foundingRank} ${T('FOUNDED')}</div>` : '';
     const champ = getWcChampion();
-    const champBadge = (champ && champ.nation === n.name) ? `<div class="nation-champ-badge" title="${champ.club} won the Spring Club World Cup 2026">🏆 WC CHAMPIONS</div>` : '';
+    const champBadge = (champ && champ.nation === n0.name) ? `<div class="nation-champ-badge" title="${champ.club} won the Spring Club World Cup 2026">🏆 WC CHAMPIONS</div>` : '';
     const rb = RECOMMENDED_BUILDS[n.id];
     const hdiRow = rb ? `<div class="nation-row"><span class="nation-lbl">HDI</span><span class="nation-val" style="color:${hdiColor(rb.hdiLabel)}">${rb.hdi} <span style="opacity:.65;font-size:9px;">(${T(rb.hdiLabel)})</span></span></div>` : '';
     return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both">${rankBadge}${champBadge}<div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">${T('Population')}</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">${T('Founded')}</span><span class="nation-val">${n.founded}</span></div>${hdiRow}<div class="nation-row"><span class="nation-lbl">${T('Approval')}</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))===0?'var(--text-muted)':n.approval>=60?'var(--green)':n.approval>=45?'#facc15':'#f87171'}">${parseInt(n.population.replace(',',''))===0?0:n.approval}%</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">${T('Government')}</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
@@ -2634,7 +2672,7 @@
       const nat = NATIONS.find(x => x.id === nid);
       const nname = nat ? nat.name : nid;
       ELECTIONS[nid].forEach(e => (e.candidates||[]).forEach(c => {
-        (idx[c.name] = idx[c.name] || []).push({nation:nname, nid, city:e.city, office:(L==='af'?(UI_AF[e.office]||e.office):e.office), party:(L==='af'?(AF_PARTY[c.party]||c.party):c.party)||'Unknown', status:c.status||''});
+        (idx[c.name] = idx[c.name] || []).push({nation:nname, nid, city:e.city, office:((UI[L]&&UI[L][e.office])||e.office), party:((PARTY[L]&&PARTY[L][c.party])||c.party)||'Unknown', status:c.status||''});
       }));
     });
     return idx;
@@ -2673,12 +2711,12 @@
       const list = groups[k], base = k.split('|')[1], city = k.split('|')[0];
       const conc = [...list].reverse().find(e => e.concluded && winnerOf(e));
       const live = [...list].reverse().find(e => !e.concluded && winnerOf(e));
-      if (conc) addPower(winnerOf(conc), (L==='af' ? base + ' van ' + city : base + ' of ' + city), 'holds', city);
-      if (live && (!conc || list.indexOf(live) > list.indexOf(conc))) addPower(winnerOf(live), (L==='af' ? base + '-verkiesing in ' + city + ' (leidend)' : 'Leading ' + base + ' race in ' + city), 'leading', city);
+      if (conc) addPower(winnerOf(conc), (L==='af' ? base + ' van ' + city : L==='ja' ? city + 'の' + base : base + ' of ' + city), 'holds', city);
+      if (live && (!conc || list.indexOf(live) > list.indexOf(conc))) addPower(winnerOf(live), (L==='af' ? base + '-verkiesing in ' + city + ' (leidend)' : L==='ja' ? city + 'の' + base + '選挙（リード中）' : 'Leading ' + base + ' race in ' + city), 'leading', city);
     });
     (STATES[n.id] || []).forEach(st => {
       const hit = el.flatMap(e => e.candidates || []).find(c => c.name === st.leader);
-      if (hit) addPower(hit, (L==='af' ? 'Staatsleier van ' : 'State Leader of ') + st.name, 'holds', st.name);
+      if (hit) addPower(hit, (L==='af' ? 'Staatsleier van ' + st.name : L==='ja' ? st.name + 'の州指導者' : 'State Leader of ' + st.name), 'holds', st.name);
     });
     const holds = p => (power[p] || []).some(x => x.kind === 'holds');
     const rank = p => holds(p) ? 0 : (power[p] ? 1 : 2);
@@ -2701,7 +2739,7 @@
       }).join('');
       return `<div class="nm-elect-card nm-anim${holds(p) ? ' nm-party-powered' : ''}" style="--i:${pi}"><button class="nm-rb-btn" onclick="toggleRB(this)" style="background:linear-gradient(to right, ${n.accentColor}${pi===0&&!isInd(p)?'22':'14'} 0%, ${n.accentColor}${pi===0&&!isInd(p)?'22':'14'} ${w}%, transparent ${w}%, transparent 100%);"><span class="nm-elect-name">${esc(p)}${holds(p) ? '<span class="nm-party-pow">'+T('IN POWER')+'</span>' : (power[p] ? '<span class="nm-party-pow lead">'+T('LEADING')+'</span>' : '')}</span><span style="display:flex;align-items:center;gap:8px;"><span class="nm-elect-vote" style="color:${n.accentColor};">${mems.length} ${mems.length===1?T('member'):T('members')}</span><span class="nm-rb-chevron">&#9662;</span></span></button><div class="nm-rb-panel"><div class="nm-pwrap"><div class="nm-pin">${power[p] ? `<div class="nm-elect-lead">${power[p].map(x => `<span class="nm-party-pow${x.kind==='leading'?' lead':''}" style="margin:0 6px 4px 0;display:inline-block;">${esc(x.label)}: ${esc(x.name)}</span>`).join('')}</div>` : ''}<div class="nm-elect-lead">${T('Active in')} <b style="color:${n.accentColor}">${cityList.map(esc).join(', ')}</b></div>${rows}</div></div></div></div>`;
     }).join('');
-    return head + `<div class="nm-parties"><button class="nm-rb-btn" onclick="toggleRB(this)">${T('Parties')} (${names.length})<span class="nm-rb-chevron">&#9662;</span></button><div class="nm-rb-panel"><div class="nm-pwrap"><div class="nm-pin">${names.some(p => power[p]) ? `<div class="nm-elect-card nm-elect-leading nm-anim nm-power-box" style="--i:0"><div class="nm-elect-lead" style="padding:10px 13px 4px;"><b style="color:${n.accentColor}">${T('Parties with power')}</b></div><div style="padding:0 13px 10px;">${names.filter(p => power[p]).map((p, k) => `<div class="nm-fact-row nm-anim-row" style="--i:${k}"><span class="nm-fact-lbl">${esc(p)}</span><span class="nm-fact-val" style="font-size:10px;text-align:right;">${[...new Set(power[p].map(x => esc(x.name) + (x.kind==='leading' ? ' (' + T('leading') + ')' : '')))].join(', ')}</span></div>`).join('')}</div></div>` : '<div class="nm-party-sum">'+T('No party currently holds a leadership position here.')+'</div>'}<div class="nm-party-sum" style="margin-top:8px;">${L==='af' ? UI_AF.PARTY_NOTE : 'Leader = winner of a concluded election, or a state leader. Leading = ahead in a live race. Members come from election candidate lists. Where someone also appears for a party in another city or nation, it\'s shown under their name.'}</div>${cards}</div></div></div></div>`;
+    return head + `<div class="nm-parties"><button class="nm-rb-btn" onclick="toggleRB(this)">${T('Parties')} (${names.length})<span class="nm-rb-chevron">&#9662;</span></button><div class="nm-rb-panel"><div class="nm-pwrap"><div class="nm-pin">${names.some(p => power[p]) ? `<div class="nm-elect-card nm-elect-leading nm-anim nm-power-box" style="--i:0"><div class="nm-elect-lead" style="padding:10px 13px 4px;"><b style="color:${n.accentColor}">${T('Parties with power')}</b></div><div style="padding:0 13px 10px;">${names.filter(p => power[p]).map((p, k) => `<div class="nm-fact-row nm-anim-row" style="--i:${k}"><span class="nm-fact-lbl">${esc(p)}</span><span class="nm-fact-val" style="font-size:10px;text-align:right;">${[...new Set(power[p].map(x => esc(x.name) + (x.kind==='leading' ? ' (' + T('leading') + ')' : '')))].join(', ')}</span></div>`).join('')}</div></div>` : '<div class="nm-party-sum">'+T('No party currently holds a leadership position here.')+'</div>'}<div class="nm-party-sum" style="margin-top:8px;">${L!=='en' ? (UI[L]||{}).PARTY_NOTE : 'Leader = winner of a concluded election, or a state leader. Leading = ahead in a live race. Members come from election candidate lists. Where someone also appears for a party in another city or nation, it\'s shown under their name.'}</div>${cards}</div></div></div></div>`;
   }
   function renderWars() {
     const WARS = [
