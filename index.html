@@ -1565,6 +1565,20 @@
     .wr-row.toll b{color:#f87171;}
     .wr-empty{display:none;padding:26px;text-align:center;font-family:var(--font-m);font-size:11px;color:var(--text-dim);border:1px dashed var(--border-card);border-radius:12px;}
     .wr-note{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin:6px 0 0 46px;line-height:1.6;}
+    /* ── Wars timeline polish ── */
+    .wr-seg{padding:3px;gap:2px;border-radius:12px;}
+    .wr-seg button{border-radius:9px;padding:7px 12px;display:inline-flex;align-items:center;gap:7px;}
+    .wr-seg button i{margin:0;min-width:20px;height:18px;padding:0 6px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;opacity:1;background:rgba(255,255,255,.06);color:var(--text-dim);transition:background .2s,color .2s,transform .2s;}
+    .wr-seg button.on i{background:#fb923c;color:#0a0a0d;}
+    .wr-seg button:hover i{transform:scale(1.08);}
+    .wr-chip .wr-n{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 5px;margin-left:6px;border-radius:999px;font-size:9.5px;font-weight:800;background:color-mix(in srgb,var(--cc) 22%,transparent);color:var(--cc);}
+    .wr-chip.pick.on .wr-n{background:rgba(10,10,13,.2);color:#0a0a0d;}
+    .wr-wrap::before{width:2px;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.14) 0 5px,transparent 5px 10px);border-radius:0;opacity:.8;}
+    .wr-fill{width:3px;margin-left:-.5px;background:linear-gradient(to bottom,#fb923c,#f97316 55%,#ef4444);box-shadow:0 0 10px rgba(251,146,60,.55),0 0 22px rgba(239,68,68,.25);}
+    .wr-fill::after{content:'';position:absolute;left:50%;bottom:-4px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(251,146,60,.35),0 0 12px #fb923c;}
+    .wr-dot{font-size:12px;font-weight:800;letter-spacing:-.3px;background:color-mix(in srgb,var(--wc) 14%,var(--bg,#0a0a0d));box-shadow:0 0 0 4px var(--bg,#0a0a0d),0 0 14px color-mix(in srgb,var(--wc) 35%,transparent);transition:background .25s,color .25s,box-shadow .25s,transform .25s;}
+    .wr-item:hover .wr-dot{transform:scale(1.08);}
+    .wr-item.open .wr-dot{box-shadow:0 0 0 4px var(--bg,#0a0a0d),0 0 0 6px color-mix(in srgb,var(--wc) 40%,transparent),0 0 20px color-mix(in srgb,var(--wc) 60%,transparent);}
     @media(max-width:640px){
       .wr-wrap{padding-left:38px}.wr-wrap::before,.wr-fill{left:11px}.wr-dot{left:-38px;width:26px;height:26px;top:15px}
       .wr-sides{grid-template-columns:1fr}.wr-vs{justify-self:center}
@@ -1983,7 +1997,7 @@
         <div class="wr-sum" id="warsSummary"></div>
         <div class="wr-wrap" id="warsTimeline"></div>
         <div class="wr-empty" id="warsEmpty">No conflicts match this filter.</div>
-        <p class="wr-note">Dates aren't recorded, so the order comes from each nation's history. Near wars that never started aren't counted in the totals.</p>
+        <p class="wr-note">Dates aren't recorded, so the order comes from each nation's history. The numbers update to match the type and nation you've selected.</p>
       </div>
     </div>
 
@@ -2776,13 +2790,29 @@
       : `<span class="wr-chip" style="--cc:#9ca3af">${esc(nm(id))}</span>`;
     const names = ids => ids.map(nm).join(', ');
     const state = { kind:'all', nation:null };
-    const counts = {};
-    WARS.filter(w => w.kind === 'war').forEach(w => w.sides.forEach(sd => sd.who.forEach(id => { if (nat(id)) counts[id] = (counts[id]||0) + 1; })));
-    const ranked = Object.keys(counts).sort((a,b) => counts[b] - counts[a] || nm(a).localeCompare(nm(b)));
-    const nWar = WARS.filter(w => w.kind === 'war').length, nNear = WARS.length - nWar;
+    const whoOf = w => [...new Set(w.sides.flatMap(sd => sd.who))];
+    const WHO = WARS.map(whoOf);
+    const KIND_LBL = { all:'Conflicts involved in', war:'Wars fought', near:'Near wars' };
 
-    bar.innerHTML = `<div class="wr-seg" role="group" aria-label="Filter by type"><button data-k="all" class="on">All<i>${WARS.length}</i></button><button data-k="war">Wars<i>${nWar}</i></button><button data-k="near">Near wars<i>${nNear}</i></button></div><button class="wr-tool" id="wrToggleAll">Expand all</button><span class="wr-count" id="wrCount"></span>`;
-    sm.innerHTML = `<span class="wr-sum-lbl">Wars fought \u2014 tap to filter</span>` + ranked.map(id => `<span class="wr-chip pick" data-n="${id}" style="--cc:${col(id)}">${esc(nm(id))} \u00d7 ${counts[id]}</span>`).join('');
+    bar.innerHTML = `<div class="wr-seg" role="group" aria-label="Filter by type"><button data-k="all" class="on">All<i></i></button><button data-k="war">Wars<i></i></button><button data-k="near">Near wars<i></i></button></div><button class="wr-tool" id="wrToggleAll">Expand all</button><span class="wr-count" id="wrCount"></span>`;
+
+    function updateCounts() {
+      // type buttons: count by the selected nation (if any)
+      const inNat = (w, i) => !state.nation || WHO[i].includes(state.nation);
+      const nAll = WARS.filter(inNat).length;
+      const nW = WARS.filter((w, i) => w.kind === 'war' && inNat(w, i)).length;
+      const num = { all:nAll, war:nW, near:nAll - nW };
+      bar.querySelectorAll('.wr-seg button').forEach(b => { b.querySelector('i').textContent = num[b.dataset.k]; });
+      // nation chips: count by the selected type
+      const counts = {};
+      WARS.forEach((w, i) => {
+        if (state.kind !== 'all' && w.kind !== state.kind) return;
+        WHO[i].forEach(id => { if (nat(id)) counts[id] = (counts[id]||0) + 1; });
+      });
+      const ranked = Object.keys(counts).sort((a,b) => counts[b] - counts[a] || nm(a).localeCompare(nm(b)));
+      if (state.nation && !counts[state.nation]) ranked.push(state.nation);
+      sm.innerHTML = `<span class="wr-sum-lbl">${KIND_LBL[state.kind]} \u2014 tap to filter</span>` + ranked.map(id => `<span class="wr-chip pick" data-n="${id}" style="--cc:${col(id)}">${esc(nm(id))}<span class="wr-n">${counts[id]||0}</span></span>`).join('');
+    }
 
     tl.innerHTML = '<div class="wr-fill" id="wrFill"></div>' + WARS.map((w, i) => {
       const all = [...new Set(w.sides.flatMap(sd => sd.who))];
@@ -2808,6 +2838,7 @@
       empty.style.display = v.length ? 'none' : 'block';
       toggleAllBtn.textContent = v.length && v.every(el => el.classList.contains('open')) ? 'Collapse all' : 'Expand all';
       bar.querySelectorAll('.wr-seg button').forEach(b => b.classList.toggle('on', b.dataset.k === state.kind));
+      updateCounts();
       sm.querySelectorAll('.wr-chip.pick').forEach(c => c.classList.toggle('on', c.dataset.n === state.nation));
       progress();
     };
