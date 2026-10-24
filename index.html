@@ -1979,6 +1979,7 @@
           <button class="wc2-subtab active" onclick="setAwardsPeriod('jan26',this)">January 2026</button>
           <button class="wc2-subtab" onclick="setAwardsPeriod('apr26',this)">April 2026</button>
           <button class="wc2-subtab" onclick="setAwardsPeriod('sep26',this)">September 2026 <span style="color:#f87171;font-size:9px;letter-spacing:1px">CANCELLED</span></button>
+          <button class="wc2-subtab" onclick="setAwardsPeriod('jan27',this)">January 2027</button>
         </div>
         <div id="awardsContent" style="margin-top:8px"></div>
       </div>
@@ -3204,6 +3205,7 @@
       { title: 'Best Ranked Spear Player', icon: '\ud83d\udde1\ufe0f', nominees: ['Knoxy5316','Neska5036','w85544534','Killedbycrab'] },
       { title: 'Players\u2019 Favourite', icon: '\ud83d\udc96', nominees: [] },
     ] },
+    jan27: { label: 'January 2027', note: 'Nominees have not been announced yet. When they are, they will cover the whole of 2026 (January 2026 to December 2026).', categories: [] },
   };
   let awardsPeriod = 'jan26';
   function setAwardsPeriod(period, btn) {
@@ -3237,6 +3239,7 @@
           <div class="nm-ico-wrap" style="background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);">${cat.icon}</div>
           <div class="nm-title-wrap"><div class="nm-name" style="font-size:20px">${cat.title}</div><div class="nm-est">${data.label}</div></div>
         </div>
+        ${(!data.cancelled && data.note) ? '<div class="wc2-official-note" style="margin:0 0 10px">🗓️ Nominees cover the whole of 2026 (January to December 2026).</div>' : ''}
         ${data.cancelled ? '<div class="wc2-official-note" style="color:#f87171;margin:0 0 10px">🚫 This ceremony was cancelled — no winner will be announced.</div>' : ''}
         <div class="nm-sec-h">Nominees</div>
         <div>${rows}</div>
@@ -3260,7 +3263,7 @@
             <span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">Coming Soon</span>
           </div>
         </div>
-        <p class="gdesc">Details and categories for this ceremony have not been announced yet.</p>
+        <p class="gdesc">${data && data.note ? data.note : 'Details and categories for this ceremony have not been announced yet.'}</p>
       </div>`;
       return;
     }
@@ -3274,7 +3277,17 @@
         </div>
         <p class="gdesc">The September 2026 server awards were cancelled and no winners will be announced. The nominees below are kept for the record only.</p>
       </div>` : '';
-    el.innerHTML = cancelledBanner + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
+ const noteBanner = (!data.cancelled && data.note) ? `<div class="gcard" style="cursor:default;margin-top:8px;border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.05)">
+        <div class="gcard-top">
+          <div class="gicon">🗓️</div>
+          <div class="ginfo">
+            <div class="gname" style="font-size:18px">${data.label} — Nominees</div>
+            <span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">Jan – Dec 2026</span>
+          </div>
+        </div>
+        <p class="gdesc">${data.note}</p>
+      </div>` : '';
+    el.innerHTML = cancelledBanner + noteBanner + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
       const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
       const winnerTag = data.cancelled ? `<span class="gtag" style="color:#f87171;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)">Cancelled</span>` : winners.length ? `<span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">🏆 ${winners.join(' & ')}</span>` : `<span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">TBD</span>`;
       return `
