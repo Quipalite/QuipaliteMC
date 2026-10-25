@@ -3342,7 +3342,7 @@
         </div>
         <p class="gdesc">${data.note}</p>
       </div>` : '';
-    el.innerHTML = cancelledBanner + noteBanner + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
+ el.innerHTML = cancelledBanner + noteBanner + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
       const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
       const winnerTag = data.cancelled ? `<span class="gtag" style="color:#f87171;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)">Cancelled</span>` : winners.length ? `<span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">🏆 ${winners.join(' & ')}</span>` : `<span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">TBD</span>`;
       return `
