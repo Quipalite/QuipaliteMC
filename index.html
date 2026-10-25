@@ -47,6 +47,19 @@
     .page{display:none;}
     .page.active{display:block;animation:fadeUp .32s ease both;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes awardShine{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes awardGlow{0%,100%{box-shadow:0 0 0 rgba(245,200,66,0)}50%{box-shadow:0 0 28px rgba(245,200,66,.22)}}
+    .award-hype{position:relative;overflow:hidden;cursor:pointer;border-radius:18px;border:1px solid rgba(245,200,66,.45);padding:28px 26px;margin:6px auto 0;max-width:980px;text-align:center;background:linear-gradient(135deg,rgba(245,200,66,.14),rgba(255,26,109,.08) 60%,rgba(245,200,66,.06));animation:awardGlow 3.2s ease-in-out infinite;transition:transform .25s ease,border-color .25s ease}
+    .award-hype:hover{transform:translateY(-3px);border-color:rgba(245,200,66,.8)}
+    .award-hype::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.09) 50%,transparent 65%);background-size:200% 100%;animation:awardShine 4.5s linear infinite;pointer-events:none}
+    .award-hype-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+    .award-hype-title{font-family:var(--font-d);font-size:clamp(26px,5vw,44px);line-height:1.05;margin:0 0 10px;color:var(--text)}
+    .award-hype-title em{font-style:normal;color:var(--gold)}
+    .award-hype-sub{font-size:14px;color:var(--text-dim);max-width:640px;margin:0 auto 18px;line-height:1.55}
+    .award-hype-btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;border-radius:999px;padding:12px 22px;font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1a1200;background:var(--gold)}
+    .hero-award-pill{margin-top:18px;border:1px solid rgba(245,200,66,.45);background:rgba(245,200,66,.08);color:var(--gold);border-radius:999px;padding:9px 18px;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;animation:fadeDown .6s .55s ease both;transition:background .2s ease}
+    .hero-award-pill:hover{background:rgba(245,200,66,.16)}
+    .nav-new{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--gold);color:#1a1200;font-size:8px;font-weight:800;letter-spacing:1px;vertical-align:middle}
 
     /* ── SITE-WIDE ANIMATION ENHANCEMENTS (lightweight) ── */
     @keyframes siteFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -1159,7 +1172,7 @@
         <button class="nav-link active" id="nlHome" onclick="goHome()">Home</button>
         <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
         <button class="nav-link" id="nlNations" onclick="goCurrentNations()">Nations</button>
-        <button class="nav-link" id="nlAwards" onclick="goAwards()">Awards</button>
+        <button class="nav-link" id="nlAwards" onclick="goAwards2027()">Awards <span class="nav-new">2027</span></button>
         <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
       </div>
       <div class="nav-div"></div>
@@ -1186,7 +1199,7 @@
     <button class="mnav-link" onclick="goHome();closeMobileNav()">🏠 Home</button>
     <button class="mnav-link" onclick="goRanked();closeMobileNav()">🏆 Ranked</button>
     <button class="mnav-link" onclick="goCurrentNations();closeMobileNav()">🌍 Current Nations</button>
-    <button class="mnav-link" onclick="goAwards();closeMobileNav()">🏅 Server Awards</button>
+    <button class="mnav-link" onclick="goAwards2027();closeMobileNav()">🏅 Server Awards 2027</button>
     <button class="mnav-link" onclick="goHome();closeMobileNav();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">💬 Feedback</button>
     <div class="mnav-div" id="mnavRankedDiv" style="display:none"></div>
     <button class="mnav-link" id="mnavTierBtn" onclick="openTier();closeMobileNav()" style="display:none">📊 Tier Guide</button>
@@ -1212,6 +1225,7 @@
           View Leaderboard
         </button>
       </div>
+      <button class="hero-award-pill" onclick="goAwards2027()">🏅 Server Awards 2027 is coming — see what's at stake →</button>
     </section>
     <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 
@@ -1221,6 +1235,17 @@
       <div class="stat-item rv rd2"><div class="stat-num sn-white" data-count="7">7</div><div class="stat-lbl">Tier Ranks</div></div>
       <div class="stat-item rv rd3"><div class="stat-num sn-green">Live</div><div class="stat-lbl">Leaderboards</div></div>
     </div>
+
+    <section class="hsec" style="padding-bottom:0">
+      <div class="sinner">
+        <div class="award-hype" onclick="goAwards2027()">
+          <div class="award-hype-tag">🏅 January 2027 · Coming soon</div>
+          <h2 class="award-hype-title">Server <em>Awards</em> 2027</h2>
+          <p class="award-hype-sub">A whole year of Quipalite MC is up for grabs. Every nominee will be counted from <strong>January to December 2026</strong>. Who will be crowned the best of the year? See the road to the ceremony and the legends who've won before.</p>
+          <button class="award-hype-btn" onclick="event.stopPropagation();goAwards2027()">Go to Server Awards 2027 →</button>
+        </div>
+      </div>
+    </section>
 
     <section class="hsec" id="games">
       <div class="sinner">
@@ -3160,6 +3185,11 @@
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); }
   function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); if(wcActiveTournament==='country'){renderWc2List();}else{renderBracket();} renderMilitaryList(); }
   function goAwards() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('awardsPage').classList.add('active'); setNavActive(false,false,false,true); document.getElementById('navSub').textContent='Server Awards'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); renderAwards(); }
+  function goAwards2027() {
+    goAwards();
+    const btn = document.querySelector("#awardsSubtabs .wc2-subtab[onclick*='jan27']");
+    setTimeout(() => setAwardsPeriod('jan27', btn), 60);
+  }
 
   const AWARDS = {
     jan26: {
@@ -3205,7 +3235,7 @@
       { title: 'Best Ranked Spear Player', icon: '\ud83d\udde1\ufe0f', nominees: ['Knoxy5316','Neska5036','w85544534','Killedbycrab'] },
       { title: 'Players\u2019 Favourite', icon: '\ud83d\udc96', nominees: [] },
     ] },
-    jan27: { label: 'January 2027', note: 'Nominees have not been announced yet. When they are, they will cover the whole of 2026 (January 2026 to December 2026).', categories: [] },
+    jan27: { label: 'January 2027', note: 'Nominees have not been announced yet. When they are, they will cover the whole of 2026 (January 2026 to December 2026).', categories: [], hype: true },
   };
   let awardsPeriod = 'jan26';
   function setAwardsPeriod(period, btn) {
@@ -3254,6 +3284,31 @@
     const el = document.getElementById('awardsContent');
     if (!el) return;
     const data = AWARDS[awardsPeriod];
+    if (data && data.hype && !data.categories.length) {
+      const tally = {};
+      ['jan26','apr26'].forEach(per => (AWARDS[per].categories || []).forEach(c => {
+        const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
+        ws.forEach(w => tally[w] = (tally[w] || 0) + 1);
+      }));
+      const hof = Object.entries(tally).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0])).slice(0,5);
+      const ceremonies = ['jan26','apr26'].map(per => `${AWARDS[per].label}: ${AWARDS[per].categories.length} categories`).join(' · ');
+      el.innerHTML = `<div class="award-hype" style="cursor:default;margin-top:8px">
+        <div class="award-hype-tag">🏅 ${data.label} · Coming soon</div>
+        <h2 class="award-hype-title">Server <em>Awards</em> 2027</h2>
+        <p class="award-hype-sub">${data.note} The biggest night in Quipalite MC is on its way — nominees, categories and winners will appear right here.</p>
+      </div>
+      <div class="ggrid" style="margin-top:14px">
+        <div class="gcard" style="cursor:default">
+          <div class="gcard-top"><div class="gicon">🏆</div><div class="ginfo"><div class="gname" style="font-size:17px">Most decorated so far</div><span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">Award wins to date</span></div></div>
+          <div class="mode-pills" style="margin-top:6px">${hof.map(([n,w],i) => `<span class="mpill${i===0?' special':''}">${i===0?'👑 ':''}${n} · ${w}</span>`).join('')}</div>
+        </div>
+        <div class="gcard" style="cursor:default">
+          <div class="gcard-top"><div class="gicon">🗓️</div><div class="ginfo"><div class="gname" style="font-size:17px">The road so far</div><span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">Past ceremonies</span></div></div>
+          <p class="gdesc">${ceremonies} · September 2026 was cancelled. Use the tabs above to revisit every nominee and winner.</p>
+        </div>
+      </div>`;
+      return;
+    }
     if (!data || !data.categories.length) {
       el.innerHTML = `<div class="gcard" style="cursor:default;margin-top:8px;opacity:0;animation:fadeUp .45s ease forwards">
         <div class="gcard-top">
