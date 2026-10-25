@@ -48,18 +48,29 @@
     .page.active{display:block;animation:fadeUp .32s ease both;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
     @keyframes awardShine{0%{background-position:-200% 0}100%{background-position:200% 0}}
-    @keyframes awardGlow{0%,100%{box-shadow:0 0 0 rgba(245,200,66,0)}50%{box-shadow:0 0 28px rgba(245,200,66,.22)}}
-    .award-hype{position:relative;overflow:hidden;cursor:pointer;border-radius:18px;border:1px solid rgba(245,200,66,.45);padding:28px 26px;margin:6px auto 0;max-width:980px;text-align:center;background:linear-gradient(135deg,rgba(245,200,66,.14),rgba(255,26,109,.08) 60%,rgba(245,200,66,.06));animation:awardGlow 3.2s ease-in-out infinite;transition:transform .25s ease,border-color .25s ease}
-    .award-hype:hover{transform:translateY(-3px);border-color:rgba(245,200,66,.8)}
-    .award-hype::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.09) 50%,transparent 65%);background-size:200% 100%;animation:awardShine 4.5s linear infinite;pointer-events:none}
-    .award-hype-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-    .award-hype-title{font-family:var(--font-d);font-size:clamp(26px,5vw,44px);line-height:1.05;margin:0 0 10px;color:var(--text)}
-    .award-hype-title em{font-style:normal;color:var(--gold)}
-    .award-hype-sub{font-size:14px;color:var(--text-dim);max-width:640px;margin:0 auto 18px;line-height:1.55}
-    .award-hype-btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;border-radius:999px;padding:12px 22px;font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1a1200;background:var(--gold)}
-    .hero-award-pill{margin-top:18px;border:1px solid rgba(245,200,66,.45);background:rgba(245,200,66,.08);color:var(--gold);border-radius:999px;padding:9px 18px;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;animation:fadeDown .6s .55s ease both;transition:background .2s ease}
+    @keyframes awardGlow{0%,100%{box-shadow:inset 0 0 0 rgba(245,200,66,0)}50%{box-shadow:inset 0 0 34px rgba(245,200,66,.14)}}
+    .award-hype{position:relative;overflow:hidden;box-sizing:border-box;width:100%;max-width:980px;margin:6px auto 0;padding:30px 24px;cursor:pointer;text-align:center;border-radius:18px;border:1px solid rgba(245,200,66,.45);background:radial-gradient(120% 140% at 50% 0%,rgba(245,200,66,.16),rgba(255,26,109,.07) 55%,rgba(245,200,66,.04));animation:awardGlow 3.4s ease-in-out infinite;transition:transform .25s ease,border-color .25s ease}
+    .award-hype:hover{transform:translateY(-3px);border-color:rgba(245,200,66,.85)}
+    .award-hype::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.08) 50%,transparent 65%);background-size:200% 100%;animation:awardShine 5s linear infinite;pointer-events:none}
+    .award-hype>*{position:relative;max-width:100%}
+    .award-hype-trophy{font-size:40px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 4px 14px rgba(245,200,66,.45))}
+    .award-hype-tag{display:inline-block;max-width:100%;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;overflow-wrap:anywhere}
+    .award-hype-title{font-family:var(--font-d);font-weight:800;letter-spacing:-.5px;font-size:clamp(26px,6vw,44px);line-height:1.08;margin:0 0 10px;color:var(--text);overflow-wrap:anywhere}
+    .award-hype-title em{font-family:inherit;font-weight:inherit;font-style:normal;color:var(--gold)}
+    .award-hype-sub{font-family:var(--font-b);font-weight:400;font-size:14px;color:var(--text-dim);max-width:620px;margin:0 auto 16px;line-height:1.55;overflow-wrap:anywhere}
+    .award-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 18px;max-width:100%}
+    .award-chip{font-family:var(--font-b);font-weight:500;display:inline-flex;align-items:center;gap:6px;max-width:100%;box-sizing:border-box;padding:6px 12px;border-radius:999px;border:1px solid rgba(245,200,66,.3);background:rgba(245,200,66,.07);color:var(--text);font-size:12px;line-height:1.3}
+    .award-chip b{color:var(--gold);font-weight:700}
+    .award-hype-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;box-sizing:border-box;max-width:100%;border:none;cursor:pointer;border-radius:14px;padding:12px 22px;font-family:var(--font-m);font-size:11.5px;font-weight:700;letter-spacing:1.5px;line-height:1.35;text-transform:uppercase;text-align:center;white-space:normal;color:#1a1200;background:var(--gold)}
+    .hero-award-pill{display:inline-block;box-sizing:border-box;max-width:100%;margin-top:18px;padding:9px 18px;border:1px solid rgba(245,200,66,.45);background:rgba(245,200,66,.08);color:var(--gold);border-radius:16px;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:1.5px;line-height:1.45;text-transform:uppercase;text-align:center;white-space:normal;overflow-wrap:anywhere;cursor:pointer;animation:fadeDown .6s .55s ease both;transition:background .2s ease}
     .hero-award-pill:hover{background:rgba(245,200,66,.16)}
-    .nav-new{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--gold);color:#1a1200;font-size:8px;font-weight:800;letter-spacing:1px;vertical-align:middle}
+    .nav-new{font-family:var(--font-m);display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--gold);color:#1a1200;font-size:8px;font-weight:700;letter-spacing:1px;line-height:1.5;vertical-align:middle}
+    .tab-soon{font-family:var(--font-m);font-weight:700;display:inline-block;margin-left:6px;padding:0 6px;border-radius:999px;background:rgba(245,200,66,.18);color:var(--gold);font-size:8.5px;letter-spacing:1px;line-height:1.6;vertical-align:middle}
+    .awards-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:18px}
+    .awards-stat{box-sizing:border-box;min-width:0;border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:12px 14px}
+    .awards-stat-num{font-family:var(--font-d);font-weight:800;font-size:24px;line-height:1.1;color:var(--gold);overflow-wrap:anywhere}
+    .awards-stat-lbl{font-family:var(--font-m);font-weight:600;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+    @media(max-width:520px){.award-hype{padding:24px 16px}.award-hype-title{font-size:28px}.hero-award-pill{font-size:10px;letter-spacing:.8px;padding:9px 14px}}
 
     /* ── SITE-WIDE ANIMATION ENHANCEMENTS (lightweight) ── */
     @keyframes siteFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -152,6 +163,7 @@
     .stat-lbl{font-family:var(--font-m);font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-top:5px;}
     .hsec{padding:48px 24px;}
     .sinner{max-width:1080px;margin:0 auto;}
+    @media(max-width:520px){.hsec{padding-left:16px;padding-right:16px;}}
     .stag{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:8px;}
     .stag::before{content:'';width:20px;height:1px;background:var(--pink);opacity:.6;}
     .stitle{font-family:var(--font-d);font-size:clamp(24px,3.5vw,38px);font-weight:800;letter-spacing:-.5px;line-height:1.08;color:var(--text);margin-bottom:10px;}
@@ -1239,9 +1251,15 @@
     <section class="hsec" style="padding-bottom:0">
       <div class="sinner">
         <div class="award-hype" onclick="goAwards2027()">
+          <div class="award-hype-trophy">🏆</div>
           <div class="award-hype-tag">🏅 January 2027 · Coming soon</div>
           <h2 class="award-hype-title">Server <em>Awards</em> 2027</h2>
-          <p class="award-hype-sub">A whole year of Quipalite MC is up for grabs. Every nominee will be counted from <strong>January to December 2026</strong>. Who will be crowned the best of the year? See the road to the ceremony and the legends who've won before.</p>
+          <p class="award-hype-sub">A whole year of Quipalite MC is up for grabs. Who will be crowned the best of the year? See the road to the ceremony and the legends who've won before.</p>
+          <div class="award-chips">
+            <span class="award-chip">🗓️ <span>Ceremony: <b>January 2027</b></span></span>
+            <span class="award-chip">📅 <span>Nominees cover <b>Jan – Dec 2026</b></span></span>
+            <span class="award-chip">🏆 <span><b id="awardChipWins">19</b> awards given so far</span></span>
+          </div>
           <button class="award-hype-btn" onclick="event.stopPropagation();goAwards2027()">Go to Server Awards 2027 →</button>
         </div>
       </div>
@@ -1999,12 +2017,13 @@
           <div class="stag">Server Awards</div>
           <h2 class="stitle">Server <em>Awards</em></h2>
           <p class="ssub">Celebrating the best of Quipalite MC each season. Nominees and winners are shown below for each ceremony.</p>
+          <div class="awards-stats" id="awardsStats"></div>
         </div>
         <div class="wc2-subtabs" style="margin-top:20px" id="awardsSubtabs">
           <button class="wc2-subtab active" onclick="setAwardsPeriod('jan26',this)">January 2026</button>
           <button class="wc2-subtab" onclick="setAwardsPeriod('apr26',this)">April 2026</button>
           <button class="wc2-subtab" onclick="setAwardsPeriod('sep26',this)">September 2026 <span style="color:#f87171;font-size:9px;letter-spacing:1px">CANCELLED</span></button>
-          <button class="wc2-subtab" onclick="setAwardsPeriod('jan27',this)">January 2027</button>
+          <button class="wc2-subtab" onclick="setAwardsPeriod('jan27',this)">January 2027 <span class="tab-soon">SOON</span></button>
         </div>
         <div id="awardsContent" style="margin-top:8px"></div>
       </div>
@@ -3238,6 +3257,30 @@
     jan27: { label: 'January 2027', note: 'Nominees have not been announced yet. When they are, they will cover the whole of 2026 (January 2026 to December 2026).', categories: [], hype: true },
   };
   let awardsPeriod = 'jan26';
+  function awardsSummary() {
+    const tally = {}; let given = 0, decided = 0;
+    ['jan26','apr26'].forEach(per => (AWARDS[per].categories || []).forEach(c => {
+      decided++;
+      const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
+      given += ws.length;
+      ws.forEach(w => tally[w] = (tally[w] || 0) + 1);
+    }));
+    const top = Object.entries(tally).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0]))[0];
+    return {given, decided, top};
+  }
+  function fillAwardsStats() {
+    const sum = awardsSummary();
+    const chip = document.getElementById('awardChipWins');
+    if (chip) chip.textContent = sum.given;
+    const row = document.getElementById('awardsStats');
+    if (row) row.innerHTML = [
+      [sum.decided, 'Categories decided'],
+      [sum.given, 'Awards given'],
+      [sum.top ? sum.top[0] + ' · ' + sum.top[1] : '—', 'Most decorated'],
+      ['Jan 2027', 'Next ceremony']
+    ].map(([n, l]) => `<div class="awards-stat"><div class="awards-stat-num">${n}</div><div class="awards-stat-lbl">${l}</div></div>`).join('');
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fillAwardsStats); else fillAwardsStats();
   function setAwardsPeriod(period, btn) {
     awardsPeriod = period;
     document.querySelectorAll('#awardsSubtabs .wc2-subtab').forEach(b=>b.classList.remove('active'));
@@ -3293,6 +3336,7 @@
       const hof = Object.entries(tally).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0])).slice(0,5);
       const ceremonies = ['jan26','apr26'].map(per => `${AWARDS[per].label}: ${AWARDS[per].categories.length} categories`).join(' · ');
       el.innerHTML = `<div class="award-hype" style="cursor:default;margin-top:8px">
+        <div class="award-hype-trophy">🏆</div>
         <div class="award-hype-tag">🏅 ${data.label} · Coming soon</div>
         <h2 class="award-hype-title">Server <em>Awards</em> 2027</h2>
         <p class="award-hype-sub">${data.note} The biggest night in Quipalite MC is on its way — nominees, categories and winners will appear right here.</p>
@@ -3300,7 +3344,7 @@
       <div class="ggrid" style="margin-top:14px">
         <div class="gcard" style="cursor:default">
           <div class="gcard-top"><div class="gicon">🏆</div><div class="ginfo"><div class="gname" style="font-size:17px">Most decorated so far</div><span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">Award wins to date</span></div></div>
-          <div class="mode-pills" style="margin-top:6px">${hof.map(([n,w],i) => `<span class="mpill${i===0?' special':''}">${i===0?'👑 ':''}${n} · ${w}</span>`).join('')}</div>
+          <div class="mode-pills" style="margin-top:6px">${hof.map(([n,w],i) => `<span class="mpill${i===0?' special':''}">${['🥇 ','🥈 ','🥉 '][i] || ''}${n} · ${w}</span>`).join('')}</div>
         </div>
         <div class="gcard" style="cursor:default">
           <div class="gcard-top"><div class="gicon">🗓️</div><div class="ginfo"><div class="gname" style="font-size:17px">The road so far</div><span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">Past ceremonies</span></div></div>
