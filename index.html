@@ -67,6 +67,89 @@
     .nav-new{font-family:var(--font-m);display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--gold);color:#1a1200;font-size:8px;font-weight:700;letter-spacing:1px;line-height:1.5;vertical-align:middle}
     .tab-soon{font-family:var(--font-m);font-weight:700;display:inline-block;margin-left:6px;padding:0 6px;border-radius:999px;background:rgba(245,200,66,.18);color:var(--gold);font-size:8.5px;letter-spacing:1px;line-height:1.6;vertical-align:middle}
     .awards-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:18px}
+    /* Awards: nominations & wins board */
+    .awb-view{display:inline-flex;margin-top:22px;padding:3px;gap:2px;border-radius:12px;background:var(--surface);border:1px solid var(--border-card)}
+    .awb-view button{border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.3px;padding:9px 16px;border-radius:9px;cursor:pointer;transition:background .18s,color .18s}
+    .awb-view button:hover{color:var(--text)}
+    .awb-view button.on{background:rgba(245,200,66,.14);color:var(--gold)}
+    .awb-view button:focus-visible,.awb-tab:focus-visible,.awb-chip:focus-visible,.awb-sort button:focus-visible,.awb-head:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .awb{margin-top:22px}
+    .awb-top{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;justify-content:space-between}
+    .awb-tabs{display:inline-flex;gap:8px}
+    .awb-tab{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.3px;padding:9px 18px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+    .awb-tab:hover{background:rgba(255,255,255,.08);color:var(--text)}
+    .awb-tab.on{background:rgba(245,200,66,.14);border-color:rgba(245,200,66,.4);color:var(--gold)}
+    .awb-tab i{font-style:normal;opacity:.6;margin-left:6px}
+    .awb-search{flex:0 1 220px;min-width:150px;box-sizing:border-box;padding:9px 14px;border-radius:100px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);font-family:var(--font-m);font-size:11px;outline:none;transition:border-color .18s}
+    .awb-search:focus{border-color:rgba(245,200,66,.45)}
+    .awb-filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:14px}
+    .awb-lbl{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin-right:2px}
+    .awb-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:6px 12px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+    .awb-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--pc);opacity:.35;transition:opacity .18s}
+    .awb-chip.on{color:var(--text);border-color:color-mix(in srgb,var(--pc) 55%,transparent);background:color-mix(in srgb,var(--pc) 12%,transparent)}
+    .awb-chip.on .dot{opacity:1}
+    .awb-chip small{font-size:9px;color:#f87171;font-weight:700}
+    .awb-sort{display:inline-flex;margin-left:auto;padding:2px;border-radius:10px;background:var(--surface);border:1px solid var(--border-card)}
+    .awb-sort button{border:none;background:transparent;color:var(--text-dim);font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:background .18s,color .18s}
+    .awb-sort button:hover{color:var(--text)}
+    .awb-sort button.on{background:rgba(255,255,255,.08);color:var(--text)}
+    .awb-note{font-family:var(--font-m);font-size:10.5px;line-height:1.6;color:var(--text-dim);margin-top:10px;max-width:640px}
+    .awb-hi{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:18px 0 6px}
+    .awb-card{box-sizing:border-box;min-width:0;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface)}
+    .awb-card .k{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin-bottom:8px}
+    .awb-card .v{font-family:var(--font-d);font-size:19px;font-weight:800;letter-spacing:-.2px;line-height:1.15;color:var(--text);overflow-wrap:anywhere}
+    .awb-card .d{font-size:12px;color:var(--text-muted);margin-top:4px}
+    .awb-card.gold .v{color:var(--gold)}
+    .awb-cols{display:grid;grid-template-columns:30px minmax(150px,1.2fr) minmax(120px,2fr) 54px 54px 58px 14px;gap:12px;padding:16px 16px 4px;font-family:var(--font-m);font-size:10px;color:var(--text-dim)}
+    .awb-cols span:nth-child(n+4){text-align:right}
+    .awb-row{border:1px solid var(--border-card);background:var(--surface);border-radius:var(--r);margin-top:8px;overflow:hidden;transition:border-color .2s,background .2s}
+    .awb-row:hover{border-color:rgba(255,255,255,.16)}
+    .awb-row.open{border-color:rgba(245,200,66,.38);background:rgba(255,255,255,.04)}
+    .awb-head{all:unset;box-sizing:border-box;display:grid;grid-template-columns:30px minmax(150px,1.2fr) minmax(120px,2fr) 54px 54px 58px 14px;align-items:center;gap:12px;width:100%;padding:12px 16px;cursor:pointer}
+    .awb-rank{font-family:var(--font-m);font-size:12px;font-weight:700;color:var(--text-dim);text-align:center}
+    .awb-row.top .awb-rank{color:var(--gold)}
+    .awb-who{display:flex;align-items:center;gap:11px;min-width:0}
+    .awb-av{width:34px;height:34px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);flex-shrink:0;object-fit:cover;image-rendering:pixelated}
+    .awb-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid var(--border)}
+    .awb-name{font-family:var(--font-d);font-size:16px;font-weight:800;letter-spacing:.1px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .awb-sub{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .awb-track{display:flex;height:10px;border-radius:99px;background:rgba(255,255,255,.05);overflow:hidden}
+    .awb-seg{height:100%;width:0;transition:width .75s cubic-bezier(.22,1,.36,1);background:var(--pc)}
+    .awb-seg.cx{background:repeating-linear-gradient(135deg,rgba(255,255,255,.28) 0 3px,rgba(255,255,255,.08) 3px 6px)}
+    .awb-seg+.awb-seg{margin-left:2px}
+    .awb-num{font-family:var(--font-d);font-size:17px;font-weight:800;color:var(--text);text-align:right}
+    .awb-num.w{color:var(--gold)}
+    .awb-num.z{color:var(--text-dim);font-weight:600}
+    .awb-num small{font-family:var(--font-m);font-size:9.5px;font-weight:600;color:var(--text-dim);margin-left:1px}
+    .awb-chev{font-size:11px;color:var(--text-dim);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+    .awb-row.open .awb-chev{transform:rotate(180deg)}
+    .awb-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.22,1,.36,1)}
+    .awb-row.open .awb-body{grid-template-rows:1fr}
+    .awb-inner{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s .4s}
+    .awb-row.open .awb-inner{visibility:visible;transition:visibility 0s}
+    .awb-detail{padding:4px 16px 16px 58px;border-top:1px dashed var(--border-card);margin:0 0 0 0}
+    .awb-lead{font-size:12.5px;color:var(--text-muted);padding:12px 0 2px}
+    .awb-lead b{color:var(--text)}
+    .awb-grp{margin-top:14px}
+    .awb-grp-h{display:flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-muted)}
+    .awb-grp-h .dot{width:8px;height:8px;border-radius:50%;background:var(--pc)}
+    .awb-grp-h em{font-style:normal;color:var(--text-dim);font-weight:600}
+    .awb-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px;margin-top:8px}
+    .awb-it{display:flex;align-items:center;gap:8px;min-width:0;padding:7px 10px;border-radius:9px;border:1px solid var(--border);background:rgba(255,255,255,.025);font-size:12px;color:var(--text-muted)}
+    .awb-it .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .awb-it.won{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.07);color:var(--text)}
+    .awb-it .r{font-family:var(--font-m);font-size:9.5px;font-weight:700;color:var(--text-dim)}
+    .awb-it.won .r{color:var(--gold)}
+    .awb-empty{margin-top:14px;padding:30px 20px;text-align:center;border:1px dashed var(--border-card);border-radius:var(--r);font-size:13px;color:var(--text-muted)}
+    .awb-none{font-size:12px;color:var(--text-dim);margin-top:16px;line-height:1.6}
+    @media(max-width:760px){
+      .awb-cols{display:none}
+      .awb-head{grid-template-columns:26px minmax(0,1fr) auto auto auto 12px;grid-template-areas:"rk who n w r ch" "bar bar bar bar bar bar";gap:10px 10px}
+      .awb-head .awb-rank{grid-area:rk}.awb-head .awb-who{grid-area:who}.awb-head .awb-bar{grid-area:bar}.awb-head .n{grid-area:n}.awb-head .w{grid-area:w}.awb-head .r{grid-area:r}.awb-head .awb-chev{grid-area:ch}
+      .awb-detail{padding-left:16px}
+      .awb-sort{margin-left:0}
+    }
+    @media (prefers-reduced-motion:reduce){.awb-seg,.awb-body,.awb-chev{transition:none}}
     .awards-stat{box-sizing:border-box;min-width:0;border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:12px 14px}
     .awards-stat-num{font-family:var(--font-d);font-weight:800;font-size:24px;line-height:1.1;color:var(--gold);overflow-wrap:anywhere}
     .awards-stat-lbl{font-family:var(--font-m);font-weight:600;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
@@ -2113,6 +2196,7 @@
           <p class="ssub">Celebrating the best of Quipalite MC each season. Nominees and winners are shown below for each ceremony.</p>
           <div class="awards-stats" id="awardsStats"></div>
         </div>
+        <div class="awb-view" id="awardsView" role="group" aria-label="Awards view"><button class="on" data-v="ceremonies" onclick="setAwardsView('ceremonies')">Ceremonies</button><button data-v="board" onclick="setAwardsView('board')">Nominations &amp; wins</button></div>
         <div class="wc2-subtabs" style="margin-top:20px" id="awardsSubtabs">
           <button class="wc2-subtab active" onclick="setAwardsPeriod('jan26',this)">January 2026</button>
           <button class="wc2-subtab" onclick="setAwardsPeriod('apr26',this)">April 2026</button>
@@ -2120,6 +2204,7 @@
           <button class="wc2-subtab" onclick="setAwardsPeriod('jan27',this)">January 2027 <span class="tab-soon">SOON</span></button>
         </div>
         <div id="awardsContent" style="margin-top:8px"></div>
+        <div id="awardsBoard" class="awb" style="display:none"></div>
       </div>
     </section>
     <footer>© Quipalite MC &nbsp;·&nbsp; Server Awards &nbsp;·&nbsp; 2026
@@ -3737,7 +3822,151 @@
     ].map(([n, l]) => `<div class="awards-stat"><div class="awards-stat-num">${n}</div><div class="awards-stat-lbl">${l}</div></div>`).join('');
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fillAwardsStats); else fillAwardsStats();
+  // ---- Awards: nominations & wins board ----
+  let AWB_VIEW = 'ceremonies';
+  const AWB = { tab:'players', sort:'noms', q:'', open:null, on:{jan26:true, apr26:true, sep26:false, jan27:true} };
+  const AWB_PER = [['jan26','Jan 2026','#fb923c'],['apr26','Apr 2026','#60a5fa'],['sep26','Sep 2026','#8b93a1'],['jan27','Jan 2027','#a78bfa']];
+  function awbEsc(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+  function setAwardsView(v) {
+    AWB_VIEW = v;
+    document.querySelectorAll('#awardsView button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+    const sub = document.getElementById('awardsSubtabs'), cont = document.getElementById('awardsContent'), board = document.getElementById('awardsBoard');
+    if (sub) sub.style.display = v === 'board' ? 'none' : '';
+    if (cont) cont.style.display = v === 'board' ? 'none' : '';
+    if (board) board.style.display = v === 'board' ? '' : 'none';
+    if (v === 'board') awbRender();
+  }
+  function awbModel() {
+    const nations = (typeof NATIONS !== 'undefined') ? NATIONS : [];
+    const nationBy = {}, leaderOf = {};
+    nations.forEach(n => { nationBy[n.name] = n; if (n.leader) (leaderOf[n.leader] = leaderOf[n.leader] || []).push(n); });
+    const map = {};
+    AWB_PER.forEach(([p]) => {
+      const d = AWARDS[p]; if (!d || !d.categories) return;
+      d.categories.forEach(c => {
+        const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
+        (c.nominees || []).forEach(nm => {
+          const e = map[nm] || (map[nm] = { name:nm, nation:nationBy[nm] || null, items:[] });
+          e.items.push({ p, cat:c.title, icon:c.icon, won:ws.indexOf(nm) >= 0, decided:ws.length > 0 });
+        });
+      });
+    });
+    return { map, nations, nationBy, leaderOf };
+  }
+  function awbStats(e) {
+    const its = e.items.filter(i => AWB.on[i.p]);
+    const dec = its.filter(i => i.decided);
+    const wins = its.filter(i => i.won).length;
+    const by = {}; AWB_PER.forEach(([p]) => by[p] = its.filter(i => i.p === p).length);
+    return { its, noms:its.length, wins, dec:dec.length, rate:dec.length ? wins / dec.length : null, by };
+  }
+  function awbRows(M) {
+    const wantNation = AWB.tab === 'countries';
+    let list = Object.values(M.map).filter(e => !!e.nation === wantNation).map(e => Object.assign({ e }, awbStats(e))).filter(r => r.noms > 0);
+    const q = AWB.q.trim().toLowerCase();
+    if (q) list = list.filter(r => r.e.name.toLowerCase().indexOf(q) >= 0);
+    const k = AWB.sort;
+    list.sort((a, b) => {
+      if (k === 'wins') return b.wins - a.wins || b.noms - a.noms || a.e.name.localeCompare(b.e.name);
+      if (k === 'rate') return ((b.rate == null ? -1 : b.rate) - (a.rate == null ? -1 : a.rate)) || b.wins - a.wins || b.dec - a.dec || a.e.name.localeCompare(b.e.name);
+      return b.noms - a.noms || b.wins - a.wins || a.e.name.localeCompare(b.e.name);
+    });
+    return list;
+  }
+  function awbHighlights(all) {
+    if (!all.length) return '';
+    const best = (fn, cmp) => all.reduce((m, r) => (m == null || cmp(fn(r), fn(m)) > 0) ? r : m, null);
+    const mostNom = best(r => r.noms, (a, b) => a - b);
+    const mostWin = best(r => r.wins, (a, b) => a - b);
+    let pool = all.filter(r => r.dec >= 3 && r.rate != null); if (!pool.length) pool = all.filter(r => r.dec >= 1 && r.rate != null);
+    const bestRate = pool.length ? pool.reduce((m, r) => (r.rate > m.rate || (r.rate === m.rate && r.wins > m.wins)) ? r : m) : null;
+    const unlucky = all.filter(r => r.wins === 0 && r.dec > 0).sort((a, b) => b.dec - a.dec || b.noms - a.noms)[0] || null;
+    const card = (k, v, d, cls) => `<div class="awb-card ${cls || ''}"><div class="k">${k}</div><div class="v">${awbEsc(v)}</div><div class="d">${d}</div></div>`;
+    return [
+      card('Most nominated', mostNom.e.name, mostNom.noms + (mostNom.noms === 1 ? ' nomination' : ' nominations')),
+      mostWin.wins > 0 ? card('Most wins', mostWin.e.name, mostWin.wins + (mostWin.wins === 1 ? ' award' : ' awards'), 'gold') : card('Most wins', 'None yet', 'No awards decided in this selection'),
+      bestRate ? card('Best win rate', bestRate.e.name, Math.round(bestRate.rate * 100) + '% (' + bestRate.wins + ' of ' + bestRate.dec + ')') : card('Best win rate', 'Not enough data', 'Needs a decided ceremony'),
+      unlucky ? card('Nominated, no win yet', unlucky.e.name, unlucky.dec + (unlucky.dec === 1 ? ' decided nomination, 0 wins' : ' decided nominations, 0 wins')) : (all.some(r => r.dec > 0) ? card('Nominated, no win yet', 'Nobody', 'Everyone with a decided nomination has won') : card('Nominated, no win yet', 'Nobody yet', 'No awards decided in this selection'))
+    ].join('');
+  }
+  function awbRowHtml(r, i, max, M) {
+    const e = r.e, n = e.nation;
+    const lead = n ? M.map[n.leader] : null;
+    const leadsNations = !n ? (M.leaderOf[e.name] || []) : [];
+    const sub = n
+      ? 'Led by ' + awbEsc(n.leader || 'unknown')
+      : (leadsNations.length ? 'Leader of ' + leadsNations.map(x => awbEsc(x.name)).join(', ') : '');
+    const avatar = n
+      ? `<div class="awb-ico" style="background:${n.iconBg || 'rgba(255,255,255,.06)'};border-color:${n.iconBorder || 'var(--border)'}">${n.icon || ''}</div>`
+      : `<img class="awb-av" src="${av(e.name, 40)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
+    const segs = AWB_PER.filter(([p]) => AWB.on[p] && r.by[p]).map(([p, lbl, col]) =>
+      `<div class="awb-seg${p === 'sep26' ? ' cx' : ''}" style="--pc:${col}" data-w="${(r.by[p] / max * 100).toFixed(1)}" title="${lbl}: ${r.by[p]}"></div>`).join('');
+    const rate = r.rate == null ? '<span class="awb-num z">&ndash;</span>' : `<span class="awb-num${r.rate > 0 ? ' w' : ' z'}">${Math.round(r.rate * 100)}<small>%</small></span>`;
+    // detail
+    const groups = AWB_PER.filter(([p]) => AWB.on[p] && r.by[p]).map(([p, lbl, col]) => {
+      const its = r.its.filter(x => x.p === p);
+      const cx = AWARDS[p] && AWARDS[p].cancelled;
+      return `<div class="awb-grp"><div class="awb-grp-h" style="--pc:${col}"><span class="dot"></span>${lbl}${cx ? ' <em>cancelled</em>' : ''} <em>${its.length} ${its.length === 1 ? 'nomination' : 'nominations'}</em></div><div class="awb-items">${its.map(x => `<div class="awb-it${x.won ? ' won' : ''}"><span>${x.icon || ''}</span><span class="t">${awbEsc(x.cat)}</span><span class="r">${x.won ? 'Won' : (cx ? 'Cancelled' : (x.decided ? 'Nominee' : 'Pending'))}</span></div>`).join('')}</div></div>`;
+    }).join('');
+    let extra = '';
+    if (n && n.leader) {
+      const ld = M.map[n.leader];
+      if (ld) { const s2 = awbStats(ld); extra = `<div class="awb-lead">Its leader <b>${awbEsc(n.leader)}</b> has ${s2.noms} ${s2.noms === 1 ? 'nomination' : 'nominations'} and ${s2.wins} ${s2.wins === 1 ? 'win' : 'wins'} in this selection.</div>`; }
+      else extra = `<div class="awb-lead">Its leader <b>${awbEsc(n.leader)}</b> hasn't been nominated yet.</div>`;
+    }
+    const winsHtml = `<span class="awb-num w n-wins${r.wins ? '' : ' z'}">${r.wins}</span>`;
+    return `<div class="awb-row${i === 0 && r.noms ? ' top' : ''}${AWB.open === e.name ? ' open' : ''}" data-name="${awbEsc(e.name)}"><button class="awb-head" aria-expanded="${AWB.open === e.name}"><span class="awb-rank">${i + 1}</span><span class="awb-who">${avatar}<span style="min-width:0"><div class="awb-name">${awbEsc(e.name)}</div>${sub ? `<div class="awb-sub">${sub}</div>` : ''}</span></span><span class="awb-bar"><div class="awb-track">${segs}</div></span><span class="awb-num n">${r.noms}</span><span class="n w">${winsHtml}</span><span class="r">${rate}</span><span class="awb-chev">&#9662;</span></button><div class="awb-body"><div class="awb-inner"><div class="awb-detail">${extra}${groups}</div></div></div></div>`;
+  }
+  function awbRefresh() {
+    const M = awbModel();
+    const wantNation = AWB.tab === 'countries';
+    const everything = Object.values(M.map).filter(e => !!e.nation === wantNation).map(e => Object.assign({ e }, awbStats(e))).filter(r => r.noms > 0);
+    const rows = awbRows(M);
+    const hi = document.getElementById('awbHi'), list = document.getElementById('awbList'), none = document.getElementById('awbNone');
+    if (hi) hi.innerHTML = awbHighlights(everything);
+    const max = Math.max(1, ...rows.map(r => r.noms));
+    if (list) {
+      list.innerHTML = rows.length
+        ? `<div class="awb-cols"><span></span><span>${wantNation ? 'Country' : 'Player'}</span><span>Nominations by ceremony</span><span>Noms</span><span>Wins</span><span>Win rate</span><span></span></div>` + rows.map((r, i) => awbRowHtml(r, i, max, M)).join('')
+        : `<div class="awb-empty">${AWB.q ? 'No ' + (wantNation ? 'countries' : 'players') + ' match &ldquo;' + awbEsc(AWB.q) + '&rdquo;.' : 'Nothing to show. Switch on at least one ceremony above.'}</div>`;
+      requestAnimationFrame(() => requestAnimationFrame(() => list.querySelectorAll('.awb-seg').forEach(sg => { sg.style.width = sg.dataset.w + '%'; })));
+    }
+    if (none) {
+      if (wantNation) {
+        const listed = new Set(everything.map(r => r.e.name));
+        const miss = M.nations.filter(n => !listed.has(n.name)).map(n => n.name);
+        none.innerHTML = miss.length ? 'Not nominated yet: ' + miss.map(awbEsc).join(', ') + '.' : '';
+      } else none.innerHTML = '';
+    }
+  }
+  function awbRender() {
+    const el = document.getElementById('awardsBoard'); if (!el) return;
+    const M = awbModel();
+    const cnt = t => Object.values(M.map).filter(e => (!!e.nation) === (t === 'countries') && awbStats(e).noms > 0).length;
+    el.innerHTML = `<div class="awb-top"><div class="awb-tabs" role="tablist"><button class="awb-tab${AWB.tab === 'players' ? ' on' : ''}" data-tab="players" role="tab" aria-selected="${AWB.tab === 'players'}">Players<i>${cnt('players')}</i></button><button class="awb-tab${AWB.tab === 'countries' ? ' on' : ''}" data-tab="countries" role="tab" aria-selected="${AWB.tab === 'countries'}">Countries<i>${cnt('countries')}</i></button></div><input class="awb-search" id="awbSearch" type="search" placeholder="Search ${AWB.tab === 'countries' ? 'countries' : 'players'}" value="${awbEsc(AWB.q)}" aria-label="Search"></div>`
+      + `<div class="awb-filters"><span class="awb-lbl">Ceremonies</span>${AWB_PER.map(([p, lbl, col]) => `<button class="awb-chip${AWB.on[p] ? ' on' : ''}" style="--pc:${col}" data-per="${p}" aria-pressed="${AWB.on[p]}"><span class="dot"></span>${lbl}${AWARDS[p] && AWARDS[p].cancelled ? ' <small>cancelled</small>' : ''}</button>`).join('')}<span class="awb-sort" role="group" aria-label="Sort"><button data-sort="noms" class="${AWB.sort === 'noms' ? 'on' : ''}">Nominations</button><button data-sort="wins" class="${AWB.sort === 'wins' ? 'on' : ''}">Wins</button><button data-sort="rate" class="${AWB.sort === 'rate' ? 'on' : ''}">Win rate</button></span></div>`
+      + `<div class="awb-note">September 2026 was cancelled, so it's switched off by default and no one can win from it. Win rate only counts categories that have a winner. Click any row to see every nomination.</div>`
+      + `<div class="awb-hi" id="awbHi"></div><div id="awbList"></div><div class="awb-none" id="awbNone"></div>`;
+    awbRefresh();
+  }
+  (function () {
+    const board = document.getElementById('awardsBoard'); if (!board) return;
+    board.addEventListener('click', ev => {
+      const t = ev.target.closest('[data-tab],[data-per],[data-sort],.awb-head'); if (!t) return;
+      if (t.dataset.tab) { AWB.tab = t.dataset.tab; AWB.q = ''; AWB.open = null; awbRender(); }
+      else if (t.dataset.per) { AWB.on[t.dataset.per] = !AWB.on[t.dataset.per]; awbRender(); }
+      else if (t.dataset.sort) { AWB.sort = t.dataset.sort; awbRender(); }
+      else if (t.classList.contains('awb-head')) {
+        const row = t.closest('.awb-row'), name = row.dataset.name, was = row.classList.contains('open');
+        board.querySelectorAll('.awb-row.open').forEach(r => { r.classList.remove('open'); r.querySelector('.awb-head').setAttribute('aria-expanded', 'false'); });
+        AWB.open = was ? null : name;
+        if (!was) { row.classList.add('open'); t.setAttribute('aria-expanded', 'true'); }
+      }
+    });
+    board.addEventListener('input', ev => { if (ev.target.id === 'awbSearch') { AWB.q = ev.target.value; AWB.open = null; awbRefresh(); } });
+  })();
   function setAwardsPeriod(period, btn) {
+    if (AWB_VIEW !== 'ceremonies') setAwardsView('ceremonies');
     awardsPeriod = period;
     document.querySelectorAll('#awardsSubtabs .wc2-subtab').forEach(b=>b.classList.remove('active'));
     if (btn) btn.classList.add('active');
