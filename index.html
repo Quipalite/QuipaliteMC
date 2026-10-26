@@ -96,7 +96,7 @@
     .bal-prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold),#ff8a3d,#ff1a6d);transition:width .35s ease}
     .bal-scroll{position:relative;z-index:2;flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:10px 18px 18px}
     .bal-body{position:relative;max-width:980px;margin:0 auto;text-align:center;animation:balInF .38s cubic-bezier(.2,.8,.2,1) both}
-    .bal-body.back{animation-name:balInB}
+    .bal-body.bal-rev{animation-name:balInB}
     @keyframes balInF{from{opacity:0;transform:translateX(46px)}to{opacity:1;transform:none}}
     @keyframes balInB{from{opacity:0;transform:translateX(-46px)}to{opacity:1;transform:none}}
     .bal-num{position:absolute;left:50%;top:-6px;transform:translateX(-50%);font-family:var(--font-d);font-weight:800;font-size:clamp(110px,26vw,230px);line-height:1;color:rgba(245,200,66,.07);pointer-events:none;user-select:none}
@@ -119,7 +119,6 @@
     .bal-head-fb,.bal-head-flag{width:100%;height:100%;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#1a1a24;font-family:var(--font-d);font-weight:800;color:var(--gold)}
     .bal-head-fb{font-size:42px}
     .bal-head-flag{font-size:52px}
-    .bal-name{font-family:var(--font-d);font-weight:800;font-size:17px;letter-spacing:-.2px;line-height:1.2;overflow-wrap:anywhere;max-width:100%}
     .bal-nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 18px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(255,255,255,.08);background:rgba(8,8,13,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     .bal-nav .vote-ghost:disabled{opacity:.35;cursor:default}
     .bal-nav-mid{font-family:var(--font-m);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:center;min-width:0}
@@ -132,6 +131,22 @@
     .bal-hint{color:rgba(255,255,255,.72)}
     .bal-change{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer;flex:0 0 auto}
     .bal-skipped{color:var(--text-dim);font-weight:500;font-style:italic}
+    .bal-name{display:block;width:100%;text-align:center;white-space:nowrap;overflow:hidden;font-family:var(--font-d);font-weight:800;font-size:17px;letter-spacing:-.2px;line-height:1.25}
+    .bal-desc{position:relative;max-width:620px;margin:0 auto 10px;padding:10px 14px;border-radius:12px;border:1px solid rgba(245,200,66,.28);background:rgba(245,200,66,.07);font-size:13px;line-height:1.5;color:rgba(255,255,255,.88)}
+    .bal-desc b{font-family:var(--font-m);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-right:6px}
+    .bal-namebox{display:flex;align-items:center;gap:12px;max-width:440px;margin:0 auto 14px}
+    .bal-namebox .vote-name{flex:1 1 auto;margin:0;font-size:15px;padding:13px 14px}
+    .bal-me{flex:0 0 auto;width:56px;height:56px}
+    .bal-honest{max-width:520px;margin:0 auto 14px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,26,109,.4);background:rgba(255,26,109,.08);font-size:13px;line-height:1.5;color:rgba(255,255,255,.9);text-align:left}
+    .bal-check{display:flex;align-items:flex-start;gap:10px;max-width:520px;margin:0 auto 14px;text-align:left;font-size:13.5px;line-height:1.45;cursor:pointer;color:var(--text)}
+    .bal-check input{margin-top:3px;width:18px;height:18px;accent-color:var(--gold);flex:0 0 auto}
+    .bal-confirm{margin-top:14px;padding:14px;border-radius:14px;border:1px solid rgba(245,200,66,.45);background:rgba(245,200,66,.07)}
+    .bal-confirm .bal-check{margin:0 0 12px;max-width:none}
+    .bal-ok{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4ade80;margin-bottom:10px}
+    .bal-lock{font-size:12px;color:var(--text-dim);margin-top:10px}
+    .bal-voting-as{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+    .bal-voting-as strong{font-family:var(--font-d);font-weight:800;font-size:16px;min-width:0;overflow-wrap:anywhere}
+    .bal-voting-as .bal-change{margin-left:auto}
     @media(max-width:520px){.bal-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bal-card{padding:20px 8px 14px}.bal-name{font-size:15px}.bal-brand{font-size:9px;letter-spacing:2px}}
     @media(prefers-reduced-motion:reduce){.bal *,.bal{animation:none!important;transition:none!important}.bal-spark{display:none}}
     .vote-panel{box-sizing:border-box;margin-top:14px;border-radius:18px;border:1px solid rgba(245,200,66,.4);background:radial-gradient(120% 120% at 50% 0%,rgba(245,200,66,.1),rgba(255,26,109,.05));padding:20px}
@@ -3334,34 +3349,37 @@
       { title: 'Players\u2019 Favourite', icon: '\ud83d\udc96', nominees: [] },
     ] },
     jan27: { label: 'January 2027', note: 'These nominees cover the whole of 2026 (January 2026 to December 2026). Winners will be announced in January 2027.', categories: [
-      { title: 'Best Island Evolution Player', icon: '🏝️', nominees: ['Terroralex10', 'Knoxy5316', 'Killedbycrab', 'Ushindo', 'Gooner5342'] },
-      { title: 'Best Current Nations Player', icon: '🌍', nominees: ['Aftlow', 'SadInFusIOns', 'Neska5036', 'Gooner5342', 'Killedbycrab'] },
-      { title: 'Best Party Games Player', icon: '🎉', nominees: ['Aftlow', 'Neska5036', 'Cobio29', 'Mason20539', 'bubbler2009'] },
-      { title: 'Best New Player', icon: '🌟', nominees: ['WARDY B33', 'Theo43837', 'Mason20539', 'Wancerr', 'ALEXJAY31'] },
-      { title: 'Most Improved Player', icon: '📈', nominees: ['RT2345678', 'Knoxy5316', 'Wancerr', 'SadInFusIOns', 'mack29702'] },
-      { title: 'Best Staff Member', icon: '🛡️', nominees: ['Killedbycrab', 'Aftlow', 'SadInFusIOns', 'Neska5036', 'Ushindo'] },
-      { title: 'Best Content Creator', icon: '🎥', nominees: ['Killedbycrab', 'Aftlow', 'Ushindo', 'Mason20539'] },
-      { title: 'Best Builder', icon: '🏗️', nominees: ['Aftlow', 'Neska5036', 'Ushindo', 'SadInFusIOns', 'WARDY B33'] },
-      { title: 'Best Country', icon: '🏳️', nominees: ['Craineun', 'Smegtopia', 'Corexia', 'Springbuck', 'Crabville'] },
-      { title: 'Best PVP\u2019er', icon: '⚔️', nominees: ['w85544534', 'Mason20539', 'Aftlow', 'Killedbycrab', 'Wancerr'] },
-      { title: 'Best Ranked Overall Player', icon: '🏆', nominees: ['w85544534', 'Killedbycrab', 'Mason20539', 'Wancerr', 'Neska5036'] },
-      { title: 'Best Sword Player', icon: '⚔️', nominees: ['Mason20539', 'w85544534', 'Wancerr', 'SadInFusIOns', 'Aftlow'] },
-      { title: 'Best Axe Player', icon: '🪓', nominees: ['Aftlow', 'Mason20539', 'w85544534', 'Killedbycrab', 'WARDY B33'] },
-      { title: 'Best UHC Player', icon: '❤️', nominees: ['Wancerr', 'w85544534', 'Killedbycrab', 'Neska5036', 'Aftlow'] },
-      { title: 'Best Mace Player', icon: '🔨', nominees: ['Killedbycrab', 'w85544534', 'Wancerr', 'Knoxy5316', 'mack29702'] },
-      { title: 'Best Spear Player', icon: '🗡️', nominees: ['Aftlow', 'w85544534', 'Killedbycrab', 'Neska5036', 'Knoxy5316'] },
-      { title: 'Players\u2019 Favourite', icon: '💖', nominees: [] },
-      { title: 'Best Player', icon: '🏆', nominees: ['Aftlow', 'Killedbycrab', 'Knoxy5316', 'w85544534', 'Neska5036'] },
+      { title: 'Best Island Evolution Player', desc: 'The standout player of Island Evolution in 2026. Big plays, great progress and a real legend of the islands.', icon: '🏝️', nominees: ['Terroralex10', 'Knoxy5316', 'Killedbycrab', 'Ushindo', 'Gooner5342'] },
+      { title: 'Best Current Nations Player', desc: 'The player who did the most for the Nations side of the server in 2026: leading, growing and shaping their country.', icon: '🌍', nominees: ['Aftlow', 'SadInFusIOns', 'Neska5036', 'Gooner5342', 'Killedbycrab'] },
+      { title: 'Best Party Games Player', desc: 'The best all-round player in the server’s party games and minigames this year.', icon: '🎉', nominees: ['Aftlow', 'Neska5036', 'Cobio29', 'Mason20539', 'bubbler2009'] },
+      { title: 'Best New Player', desc: 'A player who joined in 2026 and made the biggest impression from day one.', icon: '🌟', nominees: ['WARDY B33', 'Theo43837', 'Mason20539', 'Wancerr', 'ALEXJAY31'] },
+      { title: 'Most Improved Player', desc: 'The player who has come the furthest since the start of 2026.', icon: '📈', nominees: ['RT2345678', 'Knoxy5316', 'Wancerr', 'SadInFusIOns', 'mack29702'] },
+      { title: 'Best Staff Member', desc: 'The staff member who did the most to keep Quipalite MC running smoothly and fairly.', icon: '🛡️', nominees: ['Killedbycrab', 'Aftlow', 'SadInFusIOns', 'Neska5036', 'Ushindo'] },
+      { title: 'Best Content Creator', desc: 'The creator who made the best videos, streams or posts about Quipalite MC in 2026.', icon: '🎥', nominees: ['Killedbycrab', 'Aftlow', 'Ushindo', 'Mason20539'] },
+      { title: 'Best Builder', desc: 'The player with the best builds of 2026: creativity, scale and detail.', icon: '🏗️', nominees: ['Aftlow', 'Neska5036', 'Ushindo', 'SadInFusIOns', 'WARDY B33'] },
+      { title: 'Best Country', desc: 'The nation that had the best 2026 overall, from the World Cup and club football to politics and community.', icon: '🏳️', nominees: ['Craineun', 'Smegtopia', 'Corexia', 'Springbuck', 'Crabville'] },
+      { title: 'Best PVP\u2019er', desc: 'The strongest fighter in player-vs-player combat across 2026.', icon: '⚔️', nominees: ['w85544534', 'Mason20539', 'Aftlow', 'Killedbycrab', 'Wancerr'] },
+      { title: 'Best Ranked Overall Player', desc: 'The best performer across all five Ranked modes (sword, axe, UHC, mace and spear), judged on tier, wins and kill/death ratio.', icon: '🏆', nominees: ['w85544534', 'Killedbycrab', 'Mason20539', 'Wancerr', 'Neska5036'] },
+      { title: 'Best Sword Player', desc: 'The best Ranked Sword player of 2026, judged on tier, wins and kill/death ratio.', icon: '⚔️', nominees: ['Mason20539', 'w85544534', 'Wancerr', 'SadInFusIOns', 'Aftlow'] },
+      { title: 'Best Axe Player', desc: 'The best Ranked Axe player of 2026, judged on tier, wins and kill/death ratio.', icon: '🪓', nominees: ['Aftlow', 'Mason20539', 'w85544534', 'Killedbycrab', 'WARDY B33'] },
+      { title: 'Best UHC Player', desc: 'The best Ranked UHC player of 2026, judged on tier, wins and kill/death ratio.', icon: '❤️', nominees: ['Wancerr', 'w85544534', 'Killedbycrab', 'Neska5036', 'Aftlow'] },
+      { title: 'Best Mace Player', desc: 'The best Ranked Mace player of 2026, judged on tier, wins and kill/death ratio.', icon: '🔨', nominees: ['Killedbycrab', 'w85544534', 'Wancerr', 'Knoxy5316', 'mack29702'] },
+      { title: 'Best Spear Player', desc: 'The best Ranked Spear player of 2026, judged on tier, wins and kill/death ratio.', icon: '🗡️', nominees: ['Aftlow', 'w85544534', 'Killedbycrab', 'Neska5036', 'Knoxy5316'] },
+      { title: 'Players\u2019 Favourite', desc: 'Chosen by the community: your favourite player of the year. Nominees will be announced soon.', icon: '💖', nominees: [] },
+      { title: 'Best Player', desc: 'The big one. The best player on Quipalite MC overall in 2026.', icon: '🏆', nominees: ['Aftlow', 'Killedbycrab', 'Knoxy5316', 'w85544534', 'Neska5036'] },
     ], hype: true, voting: true },
   };
   let awardsPeriod = 'jan26';
-  // ---- Voting + sharing: full-screen ballot (picks stay on the voter's device; shared via link, text or image) ----
+  // ---- Voting + sharing: full-screen ballot. A real name and a final confirmation are required before sharing. ----
   let awardPicks = {};
   let awardVoterName = '';
+  let awardHonest = false;
+  let awardConfirmed = false;
   let awardVotePeriod = 'jan27';
-  let balStep = 0, balList = [], balDir = 'f', balBusy = false;
+  let balStep = 0, balList = [], balDir = 'f', balBusy = false, balAfterName = null, balMeT = null;
   function awEsc(t) { return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function awardNation(name) { return NATIONS.find(n => n.name === name) || null; }
+  function awardNameOk(n) { return /^[A-Za-z0-9_ ]{3,20}$/.test(String(n || '').trim()); }
   // Small head used on share cards: a nation gets its icon, a player gets their Minecraft head (same service as the leaderboards).
   function awardAvatarHtml(name) {
     const nat = awardNation(name);
@@ -3377,14 +3395,15 @@
     return `<img class="bal-head" src="${av(name, 192)}" alt="" onerror="this.outerHTML='<span class=&quot;bal-head-fb&quot;>${letter}</span>'">`;
   }
   function awardLoadPicks(period) {
-    try { const o = JSON.parse(localStorage.getItem('qmc_award_picks_' + period) || '{}'); awardPicks = o.p || {}; awardVoterName = String(o.n || '').slice(0, 30); }
-    catch (e) { awardPicks = {}; awardVoterName = ''; }
+    try { const o = JSON.parse(localStorage.getItem('qmc_award_picks_' + period) || '{}'); awardPicks = o.p || {}; awardVoterName = String(o.n || '').slice(0, 20); awardHonest = !!o.h; awardConfirmed = !!o.c; }
+    catch (e) { awardPicks = {}; awardVoterName = ''; awardHonest = false; awardConfirmed = false; }
     const data = AWARDS[period], valid = {};
     if (data) data.categories.forEach(c => { if (awardPicks[c.title] && c.nominees.indexOf(awardPicks[c.title]) >= 0) valid[c.title] = awardPicks[c.title]; });
     awardPicks = valid;
+    if (!Object.keys(awardPicks).length || !awardNameOk(awardVoterName)) awardConfirmed = false;
   }
   function awardSavePicks(period) {
-    try { localStorage.setItem('qmc_award_picks_' + period, JSON.stringify({ p: awardPicks, n: awardVoterName })); } catch (e) {}
+    try { localStorage.setItem('qmc_award_picks_' + period, JSON.stringify({ p: awardPicks, n: awardVoterName, h: awardHonest, c: awardConfirmed })); } catch (e) {}
   }
   function awardPeriodNow() { return awardVotePeriod; }
   function awardPickList(period) {
@@ -3394,7 +3413,7 @@
   function awardEncodeShare(period) {
     const data = AWARDS[period], p = [];
     data.categories.forEach((c, ci) => { const ni = c.nominees.indexOf(awardPicks[c.title]); if (ni >= 0) p.push([ci, ni]); });
-    const json = JSON.stringify({ n: awardVoterName, p });
+    const json = JSON.stringify({ n: awardVoterName, p, c: 1 });
     const b64 = btoa(unescape(encodeURIComponent(json))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     return location.href.split('#')[0] + '#votes=' + b64;
   }
@@ -3404,7 +3423,7 @@
     try {
       let b = m[1].replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '=';
       const o = JSON.parse(decodeURIComponent(escape(atob(b))));
-      return { n: String(o.n || '').slice(0, 30), p: Array.isArray(o.p) ? o.p : [] };
+      return { n: String(o.n || '').slice(0, 20), p: Array.isArray(o.p) ? o.p : [], c: !!o.c };
     } catch (e) { return null; }
   }
   function awardCardRows(picks) {
@@ -3416,7 +3435,8 @@
     if (!sh) return '';
     const picks = sh.p.map(([ci, ni]) => { const c = data.categories[ci]; const n = c && c.nominees[ni]; return c && n ? { icon: c.icon || '', cat: c.title, pick: n } : null; }).filter(Boolean);
     if (!picks.length) return '';
-    return `<div class="vote-panel" style="margin-top:8px"><div class="vote-card"><div class="vote-card-title">👀 ${sh.n ? awEsc(sh.n) + "'s" : 'Shared'} Server Awards 2027 picks</div>${awardCardRows(picks)}</div>
+    return `<div class="vote-panel" style="margin-top:8px"><div class="vote-card"><div class="vote-card-title">👀 ${sh.n ? awEsc(sh.n) + "'s" : 'Shared'} Server Awards 2027 picks</div>
+      ${sh.c ? '<div class="bal-ok">✅ Confirmed ballot</div>' : ''}${awardCardRows(picks)}</div>
       <div class="vote-actions" style="margin-top:12px"><button class="vote-submit" onclick="awardLeaveShared()">Make my own picks</button></div></div>`;
   }
   function awardLeaveShared() { history.replaceState(null, '', location.href.split('#')[0]); renderAwards(); }
@@ -3426,39 +3446,46 @@
     awardVotePeriod = period;
     awardLoadPicks(period);
     const total = data.categories.filter(c => c.nominees.length).length, n = Object.keys(awardPicks).length;
-    const label = n === 0 ? 'Start voting →' : (n >= total ? 'Edit my votes →' : 'Continue voting →');
+    const label = n === 0 ? 'Start voting →' : (awardConfirmed ? 'View or edit my votes →' : (n >= total ? 'Review my votes →' : 'Continue voting →'));
+    const status = awardConfirmed ? `<span style="color:#4ade80">✅ Confirmed as ${awEsc(awardVoterName)}</span>` : (n ? '<span style="color:#facc15">⚠️ Not confirmed yet</span>' : '');
     return `<div class="award-hype" style="cursor:default;margin-top:8px">
       <div class="award-hype-trophy">🗳️</div>
       <div class="award-hype-tag">🏅 Voting is open</div>
       <h3 class="award-hype-title" style="font-size:clamp(24px,5vw,36px)">Cast your <em>votes</em></h3>
-      <p class="award-hype-sub">Vote one award at a time in a full-screen ballot. Tap your pick and you'll jump straight to the next award, then share your votes with your friends.</p>
-      <div class="vote-cta-prog">You've picked <b>${n}</b> of <b>${total}</b></div>
+      <p class="award-hype-sub">Vote one award at a time in a full-screen ballot. You'll need your real Minecraft name, and you must confirm your votes at the end before you can share them with your friends.</p>
+      <div class="vote-cta-prog">You've picked <b>${n}</b> of <b>${total}</b>${status ? ' · ' + status : ''}</div>
       <div class="vote-cta-btns">
         <button class="award-hype-btn" onclick="awardOpenBallot()">${label}</button>
-        ${n ? '<button class="vote-ghost" onclick="awardOpenBallot(\'review\')">Share my votes</button>' : ''}
+        ${n ? '<button class="vote-ghost" onclick="awardOpenBallot(\'review\')">' + (awardConfirmed ? 'Share my votes' : 'Confirm my votes') + '</button>' : ''}
       </div></div>`;
   }
   function balData() { return AWARDS[awardVotePeriod]; }
+  function balFirstStep() { const i = balList.findIndex(c => !awardPicks[c.title]); return i < 0 ? 0 : i; }
   function awardOpenBallot(start) {
     awardLoadPicks(awardVotePeriod);
-    const data = balData();
-    balList = data.categories.filter(c => c.nominees.length);
-    if (start === 'review') balStep = balList.length;
+    balList = balData().categories.filter(c => c.nominees.length);
+    balAfterName = typeof start === 'undefined' ? null : start;
+    if (!(awardNameOk(awardVoterName) && awardHonest)) balStep = -1;
+    else if (start === 'review') balStep = balList.length;
     else if (typeof start === 'number') balStep = start;
-    else { const i = balList.findIndex(c => !awardPicks[c.title]); balStep = i < 0 ? 0 : i; }
+    else balStep = balFirstStep();
     balDir = 'f'; balBusy = false;
     let ov = document.getElementById('voteOverlay');
     if (!ov) {
       ov = document.createElement('div'); ov.id = 'voteOverlay'; ov.className = 'bal'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Server Awards 2027 ballot');
       document.body.appendChild(ov);
       document.addEventListener('keydown', balKey);
+      window.addEventListener('resize', balFitNames);
     }
     document.body.classList.add('bal-open');
     balRender();
   }
-  function awardCloseBallot() {
+  function awardCloseBallot(force) {
+    const picks = Object.keys(awardPicks).length;
+    if (!force && picks && !awardConfirmed && typeof window.confirm === 'function' && !window.confirm("You haven't confirmed your votes yet, so you won't be able to share them. Leave anyway?\n\n(Your picks are saved on this device, so you can come back and confirm later.)")) return;
     const ov = document.getElementById('voteOverlay'); if (ov) ov.remove();
     document.removeEventListener('keydown', balKey);
+    window.removeEventListener('resize', balFitNames);
     document.body.classList.remove('bal-open');
     if (document.getElementById('awardsContent') && awardsPeriod === awardVotePeriod) renderAwards();
   }
@@ -3471,19 +3498,46 @@
     }
     return `<div class="bal-sparks" aria-hidden="true">${out.join('')}</div>`;
   }
+  // Shrinks each nominee name until it fits on one line, so no name is ever cut off or split.
+  function balFitNames() {
+    document.querySelectorAll('#voteOverlay .bal-name').forEach(el => {
+      el.style.fontSize = '';
+      let fs = parseFloat(getComputedStyle(el).fontSize) || 17;
+      while (el.scrollWidth > el.clientWidth + 0.5 && fs > 9) { fs -= 0.5; el.style.fontSize = fs + 'px'; }
+    });
+  }
+  function balMeHtml(v) {
+    return awardNameOk(v)
+      ? `<img class="vote-head-img" style="width:56px;height:56px" src="${av(v.trim(), 112)}" alt="" onerror="this.outerHTML='<span class=&quot;vote-head-fb&quot; style=&quot;width:56px;height:56px&quot;>${awEsc(v.trim().charAt(0).toUpperCase())}</span>'">`
+      : '<span class="vote-head-fb" style="width:56px;height:56px">?</span>';
+  }
   function balRender() {
     const ov = document.getElementById('voteOverlay'); if (!ov) return;
-    const total = balList.length, review = balStep >= total;
-    const pct = review ? 100 : Math.round(balStep / total * 100);
-    const top = `<div class="bal-top"><button class="bal-x" onclick="awardCloseBallot()" aria-label="Close">✕</button><div class="bal-brand">🏆 Server Awards 2027</div><div class="bal-step">${review ? 'Done' : (balStep + 1) + ' / ' + total}</div></div>
+    const total = balList.length, review = balStep >= total, nameStep = balStep < 0;
+    const pct = nameStep ? 0 : (review ? 100 : Math.round(balStep / total * 100));
+    const label = nameStep ? 'Your name' : (review ? (awardConfirmed ? 'Confirmed' : 'Review') : (balStep + 1) + ' / ' + total);
+    const top = `<div class="bal-top"><button class="bal-x" onclick="awardCloseBallot()" aria-label="Close">✕</button><div class="bal-brand">🏆 Server Awards 2027</div><div class="bal-step">${label}</div></div>
       <div class="bal-prog"><div class="bal-prog-fill" style="width:${pct}%"></div></div>`;
     let body, nav;
-    if (!review) {
+    if (nameStep) {
+      body = `<div class="bal-body">
+        <div class="bal-icon">🪪</div>
+        <h2 class="bal-title">Who's voting?</h2>
+        <p class="bal-hint">Enter your Minecraft username. It goes on your votes and on the picks you share.</p>
+        <div class="bal-namebox"><span class="bal-me" id="balMe">${balMeHtml(awardVoterName)}</span><input class="vote-name" id="balNameIn" maxlength="20" autocomplete="off" spellcheck="false" placeholder="Your Minecraft username" value="${awEsc(awardVoterName)}" oninput="balNameInput()"></div>
+        <div class="bal-honest">⚠️ <b>Please be honest.</b> Use your own, real username. Don't borrow a friend's name or make one up. Everyone should be able to trust whose votes these are.</div>
+        <label class="bal-check"><input type="checkbox" id="balHonest" onchange="balNameInput()" ${awardHonest ? 'checked' : ''}><span>I confirm this is my real Minecraft username.</span></label>
+        <button class="vote-submit" id="balNameGo" onclick="balNameGo()" disabled>Start voting →</button>
+        <div class="vote-msg" id="balNameMsg" style="text-align:center"></div>
+      </div>`;
+      nav = `<div class="bal-nav"><button class="vote-ghost" disabled>← Back</button><div class="bal-nav-mid">Step 1: your name</div><button class="vote-ghost" disabled>Skip →</button></div>`;
+    } else if (!review) {
       const cat = balList[balStep], cur = awardPicks[cat.title];
-      body = `<div class="bal-body${balDir === 'b' ? ' back' : ''}">
+      body = `<div class="bal-body${balDir === 'b' ? ' bal-rev' : ''}">
         <div class="bal-num">${String(balStep + 1).padStart(2, '0')}</div>
         <div class="bal-icon">${awEsc(cat.icon || '🏆')}</div>
         <h2 class="bal-title">${awEsc(cat.title)}</h2>
+        ${cat.desc ? `<div class="bal-desc"><b>What is this award?</b>${awEsc(cat.desc)}</div>` : ''}
         <p class="bal-hint">Tap a nominee to vote. You'll jump to the next award automatically.</p>
         <div class="bal-grid">${cat.nominees.map((n, ni) => `<button type="button" class="bal-card${cur === n ? ' sel' : ''}" onclick="balPick(${ni},this)">
           ${ni < 9 ? `<span class="bal-key">${ni + 1}</span>` : ''}${cur === n ? '<span class="bal-tag">Your pick</span>' : ''}
@@ -3494,51 +3548,98 @@
     } else {
       const rows = balList.map((c, i) => { const pick = awardPicks[c.title];
         return `<div class="vote-card-row"><span>${awEsc(c.icon || '')} ${awEsc(c.title)}</span><span class="vote-card-pick">${pick ? awardAvatarHtml(pick) + '<span>' + awEsc(pick) + '</span>' : '<span class="bal-skipped">Skipped</span>'}<button class="bal-change" onclick="balGo(${i})">${pick ? 'Change' : 'Pick'}</button></span></div>`; }).join('');
-      const picked = Object.keys(awardPicks).length, canShare = !!navigator.share;
+      const picked = Object.keys(awardPicks).length, skipped = total - picked, canShare = !!navigator.share, lock = awardConfirmed ? '' : 'disabled';
+      const confirmBox = awardConfirmed
+        ? `<div class="bal-confirm"><div class="bal-ok">✅ Votes confirmed for ${awEsc(awardVoterName)}</div><button class="vote-ghost" onclick="balUnconfirm()">Edit my votes</button></div>`
+        : `<div class="bal-confirm">
+            ${skipped > 0 ? `<div class="bal-lock" style="margin:0 0 10px">You skipped <b>${skipped}</b> award${skipped === 1 ? '' : 's'}. You can still confirm, or go back and pick them.</div>` : ''}
+            <label class="bal-check"><input type="checkbox" id="balSure" onchange="balSureChange()"><span>I confirm these are my votes, and <b>${awEsc(awardVoterName)}</b> is my real Minecraft name.</span></label>
+            <button class="vote-submit" id="balConfirmBtn" onclick="balConfirm()" disabled>Confirm my votes</button>
+            <div class="bal-lock">🔒 Sharing unlocks once you confirm. Changing a pick later means confirming again.</div>
+          </div>`;
       body = `<div class="bal-review">
-        <div style="text-align:center;margin-bottom:14px"><div class="bal-icon">🎉</div><h2 class="bal-title">Your ballot</h2><p class="bal-hint" style="margin-bottom:6px">${picked} of ${total} awards picked. Add your name, then share your votes!</p></div>
-        <input class="vote-name" style="width:100%;margin-bottom:12px" maxlength="30" placeholder="Your name (shown on your shared picks)" value="${awEsc(awardVoterName)}" oninput="awardNameChange(this.value)">
-        <div class="vote-card"><div class="vote-card-title">🏆 My Server Awards 2027 picks</div>${rows}</div>
+        <div style="text-align:center;margin-bottom:14px"><div class="bal-icon">${awardConfirmed ? '🎉' : '📝'}</div><h2 class="bal-title">${awardConfirmed ? 'Your votes are in!' : 'Check your ballot'}</h2><p class="bal-hint" style="margin-bottom:6px">${picked} of ${total} awards picked. ${awardConfirmed ? 'Now share your votes with your friends.' : 'Look it over, then confirm to finish.'}</p></div>
+        <div class="bal-voting-as">${balMeHtml(awardVoterName)}<span><div style="font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)">Voting as</div><strong>${awEsc(awardVoterName)}</strong></span><button class="bal-change" onclick="balGo(-1)">Change name</button></div>
+        <div class="vote-card"><div class="vote-card-title">🏆 ${awEsc(awardVoterName)}'s Server Awards 2027 picks</div>${rows}</div>
+        ${confirmBox}
         <div class="vote-actions" style="margin-top:14px;justify-content:center">
-          ${canShare ? '<button class="vote-submit" onclick="awardShareNative()" ' + (picked ? '' : 'disabled') + '>Share…</button>' : ''}
-          <button class="${canShare ? 'vote-ghost' : 'vote-submit'}" onclick="awardCopy(\'text\')" ${picked ? '' : 'disabled'}>Copy text</button>
-          <button class="vote-ghost" onclick="awardCopy(\'link\')" ${picked ? '' : 'disabled'}>Copy link</button>
-          <button class="vote-ghost" onclick="awardDownloadImage()" ${picked ? '' : 'disabled'}>Download image</button>
+          ${canShare ? '<button class="vote-submit" onclick="awardShareNative()" ' + lock + '>Share…</button>' : ''}
+          <button class="${canShare ? 'vote-ghost' : 'vote-submit'}" onclick="awardCopy(\'text\')" ${lock}>Copy text</button>
+          <button class="vote-ghost" onclick="awardCopy(\'link\')" ${lock}>Copy link</button>
+          <button class="vote-ghost" onclick="awardDownloadImage()" ${lock}>Download image</button>
         </div><div class="vote-msg" id="voteMsg" style="text-align:center"></div>
       </div>`;
-      nav = `<div class="bal-nav"><button class="vote-ghost" onclick="balBack()">← Back</button><div class="bal-nav-mid"></div><button class="vote-submit" onclick="awardCloseBallot()">Done</button></div>`;
+      nav = `<div class="bal-nav"><button class="vote-ghost" onclick="balBack()">← Back</button><div class="bal-nav-mid">${awardConfirmed ? 'Confirmed' : 'Not confirmed yet'}</div><button class="vote-submit" onclick="awardCloseBallot()">Done</button></div>`;
     }
     ov.innerHTML = balSparks() + top + `<div class="bal-scroll" id="balScroll">${body}</div>` + nav;
     balBusy = false;
+    if (nameStep) balNameInput(true);
+    balFitNames();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(balFitNames);
   }
+  function balNameInput(initial) {
+    const inp = document.getElementById('balNameIn'), chk = document.getElementById('balHonest'), go = document.getElementById('balNameGo'), msg = document.getElementById('balNameMsg');
+    if (!inp) return;
+    const v = inp.value.trim(), ok = awardNameOk(v);
+    if (go) go.disabled = !(ok && chk && chk.checked);
+    if (msg) { msg.style.color = '#f87171'; msg.textContent = (v && !ok) ? 'Use 3 to 20 letters, numbers, underscores or spaces.' : ''; }
+    clearTimeout(balMeT);
+    if (!initial) balMeT = setTimeout(() => { const me = document.getElementById('balMe'); if (me) me.innerHTML = balMeHtml(v); }, 350);
+  }
+  function balNameGo() {
+    const inp = document.getElementById('balNameIn'), chk = document.getElementById('balHonest');
+    if (!inp || !chk) return;
+    const v = inp.value.trim();
+    if (!awardNameOk(v) || !chk.checked) return;
+    if (v !== awardVoterName) awardConfirmed = false;
+    awardVoterName = v; awardHonest = true; awardSavePicks(awardVotePeriod);
+    balDir = 'f';
+    balStep = balAfterName === 'review' ? balList.length : (typeof balAfterName === 'number' ? balAfterName : balFirstStep());
+    balRender();
+  }
+  function balSureChange() {
+    const c = document.getElementById('balSure'), b = document.getElementById('balConfirmBtn');
+    if (b) b.disabled = !(c && c.checked && Object.keys(awardPicks).length > 0 && awardNameOk(awardVoterName));
+  }
+  function balConfirm() {
+    const c = document.getElementById('balSure');
+    if (!c || !c.checked || !Object.keys(awardPicks).length || !awardNameOk(awardVoterName)) return;
+    awardConfirmed = true; awardSavePicks(awardVotePeriod); balRender();
+    const sc = document.getElementById('balScroll'); if (sc) sc.scrollTop = 0;
+  }
+  function balUnconfirm() { awardConfirmed = false; awardSavePicks(awardVotePeriod); balRender(); }
   function balPick(ni, btn) {
     if (balBusy) return;
     const cat = balList[balStep]; if (!cat) return;
     balBusy = true;
-    awardPicks[cat.title] = cat.nominees[ni]; awardSavePicks(awardVotePeriod);
+    awardPicks[cat.title] = cat.nominees[ni]; awardConfirmed = false; awardSavePicks(awardVotePeriod);
     document.querySelectorAll('#voteOverlay .bal-card').forEach(b => b.classList.remove('sel'));
     if (btn) btn.classList.add('sel', 'chosen');
     setTimeout(() => { balDir = 'f'; balStep++; balRender(); const sc = document.getElementById('balScroll'); if (sc) sc.scrollTop = 0; }, 420);
   }
-  function balRemove() { const cat = balList[balStep]; if (!cat) return; delete awardPicks[cat.title]; awardSavePicks(awardVotePeriod); balRender(); }
-  function balNext() { if (balBusy) return; balDir = 'f'; balStep = Math.min(balStep + 1, balList.length); balRender(); }
-  function balBack() { if (balBusy || balStep === 0) return; balDir = 'b'; balStep--; balRender(); }
-  function balGo(i) { balDir = i < balStep ? 'b' : 'f'; balStep = i; balRender(); }
+  function balRemove() { const cat = balList[balStep]; if (!cat) return; delete awardPicks[cat.title]; awardConfirmed = false; awardSavePicks(awardVotePeriod); balRender(); }
+  function balNext() { if (balBusy || balStep < 0) return; balDir = 'f'; balStep = Math.min(balStep + 1, balList.length); balRender(); }
+  function balBack() { if (balBusy || balStep <= 0) return; balDir = 'b'; balStep--; balRender(); }
+  function balGo(i) { balAfterName = i; balDir = i < balStep ? 'b' : 'f'; balStep = i; balRender(); }
   function balKey(e) {
     if (e.key === 'Escape') { awardCloseBallot(); return; }
     const tag = (e.target && e.target.tagName) || '';
-    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || balStep < 0) return;
     if (e.key === 'ArrowRight') balNext();
     else if (e.key === 'ArrowLeft') balBack();
     else if (/^[1-9]$/.test(e.key) && balStep < balList.length) { const cards = document.querySelectorAll('#voteOverlay .bal-card'); const c = cards[Number(e.key) - 1]; if (c) c.click(); }
   }
-  function awardNameChange(v) { awardVoterName = String(v || '').slice(0, 30); awardSavePicks(awardVotePeriod); }
   function awardShareText(period) {
     const lines = awardPickList(period).map(x => `${x.icon} ${x.cat}: ${x.pick}`);
-    return `${awardVoterName ? awardVoterName + "'s" : 'My'} Server Awards 2027 picks 🏆\n` + lines.join('\n') + `\nPick yours: ${awardEncodeShare(period)}`;
+    return `${awardVoterName}'s Server Awards 2027 picks 🏆 (confirmed)\n` + lines.join('\n') + `\nPick yours: ${awardEncodeShare(period)}`;
   }
   function awardMsg(t, ok) { const m = document.getElementById('voteMsg'); if (m) { m.style.color = ok ? '#4ade80' : '#f87171'; m.textContent = t; } }
+  function awardCanShare() {
+    if (!awardConfirmed || !awardNameOk(awardVoterName)) { awardMsg('Confirm your votes first to unlock sharing.', false); return false; }
+    return true;
+  }
   async function awardCopy(kind) {
+    if (!awardCanShare()) return;
     const period = awardPeriodNow();
     const text = kind === 'link' ? awardEncodeShare(period) : awardShareText(period);
     try {
@@ -3548,8 +3649,9 @@
     } catch (e) { awardMsg('Could not copy. Please copy it by hand from the picks above.', false); }
   }
   async function awardShareNative() {
+    if (!awardCanShare()) return;
     const period = awardPeriodNow();
-    try { await navigator.share({ title: 'My Server Awards 2027 picks', text: awardShareText(period).split('\nPick yours:')[0], url: awardEncodeShare(period) }); }
+    try { await navigator.share({ title: awardVoterName + "'s Server Awards 2027 picks", text: awardShareText(period).split('\nPick yours:')[0], url: awardEncodeShare(period) }); }
     catch (e) { if (e && e.name !== 'AbortError') awardMsg('Sharing was not available. Try Copy text instead.', false); }
   }
   function awardFit(g, text, maxW) { let t = String(text); if (g.measureText(t).width <= maxW) return t; while (t.length > 1 && g.measureText(t + '…').width > maxW) t = t.slice(0, -1); return t + '…'; }
@@ -3565,6 +3667,7 @@
     });
   }
   async function awardDownloadImage() {
+    if (!awardCanShare()) return;
     const period = awardPeriodNow(), picks = awardPickList(period);
     if (!picks.length) return;
     awardMsg('Making your image…', true);
@@ -3578,9 +3681,9 @@
     g.fillStyle = bg; g.fillRect(0, 0, W, H);
     g.strokeStyle = 'rgba(245,200,66,.55)'; g.lineWidth = 4; g.strokeRect(14, 14, W - 28, H - 28);
     g.textBaseline = 'alphabetic';
-    g.fillStyle = '#F5C842'; g.font = '700 22px "JetBrains Mono", monospace'; g.fillText('QUIPALITE MC · SERVER AWARDS 2027', pad, 78);
+    g.fillStyle = '#F5C842'; g.font = '700 22px "JetBrains Mono", monospace'; g.fillText('QUIPALITE MC · SERVER AWARDS 2027 · CONFIRMED', pad, 78);
     g.fillStyle = '#ffffff'; g.font = '800 54px Syne, sans-serif';
-    g.fillText(awardFit(g, (awardVoterName ? awardVoterName + "'s" : 'My') + ' picks', W - pad * 2), pad, 150);
+    g.fillText(awardFit(g, awardVoterName + "'s picks", W - pad * 2), pad, 150);
     g.fillStyle = 'rgba(255,255,255,.6)'; g.font = '500 24px "DM Sans", sans-serif'; g.fillText('Nominees cover Jan – Dec 2026', pad, 192);
     const T = 52;
     picks.forEach((x, i) => {
@@ -3667,6 +3770,7 @@
         </div>
         ${(!data.cancelled && data.note) ? '<div class="wc2-official-note" style="margin:0 0 10px">🗓️ Nominees cover the whole of 2026 (January to December 2026).</div>' : ''}
         ${data.cancelled ? '<div class="wc2-official-note" style="color:#f87171;margin:0 0 10px">🚫 This ceremony was cancelled — no winner will be announced.</div>' : ''}
+        ${cat.desc ? '<div class=\"wc2-official-note\" style=\"margin:0 0 10px\">ℹ️ ' + cat.desc + '</div>' : ''}
         <div class="nm-sec-h">Nominees</div>
         <div>${rows}</div>
       </div>`;
