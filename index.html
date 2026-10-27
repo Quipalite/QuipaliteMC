@@ -214,6 +214,52 @@
     .bal-hint{color:rgba(255,255,255,.72)}
     .bal-change{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--gold);border-radius:8px;padding:4px 8px;cursor:pointer;flex:0 0 auto}
     .bal-skipped{color:var(--text-dim);font-weight:500;font-style:italic}
+    .kob{--kob-line:rgba(245,200,66,.38);display:flex;align-items:stretch;gap:36px;margin:6px 0 10px}
+    .kob-col{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:space-around;gap:14px}
+    .kob-col.ch{flex:.8 1 0;justify-content:center}
+    .kob-col-title{position:absolute;top:-24px;left:0;right:0;text-align:center;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+    .kob{padding-top:26px}
+    .kob-pair{position:relative;flex:1 1 0;display:flex;flex-direction:column;justify-content:space-around;gap:14px}
+    .kob-pair::after,.kob-col.sf::after{content:'';position:absolute;right:-18px;top:25%;bottom:25%;width:18px;border:2px solid var(--kob-line);border-left:none;border-radius:0 10px 10px 0;pointer-events:none}
+    .kob-pair::before,.kob-col.sf::before,.kob-col.fin::before{content:'';position:absolute;right:-36px;top:50%;width:18px;border-top:2px solid var(--kob-line);pointer-events:none}
+    .kob-col.fin::before{right:-36px}
+    .kob-card{box-sizing:border-box;position:relative;border-radius:14px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));padding:8px 8px 6px;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+    .kob-card.click{cursor:pointer}
+    .kob-card.click:hover{transform:translateY(-3px);border-color:rgba(245,200,66,.6);box-shadow:0 10px 26px rgba(0,0,0,.35),0 0 0 1px rgba(245,200,66,.25)}
+    .kob-card.final{border-color:rgba(245,200,66,.55);background:linear-gradient(180deg,rgba(245,200,66,.14),rgba(255,26,109,.05));box-shadow:0 0 28px rgba(245,200,66,.12)}
+    .kob-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 6px}
+    .kob-tag{font-family:var(--font-m);font-size:9px;font-weight:800;letter-spacing:1.5px;color:#1a1200;background:var(--gold);border-radius:6px;padding:2px 7px;flex:0 0 auto}
+    .kob-date{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.5px;color:var(--text-dim);text-align:right;min-width:0;overflow-wrap:anywhere}
+    .kob-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:9px;box-shadow:inset 3px 0 0 var(--c,#555);background:rgba(255,255,255,.04);margin-bottom:4px;min-width:0}
+    .kob-row.win{background:rgba(245,200,66,.14);box-shadow:inset 3px 0 0 var(--gold)}
+    .kob-row.lose{opacity:.5}
+    .kob-row.tbd .kob-name{font-style:italic;color:var(--text-dim);font-weight:500}
+    .kob-badge{flex:0 0 auto;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-family:var(--font-d);font-weight:800;color:#fff;background:color-mix(in srgb,var(--c) 38%,#0b0b12);border:1px solid color-mix(in srgb,var(--c) 70%,transparent)}
+    .kob-badge.tbd{background:rgba(255,255,255,.06);border-color:var(--border);color:var(--text-dim)}
+    .kob-name{flex:1 1 auto;min-width:0;font-family:var(--font-d);font-weight:700;font-size:13px;line-height:1.2;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .kob-row.win .kob-name{color:var(--gold);font-weight:800}
+    .kob-score{flex:0 0 auto;font-family:var(--font-m);font-weight:800;font-size:15px;color:var(--text);min-width:18px;text-align:right}
+    .kob-score small{font-size:10px;font-weight:700;color:var(--text-dim);margin-left:3px}
+    .kob-row.win .kob-score{color:var(--gold)}
+    .kob-foot{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:center;padding:3px 0 2px}
+    .kob-foot.done{color:#4ade80}
+    .kob-champ{box-sizing:border-box;text-align:center;padding:20px 12px;border-radius:16px;border:1px dashed rgba(245,200,66,.4);background:rgba(245,200,66,.05)}
+    .kob-champ.won{border-style:solid;border-color:var(--gold);background:linear-gradient(180deg,rgba(245,200,66,.22),rgba(255,26,109,.08));box-shadow:0 0 34px rgba(245,200,66,.25)}
+    .kob-trophy{font-size:44px;line-height:1;filter:drop-shadow(0 6px 16px rgba(245,200,66,.5))}
+    .kob-trophy.dim{opacity:.35;filter:grayscale(1)}
+    .kob-champ-lbl{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin:8px 0 10px}
+    .kob-champ .kob-badge{width:34px;height:34px;font-size:18px;margin:0 auto 8px}
+    .kob-champ-name{font-family:var(--font-d);font-weight:800;font-size:16px;color:var(--text);overflow-wrap:anywhere}
+    .kob-champ-name.tbd{font-size:13px;font-weight:600;font-style:italic;color:var(--text-dim)}
+    @media(max-width:900px){
+      .kob{flex-direction:column;gap:22px;padding-top:0}
+      .kob-col,.kob-col.qf,.kob-col.ch{flex:none;justify-content:flex-start;gap:12px}
+      .kob-col-title{position:static;text-align:left;margin-bottom:2px;font-size:10px;letter-spacing:2.5px;display:flex;align-items:center;gap:10px}
+      .kob-col-title::after{content:'';flex:1;height:1px;background:var(--kob-line)}
+      .kob-pair{display:contents}
+      .kob-pair::before,.kob-pair::after,.kob-col::before,.kob-col::after{display:none!important}
+      .kob-name{font-size:14px}
+    }
     .bal-name{display:block;width:100%;text-align:center;white-space:nowrap;overflow:hidden;font-family:var(--font-d);font-weight:800;font-size:17px;letter-spacing:-.2px;line-height:1.25}
     .bal-desc{position:relative;max-width:620px;margin:0 auto 10px;padding:10px 14px;border-radius:12px;border:1px solid rgba(245,200,66,.28);background:rgba(245,200,66,.07);font-size:13px;line-height:1.5;color:rgba(255,255,255,.88)}
     .bal-desc b{font-family:var(--font-m);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-right:6px}
@@ -4582,6 +4628,141 @@
   }
 
   // Read-only confirmed schedule — dates only, no score entry.
+  // Official October 2026 Club World Cup knockout results, keyed 'home_away' (either order works).
+  // hs/as = score after extra time, ph/pa = penalty shoot-out score if level, hy/ay = yellows, hr/ar = reds, hOff/aOff = offside goals.
+  // Example: 'Crainetown FC_Waterland City': {hs:2, as:2, ph:4, pa:3, hy:1, ay:2, hr:0, ar:0, hOff:0, aOff:0},
+  const CWC_OCT26_KO_RESULTS = {
+    'Crainetown FC_Waterland City': {hs:5, as:2, hy:0, ay:0, hr:0, ar:0, hOff:0, aOff:0},
+    'Crabville Creepers_Quipalite MC Corexian Club': {hs:0, as:1, hy:0, ay:0, hr:0, ar:0, hOff:0, aOff:0},
+    'Springbuck United_Smeg City FC': {hs:1, as:2, hy:0, ay:0, hr:0, ar:0, hOff:0, aOff:0},
+    'Crabville Breezers_Keem Town United': {hs:3, as:0, hy:0, ay:0, hr:0, ar:0, hOff:0, aOff:0},
+  };
+  function cwcOctKoResult(a, b){
+    if(!a || !b) return null;
+    const direct = CWC_OCT26_KO_RESULTS[`${a}_${b}`];
+    if(direct) return Object.assign({}, direct);
+    const rev = CWC_OCT26_KO_RESULTS[`${b}_${a}`];
+    if(!rev) return null;
+    return {hs:rev.as, as:rev.hs, ph:rev.pa, pa:rev.ph, hy:rev.ay, ay:rev.hy, hr:rev.ar, ar:rev.hr, hOff:rev.aOff, aOff:rev.hOff, note:rev.note};
+  }
+  // Builds the real knockout bracket from the official group tables and any official knockout results.
+  function cwcOfficialKo(){
+    const fx = cwcOfficialFixtures();
+    const complete = Object.keys(CWC_GROUPS_OCT26).every(g => fx[g].every(f => f.hs !== null && f.as !== null));
+    if(!complete) return null;
+    const st = cwcComputeStandings(fx);
+    const gn = Object.keys(st);
+    const w = gn.map(g => st[g][0].name), r = gn.map(g => st[g][1].name);
+    const mk = (home, away, hl, al) => {
+      const res = cwcOctKoResult(home, away);
+      const m = {home, away, hl, al, hs:null, as:null, ph:null, pa:null, res};
+      if(res){ m.hs = res.hs; m.as = res.as; m.ph = res.ph ?? null; m.pa = res.pa ?? null; }
+      m.winner = home && away ? wc2KoWinner(m) : null;
+      return m;
+    };
+    const qf = [mk(w[0], r[1]), mk(w[1], r[0]), mk(w[2], r[3]), mk(w[3], r[2])];
+    const sf = [mk(qf[0].winner, qf[1].winner, 'Winner QF1', 'Winner QF2'), mk(qf[2].winner, qf[3].winner, 'Winner QF3', 'Winner QF4')];
+    const final = [mk(sf[0].winner, sf[1].winner, 'Winner SF1', 'Winner SF2')];
+    return {qf, sf, final, winners:w, runnersUp:r, champion:final[0].winner};
+  }
+  function cwcKoRoundLabel(round, idx){
+    return round === 'qf' ? `Quarter-Final ${idx + 1}` : (round === 'sf' ? `Semi-Final ${idx + 1}` : 'Final');
+  }
+  function cwcKoBadge(name){
+    const nation = CWC_CLUB_NATION[name], nat = NATIONS.find(n => n.name === nation);
+    const c = cwcAccent(name);
+    return `<span class="kob-badge" style="--c:${c}">${nat && nat.icon ? nat.icon : name.trim().charAt(0).toUpperCase()}</span>`;
+  }
+  function cwcKoCard(round, idx, m){
+    const dates = CWC_OCT26_KO_DATES[round] || [];
+    const played = m.hs !== null && m.as !== null && (m.hs !== m.as || (m.ph !== null && m.pa !== null));
+    const known = !!(m.home && m.away);
+    const tag = round === 'qf' ? 'QF' + (idx + 1) : (round === 'sf' ? 'SF' + (idx + 1) : 'FINAL');
+    const row = (name, label, score, pen) => {
+      const isTeam = !!name, win = played && m.winner === name, lose = played && isTeam && m.winner && m.winner !== name;
+      const accent = isTeam ? cwcAccent(name) : '#555';
+      return `<div class="kob-row${win ? ' win' : ''}${lose ? ' lose' : ''}${isTeam ? '' : ' tbd'}" style="--c:${accent}">
+        ${isTeam ? cwcKoBadge(name) : '<span class="kob-badge tbd">?</span>'}
+        <span class="kob-name${isTeam ? ' linkable' : ''}" ${isTeam ? `title="${name}" onclick="event.stopPropagation();cwcOpenTeam('${name.replace(/'/g, "\\'")}')"` : ''}>${isTeam ? cwcShortName(name) : label}</span>
+        <span class="kob-score">${played ? score : ''}${played && pen !== null && m.hs === m.as ? `<small>(${pen})</small>` : ''}</span>
+      </div>`;
+    };
+    const status = played ? '✓ Full Time' : (known ? '⏳ Awaiting result' : '⏳ Awaiting teams');
+    const pens = played && m.hs === m.as ? ` · won ${Math.max(m.ph, m.pa)}–${Math.min(m.ph, m.pa)} on pens` : '';
+    return `<div class="kob-card${round === 'final' ? ' final' : ''}${known ? ' click' : ''}" ${known ? `onclick="cwcOpenKoFixture('${round}',${idx})"` : ''}>
+      <div class="kob-head"><span class="kob-tag">${tag}</span><span class="kob-date">${(dates[idx] || '').replace(' — ', ' · ')}</span></div>
+      ${row(m.home, m.hl, m.hs, m.ph)}
+      ${row(m.away, m.al, m.as, m.pa)}
+      <div class="kob-foot${played ? ' done' : ''}">${status}${pens}</div>
+    </div>`;
+  }
+  function cwcRenderOfficialKnockout(){
+    const ko = cwcOfficialKo();
+    if(!ko) return `<div class="wc2-official-note" style="text-align:center">The knockout bracket is set once every group match has been played.</div>`;
+    const banner = ko.champion
+      ? `<div class="wc2-official-badge" style="display:block;text-align:center;margin:0 0 12px;">🏆 ${ko.champion} — Club World Cup Champions</div>`
+      : `<div class="wc2-official-badge" style="display:block;text-align:center;margin:0 0 12px;">✅ Group Stage Complete — Knockout Bracket Set</div>`;
+    const quals = `<div class="wc2-official-note" style="text-align:center;margin:0 0 16px">Group winners: ${ko.winners.join(', ')}<br>Runners-up: ${ko.runnersUp.join(', ')}</div>`;
+    const champ = ko.champion
+      ? `<div class="kob-champ won"><div class="kob-trophy">🏆</div><div class="kob-champ-lbl">Champions</div>${cwcKoBadge(ko.champion)}<div class="kob-champ-name">${cwcShortName(ko.champion)}</div></div>`
+      : `<div class="kob-champ"><div class="kob-trophy dim">🏆</div><div class="kob-champ-lbl">Champions</div><div class="kob-champ-name tbd">To be decided</div></div>`;
+    return banner + quals + `<div class="kob">
+      <div class="kob-col qf"><div class="kob-col-title">Quarter-Finals</div>
+        <div class="kob-pair">${cwcKoCard('qf', 0, ko.qf[0])}${cwcKoCard('qf', 1, ko.qf[1])}</div>
+        <div class="kob-pair">${cwcKoCard('qf', 2, ko.qf[2])}${cwcKoCard('qf', 3, ko.qf[3])}</div>
+      </div>
+      <div class="kob-col sf"><div class="kob-col-title">Semi-Finals</div>${cwcKoCard('sf', 0, ko.sf[0])}${cwcKoCard('sf', 1, ko.sf[1])}</div>
+      <div class="kob-col fin"><div class="kob-col-title">Final</div>${cwcKoCard('final', 0, ko.final[0])}</div>
+      <div class="kob-col ch"><div class="kob-col-title">Champion</div>${champ}</div>
+    </div>`;
+  }
+  function cwcOpenKoFixture(round, idx){
+    const ko = cwcOfficialKo(); if(!ko) return;
+    const m = ko[round][idx]; if(!m || !m.home || !m.away) return;
+    const home = m.home, away = m.away, r = m.res;
+    const played = m.hs !== null && m.as !== null && (m.hs !== m.as || (m.ph !== null && m.pa !== null));
+    const homeAccent = cwcAccent(home), awayAccent = cwcAccent(away);
+    const pensTxt = played && m.hs === m.as ? `<div style="font-size:12px;color:var(--text-dim);margin-top:6px">${m.winner} win ${Math.max(m.ph,m.pa)}–${Math.min(m.ph,m.pa)} on penalties</div>` : '';
+    const scoreCentre = played
+      ? `<div class="mm-score-centre"><div class="mm-big-score">${m.hs} <span style="opacity:.4">–</span> ${m.as}</div></div>`
+      : `<div class="mm-score-centre"><div class="mm-big-score"><span class="vs">VS</span></div></div>`;
+    const details = played && r ? `
+        <div class="mm-divider"></div>
+        <div class="wc2-stadium-note" style="margin:0 0 8px">📋 Match Details</div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${home})</div><div class="mm-fact-val">${r.hy||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟨 Yellow (${away})</div><div class="mm-fact-val">${r.ay||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${home})</div><div class="mm-fact-val">${r.hr||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🟥 Red (${away})</div><div class="mm-fact-val">${r.ar||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🚫 Offside Goals (${home})</div><div class="mm-fact-val">${r.hOff||0}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">🚫 Offside Goals (${away})</div><div class="mm-fact-val">${r.aOff||0}</div></div>
+        </div>
+        ${r.note ? `<div class="wc2-official-note" style="margin-top:-6px">${r.note}</div>` : ''}` : '';
+    document.getElementById('mmc').innerHTML = `
+      <div class="mm-banner" style="background:linear-gradient(135deg,${homeAccent}20 0%,transparent 70%);">
+        <div class="nm-banner-pattern"></div>
+      </div>
+      <div class="mm-body">
+        <span class="mm-round-tag" style="background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--gold)">${cwcKoRoundLabel(round, idx).toUpperCase()} · KNOCKOUT STAGE</span>
+        <div class="mm-scoreline" style="justify-content:center;flex-direction:column;align-items:center;gap:10px;padding:12px 0 6px">
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%">
+            <div class="mm-team-block" style="min-width:0"><div class="mm-club" style="color:${homeAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="cwcOpenTeam('${home.replace(/'/g,"\\'")}')">${home}</div></div>
+            ${scoreCentre}
+            <div class="mm-team-block away" style="min-width:0"><div class="mm-club" style="color:${awayAccent};cursor:pointer;font-size:15px;overflow-wrap:break-word;white-space:normal" onclick="cwcOpenTeam('${away.replace(/'/g,"\\'")}')">${away}</div></div>
+          </div>
+          ${pensTxt}
+        </div>
+        <div class="mm-divider"></div>
+        <div class="mm-facts">
+          <div class="mm-fact"><div class="mm-fact-lbl">Kick-off</div><div class="mm-fact-val">${(CWC_OCT26_KO_DATES[round] || [])[idx] || '—'}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Round</div><div class="mm-fact-val">${cwcKoRoundLabel(round, idx)}</div></div>
+          <div class="mm-fact"><div class="mm-fact-lbl">Status</div><div class="mm-fact-val" style="color:${played ? '#4ade80' : 'var(--gold)'}">${played ? '🔒 Full Time' : '⏳ Awaiting result'}</div></div>
+        </div>
+        ${details}
+      </div>`;
+    wc2OpenModal();
+  }
+
   function cwcRenderConfirmedSchedule(){
     const gnames = Object.keys(CWC_GROUPS_OCT26);
     const groupBlocks = gnames.map((gname, gi) => {
@@ -4686,8 +4867,8 @@
     const w = cwcOct26State.qf.map(wc2KoWinner);
     cwcOct26State.stage = 'sf';
     cwcOct26State.sf = [
-      {home:w[0], away:w[2], hs:null, as:null, ph:null, pa:null},
-      {home:w[1], away:w[3], hs:null, as:null, ph:null, pa:null},
+      {home:w[0], away:w[1], hs:null, as:null, ph:null, pa:null},
+      {home:w[2], away:w[3], hs:null, as:null, ph:null, pa:null},
     ];
     cwcRenderOct();
   }
@@ -4853,7 +5034,7 @@
         w.push(o[0].t); r.push(o[1].t);
       });
       const q = [ko(w[0], r[1]), ko(w[1], r[0]), ko(w[2], r[3]), ko(w[3], r[2])];
-      wins[ko(ko(q[0], q[2]), ko(q[1], q[3]))]++;
+      wins[ko(ko(q[0], q[1]), ko(q[2], q[3]))]++;
     }
     const odds = {}; Object.keys(wins).forEach(t => odds[t] = wins[t] / N * 100);
     cwcWinOddsCache = {key, odds};
@@ -4940,8 +5121,8 @@
           <div class="cwc-oct-hero-icon">🍂</div>
           <div class="cwc-oct-hero-text">
             <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
-            <div class="cwc-oct-hero-sub">🏆 Group Draw Confirmed · Kick-Off Dates TBA</div>
-            <div class="cwc-oct-hero-desc">The groups for the October 2026 Club World Cup have been drawn. Tap any team below to see its nation profile, and head to the 🔮 Predictor tab to enter hypothetical scores.</div>
+            <div class="cwc-oct-hero-sub">🏆 Group Stage Complete · Knockouts Underway</div>
+            <div class="cwc-oct-hero-desc">The group stage is done and the knockout bracket is set. Tap any team or match to see more, and head to the 🔮 Predictor tab to try your own scores.</div>
           </div>
         </div>
         ${cwcOctSubTabs()}
@@ -4949,6 +5130,8 @@
         ${cwcRenderGroupTables(cwcOfficialFixtures())}
         <div class="wc2-group-title" style="text-align:center;font-size:13px;margin:22px 0 10px;">Fixtures</div>
         ${cwcRenderConfirmedSchedule()}
+        <div class="wc2-knockout-title">🏆 Knockout Stage</div>
+        ${cwcRenderOfficialKnockout()}
       `;
     } else if(cwcOctSubView === 'rankings'){
       host.innerHTML = `
