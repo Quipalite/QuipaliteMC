@@ -4567,7 +4567,10 @@
   }
 
   function cwcInitOct(){
-    if(!cwcOct26State) cwcOct26State = {fixtures: cwcFreshFixtures(), stage:'groups', qf:[], sf:[], final:[]};
+    if(!cwcOct26State){
+      cwcOct26State = {fixtures: cwcFreshFixtures(), stage:'groups', qf:[], sf:[], final:[]};
+      if(cwcAllGroupsComplete()) cwcBuildBracketState();
+    }
   }
 
   function cwcComputeStandings(fixtures){
@@ -4636,6 +4639,8 @@
     'Crabville Creepers_Quipalite MC Corexian Club': {hs:0, as:1, hy:0, ay:3, hr:1, ar:0, hOff:0, aOff:0},
     'Springbuck United_Smeg City FC': {hs:1, as:2, hy:3, ay:8, hr:0, ar:1, hOff:2, aOff:0},
     'Crabville Breezers_Keem Town United': {hs:3, as:0, hy:0, ay:0, hr:0, ar:0, hOff:0, aOff:0},
+    'Crainetown FC_Quipalite MC Corexian Club': {hs:1, as:1, ph:5, pa:3, hy:0, ay:0, hr:0, ar:1, hOff:0, aOff:0},
+    'Crabville Breezers_Smeg City FC': {hs:2, as:0, hy:3, ay:3, hr:0, ar:0, hOff:0, aOff:1},
   };
   function cwcOctKoResult(a, b){
     if(!a || !b) return null;
@@ -4831,23 +4836,44 @@
     );
   }
 
+  // A knockout match, pre-filled and locked if there is an official result for it.
+  function cwcKoSeed(home, away){
+    const m = {home, away, hs:null, as:null, ph:null, pa:null, locked:false};
+    const r = cwcOctKoResult(home, away);
+    if(r){ m.hs = r.hs; m.as = r.as; m.ph = r.ph ?? null; m.pa = r.pa ?? null; m.locked = true; }
+    return m;
+  }
+  // Builds the predictor bracket from the group tables, filling in every official knockout result and moving past finished rounds.
+  function cwcBuildBracketState(){
+    const st = cwcOct26State;
+    const standingsByGroup = cwcComputeStandings(st.fixtures);
+    const gnames = Object.keys(standingsByGroup);
+    const w = gnames.map(g => standingsByGroup[g][0].name);
+    const r = gnames.map(g => standingsByGroup[g][1].name);
+    const pairs = [ [w[0], r[1]], [w[1], r[0]], [w[2], r[3]], [w[3], r[2]] ];
+    st.qf = pairs.map(([home, away]) => cwcKoSeed(home, away)); st.sf = []; st.final = []; st.stage = 'qf';
+    if(wc2StageComplete(st.qf)){
+      const q = st.qf.map(wc2KoWinner);
+      st.sf = [cwcKoSeed(q[0], q[1]), cwcKoSeed(q[2], q[3])]; st.stage = 'sf';
+      if(wc2StageComplete(st.sf)){
+        const f = st.sf.map(wc2KoWinner);
+        st.final = [cwcKoSeed(f[0], f[1])]; st.stage = 'final';
+        if(wc2StageComplete(st.final)) st.stage = 'done';
+      }
+    }
+  }
   function cwcGenerateBracket(){
     if(!cwcAllGroupsComplete()){
       alert('Enter a score for every group match before generating the knockout bracket.');
       return;
     }
-    const standingsByGroup = cwcComputeStandings(cwcOct26State.fixtures);
-    const gnames = Object.keys(standingsByGroup);
-    const w = gnames.map(g => standingsByGroup[g][0].name);
-    const r = gnames.map(g => standingsByGroup[g][1].name);
-    const pairs = [ [w[0], r[1]], [w[1], r[0]], [w[2], r[3]], [w[3], r[2]] ];
-    cwcOct26State.stage = 'qf';
-    cwcOct26State.qf = pairs.map(([home, away]) => ({home, away, hs:null, as:null, ph:null, pa:null}));
+    cwcBuildBracketState();
     cwcRenderOct();
   }
 
   function cwcOnKoScoreChange(stageKey, idx){
     const m = cwcOct26State[stageKey][idx];
+    if(m.locked) return;
     const h = document.getElementById(`cwcko-${stageKey}-${idx}-h`).value;
     const a = document.getElementById(`cwcko-${stageKey}-${idx}-a`).value;
     m.hs = h === '' ? null : Number(h);
@@ -4866,10 +4892,7 @@
     }
     const w = cwcOct26State.qf.map(wc2KoWinner);
     cwcOct26State.stage = 'sf';
-    cwcOct26State.sf = [
-      {home:w[0], away:w[1], hs:null, as:null, ph:null, pa:null},
-      {home:w[2], away:w[3], hs:null, as:null, ph:null, pa:null},
-    ];
+    cwcOct26State.sf = [cwcKoSeed(w[0], w[1]), cwcKoSeed(w[2], w[3])];
     cwcRenderOct();
   }
 
@@ -4880,7 +4903,7 @@
     }
     const w = cwcOct26State.sf.map(wc2KoWinner);
     cwcOct26State.stage = 'final';
-    cwcOct26State.final = [{home:w[0], away:w[1], hs:null, as:null, ph:null, pa:null}];
+    cwcOct26State.final = [cwcKoSeed(w[0], w[1])];
     cwcRenderOct();
   }
 
@@ -4897,6 +4920,7 @@
   function cwcResetBracket(){
     cwcOct26State.stage = 'groups';
     cwcOct26State.qf = []; cwcOct26State.sf = []; cwcOct26State.final = [];
+    if(cwcAllGroupsComplete()) cwcBuildBracketState();
     cwcRenderOct();
   }
 
@@ -4911,13 +4935,13 @@
         <div class="wc-match-body">
           <div class="wc-team"><div class="wc-team-name">${m.home}</div></div>
           <div class="wc2-ko-inputs">
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
+            ${m.locked ? `<span class="wc2-schedule-score">${m.hs}</span><span class="wc-dash">–</span><span class="wc2-schedule-score">${m.as}</span>` : `<input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-h" value="${m.hs===null?'':m.hs}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
             <span class="wc-dash">–</span>
-            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">
+            <input type="number" min="0" max="20" inputmode="numeric" class="wc2-score-input" id="cwcko-${stageKey}-${idx}-a" value="${m.as===null?'':m.as}" onchange="cwcOnKoScoreChange('${stageKey}',${idx})">`}
           </div>
           <div class="wc-team away"><div class="wc-team-name">${m.away}</div></div>
         </div>
-        ${drawn ? `
+        ${m.locked ? `<div class="wc-match-footer"><span class="wc-note">🔒 Full Time · Official${drawn && m.ph !== null ? ' · ' + wc2KoWinner(m) + ' win ' + Math.max(m.ph, m.pa) + '–' + Math.min(m.ph, m.pa) + ' on penalties' : ''}</span></div>` : drawn ? `
         <div class="wc-match-footer" style="flex-wrap:wrap;gap:8px;">
           <span class="wc-note">Scores level — enter a penalty shoot-out result</span>
           <div class="wc2-ko-inputs">
@@ -4962,7 +4986,7 @@
       }
       if(stage === 'done'){
         const champ = wc2KoWinner(cwcOct26State.final[0]);
-        out += `<div class="wc2-official-badge" style="display:block;text-align:center;margin-top:10px;">🏆 ${champ} — Your Predicted Champion</div>`;
+        out += `<div class="wc2-official-badge" style="display:block;text-align:center;margin-top:10px;">🏆 ${champ} — ${cwcOct26State.final[0].locked ? 'Official Champion' : 'Your Predicted Champion'}</div>`;
       }
     }
     out += `<div class="wc2-predict-btn-wrap"><button class="wc2-predict-btn" style="background:linear-gradient(135deg,#c084fc,#9333ea);box-shadow:0 10px 30px rgba(147,51,234,.25);" onclick="cwcResetBracket()">↺ Redo Bracket</button></div>`;
