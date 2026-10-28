@@ -67,6 +67,20 @@
     .nav-new{font-family:var(--font-m);display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--gold);color:#1a1200;font-size:8px;font-weight:700;letter-spacing:1px;line-height:1.5;vertical-align:middle}
     .tab-soon{font-family:var(--font-m);font-weight:700;display:inline-block;margin-left:6px;padding:0 6px;border-radius:999px;background:rgba(245,200,66,.18);color:var(--gold);font-size:8.5px;letter-spacing:1px;line-height:1.6;vertical-align:middle}
     .awards-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:18px}
+    /* Predicted chances */
+    .pred-row{display:grid;grid-template-columns:minmax(0,1fr) 120px 44px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+    .pred-row:last-child{border-bottom:none;}
+    .pred-name{font-size:13px;font-weight:600;color:var(--text);overflow-wrap:anywhere;}
+    .pred-link{cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,26,109,.3);}
+    .pred-tag{display:inline-block;margin-left:8px;font-family:var(--font-m);font-size:8px;font-weight:800;letter-spacing:1px;padding:2px 7px;border-radius:999px;color:var(--gold);border:1px solid rgba(245,200,66,.4);background:rgba(245,200,66,.1);vertical-align:middle;}
+    .pred-bar{display:block;height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;}
+    .pred-fill{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,rgba(255,26,109,.55),var(--pink));}
+    .pred-row.top .pred-fill{background:linear-gradient(90deg,rgba(245,200,66,.6),var(--gold));}
+    .pred-pct{font-family:var(--font-m);font-size:12px;font-weight:800;text-align:right;color:var(--text);}
+    .pred-row.top .pred-pct{color:var(--gold);}
+    .pred-card{margin-top:6px;font-size:11.5px;color:var(--text-dim);line-height:1.4;}
+    .pred-card b{color:var(--gold);font-weight:700;}
+    @media(max-width:520px){.pred-row{grid-template-columns:minmax(0,1fr) 70px 40px;gap:8px;}}
     /* Awards: nominations & wins board */
     .awb-view{display:inline-flex;margin-top:22px;padding:3px;gap:2px;border-radius:12px;background:var(--surface);border:1px solid var(--border-card)}
     .awb-view button{border:none;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.3px;padding:9px 16px;border-radius:9px;cursor:pointer;transition:background .18s,color .18s}
@@ -4023,6 +4037,56 @@
   function hasRankedProfile(name){return !!((PS.sword&&PS.sword[name])||(PS.axe&&PS.axe[name])||(PS.uhc&&PS.uhc[name])||(PS.mace&&PS.mace[name])||(PS.spear&&PS.spear[name]));}
   function openAwardPlayerProfile(name){if(!hasRankedProfile(name))return;closeAwardCategory();goRanked();setTimeout(()=>openProfile(name,'overall'),90);}
   function closeAwardCategory(){closeNation();}
+  const AWARD_PREDICTIONS = { jan27: {
+    'Best Player': [['w85544534',23],['Aftlow',23],['Killedbycrab',23],['Neska5036',19],['Knoxy5316',12]],
+    'Best New Player': [['WARDY B33',25],['Mason20539',25],['Wancerr',25],['ALEXJAY31',13],['Theo43837',12]],
+    'Most Improved Player': [['SadInFusIOns',32],['Wancerr',26],['RT2345678',26],['Knoxy5316',11],['mack29702',5]],
+    'Best Island Evolution Player': [['Terroralex10',43],['Knoxy5316',25],['Killedbycrab',15],['Ushindo',10],['Gooner5342',7]],
+    'Best Current Nations Player': [['Aftlow',32],['SadInFusIOns',28],['Killedbycrab',20],['Neska5036',16],['Gooner5342',4]],
+    'Best Party Games Player': [['Aftlow',26],['Neska5036',26],['Mason20539',22],['bubbler2009',13],['Cobio29',13]],
+    'Best Staff Member': [['Aftlow',37],['Neska5036',26],['Killedbycrab',21],['SadInFusIOns',11],['Ushindo',5]],
+    'Best Content Creator': [['Aftlow',50],['Killedbycrab',38],['Ushindo',6],['Mason20539',6]],
+    'Best Builder': [['Aftlow',35],['Neska5036',30],['Ushindo',20],['SadInFusIOns',10],['WARDY B33',5]],
+    'Best Country': [['Craineun',28],['Corexia',24],['Smegtopia',24],['Crabville',12],['Springbuck',12]],
+    'Best PVPer': [['w85544534',32],['Killedbycrab',24],['Aftlow',16],['Mason20539',16],['Wancerr',12]],
+    'Best Ranked Overall Player': [['w85544534',32],['Killedbycrab',28],['Mason20539',16],['Wancerr',12],['Neska5036',12]],
+    'Best Sword Player': [['w85544534',34],['Mason20539',24],['Aftlow',20],['Wancerr',20],['SadInFusIOns',2]],
+    'Best Axe Player': [['Killedbycrab',26],['w85544534',26],['WARDY B33',22],['Aftlow',22],['Mason20539',4]],
+    'Best UHC Player': [['Wancerr',29],['w85544534',29],['Neska5036',28],['Killedbycrab',9],['Aftlow',5]],
+    'Best Mace Player': [['Killedbycrab',56],['w85544534',19],['Wancerr',19],['Knoxy5316',6],['mack29702',0.6]],
+    'Best Spear Player': [['Neska5036',28],['Aftlow',24],['w85544534',24],['Knoxy5316',19],['Killedbycrab',5]],
+    'Players Favourite': [['Aftlow',32],['Killedbycrab',18],['w85544534',18],['Ushindo',14],['Terroralex10',14],['Mason20539',4]]
+  } };
+  function awardPredKey(t) { return String(t).replace(/[\u2019']/g, ''); }
+  function awardPredFor(period, cat) {
+    const p = AWARD_PREDICTIONS[period];
+    if (!p) return null;
+    const r = p[awardPredKey(cat.title)];
+    return r && r.length ? r.slice().sort((a, b) => b[1] - a[1]) : null;
+  }
+  function awardPredFmt(v) { return v < 1 ? '<1%' : Math.round(v) + '%'; }
+  function awardPredRows(period, cat) {
+    const r = awardPredFor(period, cat);
+    if (!r) return '';
+    const max = r[0][1], topN = r.filter(x => x[1] === max).length;
+    return r.map(([n, v]) => {
+      const top = v === max, clickable = hasRankedProfile(n);
+      const nameHtml = clickable ? `<span class="pred-link" onclick="openAwardPlayerProfile('${n.replace(/'/g, "\\'")}')">${n}</span>` : n;
+      const tag = top ? `<span class="pred-tag">${topN > 1 ? 'JOINT FAVOURITE' : 'FAVOURITE'}</span>` : '';
+      return `<div class="pred-row${top ? ' top' : ''}"><span class="pred-name">${nameHtml}${tag}</span><span class="pred-bar"><span class="pred-fill" style="width:${Math.max(3, v / max * 100)}%"></span></span><span class="pred-pct">${awardPredFmt(v)}</span></div>`;
+    }).join('');
+  }
+  function awardPredCardHtml(period, cat) {
+    const r = awardPredFor(period, cat);
+    if (!r) return '';
+    const max = r[0][1], tops = r.filter(x => x[1] === max).map(x => x[0]);
+    const label = cat.nominees.length ? (tops.length > 1 ? 'Joint favourites' : 'Favourite') : 'Predicted favourite';
+    return `<div class="pred-card">📊 ${label}: <b>${tops.join(', ')}</b> · ${awardPredFmt(max)}</div>`;
+  }
+  function awardPredBanner(period) {
+    if (!AWARD_PREDICTIONS[period]) return '';
+    return `<div class="wc2-official-note" style="margin:8px 0 0">📊 Each award shows a predicted chance of winning. These are estimates, not vote results.</div>`;
+  }
   function openAwardCategory(period, idx){
     const data = AWARDS[period];
     const cat = data && data.categories[idx];
@@ -4046,8 +4110,8 @@
         ${(!data.cancelled && data.note) ? '<div class="wc2-official-note" style="margin:0 0 10px">🗓️ Nominees cover the whole of 2026 (January to December 2026).</div>' : ''}
         ${data.cancelled ? '<div class="wc2-official-note" style="color:#f87171;margin:0 0 10px">🚫 This ceremony was cancelled — no winner will be announced.</div>' : ''}
         ${cat.desc ? '<div class=\"wc2-official-note\" style=\"margin:0 0 10px\">ℹ️ ' + cat.desc + '</div>' : ''}
-        <div class="nm-sec-h">Nominees</div>
-        <div>${rows}</div>
+        ${awardPredFor(period, cat) ? '<div class="wc2-official-note" style="margin:0 0 10px">📊 Predicted chance of winning. These are estimates, not vote results.' + (cat.nominees.length ? '' : ' The nominees for this award have not been announced yet, so these are predicted nominees.') + '</div>' : ''}<div class="nm-sec-h">${awardPredFor(period, cat) ? (cat.nominees.length ? 'Predicted chance' : 'Predicted nominees') : 'Nominees'}</div>
+        <div>${awardPredFor(period, cat) ? awardPredRows(period, cat) : rows}</div>
       </div>`;
     const m = document.getElementById('nm');
     m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
@@ -4118,7 +4182,7 @@
         </div>
         <p class="gdesc">${data.note}</p>
       </div>` : '';
- el.innerHTML = cancelledBanner + noteBanner + awardSharedViewHtml(data) + votePanelHtml(data, awardsPeriod) + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
+ el.innerHTML = cancelledBanner + noteBanner + awardPredBanner(awardsPeriod) + awardSharedViewHtml(data) + votePanelHtml(data, awardsPeriod) + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
       const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
       const winnerTag = data.cancelled ? `<span class="gtag" style="color:#f87171;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)">Cancelled</span>` : winners.length ? `<span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">🏆 ${winners.join(' & ')}</span>` : `<span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">TBD</span>`;
       return `
@@ -4127,7 +4191,7 @@
           <div class="gicon">${cat.icon}</div>
           <div class="ginfo">
             <div class="gname" style="font-size:17px">${cat.title}</div>
-            ${winnerTag}
+            ${winnerTag}${awardPredCardHtml(awardsPeriod, cat)}
           </div>
           <div class="garrow">↗</div>
         </div>
