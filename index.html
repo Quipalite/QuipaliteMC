@@ -2918,8 +2918,12 @@
     const stripe = n.colors && n.colors.length > 1 ? `linear-gradient(90deg,${n.colors.join(',')})` : (n.colors && n.colors[0]) || n.accentColor;
     const firstCol = (n.colors && n.colors[0]) || n.accentColor;
     const rankBadge = foundingRank ? `<div class="nation-rank" title="${foundingRank===1?'1st':foundingRank===2?'2nd':foundingRank===3?'3rd':foundingRank+'th'} nation founded">#${foundingRank} ${T('FOUNDED')}</div>` : '';
-    const champ = getWcChampion();
-    const champBadge = (champ && champ.nation === n0.name) ? `<div class="nation-champ-badge" title="${champ.club} won the Spring Club World Cup 2026">🏆 WC CHAMPIONS</div>` : '';
+    // The badge goes to the nation of the most recent Club World Cup winner (October 2026, then Spring 2026 as a fallback).
+    const octChamp = cwcChampion();
+    const springChamp = getWcChampion();
+    const champ = octChamp ? {club: octChamp, nation: CWC_CLUB_NATION[octChamp], event: 'Autumn Club World Cup 2026'}
+      : (springChamp ? {club: springChamp.club, nation: springChamp.nation, event: 'Spring Club World Cup 2026'} : null);
+    const champBadge = (champ && champ.nation === n0.name) ? `<div class="nation-champ-badge" title="${champ.club} won the ${champ.event}">🏆 WC CHAMPIONS</div>` : '';
     const rb = RECOMMENDED_BUILDS[n.id];
     const hdiRow = rb ? `<div class="nation-row"><span class="nation-lbl">HDI</span><span class="nation-val" style="color:${hdiColor(rb.hdiLabel)}">${rb.hdi} <span style="opacity:.65;font-size:9px;">(${T(rb.hdiLabel)})</span></span></div>` : '';
     return `<div class="nation-card" onclick="openNation('${n.id}')" style="--nc:${firstCol};--nc-stripe:${stripe};animation:fadeUp .38s ${i * 0.06}s ease both">${rankBadge}${champBadge}<div class="nation-body"><div class="nation-top"><div class="nation-ico" style="background:${n.iconBg};border:1px solid ${n.iconBorder};">${n.icon}</div><div><div class="nation-name">${n.name}</div><div class="nation-est">${n.est}</div></div></div><div class="nation-divider"></div><div class="nation-row"><span class="nation-lbl">${T('Population')}</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))>0?'var(--text)':'var(--text-muted)'}">${n.population}</span></div><div class="nation-row"><span class="nation-lbl">${T('Founded')}</span><span class="nation-val">${n.founded}</span></div>${hdiRow}<div class="nation-row"><span class="nation-lbl">${T('Approval')}</span><span class="nation-val" style="color:${parseInt(n.population.replace(',',''))===0?'var(--text-muted)':n.approval>=60?'var(--green)':n.approval>=45?'#facc15':'#f87171'}">${parseInt(n.population.replace(',',''))===0?0:n.approval}%</span></div><div class="nation-row" style="margin-top:2px"><span class="nation-lbl">${T('Government')}</span><span class="nation-gov" style="${n.govStyle}">${n.government}</span></div></div><div class="nation-footer"><div class="nation-leader-row">👤 <span>${n.leader}</span></div><span class="nation-arrow">↗</span></div></div>`;
@@ -5192,7 +5196,7 @@
           <div class="cwc-oct-hero-text">
             <div class="cwc-oct-hero-title">Club World Cup — October 2026</div>
             <div class="cwc-oct-hero-sub">Power Rankings · All 16 Teams</div>
-            <div class="cwc-oct-hero-desc">How the field stacks up heading into the tournament, ranked by club rating.</div>
+            <div class="cwc-oct-hero-desc">How the field stacked up heading into the tournament, ranked by club rating, with where each club finished.</div>
           </div>
         </div>
         ${cwcOctSubTabs()}
