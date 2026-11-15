@@ -1830,6 +1830,121 @@
     }
     @media (prefers-reduced-motion:reduce){.wr-item,.wr-body,.wr-chev,.wr-fill{transition:none}.wr-item{opacity:1;transform:none}}
   </style>
+  <style>
+    /* ── Island Evolution: run tracker, jump bar, beaten filter ── */
+    #islandPage{--ie-top:84px}
+    .ie-jump{position:relative;display:flex;gap:6px;overflow-x:auto;margin:22px 0 0;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--border-card);scrollbar-width:none}
+    .ie-jump::-webkit-scrollbar{display:none}
+    .ie-jump button{flex:0 0 auto;padding:9px 16px;border:none;border-radius:10px;background:transparent;color:var(--text-muted);font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.3px;cursor:pointer;transition:background .18s,color .18s}
+    .ie-jump button:hover{color:var(--text);background:rgba(255,255,255,.05)}
+    .ie-jump button.on{background:rgba(245,200,66,.14);color:var(--gold)}
+    .ie-run{--rc:#4ade80;display:grid;grid-template-columns:auto 1fr auto;gap:8px 22px;align-items:center;margin-top:18px;padding:20px 22px;border-radius:18px;border:1px solid var(--border-card);background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 9%,transparent),rgba(255,255,255,.02) 60%),var(--surface);transition:border-color .3s}
+    .ie-run.hard{--rc:#f87171}
+    .ie-run.complete{border-color:color-mix(in srgb,var(--rc) 55%,transparent)}
+    .ie-ring{position:relative;width:76px;height:76px}
+    .ie-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+    .ie-ring circle{fill:none;stroke-width:6}
+    .ie-ring .bg{stroke:rgba(255,255,255,.08)}
+    .ie-ring .fg{stroke:var(--rc);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.22,1,.36,1)}
+    .ie-ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:19px;font-weight:800;letter-spacing:-.3px}
+    .ie-ring .pct small{font-family:var(--font-m);font-size:10px;font-weight:600;color:var(--text-dim);margin-left:1px}
+    .ie-run-title{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.3px;color:var(--text-dim)}
+    .ie-run-title em{font-style:normal;color:var(--rc)}
+    .ie-run-next{font-family:var(--font-d);font-size:20px;font-weight:800;letter-spacing:-.3px;margin:4px 0 10px;line-height:1.25}
+    .ie-run-next b{color:var(--rc)}
+    .ie-run-next small{font-family:var(--font-m);font-size:11px;font-weight:600;color:var(--text-muted);margin-left:6px}
+    .ie-run-stats{display:flex;flex-wrap:wrap;gap:8px}
+    .ie-run-stats span{font-family:var(--font-m);font-size:10.5px;font-weight:600;color:var(--text-dim);padding:5px 11px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+    .ie-run-stats b{color:var(--text);margin-right:4px}
+    .ie-run-tools{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+    .ie-units{display:inline-flex;padding:2px;border-radius:10px;background:var(--surface);border:1px solid var(--border-card)}
+    .ie-units button{border:none;background:transparent;color:var(--text-dim);font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:background .18s,color .18s}
+    .ie-units button:hover{color:var(--text)}
+    .ie-units button.on{background:rgba(255,255,255,.09);color:var(--text)}
+    .ie-reset{border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:color .18s,border-color .18s}
+    .ie-reset:hover{color:#f87171;border-color:rgba(248,113,113,.45)}
+    .ie-reset.arm{color:#f87171;border-color:rgba(248,113,113,.6);background:rgba(248,113,113,.08)}
+    .ie-run-hint{grid-column:1/-1;font-family:var(--font-m);font-size:10.5px;color:var(--text-dim);line-height:1.6}
+    .ie-tier{cursor:pointer;user-select:none}
+    .ie-tier:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--tc) 55%,var(--border-card))}
+    .ie-tier:focus-visible,.ie-boss-mark:focus-visible,.ie-quest-check:focus-visible,.ie-jump button:focus-visible,.ie-units button:focus-visible,.ie-reset:focus-visible,.ie-beat-filter button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .ie-tier.done{border-color:rgba(74,222,128,.55)}
+    .ie-tier.done::after{content:'\2713';position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:#4ade80;color:#0a0a0d;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;animation:iePop .35s cubic-bezier(.34,1.56,.64,1) both}
+    .ie-tier.done .name{color:#4ade80}
+    .ie-tier.done .ie-bar i{background:#4ade80}
+    .ie-tier .amt small{margin-left:3px}
+    @keyframes iePop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+    .ie-boss-mark{display:block;width:100%;margin-top:16px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text-muted);font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.3px;cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+    .ie-boss-mark:hover{color:var(--text);border-color:rgba(255,255,255,.22)}
+    .ie-boss.done{border-color:rgba(74,222,128,.5)}
+    .ie-boss.done .ie-boss-mark{background:rgba(74,222,128,.13);color:#4ade80;border-color:rgba(74,222,128,.45)}
+    .ie-quest-check{flex-shrink:0;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);background:transparent;color:transparent;font-size:12px;font-weight:800;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:background .2s,border-color .2s,color .2s}
+    .ie-quest-check:hover{border-color:#4ade80}
+    .ie-quest.done .ie-quest-check{background:#4ade80;border-color:#4ade80;color:#0a0a0d}
+    .ie-quest.done{border-color:rgba(74,222,128,.4)}
+    .ie-quest.done .qnum{color:#4ade80}
+    .ie-beat-filter{display:inline-flex;padding:3px;margin:0 0 14px;border-radius:12px;background:var(--surface);border:1px solid var(--border-card)}
+    .ie-beat-filter button{border:none;background:transparent;color:var(--text-dim);font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:7px 14px;border-radius:9px;cursor:pointer;transition:background .18s,color .18s}
+    .ie-beat-filter button i{font-style:normal;opacity:.6;margin-left:5px}
+    .ie-beat-filter button:hover{color:var(--text)}
+    .ie-beat-filter button.on{background:rgba(245,200,66,.14);color:var(--gold)}
+    .ie-beat-empty{padding:22px;text-align:center;font-size:13px;color:var(--text-muted);border:1px dashed var(--border-card);border-radius:14px}
+    @media(max-width:700px){.ie-run{grid-template-columns:auto 1fr}.ie-run-tools{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between}.ie-run-next{font-size:17px}}
+    @media (prefers-reduced-motion:reduce){.ie-ring .fg,.ie-tier.done::after{transition:none;animation:none}}
+  </style>
+  <style>
+    /* ── Island Evolution: Nether and End boss cards ── */
+    .ie-boss-lbl{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:30px 0 14px}
+    .ie-boss-lbl span{font-family:var(--font-d);font-size:20px;font-weight:800;letter-spacing:-.2px}
+    .ie-boss-lbl i{font-style:normal;font-family:var(--font-m);font-size:11px;color:var(--text-dim)}
+    #islandPage .ie-boss-row{margin-top:0}
+    #islandPage .ie-boss.ie-nether,#islandPage .ie-boss.ie-end{--ac:#f87171;--ink:#fde4de;isolation:isolate;padding:0;border-radius:20px;border:1px solid color-mix(in srgb,var(--ac) 28%,transparent);display:flex;flex-direction:column}
+    #islandPage .ie-boss.ie-nether::after,#islandPage .ie-boss.ie-end::after{display:none}
+    #islandPage .ie-boss.ie-nether{background:linear-gradient(165deg,#2b0f0c 0%,#1a0b0a 55%,#120808 100%)}
+    #islandPage .ie-boss.ie-end{--ac:#c4b5fd;--ink:#ece6ff;background:linear-gradient(165deg,#1a1033 0%,#110b24 55%,#0b0817 100%)}
+    /* artwork layer */
+    #islandPage .ie-boss.ie-nether::before,#islandPage .ie-boss.ie-end::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none}
+    #islandPage .ie-boss.ie-nether::before{background:
+      radial-gradient(90% 55% at 12% 118%,rgba(251,113,36,.34),transparent 62%),
+      radial-gradient(70% 50% at 92% 125%,rgba(239,68,68,.26),transparent 62%),
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:auto,auto,26px 26px,26px 26px;animation:ieLava 14s ease-in-out infinite alternate}
+    #islandPage .ie-boss.ie-end::before{background:
+      radial-gradient(1.6px 1.6px at 14% 20%,#f3e8ff,transparent 60%),radial-gradient(1.2px 1.2px at 32% 64%,#ddd6fe,transparent 60%),
+      radial-gradient(1.8px 1.8px at 58% 18%,#fff,transparent 60%),radial-gradient(1.2px 1.2px at 71% 52%,#e9d5ff,transparent 60%),
+      radial-gradient(1.6px 1.6px at 88% 30%,#f5f3ff,transparent 60%),radial-gradient(1.2px 1.2px at 47% 86%,#ddd6fe,transparent 60%),
+      radial-gradient(1.4px 1.4px at 93% 78%,#fff,transparent 60%),radial-gradient(1.2px 1.2px at 8% 82%,#e9d5ff,transparent 60%),
+      radial-gradient(80% 55% at 100% -10%,rgba(168,85,247,.32),transparent 62%),
+      radial-gradient(60% 45% at -5% 110%,rgba(99,102,241,.2),transparent 62%);animation:ieStars 7s ease-in-out infinite alternate}
+    @keyframes ieLava{from{background-position:0 0,0 0,0 0,0 0}to{background-position:18px -8px,-14px -6px,0 0,0 0}}
+    @keyframes ieStars{from{opacity:.78}to{opacity:1}}
+    #islandPage .ie-boss.ie-nether:hover,#islandPage .ie-boss.ie-end:hover{border-color:color-mix(in srgb,var(--ac) 55%,transparent);box-shadow:none}
+    /* head */
+    #islandPage .ie-boss.ie-nether .ie-boss-head,#islandPage .ie-boss.ie-end .ie-boss-head{display:flex;align-items:center;gap:16px;padding:24px 24px 18px;margin:0}
+    #islandPage .ie-boss.ie-nether .ie-boss-emoji,#islandPage .ie-boss.ie-end .ie-boss-emoji{width:62px;height:62px;border-radius:16px;font-size:30px;box-shadow:none;border:1px solid color-mix(in srgb,var(--ac) 38%,transparent);background:color-mix(in srgb,var(--ac) 12%,rgba(0,0,0,.25))}
+    #islandPage .ie-boss .ie-realm{font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:.4px;color:var(--ac);margin-bottom:4px}
+    #islandPage .ie-boss.ie-nether .ie-boss-head h3,#islandPage .ie-boss.ie-end .ie-boss-head h3{font-size:25px;letter-spacing:-.4px;color:var(--ink);line-height:1.1}
+    #islandPage .ie-boss .req{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;font-family:var(--font-m);font-size:11px}
+    #islandPage .ie-boss .req .fight,#islandPage .ie-boss .req .need{padding:4px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ac) 30%,transparent);background:rgba(0,0,0,.28);color:var(--ink);font-weight:600}
+    #islandPage .ie-boss .req .need{color:var(--ac);background:color-mix(in srgb,var(--ac) 10%,rgba(0,0,0,.2))}
+    /* win / lose */
+    #islandPage .ie-boss.ie-nether .ie-boss-flow,#islandPage .ie-boss.ie-end .ie-boss-flow{gap:8px;padding:0 24px}
+    #islandPage .ie-boss.ie-nether .ie-boss-flow .row,#islandPage .ie-boss.ie-end .ie-boss-flow .row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.5;color:var(--ink);background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);border-left-width:3px}
+    #islandPage .ie-boss .ie-boss-flow .row.win{border-left-color:#4ade80}
+    #islandPage .ie-boss .ie-boss-flow .row.lose{border-left-color:#f87171}
+    #islandPage .ie-boss .ie-boss-flow .row .tag{flex:0 0 auto;min-width:52px;text-align:center;font-family:var(--font-m);font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 8px;border-radius:6px}
+    #islandPage .ie-boss .ie-boss-flow .row.win .tag{background:rgba(74,222,128,.14);color:#4ade80}
+    #islandPage .ie-boss .ie-boss-flow .row.lose .tag{background:rgba(248,113,113,.14);color:#f87171}
+    #islandPage .ie-boss .ie-boss-flow .row.win .tag::before{content:'\2713\00a0'}
+    #islandPage .ie-boss .ie-boss-flow .row.lose .tag::before{content:'\21BA\00a0'}
+    #islandPage .ie-boss .ie-boss-flow .row b{color:#fff}
+    #islandPage .ie-boss.ie-nether .ie-boss-mark,#islandPage .ie-boss.ie-end .ie-boss-mark{width:auto;margin:18px 24px 22px;background:rgba(0,0,0,.32);border-color:color-mix(in srgb,var(--ac) 30%,transparent);color:var(--ink)}
+    #islandPage .ie-boss.ie-nether .ie-boss-mark:hover,#islandPage .ie-boss.ie-end .ie-boss-mark:hover{border-color:var(--ac)}
+    #islandPage .ie-boss.ie-nether.done,#islandPage .ie-boss.ie-end.done{border-color:rgba(74,222,128,.55)}
+    #islandPage .ie-boss.ie-nether.done .ie-boss-mark,#islandPage .ie-boss.ie-end.done .ie-boss-mark{background:rgba(74,222,128,.15);color:#4ade80;border-color:rgba(74,222,128,.5)}
+    @media(max-width:520px){#islandPage .ie-boss.ie-nether .ie-boss-head,#islandPage .ie-boss.ie-end .ie-boss-head{padding:20px 18px 14px}#islandPage .ie-boss.ie-nether .ie-boss-flow,#islandPage .ie-boss.ie-end .ie-boss-flow{padding:0 18px}#islandPage .ie-boss.ie-nether .ie-boss-mark,#islandPage .ie-boss.ie-end .ie-boss-mark{margin:16px 18px 18px}}
+    @media (prefers-reduced-motion:reduce){#islandPage .ie-boss.ie-nether::before,#islandPage .ie-boss.ie-end::before{animation:none}}
+  </style>
   <div id="islandPage" class="page">
     <div class="ie-shell">
       <div class="ie-hero">
@@ -1845,6 +1960,8 @@
         </div>
       </div>
 
+      <div class="ie-jump" id="ieJump" role="navigation" aria-label="Island Evolution sections"><button data-t="run" class="on">My run</button><button data-t="beaten">Beaten the game</button><button data-t="tiers">Resource tiers</button><button data-t="bosses">Boss fights</button><button data-t="quests">Quests</button></div>
+      <div class="ie-run" id="ieRun"></div>
       <div id="ieBeaten"></div>
 
       <!-- EASY MODE -->
@@ -1879,21 +1996,22 @@
           <div class="lbl">FINAL UNLOCK</div><div class="val" style="color:#22d3ee;">Nether</div>
         </div>
 
-        <div class="ie-boss-row">
-          <div class="ie-boss" style="--bc:#ef4444;--bc2:rgba(239,68,68,.35)">
+        <div class="ie-boss-lbl"><span>Boss fights</span><i>Win to advance. Lose and you reset.</i></div>
+      <div class="ie-boss-row">
+          <div class="ie-boss ie-nether" style="--bc:#ef4444;--bc2:rgba(239,68,68,.35)">
             <div class="ie-boss-head">
               <div class="ie-boss-emoji">⚔️</div>
-              <div><h3>The Nether</h3><div class="req">Fight the Wither · needs 8 stacks of Netherite</div></div>
+              <div><div class="ie-realm">Boss fight 1</div><h3>The Nether</h3><div class="req"><span class="fight">Fight the Wither</span><span class="need">Needs 8 stacks of Netherite</span></div></div>
             </div>
             <div class="ie-boss-flow">
               <div class="row win"><span class="tag">WIN</span><span>Unlocks the <b>Netherite</b> tier</span></div>
               <div class="row lose"><span class="tag">LOSE</span><span>Resets you back to <b>Diamond</b></span></div>
             </div>
           </div>
-          <div class="ie-boss" style="--bc:#a855f7;--bc2:rgba(168,85,247,.35)">
+          <div class="ie-boss ie-end" style="--bc:#a855f7;--bc2:rgba(168,85,247,.35)">
             <div class="ie-boss-head">
               <div class="ie-boss-emoji">🐉</div>
-              <div><h3>The End</h3><div class="req">Fight the Ender Dragon</div></div>
+              <div><div class="ie-realm">Final boss</div><h3>The End</h3><div class="req"><span class="fight">Fight the Ender Dragon</span><span class="need">Last fight of the game</span></div></div>
             </div>
             <div class="ie-boss-flow">
               <div class="row win"><span class="tag">WIN</span><span>Completes Island Evolution and unlocks <b>the End</b></span></div>
@@ -1935,21 +2053,22 @@
           <div class="lbl">FINAL UNLOCK</div><div class="val" style="color:#22d3ee;">Nether</div>
         </div>
 
-        <div class="ie-boss-row">
-          <div class="ie-boss" style="--bc:#ef4444;--bc2:rgba(239,68,68,.35)">
+        <div class="ie-boss-lbl"><span>Boss fights</span><i>Win to advance. Lose and you reset.</i></div>
+      <div class="ie-boss-row">
+          <div class="ie-boss ie-nether" style="--bc:#ef4444;--bc2:rgba(239,68,68,.35)">
             <div class="ie-boss-head">
               <div class="ie-boss-emoji">⚔️</div>
-              <div><h3>The Nether</h3><div class="req">Fight the Wither · needs 15 stacks of Netherite</div></div>
+              <div><div class="ie-realm">Boss fight 1</div><h3>The Nether</h3><div class="req"><span class="fight">Fight the Wither</span><span class="need">Needs 15 stacks of Netherite</span></div></div>
             </div>
             <div class="ie-boss-flow">
               <div class="row win"><span class="tag">WIN</span><span>Unlocks the <b>Netherite</b> tier</span></div>
               <div class="row lose"><span class="tag">LOSE</span><span>Resets you all the way back to <b>Cobblestone</b></span></div>
             </div>
           </div>
-          <div class="ie-boss" style="--bc:#a855f7;--bc2:rgba(168,85,247,.35)">
+          <div class="ie-boss ie-end" style="--bc:#a855f7;--bc2:rgba(168,85,247,.35)">
             <div class="ie-boss-head">
               <div class="ie-boss-emoji">🐉</div>
-              <div><h3>The End</h3><div class="req">Fight the Ender Dragon</div></div>
+              <div><div class="ie-realm">Final boss</div><h3>The End</h3><div class="req"><span class="fight">Fight the Ender Dragon</span><span class="need">Last fight of the game</span></div></div>
             </div>
             <div class="ie-boss-flow">
               <div class="row win"><span class="tag">WIN</span><span>Beats the game and completes Hard Mode, unlocking <b>the End</b></span></div>
@@ -2146,11 +2265,153 @@
         tiers.forEach(function(t){if(!max||t.querySelector('.ie-bar'))return;var b=document.createElement('div');b.className='ie-bar';b.innerHTML='<i style="width:'+Math.max(Math.round(t._v/max*100),8)+'%"></i>';t.appendChild(b);});
       });
     })();
-    function setIslandMode(mode, btn){
+    (function () {
+    var KEY = 'qmc_ie_run_v1', st = null, mode = 'easy', armTimer = null;
+    var CIRC = 163.36;
+    function load() {
+      try { st = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { st = null; }
+      if (!st || typeof st !== 'object') st = {};
+      st.easy = st.easy || { t: [], b: [] }; st.hard = st.hard || { t: [], b: [] };
+      st.q = st.q || []; st.units = st.units === 'items' ? 'items' : 'stacks';
+    }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+    function panel(m) { return document.getElementById(m === 'easy' ? 'ieEasy' : 'ieHard'); }
+    function list(sel, root) { return [].slice.call((root || document).querySelectorAll(sel)); }
+    function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    function amount(stacks) { return st.units === 'items' ? fmt(stacks * 64) : fmt(stacks); }
+    function unit() { return st.units === 'items' ? 'items' : 'stacks'; }
+
+    // pure helpers (kept free of the DOM so they are easy to test)
+    window.ieSummary = function (stacks, done) {
+      var total = 0, got = 0, n = 0;
+      stacks.forEach(function (v, i) { total += v; if (done[i]) { got += v; n++; } });
+      return { total: total, got: got, tiers: n, pct: total ? Math.round(got / total * 100) : 0 };
+    };
+    window.ieNext = function (names, stacks, done, bossNames, bossDone) {
+      for (var i = 0; i < names.length; i++) if (!done[i]) return { kind: 'tier', name: names[i], stacks: stacks[i] };
+      for (var j = 0; j < bossNames.length; j++) if (!bossDone[j]) return { kind: 'boss', name: bossNames[j] };
+      return { kind: 'done' };
+    };
+
+    function init() {
+      load();
+      ['easy', 'hard'].forEach(function (m) {
+        var p = panel(m); if (!p) return;
+        list('.ie-tier', p).forEach(function (t, i) {
+          var a = t.querySelector('.amt');
+          t.dataset.stacks = parseInt(a.textContent, 10) || 0; t.dataset.i = i; t.dataset.m = m;
+          t.setAttribute('role', 'button'); t.setAttribute('tabindex', '0');
+          t.dataset.name = (t.querySelector('.name') || {}).textContent || '';
+        });
+        list('.ie-boss', p).forEach(function (b, i) {
+          b.dataset.i = i; b.dataset.m = m;
+          if (!b.querySelector('.ie-boss-mark')) {
+            var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'ie-boss-mark';
+            b.appendChild(btn);
+          }
+        });
+        var sum = p.querySelector('.ie-path-summary .val:nth-of-type(2)');
+        var vals = list('.ie-path-summary .val', p);
+        if (vals[1]) vals[1].dataset.total = list('.ie-tier', p).reduce(function (n, t) { return n + (+t.dataset.stacks); }, 0);
+      });
+      list('#islandPage .ie-quest').forEach(function (q, i) {
+        q.dataset.i = i;
+        var head = q.querySelector('.ie-quest-head'), chev = q.querySelector('.ie-quest-chevron');
+        if (head && !q.querySelector('.ie-quest-check')) {
+          var c = document.createElement('button'); c.type = 'button'; c.className = 'ie-quest-check';
+          c.setAttribute('aria-label', 'Mark quest complete'); c.innerHTML = '&#10003;';
+          head.insertBefore(c, chev);
+        }
+      });
+      var run = document.getElementById('ieRun');
+      run.addEventListener('click', function (e) {
+        var u = e.target.closest('[data-u]'), r = e.target.closest('.ie-reset');
+        if (u) { st.units = u.dataset.u; save(); render(); }
+        else if (r) {
+          if (r.classList.contains('arm')) { st = { easy: { t: [], b: [] }, hard: { t: [], b: [] }, q: [], units: st.units }; save(); render(); }
+          else { r.classList.add('arm'); r.textContent = 'Click again to reset'; clearTimeout(armTimer); armTimer = setTimeout(function () { r.classList.remove('arm'); r.textContent = 'Reset run'; }, 3000); }
+        }
+      });
+      var shell = document.querySelector('#islandPage .ie-shell');
+      shell.addEventListener('click', function (e) {
+        var t = e.target.closest('.ie-tier'), b = e.target.closest('.ie-boss-mark'), q = e.target.closest('.ie-quest-check');
+        if (t) { var a = st[t.dataset.m].t; a[+t.dataset.i] = !a[+t.dataset.i]; save(); render(); }
+        else if (b) { var bs = b.closest('.ie-boss'), ba = st[bs.dataset.m].b; ba[+bs.dataset.i] = !ba[+bs.dataset.i]; save(); render(); }
+        else if (q) { e.stopPropagation(); var qi = +q.closest('.ie-quest').dataset.i; st.q[qi] = !st.q[qi]; save(); render(); }
+      }, true);
+      shell.addEventListener('keydown', function (e) {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('ie-tier')) { e.preventDefault(); e.target.click(); }
+      });
+      var jump = document.getElementById('ieJump');
+      jump.addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        var p = panel(mode), map = {
+          run: document.getElementById('ieRun'), beaten: document.getElementById('ieBeaten'),
+          tiers: p.querySelector('.ie-section-lbl'), bosses: p.querySelector('.ie-boss-row'),
+          quests: document.querySelector('#islandPage .ie-quests')
+        };
+        var el = map[b.dataset.t]; if (!el) return;
+        var off = (parseInt(getComputedStyle(document.getElementById('islandPage')).getPropertyValue('--ie-top'), 10) || 84) + 14;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - off, behavior: 'smooth' });
+      });
+      function setTop() { var n = document.querySelector('nav'); if (n) document.getElementById('islandPage').style.setProperty('--ie-top', n.offsetHeight + 'px'); }
+      setTop(); window.addEventListener('resize', setTop);
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking || !document.getElementById('islandPage').classList.contains('active')) return; ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          var p = panel(mode), pts = [['run', document.getElementById('ieRun')], ['beaten', document.getElementById('ieBeaten')], ['tiers', p.querySelector('.ie-section-lbl')], ['bosses', p.querySelector('.ie-boss-row')], ['quests', document.querySelector('#islandPage .ie-quests')]];
+          var line = (parseInt(getComputedStyle(document.getElementById('islandPage')).getPropertyValue('--ie-top'), 10) || 84) + 60, cur = 'run';
+          pts.forEach(function (x) { if (x[1] && x[1].getBoundingClientRect().top <= line) cur = x[0]; });
+          list('button', jump).forEach(function (b) { b.classList.toggle('on', b.dataset.t === cur); });
+        });
+      }, { passive: true });
+      render();
+    }
+
+    function render() {
+      var p = panel(mode), a = st[mode], tiers = list('.ie-tier', p), bosses = list('.ie-boss', p);
+      var stacks = tiers.map(function (t) { return +t.dataset.stacks; });
+      var names = tiers.map(function (t) { return t.dataset.name; });
+      var bossNames = bosses.map(function (b) { return (b.querySelector('h3') || {}).textContent || 'Boss'; });
+      ['easy', 'hard'].forEach(function (m) {
+        var pp = panel(m); if (!pp) return;
+        list('.ie-tier', pp).forEach(function (t) {
+          var on = !!st[m].t[+t.dataset.i]; t.classList.toggle('done', on); t.setAttribute('aria-pressed', on);
+          var am = t.querySelector('.amt'); am.innerHTML = amount(+t.dataset.stacks) + '<small>' + unit() + '</small>';
+        });
+        list('.ie-boss', pp).forEach(function (b) {
+          var on = !!st[m].b[+b.dataset.i]; b.classList.toggle('done', on);
+          var mk = b.querySelector('.ie-boss-mark'); mk.textContent = on ? 'Defeated \u2713' : 'Mark as defeated'; mk.setAttribute('aria-pressed', on);
+        });
+        var vals = list('.ie-path-summary .val', pp);
+        if (vals[1] && vals[1].dataset.total) vals[1].innerHTML = amount(+vals[1].dataset.total) + '<small>' + unit() + '</small>';
+      });
+      list('#islandPage .ie-quest').forEach(function (q) { var on = !!st.q[+q.dataset.i]; q.classList.toggle('done', on); q.querySelector('.ie-quest-check').setAttribute('aria-pressed', on); });
+      var done = tiers.map(function (t, i) { return !!a.t[i]; }), bdone = bosses.map(function (b, i) { return !!a.b[i]; });
+      var sm = window.ieSummary(stacks, done), nx = window.ieNext(names, stacks, done, bossNames, bdone);
+      var qd = list('#islandPage .ie-quest').filter(function (q) { return q.classList.contains('done'); }).length, qn = list('#islandPage .ie-quest').length;
+      var nxt = nx.kind === 'tier' ? 'Collect <b>' + nx.name + '</b><small>' + amount(nx.stacks) + ' ' + unit() + '</small>'
+        : nx.kind === 'boss' ? 'Fight <b>' + bossNames[bdone.indexOf(false)] + '</b><small>boss fight</small>'
+        : '<b>Island Evolution complete</b><small>claim your victory</small>';
+      var run = document.getElementById('ieRun');
+      run.className = 'ie-run' + (mode === 'hard' ? ' hard' : '') + (nx.kind === 'done' ? ' complete' : '');
+      run.innerHTML = '<div class="ie-ring"><svg viewBox="0 0 76 76"><circle class="bg" cx="38" cy="38" r="26"></circle><circle class="fg" cx="38" cy="38" r="26" stroke-dasharray="' + CIRC + '" stroke-dashoffset="' + (CIRC * (1 - sm.pct / 100)).toFixed(2) + '"></circle></svg><div class="pct">' + sm.pct + '<small>%</small></div></div>'
+        + '<div><div class="ie-run-title">My run \u00b7 <em>' + (mode === 'hard' ? 'Hard Mode' : 'Easy Mode') + '</em></div><div class="ie-run-next">' + nxt + '</div>'
+        + '<div class="ie-run-stats"><span><b>' + sm.tiers + '/' + tiers.length + '</b>tiers</span><span><b>' + amount(sm.got) + '/' + amount(sm.total) + '</b>' + unit() + '</span><span><b>' + bdone.filter(Boolean).length + '/' + bosses.length + '</b>bosses</span><span><b>' + qd + '/' + qn + '</b>quests</span></div></div>'
+        + '<div class="ie-run-tools"><div class="ie-units" role="group" aria-label="Units"><button data-u="stacks" class="' + (st.units === 'stacks' ? 'on' : '') + '">Stacks</button><button data-u="items" class="' + (st.units === 'items' ? 'on' : '') + '">Items</button></div><button class="ie-reset">Reset run</button></div>'
+        + '<div class="ie-run-hint">Tick off tiers, boss fights and quests as you complete them. Your progress is saved on this device only.</div>';
+    }
+    window.ieSync = function (m) { mode = m; if (st) render(); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  })();
+  function setIslandMode(mode, btn){
       document.querySelectorAll('#ieToggle button').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('ieEasy').classList.toggle('active', mode==='easy');
       document.getElementById('ieHard').classList.toggle('active', mode==='hard');
+    if (window.ieSync) window.ieSync(mode);
     }
   </script>
 
@@ -3365,11 +3626,14 @@
     {name:'Killedbycrab', mode:'easy', count:1},
     {name:'Mason10gamin', mode:'easy', count:1},
   ];
+  let IE_BEAT_F = 'all';
+  function ieBeatFilter(f) { IE_BEAT_F = f; renderIslandBeaten(); }
   function renderIslandBeaten(){
     const host = document.getElementById('ieBeaten'); if(!host) return;
-    const list = [...ISLAND_BEATEN].sort((a, b) => (a.mode === 'hard' ? 0 : 1) - (b.mode === 'hard' ? 0 : 1) || b.count - a.count || a.name.localeCompare(b.name));
-    const hard = list.filter(p => p.mode === 'hard').reduce((n, p) => n + p.count, 0);
-    const easy = list.filter(p => p.mode === 'easy').reduce((n, p) => n + p.count, 0);
+    const all = [...ISLAND_BEATEN].sort((a, b) => (a.mode === 'hard' ? 0 : 1) - (b.mode === 'hard' ? 0 : 1) || b.count - a.count || a.name.localeCompare(b.name));
+    const list = all.filter(p => IE_BEAT_F === 'all' || p.mode === IE_BEAT_F);
+    const hard = all.filter(p => p.mode === 'hard').reduce((n, p) => n + p.count, 0);
+    const easy = all.filter(p => p.mode === 'easy').reduce((n, p) => n + p.count, 0);
     const card = p => {
       const letter = p.name.trim().charAt(0).toUpperCase();
       const label = p.mode === 'hard' ? '🔴 Hard Mode' : '🟢 Easy Mode' + (p.count > 1 ? ' ×' + p.count : '');
@@ -3382,8 +3646,9 @@
     host.innerHTML = `<div class="ie-beat">
       <div class="ie-section-lbl"><div class="n" style="background:rgba(245,200,66,.18);color:var(--gold);">🏆</div><h2>Beaten the Game</h2><div class="sub">${list.length} players</div></div>
       <p class="ie-beat-sub">These players have completed Island Evolution from start to finish.</p>
-      <div class="ie-beat-chips"><span><b>${list.length}</b>players</span><span><b>${hard}</b>hard mode clear${hard === 1 ? '' : 's'}</span><span><b>${easy}</b>easy mode clears</span></div>
-      <div class="ie-beat-grid">${list.map(card).join('')}</div>
+      <div class="ie-beat-chips"><span><b>${all.length}</b>players</span><span><b>${hard}</b>hard mode clear${hard === 1 ? '' : 's'}</span><span><b>${easy}</b>easy mode clears</span></div>
+      <div class="ie-beat-filter" role="group" aria-label="Filter by mode">${[['all','All',all.length],['hard','Hard',all.filter(p => p.mode === 'hard').length],['easy','Easy',all.filter(p => p.mode === 'easy').length]].map(f => `<button class="${IE_BEAT_F===f[0]?'on':''}" onclick="ieBeatFilter('${f[0]}')">${f[1]}<i>${f[2]}</i></button>`).join('')}</div>
+ <div class="ie-beat-grid">${list.length ? list.map(card).join('') : `<div class="ie-beat-empty">Nobody has cleared Island Evolution in this mode yet.</div>`}</div>
     </div>`;
   }
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); renderIslandBeaten(); setNavActive(false,false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); }
