@@ -279,7 +279,8 @@
     .ibtn.yt:hover{border-color:rgba(204,0,0,.4);background:rgba(204,0,0,.1);color:#ff5555;}
     .ibtn.dc:hover{border-color:rgba(88,101,242,.4);background:rgba(88,101,242,.1);color:#7b8ff7;}
     .ibtn.tier:hover{border-color:var(--pink-line);background:var(--pink-glow);color:var(--pink);}
-    .ibtn.sk:hover{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);}
+    .ibtn.staff:hover,.ibtn.staff.on{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);}
+.ibtn.sk:hover{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);}
     .ibtn.sk{font-family:var(--font-m);font-size:13px;font-weight:800;}
     .hero{min-height:68vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 24px 48px;position:relative;}
     .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid rgba(74,222,128,0.3);background:rgba(74,222,128,0.08);font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:20px;animation:fadeDown .6s .1s ease both;}
@@ -1334,7 +1335,8 @@
         <button class="nav-link" id="nlRanked" onclick="goRanked()">Ranked</button>
         <button class="nav-link" id="nlNations" onclick="goCurrentNations()">Nations</button>
         <button class="nav-link" id="nlAwards" onclick="goAwards2027()">Awards <span class="nav-new">2027</span></button>
-        <button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
+        <button class="nav-link" id="nlStaff" onclick="goStaff()">Staff</button>
+<button class="nav-link" id="nlFeedback" onclick="goHome();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">Feedback</button>
       </div>
       <div class="nav-div"></div>
       <div class="nav-icons">
@@ -1344,7 +1346,8 @@
         <a class="ibtn dc" href="https://discord.gg/pnMRQsqUtA" target="_blank" rel="noopener" title="Discord">
           <svg width="16" height="12" viewBox="-1 -1 79 58" fill="currentColor"><path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.44077 45.4204 0.52529C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.52529C25.5141 0.44359 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C7.41372 50.7185 14.2196 53.9884 20.8975 56.1488C20.9899 56.1769 21.0878 56.1432 21.1466 56.0701C22.7762 53.8669 24.2369 51.5476 25.4892 49.1149C25.5506 48.9949 25.492 48.8522 25.3659 48.8044C23.0888 47.9215 20.9196 46.8524 18.8349 45.6413C18.6952 45.5604 18.684 45.3576 18.8124 45.2625C19.2497 44.9419 19.6869 44.6073 20.1045 44.2697C20.1689 44.2165 20.2556 44.2053 20.3311 44.239C31.6816 49.2576 43.8966 49.2576 55.1126 44.239C55.1882 44.2025 55.2749 44.2137 55.3421 44.2669C55.7597 44.6045 56.1969 44.9419 56.637 45.2625C56.7654 45.5576 56.7571 45.5604 56.6174 45.6413C54.5327 46.8752 52.3635 47.9215 50.0836 48.8016C49.9575 48.8494 49.9017 48.9949 49.9631 49.1149C51.2376 51.5448 52.6983 53.8641 54.3002 56.0673C54.3562 56.1432 54.4569 56.1769 54.5493 56.1488C61.258 53.9884 68.0638 50.7185 75.0918 45.5576C75.145 45.5182 75.1786 45.459 75.1842 45.3942C76.7048 30.0791 72.7761 16.7757 64.9929 4.9823C64.9734 4.9429 64.9398 4.9147 64.9006 4.8978H60.1045ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1436C17.3451 26.1735 20.1717 22.9618 23.7259 22.9618C27.308 22.9618 30.1626 26.2014 30.1066 30.1436C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1436C40.9371 26.1735 43.7636 22.9618 47.3178 22.9618C50.9 22.9618 53.7545 26.2014 53.6986 30.1436C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/></svg>
         </a>
-        <button class="ibtn tier" id="tierBtn" onclick="openTier()" title="Tier Guide" style="display:none">
+        <button class="ibtn staff" id="staffNavBtn" onclick="goStaff()" title="Staff team" aria-label="Staff team"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></button>
+<button class="ibtn tier" id="tierBtn" onclick="openTier()" title="Tier Guide" style="display:none">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         </button>
         <button class="ibtn sk" id="shortcutBtn" onclick="openShortcuts()" title="Keyboard Shortcuts (?)" style="display:none">?</button>
@@ -1361,7 +1364,8 @@
     <button class="mnav-link" onclick="goRanked();closeMobileNav()">🏆 Ranked</button>
     <button class="mnav-link" onclick="goCurrentNations();closeMobileNav()">🌍 Current Nations</button>
     <button class="mnav-link" onclick="goAwards2027();closeMobileNav()">🏅 Server Awards 2027</button>
-    <button class="mnav-link" onclick="goHome();closeMobileNav();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">💬 Feedback</button>
+    <button class="mnav-link" onclick="goStaff();closeMobileNav()">👥 Staff</button>
+<button class="mnav-link" onclick="goHome();closeMobileNav();setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth'})},80)">💬 Feedback</button>
     <div class="mnav-div" id="mnavRankedDiv" style="display:none"></div>
     <button class="mnav-link" id="mnavTierBtn" onclick="openTier();closeMobileNav()" style="display:none">📊 Tier Guide</button>
     <button class="mnav-link" id="mnavShortcutBtn" onclick="openShortcuts();closeMobileNav()" style="display:none">⌨️ Keyboard Shortcuts</button>
@@ -1945,6 +1949,70 @@
     @media(max-width:520px){#islandPage .ie-boss.ie-nether .ie-boss-head,#islandPage .ie-boss.ie-end .ie-boss-head{padding:20px 18px 14px}#islandPage .ie-boss.ie-nether .ie-boss-flow,#islandPage .ie-boss.ie-end .ie-boss-flow{padding:0 18px}#islandPage .ie-boss.ie-nether .ie-boss-mark,#islandPage .ie-boss.ie-end .ie-boss-mark{margin:16px 18px 18px}}
     @media (prefers-reduced-motion:reduce){#islandPage .ie-boss.ie-nether::before,#islandPage .ie-boss.ie-end::before{animation:none}}
   </style>
+  <style>
+    /* ── Staff page ── */
+    .stf-shell{max-width:1040px;margin:0 auto;padding:44px 24px 0}
+    .stf-hero .stitle em{font-style:normal;background:linear-gradient(90deg,var(--gold),#ff8c00);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .stf-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .stf-chips span{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--text-muted);padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--border-card)}
+    .stf-chips b{color:#fff;margin-right:5px}
+    .stf-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:28px 0 6px}
+    .stf-seg{display:inline-flex;padding:3px;border-radius:12px;background:var(--surface);border:1px solid var(--border-card)}
+    .stf-seg button{border:none;background:transparent;color:var(--text-dim);font-family:var(--font-m);font-size:11px;font-weight:700;padding:8px 16px;border-radius:9px;cursor:pointer;transition:background .18s,color .18s}
+    .stf-seg button:hover{color:var(--text)}
+    .stf-seg button.on{background:rgba(245,200,66,.14);color:var(--gold)}
+    .stf-tip{font-family:var(--font-m);font-size:10.5px;color:var(--text-dim)}
+    .stf-sec{margin-top:30px}
+    .stf-sec-h{display:flex;align-items:center;gap:10px}
+    .stf-sec-h .dot{width:10px;height:10px;border-radius:50%;background:var(--rc)}
+    .stf-sec-h h3{font-family:var(--font-d);font-size:21px;font-weight:800;letter-spacing:-.2px;margin:0}
+    .stf-sec-h i{font-style:normal;font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-dim);padding:2px 9px;border-radius:999px;border:1px solid var(--border)}
+    .stf-sec-sub{font-size:13px;color:var(--text-muted);margin:6px 0 14px}
+    .stf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+    .stf-card{--rc:var(--gold);position:relative;display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;border:1px solid var(--border-card);background:linear-gradient(180deg,color-mix(in srgb,var(--rc) 7%,var(--surface)),var(--surface) 75%);cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .2s cubic-bezier(.22,1,.36,1),border-color .2s,opacity .2s}
+    .stf-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--rc) 45%,var(--border-card))}
+    .stf-card:focus-visible,.stf-seg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .stf-card.owner{padding:22px;border-color:color-mix(in srgb,var(--gold) 40%,var(--border-card))}
+    .stf-card.dim{opacity:.35}
+    .stf-card.pin{border-color:var(--gold)}
+    .stf-av{width:56px;height:56px;border-radius:14px;flex-shrink:0;background:var(--surface2);border:1px solid var(--border);object-fit:cover;image-rendering:pixelated}
+    .stf-card.owner .stf-av{width:72px;height:72px;border-radius:18px}
+    .stf-main{min-width:0;flex:1}
+    .stf-name{font-family:var(--font-d);font-size:18px;font-weight:800;letter-spacing:-.1px;color:var(--text);overflow-wrap:anywhere}
+    .stf-card.owner .stf-name{font-size:24px}
+    .stf-role{display:inline-block;font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.3px;padding:3px 9px;border-radius:999px;color:var(--rc);background:color-mix(in srgb,var(--rc) 12%,transparent);border:1px solid color-mix(in srgb,var(--rc) 32%,transparent)}
+    .stf-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .stf-also{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin-top:8px}
+    .stf-lead{font-family:var(--font-m);font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;color:var(--ac);background:color-mix(in srgb,var(--ac) 10%,transparent);border:1px solid color-mix(in srgb,var(--ac) 32%,transparent)}
+    .stf-owner-wrap{margin-top:22px}
+    .stf-hint{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin-top:8px}
+    .stf-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,8,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .stf-modal[hidden]{display:none}
+    .stf-mpanel{--rc:var(--gold);position:relative;width:min(640px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:22px;border:1px solid color-mix(in srgb,var(--rc) 35%,var(--border-card));background:linear-gradient(160deg,color-mix(in srgb,var(--rc) 10%,#0d0d12),#0b0b10 60%);padding:26px;animation:stfIn .28s cubic-bezier(.22,1,.36,1) both}
+    @keyframes stfIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+    .stf-mclose{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:20px;line-height:1;cursor:pointer;transition:color .18s,border-color .18s}
+    .stf-mclose:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+    .stf-mclose:focus-visible,.stf-mlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .stf-m{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:start}
+    .stf-mskin{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 8px 12px;border-radius:16px;border:1px solid var(--border);background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--rc) 14%,transparent),transparent 70%),rgba(255,255,255,.02)}
+    .stf-mskin img{width:150px;height:auto;max-height:300px;object-fit:contain;image-rendering:pixelated}
+    .stf-mskin .cap{font-family:var(--font-m);font-size:10px;color:var(--text-dim)}
+    .stf-mname{font-family:var(--font-d);font-size:30px;font-weight:800;letter-spacing:-.4px;line-height:1.1;overflow-wrap:anywhere;padding-right:34px}
+    .stf-mtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+    .stf-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:20px}
+    .stf-stat{padding:11px 13px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+    .stf-stat .k{font-family:var(--font-m);font-size:9.5px;color:var(--text-dim);margin-bottom:5px}
+    .stf-stat .v{font-family:var(--font-d);font-size:21px;font-weight:800;letter-spacing:-.2px}
+    .stf-stat .v small{font-family:var(--font-m);font-size:10px;font-weight:600;color:var(--text-dim);margin-left:3px}
+    .stf-stat.gold .v{color:var(--gold)}
+    .stf-none{font-size:12.5px;color:var(--text-dim);margin-top:18px}
+    .stf-mlinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+    .stf-mlink{font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-muted);text-decoration:none;cursor:pointer;transition:color .18s,border-color .18s}
+    .stf-mlink:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+    @media(max-width:560px){.stf-m{grid-template-columns:1fr}.stf-mskin img{width:120px}.stf-mpanel{padding:20px}}
+    @media (prefers-reduced-motion:reduce){.stf-mpanel{animation:none}}
+    @media (prefers-reduced-motion:reduce){.stf-card{transition:none}}
+  </style>
   <div id="islandPage" class="page">
     <div class="ie-shell">
       <div class="ie-hero">
@@ -2414,6 +2482,31 @@
     if (window.ieSync) window.ieSync(mode);
     }
   </script>
+
+  <!-- STAFF PAGE -->
+  <div id="staffPage" class="page">
+    <div class="stf-shell">
+      <div class="stf-hero">
+        <div class="stag">The Team</div>
+        <h2 class="stitle">Meet the <em>Staff</em></h2>
+        <p class="ssub">The people who run and look after Quipalite MC.</p>
+        <div class="stf-chips" id="stfChips"></div>
+      </div>
+      <div class="stf-bar">
+        <div class="stf-seg" id="stfSeg" role="group" aria-label="Staff view"><button class="on" data-v="role">By role</button><button data-v="person">By person</button></div>
+        <span class="stf-tip">Hover a name to see everywhere they help. Click for their profile and skin.</span>
+      </div>
+      <div id="stfRoot"></div>
+    </div>
+    <div class="stf-modal" id="stfModal" role="dialog" aria-modal="true" aria-label="Staff profile" hidden>
+      <div class="stf-mpanel">
+        <button class="stf-mclose" id="stfMClose" aria-label="Close profile">&times;</button>
+        <div id="stfMBody"></div>
+      </div>
+    </div>
+    <footer>&copy; Quipalite MC &nbsp;&middot;&nbsp; Staff &nbsp;&middot;&nbsp; 2026
+    </footer>
+  </div>
 
   <!-- PARTY GAMES PAGE -->
   <div id="partyGamesPage" class="page">
@@ -3604,12 +3697,16 @@
   }
 
   document.getElementById('navLogo').addEventListener('click', function(e) { e.stopPropagation(); window.location.reload(); });
-  function setNavActive(home, ranked, nations, awards) {
+  function setNavActive(home, ranked, nations, awards, staff) {
     document.getElementById('nlHome').classList.toggle('active', !!home);
     document.getElementById('nlRanked').classList.toggle('active', !!ranked);
     document.getElementById('nlNations').classList.toggle('active', !!nations);
     const nlAwards = document.getElementById('nlAwards');
     if (nlAwards) nlAwards.classList.toggle('active', !!awards);
+  const nlStaff = document.getElementById('nlStaff');
+  const staffNav = document.getElementById('staffNavBtn');
+  if (staffNav) staffNav.classList.toggle('on', !!staff);
+  if (nlStaff) nlStaff.classList.toggle('active', !!staff);
     const showRankedMobile = !!ranked;
     document.getElementById('mnavTierBtn').style.display = showRankedMobile ? '' : 'none';
     document.getElementById('mnavShortcutBtn').style.display = showRankedMobile ? '' : 'none';
@@ -3654,6 +3751,105 @@
   function goIsland() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('islandPage').classList.add('active'); renderIslandBeaten(); setNavActive(false,false,false); document.getElementById('navSub').textContent='Island Evolution'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); }
   function goPartyGames() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('partyGamesPage').classList.add('active'); setNavActive(false,false,false); document.getElementById('navSub').textContent='Party Games'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); }
   function goCurrentNations() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('currentNationsPage').classList.add('active'); setNavActive(false,false,true); document.getElementById('navSub').textContent='Current Nations'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); renderNationsGrid(); if(wcActiveTournament==='country'){renderWc2List();}else{renderBracket();} renderMilitaryList(); }
+  // ---- Staff team ----
+  const STAFF = [
+    { key:'Owner', label:'Owner', color:'#F5C842', blurb:'Runs the server.', people:['RealO75'] },
+    { key:'Admins', label:'Admin', color:'#FF1A6D', blurb:'Keep the server running and fair.', people:['Neska5036','Killedbycrab'] },
+    { key:'Builders', label:'Builder', color:'#4ade80', blurb:'Build and look after the server\u2019s worlds.', people:['Aftlow','Neska5036'] },
+    { key:'Discord Admins', label:'Discord Admin', color:'#7c8cff', blurb:'Look after the Discord community.', people:['SadInFusIOns','Neska5036'] }
+  ];
+  const STF = { view:'role', open:null };
+  function stfEsc(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+  function stfRoles(name) { return STAFF.filter(r => r.people.indexOf(name) >= 0); }
+  function stfLeads(name) { return (typeof NATIONS !== 'undefined' ? NATIONS : []).filter(n => n.leader === name); }
+  function stfBody(name, size) { return 'https://mc-heads.net/body/' + encodeURIComponent(name) + '/' + size; }
+  // public record for a player, from data already on the site
+  function stfStats(name) {
+    let noms = 0, wins = 0;
+    ['jan26', 'apr26', 'jan27'].forEach(p => {
+      const d = AWARDS[p]; if (!d || !d.categories) return;
+      d.categories.forEach(c => {
+        const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
+        (c.nominees || []).forEach(nm => {
+          const who = (c.builds && c.builds[nm]) ? c.builds[nm] : [nm];
+          if (who.indexOf(name) < 0) return;
+          if (c.uncounted && c.uncounted.indexOf(name) >= 0) return;
+          noms++; if (ws.indexOf(nm) >= 0) wins++;
+        });
+      });
+    });
+    let rw = 0, rk = 0, rd = 0, has = false;
+    ['sword', 'axe', 'uhc', 'mace', 'spear'].forEach(m => { const v = PS[m] && PS[m][name]; if (v) { has = true; rw += v.wins || 0; rk += v.kills || 0; rd += v.deaths || 0; } });
+    const isl = (typeof ISLAND_BEATEN !== 'undefined' ? ISLAND_BEATEN : []).find(x => x.name === name) || null;
+    return { noms, wins, ranked: has ? { wins:rw, kd:(rk / Math.max(rd, 1)).toFixed(2) } : null, isl };
+  }
+  function stfCard(name, role) {
+    const mine = stfRoles(name), others = mine.filter(r => r !== role);
+    const leads = stfLeads(name).map(n => `<span class="stf-lead" style="--ac:${n.accentColor}">${n.icon || ''} Leader of ${stfEsc(n.name)}</span>`).join('');
+    const tags = role
+      ? `<span class="stf-role">${role.label}</span>`
+      : mine.map(r => `<span class="stf-role" style="--rc:${r.color}">${r.label}</span>`).join('');
+    const also = role && others.length ? `<div class="stf-also">Also ${others.map(r => r.label).join(', ')}</div>` : '';
+    const owner = mine.some(r => r.key === 'Owner');
+    return `<button class="stf-card${owner ? ' owner' : ''}" data-name="${stfEsc(name)}" style="--rc:${role ? role.color : mine[0].color}"><img class="stf-av" src="${av(name, 72)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div class="stf-main"><div class="stf-name">${stfEsc(name)}</div><div class="stf-tags">${tags}${leads}</div>${also}</div></button>`;
+  }
+  function renderStaff() {
+    const root = document.getElementById('stfRoot'); if (!root) return;
+    const people = [...new Set(STAFF.flatMap(r => r.people))];
+    const chips = document.getElementById('stfChips');
+    if (chips) chips.innerHTML = `<span><b>${people.length}</b>team members</span><span><b>${STAFF.length}</b>teams</span>`;
+    document.querySelectorAll('#stfSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === STF.view));
+    if (STF.view === 'role') {
+      root.innerHTML = STAFF.map(r => `<div class="stf-sec" style="--rc:${r.color}"><div class="stf-sec-h"><span class="dot"></span><h3>${r.key}</h3><i>${r.people.length}</i></div><div class="stf-sec-sub">${r.blurb}</div><div class="stf-grid">${r.people.map(p => stfCard(p, r)).join('')}</div></div>`).join('');
+    } else {
+      const sorted = people.slice().sort((a, b) => (stfRoles(b).some(r => r.key === 'Owner') - stfRoles(a).some(r => r.key === 'Owner')) || stfRoles(b).length - stfRoles(a).length || a.localeCompare(b));
+      root.innerHTML = `<div class="stf-sec"><div class="stf-grid">${sorted.map(p => stfCard(p, null)).join('')}</div></div>`;
+    }
+  }
+  function stfOpen(name) {
+    const modal = document.getElementById('stfModal'), body = document.getElementById('stfMBody'); if (!modal || !body) return;
+    const mine = stfRoles(name), st = stfStats(name), leads = stfLeads(name);
+    const rc = mine.length ? mine[0].color : '#F5C842';
+    const tags = mine.map(r => `<span class="stf-role" style="--rc:${r.color}">${r.label}</span>`).join('') + leads.map(n => `<span class="stf-lead" style="--ac:${n.accentColor}">${n.icon || ''} Leader of ${stfEsc(n.name)}</span>`).join('');
+    const tile = (k, v, cls) => `<div class="stf-stat ${cls || ''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+    const tiles = [];
+    tiles.push(tile('Nominations', st.noms));
+    tiles.push(tile('Awards won', st.wins, st.wins ? 'gold' : ''));
+    if (st.ranked) { tiles.push(tile('Ranked wins', st.ranked.wins)); tiles.push(tile('Ranked K/D', st.ranked.kd)); }
+    if (st.isl) tiles.push(tile('Island Evolution', (st.isl.mode === 'hard' ? 'Hard' : 'Easy') + (st.isl.count > 1 ? '<small>\u00d7' + st.isl.count + '</small>' : ''), 'gold'));
+    const nm = encodeURIComponent(name);
+    body.innerHTML = `<div class="stf-m"><div class="stf-mskin"><img src="${stfBody(name, 300)}" alt="${stfEsc(name)}'s Minecraft skin" onerror="this.onerror=null;this.src='${av(name, 160)}'"><div class="cap">Minecraft skin</div></div><div><div class="stf-mname" id="stfMName">${stfEsc(name)}</div><div class="stf-mtags">${tags}</div><div class="stf-stats">${tiles.join('')}</div>${st.ranked ? '' : '<div class="stf-none">No ranked record yet.</div>'}<div class="stf-mlinks"><a class="stf-mlink" href="https://mc-heads.net/skin/${nm}" target="_blank" rel="noopener">View skin</a><a class="stf-mlink" href="https://mc-heads.net/download/${nm}" target="_blank" rel="noopener">Download skin</a></div></div></div>`;
+    modal.querySelector('.stf-mpanel').style.setProperty('--rc', rc);
+    modal.hidden = false; STF.open = name;
+    const x = document.getElementById('stfMClose'); if (x) x.focus();
+  }
+  function stfClose() { const m = document.getElementById('stfModal'); if (m) m.hidden = true; STF.open = null; }
+  (function () {
+    const root = document.getElementById('stfRoot'), seg = document.getElementById('stfSeg'), modal = document.getElementById('stfModal');
+    if (!root || !seg) return;
+    seg.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; STF.view = b.dataset.v; renderStaff(); });
+    root.addEventListener('click', e => { const c = e.target.closest('.stf-card'); if (c) stfOpen(c.dataset.name); });
+    function hl(name) { root.querySelectorAll('.stf-card').forEach(c => c.classList.toggle('dim', !!name && c.dataset.name !== name)); }
+    root.addEventListener('mouseover', e => { const c = e.target.closest('.stf-card'); if (c) hl(c.dataset.name); });
+    root.addEventListener('mouseout', e => { if (!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest('.stf-card')) hl(null); });
+    root.addEventListener('focusin', e => { const c = e.target.closest('.stf-card'); if (c) hl(c.dataset.name); });
+    root.addEventListener('focusout', () => hl(null));
+    if (modal) {
+      modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('#stfMClose')) stfClose(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) stfClose(); });
+    }
+  })();
+  function goStaff() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('staffPage').classList.add('active');
+    setNavActive(false, false, false, false, true);
+    document.getElementById('navSub').textContent = 'Staff Team';
+    document.getElementById('tierBtn').style.display = 'none'; document.getElementById('shortcutBtn').style.display = 'none';
+    document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials');
+    window.scrollTo({top:0,behavior:'instant'});
+    stfClose();
+    renderStaff();
+  }
   function goAwards() { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('awardsPage').classList.add('active'); setNavActive(false,false,false,true); document.getElementById('navSub').textContent='Server Awards'; document.getElementById('tierBtn').style.display='none'; document.getElementById('shortcutBtn').style.display='none'; document.body.classList.remove('on-ranked'); document.body.classList.add('hide-nav-socials'); window.scrollTo({top:0,behavior:'instant'}); renderAwards(); }
   function goAwards2027() {
     goAwards();
