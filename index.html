@@ -1988,14 +1988,14 @@
     .stf-hint{font-family:var(--font-m);font-size:10px;color:var(--text-dim);margin-top:8px}
     .stf-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,8,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     .stf-modal[hidden]{display:none}
-    .stf-mpanel{--rc:var(--gold);position:relative;width:min(640px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:22px;border:1px solid color-mix(in srgb,var(--rc) 35%,var(--border-card));background:linear-gradient(160deg,color-mix(in srgb,var(--rc) 10%,#0d0d12),#0b0b10 60%);padding:26px;animation:stfIn .28s cubic-bezier(.22,1,.36,1) both}
+    .stf-mpanel{--rc:var(--gold);position:relative;width:min(640px,100%);max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);overflow:auto;margin:auto;border-radius:22px;border:1px solid color-mix(in srgb,var(--rc) 35%,var(--border-card));background:linear-gradient(160deg,color-mix(in srgb,var(--rc) 10%,#0d0d12),#0b0b10 60%);padding:26px;animation:stfIn .28s cubic-bezier(.22,1,.36,1) both}
     @keyframes stfIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
     .stf-mclose{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-muted);font-size:20px;line-height:1;cursor:pointer;transition:color .18s,border-color .18s}
     .stf-mclose:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
     .stf-mclose:focus-visible,.stf-mlink:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     .stf-m{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:start}
     .stf-mskin{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 8px 12px;border-radius:16px;border:1px solid var(--border);background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--rc) 14%,transparent),transparent 70%),rgba(255,255,255,.02)}
-    .stf-mskin img{width:150px;height:auto;max-height:300px;object-fit:contain;image-rendering:pixelated}
+    .stf-mskin img{width:auto;max-width:150px;height:auto;max-height:260px;object-fit:contain;image-rendering:pixelated}
     .stf-mskin .cap{font-family:var(--font-m);font-size:10px;color:var(--text-dim)}
     .stf-mname{font-family:var(--font-d);font-size:30px;font-weight:800;letter-spacing:-.4px;line-height:1.1;overflow-wrap:anywhere;padding-right:34px}
     .stf-mtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
@@ -2009,7 +2009,7 @@
     .stf-mlinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
     .stf-mlink{font-family:var(--font-m);font-size:10.5px;font-weight:700;padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-muted);text-decoration:none;cursor:pointer;transition:color .18s,border-color .18s}
     .stf-mlink:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
-    @media(max-width:560px){.stf-m{grid-template-columns:1fr}.stf-mskin img{width:120px}.stf-mpanel{padding:20px}}
+    @media(max-width:560px){.stf-m{grid-template-columns:1fr}.stf-mskin img{max-width:120px;max-height:200px}.stf-mpanel{padding:20px}}
     @media (prefers-reduced-motion:reduce){.stf-mpanel{animation:none}}
     @media (prefers-reduced-motion:reduce){.stf-card{transition:none}}
   </style>
@@ -3762,7 +3762,9 @@
   function stfEsc(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
   function stfRoles(name) { return STAFF.filter(r => r.people.indexOf(name) >= 0); }
   function stfLeads(name) { return (typeof NATIONS !== 'undefined' ? NATIONS : []).filter(n => n.leader === name); }
-  function stfBody(name, size) { return 'https://mc-heads.net/body/' + encodeURIComponent(name) + '/' + size; }
+  const STF_KINDS = ['body', 'bust', 'head'];
+  function stfSkinUrl(name, kind, size) { return 'https://tabavatars.net/avatar/?username=' + encodeURIComponent(name) + '&size=' + size + '&type=' + kind + '&t=' + _avt; }
+  function stfSkinFail(img) { const i = (+img.dataset.k || 0) + 1; if (i >= STF_KINDS.length) { img.onerror = null; img.style.visibility = 'hidden'; return; } img.dataset.k = i; img.src = stfSkinUrl(img.dataset.n, STF_KINDS[i], 300); }
   // public record for a player, from data already on the site
   function stfStats(name) {
     let noms = 0, wins = 0;
@@ -3818,12 +3820,13 @@
     if (st.ranked) { tiles.push(tile('Ranked wins', st.ranked.wins)); tiles.push(tile('Ranked K/D', st.ranked.kd)); }
     if (st.isl) tiles.push(tile('Island Evolution', (st.isl.mode === 'hard' ? 'Hard' : 'Easy') + (st.isl.count > 1 ? '<small>\u00d7' + st.isl.count + '</small>' : ''), 'gold'));
     const nm = encodeURIComponent(name);
-    body.innerHTML = `<div class="stf-m"><div class="stf-mskin"><img src="${stfBody(name, 300)}" alt="${stfEsc(name)}'s Minecraft skin" onerror="this.onerror=null;this.src='${av(name, 160)}'"><div class="cap">Minecraft skin</div></div><div><div class="stf-mname" id="stfMName">${stfEsc(name)}</div><div class="stf-mtags">${tags}</div><div class="stf-stats">${tiles.join('')}</div>${st.ranked ? '' : '<div class="stf-none">No ranked record yet.</div>'}<div class="stf-mlinks"><a class="stf-mlink" href="https://mc-heads.net/skin/${nm}" target="_blank" rel="noopener">View skin</a><a class="stf-mlink" href="https://mc-heads.net/download/${nm}" target="_blank" rel="noopener">Download skin</a></div></div></div>`;
+    body.innerHTML = `<div class="stf-m"><div class="stf-mskin"><img data-n="${stfEsc(name)}" data-k="0" src="${stfSkinUrl(name, 'body', 300)}" alt="${stfEsc(name)}'s Minecraft skin" onerror="stfSkinFail(this)"><div class="cap">Minecraft skin</div></div><div><div class="stf-mname" id="stfMName">${stfEsc(name)}</div><div class="stf-mtags">${tags}</div><div class="stf-stats">${tiles.join('')}</div>${st.ranked ? '' : '<div class="stf-none">No ranked record yet.</div>'}<div class="stf-mlinks"><a class="stf-mlink" href="${stfSkinUrl(name, 'body', 600)}" target="_blank" rel="noopener">Open full render</a></div></div></div>`;
     modal.querySelector('.stf-mpanel').style.setProperty('--rc', rc);
-    modal.hidden = false; STF.open = name;
+    if (modal.parentElement !== document.body) document.body.appendChild(modal);
+    modal.hidden = false; STF.open = name; document.body.style.overflow = 'hidden';
     const x = document.getElementById('stfMClose'); if (x) x.focus();
   }
-  function stfClose() { const m = document.getElementById('stfModal'); if (m) m.hidden = true; STF.open = null; }
+  function stfClose() { const m = document.getElementById('stfModal'); if (m) m.hidden = true; STF.open = null; document.body.style.overflow = ''; }
   (function () {
     const root = document.getElementById('stfRoot'), seg = document.getElementById('stfSeg'), modal = document.getElementById('stfModal');
     if (!root || !seg) return;
