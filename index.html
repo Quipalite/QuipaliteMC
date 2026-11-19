@@ -164,6 +164,10 @@
     .aw-sub{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
     .aw-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
     .aw-chip{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-radius:999px;padding:4px 10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text-dim)}
+    .aw-crit{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.04)}
+    .aw-crit b{display:block;margin-bottom:6px}
+    .aw-crit ul{margin:0;padding-left:18px}
+    .aw-crit li{margin:3px 0;font-size:12.5px;color:var(--text-dim)}
     .aw-desc{margin:0 0 12px;padding:11px 14px;border-radius:12px;border:1px solid rgba(245,200,66,.28);background:rgba(245,200,66,.07);font-family:var(--font-b);font-size:13px;line-height:1.5;color:var(--text)}
     .aw-desc b{display:block;font-family:var(--font-m);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
     .aw-winbar{margin:0 0 14px;padding:12px 14px;border-radius:12px;text-align:center;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;border:1px dashed rgba(245,200,66,.5);background:rgba(245,200,66,.06);color:var(--gold)}
@@ -4201,6 +4205,33 @@
   // Which country each Best Build nominee stands in (null = not set yet).
   const BUILD_COUNTRY = {'SmegCream':'Corexia','Corexian Skyscraper':'Corexia','Crainetown Stadium':'Craineun','The Whitehouse':'Keem','Tsukimori Government Building':'Tsukimori'};
   function awBuildNation(name){ const cn = BUILD_COUNTRY[name]; if(!cn) return null; const live = NATIONS.find(n => n.name === cn); if(live) return live; const f = Object.values(FALLEN_NATIONS).find(x => x.name === cn); return f ? Object.assign({accentColor:'#9ca3af'}, f, {name: f.name + ' (former nation)'}) : null; }
+  // How each award is judged. Keyed by category title, so it applies to every ceremony.
+  const AWARD_CRITERIA = {
+    'Best Player': ['Overall impact on the server across 2026, not just PvP', 'Ranked skill: tier, wins and kill/death ratio', 'Contribution to the community: nations, builds, events and helping others', 'Activity, consistency and sportsmanship'],
+    'Best New Player': ['Joined the server during the year being judged', 'Strength of their first impression and how quickly they made a name', 'Growth since joining: ranked progress, roles or responsibilities', 'Positive contribution to the community'],
+    'Most Improved Player': ['Clear, visible growth over the year being judged', 'Improvement across all game modes, not just Ranked: ranked tiers, party games, Island Evolution and anything else they play', 'New roles, responsibilities or achievements taken on', 'Judged on improvement, not on who is strongest overall'],
+    'Best Island Evolution Player': ['Progress and achievements in Island Evolution', 'Modes beaten, with Hard Mode counting for more than Easy Mode', 'Consistency and how the run was completed', 'Helping or inspiring other Island Evolution players'],
+    'Best Current Nations Player': ['Running a nation well: leadership, organisation and activity', 'Growth and development of their nation, including population and builds', 'Diplomacy: alliances, treaties, ending or avoiding conflict', 'Politics and community life: elections, justice and keeping citizens engaged'],
+    'Best Party Games Player': ['Results and consistency across party game events', 'Skill and adaptability across different games', 'Sportsmanship and fair play', 'Taking part and keeping events fun for others'],
+    'Best Staff Member': ['Reliability and activity on the staff team', 'Fairness and good judgement when handling reports and disputes', 'Helpfulness to players, especially new ones', 'Communication and keeping the server running smoothly'],
+    'Best Content Creator': ['Quality and creativity of the content', 'Consistency of uploads or streams over the year', 'Reach and the attention it brings to the server', 'Representing the server in a positive way'],
+    'Best Builder': ['Quality, creativity and detail of their builds', 'Scale and ambition of what they built across the year', 'Number of notable builds, not just a single one', 'Teamwork and building for the community'],
+    'Best Build': ['Creativity and originality of the design', 'Scale, detail and quality of the craftsmanship', 'How well it fits its purpose and its location', 'Judged as a build in its own right, with credit shared by everyone who built it'],
+    'Best Country': ['Community: activity, size and how welcoming it is', 'Politics: elections, laws, justice and how openly it is run', 'Development: builds, landmarks, services and growth', 'Diplomacy, football and events: how it takes part on the wider server'],
+    'Best PVP’er': ['Performance across all five Ranked modes combined', 'Total wins, kills and kill/death ratio, with enough fights behind it that a small record cannot win on ratio alone', 'Tier in each mode, not just the strongest one', 'How well they play: skill and fight quality, separate from the stats'],
+    'Best Ranked Overall Player': ['Overall Ranked tier, as set by the staff team', 'Wins and kill/death ratio across sword, axe, UHC, mace and spear, with enough fights behind them', 'How well they play: skill and fight quality, separate from the stats', 'Consistency across all five modes, not just one'],
+    'Best Sword Player': ['Sword tier, as set by the staff team', 'Wins, kills and kill/death ratio in Sword, with enough fights behind them', 'How well they play: skill and fight quality, separate from the stats', 'Consistency over the year'],
+    'Best Axe Player': ['Axe tier, as set by the staff team', 'Wins, kills and kill/death ratio in Axe, with enough fights behind them', 'How well they play: skill and fight quality, separate from the stats', 'Consistency over the year'],
+    'Best UHC Player': ['UHC tier, as set by the staff team', 'Wins, kills and kill/death ratio in UHC, with enough fights behind them', 'How well they play: skill and fight quality, separate from the stats', 'Consistency over the year'],
+    'Best Mace Player': ['Mace tier, as set by the staff team', 'Wins, kills and kill/death ratio in Mace, with enough fights behind them', 'How well they play: skill and fight quality, separate from the stats', 'Consistency over the year'],
+    'Best Spear Player': ['Spear tier, as set by the staff team', 'Wins, kills and kill/death ratio in Spear, with enough fights behind them', 'How well they play: skill and fight quality, separate from the stats', 'Consistency over the year'],
+    'Players’ Favourite': ['Decided by a fan vote', 'Open to anyone the community likes, with no required record or role', 'Popularity and how well liked they are across the server'],
+    'League Of Their Own': ['A clear gap between them and everyone else', 'Dominance across several areas, not just one', 'A record or impact that has no close rival this year', 'Only a few players qualify, so a standout year is needed']
+  };
+  function awCritHtml(cat) {
+    const c = AWARD_CRITERIA[String(cat.title).replace(/[\u2019']/g, c2 => c2 === '\u2019' ? '\u2019' : '\u2019')];
+    return c && c.length ? `<div class="aw-desc aw-crit"><b>📋 How it is judged</b><ul>${c.map(x => `<li>${awEsc2(x)}</li>`).join('')}</ul></div>` : '';
+  }
   let awCtx = {period:null, idx:null};
   function awKd(k, d){ return d === 0 ? Number(k).toFixed(2) : (k / d).toFixed(2); }
   function awEsc2(t){ return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -4336,6 +4367,7 @@
           <div class="aw-chips"><span class="aw-chip">${cat.nominees.length} nominee${cat.nominees.length === 1 ? '' : 's'}</span>${(!data.cancelled && data.note) ? '<span class="aw-chip">Jan – Dec 2026</span>' : ''}</div>
         </div>
         ${cat.desc ? `<div class="aw-desc"><b>ℹ️ What is this award?</b>${awEsc2(cat.desc)}</div>` : ''}
+        ${awCritHtml(cat)}
         ${winbar}
         ${cat.nominees.length ? `<div class="aw-bar"><span class="aw-bar-h">Nominees · tap for details</span><button class="aw-expand" id="awExpandBtn" onclick="awToggleAll()">Expand all</button></div>
         <div class="aw-list">${cards}</div>` : '<div class="aw-desc" style="text-align:center">Nominees coming soon.</div>'}
