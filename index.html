@@ -164,6 +164,11 @@
     .aw-sub{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
     .aw-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
     .aw-chip{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-radius:999px;padding:4px 10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text-dim)}
+    .aw-process{margin:8px 0 0;padding:10px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03)}
+    .aw-process summary{cursor:pointer;font-family:var(--font-b);font-size:13px;font-weight:700;color:var(--text)}
+    .aw-process ul{margin:10px 0 2px;padding-left:18px}
+    .aw-process li{margin:5px 0;font-size:12.5px;line-height:1.5;color:var(--text-dim)}
+    .aw-process li b{color:var(--text)}
     .aw-crit{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.04)}
     .aw-crit b{display:block;margin-bottom:6px}
     .aw-crit ul{margin:0;padding-left:18px}
@@ -4380,6 +4385,25 @@
     awFitNames();
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(awFitNames);
   }
+  // Who picks nominees and breaks ties at each ceremony.
+  const AWARD_PROCESS = {
+    jan26: { nominees: ['RealO75'], ties: ['RealO75'] },
+    apr26: { nominees: ['RealO75', 'Aftlow'], ties: ['Ushindo', 'RealO75'] },
+    sep26: { nominees: ['Killedbycrab', 'RealO75'], ties: ['RealO75'] },
+    jan27: { nominees: ['Killedbycrab', 'RealO75'], ties: ['RealO75'] }
+  };
+  function awProcessHtml(period) {
+    const p = AWARD_PROCESS[period], data = AWARDS[period];
+    if (!p) return '';
+    const names = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' &amp; ' + a[a.length - 1] : a[0];
+    const cx = !!(data && data.cancelled);
+    return `<details class="aw-process"><summary>⚖️ How this ceremony ${cx ? 'was meant to work' : 'works'}</summary><ul>`
+      + `<li><b>Winners:</b> decided 100% by votes.</li>`
+      + `<li><b>Ties:</b> if there is a tie once voting closes, ${cx ? 'it would have been decided' : 'it is decided'} by the staff team: <b>${names(p.ties)}</b>.</li>`
+      + `<li><b>Nominees:</b> picked by staff: <b>${names(p.nominees)}</b>.</li>`
+      + `<li><b>Fair play:</b> nobody can nominate themselves, and nobody can help decide or break a tie in a category they are nominated in. RealO75 handles those cases.</li>`
+      + `</ul></details>`;
+  }
   function renderAwards() {
     const el = document.getElementById('awardsContent');
     if (!el) return;
@@ -4443,7 +4467,7 @@
         </div>
         <p class="gdesc">${data.note}</p>
       </div>` : '';
- el.innerHTML = cancelledBanner + noteBanner + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
+ el.innerHTML = cancelledBanner + noteBanner + awProcessHtml(awardsPeriod) + `<div class="ggrid" style="margin-top:8px${data.cancelled ? ';opacity:.7' : ''}">${data.categories.map((cat,i) => {
       const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
       const winnerTag = data.cancelled ? `<span class="gtag" style="color:#f87171;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)">Cancelled</span>` : winners.length ? `<span class="gtag" style="color:var(--gold);border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.08)">🏆 ${winners.join(' & ')}</span>` : `<span class="gtag" style="color:var(--text-dim);border-color:var(--border);background:rgba(255,255,255,.04)">TBD</span>`;
       return `
