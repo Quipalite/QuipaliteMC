@@ -4199,7 +4199,8 @@
   // ---- Award category pop-up: rich nominee cards with heads, ranked stats, roles and award history ----
   const AW_MODES = [['sword','⚔️','Sword'],['axe','🪓','Axe'],['uhc','❤️','UHC'],['mace','🔨','Mace'],['spear','🗡️','Spear']];
   // Which country each Best Build nominee stands in (null = not set yet).
-  const BUILD_COUNTRY = {'SmegCream':'Smegtopia','Corexian Skyscraper':'Corexia','Crainetown Stadium':'Craineun','The Whitehouse':null,'Tsukimori Government Building':'Tsukimori'};
+  const BUILD_COUNTRY = {'SmegCream':'Corexia','Corexian Skyscraper':'Corexia','Crainetown Stadium':'Craineun','The Whitehouse':'Keem','Tsukimori Government Building':'Tsukimori'};
+  function awBuildNation(name){ const cn = BUILD_COUNTRY[name]; if(!cn) return null; const live = NATIONS.find(n => n.name === cn); if(live) return live; const f = Object.values(FALLEN_NATIONS).find(x => x.name === cn); return f ? Object.assign({accentColor:'#9ca3af'}, f, {name: f.name + ' (former nation)'}) : null; }
   let awCtx = {period:null, idx:null};
   function awKd(k, d){ return d === 0 ? Number(k).toFixed(2) : (k / d).toFixed(2); }
   function awEsc2(t){ return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -4223,7 +4224,7 @@
     };
   }
   function awHeadHtml(name){
-    if(Object.prototype.hasOwnProperty.call(BUILD_COUNTRY, name)){ const bn = NATIONS.find(n => n.name === BUILD_COUNTRY[name]); return `<span class="aw-head-img flag"${bn ? ` style="--ac:${bn.accentColor}"` : ''}><span>${awEsc2((bn && bn.icon) || '\ud83c\udfdb\ufe0f')}</span></span>`; }
+    if(Object.prototype.hasOwnProperty.call(BUILD_COUNTRY, name)){ const bn = awBuildNation(name); return `<span class="aw-head-img flag"${bn ? ` style="--ac:${bn.accentColor}"` : ''}><span>${awEsc2((bn && bn.icon) || '\ud83c\udfdb\ufe0f')}</span></span>`; }
     const nat = NATIONS.find(n => n.name === name);
     if(nat) return `<span class="aw-head-img flag"><span>${awEsc2(nat.icon || '🏳️')}</span></span>`;
     const letter = awEsc2(String(name).trim().charAt(0).toUpperCase() || '?');
@@ -4240,7 +4241,7 @@
     const nat = NATIONS.find(x => x.name === n);
     let tags = '', key = '', body = '', accent = '#F5C842';
     if(cat.builds && cat.builds[n]){
-    const bn = BUILD_COUNTRY[n] ? NATIONS.find(x => x.name === BUILD_COUNTRY[n]) : null;
+    const bn = awBuildNation(n);
     if(bn) accent = bn.accentColor || accent;
     tags += bn ? `<span class="aw-tag role">\ud83d\udccd ${awEsc2(bn.name)}</span>` : '<span class="aw-tag">Country not set</span>';
     key = `Built by <b>${cat.builds[n].map(awEsc2).join(', ')}</b>`;
