@@ -4198,6 +4198,8 @@
   function closeAwardCategory(){closeNation();}
   // ---- Award category pop-up: rich nominee cards with heads, ranked stats, roles and award history ----
   const AW_MODES = [['sword','⚔️','Sword'],['axe','🪓','Axe'],['uhc','❤️','UHC'],['mace','🔨','Mace'],['spear','🗡️','Spear']];
+  // Which country each Best Build nominee stands in (null = not set yet).
+  const BUILD_COUNTRY = {'SmegCream':'Smegtopia','Corexian Skyscraper':'Corexia','Crainetown Stadium':'Craineun','The Whitehouse':null,'Tsukimori Government Building':'Tsukimori'};
   let awCtx = {period:null, idx:null};
   function awKd(k, d){ return d === 0 ? Number(k).toFixed(2) : (k / d).toFixed(2); }
   function awEsc2(t){ return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -4221,6 +4223,7 @@
     };
   }
   function awHeadHtml(name){
+    if(Object.prototype.hasOwnProperty.call(BUILD_COUNTRY, name)){ const bn = NATIONS.find(n => n.name === BUILD_COUNTRY[name]); return `<span class="aw-head-img flag"${bn ? ` style="--ac:${bn.accentColor}"` : ''}><span>${awEsc2((bn && bn.icon) || '\ud83c\udfdb\ufe0f')}</span></span>`; }
     const nat = NATIONS.find(n => n.name === name);
     if(nat) return `<span class="aw-head-img flag"><span>${awEsc2(nat.icon || '🏳️')}</span></span>`;
     const letter = awEsc2(String(name).trim().charAt(0).toUpperCase() || '?');
@@ -4236,7 +4239,13 @@
     const data = AWARDS[period], cat = data.categories[ci];
     const nat = NATIONS.find(x => x.name === n);
     let tags = '', key = '', body = '', accent = '#F5C842';
-    if(nat){
+    if(cat.builds && cat.builds[n]){
+    const bn = BUILD_COUNTRY[n] ? NATIONS.find(x => x.name === BUILD_COUNTRY[n]) : null;
+    if(bn) accent = bn.accentColor || accent;
+    tags += bn ? `<span class="aw-tag role">\ud83d\udccd ${awEsc2(bn.name)}</span>` : '<span class="aw-tag">Country not set</span>';
+    key = `Built by <b>${cat.builds[n].map(awEsc2).join(', ')}</b>`;
+    body = `<div class="aw-sec"><div class="aw-sec-h">Location</div><div class="aw-li">${bn ? 'In <b>' + awEsc2(bn.name) + '</b>' : 'Country not set yet.'}</div></div><div class="aw-sec"><div class="aw-sec-h">Builders</div>${cat.builds[n].map(b => `<div class="aw-li">${awEsc2(b)}</div>`).join('')}</div>${bn ? `<button class="aw-btn" onclick="awOpenNation('${bn.id}')">Open ${awEsc2(bn.name)} \u2192</button>` : ''}`;
+  } else if(nat){
       accent = nat.accentColor || accent;
       const champ = (typeof cwcChampion === 'function') ? cwcChampion() : null;
       if(champ && CWC_CLUB_NATION[champ] === nat.name) tags += `<span class="aw-tag win">🏆 Autumn CWC champions</span>`;
