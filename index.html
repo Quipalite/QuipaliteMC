@@ -153,6 +153,67 @@
     .awards-stat{box-sizing:border-box;min-width:0;border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:12px 14px}
     .awards-stat-num{font-family:var(--font-d);font-weight:800;font-size:24px;line-height:1.1;color:var(--gold);overflow-wrap:anywhere}
     .awards-stat-lbl{font-family:var(--font-m);font-weight:600;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+    /* ---- Award category pop-up ---- */
+    @keyframes awFloat{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-120px) rotate(200deg);opacity:0}}
+    @keyframes awIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .aw-hero{position:relative;overflow:hidden;border-radius:16px;margin:0 0 14px;padding:22px 18px 18px;text-align:center;border:1px solid rgba(245,200,66,.4);background:radial-gradient(120% 140% at 50% 0%,rgba(245,200,66,.22),rgba(255,26,109,.08) 60%,rgba(245,200,66,.04))}
+    .aw-spark{position:absolute;bottom:-10px;color:var(--gold);opacity:0;animation:awFloat linear infinite;pointer-events:none;text-shadow:0 0 8px rgba(245,200,66,.7)}
+    .aw-hero>*:not(.aw-spark){position:relative}
+    .aw-icon{font-size:44px;line-height:1;filter:drop-shadow(0 6px 16px rgba(245,200,66,.5))}
+    .aw-title{font-family:var(--font-d);font-weight:800;letter-spacing:-.4px;font-size:clamp(22px,5vw,30px);line-height:1.1;margin:8px 0 4px;overflow-wrap:anywhere;background:linear-gradient(180deg,#fff 30%,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+    .aw-sub{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+    .aw-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
+    .aw-chip{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-radius:999px;padding:4px 10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text-dim)}
+    .aw-desc{margin:0 0 12px;padding:11px 14px;border-radius:12px;border:1px solid rgba(245,200,66,.28);background:rgba(245,200,66,.07);font-family:var(--font-b);font-size:13px;line-height:1.5;color:var(--text)}
+    .aw-desc b{display:block;font-family:var(--font-m);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .aw-winbar{margin:0 0 14px;padding:12px 14px;border-radius:12px;text-align:center;font-family:var(--font-m);font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;border:1px dashed rgba(245,200,66,.5);background:rgba(245,200,66,.06);color:var(--gold)}
+    .aw-winbar.won{border-style:solid;background:linear-gradient(90deg,rgba(245,200,66,.2),rgba(255,26,109,.08))}
+    .aw-winbar.cancel{color:#f87171;border-color:rgba(248,113,113,.5);background:rgba(248,113,113,.06)}
+    .aw-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+    .aw-bar-h{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.7)}
+    .aw-expand{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--gold);border:1px solid rgba(245,200,66,.4);background:rgba(245,200,66,.07);border-radius:999px;padding:5px 12px}
+    .aw-list{display:flex;flex-direction:column;gap:10px}
+    .aw-nom{position:relative;overflow:hidden;box-sizing:border-box;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));animation:awIn .35s ease both;transition:border-color .2s ease,box-shadow .2s ease}
+    .aw-nom::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac,var(--gold))}
+    .aw-nom:hover{border-color:color-mix(in srgb,var(--ac,#F5C842) 60%,transparent)}
+    .aw-nom.open{border-color:color-mix(in srgb,var(--ac,#F5C842) 70%,transparent);box-shadow:0 8px 26px rgba(0,0,0,.35)}
+    .aw-nom.winner{border-color:var(--gold);background:linear-gradient(180deg,rgba(245,200,66,.16),rgba(245,200,66,.03));box-shadow:0 0 24px rgba(245,200,66,.18)}
+    .aw-nom-head{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;padding:12px 12px 12px 16px;background:none;border:none;color:var(--text);text-align:left;cursor:pointer;font-family:var(--font-b)}
+    .aw-head-img{flex:0 0 auto;width:56px;height:56px;border-radius:12px;padding:3px;box-sizing:border-box;background:linear-gradient(135deg,var(--ac,var(--gold)),#ff1a6d);image-rendering:pixelated}
+    .aw-head-img img,.aw-head-img span{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:9px;object-fit:cover;image-rendering:pixelated;background:#15151d;font-family:var(--font-d);font-weight:800;font-size:22px;color:var(--gold)}
+    .aw-head-img.flag span{font-size:28px}
+    .aw-nom-main{flex:1 1 0;min-width:0}
+    .aw-nom-name{display:block;max-width:100%;font-family:var(--font-d);font-weight:800;font-size:17px;letter-spacing:-.2px;line-height:1.25;white-space:nowrap;overflow:hidden;color:var(--text)}
+    .aw-nom.winner .aw-nom-name{color:var(--gold)}
+    .aw-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .aw-tag{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;border-radius:6px;padding:2px 7px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);white-space:nowrap}
+    .aw-tag.tier{color:var(--tc);border-color:color-mix(in srgb,var(--tc) 55%,transparent);background:color-mix(in srgb,var(--tc) 14%,transparent)}
+    .aw-tag.role{color:#fde68a;border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.1)}
+    .aw-tag.win{color:#fff;background:linear-gradient(90deg,#f59e0b,#ff1a6d);border-color:transparent}
+    .aw-key{margin-top:7px;font-family:var(--font-b);font-size:12px;line-height:1.4;color:rgba(255,255,255,.72)}
+    .aw-key b{color:var(--text);font-weight:700}
+    .aw-chev{flex:0 0 auto;font-size:14px;color:var(--text-dim);transition:transform .2s ease}
+    .aw-nom.open .aw-chev{transform:rotate(180deg);color:var(--gold)}
+    .aw-crown{position:absolute;top:8px;right:12px;font-size:16px}
+    .aw-body{display:none;padding:2px 16px 14px 16px;border-top:1px solid var(--border)}
+    .aw-nom.open .aw-body{display:block;animation:awIn .25s ease both}
+    .aw-sec{margin-top:12px}
+    .aw-sec-h{font-family:var(--font-m);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .aw-table{width:100%;border-collapse:collapse;font-family:var(--font-b);font-size:12px}
+    .aw-table th{font-family:var(--font-m);font-size:8.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:right;padding:4px 6px}
+    .aw-table th:first-child,.aw-table td:first-child{text-align:left}
+    .aw-table td{padding:6px;text-align:right;border-top:1px solid var(--border);color:var(--text)}
+    .aw-table td:first-child{color:rgba(255,255,255,.72);white-space:nowrap}
+    .aw-table .tcell{font-weight:700;color:var(--tc)}
+    .aw-table tr.tot td{font-weight:800;color:var(--gold)}
+    .aw-li{font-family:var(--font-b);font-size:12.5px;line-height:1.5;color:var(--text);margin:0 0 3px;padding-left:2px}
+    .aw-li.muted{color:rgba(255,255,255,.6)}
+    .aw-btn{margin-top:12px;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;color:#1a1200;background:var(--gold);border:none;border-radius:10px;padding:9px 14px}
+    .aw-facts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .aw-fact{border:1px solid var(--border);border-radius:9px;padding:7px 9px;background:rgba(255,255,255,.04);min-width:0}
+    .aw-fact div:first-child{font-family:var(--font-m);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim)}
+    .aw-fact div:last-child{font-family:var(--font-b);font-size:12.5px;font-weight:700;color:var(--text);overflow-wrap:anywhere}
+    @media(prefers-reduced-motion:reduce){.aw-spark{display:none}.aw-nom,.aw-body{animation:none!important}}
     .ie-beat{margin:6px 0 26px}
     .ie-beat-sub{font-family:var(--font-b);font-size:13px;color:var(--text-dim);margin:-4px 0 14px;line-height:1.5}
     .ie-beat-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
@@ -4135,37 +4196,147 @@
   function hasRankedProfile(name){return !!((PS.sword&&PS.sword[name])||(PS.axe&&PS.axe[name])||(PS.uhc&&PS.uhc[name])||(PS.mace&&PS.mace[name])||(PS.spear&&PS.spear[name]));}
   function openAwardPlayerProfile(name){if(!hasRankedProfile(name))return;closeAwardCategory();goRanked();setTimeout(()=>openProfile(name,'overall'),90);}
   function closeAwardCategory(){closeNation();}
+  // ---- Award category pop-up: rich nominee cards with heads, ranked stats, roles and award history ----
+  const AW_MODES = [['sword','⚔️','Sword'],['axe','🪓','Axe'],['uhc','❤️','UHC'],['mace','🔨','Mace'],['spear','🗡️','Spear']];
+  let awCtx = {period:null, idx:null};
+  function awKd(k, d){ return d === 0 ? Number(k).toFixed(2) : (k / d).toFixed(2); }
+  function awEsc2(t){ return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function awPlayer(name){
+    const modes = AW_MODES.map(([key, ic, label]) => {
+      const st = PS[key] && PS[key][name];
+      return {key, ic, label, has:!!st, tier:(CT[key] && CT[key][name]) || 'Unranked', w:st ? st.wins : 0, k:st ? st.kills : 0, d:st ? st.deaths : 0};
+    });
+    const tot = modes.reduce((a, m) => ({w:a.w + m.w, k:a.k + m.k, d:a.d + m.d}), {w:0, k:0, d:0});
+    const wins = [], noms = {};
+    ['jan26','apr26'].forEach(per => AWARDS[per].categories.forEach(c => {
+      const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
+      if(ws.includes(name)) wins.push(`${c.title} · ${AWARDS[per].label}`);
+    }));
+    ['jan26','apr26','jan27'].forEach(per => { noms[per] = AWARDS[per].categories.filter(c => c.nominees.includes(name)).map(c => c.title); });
+    return {
+      modes, tot, ranked: modes.some(m => m.has), overall: (CT.overall && CT.overall[name]) || 'Unranked',
+      leads: NATIONS.filter(n => n.leader === name).map(n => n.name),
+      staff: STAFF.filter(g => g.people.includes(name)).map(g => g.label),
+      wins, noms, island: (typeof ISLAND_BEATEN !== 'undefined' ? ISLAND_BEATEN.find(x => x.name === name) : null) || null
+    };
+  }
+  function awHeadHtml(name){
+    const nat = NATIONS.find(n => n.name === name);
+    if(nat) return `<span class="aw-head-img flag"><span>${awEsc2(nat.icon || '🏳️')}</span></span>`;
+    const letter = awEsc2(String(name).trim().charAt(0).toUpperCase() || '?');
+    return `<span class="aw-head-img"><img src="${av(name, 128)}" alt="" loading="lazy" onerror="this.outerHTML='<span>${letter}</span>'"></span>`;
+  }
+  function awCatMode(title){
+    if(/Overall/i.test(title)) return 'overall';
+    for(const [key,, label] of AW_MODES) if(new RegExp('\\b' + label + '\\b', 'i').test(title)) return key;
+    if(/PVP/i.test(title)) return 'total';
+    return null;
+  }
+  function awNomCard(period, ci, ni, n, isWinner){
+    const data = AWARDS[period], cat = data.categories[ci];
+    const nat = NATIONS.find(x => x.name === n);
+    let tags = '', key = '', body = '', accent = '#F5C842';
+    if(nat){
+      accent = nat.accentColor || accent;
+      const champ = (typeof cwcChampion === 'function') ? cwcChampion() : null;
+      if(champ && CWC_CLUB_NATION[champ] === nat.name) tags += `<span class="aw-tag win">🏆 Autumn CWC champions</span>`;
+      tags += `<span class="aw-tag role">👑 ${awEsc2(nat.leader || '—')}</span>`;
+      key = `<b>${awEsc2(nat.population || '—')}</b> people · approval <b>${awEsc2(nat.approval != null ? nat.approval + '%' : '—')}</b>`;
+      const facts = (nat.facts || []).slice(0, 6).map(f => `<div class="aw-fact"><div>${awEsc2(f.label)}</div><div>${awEsc2(f.val)}</div></div>`).join('');
+      body = `<div class="aw-sec"><div class="aw-sec-h">Nation facts</div><div class="aw-facts">${facts}</div></div>
+        <button class="aw-btn" onclick="awOpenNation('${nat.id}')">Open ${awEsc2(nat.name)} →</button>`;
+    } else {
+      const p = awPlayer(n); accent = TC[p.overall] || accent;
+      if(p.ranked) tags += `<span class="aw-tag tier" style="--tc:${TC[p.overall]}">${p.overall} overall</span>`;
+      p.leads.forEach(l => tags += `<span class="aw-tag role">👑 Leads ${awEsc2(l)}</span>`);
+      p.staff.forEach(r => tags += `<span class="aw-tag role">🛡️ ${awEsc2(r)}</span>`);
+      if(p.wins.length) tags += `<span class="aw-tag win">🏆 ${p.wins.length} award win${p.wins.length === 1 ? '' : 's'}</span>`;
+      if(p.island) tags += `<span class="aw-tag">🏝️ Beat Island Evolution${p.island.mode === 'hard' ? ' (Hard)' : ''}</span>`;
+      const cm = awCatMode(cat.title);
+      const m = cm && AW_MODES.find(x => x[0] === cm) ? p.modes.find(x => x.key === cm) : null;
+      if(m) key = m.has ? `${m.ic} ${m.label}: <b style="color:${TC[m.tier]}">${m.tier}</b> · <b>${m.w}</b>W <b>${m.k}</b>K <b>${m.d}</b>D · <b>${awKd(m.k, m.d)}</b> K/D` : `${m.ic} ${m.label}: no ranked games yet`;
+      else if(cm === 'overall') key = p.ranked ? `Overall: <b style="color:${TC[p.overall]}">${p.overall}</b> · <b>${p.tot.w}</b> wins across all modes` : 'No ranked record yet';
+      else if(cm === 'total') key = p.ranked ? `All modes: <b>${p.tot.w}</b>W <b>${p.tot.k}</b>K <b>${p.tot.d}</b>D · <b>${awKd(p.tot.k, p.tot.d)}</b> K/D` : 'No ranked record yet';
+      else if(/Island Evolution/i.test(cat.title)) key = p.island ? `Beaten the game: <b>${p.island.mode === 'hard' ? 'Hard Mode' : 'Easy Mode' + (p.island.count > 1 ? ' ×' + p.island.count : '')}</b>` : 'No Island Evolution clears yet';
+      else key = `<b>${p.noms[period].length}</b> nomination${p.noms[period].length === 1 ? '' : 's'} this ceremony${p.wins.length ? ` · <b>${p.wins.length}</b> past award win${p.wins.length === 1 ? '' : 's'}` : ''}`;
+      const rows = p.modes.map(x => `<tr><td>${x.ic} ${x.label}</td><td class="tcell" style="--tc:${TC[x.tier]}">${x.has ? x.tier : '—'}</td><td>${x.w}</td><td>${x.k}</td><td>${x.d}</td><td>${x.has ? awKd(x.k, x.d) : '—'}</td></tr>`).join('');
+      const table = p.ranked ? `<div class="aw-sec"><div class="aw-sec-h">Ranked record</div><table class="aw-table"><tr><th>Mode</th><th>Tier</th><th>W</th><th>K</th><th>D</th><th>K/D</th></tr>${rows}<tr class="tot"><td>Total</td><td class="tcell" style="--tc:${TC[p.overall]}">${p.overall}</td><td>${p.tot.w}</td><td>${p.tot.k}</td><td>${p.tot.d}</td><td>${awKd(p.tot.k, p.tot.d)}</td></tr></table></div>` : `<div class="aw-sec"><div class="aw-sec-h">Ranked record</div><div class="aw-li muted">No ranked games on record.</div></div>`;
+      const winsHtml = p.wins.length ? p.wins.map(w => `<div class="aw-li">🏆 ${awEsc2(w)}</div>`).join('') : '<div class="aw-li muted">No award wins yet.</div>';
+      const nomHtml = p.noms.jan27.length ? `<div class="aw-li">📌 Nominated in <b>${p.noms.jan27.length}</b> categor${p.noms.jan27.length === 1 ? 'y' : 'ies'} for January 2027: ${p.noms.jan27.map(awEsc2).join(', ')}</div>` : '';
+      const builds = (cat.builds && cat.builds[n]) ? `<div class="aw-sec"><div class="aw-sec-h">Builds</div><div class="aw-li">Built by ${awEsc2(cat.builds[n].join(', '))}</div></div>` : '';
+      body = `${table}${builds}<div class="aw-sec"><div class="aw-sec-h">Award history</div>${winsHtml}${nomHtml}</div>
+        ${hasRankedProfile(n) ? `<button class="aw-btn" onclick="awOpenProfile(${ci},${ni})">View full ranked profile →</button>` : ''}`;
+    }
+    return `<div class="aw-nom${isWinner ? ' winner' : ''}" style="--ac:${accent};animation-delay:${ni * 60}ms">
+      ${isWinner ? '<span class="aw-crown">👑</span>' : ''}
+      <button class="aw-nom-head" onclick="awToggle(this)" aria-expanded="false">
+        ${awHeadHtml(n)}
+        <span class="aw-nom-main"><span class="aw-nom-name" title="${awEsc2(n)}">${awEsc2(n)}</span>
+          <span class="aw-tags">${isWinner ? '<span class="aw-tag win">🏆 Winner</span>' : ''}${tags}</span>
+          ${key ? `<span class="aw-key" style="display:block">${key}</span>` : ''}</span>
+        <span class="aw-chev">▾</span>
+      </button>
+      <div class="aw-body">${body}</div>
+    </div>`;
+  }
+  function awToggle(btn){
+    const card = btn.closest('.aw-nom'); const open = card.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  function awToggleAll(){
+    const cards = [...document.querySelectorAll('#nmc .aw-nom')]; const anyClosed = cards.some(c => !c.classList.contains('open'));
+    cards.forEach(c => { c.classList.toggle('open', anyClosed); const b = c.querySelector('.aw-nom-head'); if(b) b.setAttribute('aria-expanded', anyClosed ? 'true' : 'false'); });
+    const t = document.getElementById('awExpandBtn'); if(t) t.textContent = anyClosed ? 'Collapse all' : 'Expand all';
+  }
+  function awOpenProfile(ci, ni){
+    const cat = AWARDS[awCtx.period].categories[ci]; if(cat) awardPlayerProfileOpen(cat.nominees[ni]);
+  }
+  function awardPlayerProfileOpen(name){ openAwardPlayerProfile(name); }
+  function awOpenNation(id){ closeAwardCategory(); setTimeout(() => { if(typeof goCurrentNations === 'function') goCurrentNations(); setTimeout(() => openNation(id), 120); }, 120); }
+  function awFitNames(){
+    document.querySelectorAll('#nmc .aw-nom-name').forEach(el => {
+      el.style.fontSize = '';
+      let fs = parseFloat(getComputedStyle(el).fontSize) || 17;
+      while(el.scrollWidth > el.clientWidth + 0.5 && fs > 9){ fs -= 0.5; el.style.fontSize = fs + 'px'; }
+    });
+  }
+  function awSparks(){
+    const marks = ['✦', '✧', '★'], out = [];
+    for(let i = 0; i < 14; i++){
+      out.push(`<span class="aw-spark" style="left:${Math.round(Math.random() * 100)}%;font-size:${8 + Math.round(Math.random() * 10)}px;animation-duration:${4 + Math.round(Math.random() * 5)}s;animation-delay:${-Math.round(Math.random() * 8)}s">${marks[i % 3]}</span>`);
+    }
+    return out.join('');
+  }
   function openAwardCategory(period, idx){
     const data = AWARDS[period];
     const cat = data && data.categories[idx];
     if (!cat) return;
+    awCtx = {period, idx};
     const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
-    const rows = cat.nominees.map(n => {
-      const isWinner = winners.includes(n);
-      const clickable = hasRankedProfile(n);
-      return `<div class="nm-fact-row" style="${clickable?'cursor:pointer':''}" ${clickable?`onclick="openAwardPlayerProfile('${n.replace(/'/g,"\\'")}')"`:''}>
-        <span class="nm-fact-lbl" style="${clickable?'text-decoration:underline;text-decoration-color:rgba(255,26,109,.3)':''}">${isWinner?'🏆 ':''}${n}${(cat.builds && cat.builds[n]) ? '<span style="display:block;font-size:10px;color:var(--text-dim);margin-top:2px">Built by ' + cat.builds[n].join(', ') + '</span>' : ''}${clickable?' <span style=\"font-size:9px;color:var(--text-dim)\">↗ view profile</span>':''}</span>
-        <span class="nm-fact-val" style="${isWinner?'color:var(--gold)':''}">${isWinner?'Winner':(data.cancelled ? 'Nominee (cancelled)' : 'Nominee')}</span>
-      </div>`;
-    }).join('');
+    const cards = cat.nominees.map((n, ni) => awNomCard(period, idx, ni, n, winners.includes(n))).join('');
+    const winbar = data.cancelled ? '<div class="aw-winbar cancel">🚫 This ceremony was cancelled — no winner will be announced</div>'
+      : winners.length ? `<div class="aw-winbar won">🏆 ${winners.length > 1 ? 'Winners' : 'Winner'}: ${winners.map(awEsc2).join(' &amp; ')}</div>`
+      : '<div class="aw-winbar">🏆 Winner to be announced at the ceremony</div>';
     document.getElementById('nmc').innerHTML = `
-      <div class="nm-banner" style="background:linear-gradient(135deg,rgba(245,200,66,.16) 0%,transparent 70%);"><div class="nm-banner-pattern"></div></div>
-      <div class="nm-body">
-        <div class="nm-header">
-          <div class="nm-ico-wrap" style="background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);">${cat.icon}</div>
-          <div class="nm-title-wrap"><div class="nm-name" style="font-size:20px">${cat.title}</div><div class="nm-est">${data.label}</div></div>
+      <div class="nm-body" style="padding-top:18px">
+        <div class="aw-hero">${awSparks()}
+          <div class="aw-icon">${cat.icon}</div>
+          <div class="aw-title">${awEsc2(cat.title)}</div>
+          <div class="aw-sub">${awEsc2(data.label)}</div>
+          <div class="aw-chips"><span class="aw-chip">${cat.nominees.length} nominee${cat.nominees.length === 1 ? '' : 's'}</span>${(!data.cancelled && data.note) ? '<span class="aw-chip">Jan – Dec 2026</span>' : ''}</div>
         </div>
-        ${(!data.cancelled && data.note) ? '<div class="wc2-official-note" style="margin:0 0 10px">🗓️ Nominees cover the whole of 2026 (January to December 2026).</div>' : ''}
-        ${data.cancelled ? '<div class="wc2-official-note" style="color:#f87171;margin:0 0 10px">🚫 This ceremony was cancelled — no winner will be announced.</div>' : ''}
-        ${cat.desc ? '<div class=\"wc2-official-note\" style=\"margin:0 0 10px\">ℹ️ ' + cat.desc + '</div>' : ''}
-        <div class="nm-sec-h">Nominees</div>
-        <div>${rows}</div>
+        ${cat.desc ? `<div class="aw-desc"><b>ℹ️ What is this award?</b>${awEsc2(cat.desc)}</div>` : ''}
+        ${winbar}
+        ${cat.nominees.length ? `<div class="aw-bar"><span class="aw-bar-h">Nominees · tap for details</span><button class="aw-expand" id="awExpandBtn" onclick="awToggleAll()">Expand all</button></div>
+        <div class="aw-list">${cards}</div>` : '<div class="aw-desc" style="text-align:center">Nominees coming soon.</div>'}
       </div>`;
     const m = document.getElementById('nm');
     m.classList.remove('closing'); m.style.display = 'flex'; m.getBoundingClientRect();
     requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
     document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
     document.body.style.overflow = 'hidden';
+    awFitNames();
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(awFitNames);
   }
   function renderAwards() {
     const el = document.getElementById('awardsContent');
