@@ -164,6 +164,17 @@
     .aw-sub{font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
     .aw-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
     .aw-chip{font-family:var(--font-m);font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-radius:999px;padding:4px 10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text-dim)}
+    .aw-votes{margin:0 0 12px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03)}
+    .aw-votes-h{font-family:var(--font-m);font-size:9px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
+    .aw-vote-row{display:grid;grid-template-columns:minmax(0,1fr) 110px 92px;gap:10px;align-items:center;padding:6px 0}
+    .aw-vote-name{font-size:13px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
+    .aw-vote-bar{display:block;height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+    .aw-vote-fill{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,rgba(255,255,255,.25),rgba(255,255,255,.5))}
+    .aw-vote-row.win .aw-vote-fill{background:linear-gradient(90deg,rgba(245,200,66,.6),var(--gold))}
+    .aw-vote-row.win .aw-vote-name,.aw-vote-row.win .aw-vote-n{color:var(--gold)}
+    .aw-vote-n{font-family:var(--font-m);font-size:11px;font-weight:700;text-align:right;color:var(--text-dim)}
+    .aw-votes-note{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:var(--text-dim)}
+    @media(max-width:520px){.aw-vote-row{grid-template-columns:minmax(0,1fr) 60px 78px;gap:8px}}
     .aw-process{margin:8px 0 0;padding:10px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03)}
     .aw-process summary{cursor:pointer;font-family:var(--font-b);font-size:13px;font-weight:700;color:var(--text)}
     .aw-process ul{margin:10px 0 2px;padding-left:18px}
@@ -4374,6 +4385,7 @@
         ${cat.desc ? `<div class="aw-desc"><b>ℹ️ What is this award?</b>${awEsc2(cat.desc)}</div>` : ''}
         ${awCritHtml(cat)}
         ${winbar}
+        ${awVotesHtml(data, cat)}
         ${cat.nominees.length ? `<div class="aw-bar"><span class="aw-bar-h">Nominees · tap for details</span><button class="aw-expand" id="awExpandBtn" onclick="awToggleAll()">Expand all</button></div>
         <div class="aw-list">${cards}</div>` : '<div class="aw-desc" style="text-align:center">Nominees coming soon.</div>'}
       </div>`;
@@ -4384,6 +4396,50 @@
     document.body.style.overflow = 'hidden';
     awFitNames();
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(awFitNames);
+  }
+  // Final vote counts for completed ceremonies, keyed by period then category title.
+  const AWARD_VOTES = {
+    jan26: {
+      'Best PVP’er': { AdamPlayz5977: 1, Aftlow: 2, Killedbycrab: 3, Neska5036: 4 },
+      'Best Content Creator': { Mason20539: 0, Killedbycrab: 1, AdamPlayz5977: 2, Aftlow: 7 },
+      'Best New Player': { Mason10gamin: 1, Mason20539: 3, ItsEggybruh: 3, TerrorBoy123619: 3 },
+      'Best Island Evolution Player': { Mason10gamin: 0, Knoxy5316: 2, Killedbycrab: 2, Terroralex10: 6 },
+      'Best Builder': { w85544534: 0, SadInFusIOns: 1, Neska5036: 3, Aftlow: 6 },
+      'Best Player': { Knoxy5316: 1, Neska5036: 1, Aftlow: 3, Terroralex10: 5 }
+    },
+    apr26: {
+      'Best Island Evolution Player': { Terroralex10: 8, Knoxy5316: 4, Ushindo: 3, Gooner5342: 0 },
+      'Best Current Nations Player': { Aftlow: 12, SadInFusIOns: 4, 'WARDY B33': 1, Ushindo: 1 },
+      'Best Builder': { Aftlow: 8, 'WARDY B33': 6, Ushindo: 2, Neska5036: 0 },
+      'Best Player': { Knoxy5316: 7, Aftlow: 6, Ushindo: 3, Killedbycrab: 2 },
+      'Best New Player': { 'WARDY B33': 7, Cocotime15: 5, Jack100412: 2, Theopitt: 2 },
+      'Best Ranked Overall Player': { w85544534: 6, Mason20539: 5, Aftlow: 4, Killedbycrab: 1 },
+      'Best Sword Player': { Aftlow: 8, w85544534: 4, bubbler2009: 2, Mason20539: 2 },
+      'Best Axe Player': { 'WARDY B33': 7, Aftlow: 4, Killedbycrab: 3, w85544534: 3 },
+      'Best UHC Player': { Neska5036: 6, Aftlow: 5, w85544534: 5, Terroralex10: 2 },
+      'Best Mace Player': { Killedbycrab: 8, ItsEggybruh: 7, Aftlow: 2, w85544534: 0 },
+      'Best Spear Player': { Cobio29: 7, Aftlow: 6, Neska5036: 3, Killedbycrab: 2 },
+      'Players’ Favourite': { Aftlow: 3, w85544534: 3 }
+    }
+  };
+  function awVotesHtml(data, cat) {
+    const period = Object.keys(AWARDS).find(k => AWARDS[k] === data);
+    const v = period && AWARD_VOTES[period] && AWARD_VOTES[period][String(cat.title)];
+    if (!v) return '';
+    const winners = Array.isArray(cat.winner) ? cat.winner : (cat.winner ? [cat.winner] : []);
+    const rows = Object.entries(v).sort((a, b) => b[1] - a[1] || (winners.includes(b[0]) - winners.includes(a[0])));
+    const total = rows.reduce((s, r) => s + r[1], 0), max = rows[0][1];
+    const topVotes = rows.filter(r => r[1] === max);
+    const tied = topVotes.length > 1;
+    const ties = (AWARD_PROCESS[period] || {}).ties || [];
+    const names = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' &amp; ' + a[a.length - 1] : a[0];
+    const shared = tied && winners.length === topVotes.length;
+    const note = shared ? `<div class="aw-votes-note">🤝 Tied on ${max} vote${max === 1 ? '' : 's'}, so the award is shared.</div>` : tied ? `<div class="aw-votes-note">⚖️ ${topVotes.length}-way tie on ${max} vote${max === 1 ? '' : 's'}, decided by the staff team (${names(ties)}).</div>` : '';
+    const body = rows.map(([n, c]) => {
+      const win = winners.includes(n), pct = total ? Math.round(c / total * 100) : 0;
+      return `<div class="aw-vote-row${win ? ' win' : ''}"><span class="aw-vote-name">${win ? '🏆 ' : ''}${awEsc2(n)}</span><span class="aw-vote-bar"><span class="aw-vote-fill" style="width:${max ? Math.max(c ? 4 : 0, c / max * 100) : 0}%"></span></span><span class="aw-vote-n">${c} vote${c === 1 ? '' : 's'} · ${pct}%</span></div>`;
+    }).join('');
+    return `<div class="aw-votes"><div class="aw-votes-h">🗳️ Final vote · ${total} votes</div>${body}${note}</div>`;
   }
   // Who picks nominees and breaks ties at each ceremony.
   const AWARD_PROCESS = {
