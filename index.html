@@ -4262,7 +4262,7 @@
       const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
       if(ws.includes(name)) wins.push(`${c.title} · ${AWARDS[per].label}`);
     }));
-    ['jan26','apr26','jan27'].forEach(per => { noms[per] = AWARDS[per].categories.filter(c => c.nominees.includes(name)).map(c => c.title); });
+    ['jan26','apr26','sep26','jan27'].forEach(per => { noms[per] = AWARDS[per].categories.filter(c => c.nominees.includes(name)).map(c => c.title); });
     return {
       modes, tot, ranked: modes.some(m => m.has), overall: (CT.overall && CT.overall[name]) || 'Unranked',
       leads: NATIONS.filter(n => n.leader === name).map(n => n.name),
@@ -4420,8 +4420,26 @@
       'Best Mace Player': { Killedbycrab: 8, ItsEggybruh: 7, Aftlow: 2, w85544534: 0 },
       'Best Spear Player': { Cobio29: 7, Aftlow: 6, Neska5036: 3, Killedbycrab: 2 },
       'Players’ Favourite': { Aftlow: 3, w85544534: 3 }
+    },
+    sep26: {
+      'Best Island Evolution Player': { Terroralex10: 5, Knoxy5316: 4, Theo43837: 3, Gooner5342: 0 },
+      'Best Current Nations Player': { Aftlow: 6, SadInFusIOns: 3, Killedbycrab: 2, Gooner5342: 1 },
+      'Best Builder': { Neska5036: 5, Aftlow: 4, SadInFusIOns: 1, Ushindo: 1 },
+      'Best Player': { Killedbycrab: 5, Knoxy5316: 3, w85544534: 2, SadInFusIOns: 2 },
+      'Best New Player': { Theo43837: 6, AbleMint9102: 3, ALEXJAY31: 2, KoolLeoXD: 1 },
+      'Most Improved Player': { RT2345678: 7, Wancerr: 3, Knoxy5316: 1, Gooner5342: 1 },
+      'Best Country': { Corexia: 6, Craineun: 4, Crabville: 1, Smegtopia: 1 },
+      'Best Staff Member': { SadInFusIOns: 4, Aftlow: 4, Killedbycrab: 3, Neska5036: 1 },
+      'Best PVP’er': { w85544534: 7, Neska5036: 2, Wancerr: 2, Killedbycrab: 1 },
+      'Best Sword Player': { w85544534: 6, SadInFusIOns: 4, Theo43837: 2, Wancerr: 1 },
+      'Best Axe Player': { Killedbycrab: 4, w85544534: 3, Neska5036: 3, Wancerr: 2 },
+      'Best UHC Player': { Wancerr: 6, w85544534: 5, Knoxy5316: 2, Killedbycrab: 1 },
+      'Best Mace Player': { w85544534: 6, Killedbycrab: 3, Redpanda2013: 3, Wancerr: 0 },
+      'Best Spear Player': { Neska5036: 7, Knoxy5316: 3, w85544534: 2, Killedbycrab: 1 },
+      'Players’ Favourite': { Terroralex10: 2, Aftlow: 2, Killedbycrab: 2 }
     }
   };
+  const AWARD_TIEBREAK = { sep26: { 'Best Staff Member': 'Aftlow' } };
   function awVotesHtml(data, cat) {
     const period = Object.keys(AWARDS).find(k => AWARDS[k] === data);
     const v = period && AWARD_VOTES[period] && AWARD_VOTES[period][String(cat.title)];
@@ -4433,13 +4451,14 @@
     const tied = topVotes.length > 1;
     const ties = (AWARD_PROCESS[period] || {}).ties || [];
     const names = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' &amp; ' + a[a.length - 1] : a[0];
-    const shared = tied && winners.length === topVotes.length;
-    const note = shared ? `<div class="aw-votes-note">🤝 Tied on ${max} vote${max === 1 ? '' : 's'}, so the award is shared.</div>` : tied ? `<div class="aw-votes-note">⚖️ ${topVotes.length}-way tie on ${max} vote${max === 1 ? '' : 's'}, decided by the staff team (${names(ties)}).</div>` : '';
+    const cx = !!data.cancelled, tbw = (AWARD_TIEBREAK[period] || {})[String(cat.title)];
+    const shared = !cx && tied && winners.length === topVotes.length;
+    const note = shared ? `<div class="aw-votes-note">🤝 Tied on ${max} vote${max === 1 ? '' : 's'}, so the award is shared.</div>` : tied ? `<div class="aw-votes-note">⚖️ ${topVotes.length}-way tie on ${max} vote${max === 1 ? '' : 's'}${cx ? (tbw ? '. The staff tiebreak went to ' + awEsc2(tbw) + '.' : '.') : ', decided by the staff team (' + names(ties) + ').'}</div>` : '';
     const body = rows.map(([n, c]) => {
       const win = winners.includes(n), pct = total ? Math.round(c / total * 100) : 0;
       return `<div class="aw-vote-row${win ? ' win' : ''}"><span class="aw-vote-name">${win ? '🏆 ' : ''}${awEsc2(n)}</span><span class="aw-vote-bar"><span class="aw-vote-fill" style="width:${max ? Math.max(c ? 4 : 0, c / max * 100) : 0}%"></span></span><span class="aw-vote-n">${c} vote${c === 1 ? '' : 's'} · ${pct}%</span></div>`;
     }).join('');
-    return `<div class="aw-votes"><div class="aw-votes-h">🗳️ Final vote · ${total} votes</div>${body}${note}</div>`;
+    return `<div class="aw-votes"><div class="aw-votes-h">🗳️ ${cx ? 'Votes cast' : 'Final vote'} · ${total} votes${cx ? ' (ceremony cancelled)' : ''}</div>${body}${note}</div>`;
   }
   // Who picks nominees and breaks ties at each ceremony.
   const AWARD_PROCESS = {
