@@ -137,6 +137,7 @@
     .awb-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px;margin-top:8px}
     .awb-it{display:flex;align-items:center;gap:8px;min-width:0;padding:7px 10px;border-radius:9px;border:1px solid var(--border);background:rgba(255,255,255,.025);font-size:12px;color:var(--text-muted)}
     .awb-it .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .awb-it.won.nogive{border-style:dashed;background:rgba(245,200,66,.04)}
     .awb-it.won{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.07);color:var(--text)}
     .awb-it .r{font-family:var(--font-m);font-size:9.5px;font-weight:700;color:var(--text-dim)}
     .awb-it.won .r{color:var(--gold)}
@@ -4079,13 +4080,13 @@
     AWB_PER.forEach(([p]) => {
       const d = AWARDS[p]; if (!d || !d.categories) return;
       d.categories.forEach(c => {
-        const ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []);
+        let ws = Array.isArray(c.winner) ? c.winner : (c.winner ? [c.winner] : []); const vw = (d.cancelled && !ws.length) ? awVoteWinners(p, c) : []; if (vw.length) ws = vw;
         (c.nominees || []).forEach(nm => {
           const who = (c.builds && c.builds[nm]) ? c.builds[nm] : [nm];
           who.forEach(w => {
             if (c.uncounted && c.uncounted.indexOf(w) >= 0) return;
             const e = map[w] || (map[w] = { name:w, nation:nationBy[w] || null, items:[] });
-            e.items.push({ p, cat:(c.builds ? c.title + ' \u00b7 ' + nm : c.title), icon:c.icon, won:ws.indexOf(nm) >= 0, decided:ws.length > 0 });
+            e.items.push({ p, cat:(c.builds ? c.title + ' \u00b7 ' + nm : c.title), icon:c.icon, won:ws.indexOf(nm) >= 0, decided:ws.length > 0, notGiven: vw.length > 0 && ws.indexOf(nm) >= 0 });
           });
         });
       });
@@ -4145,7 +4146,7 @@
     const groups = AWB_PER.filter(([p]) => AWB.on[p] && r.by[p]).map(([p, lbl, col]) => {
       const its = r.its.filter(x => x.p === p);
       const cx = AWARDS[p] && AWARDS[p].cancelled;
-      return `<div class="awb-grp"><div class="awb-grp-h" style="--pc:${col}"><span class="dot"></span>${lbl}${cx ? ' <em>cancelled</em>' : ''} <em>${its.length} ${its.length === 1 ? 'nomination' : 'nominations'}</em></div><div class="awb-items">${its.map(x => `<div class="awb-it${x.won ? ' won' : ''}"><span>${x.icon || ''}</span><span class="t">${awbEsc(x.cat)}</span><span class="r">${x.won ? 'Won' : (cx ? 'Cancelled' : (x.decided ? 'Nominee' : 'Pending'))}</span></div>`).join('')}</div></div>`;
+      return `<div class="awb-grp"><div class="awb-grp-h" style="--pc:${col}"><span class="dot"></span>${lbl}${cx ? ' <em>cancelled</em>' : ''} <em>${its.length} ${its.length === 1 ? 'nomination' : 'nominations'}</em></div><div class="awb-items">${its.map(x => `<div class="awb-it${x.won ? (x.notGiven ? ' won nogive' : ' won') : ''}"><span>${x.icon || ''}</span><span class="t">${awbEsc(x.cat)}</span><span class="r">${x.won ? (x.notGiven ? 'Won · not given out' : 'Won') : (cx ? (x.decided ? 'Nominee' : 'Cancelled') : (x.decided ? 'Nominee' : 'Pending'))}</span></div>`).join('')}</div></div>`;
     }).join('');
     let extra = '';
     if (n && n.leader) {
@@ -4153,7 +4154,7 @@
       if (ld) { const s2 = awbStats(ld); extra = `<div class="awb-lead">Its leader <b>${awbEsc(n.leader)}</b> has ${s2.noms} ${s2.noms === 1 ? 'nomination' : 'nominations'} and ${s2.wins} ${s2.wins === 1 ? 'win' : 'wins'} in this selection.</div>`; }
       else extra = `<div class="awb-lead">Its leader <b>${awbEsc(n.leader)}</b> hasn't been nominated yet.</div>`;
     }
-    const winsHtml = `<span class="awb-num w n-wins${r.wins ? '' : ' z'}">${r.wins}</span>`;
+    const winsHtml = `<span class="awb-num w n-wins${r.wins ? '' : ' z'}">${r.wins}${r.its.some(x => x.notGiven) ? '<sup title="Includes wins from awards that were not given out">*</sup>' : ''}</span>`;
     return `<div class="awb-row${i === 0 && r.noms ? ' top' : ''}${AWB.open === e.name ? ' open' : ''}" data-name="${awbEsc(e.name)}"><button class="awb-head" aria-expanded="${AWB.open === e.name}"><span class="awb-rank">${i + 1}</span><span class="awb-who">${avatar}<span style="min-width:0"><div class="awb-name">${awbEsc(e.name)}</div>${sub ? `<div class="awb-sub">${sub}</div>` : ''}</span></span><span class="awb-bar"><div class="awb-track">${segs}</div></span><span class="awb-num n">${r.noms}</span><span class="n w">${winsHtml}</span><span class="r">${rate}</span><span class="awb-chev">&#9662;</span></button><div class="awb-body"><div class="awb-inner"><div class="awb-detail">${extra}${groups}</div></div></div></div>`;
   }
   function awbRefresh() {
@@ -4184,7 +4185,7 @@
     const cnt = t => Object.values(M.map).filter(e => (!!e.nation) === (t === 'countries') && awbStats(e).noms > 0).length;
     el.innerHTML = `<div class="awb-top"><div class="awb-tabs" role="tablist"><button class="awb-tab${AWB.tab === 'players' ? ' on' : ''}" data-tab="players" role="tab" aria-selected="${AWB.tab === 'players'}">Players<i>${cnt('players')}</i></button><button class="awb-tab${AWB.tab === 'countries' ? ' on' : ''}" data-tab="countries" role="tab" aria-selected="${AWB.tab === 'countries'}">Countries<i>${cnt('countries')}</i></button></div><input class="awb-search" id="awbSearch" type="search" placeholder="Search ${AWB.tab === 'countries' ? 'countries' : 'players'}" value="${awbEsc(AWB.q)}" aria-label="Search"></div>`
       + `<div class="awb-filters"><span class="awb-lbl">Ceremonies</span>${AWB_PER.map(([p, lbl, col]) => `<button class="awb-chip${AWB.on[p] ? ' on' : ''}" style="--pc:${col}" data-per="${p}" aria-pressed="${AWB.on[p]}"><span class="dot"></span>${lbl}${AWARDS[p] && AWARDS[p].cancelled ? ' <small>cancelled</small>' : ''}</button>`).join('')}<span class="awb-sort" role="group" aria-label="Sort"><button data-sort="noms" class="${AWB.sort === 'noms' ? 'on' : ''}">Nominations</button><button data-sort="wins" class="${AWB.sort === 'wins' ? 'on' : ''}">Wins</button><button data-sort="rate" class="${AWB.sort === 'rate' ? 'on' : ''}">Win rate</button></span></div>`
-      + `<div class="awb-note">September 2026 was cancelled, so it's switched off by default and no one can win from it. Win rate only counts categories that have a winner. Click any row to see every nomination.</div>`
+      + `<div class="awb-note">September 2026 was cancelled and its awards were not given out. Its wins here are the vote leaders and are marked "not given out", and a * beside a win count means it includes them. Sep 2026 is off by default. Switch on its chip to include them. Win rate only counts categories that have a winner. Click any row to see every nomination.</div>`
       + `<div class="awb-hi" id="awbHi"></div><div id="awbList"></div><div class="awb-none" id="awbNone"></div>`;
     awbRefresh();
   }
@@ -4459,6 +4460,14 @@
       return `<div class="aw-vote-row${win ? ' win' : ''}"><span class="aw-vote-name">${win ? '🏆 ' : ''}${awEsc2(n)}</span><span class="aw-vote-bar"><span class="aw-vote-fill" style="width:${max ? Math.max(c ? 4 : 0, c / max * 100) : 0}%"></span></span><span class="aw-vote-n">${c} vote${c === 1 ? '' : 's'} · ${pct}%</span></div>`;
     }).join('');
     return `<div class="aw-votes"><div class="aw-votes-h">🗳️ ${cx ? 'Votes cast' : 'Final vote'} · ${total} votes${cx ? ' (ceremony cancelled)' : ''}</div>${body}${note}</div>`;
+  }
+  function awVoteWinners(period, cat) {
+    const v = AWARD_VOTES[period] && AWARD_VOTES[period][String(cat.title)];
+    if (!v) return [];
+    const e = Object.entries(v).sort((a, b) => b[1] - a[1]);
+    const max = e[0][1], top = e.filter(x => x[1] === max).map(x => x[0]);
+    const tb = (AWARD_TIEBREAK[period] || {})[String(cat.title)];
+    return top.length > 1 && tb && top.includes(tb) ? [tb] : top;
   }
   // Who picks nominees and breaks ties at each ceremony.
   const AWARD_PROCESS = {
